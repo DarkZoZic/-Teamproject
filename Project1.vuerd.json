@@ -5,7 +5,7 @@
     "height": 4000,
     "scrollTop": -275.5,
     "scrollLeft": -786,
-    "zoomLevel": 0.9,
+    "zoomLevel": 1,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -4158,7 +4158,7 @@
             "name": "NO_DATE",
             "comment": "알림발생시",
             "dataType": "DATE",
-            "default": "",
+            "default": "CURRENT_DATE",
             "option": {
               "autoIncrement": false,
               "primaryKey": false,
@@ -4173,7 +4173,7 @@
               "widthName": 60,
               "widthComment": 67,
               "widthDataType": 60,
-              "widthDefault": 60
+              "widthDefault": 94.6884765625
             },
             "id": "c5865ac3-b26c-4c65-8d18-9501f2525cd7"
           },
@@ -4225,10 +4225,10 @@
           }
         ],
         "ui": {
-          "active": false,
+          "active": true,
           "left": 994.5829,
           "top": 539.8324,
-          "zIndex": 24,
+          "zIndex": 26,
           "widthName": 88.0615234375,
           "widthComment": 60
         },
@@ -5395,7 +5395,7 @@
           "columnIds": [
             "7b7f7c94-686a-4774-bdb7-82f004461bcc"
           ],
-          "x": 1202.8849019531249,
+          "x": 1220.2291402343749,
           "y": 539.8324,
           "direction": "top"
         },
@@ -5430,7 +5430,7 @@
           "columnIds": [
             "d03c12d6-555f-4d2e-923e-dc02d69dfb55"
           ],
-          "x": 1411.1869039062499,
+          "x": 1445.8753804687499,
           "y": 646.0824,
           "direction": "right"
         },
