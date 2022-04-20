@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import com.example.dto.MemberDTO;
 import com.example.mapper.MemberMapper;
+import com.example.repository.repository_1.MemberRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,12 +19,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
 
-    @Autowired MemberMapper mMapper;
+    @Autowired MemberRepository mRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("UserDetailsService: " + username);
-        MemberDTO member = mMapper.memberEmail(username);
+        MemberDTO member = mRepository.memberEmail(username);
 
         // 권한 정보를 문자열 배열로 만듦
         String[] strRole = { member.getUrole() };
