@@ -1,6 +1,7 @@
 package com.example.entity.entity1;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 
 import lombok.Data;
 
@@ -12,7 +13,8 @@ public class ClubGallery {
   // 갤러리이름
   private String gName;
   // 대표이미지
-  private String gThumbnail;
+  @Lob
+  private Byte[] gThumbnail;
   // 갤러리설명
   private String gDesc;
   // 사진수
