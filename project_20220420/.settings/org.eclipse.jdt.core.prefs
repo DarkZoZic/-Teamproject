@@ -5,6 +5,10 @@ org.eclipse.jdt.core.compiler.compliance=11
 org.eclipse.jdt.core.compiler.problem.enablePreviewFeatures=disabled
 org.eclipse.jdt.core.compiler.problem.forbiddenReference=warning
 org.eclipse.jdt.core.compiler.problem.reportPreviewFeatures=ignore
+<<<<<<< HEAD
 org.eclipse.jdt.core.compiler.processAnnotations=disabled
+=======
+org.eclipse.jdt.core.compiler.processAnnotations=enabled
+>>>>>>> 96aa65ac38f4b770091889e61d2c821557d43309
 org.eclipse.jdt.core.compiler.release=disabled
 org.eclipse.jdt.core.compiler.source=11
