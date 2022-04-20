@@ -3,8 +3,8 @@
     "version": "2.2.11",
     "width": 4000,
     "height": 4000,
-    "scrollTop": -1934,
-    "scrollLeft": -1627,
+    "scrollTop": -59,
+    "scrollLeft": -2138,
     "zoomLevel": 1,
     "show": {
       "tableComment": true,
@@ -19,7 +19,7 @@
     },
     "database": "MySQL",
     "databaseName": "",
-    "canvasType": "@vuerd/builtin-generator-code",
+    "canvasType": "ERD",
     "language": "Java",
     "tableCase": "pascalCase",
     "columnCase": "camelCase",
@@ -2316,29 +2316,6 @@
             "id": "b48dcbaf-3b69-4fd9-9fc7-484addcfdba3"
           },
           {
-            "name": "MP_EMAIL",
-            "comment": "회원이메일",
-            "dataType": "VARCHAR2(100)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 63.826171875,
-              "widthComment": 67,
-              "widthDataType": 96.453125,
-              "widthDefault": 60
-            },
-            "id": "b23e9dd0-3d5b-4385-9cbc-93657ef4d9bb"
-          },
-          {
             "name": "MC_ID",
             "comment": "기업아이디",
             "dataType": "VARCHAR2(50)",
@@ -2409,10 +2386,10 @@
           }
         ],
         "ui": {
-          "active": false,
+          "active": true,
           "left": 2321.07,
           "top": 217.7595,
-          "zIndex": 22,
+          "zIndex": 26,
           "widthName": 60,
           "widthComment": 60
         },
@@ -4994,7 +4971,7 @@
             "fc005a47-99c6-47c9-af30-2e8453a10b4f"
           ],
           "x": 2321.07,
-          "y": 375.2595,
+          "y": 365.0095,
           "direction": "left"
         },
         "constraintName": "fk_member_to_qna",
