@@ -2,9 +2,12 @@ package com.example.entity.entity2;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+
 import lombok.Data;
 
 @Data
+@Entity
 public class ClubBoard {
   // 클럽글번호
   private String cbNo;

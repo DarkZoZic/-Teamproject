@@ -2,9 +2,12 @@ package com.example.entity.entity2;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+
 import lombok.Data;
 
 @Data
+@Entity
 public class CReply {
   // 댓글 번호
   private String reNumber;

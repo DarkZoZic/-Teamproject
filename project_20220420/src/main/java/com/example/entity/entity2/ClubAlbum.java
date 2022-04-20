@@ -2,9 +2,12 @@ package com.example.entity.entity2;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+
 import lombok.Data;
 
 @Data
+@Entity
 public class ClubAlbum {
   // 앨범번호
   private String caNo;

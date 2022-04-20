@@ -2,9 +2,12 @@ package com.example.entity.entity2;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+
 import lombok.Data;
 
 @Data
+@Entity
 public class BImage {
   // 게시판이미지코드
   private String biImgcode;
