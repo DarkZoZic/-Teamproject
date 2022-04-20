@@ -3,8 +3,8 @@
     "version": "2.2.11",
     "width": 4000,
     "height": 4000,
-    "scrollTop": -803.5,
-    "scrollLeft": -195,
+    "scrollTop": -143,
+    "scrollLeft": -1,
     "zoomLevel": 1,
     "show": {
       "tableComment": true,
@@ -47,9 +47,9 @@
         "comment": "개인회원",
         "columns": [
           {
-            "name": "MP_EMAIL",
-            "comment": "회원이메일",
-            "dataType": "VARCHAR2(100)",
+            "name": "MP_NICKNAME",
+            "comment": "회원닉네임",
+            "dataType": "VARCHAR2(10)",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -60,144 +60,6 @@
             "ui": {
               "active": false,
               "pk": true,
-              "fk": false,
-              "pfk": false,
-              "widthName": 63.826171875,
-              "widthComment": 67,
-              "widthDataType": 96.453125,
-              "widthDefault": 60
-            },
-            "id": "7f9c7bd9-e123-4760-ac60-e27c269ffc2a"
-          },
-          {
-            "name": "MP_PW",
-            "comment": "회원암호",
-            "dataType": "VARCHAR2(100)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 60,
-              "widthDataType": 96.453125,
-              "widthDefault": 60
-            },
-            "id": "9bf36a05-5fa5-4d54-8ef5-0e4cd03c2579"
-          },
-          {
-            "name": "MP_NAME",
-            "comment": "회원이름",
-            "dataType": "VARCHAR2(10)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 64.02294921875,
-              "widthComment": 60,
-              "widthDataType": 89.29296875,
-              "widthDefault": 60
-            },
-            "id": "d2c82d7c-7efc-43d2-b83e-c2aade6ee471"
-          },
-          {
-            "name": "MP_PHONE",
-            "comment": "회원연락처",
-            "dataType": "VARCHAR2(15)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 70.4404296875,
-              "widthComment": 67,
-              "widthDataType": 89.29296875,
-              "widthDefault": 60
-            },
-            "id": "98f7f7b0-7bc0-4ee1-8843-b4bf6453e0fa"
-          },
-          {
-            "name": "MP_REGDATE",
-            "comment": "회원가입일",
-            "dataType": "DATE",
-            "default": "CURRENT_DATE",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 80.9521484375,
-              "widthComment": 67,
-              "widthDataType": 60,
-              "widthDefault": 94.6884765625
-            },
-            "id": "424f5e91-06a1-4ab3-a038-f16ca5023848"
-          },
-          {
-            "name": "MP_ADDRESS",
-            "comment": "회원주소",
-            "dataType": "VARCHAR2(100)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 82.85009765625,
-              "widthComment": 60,
-              "widthDataType": 96.453125,
-              "widthDefault": 60
-            },
-            "id": "a0705ffb-69df-44c5-a33a-d6f57cb11495"
-          },
-          {
-            "name": "MP_NICKNAME",
-            "comment": "회원닉네임",
-            "dataType": "VARCHAR2(10)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
               "fk": false,
               "pfk": false,
               "widthName": 93.40625,
@@ -300,32 +162,9 @@
             "id": "e455200b-134a-4172-98bb-7e0696e4ca07"
           },
           {
-            "name": "MP_EMAILCHECK",
-            "comment": "?이메일체크",
-            "dataType": "VARCHAR2(1)",
-            "default": "1",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 103.69580078125,
-              "widthComment": 72.9794921875,
-              "widthDataType": 82.1328125,
-              "widthDefault": 60
-            },
-            "id": "3665ea4f-7f59-472e-8d65-345ee77c2f45"
-          },
-          {
-            "name": "CG_CODE",
-            "comment": "카테고리 코드",
-            "dataType": "NUMBER",
+            "name": "M_ID",
+            "comment": "아이디",
+            "dataType": "VARCHAR2(30)",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -339,41 +178,18 @@
               "fk": true,
               "pfk": false,
               "widthName": 60,
-              "widthComment": 84.5703125,
-              "widthDataType": 60,
-              "widthDefault": 60
-            },
-            "id": "05896745-95aa-48eb-8a14-8f076ef54bde"
-          },
-          {
-            "name": "MC_ID",
-            "comment": "기업아이디",
-            "dataType": "VARCHAR2(50)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": true,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 67,
+              "widthComment": 60,
               "widthDataType": 89.29296875,
               "widthDefault": 60
             },
-            "id": "8f90be85-c018-4e60-80b0-af2e38f57d75"
+            "id": "69a1e638-ff77-4cdf-bf17-c35df66c9291"
           }
         ],
         "ui": {
           "active": false,
-          "left": 488.1336,
-          "top": 858.1232,
-          "zIndex": 24,
+          "left": 632.578,
+          "top": 246.1231,
+          "zIndex": 97,
           "widthName": 124.26220703125,
           "widthComment": 60
         },
@@ -762,9 +578,9 @@
         "comment": "기업회원",
         "columns": [
           {
-            "name": "MC_ID",
-            "comment": "기업아이디",
-            "dataType": "VARCHAR2(50)",
+            "name": "MC_NO",
+            "comment": "기업 사업자번호",
+            "dataType": "VARCHAR2(30)",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -775,167 +591,6 @@
             "ui": {
               "active": false,
               "pk": true,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 67,
-              "widthDataType": 89.29296875,
-              "widthDefault": 60
-            },
-            "id": "f2756daf-d5b2-42b0-a295-9b6082cb5d0a"
-          },
-          {
-            "name": "MC_PW",
-            "comment": "기업비밀번호",
-            "dataType": "VARCHAR2(20)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 80,
-              "widthDataType": 89.29296875,
-              "widthDefault": 60
-            },
-            "id": "3d1bf87a-525c-4dbc-a7ea-38b4494e37a9"
-          },
-          {
-            "name": "MC_NAME",
-            "comment": "기업명",
-            "dataType": "VARCHAR2(30)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 64.8544921875,
-              "widthComment": 60,
-              "widthDataType": 89.29296875,
-              "widthDefault": 60
-            },
-            "id": "88e84410-e106-451b-9ace-05f7959758de"
-          },
-          {
-            "name": "MC_PHONE",
-            "comment": "기업 대표자번호",
-            "dataType": "VARCHAR2(20)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 71.27197265625,
-              "widthComment": 97.5703125,
-              "widthDataType": 89.29296875,
-              "widthDefault": 60
-            },
-            "id": "7c73699e-ad89-49c0-92f6-69412bdd5626"
-          },
-          {
-            "name": "MC_REGDATE",
-            "comment": "기업 가입일자",
-            "dataType": "DATE",
-            "default": "CURRENT_DATE",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 81.78369140625,
-              "widthComment": 84.5703125,
-              "widthDataType": 60,
-              "widthDefault": 94.6884765625
-            },
-            "id": "9ef184d5-fdd3-429c-815e-3f13aeaa3528"
-          },
-          {
-            "name": "MC_ADDR",
-            "comment": "기업주소",
-            "dataType": "VARCHAR2(50)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 62.84228515625,
-              "widthComment": 60,
-              "widthDataType": 89.29296875,
-              "widthDefault": 60
-            },
-            "id": "9b916463-004a-4325-a9ca-5c66b9e13602"
-          },
-          {
-            "name": "MC_EMAIL",
-            "comment": "기업이메일",
-            "dataType": "VARCHAR2(50)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 64.65771484375,
-              "widthComment": 67,
-              "widthDataType": 89.29296875,
-              "widthDefault": 60
-            },
-            "id": "bb4c95f6-ee5c-44ad-9102-581f7365cd26"
-          },
-          {
-            "name": "MC_NO",
-            "comment": "기업 사업자번호",
-            "dataType": "VARCHAR2(30)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
               "fk": false,
               "pfk": false,
               "widthName": 60,
@@ -992,9 +647,9 @@
             "id": "216351d0-820e-428d-9c0f-d016e4c35d49"
           },
           {
-            "name": "MP_EMAIL",
-            "comment": "회원이메일",
-            "dataType": "VARCHAR2(100)",
+            "name": "M_ID",
+            "comment": "아이디",
+            "dataType": "VARCHAR2(30)",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -1005,21 +660,21 @@
             "ui": {
               "active": false,
               "pk": false,
-              "fk": false,
+              "fk": true,
               "pfk": false,
-              "widthName": 63.826171875,
-              "widthComment": 67,
-              "widthDataType": 96.453125,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 89.29296875,
               "widthDefault": 60
             },
-            "id": "bbf58766-a8b0-403c-95cf-7a5c1f1773e2"
+            "id": "815f5e09-2d61-4f83-98e7-426972edc299"
           }
         ],
         "ui": {
-          "active": false,
-          "left": 1125.6172,
-          "top": 813.4104,
-          "zIndex": 29,
+          "active": true,
+          "left": 116.6172,
+          "top": 195.4104,
+          "zIndex": 98,
           "widthName": 122.5419921875,
           "widthComment": 60
         },
@@ -1205,7 +860,7 @@
             "ui": {
               "active": false,
               "pk": false,
-              "fk": true,
+              "fk": false,
               "pfk": false,
               "widthName": 63.826171875,
               "widthComment": 67,
@@ -1228,7 +883,7 @@
             "ui": {
               "active": false,
               "pk": false,
-              "fk": true,
+              "fk": false,
               "pfk": false,
               "widthName": 60,
               "widthComment": 67,
@@ -1236,13 +891,36 @@
               "widthDefault": 60
             },
             "id": "ae467ca5-0f83-4c71-bd71-a473bf05de79"
+          },
+          {
+            "name": "M_ID",
+            "comment": "아이디",
+            "dataType": "VARCHAR2(30)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 89.29296875,
+              "widthDefault": 60
+            },
+            "id": "dc42959d-8a72-44cd-86f5-2cdb1f056056"
           }
         ],
         "ui": {
           "active": false,
           "left": 1797.959,
           "top": 1056.4207,
-          "zIndex": 15,
+          "zIndex": 43,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1780,7 +1458,7 @@
           "active": false,
           "left": 2285.3802,
           "top": 655.7524,
-          "zIndex": 21,
+          "zIndex": 20,
           "widthName": 60,
           "widthComment": 60
         },
@@ -2019,7 +1697,7 @@
           "active": false,
           "left": 1733.5801,
           "top": 1870.7816,
-          "zIndex": 20,
+          "zIndex": 19,
           "widthName": 63.79443359375,
           "widthComment": 60
         },
@@ -2674,7 +2352,7 @@
             "ui": {
               "active": false,
               "pk": false,
-              "fk": true,
+              "fk": false,
               "pfk": false,
               "widthName": 60,
               "widthComment": 67,
@@ -2697,7 +2375,7 @@
             "ui": {
               "active": false,
               "pk": false,
-              "fk": true,
+              "fk": false,
               "pfk": false,
               "widthName": 63.826171875,
               "widthComment": 67,
@@ -2705,13 +2383,36 @@
               "widthDefault": 60
             },
             "id": "5fe9505e-a00c-4c46-ac79-d8063d9d461d"
+          },
+          {
+            "name": "M_ID",
+            "comment": "아이디",
+            "dataType": "VARCHAR2(30)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 89.29296875,
+              "widthDefault": 60
+            },
+            "id": "fc005a47-99c6-47c9-af30-2e8453a10b4f"
           }
         ],
         "ui": {
           "active": false,
-          "left": 2286.07,
-          "top": 340.2595,
-          "zIndex": 5,
+          "left": 2321.07,
+          "top": 217.7595,
+          "zIndex": 57,
           "widthName": 60,
           "widthComment": 60
         },
@@ -2874,7 +2575,7 @@
             "ui": {
               "active": false,
               "pk": false,
-              "fk": true,
+              "fk": false,
               "pfk": false,
               "widthName": 63.826171875,
               "widthComment": 67,
@@ -2905,142 +2606,11 @@
               "widthDefault": 60
             },
             "id": "a42c09b6-39f6-4cf6-b63b-9f58103c2afb"
-          }
-        ],
-        "ui": {
-          "active": false,
-          "left": 1146.7787,
-          "top": 1692.1726,
-          "zIndex": 10,
-          "widthName": 60,
-          "widthComment": 60
-        },
-        "visible": true,
-        "id": "25ebd331-e8b4-4446-a03a-470f2d7e3584"
-      },
-      {
-        "name": "MEMBERADDR",
-        "comment": "회원주소",
-        "columns": [
-          {
-            "name": "MA_CODE",
-            "comment": "주소코드",
-            "dataType": "VARCHAR2(50)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": true,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": true,
-              "fk": false,
-              "pfk": false,
-              "widthName": 62.18212890625,
-              "widthComment": 60,
-              "widthDataType": 89.29296875,
-              "widthDefault": 60
-            },
-            "id": "7c3dc121-d318-4fe8-a7f9-cbf5bf04ca42"
           },
           {
-            "name": "MA_ADDR",
-            "comment": "주소",
-            "dataType": "VARCHAR2(50)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 63.14697265625,
-              "widthComment": 60,
-              "widthDataType": 89.29296875,
-              "widthDefault": 60
-            },
-            "id": "9369a783-756b-4ee8-a88a-492b59c6f490"
-          },
-          {
-            "name": "MA_POSTCODE",
-            "comment": "?우편번호",
-            "dataType": "VARCHAR2(5)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 93.025390625,
-              "widthComment": 60,
-              "widthDataType": 82.1328125,
-              "widthDefault": 60
-            },
-            "id": "c4863df2-9fc1-4f37-b840-451e1ad41a14"
-          },
-          {
-            "name": "MA_REGDATE",
-            "comment": "등록일",
-            "dataType": "DATE",
-            "default": "CURRENT_DATE",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 82.08837890625,
-              "widthComment": 60,
-              "widthDataType": 60,
-              "widthDefault": 94.6884765625
-            },
-            "id": "d5eb316e-4e70-4348-baea-8d85623cb939"
-          },
-          {
-            "name": "MA_CHK",
-            "comment": "대표주소",
-            "dataType": "NUMBER(2)",
-            "default": "1",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 60,
-              "widthDataType": 70.31982421875,
-              "widthDefault": 60
-            },
-            "id": "d27a04cf-418a-4ac0-b370-b0d02bf3cc88"
-          },
-          {
-            "name": "MP_EMAIL",
-            "comment": "회원이메일",
-            "dataType": "VARCHAR2(100)",
+            "name": "M_ID",
+            "comment": "아이디",
+            "dataType": "VARCHAR2(30)",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -3053,24 +2623,24 @@
               "pk": false,
               "fk": true,
               "pfk": false,
-              "widthName": 63.826171875,
-              "widthComment": 67,
-              "widthDataType": 96.453125,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 89.29296875,
               "widthDefault": 60
             },
-            "id": "e770667a-e4cf-46e4-b7a0-e712c536b51e"
+            "id": "f796729c-72b3-4bed-87b1-c17d41096610"
           }
         ],
         "ui": {
           "active": false,
-          "left": 110.8046,
-          "top": 603.8358,
-          "zIndex": 19,
-          "widthName": 89.93408203125,
+          "left": 1148.7787,
+          "top": 1692.1726,
+          "zIndex": 51,
+          "widthName": 60,
           "widthComment": 60
         },
         "visible": true,
-        "id": "b5d0d0df-e3aa-4ef1-a82f-4a66309209b9"
+        "id": "25ebd331-e8b4-4446-a03a-470f2d7e3584"
       },
       {
         "name": "BOARD_1",
@@ -3228,7 +2798,7 @@
             "ui": {
               "active": false,
               "pk": false,
-              "fk": true,
+              "fk": false,
               "pfk": false,
               "widthName": 63.826171875,
               "widthComment": 67,
@@ -3251,7 +2821,7 @@
             "ui": {
               "active": false,
               "pk": false,
-              "fk": true,
+              "fk": false,
               "pfk": false,
               "widthName": 60,
               "widthComment": 67,
@@ -3259,13 +2829,36 @@
               "widthDefault": 60
             },
             "id": "2eff6df1-5e13-410f-9be3-4ff836efd7ca"
+          },
+          {
+            "name": "M_ID",
+            "comment": "아이디",
+            "dataType": "VARCHAR2(30)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 89.29296875,
+              "widthDefault": 60
+            },
+            "id": "0ec3319e-bd73-4956-9bc4-2df803833080"
           }
         ],
         "ui": {
           "active": false,
           "left": 122.6663,
           "top": 1605.8293,
-          "zIndex": 6,
+          "zIndex": 53,
           "widthName": 60,
           "widthComment": 60
         },
@@ -3550,7 +3143,7 @@
           "active": false,
           "left": 1610.5213,
           "top": 1486.8075,
-          "zIndex": 22,
+          "zIndex": 46,
           "widthName": 65.62255859375,
           "widthComment": 80
         },
@@ -3644,7 +3237,7 @@
             "ui": {
               "active": false,
               "pk": false,
-              "fk": true,
+              "fk": false,
               "pfk": false,
               "widthName": 63.826171875,
               "widthComment": 67,
@@ -3652,13 +3245,36 @@
               "widthDefault": 60
             },
             "id": "d4068a80-f75e-41c7-8726-ee795f677684"
+          },
+          {
+            "name": "M_ID",
+            "comment": "아이디",
+            "dataType": "VARCHAR2(30)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 89.29296875,
+              "widthDefault": 60
+            },
+            "id": "a2aec56c-1b0f-454f-b4bf-7d848ddf3e1e"
           }
         ],
         "ui": {
           "active": false,
           "left": 1732.4272,
           "top": 1641.4528,
-          "zIndex": 23,
+          "zIndex": 49,
           "widthName": 60,
           "widthComment": 60
         },
@@ -4037,7 +3653,7 @@
             "ui": {
               "active": false,
               "pk": false,
-              "fk": true,
+              "fk": false,
               "pfk": false,
               "widthName": 63.826171875,
               "widthComment": 67,
@@ -4045,13 +3661,36 @@
               "widthDefault": 60
             },
             "id": "2d30ec4d-82ee-4cd5-b5d1-f361b0eef334"
+          },
+          {
+            "name": "M_ID",
+            "comment": "아이디",
+            "dataType": "VARCHAR2(30)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 89.29296875,
+              "widthDefault": 60
+            },
+            "id": "c0a54129-7337-4052-833a-4a932cf51bd5"
           }
         ],
         "ui": {
           "active": false,
-          "left": 554.6668,
-          "top": 372.8332,
-          "zIndex": 18,
+          "left": 148.6668,
+          "top": 1068.8332,
+          "zIndex": 55,
           "widthName": 60,
           "widthComment": 60
         },
@@ -4168,7 +3807,7 @@
             "ui": {
               "active": false,
               "pk": false,
-              "fk": true,
+              "fk": false,
               "pfk": false,
               "widthName": 63.826171875,
               "widthComment": 67,
@@ -4176,13 +3815,36 @@
               "widthDefault": 60
             },
             "id": "9fb3e4db-bd11-4472-adb0-87f38e37eeff"
+          },
+          {
+            "name": "M_ID",
+            "comment": "아이디",
+            "dataType": "VARCHAR2(30)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 89.29296875,
+              "widthDefault": 60
+            },
+            "id": "9e264949-6e5c-4b9a-b2e5-dc09ff39b465"
           }
         ],
         "ui": {
           "active": false,
-          "left": 986.2492,
-          "top": 527.3326,
-          "zIndex": 17,
+          "left": 1040.2492,
+          "top": 541.3326,
+          "zIndex": 37,
           "widthName": 88.0615234375,
           "widthComment": 60
         },
@@ -4230,7 +3892,7 @@
             "ui": {
               "active": false,
               "pk": false,
-              "fk": true,
+              "fk": false,
               "pfk": false,
               "widthName": 63.826171875,
               "widthComment": 67,
@@ -4253,7 +3915,7 @@
             "ui": {
               "active": false,
               "pk": false,
-              "fk": true,
+              "fk": false,
               "pfk": false,
               "widthName": 60,
               "widthComment": 67,
@@ -4284,13 +3946,36 @@
               "widthDefault": 60
             },
             "id": "be67c16e-1226-45fc-a63d-155507e4d60f"
+          },
+          {
+            "name": "M_ID",
+            "comment": "아이디",
+            "dataType": "VARCHAR2(30)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 89.29296875,
+              "widthDefault": 60
+            },
+            "id": "d51d6dff-c155-46ae-8c8e-633281d93503"
           }
         ],
         "ui": {
           "active": false,
           "left": 1618.2224,
           "top": 546.2781,
-          "zIndex": 13,
+          "zIndex": 41,
           "widthName": 60,
           "widthComment": 60
         },
@@ -4465,9 +4150,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1006.5562,
-          "top": 147.1667,
-          "zIndex": 14,
+          "left": 528.5562,
+          "top": 1103.1667,
+          "zIndex": 35,
           "widthName": 60,
           "widthComment": 60
         },
@@ -4661,13 +4346,36 @@
               "widthDefault": 60
             },
             "id": "b6c584f2-5151-455b-887f-0223709107b3"
+          },
+          {
+            "name": "CG_CODE",
+            "comment": "카테고리 코드",
+            "dataType": "NUMBER",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 84.5703125,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "8b10cb8e-3449-4825-8ebe-cf142a4989cf"
           }
         ],
         "ui": {
-          "active": true,
-          "left": 996.7777,
-          "top": 1240.7218,
-          "zIndex": 54,
+          "active": false,
+          "left": 249.7777,
+          "top": 486.7218,
+          "zIndex": 85,
           "widthName": 60,
           "widthComment": 60
         },
@@ -4685,7 +4393,7 @@
           "active": false,
           "left": 119.44444444444443,
           "top": 1034.6111111111113,
-          "zIndex": 45,
+          "zIndex": 25,
           "width": 127,
           "height": 100
         },
@@ -4714,7 +4422,7 @@
             "004365c9-a7e0-4bc0-96cc-7bd424abf90f"
           ],
           "x": 2167.9111484375,
-          "y": 1309.9207,
+          "y": 1330.4207,
           "direction": "bottom"
         },
         "constraintName": "fk_h_board_to_h_reply",
@@ -4766,7 +4474,7 @@
             "77e030e4-d1d6-4d85-a171-5ca9f5dc9189"
           ],
           "x": 1921.2763828125,
-          "y": 1309.9207,
+          "y": 1330.4207,
           "direction": "bottom"
         },
         "constraintName": "fk_reaction_to_c_reply",
@@ -4835,7 +4543,7 @@
             "2e6a045f-9da6-4e80-8265-3f52964facbf"
           ],
           "x": 2291.22853125,
-          "y": 1183.1707,
+          "y": 1193.4207,
           "direction": "right"
         },
         "end": {
@@ -4856,136 +4564,6 @@
         "relationshipType": "OneN",
         "startRelationshipType": "Dash",
         "start": {
-          "tableId": "d510b841-82b8-4652-8344-dd840b818444",
-          "columnIds": [
-            "7f9c7bd9-e123-4760-ac60-e27c269ffc2a"
-          ],
-          "x": 852.9393861328125,
-          "y": 1214.1232,
-          "direction": "bottom"
-        },
-        "end": {
-          "tableId": "25ebd331-e8b4-4446-a03a-470f2d7e3584",
-          "columnIds": [
-            "7d89c173-7036-435b-8f18-07a49c50ec8a"
-          ],
-          "x": 1146.7787,
-          "y": 1808.6726,
-          "direction": "left"
-        },
-        "constraintName": "fk_member_personal_to_chat",
-        "visible": true,
-        "id": "fcfe044d-8316-4dec-b9eb-a48ae5cfb71f"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
-          "tableId": "a3e1a2b0-7987-4a52-b998-39bc00dedb4a",
-          "columnIds": [
-            "f2756daf-d5b2-42b0-a295-9b6082cb5d0a"
-          ],
-          "x": 1603.11280546875,
-          "y": 1034.2854,
-          "direction": "right"
-        },
-        "end": {
-          "tableId": "ad7322fd-bbc0-45a7-b2e2-72dd7430aada",
-          "columnIds": [
-            "f202d4ff-3961-4978-bf0d-124683bc47d3"
-          ],
-          "x": 2286.07,
-          "y": 413.8845,
-          "direction": "left"
-        },
-        "constraintName": "fk_member_company_to_qna",
-        "visible": true,
-        "id": "f909bcd1-ecab-497c-90be-b8a534b52047"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
-          "tableId": "d510b841-82b8-4652-8344-dd840b818444",
-          "columnIds": [
-            "7f9c7bd9-e123-4760-ac60-e27c269ffc2a"
-          ],
-          "x": 569.2015524739584,
-          "y": 858.1232,
-          "direction": "top"
-        },
-        "end": {
-          "tableId": "b5d0d0df-e3aa-4ef1-a82f-4a66309209b9",
-          "columnIds": [
-            "e770667a-e4cf-46e4-b7a0-e712c536b51e"
-          ],
-          "x": 568.9715921874999,
-          "y": 699.8358,
-          "direction": "right"
-        },
-        "constraintName": "fk_member_personal_to_memberaddr",
-        "visible": true,
-        "id": "7acf0e0f-1cbf-4b7e-bb7c-da7595befa6a"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
-          "tableId": "d510b841-82b8-4652-8344-dd840b818444",
-          "columnIds": [
-            "7f9c7bd9-e123-4760-ac60-e27c269ffc2a"
-          ],
-          "x": 609.7355287109375,
-          "y": 1214.1232,
-          "direction": "bottom"
-        },
-        "end": {
-          "tableId": "e6da0c7b-098a-4204-baa2-1a4f2ac33613",
-          "columnIds": [
-            "6e750323-2255-454c-91d9-f3673e07012d"
-          ],
-          "x": 561.54276484375,
-          "y": 1664.0793,
-          "direction": "right"
-        },
-        "constraintName": "fk_member_personal_to_board_1",
-        "visible": true,
-        "id": "1e96be14-a869-41b3-ab24-7d61416d7241"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
-          "tableId": "a3e1a2b0-7987-4a52-b998-39bc00dedb4a",
-          "columnIds": [
-            "f2756daf-d5b2-42b0-a295-9b6082cb5d0a"
-          ],
-          "x": 1125.6172,
-          "y": 1034.2854,
-          "direction": "left"
-        },
-        "end": {
-          "tableId": "e6da0c7b-098a-4204-baa2-1a4f2ac33613",
-          "columnIds": [
-            "2eff6df1-5e13-410f-9be3-4ff836efd7ca"
-          ],
-          "x": 561.54276484375,
-          "y": 1780.5793,
-          "direction": "right"
-        },
-        "constraintName": "fk_member_company_to_board_1",
-        "visible": true,
-        "id": "9f75665e-2289-4a18-b643-7ff9e8c83c4c"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
           "tableId": "f3d70348-855f-4ea2-adfc-da8b4a38c2f4",
           "columnIds": [
             "9f5bae3c-0a4c-4ee6-9873-f52c5d9b13a4"
@@ -5000,38 +4578,12 @@
             "0e4bc17d-f803-4d45-9652-c1e3c25f5eb1"
           ],
           "x": 2165.4193875,
-          "y": 1716.9528,
+          "y": 1727.2028,
           "direction": "right"
         },
         "constraintName": "fk_club_to_like",
         "visible": true,
         "id": "ed3be3c9-ccfe-4fcc-8b4f-cf0503caf48d"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
-          "tableId": "d510b841-82b8-4652-8344-dd840b818444",
-          "columnIds": [
-            "7f9c7bd9-e123-4760-ac60-e27c269ffc2a"
-          ],
-          "x": 974.54131484375,
-          "y": 1125.1232,
-          "direction": "right"
-        },
-        "end": {
-          "tableId": "4405c648-963e-4f7b-9940-ff45d6225b09",
-          "columnIds": [
-            "d4068a80-f75e-41c7-8726-ee795f677684"
-          ],
-          "x": 1732.4272,
-          "y": 1716.9528,
-          "direction": "left"
-        },
-        "constraintName": "fk_member_personal_to_like",
-        "visible": true,
-        "id": "a339b074-4345-4f25-be01-390a4526881c"
       },
       {
         "identification": false,
@@ -5220,38 +4772,12 @@
         "relationshipType": "OneN",
         "startRelationshipType": "Dash",
         "start": {
-          "tableId": "ad03a9fc-98db-489a-91cb-eb74c5ee4c72",
-          "columnIds": [
-            "1856fcac-2053-4f79-ac6f-0b983074bc93"
-          ],
-          "x": 1610.5213,
-          "y": 1552.0575,
-          "direction": "left"
-        },
-        "end": {
-          "tableId": "d510b841-82b8-4652-8344-dd840b818444",
-          "columnIds": [
-            "05896745-95aa-48eb-8a14-8f076ef54bde"
-          ],
-          "x": 974.54131484375,
-          "y": 1006.4565333333335,
-          "direction": "right"
-        },
-        "constraintName": "fk_category_to_member_personal",
-        "visible": true,
-        "id": "630225b2-08f9-4100-8c2c-4b81c9e38fed"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
           "tableId": "e6da0c7b-098a-4204-baa2-1a4f2ac33613",
           "columnIds": [
             "2f004b80-b994-40b5-a1f6-cfecfba1a965"
           ],
           "x": 342.104532421875,
-          "y": 1838.8293,
+          "y": 1859.3293,
           "direction": "bottom"
         },
         "end": {
@@ -5266,84 +4792,6 @@
         "constraintName": "fk_board_1_to_b_image",
         "visible": true,
         "id": "fe9a7a0b-9144-4094-81d4-5138be66de57"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
-          "tableId": "d510b841-82b8-4652-8344-dd840b818444",
-          "columnIds": [
-            "7f9c7bd9-e123-4760-ac60-e27c269ffc2a"
-          ],
-          "x": 974.54131484375,
-          "y": 1065.7898666666667,
-          "direction": "right"
-        },
-        "end": {
-          "tableId": "aded8cd0-aada-4d52-bda3-e07e304861e3",
-          "columnIds": [
-            "44cc5d33-5046-46c8-a5fd-197a081b02aa"
-          ],
-          "x": 1797.959,
-          "y": 1246.5457,
-          "direction": "left"
-        },
-        "constraintName": "fk_member_personal_to_c_reply",
-        "visible": true,
-        "id": "a5c7b14d-6595-4dc9-b6d0-cc30573681e7"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
-          "tableId": "a3e1a2b0-7987-4a52-b998-39bc00dedb4a",
-          "columnIds": [
-            "f2756daf-d5b2-42b0-a295-9b6082cb5d0a"
-          ],
-          "x": 1603.11280546875,
-          "y": 887.0354,
-          "direction": "right"
-        },
-        "end": {
-          "tableId": "aded8cd0-aada-4d52-bda3-e07e304861e3",
-          "columnIds": [
-            "ae467ca5-0f83-4c71-bd71-a473bf05de79"
-          ],
-          "x": 1797.959,
-          "y": 1119.7957,
-          "direction": "left"
-        },
-        "constraintName": "fk_member_company_to_c_reply",
-        "visible": true,
-        "id": "d2e8e1a1-5be0-492c-9d17-11d0d8b5bd19"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
-          "tableId": "d510b841-82b8-4652-8344-dd840b818444",
-          "columnIds": [
-            "7f9c7bd9-e123-4760-ac60-e27c269ffc2a"
-          ],
-          "x": 974.54131484375,
-          "y": 1184.4565333333333,
-          "direction": "right"
-        },
-        "end": {
-          "tableId": "ad7322fd-bbc0-45a7-b2e2-72dd7430aada",
-          "columnIds": [
-            "5fe9505e-a00c-4c46-ac79-d8063d9d461d"
-          ],
-          "x": 2286.07,
-          "y": 561.1345,
-          "direction": "left"
-        },
-        "constraintName": "fk_member_personal_to_qna",
-        "visible": true,
-        "id": "e666bb42-d79f-4671-bd05-cfdc32417e65"
       },
       {
         "identification": false,
@@ -5389,143 +4837,13 @@
           "columnIds": [
             "a42c09b6-39f6-4cf6-b63b-9f58103c2afb"
           ],
-          "x": 1644.20301640625,
-          "y": 1808.6726,
+          "x": 1646.20301640625,
+          "y": 1818.9226,
           "direction": "right"
         },
         "constraintName": "fk_club_to_chat",
         "visible": true,
         "id": "c51e47bc-ad48-4d83-b3f5-37ba3fe6d667"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
-          "tableId": "d510b841-82b8-4652-8344-dd840b818444",
-          "columnIds": [
-            "7f9c7bd9-e123-4760-ac60-e27c269ffc2a"
-          ],
-          "x": 893.4733623697916,
-          "y": 858.1232,
-          "direction": "top"
-        },
-        "end": {
-          "tableId": "b8b3504d-edeb-4931-b6bd-9dbf46ebf7aa",
-          "columnIds": [
-            "9fb3e4db-bd11-4472-adb0-87f38e37eeff"
-          ],
-          "x": 986.2492,
-          "y": 613.0826,
-          "direction": "left"
-        },
-        "constraintName": "fk_member_personal_to_notification",
-        "visible": true,
-        "id": "cd0686eb-d4bb-4230-8e53-d44780976479"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
-          "tableId": "d510b841-82b8-4652-8344-dd840b818444",
-          "columnIds": [
-            "7f9c7bd9-e123-4760-ac60-e27c269ffc2a"
-          ],
-          "x": 731.337457421875,
-          "y": 858.1232,
-          "direction": "top"
-        },
-        "end": {
-          "tableId": "9bd86205-ef7f-4462-9858-9a45cc3273ac",
-          "columnIds": [
-            "2d30ec4d-82ee-4cd5-b5d1-f361b0eef334"
-          ],
-          "x": 775.054739453125,
-          "y": 544.3332,
-          "direction": "bottom"
-        },
-        "constraintName": "fk_member_personal_to_rating",
-        "visible": true,
-        "id": "083fdb94-2821-4f32-bb68-af6a5c189924"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Ring",
-        "start": {
-          "tableId": "a3e1a2b0-7987-4a52-b998-39bc00dedb4a",
-          "columnIds": [
-            "f2756daf-d5b2-42b0-a295-9b6082cb5d0a"
-          ],
-          "x": 1125.6172,
-          "y": 887.0354,
-          "direction": "left"
-        },
-        "end": {
-          "tableId": "d510b841-82b8-4652-8344-dd840b818444",
-          "columnIds": [
-            "8f90be85-c018-4e60-80b0-af2e38f57d75"
-          ],
-          "x": 974.54131484375,
-          "y": 887.7898666666667,
-          "direction": "right"
-        },
-        "constraintName": "fk_member_company_to_member_personal",
-        "visible": true,
-        "id": "74467d51-1634-4b0f-ad32-5b0ed74c684e"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Ring",
-        "start": {
-          "tableId": "d510b841-82b8-4652-8344-dd840b818444",
-          "columnIds": [
-            "7f9c7bd9-e123-4760-ac60-e27c269ffc2a"
-          ],
-          "x": 974.54131484375,
-          "y": 947.1232000000001,
-          "direction": "right"
-        },
-        "end": {
-          "tableId": "0f2225a8-18c5-4e97-8497-809ce7158f38",
-          "columnIds": [
-            "d197a85a-0487-4aba-8ca4-f9970684624b"
-          ],
-          "x": 1618.2224,
-          "y": 659.5281,
-          "direction": "left"
-        },
-        "constraintName": "fk_member_personal_to_join",
-        "visible": true,
-        "id": "c405d294-2502-4e9a-b757-cc25a893365a"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Ring",
-        "start": {
-          "tableId": "a3e1a2b0-7987-4a52-b998-39bc00dedb4a",
-          "columnIds": [
-            "f2756daf-d5b2-42b0-a295-9b6082cb5d0a"
-          ],
-          "x": 1364.365002734375,
-          "y": 813.4104,
-          "direction": "top"
-        },
-        "end": {
-          "tableId": "0f2225a8-18c5-4e97-8497-809ce7158f38",
-          "columnIds": [
-            "86f234ac-11f3-426e-a720-eceabbed4600"
-          ],
-          "x": 1618.2224,
-          "y": 584.0281,
-          "direction": "left"
-        },
-        "constraintName": "fk_member_company_to_join",
-        "visible": true,
-        "id": "736868dc-8622-4e1b-90f9-88a7e2b65eff"
       },
       {
         "identification": false,
@@ -5546,7 +4864,7 @@
             "be67c16e-1226-45fc-a63d-155507e4d60f"
           ],
           "x": 2017.072009375,
-          "y": 621.7781,
+          "y": 632.0281,
           "direction": "right"
         },
         "constraintName": "fk_club_to_join",
@@ -5562,22 +4880,308 @@
           "columnIds": [
             "7b7f7c94-686a-4774-bdb7-82f004461bcc"
           ],
-          "x": 1194.551201953125,
-          "y": 527.3326,
-          "direction": "top"
+          "x": 1040.2492,
+          "y": 685.3326,
+          "direction": "left"
         },
         "end": {
           "tableId": "d25ec154-9169-418b-ad9a-e47db228b988",
           "columnIds": [
             "daf73185-902a-463e-bae8-be8026c3f931"
           ],
-          "x": 1190.90922734375,
-          "y": 359.6667,
-          "direction": "bottom"
+          "x": 712.90922734375,
+          "y": 1103.1667,
+          "direction": "top"
         },
         "constraintName": "fk_notification_to_notype",
         "visible": true,
         "id": "ae53918a-82e8-4b9b-854f-88f93cd96101"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "79d2f0e4-efbe-424e-8069-0856167dc6f9",
+          "columnIds": [
+            "9b2e1726-febd-43ec-9ed4-7774713238b0"
+          ],
+          "x": 707.9193015625,
+          "y": 507.8468,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "b8b3504d-edeb-4931-b6bd-9dbf46ebf7aa",
+          "columnIds": [
+            "9e264949-6e5c-4b9a-b2e5-dc09ff39b465"
+          ],
+          "x": 1040.2492,
+          "y": 589.3326,
+          "direction": "left"
+        },
+        "constraintName": "fk_member_to_notification",
+        "visible": true,
+        "id": "45532339-990b-40c0-887e-570cf835c93a"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Ring",
+        "start": {
+          "tableId": "79d2f0e4-efbe-424e-8069-0856167dc6f9",
+          "columnIds": [
+            "9b2e1726-febd-43ec-9ed4-7774713238b0"
+          ],
+          "x": 707.9193015625,
+          "y": 550.0968,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "0f2225a8-18c5-4e97-8497-809ce7158f38",
+          "columnIds": [
+            "d51d6dff-c155-46ae-8c8e-633281d93503"
+          ],
+          "x": 1618.2224,
+          "y": 632.0281,
+          "direction": "left"
+        },
+        "constraintName": "fk_member_to_join",
+        "visible": true,
+        "id": "4ee5b552-5eac-4487-b73a-47cb62821c59"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "79d2f0e4-efbe-424e-8069-0856167dc6f9",
+          "columnIds": [
+            "9b2e1726-febd-43ec-9ed4-7774713238b0"
+          ],
+          "x": 707.9193015625,
+          "y": 592.3468,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "aded8cd0-aada-4d52-bda3-e07e304861e3",
+          "columnIds": [
+            "dc42959d-8a72-44cd-86f5-2cdb1f056056"
+          ],
+          "x": 1797.959,
+          "y": 1193.4207,
+          "direction": "left"
+        },
+        "constraintName": "fk_member_to_c_reply",
+        "visible": true,
+        "id": "359f62ea-a0c8-4801-9198-84bef2f2e550"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "79d2f0e4-efbe-424e-8069-0856167dc6f9",
+          "columnIds": [
+            "9b2e1726-febd-43ec-9ed4-7774713238b0"
+          ],
+          "x": 707.9193015625,
+          "y": 719.0968,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "ad7322fd-bbc0-45a7-b2e2-72dd7430aada",
+          "columnIds": [
+            "fc005a47-99c6-47c9-af30-2e8453a10b4f"
+          ],
+          "x": 2321.07,
+          "y": 375.2595,
+          "direction": "left"
+        },
+        "constraintName": "fk_member_to_qna",
+        "visible": true,
+        "id": "9e4c4842-f2f3-46a9-94b4-7261e0fa367d"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "ad03a9fc-98db-489a-91cb-eb74c5ee4c72",
+          "columnIds": [
+            "1856fcac-2053-4f79-ac6f-0b983074bc93"
+          ],
+          "x": 1610.5213,
+          "y": 1552.0575,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "79d2f0e4-efbe-424e-8069-0856167dc6f9",
+          "columnIds": [
+            "8b10cb8e-3449-4825-8ebe-cf142a4989cf"
+          ],
+          "x": 707.9193015625,
+          "y": 634.5968,
+          "direction": "right"
+        },
+        "constraintName": "fk_category_to_member",
+        "visible": true,
+        "id": "7f1ea205-fc99-4b8f-a2c9-d2d0b9fd1500"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "79d2f0e4-efbe-424e-8069-0856167dc6f9",
+          "columnIds": [
+            "9b2e1726-febd-43ec-9ed4-7774713238b0"
+          ],
+          "x": 707.9193015625,
+          "y": 676.8468,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "4405c648-963e-4f7b-9940-ff45d6225b09",
+          "columnIds": [
+            "a2aec56c-1b0f-454f-b4bf-7d848ddf3e1e"
+          ],
+          "x": 1732.4272,
+          "y": 1727.2028,
+          "direction": "left"
+        },
+        "constraintName": "fk_member_to_like",
+        "visible": true,
+        "id": "8ad3aaf6-ff8d-4acc-ba26-2876963a710f"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "79d2f0e4-efbe-424e-8069-0856167dc6f9",
+          "columnIds": [
+            "9b2e1726-febd-43ec-9ed4-7774713238b0"
+          ],
+          "x": 631.56236796875,
+          "y": 740.2218,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "25ebd331-e8b4-4446-a03a-470f2d7e3584",
+          "columnIds": [
+            "f796729c-72b3-4bed-87b1-c17d41096610"
+          ],
+          "x": 1148.7787,
+          "y": 1818.9226,
+          "direction": "left"
+        },
+        "constraintName": "fk_member_to_chat",
+        "visible": true,
+        "id": "cfb74009-005b-4c18-9dce-62d6943c2396"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "79d2f0e4-efbe-424e-8069-0856167dc6f9",
+          "columnIds": [
+            "9b2e1726-febd-43ec-9ed4-7774713238b0"
+          ],
+          "x": 478.84850078125,
+          "y": 740.2218,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "e6da0c7b-098a-4204-baa2-1a4f2ac33613",
+          "columnIds": [
+            "0ec3319e-bd73-4956-9bc4-2df803833080"
+          ],
+          "x": 342.104532421875,
+          "y": 1605.8293,
+          "direction": "top"
+        },
+        "constraintName": "fk_member_to_board_1",
+        "visible": true,
+        "id": "254249e5-bd62-4bc3-9052-306cc03c9a04"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "79d2f0e4-efbe-424e-8069-0856167dc6f9",
+          "columnIds": [
+            "9b2e1726-febd-43ec-9ed4-7774713238b0"
+          ],
+          "x": 326.13463359375,
+          "y": 740.2218,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "9bd86205-ef7f-4462-9858-9a45cc3273ac",
+          "columnIds": [
+            "c0a54129-7337-4052-833a-4a932cf51bd5"
+          ],
+          "x": 369.05473945312497,
+          "y": 1068.8332,
+          "direction": "top"
+        },
+        "constraintName": "fk_member_to_rating",
+        "visible": true,
+        "id": "c4452290-cce8-4c7f-b388-03b4102f29d8"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "79d2f0e4-efbe-424e-8069-0856167dc6f9",
+          "columnIds": [
+            "9b2e1726-febd-43ec-9ed4-7774713238b0"
+          ],
+          "x": 593.383901171875,
+          "y": 486.7218,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "d510b841-82b8-4652-8344-dd840b818444",
+          "columnIds": [
+            "69a1e638-ff77-4cdf-bf17-c35df66c9291"
+          ],
+          "x": 632.578,
+          "y": 342.1231,
+          "direction": "left"
+        },
+        "constraintName": "fk_member_to_member_personal",
+        "visible": true,
+        "id": "93530b1b-6d66-43c4-b936-1390e77d42c1"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "79d2f0e4-efbe-424e-8069-0856167dc6f9",
+          "columnIds": [
+            "9b2e1726-febd-43ec-9ed4-7774713238b0"
+          ],
+          "x": 364.313100390625,
+          "y": 486.7218,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "a3e1a2b0-7987-4a52-b998-39bc00dedb4a",
+          "columnIds": [
+            "815f5e09-2d61-4f83-98e7-426972edc299"
+          ],
+          "x": 324.912854296875,
+          "y": 346.4104,
+          "direction": "bottom"
+        },
+        "constraintName": "fk_member_to_member_company",
+        "visible": true,
+        "id": "d63e9d61-817a-46da-bf02-44eae51eaec8"
       }
     ]
   }
