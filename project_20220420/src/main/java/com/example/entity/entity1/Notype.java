@@ -6,8 +6,10 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "NOTYPE")
 public class Notype {
   // 전체공지
+  @Id
   private String all;
   // 여러명에게
   private String many;
@@ -19,6 +21,8 @@ public class Notype {
   private String chat;
   // 클럽가입수락
   private String join;
-  // 알림코드
-  private String noCode;
+  // 알림
+  @OneToOne
+  @JoinColumn(name = "no_code")
+  private Notification notification;
 }

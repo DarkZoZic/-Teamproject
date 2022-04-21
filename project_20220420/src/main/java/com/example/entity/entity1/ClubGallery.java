@@ -37,9 +37,6 @@ public class ClubGallery {
   // 사진수
   @Column(nullable = false)
   private String gQty;
-  // 동호회번호
-  @Column(nullable = false)
-  private String cNo;
   // 반응
   @ManyToOne
   @JoinColumn(name = "r_id")
