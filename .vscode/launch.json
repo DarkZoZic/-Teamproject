@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Project20220420Application",
+            "request": "launch",
+            "mainClass": "com.example.project_20220420.Project20220420Application",
+            "projectName": "project_20220420"
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch Boot20220228Application",
+            "request": "launch",
+            "mainClass": "com.example.boot_20220228.Boot20220228Application"
+        }
+    ]
+}

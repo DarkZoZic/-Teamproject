@@ -51,9 +51,17 @@ public class Member {
   // 프로필사진
   @Lob
   private byte[] mProfile;
+
+  private String mImagename;
+
+  private String mImagetype;
+
+  private Long mImagesize = 0L;
   // 이메일
   @Column(nullable = false)
   private String mEmail;
+
+  
   // 카테고리분류
   @ManyToOne
   @JoinColumn(name = "cg_code")

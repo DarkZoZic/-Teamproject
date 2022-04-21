@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 4000,
     "height": 4000,
-    "scrollTop": -546,
-    "scrollLeft": -884,
-    "zoomLevel": 0.9,
+    "scrollTop": -1700,
+    "scrollLeft": -2202,
+    "zoomLevel": 0.7,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -19,7 +19,7 @@
     },
     "database": "MySQL",
     "databaseName": "",
-    "canvasType": "@vuerd/builtin-generator-code",
+    "canvasType": "ERD",
     "language": "JPA",
     "tableCase": "pascalCase",
     "columnCase": "camelCase",
@@ -872,9 +872,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1797.959,
-          "top": 1056.4207,
-          "zIndex": 23,
+          "left": 1797.9591,
+          "top": 1056.4206,
+          "zIndex": 25,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1005,7 +1005,7 @@
           "active": false,
           "left": 2569.8703,
           "top": 2625.9235,
-          "zIndex": 20,
+          "zIndex": 18,
           "widthName": 78.66064453125,
           "widthComment": 67
         },
@@ -1389,7 +1389,7 @@
           "active": false,
           "left": 2285.3802,
           "top": 655.7524,
-          "zIndex": 24,
+          "zIndex": 21,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1851,7 +1851,7 @@
           "active": false,
           "left": 3203.7699,
           "top": 656.041,
-          "zIndex": 19,
+          "zIndex": 17,
           "widthName": 90.41650390625,
           "widthComment": 60
         },
@@ -2251,7 +2251,7 @@
           "active": false,
           "left": 2321.07,
           "top": 217.7595,
-          "zIndex": 21,
+          "zIndex": 19,
           "widthName": 60,
           "widthComment": 60
         },
@@ -3391,7 +3391,7 @@
           "active": false,
           "left": 148.6668,
           "top": 1068.8332,
-          "zIndex": 25,
+          "zIndex": 22,
           "widthName": 60,
           "widthComment": 60
         },
@@ -3522,7 +3522,7 @@
           "active": false,
           "left": 1040.2492,
           "top": 541.3326,
-          "zIndex": 26,
+          "zIndex": 23,
           "widthName": 88.0615234375,
           "widthComment": 60
         },
@@ -3784,7 +3784,7 @@
           "active": false,
           "left": 528.5562,
           "top": 1103.1667,
-          "zIndex": 28,
+          "zIndex": 24,
           "widthName": 60,
           "widthComment": 60
         },
@@ -4007,7 +4007,7 @@
           "active": false,
           "left": 249.7777,
           "top": 486.7218,
-          "zIndex": 22,
+          "zIndex": 20,
           "widthName": 60,
           "widthComment": 60
         },
@@ -4053,8 +4053,8 @@
           "columnIds": [
             "004365c9-a7e0-4bc0-96cc-7bd424abf90f"
           ],
-          "x": 2290.79054296875,
-          "y": 1231.1707,
+          "x": 2290.79064296875,
+          "y": 1231.1706,
           "direction": "right"
         },
         "constraintName": "fk_h_board_to_h_reply",
@@ -4105,8 +4105,8 @@
           "columnIds": [
             "77e030e4-d1d6-4d85-a171-5ca9f5dc9189"
           ],
-          "x": 2044.374771484375,
-          "y": 1289.4207,
+          "x": 2044.374871484375,
+          "y": 1289.4206,
           "direction": "bottom"
         },
         "constraintName": "fk_reaction_to_c_reply",
@@ -4174,8 +4174,8 @@
           "columnIds": [
             "2e6a045f-9da6-4e80-8265-3f52964facbf"
           ],
-          "x": 2290.79054296875,
-          "y": 1114.6707,
+          "x": 2290.79064296875,
+          "y": 1114.6706,
           "direction": "right"
         },
         "end": {
@@ -4573,8 +4573,8 @@
           "columnIds": [
             "dc42959d-8a72-44cd-86f5-2cdb1f056056"
           ],
-          "x": 1797.959,
-          "y": 1172.9207,
+          "x": 1797.9591,
+          "y": 1172.9206,
           "direction": "left"
         },
         "constraintName": "fk_member_to_c_reply",
