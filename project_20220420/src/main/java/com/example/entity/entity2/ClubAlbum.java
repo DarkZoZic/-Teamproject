@@ -7,9 +7,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.example.entity.entity1.ClubGallery;
@@ -23,9 +26,14 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "CLUBALBUMTBL")
+@SequenceGenerator(name = "SEQ_CLUBALBUM",
+sequenceName = "SEQ_CLUBALBUM_NO", 
+allocationSize = 1, initialValue = 1)
 public class ClubAlbum {
  // 앨범번호
  @Id
+@GeneratedValue(strategy = GenerationType.SEQUENCE, 
+generator = "SEQ_CLUBALBUM") // 시퀀스 적용
  private Long caNo;
  // 앨범이름
  @Column(nullable = false)

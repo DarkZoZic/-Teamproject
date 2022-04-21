@@ -7,9 +7,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.example.entity.entity1.Reaction;
@@ -23,9 +26,14 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "CLUBBOARDTBL")
+@SequenceGenerator(name = "SEQ_CLUBBOARD",
+sequenceName = "SEQ_CLUBBOARD_NO", 
+allocationSize = 1, initialValue = 1)
 public class ClubBoard {
   // 클럽글번호
   @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+  generator = "SEQ_CLUBBOARD") // 시퀀스 적용
   private Long cbNo;
   // 클럽글제목
   @Column(nullable = false)

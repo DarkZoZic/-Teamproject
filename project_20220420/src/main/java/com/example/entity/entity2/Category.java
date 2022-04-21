@@ -5,8 +5,11 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.example.entity.entity1.Member;
@@ -17,9 +20,14 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "CATEGORYTBL")
+@SequenceGenerator(name = "SEQ_CATEGORY",
+sequenceName = "SEQ_CATEGORY_CODE", 
+allocationSize = 1, initialValue = 1)
 public class Category {
  // 카테고리 코드
  @Id
+ @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+  generator = "SEQ_CATEGORY") // 시퀀스 적용
  private Long cgCode;
  // 카테고리 대분류
  @Column(nullable = false)

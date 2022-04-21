@@ -7,11 +7,14 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 import com.example.entity.entity1.ClubGallery;
 import com.example.entity.entity1.JoinClub;
@@ -25,9 +28,14 @@ import lombok.Data;
 
 @Data
 @Entity
+@SequenceGenerator(name = "SEQ_CLUB",
+sequenceName = "SEQ_CLUB_NO", 
+allocationSize = 1, initialValue = 1)
 public class Club {
   // 동호회 번호
   @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+  generator = "SEQ_CLUB") // 시퀀스 적용
   private Long cNo;
   // 동호회 이름
   @Column(nullable = false)

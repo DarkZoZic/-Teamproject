@@ -6,10 +6,13 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.example.entity.entity1.Member;
@@ -22,9 +25,14 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "BOARD1TBL")
+@SequenceGenerator(name = "SEQ_BOARD_1",
+sequenceName = "SEQ_BOARD_1_NO", 
+allocationSize = 1, initialValue = 1)
 public class Board1 {
   // 글번호
   @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+  generator = "SEQ_BOARD_1") // 시퀀스 적용
   private Long bNo;
   // 글제목
   private String bTitle;
