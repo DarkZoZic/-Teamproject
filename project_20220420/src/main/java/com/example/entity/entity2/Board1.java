@@ -20,7 +20,7 @@ import lombok.Data;
 public class Board1 {
   // 글번호
   @Id
-  private String bNo;
+  private Long bNo;
   // 글제목
   private String bTitle;
   // 글내용

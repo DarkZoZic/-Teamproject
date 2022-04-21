@@ -16,7 +16,7 @@ import lombok.Data;
 public class BImage {
   // 게시판이미지코드
   @Id
-  private String biImgcode;
+  private Long biImgcode;
   // 게시판이미지등록일
   private Date biRegdate;
   // 게시판이미지
