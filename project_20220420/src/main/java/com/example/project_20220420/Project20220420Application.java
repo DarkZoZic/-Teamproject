@@ -16,13 +16,25 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 	"com.example.controller.controller_2",
 	"com.example.controller.controller_3",
 	"com.example.controller.controller_4",
+	"com.example.service", 
+	"com.example.service.service_1",
+	"com.example.service.service_2",
+	"com.example.service.service_3",
+	"com.example.service.service_4", 
+
 })
 
 // 엔티티
 @EntityScan(basePackages = {"com.example.entity.entity1", "com.example.entity.entity2"})
 
 // 저장소
-@EnableJpaRepositories(basePackages = {"com.example.repository.repository_1"})
+@EnableJpaRepositories(basePackages = {
+	"com.example.repository",
+	"com.example.repository.repository_1",
+	"com.example.repository.repository_gibum",
+	"com.example.repository.repository_3",
+	"com.example.repository.repository_4",
+})
 
 public class Project20220420Application {
 	public static void main(String[] args) {
