@@ -18,7 +18,7 @@ import lombok.Data;
 // 후기
 @Data
 @Entity
-@Table(name = "RATING")
+@Table(name = "RATINGTBL")
 public class Rating {
   // 후기코드
   @Id

@@ -26,7 +26,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "MEMBER")
+@Table(name = "MEMBERTBL")
 public class Member {
   // 아이디
   @Id
@@ -65,7 +65,7 @@ public class Member {
   // 클럽가입
   @OneToMany(mappedBy = "member")
   @JsonBackReference
-  private List<Join> joinList = new ArrayList<>();
+  private List<JoinClub> joinList = new ArrayList<>();
   // 댓글
   @OneToMany(mappedBy = "member")
   @JsonBackReference

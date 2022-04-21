@@ -17,7 +17,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "QNA")
+@Table(name = "QNATBL")
 public class Qna {
   // 큐엔에이 글번호
   @Id

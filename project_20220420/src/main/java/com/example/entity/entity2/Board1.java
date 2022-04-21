@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.example.entity.entity1.Member;
 
@@ -20,6 +21,7 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "BOARD1TBL")
 public class Board1 {
   // 글번호
   @Id

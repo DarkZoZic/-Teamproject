@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.example.entity.entity1.Member;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -15,6 +16,7 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "CATEGORYTBL")
 public class Category {
  // 카테고리 코드
  @Id

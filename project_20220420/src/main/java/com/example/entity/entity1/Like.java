@@ -19,7 +19,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "LIKE")
+@Table(name = "LIKETBL")
 @SequenceGenerator(name = "SEQ_LIKE", sequenceName = "SEQ_LIKE_LNO", allocationSize = 1, initialValue = 1)
 public class Like {
   // 찜 번호

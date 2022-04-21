@@ -18,7 +18,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "NOTIFICATION")
+@Table(name = "NOTIFICATIONTBL")
 public class Notification {
   // 알림코드
   @Id

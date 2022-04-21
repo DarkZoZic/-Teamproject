@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.example.entity.entity1.CsImage;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -19,6 +20,7 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "CSCHEDULETBL")
 public class CSchedule {
  // 일정번호
  @Id

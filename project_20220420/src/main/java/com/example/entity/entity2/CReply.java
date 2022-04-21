@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.example.entity.entity1.ClubGallery;
 import com.example.entity.entity1.Member;
@@ -25,6 +26,7 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "CREPLYTBL")
 public class CReply {
    // 댓글 번호
   @Id

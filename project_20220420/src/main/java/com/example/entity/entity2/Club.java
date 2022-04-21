@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.example.entity.entity1.ClubGallery;
-import com.example.entity.entity1.Join;
+import com.example.entity.entity1.JoinClub;
 import com.example.entity.entity1.Like;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -22,7 +22,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
-import okhttp3.Address;
 
 @Data
 @Entity
@@ -91,5 +90,5 @@ public class Club {
   // 클럽가입
   @OneToMany(mappedBy = "club")
   @JsonBackReference
-  private List<Join> joinList = new ArrayList<>();
+  private List<JoinClub> joinList = new ArrayList<>();
 }

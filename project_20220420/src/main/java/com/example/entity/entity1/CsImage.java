@@ -21,7 +21,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "CSIMAGE")
+@Table(name = "CSIMAGETBL")
 public class CsImage {
   // 스케줄이미지 코드
   @Id

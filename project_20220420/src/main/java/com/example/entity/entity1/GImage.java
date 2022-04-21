@@ -20,7 +20,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "GIMAGE")
+@Table(name = "GIMAGETBL")
 public class GImage {
   // 이미지코드
   @Id

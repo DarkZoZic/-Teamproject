@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.example.entity.entity1.Member;
 
@@ -19,6 +20,7 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "CHATTBL")
 public class Chat {
   // 채팅ID
   @Id

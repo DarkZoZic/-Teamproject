@@ -16,7 +16,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "MEMBERCOMPANY")
+@Table(name = "MEMBERCOMPANYTBL")
 public class MemberCompany {
   // 기업 사업자번호
   @Id

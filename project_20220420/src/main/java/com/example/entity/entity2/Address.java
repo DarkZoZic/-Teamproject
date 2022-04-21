@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -13,6 +14,7 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "ADDRESSTBL")
 public class Address {
   // 주소코드
   @Id

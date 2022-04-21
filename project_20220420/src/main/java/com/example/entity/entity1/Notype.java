@@ -1,5 +1,6 @@
 package com.example.entity.entity1;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -10,10 +11,11 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "NOTYPE")
+@Table(name = "NOTYPETBL")
 public class Notype {
   // 전체공지
   @Id
+  @Column(name = "allnotice")
   private String all;
   // 여러명에게
   private String many;
@@ -24,6 +26,7 @@ public class Notype {
   // 채팅
   private String chat;
   // 클럽가입수락
+  @Column(name = "joinclub")
   private String join;
   // 알림
   @OneToOne

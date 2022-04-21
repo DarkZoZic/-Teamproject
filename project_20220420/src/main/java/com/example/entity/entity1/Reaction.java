@@ -23,7 +23,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "REACTION")
+@Table(name = "REACTIONTBL")
 public class Reaction {
   // 반응 아이디
   @Id

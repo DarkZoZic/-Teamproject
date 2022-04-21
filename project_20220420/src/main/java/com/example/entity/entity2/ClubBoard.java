@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.example.entity.entity1.Reaction;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -21,6 +22,7 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "CLUBBOARDTBL")
 public class ClubBoard {
   // 클럽글번호
   @Id
