@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import com.example.entity.entity1.ClubGallery;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -29,7 +32,9 @@ public class ClubAlbum {
  @Lob
  private String caThumbnail;
  // 생성일
- @Column(nullable = false)
+@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+@CreationTimestamp // CURRENT_DATE
+@Column(name = "CAREGDATE",nullable = false)
  private LocalDate caRegdate;
  // 갤러리
  @OneToMany(mappedBy = "clubAlbum")

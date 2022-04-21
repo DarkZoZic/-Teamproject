@@ -18,6 +18,9 @@ import com.example.entity.entity1.Join;
 import com.example.entity.entity1.Like;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 import okhttp3.Address;
 
@@ -45,7 +48,9 @@ public class Club {
   // 동호회 최대인원
   private String cMax;
   // 동호회 생성일
-  @Column(nullable = false)
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+	@CreationTimestamp // CURRENT_DATE
+	@Column(name = "CREGDATE",nullable = false)
   private LocalDate cRegdate;
   // 동호회 창립일
   @Column(nullable = false)

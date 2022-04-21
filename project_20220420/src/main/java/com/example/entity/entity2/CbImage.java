@@ -1,7 +1,7 @@
 package com.example.entity.entity2;
 
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +20,7 @@ public class CbImage {
   private Long cbiImgcode;
   // 등록일
   @Column(nullable = false)
-  private LocalDate cbiRegdate;
+  private Date cbiRegdate;
   // 이미지
   @Column(nullable = false)
   @Lob

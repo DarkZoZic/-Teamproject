@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 
 import com.example.entity.entity1.Member;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -34,7 +37,9 @@ public class Chat {
   @Column(nullable = false)
   private String chStatus;
   // 채팅 일자
-  @Column(nullable = false)
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+	@CreationTimestamp // CURRENT_DATE
+	@Column(name = "BREGDATE",nullable = false)
   private LocalDate chRegdate;
   // 회원이메일
   @Column(nullable = false)

@@ -13,6 +13,9 @@ import javax.persistence.OneToMany;
 
 import com.example.entity.entity1.Member;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -28,6 +31,10 @@ public class Board1 {
   // 글조회수
   private String bHit;
   // 글작성일
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+	@CreationTimestamp // CURRENT_DATE
+	@Column(name = "BREGDATE")
   private LocalDate bRegdate;
   // 글종류
   private String bType;

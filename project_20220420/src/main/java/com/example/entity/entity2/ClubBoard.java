@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import com.example.entity.entity1.Reaction;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -32,7 +35,9 @@ public class ClubBoard {
   @Column(nullable = false)
   private String cbHit;
   // 클럽글작성일
-  @Column(nullable = false)
+@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+@CreationTimestamp // CURRENT_DATE
+@Column(name = "CBREGDATE",nullable = false)
   private LocalDate cbRegdate;
   // 클럽글파일첨부
   @Lob
