@@ -5,7 +5,7 @@
     "height": 4000,
     "scrollTop": -1934,
     "scrollLeft": -1627,
-    "zoomLevel": 1,
+    "zoomLevel": 0.8,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -20,7 +20,7 @@
     "database": "MySQL",
     "databaseName": "",
     "canvasType": "@vuerd/builtin-generator-code",
-    "language": "Java",
+    "language": "JPA",
     "tableCase": "pascalCase",
     "columnCase": "camelCase",
     "highlightTheme": "VS2015",
