@@ -2,8 +2,8 @@ package com.example.service;
 
 import java.util.Collection;
 
-import com.example.dto.MemberDTO;
-import com.example.mapper.MemberMapper;
+import com.example.entity.entity1.Member;
+import com.example.entity.entity1.MemberPersonal;
 import com.example.repository.repository_1.MemberRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +19,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
 
-    @Autowired MemberRepository mRepository;
+    // @Autowired MemberRepository mRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("UserDetailsService: " + username);
-        MemberDTO member = mRepository.memberEmail(username);
+        // Member member = mRepository.findBymId(username);
+        // MemberPersonal MPersonal = new MemberPersonal();
 
-        // 권한 정보를 문자열 배열로 만듦
-        String[] strRole = { member.getUrole() };
+        // // 권한 정보를 문자열 배열로 만듦
+        // String[] strRole = { MPersonal.getMpRole() };
 
-        // String 배열 권한을 Collection<Granted...>로 변환함
-        Collection<GrantedAuthority> roles = AuthorityUtils.createAuthorityList(strRole);
+        // // String 배열 권한을 Collection<Granted...>로 변환함
+        // Collection<GrantedAuthority> roles = AuthorityUtils.createAuthorityList(strRole);
 
-        // UserDetails -> User
-        User user = new User(member.getUemail(), member.getUpw(), roles);
-        return user;
+        // // UserDetails -> User
+        // User user = new User(member.getMId(), member.getMPw(), roles);
+        return null;
     }
     
 }

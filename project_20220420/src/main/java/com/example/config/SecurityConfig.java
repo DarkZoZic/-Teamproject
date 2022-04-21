@@ -40,38 +40,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.csrf().ignoringAntMatchers("/h2-console/**");
         http.headers().frameOptions().sameOrigin();
 
-        // rest controller 사용
-        http.csrf().ignoringAntMatchers("/api/**");
+        // // rest controller 사용
+        // http.csrf().ignoringAntMatchers("/api/**");
 
-        // 페이지별 접근 권한 설정
-        http.authorizeRequests()
-        .antMatchers("/security_admin", "/security_admin/**")
-        .hasAuthority("ADMIN")
-        .antMatchers("/security_seller", "/security_seller/**")
-        .hasAnyAuthority("ADMIN", "SELLER")
-        .antMatchers("/security_customer", "/security_customer/**")
-        .hasAuthority("CUSTOMER")
-        .anyRequest().permitAll();
+        // // 페이지별 접근 권한 설정
+        // http.authorizeRequests()
+        // .antMatchers("/security_admin", "/security_admin/**")
+        // .hasAuthority("ADMIN")
+        // .antMatchers("/security_seller", "/security_seller/**")
+        // .hasAnyAuthority("ADMIN", "SELLER")
+        // .antMatchers("/security_customer", "/security_customer/**")
+        // .hasAuthority("CUSTOMER")
+        // .anyRequest().permitAll();
 
-        // 로그인 페이지 설정, 단 POST는 직접 만들지 않음
-        http.formLogin()
-            .loginPage("/member/login")
-            .loginProcessingUrl("/member/loginaction")
-            .usernameParameter("uemail")
-            .passwordParameter("upw")
-            .defaultSuccessUrl("/home")
-            .permitAll();
+        // // 로그인 페이지 설정, 단 POST는 직접 만들지 않음
+        // http.formLogin()
+        //     .loginPage("/member/login")
+        //     .loginProcessingUrl("/member/loginaction")
+        //     .usernameParameter("uemail")
+        //     .passwordParameter("upw")
+        //     .defaultSuccessUrl("/home")
+        //     .permitAll();
 
-        // 로그아웃 페이지 설정, url에 맞게 post로 호출하면 됨.
-        http.logout()
-        .logoutUrl("/member/security_logout")
-        .logoutSuccessUrl("/home")
-        // .logoutSuccessHandler(new MyLogoutSeccessHandler())
-        .invalidateHttpSession(true)
-        .clearAuthentication(true)
-        .permitAll();
+        // // 로그아웃 페이지 설정, url에 맞게 post로 호출하면 됨.
+        // http.logout()
+        // .logoutUrl("/member/security_logout")
+        // .logoutSuccessUrl("/home")
+        // // .logoutSuccessHandler(new MyLogoutSeccessHandler())
+        // .invalidateHttpSession(true)
+        // .clearAuthentication(true)
+        // .permitAll();
 
-		// 접근권한불가 403
-		http.exceptionHandling().accessDeniedPage("/page403");
+		// // 접근권한불가 403
+		// http.exceptionHandling().accessDeniedPage("/page403");
     }    
 }
