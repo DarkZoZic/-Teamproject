@@ -3,11 +3,13 @@ package com.example.entity.entity1;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "MEMBER")
 public class Member {
   // 아이디
   private String mId;
