@@ -1,6 +1,5 @@
 package com.example.entity.entity2;
 
-import static org.mockito.ArgumentMatchers.nullable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,6 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.example.entity.entity1.ClubGallery;
+import com.example.entity.entity1.Member;
+import com.example.entity.entity1.Reaction;
 
 import lombok.Data;
 
