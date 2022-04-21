@@ -6,17 +6,22 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "MEMBERPERSONAL")
 public class MemberPersonal {
   // 회원닉네임
+  @Id
   private String mpNickname;
   // 회원성별
+  @Column(nullable = false)
   private String mpGender;
   // 회원생년월일
+  @Column(nullable = false)
   private String mpBirth;
   // 회원권한
+  @Column(nullable = false)
   private String mpRole;
-  // ?프로필사진
-  private String mpProfile;
-  // 아이디
-  private String mId;
+  // 회원
+  @ManyToOne
+  @JoinColumn(name = "m_id")
+  private Member member;
 }
