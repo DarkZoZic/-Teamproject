@@ -6,9 +6,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.example.entity.entity2.CSchedule;
@@ -22,9 +25,11 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "CSIMAGETBL")
+@SequenceGenerator(name = "SEQ_CSIMAGE", sequenceName = "SEQ_CSIMAGE_CODE", allocationSize = 1, initialValue = 1)
 public class CsImage {
   // 스케줄이미지 코드
   @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CSIMAGE")
   private String csiImgcode;
   // 스케줄이미지 등록일
   

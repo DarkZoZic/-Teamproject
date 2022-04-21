@@ -6,10 +6,13 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.example.entity.entity2.CReply;
@@ -24,10 +27,12 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "REACTIONTBL")
+@SequenceGenerator(name = "SEQ_REACTION", sequenceName = "SEQ_REACTION_CODE", allocationSize = 1, initialValue = 1)
 public class Reaction {
   // 반응 아이디
   @Id
-  private String rId;
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REACTION")
+  private String rCode;
   // 반응종류
   @Column(nullable = false)
   private String rType;
