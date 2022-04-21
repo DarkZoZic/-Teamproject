@@ -29,8 +29,10 @@ public class Reaction {
   private ClubBoard clubBoard;
   // 댓글
   @OneToMany(mappedBy = "reaction")
+  @JsonBackReference
   private List<CReply> cReplyList = new ArrayList<>();
   // 갤러리
   @OneToMany(mappedBy = "reaction")
+  @JsonBackReference
   private List<ClubGallery> clubGalleryList = new ArrayList<>();
 }

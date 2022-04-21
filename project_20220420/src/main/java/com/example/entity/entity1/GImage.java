@@ -44,5 +44,6 @@ public class GImage {
   private String giImagename;
   // 갤러리
   @OneToMany(mappedBy = "gImage")
+  @JsonBackReference
   private List<ClubGallery> clubGalleryList = new ArrayList<>();
 }

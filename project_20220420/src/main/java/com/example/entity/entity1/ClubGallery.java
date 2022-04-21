@@ -55,5 +55,6 @@ public class ClubGallery {
   private ClubAlbum clubAlbum;
   // 동호회
   @OneToMany(mappedBy = "clubGallery")
+  @JsonBackReference
   private List<Club> clubList = new ArrayList<>();
 }
