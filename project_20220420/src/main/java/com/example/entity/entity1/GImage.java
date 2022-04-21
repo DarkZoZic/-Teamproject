@@ -6,9 +6,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -21,9 +24,11 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "GIMAGETBL")
+@SequenceGenerator(name = "SEQ_GIMAGE", sequenceName = "SEQ_GIMAGE_CODE", allocationSize = 1, initialValue = 1)
 public class GImage {
   // 이미지코드
   @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GIMAGE")
   private String giImgcode;
 
   // 등록일

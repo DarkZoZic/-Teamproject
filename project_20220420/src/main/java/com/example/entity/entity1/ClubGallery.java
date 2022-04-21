@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.example.entity.entity2.CReply;
@@ -24,9 +25,11 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "CLUBGALLERY")
+@SequenceGenerator(name = "SEQ_CLUBGALLERY", sequenceName = "SEQ_CLUBGALLERY_NO", allocationSize = 1, initialValue = 1)
 public class ClubGallery {
   // 갤러리번호
   @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CLUBGALLERY")
   private String gNo;
   // 갤러리이름
   @Column(nullable = false)
