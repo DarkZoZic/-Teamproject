@@ -1,5 +1,6 @@
 package com.example.entity.entity1;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.Club;
 import com.example.entity.entity2.ClubAlbum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
