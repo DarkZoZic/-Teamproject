@@ -39,10 +39,10 @@ public class Club {
   private Long cNo;
   // 동호회 이름
   @Column(nullable = false)
-  private byte[] cName;
+  private String cName;
   // 동호회 썸네일
   @Lob
-  private String cThumbnail;
+  private byte[] cThumbnail;
   // 동호회 공개여부
   @Column(nullable = false)
   private String cPrivate;
