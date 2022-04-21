@@ -1,8 +1,8 @@
 package com.example.entity.entity2;
 
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -18,6 +18,9 @@ import com.example.entity.entity1.Member;
 import com.example.entity.entity1.Reaction;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -32,12 +35,15 @@ public class CReply {
   private String reContent;
   // 댓글 작성일
   @Column(nullable = false)
-  private LocalDate reRegdate;
+  private Date reRegdate;
   // 부모댓글번호
   @Column(nullable = false)
   private String rParentnumber;
   // 수정일
-  private LocalDate rUpdatedate;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+	@UpdateTimestamp // CURRENT_DATE
+	@Column(name = "CBIREGDATE",nullable = false)
+  private Date rUpdatedate;
   // 회원이메일
   @Column(nullable = false)
   private String mpEmail;

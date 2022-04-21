@@ -1,8 +1,8 @@
 package com.example.entity.entity2;
 
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -30,12 +30,12 @@ public class ClubAlbum {
  private String caName;
  // 앨범썸네일
  @Lob
- private String caThumbnail;
+ private byte[] caThumbnail;
  // 생성일
 @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 @CreationTimestamp // CURRENT_DATE
 @Column(name = "CAREGDATE",nullable = false)
- private LocalDate caRegdate;
+ private Date caRegdate;
  // 갤러리
  @OneToMany(mappedBy = "clubAlbum")
  @JsonBackReference

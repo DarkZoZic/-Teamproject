@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -19,7 +22,9 @@ public class CbImage {
   @Id
   private Long cbiImgcode;
   // 등록일
-  @Column(nullable = false)
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+	@CreationTimestamp // CURRENT_DATE
+	@Column(name = "CBIREGDATE",nullable = false)
   private Date cbiRegdate;
   // 이미지
   @Column(nullable = false)
@@ -27,7 +32,7 @@ public class CbImage {
   private String cbiImage;
   // 이미지크기
   @Column(nullable = false)
-  private String cbiImagesize;
+  private Long cbiImagesize;
   // 이미지타입
   @Column(nullable = false)
   private String cbiImagetype;

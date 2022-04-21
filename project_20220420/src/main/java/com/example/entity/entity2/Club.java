@@ -32,7 +32,7 @@ public class Club {
   private Long cNo;
   // 동호회 이름
   @Column(nullable = false)
-  private String cName;
+  private byte[] cName;
   // 동호회 썸네일
   @Lob
   private String cThumbnail;

@@ -1,7 +1,7 @@
 package com.example.entity.entity2;
 
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +32,7 @@ public class Chat {
   // 채팅 첨부파일
   @Column(nullable = false)
   @Lob
-  private String chFile;
+  private byte[] chFile;
   // 채팅 종류(개인, 단체)
   @Column(nullable = false)
   private String chStatus;
@@ -40,7 +40,7 @@ public class Chat {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
 	@Column(name = "BREGDATE",nullable = false)
-  private LocalDate chRegdate;
+  private Date chRegdate;
   // 회원이메일
   @Column(nullable = false)
   private String mpEmail;

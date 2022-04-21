@@ -28,9 +28,9 @@ public class BImage {
   private Date biRegdate;
   // 게시판이미지
   @Lob
-  private String biImage;
+  private byte[] biImage;
   // 게시판이미지크기
-  private String biImagesize;
+  private Long biImagesize;
   // 게시판이미지타입
   private String biImagetype;
   // 게시판이미지명

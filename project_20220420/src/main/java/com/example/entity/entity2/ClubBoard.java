@@ -1,8 +1,8 @@
 package com.example.entity.entity2;
 
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -38,15 +38,15 @@ public class ClubBoard {
 @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 @CreationTimestamp // CURRENT_DATE
 @Column(name = "CBREGDATE",nullable = false)
-  private LocalDate cbRegdate;
+  private Date cbRegdate;
   // 클럽글파일첨부
   @Lob
-  private String cbFile;
+  private byte[] cbFile;
   // 클럽글공지여부
   @Column(nullable = false)
   private String cbNoticecheck;
   // 클럽글수정일
-  private LocalDate cbUpdatedate;
+  private Date cbUpdatedate;
   // 클럽글깊이
   @Column(nullable = false)
   private String cbDepth;

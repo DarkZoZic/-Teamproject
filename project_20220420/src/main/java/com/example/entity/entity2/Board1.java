@@ -1,7 +1,7 @@
 package com.example.entity.entity2;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -35,7 +35,7 @@ public class Board1 {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
 	@Column(name = "BREGDATE")
-  private LocalDate bRegdate;
+  private Date bRegdate;
   // 글종류
   private String bType;
   // 회원이메일
