@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 4000,
     "height": 4000,
-    "scrollTop": -704,
-    "scrollLeft": -1363,
-    "zoomLevel": 1,
+    "scrollTop": -1642,
+    "scrollLeft": -1432,
+    "zoomLevel": 0.6,
     "show": {
       "tableComment": true,
       "columnComment": true,
