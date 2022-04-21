@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 
 import com.example.entity.entity1.ClubGallery;
 import com.example.entity.entity1.Join;
+import com.example.entity.entity1.Like;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
