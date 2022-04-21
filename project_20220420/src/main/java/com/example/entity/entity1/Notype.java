@@ -3,10 +3,10 @@ package com.example.entity.entity1;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
@@ -30,7 +30,7 @@ public class Notype {
   @Column(name = "joinclub")
   private String join;
   // 알림
-  @OneToMany
-  @JsonBackReference
+  @ManyToOne
+  @JoinColumn(name = "no_code")
   private Notification notification;
 }

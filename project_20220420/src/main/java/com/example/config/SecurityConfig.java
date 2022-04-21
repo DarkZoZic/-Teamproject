@@ -44,16 +44,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         // http.csrf().ignoringAntMatchers("/api/**");
 
         // // 페이지별 접근 권한 설정
-        // http.authorizeRequests()
-        // .antMatchers("/security_admin", "/security_admin/**")
-        // .hasAuthority("ADMIN")
+        http.authorizeRequests()
+        .antMatchers("/security_admin", "/security_admin/**")
+        .hasAuthority("ADMIN")
         // .antMatchers("/security_seller", "/security_seller/**")
         // .hasAnyAuthority("ADMIN", "SELLER")
         // .antMatchers("/security_customer", "/security_customer/**")
         // .hasAuthority("CUSTOMER")
-        // .anyRequest().permitAll();
+        .anyRequest().permitAll();
 
-        // // 로그인 페이지 설정, 단 POST는 직접 만들지 않음
+        // // 로그인 페이지 설정, 단 POST는 직접 만들지 않음. rest면 안됨
         // http.formLogin()
         //     .loginPage("/member/login")
         //     .loginProcessingUrl("/member/loginaction")

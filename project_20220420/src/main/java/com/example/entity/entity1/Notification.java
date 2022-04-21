@@ -1,6 +1,8 @@
 package com.example.entity.entity1;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,7 +31,7 @@ public class Notification {
   // 알림코드
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_NOTIFICATION")
-  private String noCode;
+  private Long noCode;
   // 보낸사람
   private String noMem;
   // 알림내용
@@ -42,7 +47,7 @@ public class Notification {
   @JoinColumn(name = "m_id")
   private Member member;
   // 알림종류
-  @ManyToOne
-  @JoinColumn(name = "no_code")
-  private Notification notification;
+  @OneToMany(mappedBy = "notification")
+  @JsonBackReference
+  private List<Notype> notypeList = new ArrayList<>();
 }
