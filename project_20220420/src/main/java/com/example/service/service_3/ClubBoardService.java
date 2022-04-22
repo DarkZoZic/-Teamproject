@@ -20,6 +20,12 @@ public interface ClubBoardService {
     // 클럽게시판 글 상세내용
     public ClubBoard selectClubBoard(Long cbNo);
     
+    // 클럽게시판 글수정
+    public int updateClubBoard(ClubBoard clubBoard);
+    
+    // 클럽게시판 글삭제
+    public int deleteClubBoard(Long cbNo);
+    
     // 클럽게시판 댓글쓰기
     public int insertCReply(CReply cReply);
     

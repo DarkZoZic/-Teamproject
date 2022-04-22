@@ -22,11 +22,13 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 	// 클럽게시판 글쓰기
 	@Override
 	public int insertClubBoard(ClubBoard clubBoard) {
-		try {
+		try 
+		{
 			cbRep.save(clubBoard);
 			return 1;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} 
+		catch (Exception e) 
+		{
 			return 0;
 		}
 	}
@@ -40,17 +42,39 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 		} 
 		catch (Exception e) 
 		{
-			e.printStackTrace();
 			return null;
 		}
-		
-	
 	}
 	
 	// 클럽게시판 글 상세내용
 	@Override
 	public ClubBoard selectClubBoard(Long cbNo) {
 		return cbRep.findById(cbNo).orElse(null);
+	}
+	
+	// 클럽게시판 글수정
+	@Override
+	public int updateClubBoard(ClubBoard clubBoard) {
+		try {
+			cbRep.save(clubBoard);
+			return 1;
+		} catch (Exception e) {
+			return 0;
+		}
+		
+		
+	}
+	
+	// 클럽게시판 글삭제
+	@Override
+	public int deleteClubBoard(Long cbNo) {
+		try {
+			cbRep.deleteById(cbNo);
+			return 1;
+		} catch (Exception e) {
+			return 0;
+		}
+		
 	}
 
 	// 클럽게시판 댓글쓰기
@@ -61,7 +85,6 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 			return 1;
 		} 
 		catch (Exception e) {
-			e.printStackTrace();
 			return 0;
 		}
 		
@@ -75,12 +98,11 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 		} 
 		catch (Exception e) 
 		{
-			e.printStackTrace();
 			return null;
 		}
-		
-		
 	}
+
+	
 
 	
 	
