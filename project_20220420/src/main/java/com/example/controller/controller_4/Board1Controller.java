@@ -8,6 +8,7 @@ import com.example.entity.entity2.Board1;
 import com.example.repository.repository_4.Board1Repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ public class Board1Controller {
 
     @Autowired Board1Repository b1Repository;
 
-    @Autowired ResourceLoader resLoader;
+    @Value("${board.page.count}") int PAGECNT;
 
     @GetMapping(value = "/insert")
     public String insertGET(){
@@ -54,6 +55,7 @@ public class Board1Controller {
         }
     }
 
+    // http://127.0.0.1:9090/ROOT/board1/selectlist?page=1&title=y
     // @GetMapping(value = "/selectlist")
     // public String selectListGET(
     //     Model model,
@@ -75,7 +77,7 @@ public class Board1Controller {
 
     //     return "/board/selectlist";
 
-    //     return "/board/selectlist"; 
+       
     // }
 
     
