@@ -39,7 +39,7 @@ public class CbImage {
   // 이미지
   @Column(nullable = false)
   @Lob
-  private String cbiImage;
+  private byte[] cbiImage;
   // 이미지크기
   @Column(nullable = false)
   private Long cbiImagesize;
