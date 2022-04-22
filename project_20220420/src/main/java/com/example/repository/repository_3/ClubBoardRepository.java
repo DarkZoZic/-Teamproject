@@ -11,7 +11,7 @@ import com.example.entity.entity2.ClubBoard;
 
 @Repository
 public interface ClubBoardRepository extends JpaRepository<ClubBoard, Long>{
-	List<ClubBoard> findByTitleContainingOrderByNoDesc(String title, Pageable pageable);
+	List<ClubBoard> findByCbTitleContainingOrderByCbNoDesc(String cbTitle, Pageable pageable);
 	
-	long countByTitleContaining(String text);
+	long countByCbTitleContaining(String text);
 }

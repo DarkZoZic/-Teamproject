@@ -5,14 +5,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.entity.entity2.ClubBoard;
-import com.example.entity.entity2.CbImage;
 import com.example.entity.entity2.CReply;
 //import com.example.entity.entity1.Reaction;
 
 @Service
 public interface ClubBoardService {
 	// 클럽게시판 글작성
-    public int insertClubBoard(ClubBoard clubBoard, CbImage cbImage);
+    public int insertClubBoard(ClubBoard clubBoard);
     
     // 클럽게시판 글목록
     public List<ClubBoard> selectClubBoardList(Long cbNo);

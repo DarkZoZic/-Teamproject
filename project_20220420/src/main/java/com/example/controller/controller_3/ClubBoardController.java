@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.repository.repository_3.ClubBoardRepository;
+import com.example.service.service_3.ClubBoardImageService;
 import com.example.service.service_3.ClubBoardService;
 import com.example.entity.entity2.ClubBoard;
 import com.example.entity.entity2.CbImage;
@@ -28,6 +29,16 @@ public class ClubBoardController {
 	@Autowired
 	ClubBoardService cbService;
 	
+	@Autowired
+	ClubBoardImageService cbiService;
+	
+	@GetMapping(value="/insert")
+	public String insertGET()
+	{
+		return "/clubboard/insert";
+	}
+	
+	// 127.0.0.1:9090/ROOT/clubboard/insert
 	@PostMapping(value="/insert")
 	public String insertPOST(@ModelAttribute ClubBoard clubboard, @ModelAttribute CbImage cbimage, @RequestParam(name="cbimage") MultipartFile file) throws IOException
 	{
@@ -37,13 +48,21 @@ public class ClubBoardController {
 			cbimage.setCbiImagesize(file.getSize());
 			cbimage.setCbiImagetype(file.getContentType());
 			
-			int ret = cbService.insertClubBoard(clubboard, cbimage);
+			int ret = cbService.insertClubBoard(clubboard);
+			int ret1 = cbiService.insertClubBoardImage(cbimage);
 			if(ret == 1)
 			{
-				return "/clubboard/selectlist";
+				if(ret1 == 1)
+				{
+					return "/clubboard/selectlist";
+				}
+				return "/clubboard/insert";
 			}
-		} catch (Exception e) {
+			return "/clubboard/insert";
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "/";
 		}
 	}
 	
@@ -56,11 +75,11 @@ public class ClubBoardController {
 			PageRequest pageRequest = PageRequest.of(page-1, 20); 
 			
 			//검색어 포함, 1페이지 20글, 글번호 내림차순
-			List<ClubBoard> list = cbRep.findByTitleContainingOrderByNoDesc(text, pageRequest);
+			List<ClubBoard> list = cbRep.findByCbTitleContainingOrderByCbNoDesc(text, pageRequest);
 			model.addAttribute("list", list);
 			
 			//페이지네이션 구현용 글 개수 가져와서 model에 넣기
-			long total = cbRep.countByTitleContaining(text);
+			long total = cbRep.countByCbTitleContaining(text);
 			
 			//1~20 = 1, 21~40 = 2, 41~60 = 3, ......
 			model.addAttribute("pages", (total-1) / 20 + 1);

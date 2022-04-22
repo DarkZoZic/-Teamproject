@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.ClubBoard;
-import com.example.entity.entity2.CbImage;
 import com.example.repository.repository_3.ClubBoardRepository;
 
 public class ClubBoardServiceImpl implements ClubBoardService{
@@ -15,7 +14,7 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 	
 	//클럽게시판 글쓰기
 	@Override
-	public int insertClubBoard(ClubBoard clubBoard, CbImage cbImage) {
+	public int insertClubBoard(ClubBoard clubBoard) {
 		try {
 			cbRep.save(clubBoard);
 			return 1;
