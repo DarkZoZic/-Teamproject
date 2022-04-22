@@ -7,8 +7,15 @@ import org.springframework.stereotype.Service;
 @Service
 public interface Board1Service {
 
-    public int insertBoard1(Board1 board1);
+    public int insertBoard1One(Board1 board1);
 
-    public int updateBoard1(Board1 board1);
+    public int updateBoard1One(Board1 board1);
+
+    public int deleteBoard1One(Long bNo);
+
+    // 일괄삭제
+    public int deleteBoard1Batch(Long[] bNo);
+
+    
     
 }
