@@ -19,6 +19,7 @@ import com.example.service.service_3.ClubBoardImageService;
 import com.example.service.service_3.ClubBoardService;
 import com.example.entity.entity2.ClubBoard;
 import com.example.entity.entity2.CbImage;
+import com.example.entity.entity2.CReply;
 
 @Controller
 @RequestMapping(value = "/clubboard")
@@ -42,7 +43,8 @@ public class ClubBoardController {
 	@PostMapping(value="/insert")
 	public String insertPOST(@ModelAttribute ClubBoard clubboard, @ModelAttribute CbImage cbimage, @RequestParam(name="cbimage") MultipartFile file) throws IOException
 	{
-		try {
+		try 
+		{
 			cbimage.setCbiImage(file.getBytes()); //cbimage entity cbiimage 타입 byte[]로 변경해야됨
 			cbimage.setCbiImagename(file.getOriginalFilename());
 			cbimage.setCbiImagesize(file.getSize());
@@ -60,12 +62,15 @@ public class ClubBoardController {
 			}
 			return "/clubboard/insert";
 			
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 			return "/";
 		}
 	}
 	
+	// 127.0.0.1:9090/ROOT/clubboard/selectlist
 	@GetMapping(value="/selectlist")
 	public String selectlistGET(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text)
 	{
@@ -92,4 +97,35 @@ public class ClubBoardController {
 		}
 	}
 
+	// 127.0.0.1:9090/ROOT/clubboard/select
+	@GetMapping(value="/select")
+	public String selectGET(Model model, @RequestParam(name="cbNo") long cbNo)
+	{
+		try 
+		{
+			model.addAttribute("clubboard", cbService.selectClubBoard(cbNo));
+			return "/clubboard/select?cbNo=" + cbNo;
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "/";
+		}
+	}
+	
+	// 127.0.0.1:9090/ROOT/clubboard/insertreply
+	@PostMapping(value="/insertreply")
+	public String insertreplyPOST(@ModelAttribute CReply cReply)
+	{
+		try 
+		{
+			cbService.insertCReply(cReply);
+			return "/clubboard/select?cbNo=" + cReply.getClubBoard().getCbNo();
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "/";
+		}
+	}
 }
