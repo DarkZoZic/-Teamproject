@@ -3,11 +3,13 @@ package com.example.service.service_3;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.ClubBoard;
 import com.example.repository.repository_3.ClubBoardRepository;
 
+@Service
 public class ClubBoardServiceImpl implements ClubBoardService{
 	@Autowired
 	ClubBoardRepository cbRep;
