@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.repository.repository_3.ClubBoardReactionRepository;
 import com.example.repository.repository_3.ClubBoardRepository;
+import com.example.service.UserDetailsServiceImpl;
 import com.example.service.service_3.ClubBoardImageService;
 import com.example.service.service_3.ClubBoardService;
 import com.example.entity.entity2.ClubBoard;
@@ -46,8 +48,8 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 글쓰기
-	// 127.0.0.1:9090/ROOT/clubboard/insert
-	@PostMapping(value="/insert")
+	// 127.0.0.1:9090/ROOT/clubboard/insertact
+	@PostMapping(value="/insertact")
 	public String insertPOST(@ModelAttribute ClubBoard clubBoard, @ModelAttribute CbImage cbImage, @RequestParam(name="cbimage") MultipartFile file) throws IOException
 	{
 		try 
@@ -119,7 +121,8 @@ public class ClubBoardController {
 		{
 			List<CReply> list = cbService.selectCReplylist(cbNo);
 			
-			model.addAttribute("clubboard", cbService.selectClubBoard(cbNo));
+			
+			model.addAttribute("clubboard", cbService.selectClubBoard(cbNo)); //글상세내용
 			model.addAttribute("cbimage", cbiService.selectClubBoardImage(cbNo)); //이미지
 			model.addAttribute("replylist", list); //댓글
 			
@@ -151,7 +154,8 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 글수정
-	@PostMapping(value="/update")
+	// 127.0.0.1:9090/ROOT/clubboard/updateact
+	@PostMapping(value="/updateact")
 	public String updatePOST(@ModelAttribute ClubBoard clubboard, @ModelAttribute CbImage cbimage, @RequestParam(name="cbimage") MultipartFile file)
 	{
 		try 
@@ -213,12 +217,11 @@ public class ClubBoardController {
 	// 127.0.0.1:9090/ROOT/clubboard/insertreaction
 	// 클럽게시판 글 반응(좋아요/엄지) 넣기
 //	@PostMapping(value="/insertreaction")
-//	public String insertreactionPOST(@ModelAttribute Reaction reaction)
+//	public String insertreactionPOST(@ModelAttribute Reaction reaction) // 반응종류 -> <input type="submit" name="reaction.rType" value="좋아요 or 따봉" />
 //	{
 //		try 
 //		{
-//			reaction.setRCount(1L); //rCount 타입 long으로 변경해야됨
-//			cbrRep.save(reaction);
+//			cbrRep.save(reaction); //rType(반응종류) = "좋아요" or "따봉"
 //		} 
 //		catch (Exception e) 
 //		{
@@ -226,5 +229,4 @@ public class ClubBoardController {
 //			return "redirect:/";
 //		}
 //	}
-	
 }

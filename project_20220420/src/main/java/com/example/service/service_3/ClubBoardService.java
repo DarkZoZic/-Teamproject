@@ -34,7 +34,4 @@ public interface ClubBoardService {
     
     // 클럽게시판 글 반응(좋아요, 엄지)
 //    public int insertReaction(Reaction reaction);
-    
-    // 클럽게시판 글 반응 갯수 표시용
-//    public List<Reaction> selectReactionList();
 }
