@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.example.entity.entity1.Member;
 // import com.example.jwt.JwtUtil;
-import com.example.repository.repository_1.MemberRepository;
+import com.example.repository.MemberRepository;
 import com.example.service.UserDetailsServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;

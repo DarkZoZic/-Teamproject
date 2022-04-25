@@ -1,4 +1,4 @@
-package com.example.repository.repository_1;
+package com.example.repository;
 
 import com.example.entity.entity1.Member;
 
