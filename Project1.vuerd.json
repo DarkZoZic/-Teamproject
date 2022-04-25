@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 4000,
     "height": 4000,
-    "scrollTop": -1700,
-    "scrollLeft": -2202,
-    "zoomLevel": 0.7,
+    "scrollTop": -542,
+    "scrollLeft": -419,
+    "zoomLevel": 0.8,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -19,7 +19,7 @@
     },
     "database": "MySQL",
     "databaseName": "",
-    "canvasType": "ERD",
+    "canvasType": "@vuerd/builtin-generator-code",
     "language": "JPA",
     "tableCase": "pascalCase",
     "columnCase": "camelCase",
@@ -3792,7 +3792,7 @@
         "id": "d25ec154-9169-418b-ad9a-e47db228b988"
       },
       {
-        "name": "MEMBER",
+        "name": "MEMBERTBL",
         "comment": "회원",
         "columns": [
           {
@@ -4004,11 +4004,11 @@
           }
         ],
         "ui": {
-          "active": false,
+          "active": true,
           "left": 249.7777,
           "top": 486.7218,
-          "zIndex": 20,
-          "widthName": 60,
+          "zIndex": 28,
+          "widthName": 75.201171875,
           "widthComment": 60
         },
         "visible": true,
