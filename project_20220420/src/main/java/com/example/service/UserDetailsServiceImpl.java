@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import com.example.entity.entity1.Member;
 import com.example.entity.entity1.MemberPersonal;
-import com.example.repository.repository_1.MemberRepository;
+import com.example.repository.MemberRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
