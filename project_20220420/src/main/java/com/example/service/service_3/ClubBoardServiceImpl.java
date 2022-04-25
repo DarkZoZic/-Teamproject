@@ -55,14 +55,15 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 	// 클럽게시판 글수정
 	@Override
 	public int updateClubBoard(ClubBoard clubBoard) {
-		try {
-			cbRep.save(clubBoard);
+		try 
+		{
+			cbRep.updateOne(clubBoard, clubBoard.getCbNo());
 			return 1;
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			return 0;
 		}
-		
-		
 	}
 	
 	// 클럽게시판 글삭제
@@ -90,6 +91,7 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 		
 	}
 
+	//클럽게시판 댓글목록
 	@Override
 	public List<CReply> selectCReplylist(long cbNo) {
 		try 

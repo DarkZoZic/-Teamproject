@@ -7,5 +7,6 @@ import com.example.entity.entity2.CbImage;
 
 @Repository
 public interface ClubBoardImageRepository extends JpaRepository<CbImage, Long>{
+	public CbImage findByCbiImgcode(long cbiImgcode);
 	
 }
