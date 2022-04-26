@@ -30,7 +30,7 @@ public class ClubGallery {
   // 갤러리번호
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CLUBGALLERY")
-  private String gNo;
+  private Long gNo;
   // 갤러리이름
   @Column(nullable = false)
   private String gName;
@@ -41,7 +41,7 @@ public class ClubGallery {
   private String gDesc;
   // 사진수
   @Column(nullable = false)
-  private String gQty;
+  private Long gQty;
   // 반응
   @ManyToOne
   @JoinColumn(name = "r_id")

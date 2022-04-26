@@ -21,7 +21,7 @@ public class JoinClub {
   // 시퀀스
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_JOINCLUB") // 시퀀스 적용
-  private String no;
+  private Long no;
   // 동호회
   @ManyToOne
   @JoinColumn(name = "c_no")

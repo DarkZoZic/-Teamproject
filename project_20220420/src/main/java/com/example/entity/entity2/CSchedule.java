@@ -1,8 +1,7 @@
 package com.example.entity.entity2;
 
-
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -41,10 +40,10 @@ public class CSchedule {
  private String sContent;
  // 날짜
  @Column(nullable = false)
- private LocalDate sDate;
+ private Date sDate;
  // 동호회번호
  @Column(nullable = false)
- private String cNo;
+ private Long cNo;
  // 스케줄이미지
  @ManyToOne
  @JoinColumn(name = "csi_imgcode")

@@ -30,7 +30,7 @@ public class CsImage {
   // 스케줄이미지 코드
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CSIMAGE")
-  private String csiImgcode;
+  private Long csiImgcode;
   // 스케줄이미지 등록일
   
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
