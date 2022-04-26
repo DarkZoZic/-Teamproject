@@ -29,7 +29,7 @@ public class GImage {
   // 이미지코드
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GIMAGE")
-  private String giImgcode;
+  private Long giImgcode;
 
   // 등록일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
@@ -43,7 +43,7 @@ public class GImage {
   private byte[] giImage;
   // 이미지크기
   @Column(nullable = false)
-  private String giImagesize;
+  private Long giImagesize;
   // 이미지타입
   @Column(nullable = false)
   private String giImagetype;
