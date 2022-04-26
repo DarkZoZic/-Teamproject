@@ -52,7 +52,7 @@ public class CsImage {
   @Column(nullable = false)
   private String csiImagename;
   // 클럽스케쥴
-  @OneToMany(mappedBy = "csImage")
-  @JsonBackReference
-  private List<CSchedule> cScheduleList = new ArrayList<>();
+  // @OneToMany(mappedBy = "csImage")
+  // @JsonBackReference
+  // private List<CSchedule> cScheduleList = new ArrayList<>();
 }

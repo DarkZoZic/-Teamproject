@@ -59,6 +59,6 @@ public class Board1 {
   @JoinColumn(name = "m_id")
   private Member member;
   // 게시판이미지
-  @OneToMany(mappedBy = "board1")
-  private List<BImage> bImageList = new ArrayList<>();
+  // @OneToMany(mappedBy = "board1")
+  // private List<BImage> bImageList = new ArrayList<>();
 }

@@ -74,7 +74,7 @@ public class CReply {
   private Member member;
   // 갤러리
   
-  @OneToMany(mappedBy = "cReply")
-  @JsonBackReference
-  private List<ClubGallery> clubGalleryList = new ArrayList<>();
+  // @OneToMany(mappedBy = "cReply")
+  // @JsonBackReference
+  // private List<ClubGallery> clubGalleryList = new ArrayList<>();
 }

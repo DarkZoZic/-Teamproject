@@ -35,7 +35,7 @@ public class Address {
   // 주소상세
   private String aDetail;
   // 동호회
-  @OneToMany(mappedBy = "address")
-  @JsonBackReference
-  private List<Club> clubList = new ArrayList<>();
+  // @OneToMany(mappedBy = "address")
+  // @JsonBackReference
+  // private List<Club> clubList = new ArrayList<>();
 }

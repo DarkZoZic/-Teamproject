@@ -61,19 +61,19 @@ public class ClubBoard {
   @Column(nullable = false)
   private Long cbDepth = 0L;
   // 댓글
-  @OneToMany(mappedBy = "clubBoard")
-  @JsonBackReference
-  private List<CReply> cReplyList = new ArrayList<>();
-  // 게시판이미지
-  @OneToMany(mappedBy = "clubBoard")
-  @JsonBackReference
-  private List<CbImage> cbImageList = new ArrayList<>();
-  // 동호회
-  @OneToMany(mappedBy = "clubBoard")
-  @JsonBackReference
-  private List<Club> clubList = new ArrayList<>();
-  // 반응
-  @OneToMany(mappedBy = "clubBoard")
-  @JsonBackReference
-  private List<Reaction> reactionList = new ArrayList<>();
+  // @OneToMany(mappedBy = "clubBoard")
+  // @JsonBackReference
+  // private List<CReply> cReplyList = new ArrayList<>();
+  // // 게시판이미지
+  // @OneToMany(mappedBy = "clubBoard")
+  // @JsonBackReference
+  // private List<CbImage> cbImageList = new ArrayList<>();
+  // // 동호회
+  // @OneToMany(mappedBy = "clubBoard")
+  // @JsonBackReference
+  // private List<Club> clubList = new ArrayList<>();
+  // // 반응
+  // @OneToMany(mappedBy = "clubBoard")
+  // @JsonBackReference
+  // private List<Reaction> reactionList = new ArrayList<>();
 }

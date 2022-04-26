@@ -88,15 +88,15 @@ public class Club {
   @JoinColumn(name = "a_code")
   private Address address;
   // 찜
-  @OneToMany(mappedBy = "club")
-  @JsonBackReference
-  private List<Like> likeList = new ArrayList<>();
-  // 채팅
-  @OneToMany(mappedBy = "club")
-  @JsonBackReference
-  private List<Chat> chatList = new ArrayList<>();
-  // 클럽가입
-  @OneToMany(mappedBy = "club")
-  @JsonBackReference
-  private List<JoinClub> joinList = new ArrayList<>();
+  // @OneToMany(mappedBy = "club")
+  // @JsonBackReference
+  // private List<Like> likeList = new ArrayList<>();
+  // // 채팅
+  // @OneToMany(mappedBy = "club")
+  // @JsonBackReference
+  // private List<Chat> chatList = new ArrayList<>();
+  // // 클럽가입
+  // @OneToMany(mappedBy = "club")
+  // @JsonBackReference
+  // private List<JoinClub> joinList = new ArrayList<>();
 }

@@ -59,7 +59,7 @@ public class ClubGallery {
   @JoinColumn(name = "ca_no")
   private ClubAlbum clubAlbum;
   // 동호회
-  @OneToMany(mappedBy = "clubGallery")
-  @JsonBackReference
-  private List<Club> clubList = new ArrayList<>();
+  // @OneToMany(mappedBy = "clubGallery")
+  // @JsonBackReference
+  // private List<Club> clubList = new ArrayList<>();
 }

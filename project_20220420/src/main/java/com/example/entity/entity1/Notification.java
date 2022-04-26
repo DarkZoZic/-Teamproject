@@ -47,7 +47,7 @@ public class Notification {
   @JoinColumn(name = "m_id")
   private Member member;
   // 알림종류
-  @OneToMany(mappedBy = "notification")
-  @JsonBackReference
-  private List<Notype> notypeList = new ArrayList<>();
+  // @OneToMany(mappedBy = "notification")
+  // @JsonBackReference
+  // private List<Notype> notypeList = new ArrayList<>();
 }

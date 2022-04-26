@@ -51,7 +51,7 @@ public class GImage {
   @Column(nullable = false)
   private String giImagename;
   // 갤러리
-  @OneToMany(mappedBy = "gImage")
-  @JsonBackReference
-  private List<ClubGallery> clubGalleryList = new ArrayList<>();
+  // @OneToMany(mappedBy = "gImage")
+  // @JsonBackReference
+  // private List<ClubGallery> clubGalleryList = new ArrayList<>();
 }

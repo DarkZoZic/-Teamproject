@@ -47,7 +47,7 @@ generator = "SEQ_CLUBALBUM") // 시퀀스 적용
 @Column(name = "CAREGDATE",nullable = false)
  private Date caRegdate;
  // 갤러리
- @OneToMany(mappedBy = "clubAlbum")
- @JsonBackReference
- private List<ClubGallery> clubGalleryList = new ArrayList<>();
+//  @OneToMany(mappedBy = "clubAlbum")
+//  @JsonBackReference
+//  private List<ClubGallery> clubGalleryList = new ArrayList<>();
 }

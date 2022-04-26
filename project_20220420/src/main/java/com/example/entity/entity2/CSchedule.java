@@ -49,7 +49,7 @@ public class CSchedule {
  @JoinColumn(name = "csi_imgcode")
  private CsImage csImage;
  // 동호회
- @OneToMany(mappedBy = "cSchedule")
- @JsonBackReference
- private List<Club> clubList = new ArrayList<>();
+//  @OneToMany(mappedBy = "cSchedule")
+//  @JsonBackReference
+//  private List<Club> clubList = new ArrayList<>();
 }
