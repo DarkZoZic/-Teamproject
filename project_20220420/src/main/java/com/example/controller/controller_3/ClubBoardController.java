@@ -90,16 +90,19 @@ public class ClubBoardController {
 		{
 			//1페이지 당 20글 표시
 			PageRequest pageRequest = PageRequest.of(page-1, 20); 
+			System.out.println(pageRequest);
 			
 			//검색어 포함, 1페이지 20글, 글번호 내림차순
 			List<ClubBoard> list = cbRep.findByCbTitleContainingOrderByCbNoDesc(text, pageRequest);
 			model.addAttribute("list", list);
+			System.out.println(list.toString());
 			
 			//페이지네이션 구현용 글 개수 가져와서 model에 넣기
 			long total = cbRep.countByCbTitleContaining(text);
 			
 			//1~20 = 1, 21~40 = 2, 41~60 = 3, ......
 			model.addAttribute("pages", (total-1) / 20 + 1);
+			System.out.println(total);
 			return "/clubboard/selectlist";
 		} 
 		catch (Exception e) 
@@ -110,21 +113,25 @@ public class ClubBoardController {
 	}
 
 	// 클럽게시판 글 상세내용 페이지 (첨부이미지, 댓글 포함)
-	// 127.0.0.1:9090/ROOT/clubboard/select?cbNo=
+	// 127.0.0.1:9090/ROOT/clubboard/select?cbNo=(?)
 	@GetMapping(value="/select")
-	public String selectGET(Model model, @RequestParam(name="cbNo") long cbNo, @RequestParam(name="rType") String rType)
+	public String selectGET(Model model, @RequestParam(name="cbNo") long cbNo
+//			@RequestParam(name="rType") String rType
+			)
 	{
 		try 
 		{
 			List<CReply> list = cbService.selectCReplylist(cbNo);
 			
-			long rtype = cbrRep.selectReactionCount(cbNo, rType);
+//			long rtype = cbrRep.selectReactionCount(cbNo, rType);
 			
 			
 			model.addAttribute("clubboard", cbService.selectClubBoard(cbNo)); //글상세내용
 			model.addAttribute("cbimage", cbiService.selectClubBoardImage(cbNo)); //이미지
 			model.addAttribute("replylist", list); // 댓글
-			model.addAttribute("rtype", rtype); // 좋아요 수
+//			model.addAttribute("rtype", rtype); // 좋아요 수
+			
+			System.out.println(model.toString());
 			
 			return "/clubboard/select?cbNo=" + cbNo;
 		} 
