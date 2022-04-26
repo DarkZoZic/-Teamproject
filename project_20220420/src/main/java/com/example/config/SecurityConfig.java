@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import oracle.net.aso.h;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
@@ -39,6 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         // super.configure(http);
         http.csrf().ignoringAntMatchers("/h2-console/**");
         http.headers().frameOptions().sameOrigin();
+
+        // 추가한 부분. 문제시 다시 찾아봐야 함
+        http.csrf().disable(); 
 
         // // rest controller 사용
         // http.csrf().ignoringAntMatchers("/api/**");
