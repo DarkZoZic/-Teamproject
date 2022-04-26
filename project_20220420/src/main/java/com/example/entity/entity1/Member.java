@@ -67,43 +67,43 @@ public class Member {
   @JoinColumn(name = "cg_code")
   private Category category;
   // 알림
-  @OneToMany(mappedBy = "member")
-  @JsonBackReference
-  private List<Notification> notificationList = new ArrayList<>();
-  // 클럽가입
-  @OneToMany(mappedBy = "member")
-  @JsonBackReference
-  private List<JoinClub> joinList = new ArrayList<>();
-  // 댓글
-  @OneToMany(mappedBy = "member")
-  @JsonBackReference
-  private List<CReply> cReplyList = new ArrayList<>();
-  // QNA
-  @OneToMany(mappedBy = "member")
-  @JsonBackReference
-  private List<Qna> qnaList = new ArrayList<>();
-  // 찜
-  @OneToMany(mappedBy = "member")
-  @JsonBackReference
-  private List<Like> likeList = new ArrayList<>();
-  // 채팅
-  @OneToMany(mappedBy = "member")
-  @JsonBackReference
-  private List<Chat> chatList = new ArrayList<>();
-  // 게시판
-  @OneToMany(mappedBy = "member")
-  @JsonBackReference
-  private List<Board1> board1List = new ArrayList<>();
-  // 후기
-  @OneToMany(mappedBy = "member")
-  @JsonBackReference
-  private List<Rating> ratingList = new ArrayList<>();
-  // 개인회원
-  @OneToMany(mappedBy = "member")
-  @JsonBackReference
-  private List<MemberPersonal> memberPersonalList = new ArrayList<>();
-  // 기업회원
-  @OneToMany(mappedBy = "member")
-  @JsonBackReference
-  private List<MemberCompany> memberCompanyList = new ArrayList<>();
+  // @OneToMany(mappedBy = "member")
+  // @JsonBackReference
+  // private List<Notification> notificationList = new ArrayList<>();
+  // // 클럽가입
+  // @OneToMany(mappedBy = "member")
+  // @JsonBackReference
+  // private List<JoinClub> joinList = new ArrayList<>();
+  // // 댓글
+  // @OneToMany(mappedBy = "member")
+  // @JsonBackReference
+  // private List<CReply> cReplyList = new ArrayList<>();
+  // // QNA
+  // @OneToMany(mappedBy = "member")
+  // @JsonBackReference
+  // private List<Qna> qnaList = new ArrayList<>();
+  // // 찜
+  // @OneToMany(mappedBy = "member")
+  // @JsonBackReference
+  // private List<Like> likeList = new ArrayList<>();
+  // // 채팅
+  // @OneToMany(mappedBy = "member")
+  // @JsonBackReference
+  // private List<Chat> chatList = new ArrayList<>();
+  // // 게시판
+  // @OneToMany(mappedBy = "member")
+  // @JsonBackReference
+  // private List<Board1> board1List = new ArrayList<>();
+  // // 후기
+  // @OneToMany(mappedBy = "member")
+  // @JsonBackReference
+  // private List<Rating> ratingList = new ArrayList<>();
+  // // 개인회원
+  // @OneToMany(mappedBy = "member")
+  // @JsonBackReference
+  // private List<MemberPersonal> memberPersonalList = new ArrayList<>();
+  // // 기업회원
+  // @OneToMany(mappedBy = "member")
+  // @JsonBackReference
+  // private List<MemberCompany> memberCompanyList = new ArrayList<>();
 }

@@ -21,6 +21,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 	"com.example.service.service_2",
 	"com.example.service.service_3",
 	"com.example.service.service_4", 
+	"com.example.jwt", 
 
 })
 
