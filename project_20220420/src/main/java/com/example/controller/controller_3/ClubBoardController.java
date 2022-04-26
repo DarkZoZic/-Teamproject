@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.repository.repository_3.CReplyRepository;
+import com.example.repository.repository_3.ClubBoardImageRepository;
 import com.example.repository.repository_3.ClubBoardReactionRepository;
 import com.example.repository.repository_3.ClubBoardRepository;
 import com.example.service.service_3.ClubBoardImageService;
@@ -43,6 +44,9 @@ public class ClubBoardController {
 	@Autowired
 	CReplyRepository crRep;
 	
+	@Autowired
+	ClubBoardImageRepository cbiRep;
+	
 	@GetMapping(value="/insert")
 	public String insertGET()
 	{
@@ -65,20 +69,10 @@ public class ClubBoardController {
 				cbImage.setCbiImagetype(file.getContentType());
 			}
 			
-			int ret = cbService.insertClubBoard(clubBoard);
-			int ret1 = cbiService.insertClubBoardImage(cbImage);
+			cbRep.save(clubBoard);
+			cbiRep.save(cbImage);
 			
-			if(ret == 1)
-			{
-				System.out.println(ret);
-				if(ret1 == 1)
-				{
-					System.out.println(ret1);
-					return "redirect:/clubboard/selectlist";
-				}
-				return "redirect:/clubboard/insert";
-			}
-			return "redirect:/clubboard/insert";	
+			return "redirect:/clubboard/selectlist";
 		} 
 		catch (Exception e) 
 		{

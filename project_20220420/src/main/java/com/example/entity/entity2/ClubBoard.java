@@ -43,7 +43,7 @@ public class ClubBoard {
   private String cbContent;
   // 클럽글조회수
   @Column(nullable = false)
-  private String cbHit;
+  private Long cbHit = 0L;
   // 클럽글작성일
 @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 @CreationTimestamp // CURRENT_DATE
@@ -59,7 +59,7 @@ public class ClubBoard {
   private Date cbUpdatedate;
   // 클럽글깊이
   @Column(nullable = false)
-  private String cbDepth;
+  private Long cbDepth = 0L;
   // 댓글
   @OneToMany(mappedBy = "clubBoard")
   @JsonBackReference
