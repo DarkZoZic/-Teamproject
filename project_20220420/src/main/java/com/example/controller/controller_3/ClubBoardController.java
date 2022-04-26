@@ -5,13 +5,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.repository.repository_3.CReplyRepository;
 import com.example.repository.repository_3.ClubBoardReactionRepository;
 import com.example.repository.repository_3.ClubBoardRepository;
-import com.example.service.UserDetailsServiceImpl;
 import com.example.service.service_3.ClubBoardImageService;
 import com.example.service.service_3.ClubBoardService;
 import com.example.entity.entity2.ClubBoard;
@@ -53,12 +50,13 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 글쓰기
-	// 127.0.0.1:9090/ROOT/clubboard/insertact
-	@PostMapping(value="/insertact")
-	public String insertPOST(@ModelAttribute ClubBoard clubBoard, @ModelAttribute CbImage cbImage, @RequestParam(name="cbimage") MultipartFile file) throws IOException
+	// 127.0.0.1:9090/ROOT/clubboard/insert
+	@PostMapping(value="/insert")
+	public String insertPOST(@ModelAttribute ClubBoard clubBoard, @RequestParam(name="file") MultipartFile file) throws IOException
 	{
 		try 
 		{
+			CbImage cbImage = new CbImage();
 			if(file != null)
 			{
 				cbImage.setCbiImage(file.getBytes()); 
@@ -72,15 +70,15 @@ public class ClubBoardController {
 			
 			if(ret == 1)
 			{
+				System.out.println(ret);
 				if(ret1 == 1)
 				{
+					System.out.println(ret1);
 					return "redirect:/clubboard/selectlist";
 				}
-				cbRep.deleteById(clubBoard.getCbNo()); //글 작성했을 때 이미지값(파일 or null값) 업로드에 실패하면 글 삭제
-				return "/clubboard/insert";
+				return "redirect:/clubboard/insert";
 			}
-			return "redirect:/clubboard/insert";
-			
+			return "redirect:/clubboard/insert";	
 		} 
 		catch (Exception e) 
 		{
@@ -120,16 +118,19 @@ public class ClubBoardController {
 	// 클럽게시판 글 상세내용 페이지 (첨부이미지, 댓글 포함)
 	// 127.0.0.1:9090/ROOT/clubboard/select?cbNo=
 	@GetMapping(value="/select")
-	public String selectGET(Model model, @RequestParam(name="cbNo") long cbNo)
+	public String selectGET(Model model, @RequestParam(name="cbNo") long cbNo, @RequestParam(name="rType") String rType)
 	{
 		try 
 		{
 			List<CReply> list = cbService.selectCReplylist(cbNo);
 			
+			long rtype = cbrRep.selectReactionCount(cbNo, rType);
+			
 			
 			model.addAttribute("clubboard", cbService.selectClubBoard(cbNo)); //글상세내용
 			model.addAttribute("cbimage", cbiService.selectClubBoardImage(cbNo)); //이미지
-			model.addAttribute("replylist", list); //댓글
+			model.addAttribute("replylist", list); // 댓글
+			model.addAttribute("rtype", rtype); // 좋아요 수
 			
 			return "/clubboard/select?cbNo=" + cbNo;
 		} 
@@ -139,6 +140,8 @@ public class ClubBoardController {
 			return "redirect:/";
 		}
 	}
+	
+	
 	
 	// 클럽게시판 글삭제
 	// 127.0.0.1:9090/ROOT/clubboard/delete
@@ -176,8 +179,8 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 글수정
-	// 127.0.0.1:9090/ROOT/clubboard/updateact
-	@PostMapping(value="/updateact")
+	// 127.0.0.1:9090/ROOT/clubboard/update
+	@PostMapping(value="/update")
 	public String updatePOST(@ModelAttribute ClubBoard clubboard, @ModelAttribute CbImage cbimage, @RequestParam(name="cbimage") MultipartFile file)
 	{
 		try 
@@ -262,7 +265,6 @@ public class ClubBoardController {
 	{
 		try 
 		{
-			
 			cbrRep.save(reaction); //rType(반응종류) = "좋아요" or "따봉"
 			return "redirect:/clubboard/select?cbNo=" + cbNo;
 		} 
