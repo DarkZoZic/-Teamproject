@@ -11,10 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.repository.repository_3.CReplyRepository;
 import com.example.repository.repository_3.ClubBoardReactionRepository;
 import com.example.repository.repository_3.ClubBoardRepository;
 import com.example.service.UserDetailsServiceImpl;
@@ -40,6 +42,9 @@ public class ClubBoardController {
 	
 	@Autowired
 	ClubBoardReactionRepository cbrRep;
+	
+	@Autowired
+	CReplyRepository crRep;
 	
 	@GetMapping(value="/insert")
 	public String insertGET()
@@ -113,7 +118,7 @@ public class ClubBoardController {
 	}
 
 	// 클럽게시판 글 상세내용 페이지 (첨부이미지, 댓글 포함)
-	// 127.0.0.1:9090/ROOT/clubboard/select
+	// 127.0.0.1:9090/ROOT/clubboard/select?cbNo=
 	@GetMapping(value="/select")
 	public String selectGET(Model model, @RequestParam(name="cbNo") long cbNo)
 	{
@@ -135,8 +140,25 @@ public class ClubBoardController {
 		}
 	}
 	
+	// 클럽게시판 글삭제
+	// 127.0.0.1:9090/ROOT/clubboard/delete
+	@PostMapping(value="/delete")
+	public String deletePOST(@ModelAttribute ClubBoard clubboard)
+	{
+		try 
+		{
+			cbRep.deleteById(clubboard.getCbNo());
+			return "redirect:/clubboard/selectlist";
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
+	
 	// 클럽게시판 글수정 페이지
-	// 127.0.0.1:9090/ROOT/clubboard/update
+	// 127.0.0.1:9090/ROOT/clubboard/update?cbNo=
 	@GetMapping(value="/update")
 	public String updateGET(Model model, @RequestParam(name="cbNo") long cbNo)
 	{
@@ -214,19 +236,40 @@ public class ClubBoardController {
 		}
 	}
 	
+	// 클럽게시판 댓글삭제
+	// 127.0.0.1:9090/ROOT/clubboard/deletereply
+	// {"reNumber":""}
+	@PostMapping(value="/deletereply")
+	public String deletereplyPOST(@ModelAttribute CReply creply)
+	{
+		try 
+		{
+			crRep.deleteById(creply.getReNumber());
+			return "redirect:/clubboard/selectlist";
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
+	
 	// 127.0.0.1:9090/ROOT/clubboard/insertreaction
 	// 클럽게시판 글 반응(좋아요/엄지) 넣기
-//	@PostMapping(value="/insertreaction")
-//	public String insertreactionPOST(@ModelAttribute Reaction reaction) // 반응종류 -> <input type="submit" name="reaction.rType" value="좋아요 or 따봉" />
-//	{
-//		try 
-//		{
-//			cbrRep.save(reaction); //rType(반응종류) = "좋아요" or "따봉"
-//		} 
-//		catch (Exception e) 
-//		{
-//			e.printStackTrace();
-//			return "redirect:/";
-//		}
-//	}
+	@PostMapping(value="/insertreaction")
+	public String insertreactionPOST(@ModelAttribute Reaction reaction, @RequestParam(name="cbNo") long cbNo) 
+	// 반응종류 -> <input type="submit" name="reaction.rType" value="좋아요 or 따봉" />
+	{
+		try 
+		{
+			
+			cbrRep.save(reaction); //rType(반응종류) = "좋아요" or "따봉"
+			return "redirect:/clubboard/select?cbNo=" + cbNo;
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
 }

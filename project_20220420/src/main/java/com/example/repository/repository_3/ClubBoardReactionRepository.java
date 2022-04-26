@@ -11,4 +11,6 @@ public interface ClubBoardReactionRepository extends JpaRepository<Reaction, Str
 	// rType(반응종류) 에 따른 각 반응의 총 갯수 각각 구하기(좋아요 ?개, 따봉 ?개, ...)
 	@Query(value = "SELECT COUNT(*) FROM REACTION WHERE RTYPE=:#{#obj.rtype}", nativeQuery=true)
 	public long selectReactionCount(@Param(value="obj") String rtype);
+	
+	
 }

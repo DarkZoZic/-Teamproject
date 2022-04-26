@@ -36,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
         // UserDetails -> User
         User user = new User(member.getMId(), member.getMPw(), roles);
-        return null;
+        return user;
     }
     
 }
