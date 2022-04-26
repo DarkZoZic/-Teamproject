@@ -45,8 +45,6 @@ public class Project20220420Application {
 		SpringApplication.run(Project20220420Application.class, args);
 		System.out.println("====success===");
 
-
-
 		
 	}
 

@@ -3,6 +3,19 @@ package com.example.controller.controller_2;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.example.entity.entity1.Member;
 import com.example.entity.entity1.MemberPersonal;
 import com.example.jwt.JwtUtil;
@@ -10,18 +23,6 @@ import com.example.repository.MemberPSRepository;
 import com.example.repository.MemberRepository;
 import com.example.service.UserDetailsServiceImpl;
 import com.example.service.service_2.MemberService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 // backend만 구현함. 화면구현 X, vue.js 또는 react.js 연동
 
@@ -107,25 +108,28 @@ public class CustomerRestController {
 	// 개인회원가입(고객만customer)
 	// 127.0.0.1:9090/ROOT/member/psjoin.json
 	//{"mid":"c1", "mpw":"c1" };
-	@RequestMapping(value = "/psjoin.json", 
-			method = { RequestMethod.POST },
-			consumes = { MediaType.ALL_VALUE },
-			produces = { MediaType.APPLICATION_JSON_VALUE })
+//	@RequestMapping(value = "/psjoin.json", 
+//			method = { RequestMethod.POST },
+//			consumes = { MediaType.ALL_VALUE },
+//			produces = { MediaType.APPLICATION_JSON_VALUE })
+	
+	@PostMapping(value = "/psjoin.json", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> PersonalJoinPost(
-			@RequestBody Map<String, Object> psmemberpersonal){
-			System.out.println(psmemberpersonal.toString());
+			@RequestBody MemberPersonal psmember){
+		
+			System.out.println(psmember.toString());
 			Map<String, Object> map = new HashMap<>();
 		try {
-			MemberPersonal psmember = new MemberPersonal();
+//			MemberPersonal psmember = new MemberPersonal();
 
-			Member member = new Member();
-			member.setMId((String) psmemberpersonal.get("m_id"));
-			System.out.println(member);
-			psmember.setMember(member);
-			System.out.println(member);
-
-			
-			mpsRepository.save(psmember);
+//			Member member = new Member();
+//			member.setMId((String) psmemberpersonal.get("m_id"));
+//			System.out.println(member);
+//			psmember.setMember(member);
+//			System.out.println(member);
+//
+//			
+//			mpsRepository.save(psmember);
 			map.put("status", 200);
             }
             catch (Exception e) {

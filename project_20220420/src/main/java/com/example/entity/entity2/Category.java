@@ -36,11 +36,11 @@ public class Category {
  @Column(nullable = false)
  private String cgCate2;
  // 동호회
- @OneToMany(mappedBy = "category")
- @JsonBackReference
- private List<Club> clubList = new ArrayList<>();
- // 회원
- @OneToMany(mappedBy = "category")
- @JsonBackReference
- private List<Member> memberList = new ArrayList<>();
+// @OneToMany(mappedBy = "category")
+// @JsonBackReference
+// private List<Club> clubList = new ArrayList<>();
+// // 회원
+// @OneToMany(mappedBy = "category")
+// @JsonBackReference
+// private List<Member> memberList = new ArrayList<>();
 }
