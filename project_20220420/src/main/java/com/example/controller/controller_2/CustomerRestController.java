@@ -6,6 +6,7 @@ import java.util.Map;
 import com.example.entity.entity1.Member;
 import com.example.entity.entity1.MemberPersonal;
 import com.example.jwt.JwtUtil;
+import com.example.repository.MemberPSRepository;
 import com.example.repository.MemberRepository;
 import com.example.service.UserDetailsServiceImpl;
 import com.example.service.service_2.MemberService;
@@ -36,6 +37,7 @@ public class CustomerRestController {
 
 	@Autowired UserDetailsServiceImpl userDetailservice;
 
+	@Autowired MemberPSRepository mpsRepository;
 	// 로그인
 	// 127.0.0.1:9090/ROOT/member/login
 	//{"mId":"c1", "mPw":"c1" };
@@ -44,7 +46,7 @@ public class CustomerRestController {
 			consumes = { MediaType.ALL_VALUE },
 			produces = { MediaType.APPLICATION_JSON_VALUE })
 	public Map<String, Object> customerLoginPost(
-		@RequestBody Member member){
+		@ModelAttribute Member member){
 		Map<String, Object> map = new HashMap<>();
 		map.put("status", 0); // 정상적이지 않을때
 
@@ -105,24 +107,32 @@ public class CustomerRestController {
 	// 개인회원가입(고객만customer)
 	// 127.0.0.1:9090/ROOT/member/psjoin.json
 	//{"mid":"c1", "mpw":"c1" };
-	// @RequestMapping(value = "/psjoin.json", 
-	// 		method = { RequestMethod.POST },
-	// 		consumes = { MediaType.ALL_VALUE },
-	// 		produces = { MediaType.APPLICATION_JSON_VALUE })
-	// public Map<String, Object> PersonalJoinPost(
-	// 		@ModelAttribute MemberPersonal memberpersonal){
-	// 		System.out.println(memberpersonal.toString());
-	// 		Map<String, Object> map = new HashMap<>();
-	// 	try {
+	@RequestMapping(value = "/psjoin.json", 
+			method = { RequestMethod.POST },
+			consumes = { MediaType.ALL_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> PersonalJoinPost(
+			@RequestBody Map<String, Object> psmemberpersonal){
+			System.out.println(psmemberpersonal.toString());
+			Map<String, Object> map = new HashMap<>();
+		try {
+			MemberPersonal psmember = new MemberPersonal();
+
+			Member member = new Member();
+			member.setMId((String) psmemberpersonal.get("m_id"));
+			System.out.println(member);
+			psmember.setMember(member);
+			System.out.println(member);
+
 			
-	
-	// 		map.put("status", 200);
-    //         }
-    //         catch (Exception e) {
-    //             e.printStackTrace();
-    //             map.put("status", 0);
-    //         }
+			mpsRepository.save(psmember);
+			map.put("status", 200);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                map.put("status", 0);
+            }
             
-    //         return map;
-    //     }
+            return map;
+        }
 }

@@ -17,25 +17,27 @@ import org.springframework.stereotype.Service;
 
 // 로그인에서 버튼을 누르면 서비스로 이메일이 전달됨
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService{
+public class UserDetailsServiceImpl implements 
+    UserDetailsService{
 
     @Autowired MemberRepository mRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("UserDetailsService: " + username);
-        Member member = mRepository.findBymId(username);
+        Member member = mRepository.getById(username);
         System.out.println(member.toString());
-        MemberPersonal MPersonal = new MemberPersonal();
 
         // 권한 정보를 문자열 배열로 만듦
-        String[] strRole = { MPersonal.getMpRole() };
+        String[] strRole = { member.getMAddress(), member.getMPhone() };
 
         // String 배열 권한을 Collection<Granted...>로 변환함
-        Collection<GrantedAuthority> roles = AuthorityUtils.createAuthorityList(strRole);
+        Collection<GrantedAuthority> roles = 
+            AuthorityUtils.createAuthorityList(strRole);
 
         // UserDetails -> User
-        User user = new User(member.getMId(), member.getMPw(), roles);
+        User user = 
+        new User(member.getMId(), member.getMPw(), roles);
         return user;
     }
     
