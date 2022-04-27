@@ -155,8 +155,9 @@ public class ClubBoardController {
 	{
 		try 
 		{
-			cbiRep.deleteByClubBoard_cbNo(cbNo);
-			cbRep.deleteById(cbNo);
+			cbiRep.deleteByClubBoard_cbNo(cbNo); //글에 첨부된 이미지 삭제
+			// 글에 달린 댓글삭제 아직 미구현
+			cbRep.deleteById(cbNo); //글 삭제
 			
 			return "redirect:/clubboard/selectlist";
 		} 
@@ -215,8 +216,6 @@ public class ClubBoardController {
 				{
 					return "/clubboard/select?cbNo=" + clubboard.getCbNo();
 				}
-				cbRep.deleteById(clubboard.getCbNo());
-				return "redirect:/clubboard/update?cbNo=" + clubboard.getCbNo();
 			}
 			return "redirect:/clubboard/update?cbNo=" + clubboard.getCbNo();
 		} 
@@ -234,7 +233,7 @@ public class ClubBoardController {
 	{
 		try 
 		{
-			System.out.println(cReply.getClubBoard().getCbNo());
+			System.out.println(cReply.getClubBoard().getCbNo()); // 글번호 프론트에서 보내줘야됨
 			cbService.insertCReply(cReply);
 			model.addAttribute("reply", cReply);
 			return "redirect:/clubboard/select?cbNo=" + cReply.getClubBoard().getCbNo();
@@ -267,13 +266,14 @@ public class ClubBoardController {
 	// 127.0.0.1:9090/ROOT/clubboard/insertreaction
 	// 클럽게시판 글 반응(좋아요/엄지) 넣기
 	@PostMapping(value="/insertreaction")
-	public String insertreactionPOST(@ModelAttribute Reaction reaction, @RequestParam(name="cbNo") long cbNo) 
+	public String insertreactionPOST(@ModelAttribute Reaction reaction, @RequestParam(name="cbNo") ClubBoard cbNo) 
 	// 반응종류 -> <input type="submit" name="reaction.rType" value="좋아요 or 따봉" />
 	{
 		try 
 		{
+			reaction.setClubBoard(cbNo);
 			cbrRep.save(reaction); //rType(반응종류) = "좋아요" or "따봉"
-			return "redirect:/clubboard/select?cbNo=" + cbNo;
+			return "redirect:/clubboard/select?cbNo=" + cbNo.getCbNo();
 		} 
 		catch (Exception e) 
 		{
