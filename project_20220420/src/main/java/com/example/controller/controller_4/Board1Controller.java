@@ -68,6 +68,49 @@ public class Board1Controller {
         }
     }
 
+    // 수정
+    @GetMapping(value = "/update")
+    public String updateGET(Model model, @RequestParam(name = "bNo") long bNo){
+        try{
+            Board1 board1 = b1Repository.findById(bNo).orElse(null);
+            model.addAttribute("brd", board1);
+            // return "/board/update";
+            return "/home";
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            // return "redirect:/board/selectone";
+            return "redirect:/home";
+        }
+       
+    }
+
+    @PostMapping(value = "/update")
+    public String updatePOST(Model model, @ModelAttribute Board1 board1){
+        try{
+            // 기존 내용을 읽음
+            Board1 updateBoard = b1Repository.findById(board1.getBNo()).orElse(null);
+
+            // 변경할 항목만 board1에 다시 저장 (기존 내용에서 수정된 내용 덮어씌우기)
+            updateBoard.setBTitle( board1.getBTitle() );
+            updateBoard.setBContent( board1.getBContent() );
+
+            // 수정하고 저장하기
+            b1Repository.save(updateBoard);
+
+            return "redirect:/home";
+            // return "redirect:/board/selectlist?bNo=" + board1.getBNo();
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            // return "redirect:/board/selectone";
+            return "redirect:/home";
+        }
+	
+    }
+
     // 목록
     // http://127.0.0.1:9090/ROOT/board1/selectlist?page=1&title=y
     // @GetMapping(value = "/selectlist")
@@ -155,46 +198,7 @@ public class Board1Controller {
 
     // }
 
-    // 수정
-    // @GetMapping(value = "/update")
-    // public String updateGET(Model model, @RequestParam(name = "bNo") long bNo){
-    //     try{
-    //         Board1 board1 = b1Repository.findById(bNo).orElse(null);
-    //         model.addAttribute("brd", board1);
-    //         return "/board/update";
 
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         return "redirect:/board/selectone";
-    //     }
-       
-    // }
-
-    // @PostMapping(value = "/update")
-    // public String updatePOST(Model model, @ModelAttribute Board1 board1){
-
-    //     try{
-
-    //         // 기존 내용을 읽음
-    //         Board1 uptboard = b1Repository.findById(board1.getBNo()).orElse(null);
-
-    //         // 변경할 항목만 board1에 다시 저장 (기존 내용에서 수정된 내용 덮어씌우기)
-    //         uptboard.setBTitle( board1.getBTitle() );
-    //         uptboard.setBContent( board1.getBContent() );
-
-    //         // 수정하고 저장하기
-    //         b1Repository.save(uptboard);
-
-    //         return "redirect:/board/selectlist?bNo=" + board1.getBNo();
-
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         return "redirect:/board/selectone";
-    //     }
-	
-    // }
 
     // 삭제
     // @PostMapping(value = "/delete")

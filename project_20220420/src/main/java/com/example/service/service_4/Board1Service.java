@@ -12,8 +12,8 @@ public interface Board1Service {
     // 글쓰기
     public int insertBoard1One(Board1 board1);
 
-    // // 1개 수정
-    // public int updateBoard1One(Board1 board1);
+    // 1개 수정
+    public int updateBoard1One(Board1 board1);
 
     // // 1개 삭제
     // public int deleteBoard1One(Long bNo);

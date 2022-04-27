@@ -25,59 +25,42 @@ public class Board1ServiceImpl implements Board1Service{
 
     @Override
     public int insertBoard1One(Board1 board1) {
-        EntityManager em = emf.createEntityManager();
+       
         try{
-            em.getTransaction().begin();
-
             Board1 insertBoard = new Board1();
             insertBoard.setBTitle(board1.getBTitle());
             insertBoard.setBContent(board1.getBContent());
-            insertBoard.setMember(board1.getMember());
-
-
-
-            em.persist(insertBoard); // 일종의 save
-           
+            insertBoard.setMember(board1.getMember());    
 
             b1Repository.save(board1);
+            return 1;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }        
+    }
 
-            em.getTransaction().commit();
+    @Override
+    public int updateBoard1One(Board1 board1) {
+        try{
+            Board1 updateBoard = new Board1();
+
+            // 변경할 항목만 set
+            updateBoard.setBTitle( board1.getBTitle() );
+            updateBoard.setBContent( board1.getBContent() );
+            // updateBoard.setBImageList( board1.getBImageList() ); // 이미지 이렇게 해도 되나?
+           
+
+            b1Repository.save(updateBoard);
             return 1;
 
         }
         catch(Exception e){
             e.printStackTrace();
-            em.getTransaction().rollback();
             return 0;
-
         }
     }
-
-    // @Override
-    // public int updateBoard1One(Board1 board1) {
-    //     EntityManager em = emf.createEntityManager();
-    //     try{
-    //         em.getTransaction().begin();
-
-    //         Board1 updateboard1 = new Board1();
-    //         Board1 oldBoard = em.find(Board1.class, board1.getBNo());
-
-    //         // 변경할 항목만 set
-    //         oldBoard.setBTitle( updateboard1.getBTitle() );
-    //         oldBoard.setBContent( updateboard1.getBContent() );
-    //         oldBoard.setBImageList( updateboard1.getBImageList() ); // 이미지 이렇게 해도 되나?
-    //         em.persist(oldBoard);
-            
-    //         em.getTransaction().commit();
-
-    //         return 1;
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         em.getTransaction().rollback();
-    //         return 0;
-    //     }
-    // }
 
     // @Override
     // public int deleteBoard1One(Long bNo) {
@@ -86,16 +69,15 @@ public class Board1ServiceImpl implements Board1Service{
     //         em.getTransaction().begin();
 
     //         em.remove(bNo);
-            
+        
     //         em.getTransaction().commit();
     //         return 1;
     //     }
     //     catch(Exception e){
     //         e.printStackTrace();
-    //         em.getTransaction().rollback();
     //         return 0;
     //     }
-    // }
+    //  }
 
     // @Override
     // public int deleteBoard1Batch(Long[] bNo) {
@@ -115,21 +97,36 @@ public class Board1ServiceImpl implements Board1Service{
     //     }
     //     catch(Exception e){
     //         e.printStackTrace();
-    //         em.getTransaction().rollback();
     //         return 0;
     //     }
     // }
 
     // @Override
     // public int updateBoard1HitOne(Long bNo) {
-    //     // TODO Auto-generated method stub
-    //     return 0;
+    //     try{
+    //         iRepository.save(item);
+    //         return 1;
+
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         return 0;
+    //     }
+
     // }
 
     // @Override
     // public Board1 selectBoard1One(Long bNo) {
-    //     // TODO Auto-generated method stub
-    //     return null;
+    //     try{
+    //         iRepository.save(item);
+    //         return 1;
+
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         return 0;
+    //     }
+
     // }
 
 
