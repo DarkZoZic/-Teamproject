@@ -50,10 +50,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
         // // 페이지별 접근 권한 설정
         http.authorizeRequests()
-        .antMatchers("/security_admin", "/security_admin/**")
-        .hasAuthority("ADMIN")
-        .antMatchers("/security_customer", "/security_customer/**")
-        .hasAnyAuthority("ADMIN", "CUSTOMER")
+        .antMatchers("/admin","/admin/**")
+            .hasAuthority("ADMIN")
+        .antMatchers("/company","/company/**")
+            .hasAnyAuthority("ADMIN","COMPANY")
+        .antMatchers("/personal","/personal/**")
+            .hasAuthority("PERSONAL")
         // .antMatchers("/security_customer", "/security_customer/**")
         // .hasAuthority("CUSTOMER")
         .anyRequest().permitAll();

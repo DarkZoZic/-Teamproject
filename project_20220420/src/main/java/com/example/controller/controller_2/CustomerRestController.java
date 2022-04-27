@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.entity.entity1.Member;
+import com.example.entity.entity1.MemberCompany;
 import com.example.entity.entity1.MemberPersonal;
 import com.example.jwt.JwtUtil;
+import com.example.repository.MemberCPRepository;
 import com.example.repository.MemberPSRepository;
 import com.example.repository.MemberRepository;
 import com.example.service.UserDetailsServiceImpl;
@@ -31,7 +35,6 @@ import com.example.service.service_2.MemberService;
 public class CustomerRestController {
     
 	@Autowired MemberRepository mRepository;
-	@Autowired MemberRepository mRepository2;
 	@Autowired MemberService mService;
 
 	@Autowired JwtUtil jwtUtil;
@@ -39,6 +42,27 @@ public class CustomerRestController {
 	@Autowired UserDetailsServiceImpl userDetailservice;
 
 	@Autowired MemberPSRepository mpsRepository;
+
+	@Autowired MemberCPRepository cpRepository;
+
+	// 마이페이지
+	// 127.0.0.1:9090/ROOT/member/mypage
+	@RequestMapping(value = "/mypage", 
+	//{"uemail":"c1", "upw":"c1" };
+			method = { RequestMethod.GET },
+			consumes = { MediaType.ALL_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> customerMypageGet(
+		@RequestHeader(name = "TOKEN") String token){
+		String username = jwtUtil.extractUsername(token);
+		System.out.println(username);
+
+		// 토큰이 있어야 실행됨
+		Map<String, Object> map = new HashMap<>();
+		map.put("status", 200); 
+		return map;
+	}
+
 	// 로그인
 	// 127.0.0.1:9090/ROOT/member/login
 	//{"mId":"c1", "mPw":"c1" };
@@ -105,31 +129,32 @@ public class CustomerRestController {
             
             return map;
         }
-	// 개인회원가입(고객만customer)
+	// 개인회원가입(개인회원)
 	// 127.0.0.1:9090/ROOT/member/psjoin.json
 	//{"mid":"c1", "mpw":"c1" };
-//	@RequestMapping(value = "/psjoin.json", 
-//			method = { RequestMethod.POST },
-//			consumes = { MediaType.ALL_VALUE },
-//			produces = { MediaType.APPLICATION_JSON_VALUE })
 	
-	@PostMapping(value = "/psjoin.json", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	
+	@PostMapping(value = "/psjoin.json", 
+	consumes = MediaType.ALL_VALUE, 
+	produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> PersonalJoinPost(
-			@RequestBody MemberPersonal psmember){
-		
-			System.out.println(psmember.toString());
+		@ModelAttribute MemberPersonal psmemberpersonal){
+			// 배열 형식이면 ModelAttribute, 폼데이터 사용
+			System.out.println(psmemberpersonal.toString());
 			Map<String, Object> map = new HashMap<>();
 		try {
-//			MemberPersonal psmember = new MemberPersonal();
+			
+			Member member = new Member();
+			member.setMId((String) psmemberpersonal.getMember().getMId());
 
-//			Member member = new Member();
-//			member.setMId((String) psmemberpersonal.get("m_id"));
-//			System.out.println(member);
-//			psmember.setMember(member);
-//			System.out.println(member);
-//
-//			
-//			mpsRepository.save(psmember);
+			// System.out.println(member.toString());
+			// mpsRepository.getById(mid);
+
+			// psmember.setMember(member);
+			// System.out.println(member);
+
+			
+			mpsRepository.save(psmemberpersonal);
 			map.put("status", 200);
             }
             catch (Exception e) {
@@ -139,4 +164,38 @@ public class CustomerRestController {
             
             return map;
         }
+		// 기업회원가입(Company)
+	// 127.0.0.1:9090/ROOT/member/cpjoin.json
+	//{"mid":"c1", "mpw":"c1" };
+	@RequestMapping(value = "/cpjoin.json", 
+	method = { RequestMethod.POST },
+	consumes = { MediaType.ALL_VALUE },
+	produces = { MediaType.APPLICATION_JSON_VALUE })
+public Map<String, Object> CompanyJoinPost(
+	@ModelAttribute MemberCompany cpmember){
+	System.out.println(cpmember.toString());
+	Map<String, Object> map = new HashMap<>();
+try {
+
+	Member member = new Member();
+	member.setMId((String) cpmember.getMember().getMId());
+	System.out.println(member);
+
+	// System.out.println(psmemberpersonal.get("m_id"));
+	// member.setMId((String) psmemberpersonal.get("m_id"));
+	// System.out.println(memberps.toString());
+	// psmember.setMember(member);
+	// System.out.println(member);
+
+	
+	cpRepository.save(cpmember);
+	map.put("status", 200);
+	}
+	catch (Exception e) {
+		e.printStackTrace();
+		map.put("status", 0);
+	}
+	
+	return map;
+}
 }
