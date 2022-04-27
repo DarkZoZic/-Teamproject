@@ -63,6 +63,9 @@ public class Member {
   @Column(nullable = false)
   private String mEmail;
 
+  // 임시변수
+  private Long newpw;
+
   
   // 카테고리분류
   @ManyToOne
