@@ -111,6 +111,36 @@ public class Board1Controller {
 	
     }
 
+    // 삭제
+    @PostMapping(value = "/delete")
+    public String deletePOST( @RequestParam(name = "bNo") long bNo ) {
+        try{
+            System.out.println(bNo);
+            b1Service.deleteBoard1One(bNo);
+    
+            return "redirect:/home";
+            // return "redirect:/board/selectlist";
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return "redirect:/home";
+            // return "redirect:/board/selectone";
+        }
+    }
+
+    // 일괄삭제
+    @PostMapping(value = "/deletebatch")
+    public String deleteBatchPOST(){
+        try{
+            return "redirect:/home";
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return "redirect:/home";
+        }
+    }
+
     // 목록
     // http://127.0.0.1:9090/ROOT/board1/selectlist?page=1&title=y
     // @GetMapping(value = "/selectlist")
@@ -200,22 +230,7 @@ public class Board1Controller {
 
 
 
-    // 삭제
-    // @PostMapping(value = "/delete")
-    // public String deletePOST( @RequestParam(name = "bNo") long bNo ) {
-    //     try{
-    //         System.out.println(bNo);
-    //         bService.deleteBoard1One(bNo);
-    
-    //         return "redirect:/board/selectlist";
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         return "redirect:/board/selectone";
-    //     }
-       
-        
-    // }
+   
     
     
 }

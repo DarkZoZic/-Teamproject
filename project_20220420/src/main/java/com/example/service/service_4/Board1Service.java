@@ -15,8 +15,8 @@ public interface Board1Service {
     // 1개 수정
     public int updateBoard1One(Board1 board1);
 
-    // // 1개 삭제
-    // public int deleteBoard1One(Long bNo);
+    // 1개 삭제
+    public int deleteBoard1One(Long bNo);
 
     // // 1개 조회
     // public Board1 selectBoard1One(Long bNo);
@@ -27,11 +27,11 @@ public interface Board1Service {
     // // 페이지네이션
     // //public List<Board1> selectBoard1List()
 
-    // // 조회수 증가
-    // public int updateBoard1HitOne(Long bNo); 
+    // 조회수 증가
+    public int updateBoard1HitOne(Long bNo); 
 
-    // // 일괄삭제
-    // public int deleteBoard1Batch(Long[] bNo);
+    // 일괄삭제
+    public int deleteBoard1Batch(Long[] bNo);
 
     
 

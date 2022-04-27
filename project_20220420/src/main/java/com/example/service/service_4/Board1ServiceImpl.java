@@ -62,58 +62,54 @@ public class Board1ServiceImpl implements Board1Service{
         }
     }
 
-    // @Override
-    // public int deleteBoard1One(Long bNo) {
-    //     EntityManager em = emf.createEntityManager();
-    //     try{
-    //         em.getTransaction().begin();
-
-    //         em.remove(bNo);
+    @Override
+    public int deleteBoard1One(Long bNo) {
         
-    //         em.getTransaction().commit();
-    //         return 1;
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         return 0;
-    //     }
-    //  }
+        try{
+            b1Repository.deleteById(bNo);
+            return 1;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+     }
 
-    // @Override
-    // public int deleteBoard1Batch(Long[] bNo) {
-    //     EntityManager em = emf.createEntityManager();
-    //     try{
-    //         em.getTransaction().begin();
+    @Override
+    public int deleteBoard1Batch(Long[] bNo) {
+        try{
+          
 
-    //         for( Long tmp : bNo) {
-	// 			//기본키를 이용해서 기존 데이터를 꺼냄
-	// 			Board1 oldBoard 
-	// 				= em.find(Board1.class, tmp);
-	// 			em.remove(oldBoard);
-	// 		}
+            for( Long tmp : bNo) {
+				//기본키를 이용해서 기존 데이터를 꺼냄
+                Board1 board1 = new Board1();
+                b1Repository.deleteById(board1.getBNo());
+			}
             
-    //         em.getTransaction().commit();
-    //         return 1;
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         return 0;
-    //     }
-    // }
+            return 1;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
 
-    // @Override
-    // public int updateBoard1HitOne(Long bNo) {
-    //     try{
-    //         iRepository.save(item);
-    //         return 1;
+    @Override
+    public int updateBoard1HitOne(Long bNo) {
+        try{
+            Board1 board1 = b1Repository.findById(bNo).orElse(null);
+            board1.setBHit( board1.getBHit() + 1L );
 
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         return 0;
-    //     }
+            b1Repository.save(board1);
+            return 1;
 
-    // }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
 
     // @Override
     // public Board1 selectBoard1One(Long bNo) {
