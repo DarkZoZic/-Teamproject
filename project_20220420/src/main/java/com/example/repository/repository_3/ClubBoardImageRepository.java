@@ -9,4 +9,8 @@ import com.example.entity.entity2.CbImage;
 public interface ClubBoardImageRepository extends JpaRepository<CbImage, Long>{
 	public CbImage findByCbiImgcode(long cbiImgcode);
 	
+	public CbImage findByClubBoard_cbNoOrderByCbiImgcodeAsc(long cbNo);
+	
+	public int deleteByClubBoard_cbNo(long cbNo);
+	
 }

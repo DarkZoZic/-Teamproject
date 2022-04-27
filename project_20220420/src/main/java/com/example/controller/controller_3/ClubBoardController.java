@@ -3,6 +3,8 @@ package com.example.controller.controller_3;
 import java.io.IOException;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -67,10 +69,11 @@ public class ClubBoardController {
 				cbImage.setCbiImagename(file.getOriginalFilename());
 				cbImage.setCbiImagesize(file.getSize());
 				cbImage.setCbiImagetype(file.getContentType());
+				cbImage.setClubBoard(clubBoard);
 			}
 			
 			cbRep.save(clubBoard);
-			cbiRep.save(cbImage);
+			cbiService.insertClubBoardImage(cbImage);
 			
 			return "redirect:/clubboard/selectlist";
 		} 
@@ -103,6 +106,7 @@ public class ClubBoardController {
 			//1~20 = 1, 21~40 = 2, 41~60 = 3, ......
 			model.addAttribute("pages", (total-1) / 20 + 1);
 			System.out.println(total);
+			System.out.println((total-1) / 20 + 1);
 			return "/clubboard/selectlist";
 		} 
 		catch (Exception e) 
@@ -113,7 +117,7 @@ public class ClubBoardController {
 	}
 
 	// 클럽게시판 글 상세내용 페이지 (첨부이미지, 댓글 포함)
-	// 127.0.0.1:9090/ROOT/clubboard/select?cbNo=(?)
+	// 127.0.0.1:9090/ROOT/clubboard/select?cbNo=
 	@GetMapping(value="/select")
 	public String selectGET(Model model, @RequestParam(name="cbNo") long cbNo
 //			@RequestParam(name="rType") String rType
@@ -121,14 +125,13 @@ public class ClubBoardController {
 	{
 		try 
 		{
-			List<CReply> list = cbService.selectCReplylist(cbNo);
+			List<CReply> replylist = crRep.findByClubBoard_CbNoOrderByReNumberDesc(cbNo);
 			
 //			long rtype = cbrRep.selectReactionCount(cbNo, rType);
 			
-			
-			model.addAttribute("clubboard", cbService.selectClubBoard(cbNo)); //글상세내용
-			model.addAttribute("cbimage", cbiService.selectClubBoardImage(cbNo)); //이미지
-			model.addAttribute("replylist", list); // 댓글
+			model.addAttribute("clubboard", cbRep.findById(cbNo).orElse(null)); //글상세내용
+			model.addAttribute("cbimage", cbiRep.findByClubBoard_cbNoOrderByCbiImgcodeAsc(cbNo)); //이미지
+			model.addAttribute("replylist", replylist); // 댓글
 //			model.addAttribute("rtype", rtype); // 좋아요 수
 			
 			System.out.println(model.toString());
@@ -145,13 +148,16 @@ public class ClubBoardController {
 	
 	
 	// 클럽게시판 글삭제
-	// 127.0.0.1:9090/ROOT/clubboard/delete
+	// 127.0.0.1:9090/ROOT/clubboard/delete?cbNo=
+	@Transactional
 	@PostMapping(value="/delete")
-	public String deletePOST(@ModelAttribute ClubBoard clubboard)
+	public String deletePOST(@RequestParam(name="cbNo") long cbNo)
 	{
 		try 
 		{
-			cbRep.deleteById(clubboard.getCbNo());
+			cbiRep.deleteByClubBoard_cbNo(cbNo);
+			cbRep.deleteById(cbNo);
+			
 			return "redirect:/clubboard/selectlist";
 		} 
 		catch (Exception e) 
