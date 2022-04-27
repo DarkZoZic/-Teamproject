@@ -63,7 +63,7 @@ public class CustomerRestController {
 		System.out.println(token);
 		try {
 			String username = jwtUtil.extractUsername(token);
-			UserDetails user = userDetailservice.loadUserByUsername(member.getMId());
+			UserDetails user = userDetailservice.loadUserByUsername(member.getMPw());
 
 			BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 			// // 현재암호랑 입력한 암호가 맞는지 확인
