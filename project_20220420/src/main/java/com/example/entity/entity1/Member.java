@@ -31,7 +31,7 @@ import lombok.Data;
 public class Member {
   // 아이디
   @Id
-  @GeneratedValue
+  // @GeneratedValue
   private String mId;
   // 비밀번호
   @Column(nullable = false)
