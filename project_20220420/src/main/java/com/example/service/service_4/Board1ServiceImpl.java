@@ -3,6 +3,7 @@ package com.example.service.service_4;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import com.example.entity.entity1.Member;
 import com.example.entity.entity2.Board1;
 import com.example.repository.repository_4.Board1Repository;
 
@@ -26,14 +27,19 @@ public class Board1ServiceImpl implements Board1Service{
     public int insertBoard1One(Board1 board1) {
         EntityManager em = emf.createEntityManager();
         try{
-            // 저장소 호출해서 만든다는데?
             em.getTransaction().begin();
 
             Board1 insertBoard = new Board1();
             insertBoard.setBTitle(board1.getBTitle());
             insertBoard.setBContent(board1.getBContent());
+            insertBoard.setMember(board1.getMember());
 
-            em.persist(insertBoard);           
+
+
+            em.persist(insertBoard); // 일종의 save
+           
+
+            b1Repository.save(board1);
 
             em.getTransaction().commit();
             return 1;

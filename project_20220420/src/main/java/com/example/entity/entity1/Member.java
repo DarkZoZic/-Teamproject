@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -30,6 +31,7 @@ import lombok.Data;
 public class Member {
   // 아이디
   @Id
+  @GeneratedValue
   private String mId;
   // 비밀번호
   @Column(nullable = false)

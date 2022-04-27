@@ -28,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping(value = "/board1")
 public class Board1Controller {
 
-    // @Autowired Board1Service bService;
+    @Autowired Board1Service b1Service;
     @Autowired Board1Repository b1Repository;
     // @Autowired Board1ReplyRepository b1replyRepository;
     @Autowired Board1ImageRepository b1ImageRepository;
@@ -56,7 +56,8 @@ public class Board1Controller {
             
             // b1ImageRepository.save(bImage);
 
-            b1Repository.save(board1);
+            b1Service.insertBoard1One(board1);
+            // b1Repository.save(board1);
 
             return "redirect:/home";
             
