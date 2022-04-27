@@ -42,7 +42,7 @@ public class Board1 {
   private String bContent;
 
   // 글조회수
-  private String bHit;
+  private Long bHit = 0L;
 
   // 글작성일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
