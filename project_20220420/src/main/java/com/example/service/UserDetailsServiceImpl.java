@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements
         System.out.println(member.toString());
 
         // 권한 정보를 문자열 배열로 만듦
-        String[] strRole = { member.getMAddress(), member.getMPhone() };
+        String[] strRole = { member.getMAddress() };
 
         // String 배열 권한을 Collection<Granted...>로 변환함
         Collection<GrantedAuthority> roles = 

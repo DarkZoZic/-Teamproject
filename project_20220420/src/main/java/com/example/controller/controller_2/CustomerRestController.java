@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,6 +46,50 @@ public class CustomerRestController {
 
 	@Autowired MemberCPRepository cpRepository;
 
+
+	// 암호변경 ( 토큰,현재암호, 변경암호)
+	// 127.0.0.1:9090/ROOT/member/updatepw
+	@RequestMapping(value = "/updatepw", 
+	//{"uemail":"c1", "upw":"c1" };
+			method = { RequestMethod.PUT },
+			consumes = { MediaType.ALL_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> UpdatePasswordPut(
+		@ModelAttribute Member member,
+		@RequestHeader(name = "TOKEN") String token){
+		System.out.println(member.toString());
+		Map<String, Object> map = new HashMap<>();
+		map.put("status", 0);
+		System.out.println(token);
+		try {
+			String username = jwtUtil.extractUsername(token);
+			UserDetails user = userDetailservice.loadUserByUsername(member.getMId());
+
+			BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+			// // 현재암호랑 입력한 암호가 맞는지 확인
+			// // user.getPassword() 는 암호화 된거  member.getUpw() 는 암호화x
+			System.out.println(member.getMPw());
+			if(bcpe.matches(member.getMPw(), user.getPassword())){
+
+			
+			// 	member = mRepository.findById(member.getMId()).orElseThrow();
+			// 	System.out.println(member);
+
+			// 	// mMapper.updateMemberpassword(username,
+			// 	// bcpe.encode(member.getNewpw()) );
+				
+				
+			map.put("status", 200); // 0 -> 200
+			}
+				
+		}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+	   }
+		return map;
+	}
+
 	// 마이페이지
 	// 127.0.0.1:9090/ROOT/member/mypage
 	@RequestMapping(value = "/mypage", 
@@ -77,7 +122,7 @@ public class CustomerRestController {
 
 		
 		UserDetails user = userDetailservice.loadUserByUsername(member.getMId());
-
+			System.out.println(user);
 		BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 		// user.getPassword() 는 암호화 된거  member.getUpw() 는 암호화x
 		// 암호회 되지 않은 것과 암호화 된것 비교하기
@@ -132,8 +177,6 @@ public class CustomerRestController {
 	// 개인회원가입(개인회원)
 	// 127.0.0.1:9090/ROOT/member/psjoin.json
 	//{"mid":"c1", "mpw":"c1" };
-	
-	
 	@PostMapping(value = "/psjoin.json", 
 	consumes = MediaType.ALL_VALUE, 
 	produces = MediaType.APPLICATION_JSON_VALUE)
@@ -143,7 +186,6 @@ public class CustomerRestController {
 			System.out.println(psmemberpersonal.toString());
 			Map<String, Object> map = new HashMap<>();
 		try {
-			
 			Member member = new Member();
 			member.setMId((String) psmemberpersonal.getMember().getMId());
 
