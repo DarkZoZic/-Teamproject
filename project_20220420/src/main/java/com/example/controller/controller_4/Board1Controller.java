@@ -58,7 +58,7 @@ public class Board1Controller {
 
             b1Repository.save(board1);
 
-            return "1234";
+            return "redirect:/home";
             
         }
         catch(Exception e){
