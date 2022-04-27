@@ -64,7 +64,7 @@ public class Member {
   private String mEmail;
 
   // 임시변수
-  private Long newpw;
+  private String newpw;
 
   
   // 카테고리분류
