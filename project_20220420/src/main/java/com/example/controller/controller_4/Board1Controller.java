@@ -7,7 +7,7 @@ import com.example.entity.entity2.Board1;
 import com.example.entity.entity2.CReply;
 import com.example.repository.repository_4.Board1ImageRepository;
 import com.example.repository.repository_4.Board1ReplyRepository;
-// import com.example.repository.repository_4.Board1Repository;
+import com.example.repository.repository_4.Board1Repository;
 import com.example.repository.repository_4.Board1Repository;
 import com.example.service.service_4.Board1Service;
 
@@ -43,24 +43,22 @@ public class Board1Controller {
 
     @PostMapping(value = "/insert")
     public String insertPOST( Model model,
-                            @ModelAttribute Board1 board1,
-                            @ModelAttribute BImage bImage,
-                            @RequestParam(name = "timage") MultipartFile file){
+                            @ModelAttribute Board1 board1){
         try{
 
             // 첨부 안했을 때 처리
 
             // 첨부했을 때
-            bImage.setBiImage(file.getBytes());
-            bImage.setBiImagename(file.getOriginalFilename());
-            bImage.setBiImagetype(file.getContentType());
-            bImage.setBiImagesize(file.getSize());
+            // bImage.setBiImage(file.getBytes());
+            // bImage.setBiImagename(file.getOriginalFilename());
+            // bImage.setBiImagetype(file.getContentType());
+            // bImage.setBiImagesize(file.getSize());
             
-            b1ImageRepository.save(bImage);
+            // b1ImageRepository.save(bImage);
 
             b1Repository.save(board1);
 
-            return "redirect:/home";
+            return "1234";
             
         }
         catch(Exception e){

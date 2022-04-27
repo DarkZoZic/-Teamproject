@@ -49,10 +49,10 @@ public class Board1 {
   // 글종류
   private String bType;
   // 회원이메일
-  @Column(nullable = false)
+  // @Column(nullable = false)
   private String mpEmail;
   // 기업아이디
-  @Column(nullable = false)
+  // @Column(nullable = false)
   private String mcId;
   // 회원
   @ManyToOne
