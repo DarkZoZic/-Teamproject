@@ -191,7 +191,7 @@ public class Board1Controller {
             
 
     //         // 이전글
-    //         BoardListProjection board1 = bRepository.findTop1ByNoLessThanOrderByNoDesc(no);
+    //         Board1 board1 = b1Repository.findTop1ByNoLessThanOrderByNoDesc(bNo);
         
     //         if(board1 != null){
     //             System.out.println(board1.toString());
@@ -224,8 +224,6 @@ public class Board1Controller {
     //         e.printStackTrace();
     //         return "redirect:/board/selectlist";
     //     }
-
-
     // }
 
 

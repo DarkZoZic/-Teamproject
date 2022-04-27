@@ -111,19 +111,17 @@ public class Board1ServiceImpl implements Board1Service{
 
     }
 
-    // @Override
-    // public Board1 selectBoard1One(Long bNo) {
-    //     try{
-    //         iRepository.save(item);
-    //         return 1;
+    @Override
+    public Board1 selectBoard1One(Long bNo) {
+        try{
+            return b1Repository.findById(bNo).orElse(null);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
 
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         return 0;
-    //     }
-
-    // }
+    }
 
 
 
