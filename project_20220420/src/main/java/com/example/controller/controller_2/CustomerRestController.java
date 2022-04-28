@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.entity.entity1.Member;
 import com.example.entity.entity1.MemberCompany;
 import com.example.entity.entity1.MemberPersonal;
+import com.example.entity.projection.MemberIdprojection;
 import com.example.jwt.JwtUtil;
 import com.example.repository.MemberCPRepository;
 import com.example.repository.MemberPSRepository;
@@ -45,6 +46,33 @@ public class CustomerRestController {
 
 	@Autowired MemberCPRepository cpRepository;
 
+	// // 이메일로 아이디찾기(배열)
+	// // 127.0.0.1:9090/ROOT/member/searchid
+	// @RequestMapping(value = "/searchid", 
+	// //{"uemail":"c1", "upw":"c1" };
+	// 		method = { RequestMethod.GET },
+	// 		consumes = { MediaType.ALL_VALUE },
+	// 		produces = { MediaType.APPLICATION_JSON_VALUE })
+	// public Map<String, Object> searchidget2(
+	// 	@RequestParam(name = "email")String email){
+	// 		System.out.println(email);
+	// 	Map<String, Object> map = new HashMap<>();
+	// 	map.put("status", 0); // 정상적이지 않을때
+	// 		try {
+	// 			Member member = mRepository.findBymEmail(email);
+	// 			System.out.println(member);
+	// 			// String mid = member.getMId();
+	// 			// if(Match(member.getMPw(), user.getPassword()))
+	// 			map.put("Your id", member.getMId());
+	// 			map.put("status", 200); 
+
+	// 		}	
+	// 		 catch (Exception e) {
+	// 			e.printStackTrace();
+	// 		}
+
+	// 	return map;
+	// }
 	// 이메일로 아이디찾기
 	// 127.0.0.1:9090/ROOT/member/searchid
 	@RequestMapping(value = "/searchid", 
@@ -60,9 +88,9 @@ public class CustomerRestController {
 			try {
 				Member member = mRepository.findBymEmail(email);
 				System.out.println(member);
-				String mid = member.getMId();
+				// String mid = member.getMId();
 				// if(Match(member.getMPw(), user.getPassword()))
-				map.put("Your id", mid);
+				map.put("id", member.getMId());
 				map.put("status", 200); 
 
 			}	

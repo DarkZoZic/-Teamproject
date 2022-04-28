@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import com.example.entity.entity1.Member;
+import com.example.entity.projection.MemberIdprojection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -28,6 +29,8 @@ public interface MemberRepository extends JpaRepository<Member, String>{
     // @Query(value = "UPDATE MEMBERTBL  SET M_PW = :password where M_ID = :mid", nativeQuery = true)
     // void changePwd(@Param("password")
     // String password, @Param("mid")String mid);
+
+    // List<MemberIdprojection> findBymEmail(String email);
 
     Member findBymEmail(String email);
 
