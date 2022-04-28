@@ -28,121 +28,129 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping(value = "/board1")
 public class Board1Controller {
 
-    @Autowired Board1Service b1Service;
-    @Autowired Board1Repository b1Repository;
+    // @Autowired Board1Service b1Service;
+    // @Autowired Board1Repository b1Repository;
     // @Autowired Board1ReplyRepository b1replyRepository;
-    @Autowired Board1ImageRepository b1ImageRepository;
+    // @Autowired Board1ImageRepository b1ImageRepository;
 
-    @Value("${board.page.count}") int PAGECNT;
+    // @Value("${board.page.count}") int PAGECNT;
 
-    // 글쓰기
-    @GetMapping(value = "/insert")
-    public String insertGET(){
-        return null;
-    }
+    // // 글쓰기
+    // @GetMapping(value = "/insert")
+    // public String insertGET(){
+    //     return "/4/board1/insert";
+    // }
 
-    @PostMapping(value = "/insert")
-    public String insertPOST( Model model,
-                            @ModelAttribute Board1 board1){
-        try{
+    // @PostMapping(value = "/insert")
+    // public String insertPOST( Model model,
+    //                         @ModelAttribute Board1 board1){
+    //     try{
+    //         System.out.println(board1.toString());
 
-            // 첨부 안했을 때 처리
+    //         // 첨부 안했을 때 처리
 
-            // 첨부했을 때
-            // bImage.setBiImage(file.getBytes());
-            // bImage.setBiImagename(file.getOriginalFilename());
-            // bImage.setBiImagetype(file.getContentType());
-            // bImage.setBiImagesize(file.getSize());
+    //         // 첨부했을 때
+    //         // bImage.setBiImage(file.getBytes());
+    //         // bImage.setBiImagename(file.getOriginalFilename());
+    //         // bImage.setBiImagetype(file.getContentType());
+    //         // bImage.setBiImagesize(file.getSize());
             
-            // b1ImageRepository.save(bImage);
+    //         // b1ImageRepository.save(bImage);
 
-            b1Service.insertBoard1One(board1);
-            // b1Repository.save(board1);
+    //         b1Service.insertBoard1One(board1);
+    //         // b1Repository.save(board1);
 
-            return "redirect:/home";
+    //         return "redirect:/board1/insert";
             
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return "redirect:/home";
-        }
-    }
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         return "redirect:/home";
+    //     }
+    // }
 
-    // 수정
-    @GetMapping(value = "/update")
-    public String updateGET(Model model, @RequestParam(name = "bNo") long bNo){
-        try{
-            Board1 board1 = b1Repository.findById(bNo).orElse(null);
-            model.addAttribute("brd", board1);
-            // return "/board/update";
-            return "/home";
+    // // 수정
+    // @GetMapping(value = "/update")
+    // public String updateGET(Model model, @RequestParam(name = "bNo") long bNo){
+    //     try{
+    //         System.out.println(bNo);
 
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            // return "redirect:/board/selectone";
-            return "redirect:/home";
-        }
+    //         Board1 board1 = b1Repository.findById(bNo).orElse(null);
+    //         model.addAttribute("brd", board1);
+    //         // return "/board/update";
+    //         return "/home";
+
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         // return "redirect:/board/selectone";
+    //         return "redirect:/home";
+    //     }
        
-    }
+    // }
 
-    @PostMapping(value = "/update")
-    public String updatePOST(Model model, @ModelAttribute Board1 board1){
-        try{
-            // 기존 내용을 읽음
-            Board1 updateBoard = b1Repository.findById(board1.getBNo()).orElse(null);
+    // @PostMapping(value = "/update")
+    // public String updatePOST(Model model, @ModelAttribute Board1 board1){
+    //     try{
+    //         // 기존 내용을 읽음
+    //         Board1 updateBoard = b1Repository.findById(board1.getBNo()).orElse(null);
 
-            // 변경할 항목만 board1에 다시 저장 (기존 내용에서 수정된 내용 덮어씌우기)
-            updateBoard.setBTitle( board1.getBTitle() );
-            updateBoard.setBContent( board1.getBContent() );
+    //         // 변경할 항목만 board1에 다시 저장 (기존 내용에서 수정된 내용 덮어씌우기)
+    //         updateBoard.setBTitle( board1.getBTitle() );
+    //         updateBoard.setBContent( board1.getBContent() );
 
-            // 수정하고 저장하기
-            b1Repository.save(updateBoard);
+    //         // 수정하고 저장하기
+    //         b1Repository.save(updateBoard);
 
-            return "redirect:/home";
-            // return "redirect:/board/selectlist?bNo=" + board1.getBNo();
+    //         return "redirect:/home";
+    //         // return "redirect:/board/selectlist?bNo=" + board1.getBNo();
 
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            // return "redirect:/board/selectone";
-            return "redirect:/home";
-        }
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         // return "redirect:/board/selectone";
+    //         return "redirect:/home";
+    //     }
 	
-    }
+    // }
 
-    // 삭제
-    @PostMapping(value = "/delete")
-    public String deletePOST( @RequestParam(name = "bNo") long bNo ) {
-        try{
-            System.out.println(bNo);
-            b1Service.deleteBoard1One(bNo);
+    // // 삭제
+    // @PostMapping(value = "/delete")
+    // public String deletePOST( @RequestParam(name = "bNo") long bNo ) {
+    //     try{
+    //         System.out.println(bNo);
+    //         b1Service.deleteBoard1One(bNo);
     
-            return "redirect:/home";
-            // return "redirect:/board/selectlist";
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return "redirect:/home";
-            // return "redirect:/board/selectone";
-        }
-    }
+    //         return "redirect:/board/selectlist";
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         return "redirect:/board/selectone";
+    //     }
+    // }
 
-    // 일괄삭제
-    @PostMapping(value = "/deletebatch")
-    public String deleteBatchPOST(){
-        try{
-            return "redirect:/home";
+    // // 일괄삭제
+    // @PostMapping(value = "/deletebatch")
+    // public String deleteBatchPOST(){
+    //     try{
+    //         return "redirect:/home";
 
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return "redirect:/home";
-        }
-    }
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         return "redirect:/home";
+    //     }
+    // }
+
+
+
+
+
+
+    
 
     // 목록
-    // http://127.0.0.1:9090/ROOT/board1/selectlist?page=1&title=y
+    // // http://127.0.0.1:9090/ROOT/board1/selectlist?page=1&title=y
     // @GetMapping(value = "/selectlist")
     // public String selectListGET(
     //     Model model,
@@ -163,11 +171,11 @@ public class Board1Controller {
     //         long total = b1Repository.countByTitleContaining(title);
     //         model.addAttribute("pages", (total-1)/PAGECNT +1 );
 
-    //         return "/board/selectlist";
+    //         return "/4/board1/selectlist";
     //     }
     //     catch(Exception e){
     //         e.printStackTrace();
-    //         return "redirect:/board/selectlist";
+    //         return "redirect:/board1/selectlist";
 
     //     }
     // }
