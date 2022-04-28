@@ -34,7 +34,7 @@ import lombok.Data;
 sequenceName = "SEQ_CREPLY_NO", 
 allocationSize = 1, initialValue = 1)
 public class CReply {
-  
+
   // 댓글 번호
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, 
@@ -59,14 +59,6 @@ public class CReply {
 	@Column(name = "CBIREGDATE",nullable = false)
   private Date rUpdatedate;
 
-  // 회원이메일
-  @Column(nullable = false)
-  private String mpEmail;
-
-  // 기업아이디
-  @Column(nullable = false)
-  private String mcId;
-
   // 자유게시판 글번호
   @ManyToOne
   @JoinColumn(name = "b_no")
@@ -82,7 +74,7 @@ public class CReply {
   @JoinColumn(name = "r_id")
   private Reaction reaction;
 
-  // 회원
+  // 회원 아이디
   @ManyToOne
   @JoinColumn(name = "m_id")
   private Member member;
