@@ -7,11 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,6 +43,98 @@ public class CustomerRestController {
 
 	@Autowired MemberCPRepository cpRepository;
 
+	// 회원정보 수정
+	// 127.0.0.1:9090/ROOT/member/updatemember
+	@RequestMapping(value = "/updatemember", 
+	//{"uemail":"c1", "upw":"c1" };
+			method = { RequestMethod.PUT },
+			consumes = { MediaType.ALL_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> UpdateMemberPut(
+		@ModelAttribute Member member,
+		@RequestHeader(name = "TOKEN") String token,
+		@RequestParam(name = "file",required = false) MultipartFile file){
+		System.out.println(member.toString());
+		Map<String, Object> map = new HashMap<>();
+		map.put("status", 0);
+		try {
+			
+			String username = jwtUtil.extractUsername(token);
+			System.out.println(username);
+			Member member1 =mRepository.findById(username).orElse(null);
+			// Member member1 = new Member();
+			
+			// UserDetails user = userDetailservice.loadUserByUsername(username);
+			// System.out.println("===="+ user);
+			// // 현재암호랑 입력한 암호가 맞는지 확인
+			// // user.getPassword() 는 암호화 된거  member.getUpw() 는 암호화x
+			if(file != null){
+					if(!file.isEmpty()){
+						member1.setMProfile(file.getBytes());
+						member1.setMImagesize(file.getSize());
+						member1.setMImagetype(file.getContentType());
+						member1.setMImagename(file.getOriginalFilename());
+			}
+			else{
+				member1.setMProfile(null);
+				member1.setMImagesize(0L);
+				member1.setMImagetype(null);
+				member1.setMImagename(null);
+			}
+		}
+				member1.setMName(member.getMName());
+				member1.setMPhone(member.getMPhone());
+				member1.setMAddress(member.getMAddress());
+				member1.setMEmail(member.getMEmail());
+				System.out.println(member1.getMEmail());
+				mRepository.save(member1);
+				
+				
+				
+			map.put("status", 200); // 0 -> 200
+				
+		}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+	   }
+		return map;
+	}
+
+
+	// 회원탈퇴
+	// 127.0.0.1:9090/ROOT/member/delete
+	@RequestMapping(value = "/delete", 
+            method = { RequestMethod.DELETE },
+            consumes = { MediaType.ALL_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> DeleteMember(
+		@RequestHeader(name = "TOKEN") String token,
+       @ModelAttribute Member member){
+    Map<String, Object> map = new HashMap<>();
+    map.put("status", 0);
+	try{
+		BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+		String username = jwtUtil.extractUsername(token);
+		UserDetails user = userDetailservice.loadUserByUsername(username);
+
+		if(bcpe.matches(member.getMPw(), user.getPassword())){
+
+
+		Member member1 = mRepository.findById(username).orElse(null);
+			System.out.println(member1);
+		mRepository.delete(member1);
+		
+		map.put("status", 200);
+		}
+	}
+	catch (Exception e) {
+		e.printStackTrace();
+	}
+
+    return map;
+    }
+
 
 	// 암호변경 ( 토큰,현재암호, 변경암호)
 	// 127.0.0.1:9090/ROOT/member/updatepw
@@ -63,20 +152,21 @@ public class CustomerRestController {
 		System.out.println(token);
 		try {
 			String username = jwtUtil.extractUsername(token);
-			UserDetails user = userDetailservice.loadUserByUsername(member.getMPw());
-
+			System.out.println(username);
+			UserDetails user = userDetailservice.loadUserByUsername(username);
+			System.out.println("===="+ user);
 			BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 			// // 현재암호랑 입력한 암호가 맞는지 확인
 			// // user.getPassword() 는 암호화 된거  member.getUpw() 는 암호화x
-			System.out.println(member.getMPw());
 			if(bcpe.matches(member.getMPw(), user.getPassword())){
+				Member member1 =mRepository.findById(username).orElse(null);
 
-			
-			// 	member = mRepository.findById(member.getMId()).orElseThrow();
-			// 	System.out.println(member);
-
-			// 	// mMapper.updateMemberpassword(username,
-			// 	// bcpe.encode(member.getNewpw()) );
+				// 암호화
+				member1.setMPw(bcpe.encode(member.getNewpw()));
+				// System.out.println(member1.toString());
+				// member1 = mRepository.save(member);
+				mRepository.save(member1);
+				
 				
 				
 			map.put("status", 200); // 0 -> 200
@@ -145,8 +235,7 @@ public class CustomerRestController {
 	public Map<String, Object> JoinPost(
 			@ModelAttribute Member member,
 			@RequestParam(name = "file",required = false) MultipartFile file){
-				System.out.println(member.toString());
-
+			System.out.println(member.toString());
 		BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
 		Map<String, Object> map = new HashMap<>();
