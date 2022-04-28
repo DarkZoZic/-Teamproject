@@ -59,25 +59,29 @@ public class ClubBoardController {
 	// 클럽게시판 글쓰기
 	// 127.0.0.1:9090/ROOT/clubboard/insert
 	@PostMapping(value="/insert")
-	public String insertPOST(@ModelAttribute ClubBoard clubBoard, @RequestParam(name="file") MultipartFile file) throws IOException
+	public String insertPOST(@ModelAttribute ClubBoard clubBoard, @RequestParam(name="file", required=false) MultipartFile file) throws IOException
 	{
 		try 
 		{
+			System.out.println(file.getContentType());
 			CbImage cbImage = new CbImage();
-			if(file != null) // 이미지파일 첨부시
+			if(file != null) 
 			{
-				cbImage.setCbiImage(file.getBytes()); 
-				cbImage.setCbiImagename(file.getOriginalFilename());
-				cbImage.setCbiImagesize(file.getSize());
-				cbImage.setCbiImagetype(file.getContentType());
-				cbImage.setClubBoard(clubBoard);
-				cbiService.insertClubBoardImage(cbImage);
+				if(!file.isEmpty())// 이미지파일 첨부시
+				{
+					cbImage.setCbiImage(file.getBytes()); 
+					cbImage.setCbiImagename(file.getOriginalFilename());
+					cbImage.setCbiImagesize(file.getSize());
+					cbImage.setCbiImagetype(file.getContentType());
+					cbImage.setClubBoard(clubBoard);
+					cbiService.insertClubBoardImage(cbImage);
+				}
 			}
 			
 			cbRep.save(clubBoard);
 			
 			
-			return "redirect:/clubboard/selectlist";
+			return "redirect:/3/clubboard/selectlist";
 		} 
 		catch (Exception e) 
 		{
@@ -87,7 +91,7 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 글목록 페이지
-	// 127.0.0.1:9090/ROOT/clubboard/selectlist
+	// 127.0.0.1:9090/ROOT/clubboard/selectlist?text=&page=1
 	@GetMapping(value="/selectlist")
 	public String selectlistGET(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text)
 	{
@@ -100,7 +104,7 @@ public class ClubBoardController {
 			//검색어 포함, 1페이지 20글, 글번호 내림차순
 			List<ClubBoard> list = cbRep.findByCbTitleContainingOrderByCbNoDesc(text, pageRequest);
 			model.addAttribute("list", list);
-			System.out.println(list.toString());
+//			System.out.println(list.toString());
 			
 			//페이지네이션 구현용 글 개수 가져와서 model에 넣기
 			long total = cbRep.countByCbTitleContaining(text);
@@ -109,7 +113,7 @@ public class ClubBoardController {
 			model.addAttribute("pages", (total-1) / 20 + 1);
 			System.out.println("total = " + total);
 			System.out.println((total-1) / 20 + 1);
-			return "/clubboard/selectlist";
+			return "/3/clubboard/selectlist";
 		} 
 		catch (Exception e) 
 		{
@@ -132,13 +136,15 @@ public class ClubBoardController {
 //			long rtype = cbrRep.selectReactionCount(cbNo, rType);
 			
 			model.addAttribute("clubboard", cbRep.findById(cbNo).orElse(null)); //글상세내용
-			model.addAttribute("cbimage", cbiRep.findByClubBoard_cbNoOrderByCbiImgcodeAsc(cbNo)); //이미지
 			model.addAttribute("replylist", replylist); // 댓글
 //			model.addAttribute("rtype", rtype); // 좋아요 수
 			
-			System.out.println(model.toString());
+			if(cbiRep.findByClubBoard_cbNoOrderByCbiImgcodeAsc(cbNo) != null) // 글에 첨부된 이미지가 있으면
+			{
+				model.addAttribute("cbimage", cbiRep.findByClubBoard_cbNoOrderByCbiImgcodeAsc(cbNo)); //이미지
+			}
 			
-			return "/clubboard/select?cbNo=" + cbNo;
+			return "/3/clubboard/select";
 		} 
 		catch (Exception e) 
 		{
@@ -158,10 +164,10 @@ public class ClubBoardController {
 		try 
 		{
 			cbiRep.deleteByClubBoard_cbNo(cbNo); //글에 첨부된 이미지 삭제
-			// 글에 달린 댓글삭제 아직 미구현
+			crRep.deleteByClubBoard_cbNo(cbNo); // 글에 달린 댓글삭제
 			cbRep.deleteById(cbNo); //글 삭제
 			
-			return "redirect:/clubboard/selectlist";
+			return "redirect:/3/clubboard/selectlist";
 		} 
 		catch (Exception e) 
 		{
@@ -177,9 +183,9 @@ public class ClubBoardController {
 	{
 		try 
 		{
-			model.addAttribute("clubboard", cbService.selectClubBoard(cbNo)); //글내용 수정페이지로 넘겨주기
-			model.addAttribute("cbimage", cbiService.selectClubBoardImage(cbNo)); //이미지파일 데이터 넘겨주기
-			return "/clubboard/update?cbNo=" + cbNo;
+			model.addAttribute("clubboard", cbRep.findById(cbNo)); //글내용 수정페이지로 넘겨주기
+			model.addAttribute("cbimage", cbiRep.findByClubBoard_cbNoOrderByCbiImgcodeAsc(cbNo)); //이미지파일 데이터 넘겨주기
+			return "/3/clubboard/update?cbNo=" + cbNo;
 		} 
 		catch (Exception e) 
 		{
@@ -191,28 +197,34 @@ public class ClubBoardController {
 	// 클럽게시판 글수정
 	// 127.0.0.1:9090/ROOT/clubboard/update
 	@PostMapping(value="/update")
-	public String updatePOST(@ModelAttribute ClubBoard clubboard, @ModelAttribute CbImage cbimage, @RequestParam(name="cbimage") MultipartFile file)
+	public String updatePOST(@ModelAttribute ClubBoard clubboard, @ModelAttribute CbImage cbimage, @RequestParam(name="cbimage", required=false) MultipartFile file)
 	{
 		try 
 		{
 			if(file != null) //파일 첨부시 cbimage에 첨부한 파일 데이터 넣기
 			{
-				cbimage.setCbiImage(file.getBytes());
-				cbimage.setCbiImagename(file.getOriginalFilename());
-				cbimage.setCbiImagesize(file.getSize());
-				cbimage.setCbiImagetype(file.getContentType());
+				if(!file.isEmpty())
+				{
+					cbimage.setCbiImage(file.getBytes());
+					cbimage.setCbiImagename(file.getOriginalFilename());
+					cbimage.setCbiImagesize(file.getSize());
+					cbimage.setCbiImagetype(file.getContentType());
+				}
+				
 			}
 			else //파일 미첨부시 
 			{
-				if(cbimage.getCbiImage() != null) //글에 기존에 올린 이미지파일이 있으면 
+				if(cbimage.getCbiImage() != null) 
 				{
-					cbimage.setCbiImage(cbimage.getCbiImage());
-					cbimage.setCbiImagename(cbimage.getCbiImagename());
-					cbimage.setCbiImagesize(cbimage.getCbiImagesize());
-					cbimage.setCbiImagetype(cbimage.getCbiImagetype());
+					if(cbimage.getCbiImage().length > 0)//글에 기존에 올린 이미지파일이 있으면 해당 이미지파일 데이터 가져오기
+					{
+						cbimage.setCbiImage(cbimage.getCbiImage());
+						cbimage.setCbiImagename(cbimage.getCbiImagename());
+						cbimage.setCbiImagesize(cbimage.getCbiImagesize());
+						cbimage.setCbiImagetype(cbimage.getCbiImagetype());
+					}
 				}
-				//없으면 null
-				else
+				else //없으면 null
 				{
 					cbimage.setCbiImage(null);
 					cbimage.setCbiImagename(null);
@@ -230,7 +242,7 @@ public class ClubBoardController {
 					return "/clubboard/select?cbNo=" + clubboard.getCbNo();
 				}
 			}
-			return "redirect:/clubboard/update?cbNo=" + clubboard.getCbNo();
+			return "redirect:/3/clubboard/update?cbNo=" + clubboard.getCbNo();
 		} 
 		catch (Exception e) 
 		{
@@ -240,23 +252,24 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 댓글쓰기
-	// 127.0.0.1:9090/ROOT/clubboard/insertreply
+	// 127.0.0.1:9090/ROOT/clubboard/insertreply?cbNo=
 	@PostMapping(value="/insertreply")
-	public String insertreplyPOST(@RequestBody CReply cReply, Model model)
+	public String insertreplyPOST(@RequestBody CReply cReply, @RequestParam(name="cbNo") ClubBoard cbNo)
 	{
 		try 
 		{
-			System.out.println(cReply.getClubBoard().getCbNo()); // 글번호 프론트에서 보내줘야됨
-			cbService.insertCReply(cReply);
-			model.addAttribute("reply", cReply);
+			System.out.println(cReply.toString());
+//			cReply.setClubBoard(cbNo);
+//			crRep.save(cReply);
 			return "redirect:/clubboard/select?cbNo=" + cReply.getClubBoard().getCbNo();
-		} 
-		catch (Exception e) 
+		}
+		catch (Exception e)
 		{
 			e.printStackTrace();
 			return "redirect:/";
 		}
 	}
+	
 	
 	// 클럽게시판 댓글삭제
 	// 127.0.0.1:9090/ROOT/clubboard/deletereply
@@ -267,7 +280,7 @@ public class ClubBoardController {
 		try 
 		{
 			crRep.deleteById(creply.getReNumber());
-			return "redirect:/clubboard/selectlist";
+			return "redirect:/3/clubboard/selectlist";
 		} 
 		catch (Exception e) 
 		{
@@ -286,7 +299,7 @@ public class ClubBoardController {
 		{
 			reaction.setClubBoard(cbNo);
 			cbrRep.save(reaction); //rType(반응종류) = "좋아요" or "따봉"
-			return "redirect:/clubboard/select?cbNo=" + cbNo.getCbNo();
+			return "redirect:/3/clubboard/select?cbNo=" + cbNo.getCbNo();
 		} 
 		catch (Exception e) 
 		{

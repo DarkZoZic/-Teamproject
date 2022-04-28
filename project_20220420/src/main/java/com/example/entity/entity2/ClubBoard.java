@@ -37,13 +37,10 @@ public class ClubBoard {
   generator = "SEQ_CLUBBOARD") // 시퀀스 적용
   private Long cbNo;
   // 클럽글제목
-  @Column(nullable = false)
   private String cbTitle;
   // 클럽글내용
-  @Column(nullable = false)
   private String cbContent;
   // 클럽글조회수
-  @Column(nullable = false)
   private Long cbHit = 0L;
   // 클럽글작성일
 @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
@@ -54,14 +51,12 @@ public class ClubBoard {
   @Lob
   private byte[] cbFile;
   // 클럽글공지여부
-  @Column(nullable = false)
   private String cbNoticecheck;
   // 클럽글수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@UpdateTimestamp // CURRENT_DATE
   private Date cbUpdatedate;
   // 클럽글깊이
-  @Column(nullable = false)
   private Long cbDepth = 0L;
   // 댓글
   // @OneToMany(mappedBy = "clubBoard")
