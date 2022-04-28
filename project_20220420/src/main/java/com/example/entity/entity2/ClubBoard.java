@@ -19,6 +19,7 @@ import com.example.entity.entity1.Reaction;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -47,7 +48,7 @@ public class ClubBoard {
   // 클럽글작성일
 @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 @CreationTimestamp // CURRENT_DATE
-@Column(name = "CBREGDATE",nullable = false)
+@Column(name = "CBREGDATE")
   private Date cbRegdate;
   // 클럽글파일첨부
   @Lob
@@ -56,6 +57,8 @@ public class ClubBoard {
   @Column(nullable = false)
   private String cbNoticecheck;
   // 클럽글수정일
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+	@UpdateTimestamp // CURRENT_DATE
   private Date cbUpdatedate;
   // 클럽글깊이
   @Column(nullable = false)

@@ -22,6 +22,7 @@ import com.example.entity.entity1.Member;
 import com.example.entity.entity1.Reaction;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -47,7 +48,8 @@ public class CReply {
   private String reContent;
 
   // 댓글 작성일
-  @Column(nullable = false)
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+  @CreationTimestamp // CURRENT_DATE
   private Date reRegdate;
 
   // 부모댓글번호
@@ -56,7 +58,7 @@ public class CReply {
   // 수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@UpdateTimestamp // CURRENT_DATE
-	@Column(name = "CBIREGDATE",nullable = false)
+	@Column(name = "CBIREGDATE")
   private Date rUpdatedate;
 
   // 자유게시판 글번호

@@ -34,20 +34,16 @@ public class CbImage {
   // 등록일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
-	@Column(name = "CBIREGDATE",nullable = false)
+	@Column(name = "CBIREGDATE")
   private Date cbiRegdate;
   // 이미지
-  @Column(nullable = false)
   @Lob
   private byte[] cbiImage;
   // 이미지크기
-  @Column(nullable = false)
   private Long cbiImagesize;
   // 이미지타입
-  @Column(nullable = false)
   private String cbiImagetype;
   // 이미지이름
-  @Column(nullable = false)
   private String cbiImagename;
   // 클럽게시판
   @ManyToOne

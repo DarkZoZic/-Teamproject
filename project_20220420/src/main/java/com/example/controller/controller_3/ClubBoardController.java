@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,17 +64,18 @@ public class ClubBoardController {
 		try 
 		{
 			CbImage cbImage = new CbImage();
-			if(file != null)
+			if(file != null) // 이미지파일 첨부시
 			{
 				cbImage.setCbiImage(file.getBytes()); 
 				cbImage.setCbiImagename(file.getOriginalFilename());
 				cbImage.setCbiImagesize(file.getSize());
 				cbImage.setCbiImagetype(file.getContentType());
 				cbImage.setClubBoard(clubBoard);
+				cbiService.insertClubBoardImage(cbImage);
 			}
 			
 			cbRep.save(clubBoard);
-			cbiService.insertClubBoardImage(cbImage);
+			
 			
 			return "redirect:/clubboard/selectlist";
 		} 
@@ -103,9 +105,9 @@ public class ClubBoardController {
 			//페이지네이션 구현용 글 개수 가져와서 model에 넣기
 			long total = cbRep.countByCbTitleContaining(text);
 			
-			//1~20 = 1, 21~40 = 2, 41~60 = 3, ......
+			// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
 			model.addAttribute("pages", (total-1) / 20 + 1);
-			System.out.println(total);
+			System.out.println("total = " + total);
 			System.out.println((total-1) / 20 + 1);
 			return "/clubboard/selectlist";
 		} 
@@ -200,12 +202,23 @@ public class ClubBoardController {
 				cbimage.setCbiImagesize(file.getSize());
 				cbimage.setCbiImagetype(file.getContentType());
 			}
-			else //파일 미첨부시 cbimage에 기존 이미지 데이터 넣기
+			else //파일 미첨부시 
 			{
-				cbimage.setCbiImage(cbimage.getCbiImage());
-				cbimage.setCbiImagename(cbimage.getCbiImagename());
-				cbimage.setCbiImagesize(cbimage.getCbiImagesize());
-				cbimage.setCbiImagetype(cbimage.getCbiImagetype());
+				if(cbimage.getCbiImage() != null) //글에 기존에 올린 이미지파일이 있으면 
+				{
+					cbimage.setCbiImage(cbimage.getCbiImage());
+					cbimage.setCbiImagename(cbimage.getCbiImagename());
+					cbimage.setCbiImagesize(cbimage.getCbiImagesize());
+					cbimage.setCbiImagetype(cbimage.getCbiImagetype());
+				}
+				//없으면 null
+				else
+				{
+					cbimage.setCbiImage(null);
+					cbimage.setCbiImagename(null);
+					cbimage.setCbiImagesize(null);
+					cbimage.setCbiImagetype(null);
+				}
 			}
 			
 			int ret = cbService.updateClubBoard(clubboard);
@@ -229,7 +242,7 @@ public class ClubBoardController {
 	// 클럽게시판 댓글쓰기
 	// 127.0.0.1:9090/ROOT/clubboard/insertreply
 	@PostMapping(value="/insertreply")
-	public String insertreplyPOST(@ModelAttribute CReply cReply, Model model)
+	public String insertreplyPOST(@RequestBody CReply cReply, Model model)
 	{
 		try 
 		{
@@ -249,7 +262,7 @@ public class ClubBoardController {
 	// 127.0.0.1:9090/ROOT/clubboard/deletereply
 	// {"reNumber":""}
 	@PostMapping(value="/deletereply")
-	public String deletereplyPOST(@ModelAttribute CReply creply)
+	public String deletereplyPOST(@RequestBody CReply creply)
 	{
 		try 
 		{
@@ -266,7 +279,7 @@ public class ClubBoardController {
 	// 127.0.0.1:9090/ROOT/clubboard/insertreaction
 	// 클럽게시판 글 반응(좋아요/엄지) 넣기
 	@PostMapping(value="/insertreaction")
-	public String insertreactionPOST(@ModelAttribute Reaction reaction, @RequestParam(name="cbNo") ClubBoard cbNo) 
+	public String insertreactionPOST(@RequestBody Reaction reaction, @RequestParam(name="cbNo") ClubBoard cbNo) 
 	// 반응종류 -> <input type="submit" name="reaction.rType" value="좋아요 or 따봉" />
 	{
 		try 

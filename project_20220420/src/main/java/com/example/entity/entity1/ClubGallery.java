@@ -1,6 +1,7 @@
 package com.example.entity.entity1;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.Club;
@@ -42,6 +46,10 @@ public class ClubGallery {
   // 사진수
   @Column(nullable = false)
   private Long gQty;
+  // 등록일
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+@CreationTimestamp // CURRENT_DATE
+  private Date gRegdate;
   // 반응
   @ManyToOne
   @JoinColumn(name = "r_id")
