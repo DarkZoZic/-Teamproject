@@ -21,8 +21,8 @@ public interface Board1Service {
     // 1개 조회
     public Board1 selectBoard1One(Long bNo);
 
-    // // 검색어+ 페이지네이션
-    // //public List<Board1> selectBoard1
+    // 검색어+ 페이지네이션
+    // public List<Board1> selectBoard1();
     
     // // 페이지네이션
     // //public List<Board1> selectBoard1List()
