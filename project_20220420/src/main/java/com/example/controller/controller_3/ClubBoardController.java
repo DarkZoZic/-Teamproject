@@ -50,10 +50,11 @@ public class ClubBoardController {
 	@Autowired
 	ClubBoardImageRepository cbiRep;
 	
+	// 127.0.0.1:9090/ROOT/clubboard/insert
 	@GetMapping(value="/insert")
 	public String insertGET()
 	{
-		return "/clubboard/insert";
+		return "/3/clubboard/insert";
 	}
 	
 	// 클럽게시판 글쓰기
@@ -185,7 +186,7 @@ public class ClubBoardController {
 		{
 			model.addAttribute("clubboard", cbRep.findById(cbNo)); //글내용 수정페이지로 넘겨주기
 			model.addAttribute("cbimage", cbiRep.findByClubBoard_cbNoOrderByCbiImgcodeAsc(cbNo)); //이미지파일 데이터 넘겨주기
-			return "/3/clubboard/update?cbNo=" + cbNo;
+			return "/3/clubboard/update";
 		} 
 		catch (Exception e) 
 		{
@@ -239,7 +240,7 @@ public class ClubBoardController {
 			{
 				if(ret1 == 1)
 				{
-					return "/clubboard/select?cbNo=" + clubboard.getCbNo();
+					return "/3/clubboard/select?cbNo=" + clubboard.getCbNo();
 				}
 			}
 			return "redirect:/3/clubboard/update?cbNo=" + clubboard.getCbNo();
@@ -259,8 +260,12 @@ public class ClubBoardController {
 		try 
 		{
 			System.out.println(cReply.toString());
-//			cReply.setClubBoard(cbNo);
-//			crRep.save(cReply);
+			System.out.println(cbNo);
+			cReply.setClubBoard(cbNo);
+			cReply.setRParentnumber(0L);
+			System.out.println(cReply.toString());
+			
+			crRep.save(cReply);
 			return "redirect:/clubboard/select?cbNo=" + cReply.getClubBoard().getCbNo();
 		}
 		catch (Exception e)

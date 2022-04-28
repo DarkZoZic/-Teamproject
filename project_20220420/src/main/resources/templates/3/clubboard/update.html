@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글수정</title>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h3>글수정</h3>
+        <form th:action=@{/clubboard/update} method="post">
+	        <!-- <input type="text" th:value="${clubboard.cbNo}" /><br />
+	        <input type="text" th:value="${clubboard.cbTitle}" /><br />
+	        <input type="text" th:value="${clubboard.cbContent}" /><br /> -->
+	        <input type="submit" value="수정" />
+        </form>
+    </div>
+</body>
+</html>
