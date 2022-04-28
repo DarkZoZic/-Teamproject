@@ -1,6 +1,7 @@
 package com.example.controller.controller_2;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import com.example.repository.MemberPSRepository;
 import com.example.repository.MemberRepository;
 import com.example.service.UserDetailsServiceImpl;
 import com.example.service.service_2.MemberService;
+import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
 
 // backend만 구현함. 화면구현 X, vue.js 또는 react.js 연동
 
@@ -42,6 +44,34 @@ public class CustomerRestController {
 	@Autowired MemberPSRepository mpsRepository;
 
 	@Autowired MemberCPRepository cpRepository;
+
+	// 이메일로 아이디찾기
+	// 127.0.0.1:9090/ROOT/member/searchid
+	@RequestMapping(value = "/searchid", 
+	//{"uemail":"c1", "upw":"c1" };
+			method = { RequestMethod.GET },
+			consumes = { MediaType.ALL_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> searchidget(
+		@RequestParam(name = "email")String email){
+			System.out.println(email);
+		Map<String, Object> map = new HashMap<>();
+		map.put("status", 0); // 정상적이지 않을때
+			try {
+				Member member = mRepository.findBymEmail(email);
+				System.out.println(member);
+				String mid = member.getMId();
+				// if(Match(member.getMPw(), user.getPassword()))
+				map.put("Your id", mid);
+				map.put("status", 200); 
+
+			}	
+			 catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		return map;
+	}
 
 	// 회원정보 수정
 	// 127.0.0.1:9090/ROOT/member/updatemember
@@ -61,13 +91,17 @@ public class CustomerRestController {
 			
 			String username = jwtUtil.extractUsername(token);
 			System.out.println(username);
-			Member member1 =mRepository.findById(username).orElse(null);
+			BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+			UserDetails user = userDetailservice.loadUserByUsername(username);
 			// Member member1 = new Member();
 			
 			// UserDetails user = userDetailservice.loadUserByUsername(username);
 			// System.out.println("===="+ user);
 			// // 현재암호랑 입력한 암호가 맞는지 확인
 			// // user.getPassword() 는 암호화 된거  member.getUpw() 는 암호화x
+			if(bcpe.matches(member.getMPw(), user.getPassword())){
+			Member member1 =mRepository.findById(username).orElse(null);
+				
 			if(file != null){
 					if(!file.isEmpty()){
 						member1.setMProfile(file.getBytes());
@@ -92,7 +126,7 @@ public class CustomerRestController {
 				
 				
 			map.put("status", 200); // 0 -> 200
-				
+	}
 		}
 		
 		catch (Exception e) {

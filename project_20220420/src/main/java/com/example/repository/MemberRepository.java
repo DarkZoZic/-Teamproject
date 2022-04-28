@@ -23,11 +23,13 @@ public interface MemberRepository extends JpaRepository<Member, String>{
     // @Query("UPDATE MPW  set firstname = ?1 where u.lastname = ?2")
     // int setFixedFirstnameFor(String firstname, String lastname);
 
-    @Transactional
-    @Modifying // select 문이 아님을 나타낸다
-    @Query(value = "UPDATE MEMBERTBL  SET M_PW = :password where M_ID = :mid", nativeQuery = true)
-    void changePwd(@Param("password")
-    String password, @Param("mid")String mid);
+    // @Transactional
+    // @Modifying // select 문이 아님을 나타낸다
+    // @Query(value = "UPDATE MEMBERTBL  SET M_PW = :password where M_ID = :mid", nativeQuery = true)
+    // void changePwd(@Param("password")
+    // String password, @Param("mid")String mid);
 
-    // List<Member> updaMembers(String id);
+    Member findBymEmail(String email);
+
+
 }
