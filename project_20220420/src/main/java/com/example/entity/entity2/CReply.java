@@ -34,46 +34,60 @@ import lombok.Data;
 sequenceName = "SEQ_CREPLY_NO", 
 allocationSize = 1, initialValue = 1)
 public class CReply {
-   // 댓글 번호
+  
+  // 댓글 번호
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, 
   generator = "SEQ_CREPLY") // 시퀀스 적용
   private Long reNumber;
+
   // 댓글 내용
   @Column(nullable = false)
   @Lob
   private String reContent;
+
   // 댓글 작성일
   @Column(nullable = false)
   private Date reRegdate;
+
   // 부모댓글번호
-  @Column(nullable = false)
-  private String rParentnumber;
+  private Long rParentnumber;
+
   // 수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@UpdateTimestamp // CURRENT_DATE
 	@Column(name = "CBIREGDATE",nullable = false)
   private Date rUpdatedate;
+
   // 회원이메일
   @Column(nullable = false)
   private String mpEmail;
+
   // 기업아이디
   @Column(nullable = false)
   private String mcId;
-  // 클럽게시판
+
+  // 자유게시판 글번호
   @ManyToOne
   @JoinColumn(name = "b_no")
+  private Board1 board1;
+
+  // 클럽게시판 글번호
+  @ManyToOne
+  @JoinColumn(name = "cb_no")
   private ClubBoard clubBoard;
+
   // 반응
   @ManyToOne
   @JoinColumn(name = "r_id")
   private Reaction reaction;
+
   // 회원
   @ManyToOne
   @JoinColumn(name = "m_id")
   private Member member;
+
   // 갤러리
-  
   // @OneToMany(mappedBy = "cReply")
   // @JsonBackReference
   // private List<ClubGallery> clubGalleryList = new ArrayList<>();
