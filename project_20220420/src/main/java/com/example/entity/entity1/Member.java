@@ -21,6 +21,7 @@ import com.example.entity.entity2.Chat;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -64,7 +65,11 @@ public class Member {
   private String mEmail;
 
   // 임시변수
+  @Transient
   private String newpw;
+
+  @Transient
+  private String mimageurl;
 
   
   // 카테고리분류

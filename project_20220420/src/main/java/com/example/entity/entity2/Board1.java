@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import com.example.entity.entity1.Member;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -49,9 +51,18 @@ public class Board1 {
 	@CreationTimestamp // CURRENT_DATE
 	@Column(name = "BREGDATE")
   private Date bRegdate;
+
+  // 글수정일
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+	@UpdateTimestamp // 데이터를 첨부할 때 말고 update 할 때도 시간이 찍힘
+	Date buptdate;
   
   // 글종류
   private String bType;
+
+  // 임시변수
+  @Transient
+  private String bimageurl;
 
   // 회원
   @ManyToOne
