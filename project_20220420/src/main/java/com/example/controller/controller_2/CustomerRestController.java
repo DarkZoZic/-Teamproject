@@ -333,7 +333,7 @@ public class CustomerRestController {
 	produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> PersonalJoinPost(
 		@ModelAttribute MemberPersonal psmemberpersonal){
-			// 배열 형식이면 ModelAttribute, 폼데이터 사용
+			// 이미지,배열 형식이면 ModelAttribute, 폼데이터 사용
 			System.out.println(psmemberpersonal.toString());
 			Map<String, Object> map = new HashMap<>();
 		try {

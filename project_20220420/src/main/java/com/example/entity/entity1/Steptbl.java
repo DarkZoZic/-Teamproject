@@ -20,6 +20,6 @@ public class Steptbl {
   // 내용(설명)
   private String sContent;
   // 클럽가입
-  @OneToMany(mappedBy = "steptbl")
-  private List<JoinClub> joinclubList = new ArrayList<>();
+  // @OneToMany(mappedBy = "steptbl")
+  // private List<JoinClub> joinclubList = new ArrayList<>();
 }
