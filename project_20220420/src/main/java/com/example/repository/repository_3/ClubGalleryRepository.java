@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.example.entity.entity1.ClubGallery;
 
 @Repository
-public interface ClubGallaryRepository extends JpaRepository<ClubGallery, Long>{
+public interface ClubGalleryRepository extends JpaRepository<ClubGallery, Long>{
 
 }

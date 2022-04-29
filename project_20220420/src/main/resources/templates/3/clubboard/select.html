@@ -14,11 +14,8 @@
         		제목 <p th:text="${clubboard.cbTitle}"></p>
         		내용 <p th:text="${clubboard.cbContent}"></p>
         		
-        		이미지 <p th:text="${cbimage.cbiImagesize}"></p>
         		<img th:src="@{/clubboard/image(cbNo=${clubboard.cbNo})}" style="width:200px;" />
         </form>
-        
-        
         
         <table>
         	<tr>

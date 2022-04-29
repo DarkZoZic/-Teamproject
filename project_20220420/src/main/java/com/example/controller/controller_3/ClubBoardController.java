@@ -77,8 +77,6 @@ public class ClubBoardController {
 //			System.out.println(file.getContentType());
 			CbImage cbImage = new CbImage();
 			
-		
-			
 			cbRep.save(clubBoard);
 			
 			if(file != null) 
@@ -135,7 +133,7 @@ public class ClubBoardController {
 		}
 	}
 
-	// 클럽게시판 글 상세내용 페이지 (첨부이미지, 댓글 포함)
+	// 클럽게시판 글 상세내용 페이지 (첨부이미지, 댓글 포함) // 좋아요 기능 미구현
 	// 127.0.0.1:9090/ROOT/clubboard/select?cbNo=
 	@GetMapping(value="/select")
 	public String selectGET(Model model, @RequestParam(name="cbNo") long cbNo
@@ -181,8 +179,8 @@ public class ClubBoardController {
 		try 
 		{
 			CbImage cbImage = cbiRep.findByClubBoard_CbNoOrderByCbiImgcodeAsc(cbNo);
-			System.out.println(cbImage.getCbiImagesize().toString());
-			System.out.println(cbImage.getCbiImage().length);
+			System.out.println("size : " + cbImage.getCbiImagesize().toString());
+			System.out.println("length : " + cbImage.getCbiImage().length);
 			if(cbImage.getCbiImagesize() > 0)
 			{
 				HttpHeaders headers = new HttpHeaders();
