@@ -29,14 +29,17 @@ public class SteptblRestController {
     produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> JoinPoast(
         @RequestBody Steptbl step){
-        System.out.println(step.toString());
+        System.out.println(step);
 
     Map<String, Object> map = new HashMap<>();
      try {
         // step.setSCode(step.getSCode());
         // step.setSContent(step.getSContent());
         // System.out.println(step);
-    //     stRepository.save(step);
+        // Steptbl steptbl = new Steptbl();
+        System.out.println(step.getSContent());
+        System.out.println(step.getSCode());
+        stRepository.save(step);
         
         
         map.put("status", 200);
