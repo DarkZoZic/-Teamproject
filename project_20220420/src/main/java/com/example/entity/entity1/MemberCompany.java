@@ -9,9 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import lombok.Data;
 
 @Data
@@ -25,8 +22,6 @@ public class MemberCompany {
   @Column(nullable = false)
   private String mcDesc;
   // 기업설립일
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-	@CreationTimestamp // CURRENT_DATE
 	@Column(name = "MCBIRTH")
 	private Date mcBirth;
   // 회원
