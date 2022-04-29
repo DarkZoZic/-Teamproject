@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 4000,
     "height": 4000,
-    "scrollTop": -542,
-    "scrollLeft": -419,
-    "zoomLevel": 0.8,
+    "scrollTop": -294,
+    "scrollLeft": -1092,
+    "zoomLevel": 0.9,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -874,7 +874,7 @@
           "active": false,
           "left": 1797.9591,
           "top": 1056.4206,
-          "zIndex": 25,
+          "zIndex": 24,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1389,7 +1389,7 @@
           "active": false,
           "left": 2285.3802,
           "top": 655.7524,
-          "zIndex": 21,
+          "zIndex": 39,
           "widthName": 60,
           "widthComment": 60
         },
@@ -3391,7 +3391,7 @@
           "active": false,
           "left": 148.6668,
           "top": 1068.8332,
-          "zIndex": 22,
+          "zIndex": 21,
           "widthName": 60,
           "widthComment": 60
         },
@@ -3522,7 +3522,7 @@
           "active": false,
           "left": 1040.2492,
           "top": 541.3326,
-          "zIndex": 23,
+          "zIndex": 22,
           "widthName": 88.0615234375,
           "widthComment": 60
         },
@@ -3530,7 +3530,7 @@
         "id": "b8b3504d-edeb-4931-b6bd-9dbf46ebf7aa"
       },
       {
-        "name": "JOIN",
+        "name": "JOINCLUBTBL",
         "comment": "클럽가입",
         "columns": [
           {
@@ -3601,14 +3601,37 @@
               "widthDefault": 60
             },
             "id": "d51d6dff-c155-46ae-8c8e-633281d93503"
+          },
+          {
+            "name": "S_CODE",
+            "comment": "개설 신청 가입 관리자승격 ",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 120,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "6cb403e8-e4b5-4de4-a8f8-da9c101942d0"
           }
         ],
         "ui": {
           "active": false,
           "left": 1618.2224,
           "top": 546.2781,
-          "zIndex": 10,
-          "widthName": 60,
+          "zIndex": 159,
+          "widthName": 81.33935546875,
           "widthComment": 60
         },
         "visible": true,
@@ -3784,7 +3807,7 @@
           "active": false,
           "left": 528.5562,
           "top": 1103.1667,
-          "zIndex": 24,
+          "zIndex": 23,
           "widthName": 60,
           "widthComment": 60
         },
@@ -4004,15 +4027,77 @@
           }
         ],
         "ui": {
-          "active": true,
-          "left": 249.7777,
-          "top": 486.7218,
-          "zIndex": 28,
+          "active": false,
+          "left": 243.1111,
+          "top": 485.6107,
+          "zIndex": 48,
           "widthName": 75.201171875,
           "widthComment": 60
         },
         "visible": true,
         "id": "79d2f0e4-efbe-424e-8069-0856167dc6f9"
+      },
+      {
+        "name": "STEPTBL",
+        "comment": "클럽활동내역",
+        "columns": [
+          {
+            "name": "S_CODE",
+            "comment": "개설 신청 가입 관리자승격 ",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 120,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "df0ba83e-54d0-4faa-b565-96a2629ab8ab"
+          },
+          {
+            "name": "S_CONTENT",
+            "comment": "내용(설명)",
+            "dataType": "VARCHAR2(50)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 73.2080078125,
+              "widthComment": 61.921875,
+              "widthDataType": 89.29296875,
+              "widthDefault": 60
+            },
+            "id": "8452f469-3c9b-4994-97f0-bc7f61016771"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 1539.6668,
+          "top": 327.0002,
+          "zIndex": 165,
+          "widthName": 60,
+          "widthComment": 80
+        },
+        "visible": true,
+        "id": "1044f28c-8fdb-4d1a-af3f-3a17f2b19197"
       }
     ],
     "indexes": []
@@ -4030,6 +4115,18 @@
           "height": 100
         },
         "id": "fd0878f3-6bf2-4af8-a746-f4fe93033487"
+      },
+      {
+        "value": "멤버, 스텝, 조인, 클럽 뷰로 만들어!\n\n101 마스터(개설)\n102 관리자\n103 가입거절\n104 회원(가입)\n105 신청\n106 탈퇴\n\n201 마스터 > 관리자 변경\n202 마스터 > 회원    변경\n203 관리자 > 회원    변경\n204 관리자 > 마스터 변경\n205 회원    > 관리자 변경",
+        "ui": {
+          "active": false,
+          "left": 1667.4444444444455,
+          "top": 29.222222222222396,
+          "zIndex": 137,
+          "width": 234,
+          "height": 241
+        },
+        "id": "82bfdf3c-4d5d-4585-ab46-d80921350b32"
       }
     ]
   },
@@ -4495,8 +4592,8 @@
           "columnIds": [
             "be67c16e-1226-45fc-a63d-155507e4d60f"
           ],
-          "x": 2006.08568125,
-          "y": 611.5281,
+          "x": 2054.51536875,
+          "y": 621.7781,
           "direction": "right"
         },
         "constraintName": "fk_club_to_join",
@@ -4512,8 +4609,8 @@
           "columnIds": [
             "9b2e1726-febd-43ec-9ed4-7774713238b0"
           ],
-          "x": 707.9193015625,
-          "y": 507.8468,
+          "x": 701.2527015625,
+          "y": 506.7357,
           "direction": "right"
         },
         "end": {
@@ -4538,8 +4635,8 @@
           "columnIds": [
             "9b2e1726-febd-43ec-9ed4-7774713238b0"
           ],
-          "x": 707.9193015625,
-          "y": 550.0968,
+          "x": 701.2527015625,
+          "y": 548.9857,
           "direction": "right"
         },
         "end": {
@@ -4548,7 +4645,7 @@
             "d51d6dff-c155-46ae-8c8e-633281d93503"
           ],
           "x": 1618.2224,
-          "y": 611.5281,
+          "y": 621.7781,
           "direction": "left"
         },
         "constraintName": "fk_member_to_join",
@@ -4564,8 +4661,8 @@
           "columnIds": [
             "9b2e1726-febd-43ec-9ed4-7774713238b0"
           ],
-          "x": 707.9193015625,
-          "y": 592.3468,
+          "x": 701.2527015625,
+          "y": 591.2357,
           "direction": "right"
         },
         "end": {
@@ -4590,8 +4687,8 @@
           "columnIds": [
             "9b2e1726-febd-43ec-9ed4-7774713238b0"
           ],
-          "x": 707.9193015625,
-          "y": 719.0968,
+          "x": 701.2527015625,
+          "y": 717.9857,
           "direction": "right"
         },
         "end": {
@@ -4625,8 +4722,8 @@
           "columnIds": [
             "8b10cb8e-3449-4825-8ebe-cf142a4989cf"
           ],
-          "x": 707.9193015625,
-          "y": 634.5968,
+          "x": 701.2527015625,
+          "y": 633.4857,
           "direction": "right"
         },
         "constraintName": "fk_category_to_member",
@@ -4642,8 +4739,8 @@
           "columnIds": [
             "9b2e1726-febd-43ec-9ed4-7774713238b0"
           ],
-          "x": 707.9193015625,
-          "y": 676.8468,
+          "x": 701.2527015625,
+          "y": 675.7357,
           "direction": "right"
         },
         "end": {
@@ -4668,8 +4765,8 @@
           "columnIds": [
             "9b2e1726-febd-43ec-9ed4-7774713238b0"
           ],
-          "x": 631.56236796875,
-          "y": 740.2218,
+          "x": 624.89576796875,
+          "y": 739.1107,
           "direction": "bottom"
         },
         "end": {
@@ -4694,8 +4791,8 @@
           "columnIds": [
             "9b2e1726-febd-43ec-9ed4-7774713238b0"
           ],
-          "x": 478.84850078125,
-          "y": 740.2218,
+          "x": 472.18190078124996,
+          "y": 739.1107,
           "direction": "bottom"
         },
         "end": {
@@ -4720,8 +4817,8 @@
           "columnIds": [
             "9b2e1726-febd-43ec-9ed4-7774713238b0"
           ],
-          "x": 326.13463359375,
-          "y": 740.2218,
+          "x": 319.46803359374996,
+          "y": 739.1107,
           "direction": "bottom"
         },
         "end": {
@@ -4746,8 +4843,8 @@
           "columnIds": [
             "9b2e1726-febd-43ec-9ed4-7774713238b0"
           ],
-          "x": 593.383901171875,
-          "y": 486.7218,
+          "x": 586.717301171875,
+          "y": 485.6107,
           "direction": "top"
         },
         "end": {
@@ -4772,8 +4869,8 @@
           "columnIds": [
             "9b2e1726-febd-43ec-9ed4-7774713238b0"
           ],
-          "x": 364.313100390625,
-          "y": 486.7218,
+          "x": 357.64650039062496,
+          "y": 485.6107,
           "direction": "top"
         },
         "end": {
@@ -4814,6 +4911,32 @@
         "constraintName": "fk_notification_to_notype",
         "visible": true,
         "id": "dcc546df-1a95-4756-915a-8a571d39a2f2"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "1044f28c-8fdb-4d1a-af3f-3a17f2b19197",
+          "columnIds": [
+            "df0ba83e-54d0-4faa-b565-96a2629ab8ab"
+          ],
+          "x": 1764.41728828125,
+          "y": 437.0002,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "0f2225a8-18c5-4e97-8497-809ce7158f38",
+          "columnIds": [
+            "6cb403e8-e4b5-4de4-a8f8-da9c101942d0"
+          ],
+          "x": 1836.368884375,
+          "y": 546.2781,
+          "direction": "top"
+        },
+        "constraintName": "fk_c_step_to_join",
+        "visible": true,
+        "id": "b7661d96-373e-4282-884c-c35d83724518"
       }
     ]
   }

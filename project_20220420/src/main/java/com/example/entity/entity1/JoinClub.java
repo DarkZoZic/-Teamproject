@@ -30,4 +30,8 @@ public class JoinClub {
   @ManyToOne
   @JoinColumn(name = "m_id")
   private Member member;
+  // 클럽활동내역
+  @ManyToOne
+  @JoinColumn(name = "s_code")
+  private Steptbl steptbl;
 }
