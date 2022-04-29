@@ -43,6 +43,13 @@ public class Club {
   // 동호회 썸네일
   @Lob
   private byte[] cThumbnail;
+
+  private String cImagename;
+
+  private String cImagetype;
+
+  private Long cImagesize = 0L;
+  
   // 동호회 공개여부
   @Column(nullable = false)
   private String cPrivate;
