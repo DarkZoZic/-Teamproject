@@ -5,15 +5,19 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.example.entity.entity1.Member;
 import com.example.entity.entity2.Board1;
 import com.example.jwt.JwtUtil;
 import com.example.repository.repository_4.Board1Repository;
+import com.example.service.UserDetailsServiceImpl;
 import com.example.service.service_4.Board1Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,81 +32,101 @@ public class Board1RestController {
     @Autowired Board1Repository b1Repository;
     @Autowired Board1Service b1Service;
     @Autowired JwtUtil jwtUtil;
+    @Autowired UserDetailsServiceImpl userDetailsService;
 
 
     // int PAGECNT = 10
     // global.properties 사용하기. 나중에 숫자 바꾸고 싶은대로 바꾸면 됨
     @Value("${board.page.count}") int PAGECNT;
 
-    // 127.0.0.1:9090/ROOT/api/board1/insert
+    // 127.0.0.1:9090/ROOT/board1/insert
     // {"btitle":"aa", "bcontent":"aa"}
-    @RequestMapping(value = "/insert", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
+    // @RequestMapping(value = "/insert", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
+    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
+    // public Map<String, Object> board1InsertPost(
+    //         @ModelAttribute Board1 board1,
+    //         @ModelAttribute Member member,
+    //         @RequestHeader (name = "TOKEN")String token ){
+    //     // 키를 알고 보내야 함. 틀리면 안감. er다이어그램 보면 됨
+
+    //     System.out.println("BOARDWRITE : "+ token); 
+
+    //     // String username = jwtUtil.extractUsername(token);
+    //     // System.out.println("USERNAME =>" + username);
+        
+        
+    //     Map<String ,Object> map = new HashMap<>();
+
+    //     // UserDetailsServiceImpl 참고
+    //     UserDetails user =  userDetailsService.loadUserByUsername(member.getMId()); //loadUserByUsername를 수동으로 호출
+    //     System.out.println("MEMBER ID :" + user);
+    //     try{
+           
+
+    //         if(token !=null) {
+    //             int ret = b1Service.insertBoard1One(board1);
+    //             System.out.println(board1.toString());
+    //             if(ret == 1){
+    //                 map.put("status", 200); // 성공
+    //             }
+    //         }
+    //         map.put("status", 200);
+    //     }
+    //     catch(Exception e){
+        // e.printStackTrace();
+    //         map.put("status", 0); // 실패
+    //     }
+    //     return map;
+    // }
+
+    // 127.0.0.1:9090/ROOT/board1/delete
+    // {"bno":3}
+    // @RequestMapping(value = "/delete", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
+    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
+    // public Map<String, Object> boardDeletePost(@RequestParam(name = "bNo") long bNo,
+    //                                         @RequestHeader (name = "TOKEN")String token){
+    //     // 키를 알고 보내야 함. 틀리면 안감. er다이어그램 보면 됨
+
+    //     Map<String ,Object> map = new HashMap<>();
+    //     try{
+    //         if(token !=null) {
+    //             int ret = b1Service.deleteBoard1One(bNo);
+    //             if(ret == 1){
+    //                 map.put("status", 200); // 성공
+    //             }
+    //         }
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         map.put("status", 0); // 실패
+    //     }
+    //     return map;
+    // }
+
+    // 127.0.0.1:9090/ROOT/board1/update
+    // 제목, 내용, 번호
+    // {"bno":2, "btitle":"222", "bcontent":"222"}
+    @RequestMapping(value = "/update", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Map<String, Object> board1InsertPost(
-            @RequestBody Board1 board1,
-            @RequestHeader (name = "TOKEN")String token ){
-        // 키를 알고 보내야 함. 틀리면 안감. er다이어그램 보면 됨
+    public Map<String, Object> boardUpdatePost(
+            @ModelAttribute Board1 board1, 
+            @RequestHeader (name = "TOKEN")String token ) {
 
-        System.out.println("BOARDWRITE : "+ token); 
-
-        String username = jwtUtil.extractUsername(token);
-        System.out.println(username);
-        
-        
         Map<String ,Object> map = new HashMap<>();
         try{
             if(token !=null) {
-                int ret = b1Service.insertBoard1One(board1);
-                System.out.println(board1.toString());
+                int ret = b1Service.updateBoard1One(board1);
                 if(ret == 1){
                     map.put("status", 200); // 성공
                 }
-            }
-            
+            }   
         }
         catch(Exception e){
+            e.printStackTrace();
             map.put("status", 0); // 실패
         }
         return map;
     }
-
-    // // 127.0.0.1:9090/ROOT/api/board/delete
-    // // {"bno":3}
-    // @RequestMapping(value = "/delete", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
-    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
-    // public Map<String, Object> boardDeletePost(@RequestParam(name = "bno") long bno){
-    //     // 키를 알고 보내야 함. 틀리면 안감. er다이어그램 보면 됨
-
-    //     Map<String ,Object> map = new HashMap<>();
-
-    //     map.put("status", 0); // 실패
-
-    //     int ret = bMapper.deleteBoardOne(bno);
-    //     if(ret == 1){
-    //         map.put("status", 200); // 성공
-    //     }
-
-    //     return map;
-    // }
-
-    // // 127.0.0.1:9090/ROOT/api/board/update
-    // // 제목, 내용, 번호
-    // // {"bno":2, "btitle":"222", "bcontent":"222"}
-    // @RequestMapping(value = "/update", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
-    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
-    // public Map<String, Object> boardUpdatePost(@RequestBody Board1 board1){
-
-    //     Map<String ,Object> map = new HashMap<>();
-
-    //     map.put("status", 0); // 실패
-
-    //     int ret = bMapper.updateBoardOne(board);
-    //     if(ret == 1){
-    //         map.put("status", 200); // 성공
-    //     }
-
-    //     return map;
-    // }
 
     // // 127.0.0.1:9090/ROOT/api/board/selectone?bno=2
     // // {"bno":2, "btitle":"222", "bcontent":"222"}
