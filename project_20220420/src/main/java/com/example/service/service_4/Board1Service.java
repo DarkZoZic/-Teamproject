@@ -21,13 +21,13 @@ public interface Board1Service {
     // 1개 조회
     public Board1 selectBoard1One(Long bNo);
 
-    // 검색어+ 페이지네이션
-    // public List<Board1> selectBoard1();
+    // 검색어 + 페이지네이션
+    public List<Board1> selectBoard1List(Long bNo);
     
     // // 페이지네이션
     // //public List<Board1> selectBoard1List()
 
-    // 조회수 증가
+    // 조회수 1 증가
     public int updateBoard1HitOne(Long bNo); 
 
     // 일괄삭제

@@ -1,5 +1,7 @@
 package com.example.service.service_4;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -52,7 +54,7 @@ public class Board1ServiceImpl implements Board1Service{
             // updateBoard.setBImageList( board1.getBImageList() ); // 이미지 이렇게 해도 되나?
            
 
-            b1Repository.save(updateBoard);
+            b1Repository.save(board1);
             return 1;
 
         }
@@ -121,6 +123,17 @@ public class Board1ServiceImpl implements Board1Service{
             return null;
         }
 
+    }
+
+    @Override
+    public List<Board1> selectBoard1List(Long bNo) {
+        try{
+            return null;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
