@@ -9,9 +9,56 @@
 <body>
     <div style="padding: 20px;">
         <h3>글상세</h3>
-        <p th:text="${clubboard}"></p>
-        <p th:text="${replylist}"></p>
+        <form th:action="@{/clubboard/update}" method="get">
+        		번호 <p th:text="${clubboard.cbNo}"></p>
+        		제목 <p th:text="${clubboard.cbTitle}"></p>
+        		내용 <p th:text="${clubboard.cbContent}"></p>
+        		
+        		이미지 <p th:text="${cbimage.cbiImagesize}"></p>
+        		<img th:src="@{/clubboard/image(cbNo=${clubboard.cbNo})}" style="width:200px;" />
+        </form>
         
+        
+        
+        <table>
+        	<tr>
+        		<th>댓글번호</th>
+        		<th>댓글</th>
+        	</tr>
+        	
+        	<tr th:each="tmp : ${replylist}">
+        		<td th:text="${tmp.reNumber}"></td>
+        		<td th:text="${tmp.reContent}"></td>
+        	</tr>
+        	
+        </table>
+        
+        <form th:action="@{/clubboard/update}" method="get" style="display:inline-block;">
+			<input type="submit" value="수정" />
+			<input type="hidden" name="cbNo" th:value=${clubboard.cbNo} />
+		</form>
+        
+        <form th:action="@{/clubboard/delete}" method="post" style="display:inline-block;">
+			<input type="submit" value="삭제" onclick="if(!confirm('삭제하시겠습니까?')){return false;}"/>
+			<input type="hidden" name="cbNo" th:value=${clubboard.cbNo} />
+		</form>
+		<br />
+		
+		<div th:if="${prev} != null" style="display:inline-block;">
+			<form th:action="@{/clubboard/prev}" method="post" style="display:inline-block;">
+				<input type="submit" value="이전글" />
+				<input type="hidden" name="cbNo" th:value=${clubboard.cbNo} />
+			</form>
+		</div>
+		
+		<a th:href="@{/clubboard/selectlist}">글목록</a>
+		
+		<div th:if="${next} != null" style="display:inline-block;">
+			<form th:action="@{/clubboard/next}" method="post" style="display:inline-block;">
+				<input type="submit" value="다음글" />
+				<input type="hidden" name="cbNo" th:value=${clubboard.cbNo} />
+			</form>
+		</div>
     </div>
 </body>
 </html>

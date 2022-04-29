@@ -9,10 +9,16 @@
 <body>
     <div style="padding: 20px;">
         <h3>글수정</h3>
-        <form th:action=@{/clubboard/update} method="post">
-	        <!-- <input type="text" th:value="${clubboard.cbNo}" /><br />
-	        <input type="text" th:value="${clubboard.cbTitle}" /><br />
-	        <input type="text" th:value="${clubboard.cbContent}" /><br /> -->
+        <form th:action="@{/clubboard/update}" method="post">
+	        <input type="hidden" th:value="${clubboard.cbNo}" name="cbNo" />
+	        <input type="hidden" th:value="${clubboard.cbNoticecheck}" name="cbNoticecheck" />
+	        <input type="hidden" th:value="${clubboard.cbDepth}" name="cbDepth" />
+	        <input type="hidden" th:value="${clubboard.cbRegdate}" name="cbRegdate" />
+	        제목 <input type="text" th:value="${clubboard.cbTitle}" name="cbTitle" /><br />
+	        내용 <textarea rows="10" style="width:400px;" th:text="${clubboard.cbContent}" name="cbContent" ></textarea><br />
+	        
+	        <img th:src="@{/clubboard/image(cbNo=${clubboard.cbNo})}" style="width:200px;" /><br />
+	        이미지 <input type="file" name="file" th:value="cbimage.cbiImagename"/><br />
 	        <input type="submit" value="수정" />
         </form>
     </div>

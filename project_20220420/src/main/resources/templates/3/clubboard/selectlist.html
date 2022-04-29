@@ -9,7 +9,47 @@
 <body>
     <div style="padding: 20px;">
         <h3>글목록</h3>
-         <p th:text="${list}"></p>
+        <table>
+        	<tr>
+        		<th>글번호</th>
+        	 	<th>제목</th>
+        	 	<th>내용</th>
+        	 	<th>조회수</th>
+        	</tr>
+        	
+        	<tr th:each="tmp : ${list}">
+        		<td th:text="${tmp.cbNo}"></td>
+        		<td><a href="#" th:onclick="|javascript:updateHit('${tmp.cbNo}')|" th:text="${tmp.cbTitle}"></a></td>
+        		<td th:text="${tmp.cbContent}"></td>
+        		<td th:text="${tmp.cbHit}"></td>
+        	</tr>
+        </table>
+        
+        <a th:href="@{/clubboard/insert}">글작성</a><br />
+        
+        <th:block th:each="i : ${#numbers.sequence(1, pages)}"><a th:href="@{/clubboard/selectlist(page=${i}, text=${param.text})}" th:text="${i}"></a></th:block>
     </div>
+    
+    <script>
+		function updateHit(cbNo)
+		{
+			// 1. 조회수 증가용 restful 호출 ex) axios
+			const xhr = new XMLHttpRequest(); //axios와 동일 기능
+			const url = '/ROOT/api/clubboard/updatehit?cbNo='+cbNo;
+			xhr.open("PUT", url, true);
+			xhr.responstType="json";	
+			xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8;');
+			xhr.onload = function(e)
+			{
+				console.log(e.target);
+				if(e.target.status === 200)
+				{
+					// 2. 다음 페이지로 이동
+					location.href="/ROOT/clubboard/select?cbNo="+cbNo;
+				}
+			}
+			xhr.send(); //xhr을 호출해야 onload가 반응함
+		}
+	</script>
 </body>
 </html>

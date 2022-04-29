@@ -21,4 +21,11 @@ public interface ClubBoardRepository extends JpaRepository<ClubBoard, Long>{
 	// 글수정 query문
 	@Query(value = "UPDATE CLUBBOARD SET CBTITLE = #{#clubboard.cbtitle}, CBCONTENT = #{#clubboard.cbcontent}, CBUPDATEDATE = CURRENT_DATE WHERE CBNO = :cbno", nativeQuery = true)
 	public ClubBoard updateOne(ClubBoard clubboard, long cbno);
+	
+	// 이전글
+	public ClubBoard findTop1ByCbNoLessThanOrderByCbNoDesc(long cbNo);
+	
+	
+	//다음글
+	public ClubBoard findTop1ByCbNoGreaterThanOrderByCbNoAsc(long cbNo);
 }

@@ -1,12 +1,18 @@
 package com.example.controller.controller_3;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +56,9 @@ public class ClubBoardController {
 	@Autowired
 	ClubBoardImageRepository cbiRep;
 	
+	@Autowired
+	ResourceLoader resLoader;
+	
 	// 127.0.0.1:9090/ROOT/clubboard/insert
 	@GetMapping(value="/insert")
 	public String insertGET()
@@ -64,7 +73,7 @@ public class ClubBoardController {
 	{
 		try 
 		{
-			System.out.println(file.getContentType());
+//			System.out.println(file.getContentType());
 			CbImage cbImage = new CbImage();
 			if(file != null) 
 			{
@@ -82,7 +91,7 @@ public class ClubBoardController {
 			cbRep.save(clubBoard);
 			
 			
-			return "redirect:/3/clubboard/selectlist";
+			return "redirect:/clubboard/selectlist";
 		} 
 		catch (Exception e) 
 		{
@@ -140,10 +149,17 @@ public class ClubBoardController {
 			model.addAttribute("replylist", replylist); // 댓글
 //			model.addAttribute("rtype", rtype); // 좋아요 수
 			
-			if(cbiRep.findByClubBoard_cbNoOrderByCbiImgcodeAsc(cbNo) != null) // 글에 첨부된 이미지가 있으면
+			CbImage image = cbiRep.findByClubBoard_CbNoOrderByCbiImgcodeAsc(cbNo);
+			System.out.println(image);
+			if(image != null) // 글에 첨부된 이미지가 있으면
 			{
-				model.addAttribute("cbimage", cbiRep.findByClubBoard_cbNoOrderByCbiImgcodeAsc(cbNo)); //이미지
+				model.addAttribute("cbimage", image); //이미지
 			}
+			
+			ClubBoard prev = cbRep.findTop1ByCbNoLessThanOrderByCbNoDesc(cbNo);
+			ClubBoard next = cbRep.findTop1ByCbNoGreaterThanOrderByCbNoAsc(cbNo);
+			model.addAttribute("prev", prev);
+			model.addAttribute("next", next);
 			
 			return "/3/clubboard/select";
 		} 
@@ -154,7 +170,51 @@ public class ClubBoardController {
 		}
 	}
 	
-	
+	// 클럽게시판 글상세 이미지 표시
+	// 127.0.0.1:9090/ROOT/clubboard/image
+	@GetMapping(value="/image")
+	public ResponseEntity<byte[]> imageGET(@RequestParam(name="cbNo") long cbNo) throws IOException
+	{
+		try 
+		{
+			CbImage cbImage = cbiRep.findByClubBoard_CbNoOrderByCbiImgcodeAsc(cbNo);
+			System.out.println(cbImage.getCbiImagesize().toString());
+			System.out.println(cbImage.getCbiImage().length);
+			if(cbImage.getCbiImagesize() > 0)
+			{
+				HttpHeaders headers = new HttpHeaders();
+				if(cbImage.getCbiImagetype().equals("image/jpeg")) {
+					System.out.println("///////////////////////////////bbb/////////////////////////");
+					headers.setContentType(MediaType.IMAGE_JPEG);
+				}
+				else if(cbImage.getCbiImagetype().equals("image/png")) {
+					headers.setContentType(MediaType.IMAGE_PNG);
+				}
+				else if(cbImage.getCbiImagetype().equals("image/gif")) {
+					headers.setContentType(MediaType.IMAGE_GIF);
+				}
+				
+				// 이미지 byte[], headers, HttpStatus.Ok
+				ResponseEntity<byte[]> response = new ResponseEntity<>(cbImage.getCbiImage(), headers, HttpStatus.OK );	
+				System.out.println("///////////////////////aaa///////////////////////");
+				return response;
+			}
+			else
+			{
+				InputStream is = resLoader.getResource("classpath:/static/images/default.png").getInputStream();
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.IMAGE_PNG);
+				
+				ResponseEntity<byte[]> response = new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK );
+				return response;
+			}
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 	// 클럽게시판 글삭제
 	// 127.0.0.1:9090/ROOT/clubboard/delete?cbNo=
@@ -168,7 +228,7 @@ public class ClubBoardController {
 			crRep.deleteByClubBoard_cbNo(cbNo); // 글에 달린 댓글삭제
 			cbRep.deleteById(cbNo); //글 삭제
 			
-			return "redirect:/3/clubboard/selectlist";
+			return "redirect:/clubboard/selectlist";
 		} 
 		catch (Exception e) 
 		{
@@ -184,8 +244,8 @@ public class ClubBoardController {
 	{
 		try 
 		{
-			model.addAttribute("clubboard", cbRep.findById(cbNo)); //글내용 수정페이지로 넘겨주기
-			model.addAttribute("cbimage", cbiRep.findByClubBoard_cbNoOrderByCbiImgcodeAsc(cbNo)); //이미지파일 데이터 넘겨주기
+			model.addAttribute("clubboard", cbRep.findById(cbNo).orElse(null)); //글내용 수정페이지로 넘겨주기
+			model.addAttribute("cbimage", cbiRep.findByClubBoard_CbNoOrderByCbiImgcodeAsc(cbNo)); //이미지파일 데이터 넘겨주기
 			return "/3/clubboard/update";
 		} 
 		catch (Exception e) 
@@ -196,7 +256,7 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 글수정
-	// 127.0.0.1:9090/ROOT/clubboard/update
+	// 127.0.0.1:9090/ROOT/clubboard/update?cbNo=
 	@PostMapping(value="/update")
 	public String updatePOST(@ModelAttribute ClubBoard clubboard, @ModelAttribute CbImage cbimage, @RequestParam(name="cbimage", required=false) MultipartFile file)
 	{
@@ -206,6 +266,7 @@ public class ClubBoardController {
 			{
 				if(!file.isEmpty())
 				{
+					cbimage.setCbiImgcode(cbimage.getCbiImgcode());
 					cbimage.setCbiImage(file.getBytes());
 					cbimage.setCbiImagename(file.getOriginalFilename());
 					cbimage.setCbiImagesize(file.getSize());
@@ -215,14 +276,17 @@ public class ClubBoardController {
 			}
 			else //파일 미첨부시 
 			{
-				if(cbimage.getCbiImage() != null) 
+				CbImage oldImage = cbiRep.findByClubBoard_CbNoOrderByCbiImgcodeAsc(clubboard.getCbNo());
+				if(oldImage.getCbiImage() != null) 
 				{
-					if(cbimage.getCbiImage().length > 0)//글에 기존에 올린 이미지파일이 있으면 해당 이미지파일 데이터 가져오기
+					if(oldImage.getCbiImage().length > 0)//글에 기존에 올린 이미지파일이 있으면 해당 이미지파일 데이터 가져오기
 					{
-						cbimage.setCbiImage(cbimage.getCbiImage());
-						cbimage.setCbiImagename(cbimage.getCbiImagename());
-						cbimage.setCbiImagesize(cbimage.getCbiImagesize());
-						cbimage.setCbiImagetype(cbimage.getCbiImagetype());
+						cbimage.setCbiImgcode(oldImage.getCbiImgcode());
+						cbimage.setCbiImage(oldImage.getCbiImage());
+						cbimage.setCbiImagename(oldImage.getCbiImagename());
+						cbimage.setCbiImagesize(oldImage.getCbiImagesize());
+						cbimage.setCbiImagetype(oldImage.getCbiImagetype());
+//						System.out.println("oldimage : "+cbimage.getCbiImagetype().toString());
 					}
 				}
 				else //없으면 null
@@ -234,16 +298,13 @@ public class ClubBoardController {
 				}
 			}
 			
-			int ret = cbService.updateClubBoard(clubboard);
-			int ret1 = cbiService.updateClubBoardImage(cbimage);
-			if(ret == 1)
-			{
-				if(ret1 == 1)
-				{
-					return "/3/clubboard/select?cbNo=" + clubboard.getCbNo();
-				}
-			}
-			return "redirect:/3/clubboard/update?cbNo=" + clubboard.getCbNo();
+			System.out.println(clubboard.toString());
+			
+			cbRep.save(clubboard);
+			cbiRep.save(cbimage);
+			
+			return "redirect:/clubboard/select?cbNo=" + clubboard.getCbNo();
+				
 		} 
 		catch (Exception e) 
 		{
@@ -285,7 +346,7 @@ public class ClubBoardController {
 		try 
 		{
 			crRep.deleteById(creply.getReNumber());
-			return "redirect:/3/clubboard/selectlist";
+			return "redirect:/clubboard/selectlist";
 		} 
 		catch (Exception e) 
 		{
@@ -304,8 +365,50 @@ public class ClubBoardController {
 		{
 			reaction.setClubBoard(cbNo);
 			cbrRep.save(reaction); //rType(반응종류) = "좋아요" or "따봉"
-			return "redirect:/3/clubboard/select?cbNo=" + cbNo.getCbNo();
+			return "redirect:/clubboard/select?cbNo=" + cbNo.getCbNo();
 		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
+	
+	@PostMapping(value="/prev")
+	public String prevPOST(@RequestParam(name="cbNo") long cbNo, Model model)
+	{
+		try 
+		{
+			ClubBoard prev = cbRep.findTop1ByCbNoLessThanOrderByCbNoDesc(cbNo);
+			
+			if(prev == null)
+			{
+				return "redirect:/clubboard/select?cbNo=" + cbNo;
+			}
+			model.addAttribute("clubboard", prev);
+			return "redirect:/clubboard/select?cbNo=" + prev.getCbNo();
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
+	
+	@PostMapping(value="/next")
+	public String nextPOST(@RequestParam(name="cbNo") long cbNo, Model model)
+	{
+		try 
+		{
+			ClubBoard next = cbRep.findTop1ByCbNoGreaterThanOrderByCbNoAsc(cbNo);
+			
+			if(next == null)
+			{
+				return "redirect:/clubboard/select?cbNo=" + cbNo;
+			}
+			model.addAttribute("clubboard", next);
+			return "redirect:/clubboard/select?cbNo=" + next.getCbNo();
+		}
 		catch (Exception e) 
 		{
 			e.printStackTrace();
