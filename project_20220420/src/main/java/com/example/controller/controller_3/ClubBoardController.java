@@ -68,6 +68,7 @@ public class ClubBoardController {
 	
 	// 클럽게시판 글쓰기
 	// 127.0.0.1:9090/ROOT/clubboard/insert
+	//{cbTitle":"", "cbContent":"", "cbNoticecheck":"n", "file":""}
 	@PostMapping(value="/insert")
 	public String insertPOST(@ModelAttribute ClubBoard clubBoard, @RequestParam(name="file", required=false) MultipartFile file) throws IOException
 	{
@@ -75,6 +76,11 @@ public class ClubBoardController {
 		{
 //			System.out.println(file.getContentType());
 			CbImage cbImage = new CbImage();
+			
+		
+			
+			cbRep.save(clubBoard);
+			
 			if(file != null) 
 			{
 				if(!file.isEmpty())// 이미지파일 첨부시
@@ -84,12 +90,9 @@ public class ClubBoardController {
 					cbImage.setCbiImagesize(file.getSize());
 					cbImage.setCbiImagetype(file.getContentType());
 					cbImage.setClubBoard(clubBoard);
-					cbiService.insertClubBoardImage(cbImage);
+					cbiRep.save(cbImage);
 				}
 			}
-			
-			cbRep.save(clubBoard);
-			
 			
 			return "redirect:/clubboard/selectlist";
 		} 
@@ -197,6 +200,7 @@ public class ClubBoardController {
 				// 이미지 byte[], headers, HttpStatus.Ok
 				ResponseEntity<byte[]> response = new ResponseEntity<>(cbImage.getCbiImage(), headers, HttpStatus.OK );	
 				System.out.println("///////////////////////aaa///////////////////////");
+				System.out.println(response.toString());
 				return response;
 			}
 			else
