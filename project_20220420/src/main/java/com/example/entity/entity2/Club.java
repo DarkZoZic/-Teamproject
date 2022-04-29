@@ -3,6 +3,7 @@ package com.example.entity.entity2;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -49,7 +50,7 @@ public class Club {
   private String cImagetype;
 
   private Long cImagesize = 0L;
-  
+
   // 동호회 공개여부
   @Column(nullable = false)
   private String cPrivate;
@@ -65,10 +66,10 @@ public class Club {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
 	@Column(name = "CREGDATE",nullable = false)
-  private LocalDate cRegdate;
+  private Date cRegdate;
   // 동호회 창립일
   @Column(nullable = false)
-  private LocalDate cBirth;
+  private String cBirth;
   // 동호회 활동지역
   @Column(nullable = false)
   private String cArea;
