@@ -10,6 +10,8 @@ import com.example.entity.entity2.Board1;
 import com.example.repository.repository_4.Board1Repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -80,8 +82,6 @@ public class Board1ServiceImpl implements Board1Service{
     @Override
     public int deleteBoard1Batch(Long[] bNo) {
         try{
-          
-
             for( Long tmp : bNo) {
 				//기본키를 이용해서 기존 데이터를 꺼냄
                 Board1 board1 = new Board1();
@@ -126,15 +126,17 @@ public class Board1ServiceImpl implements Board1Service{
     }
 
     @Override
-    public List<Board1> selectBoard1List(Long bNo) {
+    public List<Board1> selectBoard1List(Long bNo, String bTitle, Pageable pageable) {
         try{
-            return null;
+            return b1Repository.findByBTitleContainingOrderByBNoDesc(bTitle, pageable);
+
         }
         catch(Exception e){
             e.printStackTrace();
             return null;
         }
     }
+
 
 
 
