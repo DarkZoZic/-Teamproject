@@ -43,9 +43,6 @@ public class ClubGallery {
   private byte[] gThumbnail;
   // 갤러리설명
   private String gDesc;
-  // 사진수
-  @Column(nullable = false)
-  private Long gQty;
   // 등록일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 @CreationTimestamp // CURRENT_DATE

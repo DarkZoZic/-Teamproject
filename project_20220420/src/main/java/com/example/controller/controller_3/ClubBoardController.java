@@ -319,7 +319,7 @@ public class ClubBoardController {
 	// 클럽게시판 댓글쓰기
 	// 127.0.0.1:9090/ROOT/clubboard/insertreply?cbNo=
 	@PostMapping(value="/insertreply")
-	public String insertreplyPOST(@RequestBody CReply cReply, @RequestParam(name="cbNo") ClubBoard cbNo)
+	public String insertreplyPOST(@ModelAttribute CReply cReply, @RequestParam(name="cbNo") ClubBoard cbNo)
 	{
 		try 
 		{

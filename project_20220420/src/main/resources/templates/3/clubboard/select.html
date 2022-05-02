@@ -19,20 +19,21 @@
         		
         </form>
         
-        <table>
+        <table border="1">
         	<tr>
-        		<th>댓글번호</th>
         		<th>댓글</th>
+        		<th>댓글작성일</th>
         	</tr>
         	
         	<tr th:each="tmp : ${replylist}">
-        		<td th:text="${tmp.reNumber}"></td>
         		<td th:text="${tmp.reContent}"></td>
+        		<td th:text="${tmp.reRegdate}"></td>
         	</tr>
         </table>
         <br />
         
         <form th:action="@{/clubboard/insertreply}" method="post">
+        	<input type="hidden" name="cbNo" th:value=${clubboard.cbNo} />
         	<input type="text" name="reContent" />
         	<input type="submit" value="댓글작성" />
         </form>
