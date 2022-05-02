@@ -14,8 +14,8 @@ import lombok.Data;
 @Entity
 // view로 사용하기위한 어노테이션
 @Immutable
-@Table(name = "VIEWTABLE")
-public class VIew {
+@Table(name = "COMBINETABLE")
+public class ComBine {
 
     @Id
     private Long vno;
