@@ -9,7 +9,7 @@
 <body>
     <div style="margin: 20px;">
         <h3>글쓰기</h3>
-        <form th:action="@{/clubboard/insert}" method="post">
+        <form th:action="@{/clubboard/insert}" method="post" enctype="multipart/form-data">
         	<input type="hidden" name="cbNoticecheck" value="n" />
         	<input type="hidden" name="cbDepth" value=0 />
 	        제목 <input type="text" name="cbTitle" /><br />
