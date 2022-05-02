@@ -11,9 +11,10 @@ import org.springframework.data.repository.query.Param;
 public interface CombineViewRepository 
     extends JpaRepository<ComBine, Long>{
 
-        // @Query(value = "SELECT S_CODE FROM COMBINETABLEVIEW WHERE S_CODE=:no", nativeQuery = true)
-        // public List<ComBine> selectnumber(
-        //         @Param(value="no") Long no);
+        @Query(value = "SELECT * FROM COMBINETABLEVIEW WHERE S_CODE=:code AND C_NO=:no", nativeQuery = true)
+        public List<ComBine> selectnumber(
+                @Param(value="no") Long no,
+                @Param(value="code") Long code);
 
         ComBine findTop1ByNoGreaterThanOrderByNoDesc(long no);
 

@@ -22,22 +22,22 @@ public class CombineRestController {
 
     @Autowired CombineViewRepository cVrepository;
 
+    // 자신의 클럽중 105 조회 (클럽 번호필요)
     // 127.0.0.1:9090/ROOT/combineview/selectnumber.json?no=105
     @GetMapping(value = "/selectnumber.json",
     consumes = {MediaType.ALL_VALUE},
     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> CountGet(
-        @RequestParam(name = "no")long no
+        @RequestParam(name = "no")long no,
+        @RequestParam(name = "cl")long cl
         ){
             System.out.println(no);
         Map<String, Object> map = new HashMap<>();
         try {
-            // cVrepository.findByScode(no);
             // List<ComBine> total = cVrepository.selectnumber(no);
-            List<ComBine> total = cVrepository.findByScode(no);
-            System.out.println(total);
+            // System.out.println(total);
             map.put("status", 200);
-            map.put("total", total);
+            // map.put("total", total);
         }
         catch (Exception e) {
             e.printStackTrace();
