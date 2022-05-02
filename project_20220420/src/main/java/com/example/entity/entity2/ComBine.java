@@ -1,11 +1,15 @@
 package com.example.entity.entity2;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.Immutable;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -17,7 +21,9 @@ import lombok.Data;
 public class ComBine {
 
     
-    // private Long vno;
+    @Id
+    @Column(name = "No")
+    private Long no;
 
     // 아이디(설명)
     @Column(name = "M_ID")
@@ -50,9 +56,13 @@ public class ComBine {
     @Column(name = "S_CODE")
     private Long scode;
 
-    @Id
-    @Column(name = "No")
-    private Long no;
+    // 신청날짜
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+	@CreationTimestamp // CURRENT_DATE
+    @Column(name = "JC_DATE")
+    private Date JCdate;
+
+    
 
 
     
