@@ -151,11 +151,11 @@ public class ClubBoardController {
 //			model.addAttribute("rtype", rtype); // 좋아요 수
 			
 			CbImage image = cbiRep.findByClubBoard_CbNoOrderByCbiImgcodeAsc(cbNo);
-			System.out.println(image);
-			if(image != null) // 글에 첨부된 이미지가 있으면
-			{
-				model.addAttribute("cbimage", image); //이미지
-			}
+//			System.out.println("image : " + image);
+//			if(image != null) // 글에 첨부된 이미지가 있으면
+//			{
+			model.addAttribute("cbimage", image); //이미지
+//			}
 			
 			ClubBoard prev = cbRep.findTop1ByCbNoLessThanOrderByCbNoDesc(cbNo);
 			ClubBoard next = cbRep.findTop1ByCbNoGreaterThanOrderByCbNoAsc(cbNo);
@@ -181,17 +181,19 @@ public class ClubBoardController {
 			CbImage cbImage = cbiRep.findByClubBoard_CbNoOrderByCbiImgcodeAsc(cbNo);
 			System.out.println("size : " + cbImage.getCbiImagesize().toString());
 			System.out.println("length : " + cbImage.getCbiImage().length);
+			HttpHeaders headers = new HttpHeaders();
 			if(cbImage.getCbiImagesize() > 0)
 			{
-				HttpHeaders headers = new HttpHeaders();
 				if(cbImage.getCbiImagetype().equals("image/jpeg")) {
-					System.out.println("///////////////////////////////bbb/////////////////////////");
+					System.out.println(cbImage.getCbiImagetype());
 					headers.setContentType(MediaType.IMAGE_JPEG);
 				}
 				else if(cbImage.getCbiImagetype().equals("image/png")) {
+					System.out.println(cbImage.getCbiImagetype());
 					headers.setContentType(MediaType.IMAGE_PNG);
 				}
 				else if(cbImage.getCbiImagetype().equals("image/gif")) {
+					System.out.println(cbImage.getCbiImagetype());
 					headers.setContentType(MediaType.IMAGE_GIF);
 				}
 				
@@ -204,7 +206,6 @@ public class ClubBoardController {
 			else
 			{
 				InputStream is = resLoader.getResource("classpath:/static/images/default.png").getInputStream();
-				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.IMAGE_PNG);
 				
 				ResponseEntity<byte[]> response = new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK );

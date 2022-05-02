@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갤러리목록</title>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h3>갤러리목록</h3>
+        <table>
+        	<tr>
+        		<th>번호</th>
+        	 	<th>제목</th>
+        	 	<th>설명</th>
+        	 	<th>등록일</th>
+        	</tr>
+        	
+        	<tr th:each="tmp : ${list}">
+        		<td th:text="${tmp.gNo}"></td>
+        		<td th:text="${tmp.gName}"></a></td>
+        		<td th:text="${tmp.gDesc}"></td>
+        		<td th:text="${tmp.gRegdate}"></td>
+        	</tr>
+        </table>
+        
+        <a th:href="@{/clubgallery/insert}">사진업로드</a><br />
+        
+        
+    </div>
+</body>
+</html>
