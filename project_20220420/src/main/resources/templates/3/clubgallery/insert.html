@@ -10,7 +10,10 @@
     <div style="margin: 20px;">
         <h3>사진추가</h3>
         <form th:action="@{/clubgallery/insert}" method="post" enctype="multipart/form-data">
-        	
+        	<input type="file" name="file" multiple/><br /><br />
+        	사진제목 <input type="text" name="gName" /><br /><br />
+        	사진설명 <textarea rows="10" style="width:400px;" name="gDesc"></textarea><br /><br />
+       
 	        <input type="submit" value="작성" />
         </form>
     </div>

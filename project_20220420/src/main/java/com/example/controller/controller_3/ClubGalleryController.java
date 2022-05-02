@@ -44,26 +44,30 @@ public class ClubGalleryController {
 	}
 	
 	@PostMapping(value="/insert")
-	public String insertPOST(@ModelAttribute ClubGallery cg, @RequestParam(name="file", required = false) MultipartFile file) throws IOException
+	public String insertPOST(@ModelAttribute ClubGallery cg, @RequestParam(name="file", required = false) MultipartFile[] file) throws IOException
 	{
 		try 
 		{
 			GImage gImage = new GImage();
 			System.out.println("cg : " + cg);
-			cgRep.save(cg);
-			
 			if(file != null) 
 			{
-				if(!file.isEmpty())// 이미지파일 첨부시
+				if(file.length > 0)// 이미지파일 첨부시
 				{
-					gImage.setGiImage(file.getBytes());
-					gImage.setGiImagename(file.getOriginalFilename());
-					gImage.setGiImagesize(file.getSize());
-					gImage.setGiImagetype(file.getContentType());
-					cgiRep.save(gImage);
+					for(int i=0; i<file.length; i++)
+					{
+						cg.setGThumbnail(file[0].getBytes());
+						gImage.setGiImage(file[i].getBytes());
+						gImage.setGiImagename(file[i].getOriginalFilename());
+						gImage.setGiImagesize(file[i].getSize());
+						gImage.setGiImagetype(file[i].getContentType());
+						cgiRep.save(gImage);
+					}
 				}
 			}
-				
+			System.out.println("getGThumbnailLength : " + cg.getGThumbnail().length);
+			cgRep.save(cg);
+			
 			return "redirect:/clubgallery/selectlist";
 		} 
 		catch (Exception e) 
@@ -81,6 +85,7 @@ public class ClubGalleryController {
 		{
 			List<ClubGallery> list = cgRep.findAll();
 			model.addAttribute("list", list);
+			
 			return "/3/clubgallery/selectlist";
 		} 
 		catch (Exception e) 
@@ -90,7 +95,7 @@ public class ClubGalleryController {
 		}
 	}
 	
-	// 127.0.0.1:9090/ROOT/clubgallery/image
+	// 127.0.0.1:9090/ROOT/clubgallery/image?gNo=&giImgcode=
 	@GetMapping(value="/image")
 	public ResponseEntity<byte[]> imageGET(@RequestParam(name="gNo") long gNo, @RequestParam(name="giImgcode") long giImgcode) throws IOException
 	{
@@ -128,6 +133,22 @@ public class ClubGalleryController {
 		{
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	@GetMapping(value="/select")
+	public String selectGET(Model model, @RequestParam(name="gNo") long gNo)
+	{
+		try 
+		{
+			model.addAttribute("gallery", cgRep.findById(gNo)); 
+			//clubgallery, gimage entity 수정 요망
+			
+			return "/3/clubgallery/select?gNo=" + gNo; 
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:/";
 		}
 	}
 }

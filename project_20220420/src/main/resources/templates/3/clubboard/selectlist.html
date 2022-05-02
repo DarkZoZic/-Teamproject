@@ -15,6 +15,7 @@
         	 	<th>제목</th>
         	 	<th>내용</th>
         	 	<th>조회수</th>
+        	 	<th>작성일</th>
         	</tr>
         	
         	<tr th:each="tmp : ${list}">
@@ -22,6 +23,7 @@
         		<td><a href="#" th:onclick="|javascript:updateHit('${tmp.cbNo}')|" th:text="${tmp.cbTitle}"></a></td>
         		<td th:text="${tmp.cbContent}"></td>
         		<td th:text="${tmp.cbHit}"></td>
+        		<td th:text="${tmp.cbRegdate}"></td>
         	</tr>
         </table>
         

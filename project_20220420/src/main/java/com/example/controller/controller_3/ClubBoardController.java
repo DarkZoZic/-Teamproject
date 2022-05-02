@@ -74,25 +74,31 @@ public class ClubBoardController {
 	{
 		try 
 		{
-//			System.out.println(file.getContentType());
-			CbImage cbImage = new CbImage();
-			
-			cbRep.save(clubBoard);
-			
-			if(file != null) 
+			if(clubBoard.getCbTitle().length() > 0)
 			{
-				if(!file.isEmpty())// 이미지파일 첨부시
+				if(clubBoard.getCbContent().length() > 0)
 				{
-					cbImage.setCbiImage(file.getBytes()); 
-					cbImage.setCbiImagename(file.getOriginalFilename());
-					cbImage.setCbiImagesize(file.getSize());
-					cbImage.setCbiImagetype(file.getContentType());
-					cbImage.setClubBoard(clubBoard);
-					cbiRep.save(cbImage);
+					System.out.println(file.getContentType());
+					CbImage cbImage = new CbImage();
+					
+					cbRep.save(clubBoard);
+					
+					if(file != null) 
+					{
+						if(!file.isEmpty())// 이미지파일 첨부시
+						{
+							cbImage.setCbiImage(file.getBytes()); 
+							cbImage.setCbiImagename(file.getOriginalFilename());
+							cbImage.setCbiImagesize(file.getSize());
+							cbImage.setCbiImagetype(file.getContentType());
+							cbImage.setClubBoard(clubBoard);
+							cbiRep.save(cbImage);
+						}
+					}
+					return "redirect:/clubboard/selectlist";
 				}
 			}
-			
-			return "redirect:/clubboard/selectlist";
+			return "redirect:/clubboard/insert"; 
 		} 
 		catch (Exception e) 
 		{
@@ -102,7 +108,7 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 글목록 페이지
-	// 127.0.0.1:9090/ROOT/clubboard/selectlist?text=&page=1
+	// 127.0.0.1:9090/ROOT/clubboard/selectlist?text=&page=
 	@GetMapping(value="/selectlist")
 	public String selectlistGET(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text)
 	{
@@ -172,7 +178,7 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 글상세 이미지 표시
-	// 127.0.0.1:9090/ROOT/clubboard/image
+	// 127.0.0.1:9090/ROOT/clubboard/image?cbNo=
 	@GetMapping(value="/image")
 	public ResponseEntity<byte[]> imageGET(@RequestParam(name="cbNo") long cbNo) throws IOException
 	{
@@ -261,50 +267,59 @@ public class ClubBoardController {
 	// 클럽게시판 글수정
 	// 127.0.0.1:9090/ROOT/clubboard/update?cbNo=
 	@PostMapping(value="/update")
-	public String updatePOST(@ModelAttribute ClubBoard clubboard, @ModelAttribute CbImage cbimage, @RequestParam(name="cbimage", required=false) MultipartFile file)
+	public String updatePOST(@ModelAttribute ClubBoard clubboard, @ModelAttribute CbImage cbimage, @RequestParam(name="file", required=false) MultipartFile file)
+	throws IOException
 	{
 		try 
 		{
+			CbImage oldImage = cbiRep.findByClubBoard_CbNoOrderByCbiImgcodeAsc(clubboard.getCbNo());
 			if(file != null) //파일 첨부시 cbimage에 첨부한 파일 데이터 넣기
 			{
-				if(!file.isEmpty())
+				if(file.getBytes().length > 0)
 				{
-					cbimage.setCbiImgcode(cbimage.getCbiImgcode());
+					System.out.println("OriginalFilename : " + file.getOriginalFilename().toString());
+					System.out.println("Size : " + file.getSize());
+					System.out.println("Type : " + file.getContentType().toString());
 					cbimage.setCbiImage(file.getBytes());
 					cbimage.setCbiImagename(file.getOriginalFilename());
 					cbimage.setCbiImagesize(file.getSize());
 					cbimage.setCbiImagetype(file.getContentType());
+					cbimage.setCbiRegdate(cbimage.getCbiRegdate());
+					cbimage.setClubBoard(clubboard);
+					
+					cbiRep.deleteById(oldImage.getCbiImgcode());
+					cbiRep.save(cbimage);
 				}
 				
 			}
 			else //파일 미첨부시 
 			{
-				CbImage oldImage = cbiRep.findByClubBoard_CbNoOrderByCbiImgcodeAsc(clubboard.getCbNo());
 				if(oldImage.getCbiImage() != null) 
 				{
-					if(oldImage.getCbiImage().length > 0)//글에 기존에 올린 이미지파일이 있으면 해당 이미지파일 데이터 가져오기
+					if(oldImage.getCbiImage().length > 0)//글에 기존에 올린 이미지파일이 있으면 해당 이미지파일 데이터 그대로 넣기
 					{
+//						System.out.println("oldImagename : " + oldImage.getCbiImagename().toString());
+//						System.out.println("oldImagesize : " + oldImage.getCbiImagesize().toString());
+//						System.out.println("oldImagetype : " + oldImage.getCbiImagetype().toString());
 						cbimage.setCbiImgcode(oldImage.getCbiImgcode());
 						cbimage.setCbiImage(oldImage.getCbiImage());
 						cbimage.setCbiImagename(oldImage.getCbiImagename());
 						cbimage.setCbiImagesize(oldImage.getCbiImagesize());
 						cbimage.setCbiImagetype(oldImage.getCbiImagetype());
-//						System.out.println("oldimage : "+cbimage.getCbiImagetype().toString());
+						cbimage.setCbiRegdate(cbimage.getCbiRegdate());
+						cbimage.setClubBoard(clubboard);
+						
+						cbiRep.deleteById(oldImage.getCbiImgcode());
+						cbiRep.save(cbimage);
 					}
-				}
-				else //없으면 null
-				{
-					cbimage.setCbiImage(null);
-					cbimage.setCbiImagename(null);
-					cbimage.setCbiImagesize(null);
-					cbimage.setCbiImagetype(null);
+					//기존에 올린 파일도, 수정하면서 새로 올린 파일도 없으면 이미지에 대해서 아무 처리도 하지 않음
 				}
 			}
 			
 			System.out.println(clubboard.toString());
 			
 			cbRep.save(clubboard);
-			cbiRep.save(cbimage);
+			
 			
 			return "redirect:/clubboard/select?cbNo=" + clubboard.getCbNo();
 				
@@ -377,6 +392,7 @@ public class ClubBoardController {
 		}
 	}
 	
+	// 이전글 구현용
 	@PostMapping(value="/prev")
 	public String prevPOST(@RequestParam(name="cbNo") long cbNo, Model model)
 	{
@@ -398,6 +414,7 @@ public class ClubBoardController {
 		}
 	}
 	
+	// 다음글 구현용
 	@PostMapping(value="/next")
 	public String nextPOST(@RequestParam(name="cbNo") long cbNo, Model model)
 	{

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>갤러리목록</title>
+    <title>갤러리</title>
 </head>
 <body>
     <div style="padding: 20px;">
-        <h3>갤러리목록</h3>
+        <h3>갤러리</h3>
         <table>
         	<tr>
         		<th>번호</th>
@@ -19,7 +19,7 @@
         	
         	<tr th:each="tmp : ${list}">
         		<td th:text="${tmp.gNo}"></td>
-        		<td th:text="${tmp.gName}"></td>
+        		<td ><a th:href="@{/clubgallery/select(gNo=${tmp.gNo})}" th:text="${tmp.gName}"></a></td>
         		<td th:text="${tmp.gDesc}"></td>
         		<td th:text="${tmp.gRegdate}"></td>
         	</tr>
