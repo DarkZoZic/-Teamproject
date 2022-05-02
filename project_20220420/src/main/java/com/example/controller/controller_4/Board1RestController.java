@@ -301,31 +301,31 @@ public class Board1RestController {
 
         Map<String ,Object> map = new HashMap<>();
 
-        // try{
-        //     // 토큰 추출
-        //     String userid = jwtUtil.extractUsername(token);
-        //     System.out.println("USERNAME ==>" + userid);
+        try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
 
-        //     Member memberEntity = new Member();
-        //     memberEntity.setMId(userid);
-        //     System.out.println(memberEntity);
+            Member memberEntity = new Member();
+            memberEntity.setMId(userid);
+            System.out.println(memberEntity);
 
-        //     board1.setMember(memberEntity);
-        //     System.out.println(board1.toString());
+            cReply.setMember(memberEntity);
+            System.out.println(cReply.toString());
 
-        //     if(token !=null) {
-        //         int ret = b1Service.insertBoard1One(board1);
-        //         System.out.println(board1.toString());
-        //         if(ret == 1){
-        //             map.put("status", 200); // 성공
-        //             map.put("result", "등록완료");
-        //         }
-        //     }
-        // }
-        // catch(Exception e){
-        //     e.printStackTrace();
-        //     map.put("status", 0); // 실패
-        // }
+            // if(token !=null) {
+            //     int ret = b1Service.insertBoard1One(board1);
+            //     System.out.println(board1.toString());
+            //     if(ret == 1){
+            //         map.put("status", 200); // 성공
+            //         map.put("result", "등록완료");
+            //     }
+            // }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
         return map;
     }
 
