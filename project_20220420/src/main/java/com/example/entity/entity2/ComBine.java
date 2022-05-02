@@ -3,7 +3,6 @@ package com.example.entity.entity2;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.Immutable;
@@ -14,7 +13,7 @@ import lombok.Data;
 @Entity
 // view로 사용하기위한 어노테이션
 @Immutable
-@Table(name = "COMBINETABLE")
+@Table(name = "COMBINETABLEVIEW ")
 public class ComBine {
 
     @Id
