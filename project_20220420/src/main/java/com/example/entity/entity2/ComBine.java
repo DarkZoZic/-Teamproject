@@ -16,8 +16,8 @@ import lombok.Data;
 @Table(name = "COMBINETABLEVIEW ")
 public class ComBine {
 
-    @Id
-    private Long vno;
+    
+    // private Long vno;
 
     // 아이디(설명)
     @Column(name = "M_ID")
@@ -50,6 +50,7 @@ public class ComBine {
     @Column(name = "S_CODE")
     private Long scode;
 
+    @Id
     @Column(name = "No")
     private Long no;
 
