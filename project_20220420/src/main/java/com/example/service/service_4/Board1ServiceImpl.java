@@ -89,7 +89,6 @@ public class Board1ServiceImpl implements Board1Service{
                 Board1 board1 = new Board1();
                 b1Repository.deleteById(board1.getBNo());
 			}
-            
             return 1;
         }
         catch(Exception e){

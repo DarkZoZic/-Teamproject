@@ -318,6 +318,34 @@ public class Board1RestController {
         return map;
     }
 
+
+    // 일괄 수정, 삭제
+    // @GetMapping(value = "/deleteupdatebatch")
+    // public String deleteupdatebatchGET(
+    //     Model model,
+    //     @RequestParam(name = "btn") String btn,
+    //     @RequestParam(name = "no") Long[] no  ){
+    //         // 버튼(btn)이랑 체크박스(no) 받기
+
+    //     System.out.println(btn);
+    //     System.out.println(no[0]);
+    //     if(btn.equals("일괄수정")){
+
+    //         List<ItemEntity> list = iService.selectItemEntityIn(no);
+    //         model.addAttribute("list", list);
+            
+    //         return "/seller/updateitem_batch";
+
+    //     }
+    //     else if(btn.equals("일괄삭제")){
+
+    //        iService.deleteItemBatch(no);
+    //     }
+
+    //     return "redirect:/seller/home";
+
+    // }
+
    
 
 
