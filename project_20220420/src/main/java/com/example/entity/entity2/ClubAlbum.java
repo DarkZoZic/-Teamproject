@@ -29,7 +29,6 @@ public class ClubAlbum {
 generator = "SEQ_CLUBALBUM") // 시퀀스 적용
  private Long caNo;
  // 앨범이름
- @Column(nullable = false)
  private String caName;
  // 앨범썸네일
  @Lob
@@ -37,7 +36,7 @@ generator = "SEQ_CLUBALBUM") // 시퀀스 적용
  // 생성일
 @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 @CreationTimestamp // CURRENT_DATE
-@Column(name = "CAREGDATE",nullable = false)
+@Column(name = "CAREGDATE")
  private Date caRegdate;
  // 갤러리
 //  @OneToMany(mappedBy = "clubAlbum")
