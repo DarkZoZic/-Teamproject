@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갤러리</title>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h3 th:text="${gallery.gName}"></h3>
+       	
+       	<table border="1">
+       	<tr>
+       		<th>giImgcode</th>
+       		<th>giImagename</th>
+       		<th></th>
+       	</tr>
+       	
+       	<tr th:each="(tmp, idx) : ${imagelist}">
+       		<td th:text="${tmp.giImgcode}"></td>
+       		<td th:text="${tmp.giImagename}"></td>
+       		<td><img th:src="@{/clubgallery/image(gNo=${tmp.clubgallery.gNo}&idx=${idx})}" style="width:200px;"/></td>
+       	</tr>
+       	</table>
+       	
+        <hr />
+        
+		<a th:href="@{/clubgallery/selectlist}">갤러리 목록</a>
+		
+    </div>
+</body>
+</html>

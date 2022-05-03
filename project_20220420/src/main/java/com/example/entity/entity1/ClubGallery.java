@@ -30,7 +30,6 @@ public class ClubGallery {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CLUBGALLERY")
   private Long gNo;
   // 갤러리이름
-  @Column(nullable = false)
   private String gName;
   // 대표이미지
   @Lob
