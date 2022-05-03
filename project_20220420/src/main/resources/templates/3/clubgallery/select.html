@@ -12,15 +12,17 @@
        	
        	<table border="1">
        	<tr>
-       		<th>giImgcode</th>
-       		<th>giImagename</th>
-       		<th></th>
+       		<th>이미지번호</th>
+       		<th>이미지명</th>
+       		<th>idx</th>
+       		<th>이미지</th>
        	</tr>
        	
-       	<tr th:each="(tmp, idx) : ${imagelist}">
+       	<tr th:each="tmp, idx : ${imagelist}">
        		<td th:text="${tmp.giImgcode}"></td>
        		<td th:text="${tmp.giImagename}"></td>
-       		<td><img th:src="@{/clubgallery/image(gNo=${tmp.clubgallery.gNo}&idx=${idx})}" style="width:200px;"/></td>
+       		<td th:text="${idx.count}"></td>
+       		<td><img th:src="@{/clubgallery/image(gNo=${tmp.clubgallery.gNo},idx=${idx.index})}" style="width:200px;"/></td>
        	</tr>
        	</table>
        	

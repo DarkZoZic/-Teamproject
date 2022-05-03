@@ -106,7 +106,7 @@ public class ClubGalleryController {
 	}
 	
 	// 갤러리 이미지 표시용
-	// 127.0.0.1:9090/ROOT/clubgallery/image?gNo=
+	// 127.0.0.1:9090/ROOT/clubgallery/image?gNo=&idx=
 	@GetMapping(value="/image")
 	public ResponseEntity<byte[]> imageGET(@RequestParam(name="gNo") long gNo, @RequestParam(name="idx") long idx) throws IOException
 	{
