@@ -142,7 +142,7 @@ public class ClubGalleryController {
 		try 
 		{
 			model.addAttribute("gallery", cgRep.findById(gNo)); 
-			//clubgallery, gimage entity 수정 요망
+			//clubgallery, gimage entity 수정
 			
 			return "/3/clubgallery/select?gNo=" + gNo; 
 		} 

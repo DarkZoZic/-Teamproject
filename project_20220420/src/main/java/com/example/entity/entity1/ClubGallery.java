@@ -1,8 +1,6 @@
 package com.example.entity.entity1;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -20,9 +17,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.example.entity.entity2.CReply;
-import com.example.entity.entity2.Club;
-import com.example.entity.entity2.ClubAlbum;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
@@ -52,17 +46,16 @@ public class ClubGallery {
   @JoinColumn(name = "r_id")
   private Reaction reaction;
   // 갤러리이미지
-  @ManyToOne
-  @JoinColumn(name = "g_imgcode")
-  private GImage gImage;
+//  @OneToMany(mappedBy = "GImage")
+//  private GImage gImage;
   // 댓글
   @ManyToOne
   @JoinColumn(name = "re_number")
   private CReply cReply;
   // 앨범
-  @ManyToOne
-  @JoinColumn(name = "ca_no")
-  private ClubAlbum clubAlbum;
+//  @ManyToOne
+//  @JoinColumn(name = "ca_no")
+//  private ClubAlbum clubAlbum;
   // 동호회
   // @OneToMany(mappedBy = "clubGallery")
   // @JsonBackReference
