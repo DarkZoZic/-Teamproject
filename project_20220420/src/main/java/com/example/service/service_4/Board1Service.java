@@ -35,6 +35,8 @@ public interface Board1Service {
     // 일괄삭제
     public int deleteBoard1Batch(Long[] bNo);
 
+   
+
     
 
     

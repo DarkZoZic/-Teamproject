@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 
 // < 저장소에 쓰고자 하는 Entity명, Entity의 기본키 타입 >
-public interface Board1ReplyRepository extends JpaRepository<CReply, Long>{
+public interface CreplyRepository extends JpaRepository<CReply, Long>{
 
     // List<BoardReplyEntity> replyList;
     // 원본 글번호가 일치하는 댓글 개수

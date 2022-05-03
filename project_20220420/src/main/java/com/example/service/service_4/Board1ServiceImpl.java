@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 
 import com.example.entity.entity1.Member;
 import com.example.entity.entity2.Board1;
+import com.example.entity.entity2.CReply;
 import com.example.repository.repository_4.Board1Repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,6 +137,7 @@ public class Board1ServiceImpl implements Board1Service{
             return null;
         }
     }
+
 
 
 
