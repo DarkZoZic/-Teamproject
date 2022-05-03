@@ -24,7 +24,7 @@ public interface Board1Service {
     public Board1 selectBoard1One(Long bNo);
 
     // 검색어 + 페이지네이션
-    public List<Board1> selectBoard1List(Long bNo, String bTitle, Pageable pageable);
+    // public List<Board1> selectBoard1List(Long bNo, String bTitle, Pageable pageable);
     
     // // 페이지네이션
     // //public List<Board1> selectBoard1List()

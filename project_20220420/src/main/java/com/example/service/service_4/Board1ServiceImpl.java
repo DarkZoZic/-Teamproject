@@ -126,17 +126,17 @@ public class Board1ServiceImpl implements Board1Service{
 
     }
 
-    @Override
-    public List<Board1> selectBoard1List(Long bNo, String bTitle, Pageable pageable) {
-        try{
-            return b1Repository.findByBTitleContainingOrderByBNoDesc(bTitle, pageable);
+    // @Override
+    // public List<Board1> selectBoard1List(Long bNo, String bTitle, Pageable pageable) {
+    //     try{
+    //         return b1Repository.findByBTitleContainingOrderByBNoDesc(bTitle, pageable);
 
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         return null;
+    //     }
+    // }
 
 
 
