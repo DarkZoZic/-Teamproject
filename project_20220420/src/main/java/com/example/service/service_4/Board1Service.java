@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.entity.entity2.Board1;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public interface Board1Service {
     public Board1 selectBoard1One(Long bNo);
 
     // 검색어 + 페이지네이션
-    // public List<Board1> selectBoard1List(Long bNo, String bTitle, Pageable pageable);
+    public List<Board1> selectBoard1List(String bTitle, PageRequest pageRequest);
     
     // // 페이지네이션
     // //public List<Board1> selectBoard1List()

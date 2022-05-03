@@ -11,6 +11,7 @@ import com.example.entity.entity2.Board1;
 import com.example.entity.entity2.CReply;
 import com.example.jwt.JwtUtil;
 import com.example.repository.repository_4.Board1Repository;
+import com.example.repository.repository_4.Member1Repository;
 import com.example.service.UserDetailsServiceImpl;
 import com.example.service.service_4.Board1Service;
 
@@ -39,6 +40,9 @@ public class Board1RestController {
 
     @Autowired 
     Board1Repository b1Repository;
+
+    @Autowired
+    Member1Repository mRepository;
 
     @Autowired 
     Board1Service b1Service;
@@ -107,23 +111,23 @@ public class Board1RestController {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("USERNAME ==>" + userid);
 
-            Member memberEntity = new Member();
-            memberEntity.setMId(userid);
-            System.out.println(memberEntity);
+            Board1 board = b1Repository.getById(board1.getBNo());
+            System.out.println(board.toString());
 
-            board1.setMember(memberEntity);
-            System.out.println(board1.toString());
+            System.out.println("번호"+board1.getBNo());
 
+            if(userid.equals( board.getMember().getMId() )){
+                // Board1 result = b1Service.selectBoard1One(board.getBNo());
 
-            // if(token != null){
-            //     if(userid ==   ) {
-            //         int ret = b1Service.deleteBoard1One(board1.getBNo());
-            //         if(ret == 1){
-            //             map.put("status", 200); // 성공
-            //         }
-            //     }
-            // }
-            map.put("status", 200);
+                // 삭제
+                int ret = b1Service.deleteBoard1One(board.getBNo());
+                if(ret == 1){
+                    map.put("status", 200); // 성공
+                }
+            }
+            else if (!userid.equals( board.getMember().getMId() )){
+                map.put("status", 0); 
+            }
            
         }
         catch(Exception e){
@@ -143,18 +147,38 @@ public class Board1RestController {
             @RequestHeader (name = "TOKEN")String token ) {
 
         System.out.println(board1.toString());
+
         Map<String ,Object> map = new HashMap<>();
+
         try{
-            if(token !=null) {
-                int ret = b1Service.updateBoard1One(board1);
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
+
+            Board1 board = b1Repository.getById(board1.getBNo());
+            System.out.println(board.toString());
+
+            System.out.println("=====" + board.getMember().getMId());
+
+            if(userid.equals( board.getMember().getMId() )){
+                Board1 result = b1Service.selectBoard1One(board.getBNo());
+
+                // 수정
+                result.setBTitle(board1.getBTitle());
+                result.setBContent(board1.getBContent());
+
+                int ret = b1Service.updateBoard1One(result);
                 if(ret == 1){
                     map.put("status", 200); // 성공
                 }
-            }   
+            }
+            else if (!userid.equals( board.getMember().getMId() )){
+                map.put("status", 0); 
+            }
         }
         catch(Exception e){
             e.printStackTrace();
-            map.put("status", 0); // 실패
+            map.put("status", -1); // 실패
         }
         return map;
     }
@@ -224,39 +248,49 @@ public class Board1RestController {
     ////////////////////////////////////////////////////////////////////
 
     // 127.0.0.1:9090/ROOT/board1/selectlist1?page=1
-    @RequestMapping(value = "/selectlist1", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
-                    produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Map<String, Object> boardSelectListGET(
-        @RequestParam(name = "page", defaultValue = "1") int page,
-        @RequestParam(name = "bTitle", defaultValue = "") String bTitle ){
+    // @RequestMapping(value = "/selectlist1", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
+    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
+    // public Map<String, Object> boardSelectListGET(
+        
+    //     @RequestParam(name = "page", defaultValue = "1") int page,
+    //     @RequestParam(name = "txt", defaultValue = "") String txt ){
 
-        Map<String ,Object> map = new HashMap<>();
-        try{
-            // 페이지네이션
-            PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
+    //     Map<String ,Object> map = new HashMap<>();
+    //     try{
+    //         // 페이지네이션
+    //         PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
 
-            // 검색어, 페이지네이션
-            // List<Board1> list = b1Repository.findByBTitleContainingOrderByBNoDesc(bTitle, pageRequest);
-            // List<Board1> blist = b1Service.selectBoard1List(bNo, pageable, bTitle);
-            // List<Board1> blist = b1Service.selectBoard1List(bNo, bTitle, pageable);
+    //         // List<Board1> list = b1Service.selectBoard1List(bTitle, pageRequest);
+    //         List<Board1> list = b1Repository.findByBTitleContainingOrderByBNoDesc(txt, pageRequest);
+    //         System.out.println(list.size());
+
+    //         if(!list.isEmpty()){
+    //             map.put("status", 200);
+    //             map.put("result", list);
+    //         }
+
+    //         // 검색어, 페이지네이션
+    //         // List<Board1> list = b1Repository.findByBTitleContainingOrderByBNoDesc(bTitle, pageRequest);
+    //         // List<Board1> blist = b1Service.selectBoard1List(bNo, pageable, bTitle);
+    //         // List<Board1> blist = b1Service.selectBoard1List(bNo, bTitle, pageable);
            
-            // System.out.println(list);
-            // if(!list.isEmpty()){
-            //     map.put("status", 200); // 성공
-            //     map.put("result", list); 
-            // }
+    //         // System.out.println(list);
+    //         // if(!list.isEmpty()){
+    //         //     map.put("status", 200); // 성공
+    //         //     map.put("result", list); 
+    //         // }
 
-            // 전체개수
-            // long total = b1Repository.countByBTitleContaining(bTitle);
-            // map.put("pages", (total-1)/PAGECNT +1);
+    //         // 전체개수
+    //         // long total = b1Repository.countByBTitleContaining(bTitle);
+    //         // map.put("pages", (total-1)/PAGECNT +1);
 
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            map.put("status", 0); // 실패
-        }
-        return map;
-    }
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         map.put("status", 0); // 실패
+    //     }
+    //     return map;
+    // }
 
 
 
@@ -282,10 +316,6 @@ public class Board1RestController {
             map.put("status", 0); // 실패
         }
         return map;
-    
-       
-
-   
     }
 
    

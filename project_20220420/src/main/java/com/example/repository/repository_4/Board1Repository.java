@@ -6,6 +6,7 @@ import com.example.entity.entity1.Member;
 import com.example.entity.entity2.Board1;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,7 @@ public interface Board1Repository extends JpaRepository<Board1, Long> {
     // Board1 findTop1BybNoGreaterThanOrderBybNoAsc(long bno);
 
     // 검색어를 제목을 기준으로. 글번호 내림차순 페이지네이션  
-    // List<Board1> findByBTitleContainingOrderByBNoDesc(String bTitle, Pageable page);
+    List<Board1> findByBTitleContainingOrderByBNoDesc(String bTitle, PageRequest pageRequest);
 
 
     // List<Board1> findbyBtitleContaining(String bTitle);
