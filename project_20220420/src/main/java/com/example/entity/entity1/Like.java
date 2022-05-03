@@ -27,7 +27,7 @@ public class Like {
   // 찜 번호
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LIKE")
-  private String lNo;
+  private Long lNo;
   // 찜 등록일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @CreationTimestamp // CURRENT_DATE
