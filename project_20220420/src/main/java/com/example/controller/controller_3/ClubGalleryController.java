@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -215,19 +216,74 @@ public class ClubGalleryController {
 		}
 	}
 	
-	// 갤러리 수정 페이지 - 선택한 이미지 일괄삭제
-	// 127.0.0.1:9090/ROOT/clubgallery/deletegimages
-	@PostMapping(value="/deletegimages")
+	// 갤러리명, 갤러리설명 수정
+	// 127.0.0.1:9090/ROOT/clubgallery/updategallerytext
+	@PostMapping(value="/updategallerytext")
+	public String updategalleryPOST(@ModelAttribute ClubGallery cg)
+	{
+		try 
+		{
+			System.out.println(cg.toString());
+			cgRep.save(cg);
+			return "redirect:/clubgallery/update?gNo=" + cg.getGNo();
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
+	
+	// 갤러리 수정 페이지 - 이미지 일괄등록
+	// 127.0.0.1:9090/ROOT/clubgallery/insertgimages
+	@PostMapping(value="/insertimages")
+	public String insertimagesPOST(@ModelAttribute ClubGallery cg, @RequestParam(name="file") MultipartFile[] file) throws IOException
+	{
+		try 
+		{
+			System.out.println("cg : " + cg);
+			System.out.println("file.length : " + file.length);
+			if(file != null) 
+			{
+				if(file.length > 0)// 이미지파일 첨부시
+				{
+					for(int i=0; i<file.length; i++)
+					{
+						GImage gImage = new GImage();
+						System.out.println("file[i] : " + file[i].getContentType());
+						gImage.setGiImage(file[i].getBytes());
+						gImage.setGiImagename(file[i].getOriginalFilename());
+						gImage.setGiImagesize(file[i].getSize());
+						gImage.setGiImagetype(file[i].getContentType());
+						gImage.setClubgallery(cg);
+						cgiRep.save(gImage);
+//							System.out.println("gImage : " + gImage.getGiImagename().toString());
+					}
+					return "redirect:/clubgallery/update?gNo=" + cg.getGNo();
+				}
+			}
+			return "redirect:/clubgallery/update?gNo=" + cg.getGNo();
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
+	
+	// 갤러리 수정 페이지 - 이미지 삭제
+	// 127.0.0.1:9090/ROOT/clubgallery/deletegimage
+	@PostMapping(value="/deletegimage")
 	public String deletegimagesPOST(@ModelAttribute ClubGallery cg, @ModelAttribute GImage gi)
 	{
 		try 
 		{
-			System.out.println("cg : " + cg.toString());
-			System.out.println(gi);
-//			for(int i=0; i<gi.length; i++)
-//			{
-//				System.out.println("gi : " + gi[i].getGiImgcode());
-//			}
+			System.out.println("//////////////////////////////////////////");
+			System.out.println("cg : " + cg);
+			System.out.println("gi : " + gi);
+			System.out.println("//////////////////////////////////////////");
+			
+			cgiRep.deleteById(gi.getGiImgcode());
 			
 			return "redirect:/clubgallery/update?gNo=" + cg.getGNo();
 		} 

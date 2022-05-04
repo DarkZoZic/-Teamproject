@@ -9,8 +9,16 @@
 <body>
     <div style="padding: 20px;">
         <h3>갤러리 편집</h3>
-        
-        <form th:action="@{/clubgallery/deletegimages}" method="post">
+        	<form th:action="@{/clubgallery/updategallerytext}" method="post">
+        		<input type="hidden" name="gNo" th:value="${gallery.gNo}" />
+        		<input type="hidden" name="gRegdate" th:value=${gallery.gRegdate} />
+	       		갤러리명 <input type="text" name="gName" th:value="${gallery.gName}" /><br /><br />
+	        	<textarea rows="10" style="width:400px;" name="gDesc" th:text="${gallery.gDesc}"></textarea><br />
+	        	<input type="submit" value="수정" />
+	       	</form>
+	       	<br />
+       		<hr />
+       
 	        <table border="1">
 		       	<tr>
 		       		<th>이미지번호</th>
@@ -24,19 +32,30 @@
 		       		<td th:text="${tmp.giImgcode}"></td>
 		       		<td th:text="${tmp.giImagename}"></td>
 		       		<td th:text="${idx.count}"></td>
-		       		<td><img th:src="@{/clubgallery/image(gNo=${tmp.clubgallery.gNo},idx=${idx.index})}" style="width:200px;"/></td>
 		       		<td>
-		       			<input type="checkbox" name="giImgcode" th:value="${tmp.giImgcode}" />
+		       			<img th:src="@{/clubgallery/image(gNo=${tmp.clubgallery.gNo},idx=${idx.index})}" style="width:200px;"/>
+		       		</td>
+		       		<td>
+			       		 <form th:action="@{/clubgallery/deletegimage}" method="post">
+			       			<input type="hidden" name="giImgcode" th:value="${tmp.giImgcode}" />
+			       			<input type="hidden" name="gNo" th:value="${gallery.gNo}" />
+		    				<input type="submit" value="삭제" />
+	   					</form>
 		       		</td>
 		       	</tr>
 	       	</table>
-	       	<input type="hidden" name="gNo" th:value="${gallery.gNo}" />
-	    	<input type="submit" value="선택한 이미지 삭제" />
-       	</form>
+	       	
+	       	<hr />
+	       	
+	       	<form th:action="@{/clubgallery/insertimages}" method="post" enctype="multipart/form-data">
+	       		<p>사진추가</p>
+	        	<input type="file" name="file" multiple/><br /><br />
+	       		<input type="hidden" name="gNo" th:value="${gallery.gNo}" />
+		        <input type="submit" value="추가" />
+	        </form>
+       	<br /><br />
        	
-       	<p th:text="${gallery.gDesc}"></p>
-       	
-       	<a th:href=@{/clubgallery/select(gNo=${gallery.gNo})}>수정완료</a>
+       	<a th:href=@{/clubgallery/select(gNo=${gallery.gNo})}>갤러리 화면으로</a>
     </div>
 </body>
 </html>
