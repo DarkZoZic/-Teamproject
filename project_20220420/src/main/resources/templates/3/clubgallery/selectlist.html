@@ -12,6 +12,7 @@
         <table>
         	<tr>
         		<th>번호</th>
+        		<th>썸네일</th>
         	 	<th>제목</th>
         	 	<th>설명</th>
         	 	<th>등록일</th>
@@ -19,6 +20,11 @@
         	
         	<tr th:each="tmp : ${list}">
         		<td th:text="${tmp.gNo}"></td>
+        		<td>
+        			<a th:href="@{/clubgallery/select(gNo=${tmp.gNo})}">
+	        			<img th:src="@{/clubgallery/image(gNo=${tmp.gNo},idx=0)}" style="width:200px;"/>
+	        		</a>
+        		</td>
         		<td ><a th:href="@{/clubgallery/select(gNo=${tmp.gNo})}" th:text="${tmp.gName}"></a></td>
         		<td th:text="${tmp.gDesc}"></td>
         		<td th:text="${tmp.gRegdate}"></td>

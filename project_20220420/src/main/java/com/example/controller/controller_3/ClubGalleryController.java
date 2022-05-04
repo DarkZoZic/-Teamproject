@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
@@ -113,11 +115,11 @@ public class ClubGalleryController {
 		try
 		{
 			long imagecode = cgiRep.selectImageCode(gNo, idx);
-			System.out.println("imagecode = " + imagecode);
+//			System.out.println("imagecode = " + imagecode);
 			GImage gImage = cgiRep.findById(imagecode).orElse(null);
 			
-			System.out.println("size : " + gImage.getGiImagesize().toString());
-			System.out.println("length : " + gImage.getGiImage().length);
+//			System.out.println("size : " + gImage.getGiImagesize().toString());
+//			System.out.println("length : " + gImage.getGiImage().length);
 			HttpHeaders headers = new HttpHeaders();
 			if(gImage.getGiImagesize() > 0)
 			{
@@ -159,13 +161,78 @@ public class ClubGalleryController {
 		{
 			model.addAttribute("gallery", cgRep.findById(gNo).orElse(null));
 			
-			List<GImage> imagelist = cgiRep.findByClubgallery_gNoOrderByGiImgcodeDesc(gNo);
+			List<GImage> imagelist = cgiRep.findByClubgallery_gNoOrderByGiImgcodeAsc(gNo);
 			model.addAttribute("imagelist", imagelist);
 			
 			
 			return "/3/clubgallery/select"; 
 		} 
 		catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
+	
+	// 갤러리 삭제
+	// 127.0.0.1:9090/ROOT/clubgallery/delete
+	@Transactional
+	@PostMapping(value="/delete")
+	public String deletePOST(@ModelAttribute ClubGallery cg)
+	{
+		try 
+		{
+//			System.out.println(cg.getGNo());
+			cgiRep.deleteByClubgallery_gNo(cg.getGNo());
+			cgRep.deleteById(cg.getGNo());
+			
+			return "redirect:/clubgallery/selectlist";
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
+	
+	// 갤러리 수정 페이지
+	// 127.0.0.1:9090/ROOT/clubgallery/update?gNo=
+	@GetMapping(value="/update")
+	public String updateGET(Model model, @RequestParam(name="gNo") long gNo)
+	{
+		try 
+		{
+//			System.out.println(gNo);
+			model.addAttribute("gallery", cgRep.findById(gNo).orElse(null));
+			
+			List<GImage> imagelist = cgiRep.findByClubgallery_gNoOrderByGiImgcodeAsc(gNo);
+			model.addAttribute("imagelist", imagelist);
+			return "/3/clubgallery/update";
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
+	
+	// 갤러리 수정 페이지 - 선택한 이미지 일괄삭제
+	// 127.0.0.1:9090/ROOT/clubgallery/deletegimages
+	@PostMapping(value="/deletegimages")
+	public String deletegimagesPOST(@ModelAttribute ClubGallery cg, @ModelAttribute GImage gi)
+	{
+		try 
+		{
+			System.out.println("cg : " + cg.toString());
+			System.out.println(gi);
+//			for(int i=0; i<gi.length; i++)
+//			{
+//				System.out.println("gi : " + gi[i].getGiImgcode());
+//			}
+			
+			return "redirect:/clubgallery/update?gNo=" + cg.getGNo();
+		} 
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 			return "redirect:/";
 		}

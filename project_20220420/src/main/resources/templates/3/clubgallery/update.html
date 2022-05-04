@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글수정</title>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h3>갤러리 편집</h3>
+        
+        <form th:action="@{/clubgallery/deletegimages}" method="post">
+	        <table border="1">
+		       	<tr>
+		       		<th>이미지번호</th>
+		       		<th>이미지명</th>
+		       		<th>idx</th>
+		       		<th>이미지</th>
+		       		<th>선택</th>
+		       	</tr>
+		       	
+		       	<tr th:each="tmp, idx : ${imagelist}">
+		       		<td th:text="${tmp.giImgcode}"></td>
+		       		<td th:text="${tmp.giImagename}"></td>
+		       		<td th:text="${idx.count}"></td>
+		       		<td><img th:src="@{/clubgallery/image(gNo=${tmp.clubgallery.gNo},idx=${idx.index})}" style="width:200px;"/></td>
+		       		<td>
+		       			<input type="checkbox" name="giImgcode" th:value="${tmp.giImgcode}" />
+		       		</td>
+		       	</tr>
+	       	</table>
+	       	<input type="hidden" name="gNo" th:value="${gallery.gNo}" />
+	    	<input type="submit" value="선택한 이미지 삭제" />
+       	</form>
+       	
+       	<p th:text="${gallery.gDesc}"></p>
+       	
+       	<a th:href=@{/clubgallery/select(gNo=${gallery.gNo})}>수정완료</a>
+    </div>
+</body>
+</html>
