@@ -81,18 +81,41 @@ public class Board1ServiceImpl implements Board1Service{
         }
      }
 
+    // @Override
+    // public int deleteBoard1Batch(Long[] bNo) {
+    //     try{
+    //         for( Board1 board1 : list) {
+	// 			//기본키를 이용해서 기존 데이터를 꺼냄
+             
+    //             b1Repository.deleteById(board1.getBNo());
+	// 		}
+    //         return 1;
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         return 0;
+    //     }
+    // }
+
     @Override
     public int deleteBoard1Batch(Long[] bNo) {
+        EntityManager em = emf.createEntityManager();
         try{
+            em.getTransaction().begin();
+
             for( Long tmp : bNo) {
 				//기본키를 이용해서 기존 데이터를 꺼냄
-                Board1 board1 = new Board1();
-                b1Repository.deleteById(board1.getBNo());
+                Board1 board1 
+                = em.find(Board1.class, tmp);
+                em.remove(board1);
 			}
+            
+            em.getTransaction().commit();
             return 1;
         }
         catch(Exception e){
             e.printStackTrace();
+            em.getTransaction().rollback();
             return 0;
         }
     }

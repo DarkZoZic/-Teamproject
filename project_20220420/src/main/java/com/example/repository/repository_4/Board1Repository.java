@@ -38,8 +38,15 @@ public interface Board1Repository extends JpaRepository<Board1, Long> {
 
     // Page<Board1> findByBContentContaining(String bContent, Pageable pageable);
 
+    // Long[] findByBLongs(Long bNo);
 
+    // Long[] getByid(Long bNo);
 
+    // List<Board1> findByBNo(Long bNo);
+
+    // List<Board1> getByBNo(Long bNo);
+
+    
 
 
 }

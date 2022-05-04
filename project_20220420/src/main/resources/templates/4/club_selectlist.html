@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>찜목록</title>
+    <title>판매자등록</title>
 </head>
 <body>
     <div style="padding: 20px">
-        <h3>찜목록</h3>
-        <!-- 삭제 할 수 있어야 함, 목록에서 클럽 상세페이지로 넘어갈 수 있어야 함 -->
+        <h3>판매자목록</h3>
         <hr/>
 
         <form th:action="@{/board/selectlist}" method="get">
@@ -21,26 +20,24 @@
         <table border="1">
             <tr>
                 <th>번호</th>
-                <th>이메일</th>
                 <th>이름</th>
-                <th>연락처</th>
-                <th>권한</th>
+                <th>설명</th>
+                <th>카테고리</th>
+                <th>지역</th>
                 <th>등록일</th>
                 <th>버튼</th>
             </tr>
             <!-- dto의 변수명을 보고 적는 것 
             삭제는 get보단 post로 하는게 나음.  post로 하려면 form태그로 감싸야 함-->
-            <tr th:each="tmp, idx : ${list}">
-                <td th:text="${idx.count}"></td>
-                <td th:text="${tmp.uemail}"></td>
-                <td th:text="${tmp.uname}"></td>
+            <tr th:each="tmp : ${list}">
+                <td th:text="${tmp.cNo}"></td>
                 <td>
                     <a href="#" th:onclick="|javascript:updateHit('${brd.no}')|"
-                    th:text="${brd.title}"></a>
+                    th:text="${brd.cName}"></a>
                 </td>
-                <td th:text="${tmp.uphone}"></td>
-                <td th:text="${tmp.urole}"></td>
-                <td th:text="${tmp.uregdate1}"></td>
+                <td th:text="${tmp.cDesc}"></td>
+                <td th:text="${tmp.cCate}"></td>
+                <td th:text="${tmp.cRegdate}"></td>
                 <td>
                     <form th:action="@{/seller/delete}" method="post">
                         <input type="hidden" name="email" th:value="${tmp.uemail}"/>

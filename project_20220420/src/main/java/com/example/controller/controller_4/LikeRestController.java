@@ -1,10 +1,12 @@
 package com.example.controller.controller_4;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.example.entity.entity1.Like;
 import com.example.entity.entity1.Member;
+import com.example.entity.entity2.Club;
 import com.example.jwt.JwtUtil;
 import com.example.repository.repository_4.LikeRepository;
 
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/like1")
+@RequestMapping(value = "/like")
 public class LikeRestController {
 
     @Autowired
@@ -33,34 +35,41 @@ public class LikeRestController {
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Map<String, Object> InsertPost(
-        @RequestBody Like like,
+    public Map<String, Object> likeInsertPost(
+        @RequestBody  Like like,
+        @RequestParam (name = "cNo") long cNo,
         @RequestHeader (name = "token") String token ) {
 
-        Map<String ,Object> map = new HashMap<>();
+        System.out.println(like.toString());
 
+        // 0406 BuyRestController.java
+
+        Map<String, Object> map = new HashMap<>();
         try{
-            // 토큰 추출
+            // 토큰에서 아이디 추출
             String userid = jwtUtil.extractUsername(token);
             System.out.println("USERNAME ==>" + userid);
 
+            // 회원 엔티티 객체 생성 및 아이디 추가
             Member memberEntity = new Member();
             memberEntity.setMId(userid);
-            System.out.println(memberEntity);
 
+            // 클럽 엔티티 
+            Club clubEntity = new Club();
+            clubEntity.setCNo(cNo);
+
+            // 찜 엔티티에 추가
             like.setMember(memberEntity);
-            System.out.println(like.toString());
+            like.setClub(clubEntity);
 
-            if(token !=null) {
-                lRepository.save(like);
-                System.out.println(like.toString());
-       
-                map.put("status", 200); // 성공
-            }
+            // 저장소를 이용해서 db에 추가
+            lRepository.save(like);
+            map.put("status", 200);
+
         }
         catch(Exception e){
             e.printStackTrace();
-            map.put("status", 0); // 실패
+            map.put("status",0);
         }
         return map;
     }
@@ -105,7 +114,30 @@ public class LikeRestController {
         return map;
     }
 
-    // -- 찜 목록 -- 
+    // -- 찜 목록 --
+    // 엔티티에 있는걸로 해야하나? 아니면 그냥 바로 mId로 해도 되나? 
+    // @RequestMapping(value = "/selectlist", method = { RequestMethod.GET },
+    //                 consumes = { MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    // public Map<String, Object> buySelectListGET( @RequestHeader (name = "token") String token ){
+
+    //     Map<String, Object> map = new HashMap<String, Object>();
+    //     try{
+    //         List<Like> like = lRepository.findByMember_mId(mId);
+       
+    //         map.put("result",like);
+    //         map.put("status",200);
+
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         map.put("status", 0); // 실패
+    //     }
+    //     return map;
+        
+        
+        
+
+    // }
 
 
     // -- 찜 1개 삭제 -- 
