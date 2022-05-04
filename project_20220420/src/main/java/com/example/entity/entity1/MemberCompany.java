@@ -29,7 +29,7 @@ public class MemberCompany {
   
   // 기업설립일
 	@Column(name = "MCBIRTH")
-	private Date mcBirth;
+	private String mcBirth;
   // 회원
   @ManyToOne
   @JoinColumn(name = "m_id")

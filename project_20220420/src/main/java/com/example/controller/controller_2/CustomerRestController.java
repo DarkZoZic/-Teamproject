@@ -341,13 +341,7 @@ public class CustomerRestController {
 		try {
 			Member member = new Member();
 			member.setMId((String) psmemberpersonal.getMember().getMId());
-
-			// System.out.println(member.toString());
-			// mpsRepository.getById(mid);
-
-			// psmember.setMember(member);
-			// System.out.println(member);
-
+			psmemberpersonal.setMember(member);
 			
 			mpsRepository.save(psmemberpersonal);
 			map.put("status", 200);
@@ -374,6 +368,7 @@ try {
 
 	Member member = new Member();
 	member.setMId((String) cpmember.getMember().getMId());
+	cpmember.setMember(member);
 	System.out.println(member);
 
 	// System.out.println(psmemberpersonal.get("m_id"));

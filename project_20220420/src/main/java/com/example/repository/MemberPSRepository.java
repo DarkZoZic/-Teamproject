@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MemberPSRepository 
-    extends JpaRepository<MemberPersonal, String>{
+    extends JpaRepository<MemberPersonal, Long>{
 
         // String findBymId(String mid);
     
