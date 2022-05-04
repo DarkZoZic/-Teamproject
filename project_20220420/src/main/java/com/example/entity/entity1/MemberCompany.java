@@ -18,9 +18,15 @@ public class MemberCompany {
   // 기업 사업자번호
   @Id
   private String mcNo;
+
   // 기업설명
   @Column(nullable = false)
   private String mcDesc;
+
+  // 기업이름
+  @Column(nullable = false)
+  private String mcName;
+  
   // 기업설립일
 	@Column(name = "MCBIRTH")
 	private Date mcBirth;

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,33 +47,34 @@ public class CustomerRestController {
 
 	@Autowired MemberCPRepository cpRepository;
 
-	// // 이메일로 아이디찾기(배열)
-	// // 127.0.0.1:9090/ROOT/member/searchid
-	// @RequestMapping(value = "/searchid", 
-	// //{"uemail":"c1", "upw":"c1" };
-	// 		method = { RequestMethod.GET },
-	// 		consumes = { MediaType.ALL_VALUE },
-	// 		produces = { MediaType.APPLICATION_JSON_VALUE })
-	// public Map<String, Object> searchidget2(
-	// 	@RequestParam(name = "email")String email){
-	// 		System.out.println(email);
-	// 	Map<String, Object> map = new HashMap<>();
-	// 	map.put("status", 0); // 정상적이지 않을때
-	// 		try {
-	// 			Member member = mRepository.findBymEmail(email);
-	// 			System.out.println(member);
-	// 			// String mid = member.getMId();
-	// 			// if(Match(member.getMPw(), user.getPassword()))
-	// 			map.put("Your id", member.getMId());
-	// 			map.put("status", 200); 
 
-	// 		}	
-	// 		 catch (Exception e) {
-	// 			e.printStackTrace();
-	// 		}
-
-	// 	return map;
-	// }
+	// 회원정보 수정
+	// 127.0.0.1:9090/ROOT/member/updatenickname
+	@RequestMapping(value = "/updatenickname", 
+	//{"uemail":"c1", "upw":"c1" };
+			method = { RequestMethod.PUT },
+			consumes = { MediaType.ALL_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> NicknamePut(
+		@RequestBody MemberPersonal member,
+		@RequestHeader(name = "TOKEN") String token){
+		Map<String, Object> map = new HashMap<>();
+		map.put("status", 0);
+		try {
+			String username = jwtUtil.extractUsername(token);
+			System.out.println(username);
+			
+				
+				
+				
+			map.put("status", 200); // 0 -> 200
+	}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+	   }
+		return map;
+	}
 	// 이메일로 아이디찾기
 	// 127.0.0.1:9090/ROOT/member/searchid
 	@RequestMapping(value = "/searchid", 
