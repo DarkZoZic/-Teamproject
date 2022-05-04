@@ -3,6 +3,8 @@ package com.example.controller.controller_2;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.entity.entity2.Address;
+import com.example.entity.entity2.Category;
 import com.example.entity.entity2.Club;
 import com.example.repository.repository_gibum.ClubRepository;
 
@@ -45,7 +47,12 @@ try {
         
     }
 }
+    Address address = new Address();
+    address.setACode((Long) club.getAddress().getACode());
 
+    Category category = new Category();
+    category.setCgCode((Long) club.getCategory().getCgCode());
+    
     cRepository.save(club);
     map.put("status", 200);
     }
