@@ -48,25 +48,33 @@ public class CustomerRestController {
 	@Autowired MemberCPRepository cpRepository;
 
 
-	// 회원정보 수정
+	// 닉네임 수정
 	// 127.0.0.1:9090/ROOT/member/updatenickname
 	@RequestMapping(value = "/updatenickname", 
-	//{"uemail":"c1", "upw":"c1" };
+	// {"mpNickname":"수정닉네임"}
 			method = { RequestMethod.PUT },
 			consumes = { MediaType.ALL_VALUE },
 			produces = { MediaType.APPLICATION_JSON_VALUE })
 	public Map<String, Object> NicknamePut(
-		@RequestBody MemberPersonal member,
+		@RequestBody MemberPersonal memberPersonal,
 		@RequestHeader(name = "TOKEN") String token){
+		System.out.println(memberPersonal);
 		Map<String, Object> map = new HashMap<>();
 		map.put("status", 0);
 		try {
 			String username = jwtUtil.extractUsername(token);
 			System.out.println(username);
+			MemberPersonal member = new MemberPersonal();
+			member.setMpNickname(memberPersonal.getMpNickname());
+
+			memberPersonal = mpsRepository.findByMember_mId(username);
+			System.out.println(member.getMpNickname());
+			memberPersonal.setMpNickname(member.getMpNickname());
+			
 			
 				
 				
-				
+			mpsRepository.save(memberPersonal);
 			map.put("status", 200); // 0 -> 200
 	}
 		
