@@ -27,9 +27,19 @@
         	</tr>
         </table>
         
-        <a th:href="@{/clubboard/insert}">글작성</a><br />
-        
         <th:block th:each="i : ${#numbers.sequence(1, pages)}"><a th:href="@{/clubboard/selectlist(page=${i}, text=${param.text})}" th:text="${i}"></a></th:block>
+        <br /><br />
+        
+        <a th:href="@{/clubboard/insert}">글작성</a><br /><br />
+        
+        <form th:action="@{/clubboard/selectlist}" method="get">
+        	<input type="hidden" name="page" th:value="1" />
+        	<input type="text" name="text" placeholder="제목" />
+        	<input type="submit" value="검색" />
+        </form>
+        
+        
+        
         
         <br />
         <br />

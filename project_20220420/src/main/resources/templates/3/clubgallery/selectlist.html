@@ -31,10 +31,17 @@
         	</tr>
         </table>
         
-        <a th:href="@{/clubgallery/insert}">갤러리 생성</a><br />
+       	
+        <th:block th:each="i : ${#numbers.sequence(1, pages)}"><a th:href="@{/clubgallery/selectlist(page=${i}, text=${param.text})}" th:text="${i}"></a></th:block>
+        <br /><br />
         
-        <th:block th:each="i : ${#numbers.sequence(1, pages)}"><a th:href="@{/clubboard/selectlist(page=${i}, text=${param.text})}" th:text="${i}"></a></th:block>
+        <a th:href="@{/clubgallery/insert}">갤러리 생성</a><br /><br />
         
+        <form th:action="@{/clubgallery/selectlist}" method="get">
+        	<input type="hidden" name="page" th:value="1" />
+        	<input type="text" name="text" placeholder="갤러리명" />
+        	<input type="submit" value="검색" />
+        </form>
         <br />
         <br />
         <hr />

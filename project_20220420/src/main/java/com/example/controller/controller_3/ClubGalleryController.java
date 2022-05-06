@@ -108,7 +108,7 @@ public class ClubGalleryController {
 			
 			long total = cgRep.countByCgNameContaining(text);
 			
-			// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
+			// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20갤러리
 			model.addAttribute("pages", (total-1) / 20 + 1);
 			System.out.println("total = " + total);
 			System.out.println((total-1) / 20 + 1);
@@ -124,7 +124,7 @@ public class ClubGalleryController {
 	
 	
 	// 갤러리 이미지 표시용
-	// 127.0.0.1:9090/ROOT/clubgallery/image?gNo=&idx=
+	// 127.0.0.1:9090/ROOT/clubgallery/image?cgNo=&idx=
 	@GetMapping(value="/image")
 	public ResponseEntity<byte[]> imageGET(@RequestParam(name="cgNo") long cgNo, @RequestParam(name="idx") long idx) throws IOException
 	{
@@ -169,7 +169,7 @@ public class ClubGalleryController {
 	}
 	
 	// 갤러리 페이지
-	// 127.0.0.1:9090/ROOT/clubgallery/select?gNo=
+	// 127.0.0.1:9090/ROOT/clubgallery/select?cgNo=
 	@GetMapping(value="/select")
 	public String selectGET(Model model, @RequestParam(name="cgNo") long cgNo)
 	{
@@ -179,8 +179,7 @@ public class ClubGalleryController {
 			
 			List<GImage> imagelist = cgiRep.findByClubgallery_cgNoOrderByGiImgcodeAsc(cgNo);
 			model.addAttribute("imagelist", imagelist);
-			
-			
+						
 			return "/3/clubgallery/select"; 
 		} 
 		catch (Exception e) {
@@ -211,7 +210,7 @@ public class ClubGalleryController {
 	}
 	
 	// 갤러리 수정 페이지
-	// 127.0.0.1:9090/ROOT/clubgallery/update?gNo=
+	// 127.0.0.1:9090/ROOT/clubgallery/update?cgNo=
 	@GetMapping(value="/update")
 	public String updateGET(Model model, @RequestParam(name="cgNo") long cgNo)
 	{

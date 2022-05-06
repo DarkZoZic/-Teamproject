@@ -341,7 +341,8 @@ public class ClubBoardController {
 			System.out.println(cReply.toString());
 			System.out.println(cbNo);
 			cReply.setClubBoard(cbNo);
-			cReply.setRParentnumber(0L);
+			cReply.setReParentnumber(0L);
+			cReply.setRePrivate("n");
 			System.out.println(cReply.toString());
 			
 			crRep.save(cReply);
