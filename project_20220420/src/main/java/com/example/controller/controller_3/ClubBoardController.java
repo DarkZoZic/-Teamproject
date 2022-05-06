@@ -265,7 +265,7 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 글수정
-	// 127.0.0.1:9090/ROOT/clubboard/update?cbNo=
+	// 127.0.0.1:9090/ROOT/clubboard/update
 	@PostMapping(value="/update")
 	public String updatePOST(@ModelAttribute ClubBoard clubboard, @ModelAttribute CbImage cbimage, @RequestParam(name="file", required=false) MultipartFile file)
 	throws IOException

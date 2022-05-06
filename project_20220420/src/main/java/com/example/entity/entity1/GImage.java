@@ -47,7 +47,7 @@ public class GImage {
   private String giImagename;
   // 갤러리
   @ManyToOne
-  @JoinColumn(name="gNo")
+  @JoinColumn(name="cgNo")
   private ClubGallery clubgallery;
   // 앨범
   @ManyToOne

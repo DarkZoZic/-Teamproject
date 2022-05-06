@@ -28,18 +28,18 @@ public class ClubGallery {
   // 갤러리번호
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CLUBGALLERY")
-  private Long gNo;
+  private Long cgNo;
   // 갤러리이름
-  private String gName;
+  private String cgName;
   // 대표이미지
   @Lob
-  private byte[] gThumbnail;
+  private byte[] cgThumbnail;
   // 갤러리설명
-  private String gDesc;
+  private String cgDesc;
   // 등록일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 @CreationTimestamp // CURRENT_DATE
-  private Date gRegdate;
+  private Date cgRegdate;
   // 반응
   @ManyToOne
   @JoinColumn(name = "r_id")

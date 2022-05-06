@@ -3,12 +3,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -90,15 +93,25 @@ public class ClubGalleryController {
 	}
 	
 	// 갤러리 목록
-	// 127.0.0.1:9090/ROOT/clubgallery/selectlist
+	// 127.0.0.1:9090/ROOT/clubgallery/selectlist?page=&text=
 	@GetMapping(value="/selectlist")
-	public String selectlistGET(Model model)
+	public String selectlistGET(Model model, @RequestParam(name="page", defaultValue="1") int page, 
+			@RequestParam(name="text", defaultValue="") String text)
 	{
 		try
 		{
-			List<ClubGallery> list = cgRep.findAll();
+			PageRequest pageRequest = PageRequest.of(page-1, 20); 
+			System.out.println(pageRequest);
+			
+			List<ClubGallery> list = cgRep.findByCgNameContainingOrderByCgNoDesc(text, pageRequest);
 			model.addAttribute("list", list);
 			
+			long total = cgRep.countByCgNameContaining(text);
+			
+			// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
+			model.addAttribute("pages", (total-1) / 20 + 1);
+			System.out.println("total = " + total);
+			System.out.println((total-1) / 20 + 1);
 			return "/3/clubgallery/selectlist";
 		} 
 		catch (Exception e) 
@@ -108,14 +121,16 @@ public class ClubGalleryController {
 		}
 	}
 	
+	
+	
 	// 갤러리 이미지 표시용
 	// 127.0.0.1:9090/ROOT/clubgallery/image?gNo=&idx=
 	@GetMapping(value="/image")
-	public ResponseEntity<byte[]> imageGET(@RequestParam(name="gNo") long gNo, @RequestParam(name="idx") long idx) throws IOException
+	public ResponseEntity<byte[]> imageGET(@RequestParam(name="cgNo") long cgNo, @RequestParam(name="idx") long idx) throws IOException
 	{
 		try
 		{
-			long imagecode = cgiRep.selectImageCode(gNo, idx);
+			long imagecode = cgiRep.selectImageCode(cgNo, idx);
 //			System.out.println("imagecode = " + imagecode);
 			GImage gImage = cgiRep.findById(imagecode).orElse(null);
 			
@@ -156,13 +171,13 @@ public class ClubGalleryController {
 	// 갤러리 페이지
 	// 127.0.0.1:9090/ROOT/clubgallery/select?gNo=
 	@GetMapping(value="/select")
-	public String selectGET(Model model, @RequestParam(name="gNo") long gNo)
+	public String selectGET(Model model, @RequestParam(name="cgNo") long cgNo)
 	{
 		try 
 		{
-			model.addAttribute("gallery", cgRep.findById(gNo).orElse(null));
+			model.addAttribute("gallery", cgRep.findById(cgNo).orElse(null));
 			
-			List<GImage> imagelist = cgiRep.findByClubgallery_gNoOrderByGiImgcodeAsc(gNo);
+			List<GImage> imagelist = cgiRep.findByClubgallery_cgNoOrderByGiImgcodeAsc(cgNo);
 			model.addAttribute("imagelist", imagelist);
 			
 			
@@ -183,8 +198,8 @@ public class ClubGalleryController {
 		try 
 		{
 //			System.out.println(cg.getGNo());
-			cgiRep.deleteByClubgallery_gNo(cg.getGNo());
-			cgRep.deleteById(cg.getGNo());
+			cgiRep.deleteByClubgallery_cgNo(cg.getCgNo());
+			cgRep.deleteById(cg.getCgNo());
 			
 			return "redirect:/clubgallery/selectlist";
 		} 
@@ -198,14 +213,14 @@ public class ClubGalleryController {
 	// 갤러리 수정 페이지
 	// 127.0.0.1:9090/ROOT/clubgallery/update?gNo=
 	@GetMapping(value="/update")
-	public String updateGET(Model model, @RequestParam(name="gNo") long gNo)
+	public String updateGET(Model model, @RequestParam(name="cgNo") long cgNo)
 	{
 		try 
 		{
-//			System.out.println(gNo);
-			model.addAttribute("gallery", cgRep.findById(gNo).orElse(null));
+//			System.out.println(cgNo);
+			model.addAttribute("gallery", cgRep.findById(cgNo).orElse(null));
 			
-			List<GImage> imagelist = cgiRep.findByClubgallery_gNoOrderByGiImgcodeAsc(gNo);
+			List<GImage> imagelist = cgiRep.findByClubgallery_cgNoOrderByGiImgcodeAsc(cgNo);
 			model.addAttribute("imagelist", imagelist);
 			return "/3/clubgallery/update";
 		} 
@@ -223,9 +238,13 @@ public class ClubGalleryController {
 	{
 		try 
 		{
-			System.out.println(cg.toString());
+			ClubGallery gregdate = cgRep.findById(cg.getCgNo()).orElse(null);
+//			System.out.println("gregdate : " + gregdate.getGRegdate());
+			
+//			System.out.println("cg : " + cg);
+			cg.setCgRegdate(gregdate.getCgRegdate());
 			cgRep.save(cg);
-			return "redirect:/clubgallery/update?gNo=" + cg.getGNo();
+			return "redirect:/clubgallery/update?cgNo=" + cg.getCgNo();
 		}
 		catch (Exception e) 
 		{
@@ -241,8 +260,8 @@ public class ClubGalleryController {
 	{
 		try 
 		{
-			System.out.println("cg : " + cg);
-			System.out.println("file.length : " + file.length);
+//			System.out.println("cg : " + cg);
+//			System.out.println("file.length : " + file.length);
 			if(file != null) 
 			{
 				if(file.length > 0)// 이미지파일 첨부시
@@ -259,10 +278,10 @@ public class ClubGalleryController {
 						cgiRep.save(gImage);
 //							System.out.println("gImage : " + gImage.getGiImagename().toString());
 					}
-					return "redirect:/clubgallery/update?gNo=" + cg.getGNo();
+					return "redirect:/clubgallery/update?cgNo=" + cg.getCgNo();
 				}
 			}
-			return "redirect:/clubgallery/update?gNo=" + cg.getGNo();
+			return "redirect:/clubgallery/update?cgNo=" + cg.getCgNo();
 		} 
 		catch (Exception e) 
 		{
@@ -278,14 +297,14 @@ public class ClubGalleryController {
 	{
 		try 
 		{
-			System.out.println("//////////////////////////////////////////");
-			System.out.println("cg : " + cg);
-			System.out.println("gi : " + gi);
-			System.out.println("//////////////////////////////////////////");
+//			System.out.println("//////////////////////////////////////////");
+//			System.out.println("cg : " + cg);
+//			System.out.println("gi : " + gi);
+//			System.out.println("//////////////////////////////////////////");
 			
 			cgiRep.deleteById(gi.getGiImgcode());
 			
-			return "redirect:/clubgallery/update?gNo=" + cg.getGNo();
+			return "redirect:/clubgallery/update?cgNo=" + cg.getCgNo();
 		} 
 		catch (Exception e) 
 		{

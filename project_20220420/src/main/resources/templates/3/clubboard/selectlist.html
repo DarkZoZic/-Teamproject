@@ -30,6 +30,11 @@
         <a th:href="@{/clubboard/insert}">글작성</a><br />
         
         <th:block th:each="i : ${#numbers.sequence(1, pages)}"><a th:href="@{/clubboard/selectlist(page=${i}, text=${param.text})}" th:text="${i}"></a></th:block>
+        
+        <br />
+        <br />
+        <hr />
+        <a th:href="@{/clubgallery/selectlist}">갤러리</a>
     </div>
     
     <script>

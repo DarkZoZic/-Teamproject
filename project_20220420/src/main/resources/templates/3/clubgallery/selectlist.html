@@ -19,21 +19,26 @@
         	</tr>
         	
         	<tr th:each="tmp : ${list}">
-        		<td th:text="${tmp.gNo}"></td>
+        		<td th:text="${tmp.cgNo}"></td>
         		<td>
-        			<a th:href="@{/clubgallery/select(gNo=${tmp.gNo})}">
-	        			<img th:src="@{/clubgallery/image(gNo=${tmp.gNo},idx=0)}" style="width:200px;"/>
+        			<a th:href="@{/clubgallery/select(cgNo=${tmp.cgNo})}">
+	        			<img th:src="@{/clubgallery/image(cgNo=${tmp.cgNo},idx=0)}" style="width:200px;"/>
 	        		</a>
         		</td>
-        		<td ><a th:href="@{/clubgallery/select(gNo=${tmp.gNo})}" th:text="${tmp.gName}"></a></td>
-        		<td th:text="${tmp.gDesc}"></td>
-        		<td th:text="${tmp.gRegdate}"></td>
+        		<td ><a th:href="@{/clubgallery/select(cgNo=${tmp.cgNo})}" th:text="${tmp.cgName}"></a></td>
+        		<td th:text="${tmp.cgDesc}"></td>
+        		<td th:text="${tmp.cgRegdate}"></td>
         	</tr>
         </table>
         
         <a th:href="@{/clubgallery/insert}">갤러리 생성</a><br />
         
+        <th:block th:each="i : ${#numbers.sequence(1, pages)}"><a th:href="@{/clubboard/selectlist(page=${i}, text=${param.text})}" th:text="${i}"></a></th:block>
         
+        <br />
+        <br />
+        <hr />
+        <a th:href="@{/clubboard/selectlist}">게시판</a>
     </div>
 </body>
 </html>
