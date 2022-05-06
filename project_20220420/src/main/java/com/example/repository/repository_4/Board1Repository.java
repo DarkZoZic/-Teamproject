@@ -23,7 +23,6 @@ public interface Board1Repository extends JpaRepository<Board1, Long> {
     // 검색어를 제목을 기준으로. 글번호 내림차순 페이지네이션  
     List<Board1> findByBTitleContainingOrderByBNoDesc(String bTitle, PageRequest pageRequest);
 
-
     // List<Board1> findbyBtitleContaining(String bTitle);
 
     //  // long countByBTitleContaining(String bTitle);

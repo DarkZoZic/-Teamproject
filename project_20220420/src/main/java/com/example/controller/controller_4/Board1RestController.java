@@ -233,7 +233,7 @@ public class Board1RestController {
         }
         catch(Exception e){
             e.printStackTrace();
-            map.put("status", 0); // 실패
+            map.put("status", -1); // 실패
         }
         return map;
     }
