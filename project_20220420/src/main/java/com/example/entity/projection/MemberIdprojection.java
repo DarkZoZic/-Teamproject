@@ -8,8 +8,8 @@ public interface MemberIdprojection {
     
 
     // 물품명
-    @Value("#{target.entity1.member.mid}")
-    String getMemberId();
+    // @Value("#{target.entity1.member.mid}")
+    // String getMemberId();
 
     
 
