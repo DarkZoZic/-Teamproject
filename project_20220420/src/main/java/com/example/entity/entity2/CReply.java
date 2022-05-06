@@ -58,7 +58,6 @@ public class CReply {
   // 수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@UpdateTimestamp // CURRENT_DATE
-	@Column(name = "CBIREGDATE")
   private Date reUpdatedate;
 
   // 자유게시판 글번호
