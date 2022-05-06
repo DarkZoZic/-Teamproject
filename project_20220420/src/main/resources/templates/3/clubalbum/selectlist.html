@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>앨범</title>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h3>앨범</h3>
+        <table>
+        	<tr>
+        		<th>번호</th>
+        		<th>썸네일</th>
+        	 	<th>앨범이름</th>
+        	 	<th>등록일</th>
+        	</tr>
+        	
+        	<tr th:each="tmp : ${list}">
+        		<td th:text="${tmp.caNo}"></td>
+        		<td>
+        			<a th:href="@{/clubalbum/select(caNo=${tmp.caNo})}">
+	        			<!-- <img th:src="@{/clubalbum/image(caNo=${tmp.caNo},idx=0)}" style="width:200px;"/> -->
+	        		</a>
+        		</td>
+        		<td ><a th:href="@{/clubalbum/select(caNo=${tmp.caNo})}" th:text="${tmp.caName}"></a></td>
+        		<td th:text="${tmp.caRegdate}"></td>
+        	</tr>
+        </table>
+        
+       	
+        
+        <br /><br />
+        
+        <a th:href="@{/clubalbum/insert}">새 앨범 생성</a><br /><br />
+        
+        <form th:action="@{/clubalbum/selectlist}" method="get">
+        	<input type="hidden" name="page" th:value="1" />
+        	<input type="text" name="text" placeholder="앨범명" />
+        	<input type="submit" value="검색" />
+        </form>
+        <br />
+        <br />
+        <hr />
+        <a th:href="@{/clubgallery/selectlist}">갤러리</a>
+    </div>
+</body>
+</html>

@@ -22,12 +22,16 @@ import com.example.entity.entity1.GImage;
 import com.example.entity.entity2.ClubAlbum;
 import com.example.repository.repository_3.ClubAlbumRepository;
 import com.example.repository.repository_3.ClubGalleryImageRepository;
+import com.example.repository.repository_3.ClubGalleryRepository;
 
 @Controller
 @RequestMapping(value="/clubalbum")
 public class ClubAlbumController {
 	@Autowired
 	ClubAlbumRepository caRep;
+	
+	@Autowired
+	ClubGalleryRepository cgRep;
 	
 	@Autowired
 	ClubGalleryImageRepository cgiRep;
@@ -67,8 +71,8 @@ public class ClubAlbumController {
 	{
 		try 
 		{
-			List<ClubAlbum> album = caRep.findAll();
-			model.addAttribute("album", album);
+			List<ClubAlbum> list = caRep.findAll();
+			model.addAttribute("list", list);
 			return "/3/clubalbum/selectlist";
 		} 
 		catch (Exception e) 
@@ -81,12 +85,14 @@ public class ClubAlbumController {
 	// 앨범 이미지 표시용
 	// 127.0.0.1:9090/ROOT/clubalbum/image?caNo=&idx=
 	@GetMapping(value="/image")
-	public ResponseEntity<byte[]> imageGET(@RequestParam(name="cgNo") long cgNo, @RequestParam(name="idx") long idx) throws IOException
+	public ResponseEntity<byte[]> imageGET(@RequestParam(name="caNo") long caNo, @RequestParam(name="idx") long idx) throws IOException
 	{
 		try
 		{
-			long imagecode = cgiRep.selectImageCode(cgNo, idx);
+			// caNo(앨범번호) 조회해서 giImgcode 찾기
+			long imagecode = cgiRep.selectAlbumImageCode(caNo, idx);
 			
+			// 찾은 giImgcode와 일치하는(해당 앨범에 등록한) 이미지 전부 찾기
 			GImage gImage = cgiRep.findById(imagecode).orElse(null);
 			HttpHeaders headers = new HttpHeaders();
 			if(gImage.getGiImagesize() > 0)
@@ -131,7 +137,7 @@ public class ClubAlbumController {
 			List<GImage> imagelist = cgiRep.findByClubalbum_caNoOrderByGiImgcodeAsc(caNo);
 			model.addAttribute("imagelist", imagelist);
 						
-			return "/3/album/select"; 
+			return "/3/clubalbum/select"; 
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -140,7 +146,7 @@ public class ClubAlbumController {
 	}
 	
 	// 앨범에 선택한 갤러리 이미지 추가
-	// 127.0.0.1:9090/ROOT/clubalbum/insertimage
+	// 127.0.0.1:9090/ROOT/clubalbum/insertimage?caNo=
 	@PostMapping(value="/insertimage")
 	public String insertimagePOST(@RequestParam(name="caNo") long caNo, @ModelAttribute GImage gimage)
 	{
@@ -150,6 +156,42 @@ public class ClubAlbumController {
 			System.out.println(gimage.toString());
 //			cgiRep.insertImageInAlbum(caNo, gimage.getGiImgcode());
 			return "redirect:/clubalbum/select";
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
+	
+	// 앨범에 이미지 추가 기능 사용 시 갤러리 목록 표시용
+	// 127.0.0.1:9090/ROOT/clubalbum/gallerylist
+	@GetMapping(value="/gallerylist")
+	public String gallerylistGET(Model model, @RequestParam(name="caNo") long caNo)
+	{
+		try 
+		{
+			model.addAttribute("list", cgRep.findAll());
+			model.addAttribute("caNo", caNo);
+			return "/3/clubalbum/insertimages/gallerylist";
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
+	
+	// 앨범에 이미지 추가 기능 사용 시 갤러리 목록 -> 선택한 갤러리 이미지 목록 표시용
+	// 127.0.0.1:9090/ROOT/clubalbum/imagelist
+	@GetMapping(value="/imagelist")
+	public String imagelistGET(Model model, @RequestParam(name="cgNo") long cgNo, @RequestParam(name="caNo") long caNo)
+	{
+		try 
+		{
+			model.addAttribute("imagelist", cgiRep.findByClubgallery_cgNoOrderByGiImgcodeAsc(cgNo));
+			model.addAttribute("caNo", caNo);
+			return "/3/clubalbum/insertimages/imagelist";
 		} 
 		catch (Exception e) 
 		{

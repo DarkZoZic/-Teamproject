@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>앨범</title>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h3 th:text="${album.caName}"></h3>
+       	
+       	<table border="1">
+	       	<tr>
+	       		<th>이미지번호</th>
+	       		<th>이미지명</th>
+	       		<th>idx</th>
+	       		<th>이미지</th>
+	       	</tr>
+	       	
+	       	<tr th:each="tmp, idx : ${imagelist}">
+	       		<td th:text="${tmp.giImgcode}"></td>
+	       		<td th:text="${tmp.giImagename}"></td>
+	       		<td th:text="${idx.count}"></td>
+	       		<td>
+	       			<img th:src="@{/clubalbum/image(caNo=${tmp.album.caNo},idx=${idx.index})}" style="width:200px;"/>
+	       		</td>
+	       	</tr>
+       	</table>
+       	
+       	<form th:action="@{/clubalbum/gallerylist}" method="get">
+       		<input type="hidden" name="caNo" th:value="${album.caNo}" />
+       		<input type="submit" value="사진 추가" />
+       	</form>
+       	
+        <hr />
+        
+        <form th:action="@{/clubalbum/delete}" method="post" style="display:inline-block;">
+        <input type="hidden" name="caNo" th:value="${album.caNo}" readonly/>
+        	<input type="submit" value="삭제" />
+        </form>
+        
+        <form th:action="@{/clubalbum/update}" method="get" style="display:inline-block;">
+        <input type="hidden" name="caNo" th:value="${album.caNo}" readonly/>
+        	<input type="submit" value="수정" />
+        </form>
+        
+        <br />
+		<a th:href="@{/clubalbum/selectlist}">앨범 목록</a>
+    </div>
+</body>
+</html>

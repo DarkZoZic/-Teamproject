@@ -15,7 +15,7 @@ public interface ClubGalleryRepository extends JpaRepository<ClubGallery, Long>{
 	List<ClubGallery> findByCgNameContainingOrderByCgNoDesc(String gName, Pageable pageable);
 	
 	// 갤러리 검색기능 구현용(제목에 text가 포함된 갤러리 개수)
-	long countByCgNameContaining(String text);	
+	long countByCgNameContaining(String text);
 	
 	// 갤러리 제목, 설명 수정(안씀)
 	@Query(value="UPDATE CLUBGALLERY SET G_NAME=#{#clubgallery.cgName}, G_DESC=#{#clubgallery.cgDesc} WHERE G_NO=:cgNo", nativeQuery=true)

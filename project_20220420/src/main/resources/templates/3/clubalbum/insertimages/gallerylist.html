@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>갤러리</title>
+    <title>갤러리 선택</title>
 </head>
 <body>
     <div style="padding: 20px;">
-        <h3>갤러리</h3>
+        <h3>갤러리 선택</h3>
         <table>
         	<tr>
         		<th>번호</th>
@@ -21,32 +21,24 @@
         	<tr th:each="tmp : ${list}">
         		<td th:text="${tmp.cgNo}"></td>
         		<td>
-        			<a th:href="@{/clubgallery/select(cgNo=${tmp.cgNo})}">
+        			<a th:href="@{/clubalbum/imagelist(cgNo=${tmp.cgNo})}">
 	        			<img th:src="@{/clubgallery/image(cgNo=${tmp.cgNo},idx=0)}" style="width:200px;"/>
 	        		</a>
         		</td>
-        		<td ><a th:href="@{/clubgallery/select(cgNo=${tmp.cgNo})}" th:text="${tmp.cgName}"></a></td>
+        		<td ><a th:href="@{/clubalbum/imagelist(cgNo=${tmp.cgNo}, caNo=${caNo})}" th:text="${tmp.cgName}"></a></td>
         		<td th:text="${tmp.cgDesc}"></td>
         		<td th:text="${tmp.cgRegdate}"></td>
         	</tr>
         </table>
         
-       	
-        <th:block th:each="i : ${#numbers.sequence(1, pages)}"><a th:href="@{/clubgallery/selectlist(page=${i}, text=${param.text})}" th:text="${i}"></a></th:block>
         <br /><br />
-        
-        <a th:href="@{/clubgallery/insert}">갤러리 생성</a><br /><br />
-        
+
         <form th:action="@{/clubgallery/selectlist}" method="get">
         	<input type="hidden" name="page" th:value="1" />
         	<input type="text" name="text" placeholder="갤러리명" />
         	<input type="submit" value="검색" />
         </form>
-        <br />
-        <br />
-        <hr />
-        <a th:href="@{/clubboard/selectlist}">게시판</a>
-        <a th:href="@{/clubalbum/selectlist}">앨범</a>
+    
     </div>
 </body>
 </html>

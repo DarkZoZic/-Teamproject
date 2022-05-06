@@ -130,8 +130,11 @@ public class ClubGalleryController {
 	{
 		try
 		{
+			// cgNo(갤러리번호) 조회해서 giImgcode 찾기
 			long imagecode = cgiRep.selectImageCode(cgNo, idx);
 //			System.out.println("imagecode = " + imagecode);
+			
+			// 찾은 giImgcode와 일치하는(해당 갤러리에 등록한) 이미지 전부 찾기
 			GImage gImage = cgiRep.findById(imagecode).orElse(null);
 			
 //			System.out.println("size : " + gImage.getGiImagesize().toString());
