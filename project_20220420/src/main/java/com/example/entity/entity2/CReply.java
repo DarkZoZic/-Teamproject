@@ -53,13 +53,13 @@ public class CReply {
   private Date reRegdate;
 
   // 부모댓글번호
-  private Long rParentnumber;
+  private Long reParentnumber;
 
   // 수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@UpdateTimestamp // CURRENT_DATE
 	@Column(name = "CBIREGDATE")
-  private Date rUpdatedate;
+  private Date reUpdatedate;
 
   // 자유게시판 글번호
   @ManyToOne
@@ -70,6 +70,10 @@ public class CReply {
   @ManyToOne
   @JoinColumn(name = "cb_no")
   private ClubBoard clubBoard;
+
+  // 댓글 공개여부
+  @Column(nullable = false)
+  private String rePrivate;
 
   // 반응
   @ManyToOne
