@@ -37,7 +37,9 @@ public class SearchRestController {
 		map.put("status", 0); // 정상적이지 않을때
 			try {
 				List<Combineaddr> club = cViewRepository.Search(title);
-				System.out.println(club);
+				List<Combineaddr> club2 = cViewRepository.Search2(title);
+				// List<Combineaddr> 통합 =
+				System.out.println(club2);
                 
 				map.put("status", 200); 
 				map.put("results", club); 

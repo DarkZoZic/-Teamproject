@@ -33,6 +33,7 @@ public interface CombineaddrViewRepository
         List<Combineaddr> findByaCode(long aCode);
 
 
+        
         @Query(value = "SELECT * FROM"+
         " ADDRESSTABLEVIEW WHERE A1=:address", nativeQuery = true)
         public List<Combineaddr> addrlist(
@@ -56,6 +57,11 @@ public interface CombineaddrViewRepository
         @Query(value = "SELECT * FROM"+
         " ADDRESSTABLEVIEW WHERE C_NAME LIKE %:title% ORDER BY C_NO DESC", nativeQuery = true)
         public List<Combineaddr> Search(
+                @Param(value="title") String title);
+
+        @Query(value = "SELECT * FROM"+
+        " ADDRESSTABLEVIEW WHERE CG_CATE2 LIKE %:title% ORDER BY C_NO DESC", nativeQuery = true)
+        public List<Combineaddr> Search2(
                 @Param(value="title") String title);
 
 
