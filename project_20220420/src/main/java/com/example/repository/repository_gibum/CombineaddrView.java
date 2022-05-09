@@ -30,5 +30,18 @@ public interface CombineaddrView
         );
 
         List<Combineaddr> findByaCode(long aCode);
+
+
+        @Query(value = "SELECT * FROM"+
+        " ADDRESSTABLEVIEW WHERE A1=:address", nativeQuery = true)
+        public List<Combineaddr> addrlist(
+                @Param(value="address") String address);
+
+        @Query(value = "SELECT * FROM"+
+        " ADDRESSTABLEVIEW WHERE A2=:address", nativeQuery = true)
+        public List<Combineaddr> addrlist2(
+                @Param(value="address") String address);
+
+        // List<Combineaddr> findBya1(String address);
     
 }

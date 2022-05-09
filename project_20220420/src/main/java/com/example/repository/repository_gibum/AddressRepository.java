@@ -29,7 +29,10 @@ public interface AddressRepository
         public List<Address> addressesClubList(
                 @Param(value="address") String address);
 
+
         Address findByaCode(Long address);
+
+        List<Address> findBya2(String address);
 
         
 }
