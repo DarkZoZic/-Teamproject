@@ -199,4 +199,21 @@ public class ClubAlbumController {
 			return "redirect:/";
 		}
 	}
+	
+	// 앨범 삭제(갤러리 이미지 - 앨범 연동 끊는 기능 미구현)
+	// 127.0.0.1:9090/ROOT/clubalbum/delete
+	@PostMapping(value="/delete")
+	public String deleteGET(@ModelAttribute ClubAlbum ca)
+	{
+		try 
+		{
+			caRep.deleteById(ca.getCaNo());
+			return "redirect:/clubalbum/selectlist";
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
 }

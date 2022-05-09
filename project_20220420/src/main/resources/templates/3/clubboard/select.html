@@ -23,11 +23,19 @@
         	<tr>
         		<th>댓글</th>
         		<th>댓글작성일</th>
+        		<th>관리</th>
         	</tr>
         	
         	<tr th:each="tmp : ${replylist}">
         		<td th:text="${tmp.reContent}"></td>
         		<td th:text="${tmp.reRegdate}"></td>
+        		<td>
+        			<form th:action="@{/clubboard/deletereply}" method="post">
+        				<input type="hidden" name="reNumber" th:value="${tmp.reNumber}" />
+        				<input type="hidden" name="clubBoard" th:value=${clubboard.cbNo} />
+        				<input type="submit" th:value="삭제" />
+        			</form>
+        		</td>
         	</tr>
         </table>
         <br />

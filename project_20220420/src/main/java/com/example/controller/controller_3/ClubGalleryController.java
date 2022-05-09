@@ -278,9 +278,8 @@ public class ClubGalleryController {
 						gImage.setGiImagetype(file[i].getContentType());
 						gImage.setClubgallery(cg);
 						cgiRep.save(gImage);
-//							System.out.println("gImage : " + gImage.getGiImagename().toString());
+//						System.out.println("gImage : " + gImage.getGiImagename().toString());
 					}
-					return "redirect:/clubgallery/update?cgNo=" + cg.getCgNo();
 				}
 			}
 			return "redirect:/clubgallery/update?cgNo=" + cg.getCgNo();
