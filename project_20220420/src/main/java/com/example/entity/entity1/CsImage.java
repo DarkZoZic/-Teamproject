@@ -9,7 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -47,6 +49,10 @@ public class CsImage {
   private String csiImagetype;
   // 스케줄이미지 이름
   private String csiImagename;
+  // 스케줄(외래키)
+  @ManyToOne
+  @JoinColumn(name="sNo")
+  private CSchedule cschedule;
   // 클럽스케쥴
   // @OneToMany(mappedBy = "csImage")
   // @JsonBackReference
