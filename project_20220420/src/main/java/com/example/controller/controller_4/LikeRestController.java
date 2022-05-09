@@ -41,10 +41,9 @@ public class LikeRestController {
         produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> likeInsertPost(
         @RequestBody  Like like,
-        @RequestParam (name = "cNo") long cNo,
         @RequestHeader (name = "token") String token ) {
 
-        System.out.println(like.toString());
+        System.out.println("------" + like.toString());
 
         // 0406 BuyRestController.java
 
@@ -60,18 +59,20 @@ public class LikeRestController {
 
             // 클럽 엔티티 
             Club clubEntity = new Club();
-            clubEntity.setCNo(cNo);
+            clubEntity.setCNo(like.getClub().getCNo());
 
             // 찜 엔티티에 추가
             like.setMember(memberEntity);
             like.setClub(clubEntity);
+
+            System.out.println("------" + like.toString());
 
             if(token != null){
                 // 저장소를 이용해서 db에 추가
                 lRepository.save(like);
                 map.put("status", 200);
             }
-           
+           map.put("status", 200);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -142,9 +143,9 @@ public class LikeRestController {
             System.out.println(like.toString());
 
             if(token !=null) {
-                List<Like> like1 = lRepository.findByMember_mId(userid);
+                // List<Like> like1 = lRepository.findByMember_mIdOrderByLNoAsc(userid);
        
-                map.put("result",like1);
+                // map.put("result",like1);
                 map.put("status",200);
                 
             }
@@ -214,8 +215,8 @@ public class LikeRestController {
         try{
             System.out.println(lNo);
             // 토큰 추출
-            // String userid = jwtUtil.extractUsername(token);
-            // System.out.println("USERNAME ==>" + userid);
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
 
             // Like like1 = lRepository.getById(lNo);
 

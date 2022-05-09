@@ -151,14 +151,15 @@ public class Board1ServiceImpl implements Board1Service{
 
     @Override
     public List<Board1> selectBoard1List(String bTitle, PageRequest pageRequest) {
-        try{
-            return b1Repository.findByBTitleContainingOrderByBNoDesc(bTitle, pageRequest);
+        // try{
+        //     return b1Repository.findByBTitleContainingOrderByBNoDesc(bTitle, pageRequest);
 
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
+        // }
+        // catch(Exception e){
+        //     e.printStackTrace();
+        //     return null;
+        // }
+        return null;
     }
 
 

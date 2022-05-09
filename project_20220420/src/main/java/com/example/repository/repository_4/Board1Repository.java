@@ -15,17 +15,20 @@ import org.springframework.stereotype.Repository;
 public interface Board1Repository extends JpaRepository<Board1, Long> {
 
     // 이전글 : 작은것 중에서 가장 큰값 1개
-    // Board1 findTop1ByBnoLessThanOrderByBnoDesc(long bno);
+    // Board1 findTop1BybnoLessThanOrderBybnoDesc(Long bNo);
 
     // 다음글 : 큰것 중에서 가장 작은값 1개
-    // Board1 findTop1BybNoGreaterThanOrderBybNoAsc(long bno);
+    // Board1 findTop1ByBNoGreaterThanOrderByBNoAsc(long bNo);
 
     // 검색어를 제목을 기준으로. 글번호 내림차순 페이지네이션  
-    List<Board1> findByBTitleContainingOrderByBNoDesc(String bTitle, PageRequest pageRequest);
+    // List<Board1> findByBTitleContainingOrderByBNoDesc(String bTitle, PageRequest pageRequest);
 
     // List<Board1> findbyBtitleContaining(String bTitle);
 
-    //  // long countByBTitleContaining(String bTitle);
+    // 검색어가 포함된 전체 개수
+    // SELECT COUNT(*) FROM BOARD10 
+    // WHERE BTITLE LIKE '%' || '검색어' || '%' 
+    // long countByBTitleContaining(String bTitle);
 
     // member가 작성한 글을 내림차순으로 조회
     // Page<Board1> findByMemberOrderByBNoDesc(Member member, Pageable pageable);
@@ -33,17 +36,6 @@ public interface Board1Repository extends JpaRepository<Board1, Long> {
     // 회원 목록 + 검색
     // Page<Board1> findAll(Pageable pageable);
     
-    // Page<Board1> findByBTitleContaining(String bTitle, Pageable pageable);
-
-    // Page<Board1> findByBContentContaining(String bContent, Pageable pageable);
-
-    // Long[] findByBLongs(Long bNo);
-
-    // Long[] getByid(Long bNo);
-
-    // List<Board1> findByBNo(Long bNo);
-
-    // List<Board1> getByBNo(Long bNo);
 
     
 

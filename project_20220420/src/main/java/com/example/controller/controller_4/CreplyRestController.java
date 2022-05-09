@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.entity.entity1.Member;
+import com.example.entity.entity2.Board1;
 import com.example.entity.entity2.CReply;
 import com.example.jwt.JwtUtil;
 import com.example.repository.repository_4.CreplyRepository;
 import com.example.service.service_4.CreplyService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -33,7 +37,7 @@ public class CreplyRestController {
     @Autowired
     JwtUtil jwtUtil;
 
-    //127.0.0.1:9090/ROOT/creply/insertreply
+    //127.0.0.1:9090/ROOT/creply/insert
     @RequestMapping(value = "/insert", 
     method = {RequestMethod.POST},
     consumes = {MediaType.ALL_VALUE},
@@ -55,11 +59,21 @@ public class CreplyRestController {
 
             cReply.setMember(memberEntity);
             System.out.println(cReply.toString());
+            
+            Board1 board1Entity = new Board1();
+            board1Entity.setBNo(cReply.getBoard1().getBNo());
 
             if(token !=null) {
+                cReply.setBoard1(board1Entity);
+                cReply.setReContent(cReply.getReContent());
+                cReply.setRePrivate(cReply.getRePrivate());
+                // cReply.setReParentnumber(cReply.getReParentnumber());
+
                 cRepository.save(cReply);
                 map.put("status", 200); // 성공
             }
+            System.out.println("=============="+cReply.toString());
+            map.put("status", 200);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -67,7 +81,6 @@ public class CreplyRestController {
         }
         return map;
     }
-    
 
     // 127.0.0.1:9090/ROOT/creply/delete
     // {"bno":3}
@@ -170,7 +183,6 @@ public class CreplyRestController {
             if(token != null){
 
                 List<CReply> cReply = cRepository.findByBoard1_bNoOrderByReNumberAsc(bNo);
-
                 map.put("result",cReply);
                 map.put("status",200);
 

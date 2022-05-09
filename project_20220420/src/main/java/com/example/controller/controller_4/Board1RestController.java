@@ -1,6 +1,7 @@
 package com.example.controller.controller_4;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,11 +22,15 @@ import com.example.service.service_4.Board1Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
@@ -59,6 +64,11 @@ public class Board1RestController {
     
     @Autowired 
     UserDetailsServiceImpl userDetailsService;
+
+    @Autowired 
+    ResourceLoader resLoader;
+
+    @Value("${default.image}") String DEFAULT_IMAGE;
 
     // int PAGECNT = 10
     // global.properties 사용하기. 나중에 숫자 바꾸고 싶은대로 바꾸면 됨
@@ -103,6 +113,71 @@ public class Board1RestController {
         return map;
     }
 
+    // ckeditor에서 첨부하는 이미지 보관하는 곳
+    // 127.0.0.1:9090/ROOT/board1/ckimage
+    @RequestMapping(value = "/ckimage", 
+        method = {RequestMethod.POST},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> ckImagePOST(
+      @RequestParam(name = "image") MultipartFile file ) {
+
+        Map<String ,Object> map = new HashMap<>();
+
+        try{
+           BImage bImage = new BImage();
+           if(file.isEmpty() == false) {
+               bImage.setBiImage(file.getBytes()); // 이미지
+               bImage.setBiImagename(file.getOriginalFilename()); // 파일명
+               bImage.setBiImagesize(file.getSize()); //사이즈
+               bImage.setBiImagetype(file.getContentType()); // 타입
+            }
+
+           b1IRepository.save(bImage);
+           map.put("status", 200);
+           map.put("url", "/ROOT/board1/image?biImgcode=" + bImage.getBiImgcode() ); // url을 보내주어야 함
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
+
+    // 127.0.0.1:9090/ROOT/board1/image?biImgcode=1
+    // <img th:src="@{/board1/image(biImgcode=1)}" style="width:100px" />
+    @RequestMapping(value = "/image", 
+        method = {RequestMethod.GET},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<byte[]> imageGET(
+      @RequestParam(name = "biImgcode") Long biImgcode ) throws IOException  {
+
+        // 이미지명, 이미지크기, 이미지종류, 이미지데이터
+        BImage bImage = b1IRepository.getById(biImgcode);
+        System.out.println(bImage.getBiImagetype());
+		System.out.println(bImage.getBiImage().length);
+
+        if (bImage.getBiImagesize() > 0) {
+			HttpHeaders headers = new HttpHeaders();
+			if (bImage.getBiImagetype().equals("image/jpeg")) {
+				headers.setContentType(MediaType.IMAGE_JPEG);
+			} else if (bImage.getBiImagetype().equals("image/png")) {
+				headers.setContentType(MediaType.IMAGE_PNG);
+			} else if (bImage.getBiImagetype().equals("image/gif")) {
+				headers.setContentType(MediaType.IMAGE_GIF);
+			}
+			ResponseEntity<byte[]> response = new ResponseEntity<>(bImage.getBiImage(), headers, HttpStatus.OK);
+			return response;
+		} else {
+			InputStream is = resLoader.getResource(DEFAULT_IMAGE).getInputStream();
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.IMAGE_JPEG);
+			ResponseEntity<byte[]> response = new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
+			return response;
+		}
+    }
 
     // 이미지 넣는거 왜 안되지?
    
@@ -349,49 +424,51 @@ public class Board1RestController {
     ////////////////////////////////////////////////////////////////////
 
     // 127.0.0.1:9090/ROOT/board1/selectlist1?page=1
-    // @RequestMapping(value = "/selectlist1", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
-    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
-    // public Map<String, Object> boardSelectListGET(
-        
-    //     @RequestParam(name = "page", defaultValue = "1") int page,
-    //     @RequestParam(name = "txt", defaultValue = "") String txt ){
+    @RequestMapping(value = "/selectlist1", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
+                    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> boardSelectListGET(
+        Model model,
+        @RequestParam(name = "page", defaultValue = "1") int page,
+        @RequestParam(name = "bTitle", defaultValue = "") String bTitle ){
 
-    //     Map<String ,Object> map = new HashMap<>();
-    //     try{
-    //         // 페이지네이션
-    //         PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
+        Map<String ,Object> map = new HashMap<>();
+        try{
+            // 페이지네이션
+            PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
 
-    //         // List<Board1> list = b1Service.selectBoard1List(bTitle, pageRequest);
-    //         List<Board1> list = b1Repository.findByBTitleContainingOrderByBNoDesc(txt, pageRequest);
-    //         System.out.println(list.size());
+            // 검색어, 페이지네이션
+            // List<Board1> list = b1Service.selectBoard1List(bTitle, pageRequest);
+            // List<Board1> list = b1Repository.findByBTitleContainingOrderByBNoDesc(bTitle, pageRequest);
+            // model.addAttribute("list", list);
 
-    //         if(!list.isEmpty()){
-    //             map.put("status", 200);
-    //             map.put("result", list);
-    //         }
+            // if(!list.isEmpty()){
+            //     map.put("status", 200);
+            //     map.put("result", list);
+            // }
 
-    //         // 검색어, 페이지네이션
-    //         // List<Board1> list = b1Repository.findByBTitleContainingOrderByBNoDesc(bTitle, pageRequest);
-    //         // List<Board1> blist = b1Service.selectBoard1List(bNo, pageable, bTitle);
-    //         // List<Board1> blist = b1Service.selectBoard1List(bNo, bTitle, pageable);
+            // 검색어, 페이지네이션
+            // List<Board1> list = b1Repository.findByBTitleContainingOrderByBNoDesc(bTitle, pageRequest);
+            // List<Board1> blist = b1Service.selectBoard1List(bNo, pageable, bTitle);
+            // List<Board1> blist = b1Service.selectBoard1List(bNo, bTitle, pageable);
            
-    //         // System.out.println(list);
-    //         // if(!list.isEmpty()){
-    //         //     map.put("status", 200); // 성공
-    //         //     map.put("result", list); 
-    //         // }
+            // System.out.println(list);
+            // if(!list.isEmpty()){
+            //     map.put("status", 200); // 성공
+            //     map.put("result", list); 
+            // }
 
-    //         // 전체개수
-    //         // long total = b1Repository.countByBTitleContaining(bTitle);
-    //         // map.put("pages", (total-1)/PAGECNT +1);
+            // 전체개수
+            // long total = b1Repository.countByBTitleContaining(bTitle);
+            // map.put("pages", (total-1)/PAGECNT +1);
+            // model.addAttribute("pages", (total-1)/PAGECNT +1 );
 
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         map.put("status", 0); // 실패
-    //     }
-    //     return map;
-    // }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
 
 
 
@@ -418,6 +495,69 @@ public class Board1RestController {
         }
         return map;
     }
+
+   
+    // @PostMapping(value = "/prev")
+    // public String prevPOST( @RequestParam(name = "no") long no){
+
+    //     BoardEntity prev = bRepository.findTop1ByNoLessThanOrderByNoDesc(no);
+    //     return "redirect:/board/selectone?no=" + prev.getNo();
+    // }
+
+    // 이전글, 다음글
+
+    // @RequestMapping(value = "/prevnext", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
+    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
+    // public Map<String, Object> prevnextPOST(
+    //     @RequestParam(name = "bNo") long bNo,
+    //     @RequestParam(name = "btn") String btn,
+    //     @RequestHeader (name = "token")String token){
+
+    //     Map<String ,Object> map = new HashMap<>();
+    //     try{
+    //         if(token != null){
+    //             if(btn.equals("이전글")){
+    //                 Board1 prev = 
+    //             }
+    //             int ret = b1Service.updateBoard1HitOne(bNo);
+    //             if(ret == 1){
+    //                 map.put("status", 200); // 성공
+    //             }
+    //         }
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         map.put("status", 0); // 실패
+    //     }
+    //     return map;
+    // }
+
+    // @PostMapping(value = "/selectone1")
+    // public String selectOnePOST(
+    //         Model model,
+    //         @RequestParam(name = "no") long no,
+    //         @RequestParam(name = "btn") String btn  ){
+        
+    //     try{
+    //         if(btn.equals("이전글")){
+    //             BoardEntity prev = bRepository.findTop1ByNoLessThanOrderByNoDesc(no);
+    //             return "redirect:/board/selectone?no=" + prev.getNo();
+    //         }
+    //         else if(btn.equals("다음글")){
+    //             BoardEntity next = bRepository.findTop1ByNoGreaterThanOrderByNoAsc(no);
+    //             return "redirect:/board/selectone?no=" + next.getNo();
+    //         }
+    //         return "redirect:/board/selectlist";
+
+    //     }
+    //     catch(Exception e){
+    //         return "redirect:/board/selectlist";
+
+    //     }
+        
+
+    // }
+
 
 
     // 일괄삭제
