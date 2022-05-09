@@ -13,6 +13,11 @@ import org.springframework.stereotype.Repository;
 public interface ClubRepository 
     extends JpaRepository<Club, Long>{
 
+        // findBy컬럼명ContainingOrderBy컬럼명Desc
+        // SELECT * FROM 테이블명
+        // WHERE TITLE LIKE '%' || '검색어' || '%' ORDER BY BNO DESC 검색 + 정렬
+        // List<Club> findBycName(String title);
+
         // @Query(value = "SELECT * FROM"+
         // " ADDRESSTABLEVIEW WHERE A_CODE=:no", nativeQuery = true)
         // public List<Club> addressclublList(

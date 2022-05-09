@@ -9,7 +9,7 @@ import com.example.entity.entity2.Club;
 import com.example.entity.entity2.Combineaddr;
 import com.example.repository.repository_gibum.AddressRepository;
 import com.example.repository.repository_gibum.ClubRepository;
-import com.example.repository.repository_gibum.CombineaddrView;
+import com.example.repository.repository_gibum.CombineaddrViewRepository;
 
 import org.hibernate.sql.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class AddressRestController {
 
     @Autowired ClubRepository cRepository;
 
-    @Autowired CombineaddrView cbRepository;
+    @Autowired CombineaddrViewRepository cbRepository;
 
 
 
@@ -166,7 +166,7 @@ public class AddressRestController {
 
     return map;
     }   
-    //  대분류 검색 ex) 부산광역시
+    //  대분류로 클럽검색 ex) 부산광역시
     // 127.0.0.1:9090/ROOT/address/searchclub3
     @RequestMapping(value = "/searchclub3", 
     method = { RequestMethod.GET },
@@ -195,7 +195,7 @@ public class AddressRestController {
 
     return map;
     }
-     //  중분류 검색 ex) 진구
+     //  중분류로 클럽검색 ex) 진구
     // 127.0.0.1:9090/ROOT/address/searchclub4
     @RequestMapping(value = "/searchclub4", 
     method = { RequestMethod.GET },
