@@ -145,7 +145,7 @@ public class ClubAlbumController {
 		}
 	}
 	
-	// 앨범에 선택한 갤러리 이미지 추가
+	// 앨범에 선택한 갤러리 이미지 추가 // 미구현
 	// 127.0.0.1:9090/ROOT/clubalbum/insertimage?caNo=
 	@PostMapping(value="/insertimage")
 	public String insertimagePOST(@RequestParam(name="caNo") long caNo, @ModelAttribute GImage gimage)

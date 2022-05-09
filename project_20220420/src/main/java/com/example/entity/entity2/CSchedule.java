@@ -33,16 +33,12 @@ public class CSchedule {
   generator = "SEQ_CSCHEDULE") // 시퀀스 적용
  private Long sNo;
  // 일정명
- @Column(nullable = false)
  private String sName;
  // 일정내용
- @Column(nullable = false)
  private String sContent;
  // 날짜
- @Column(nullable = false)
  private Date sDate;
  // 동호회번호
- @Column(nullable = false)
  private Long cNo;
  // 스케줄이미지
  @ManyToOne
