@@ -40,25 +40,25 @@ public class CReply {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, 
   generator = "SEQ_CREPLY") // 시퀀스 적용
-  private Long reNumber;
+  private Long renumber;
 
   // 댓글 내용
   @Column(nullable = false)
   @Lob
-  private String reContent;
+  private String recontent;
 
   // 댓글 작성일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @CreationTimestamp // CURRENT_DATE
-  private Date reRegdate;
+  private Date reregdate;
 
   // 부모댓글번호
-  private Long reParentnumber;
+  private Long reparentnumber;
 
   // 수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@UpdateTimestamp // CURRENT_DATE
-  private Date reUpdatedate;
+  private Date reupdatedate;
 
   // 자유게시판 글번호
   @ManyToOne
@@ -68,11 +68,11 @@ public class CReply {
   // 클럽게시판 글번호
   @ManyToOne
   @JoinColumn(name = "cb_no")
-  private ClubBoard clubBoard;
+  private ClubBoard clubboard;
 
   // 댓글 공개여부
   @Column(nullable = false)
-  private String rePrivate;
+  private String reprivate;
 
   // 반응
   @ManyToOne

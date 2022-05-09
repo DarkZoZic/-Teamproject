@@ -35,22 +35,22 @@ public class Board1 {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, 
   generator = "SEQ_BOARD_1") // 시퀀스 적용
-  private Long bNo;
+  private Long bno;
 
   // 글제목
-  private String bTitle;
+  private String btitle;
 
   // 글내용
-  private String bContent;
+  private String bcontent;
 
   // 글조회수
-  private Long bHit = 0L;
+  private Long bhit = 0L;
 
   // 글작성일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
 	@Column(name = "BREGDATE")
-  private Date bRegdate;
+  private Date bregdate;
 
   // 글수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
@@ -58,7 +58,7 @@ public class Board1 {
 	Date buptdate;
   
   // 글종류
-  private String bType;
+  private String btype;
 
   // 임시변수
   @Transient
