@@ -252,4 +252,25 @@ public class ClubAlbumController {
 			return "redirect:/";
 		}
 	}
+	
+	// 앨범 수정 화면
+	// 127.0.0.1:9090/ROOT/clubalbum/update?cano=
+	@GetMapping(value="/update")
+	public String updateGET(Model model, @RequestParam(name="cano") long cano)
+	{
+		try 
+		{
+			
+			List<CaImage> imagelist = caiRep.findByClubalbum_canoOrderByCaimgcodeAsc(cano);
+			model.addAttribute("imagelist", imagelist);
+			model.addAttribute("album", caRep.findById(cano).orElse(null));
+			
+			return "/3/clubalbum/update";
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return "redirect:/";
+		}
+	}
 }
