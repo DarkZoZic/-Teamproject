@@ -18,12 +18,12 @@ public class LikeServiceImpl implements LikeService{
     EntityManagerFactory emf;
 
     @Override
-    public int deleteLikeBatch(Long[] lNo) {
+    public int deleteLikeBatch(Long[] lno) {
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
 
-            for( Long tmp : lNo) {
+            for( Long tmp : lno) {
 				//기본키를 이용해서 기존 데이터를 꺼냄
                 Like likeEntity = em.find(Like.class, tmp);
 				em.remove(likeEntity);

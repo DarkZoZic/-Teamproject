@@ -31,34 +31,41 @@ import lombok.Data;
 sequenceName = "SEQ_BOARD_1_NO", 
 allocationSize = 1, initialValue = 1)
 public class Board1 {
+
   // 글번호
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, 
   generator = "SEQ_BOARD_1") // 시퀀스 적용
-  private Long bNo;
+  @Column(name = "bno")
+  private Long bno;
 
   // 글제목
-  private String bTitle;
+  @Column(name = "btitle")
+  private String btitle;
 
   // 글내용
-  private String bContent;
+  @Column(name = "bcontent")
+  private String bcontent;
 
   // 글조회수
-  private Long bHit = 0L;
+  @Column(name = "bhit")
+  private Long bhit = 0L;
 
   // 글작성일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
-	@Column(name = "BREGDATE")
-  private Date bRegdate;
+	@Column(name = "bregdate")
+  private Date bregdate;
 
   // 글수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@UpdateTimestamp // 데이터를 첨부할 때 말고 update 할 때도 시간이 찍힘
+  @Column(name = "buptdate")
 	Date buptdate;
   
   // 글종류
-  private String bType;
+  @Column(name = "btype")
+  private String btype;
 
   // 임시변수
   @Transient
@@ -66,7 +73,7 @@ public class Board1 {
 
   // 회원
   @ManyToOne
-  @JoinColumn(name = "m_id")
+  @JoinColumn(name = "mid")
   private Member member;
 
   // 게시판이미지

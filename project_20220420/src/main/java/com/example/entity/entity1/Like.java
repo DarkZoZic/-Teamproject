@@ -24,21 +24,26 @@ import lombok.Data;
 @Table(name = "LIKETBL")
 @SequenceGenerator(name = "SEQ_LIKE", sequenceName = "SEQ_LIKE_NO", allocationSize = 1, initialValue = 1)
 public class Like {
+  
   // 찜 번호
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LIKE")
-  private Long lNo;
+  @Column(name = "lno")
+  private Long lno;
+
   // 찜 등록일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @CreationTimestamp // CURRENT_DATE
-  @Column(name = "LREGDATE", nullable = false)
-  private Date lRegdate;
+  @Column(name = "lregdate", nullable = false)
+  private Date lregdate;
+  
   // 동호회
   @ManyToOne
-  @JoinColumn(name = "c_no")
+  @JoinColumn(name = "cno")
   private Club club;
+  
   // 회원
   @ManyToOne
-  @JoinColumn(name = "m_id")
+  @JoinColumn(name = "mid")
   private Member member;
 }

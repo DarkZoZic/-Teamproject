@@ -16,7 +16,7 @@ public class CreplyServiceImpl implements CreplyService {
     public int insertReplyOne(CReply cReply) {
         try{
             CReply insertCreply = new CReply();
-            insertCreply.setReContent(cReply.getReContent());
+            insertCreply.setRecontent(cReply.getRecontent());
 
             cRepository.save(cReply);
             return 1;            

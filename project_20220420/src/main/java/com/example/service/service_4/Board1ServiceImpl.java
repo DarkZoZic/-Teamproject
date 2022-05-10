@@ -34,8 +34,8 @@ public class Board1ServiceImpl implements Board1Service{
        
         try{
             Board1 insertBoard = new Board1();
-            insertBoard.setBTitle(board1.getBTitle());
-            insertBoard.setBContent(board1.getBContent());
+            insertBoard.setBtitle(board1.getBtitle());
+            insertBoard.setBcontent(board1.getBcontent());
             insertBoard.setMember(board1.getMember());    
 
             b1Repository.save(board1);
@@ -53,8 +53,8 @@ public class Board1ServiceImpl implements Board1Service{
             Board1 updateBoard = new Board1();
 
             // 변경할 항목만 set
-            updateBoard.setBTitle( board1.getBTitle() );
-            updateBoard.setBContent( board1.getBContent() );
+            updateBoard.setBtitle( board1.getBtitle() );
+            updateBoard.setBcontent( board1.getBcontent() );
             // updateBoard.setBImageList( board1.getBImageList() ); // 이미지 이렇게 해도 되나?
            
 
@@ -69,10 +69,10 @@ public class Board1ServiceImpl implements Board1Service{
     }
 
     @Override
-    public int deleteBoard1One(Long bNo) {
+    public int deleteBoard1One(Long bno) {
         
         try{
-            b1Repository.deleteById(bNo);
+            b1Repository.deleteById(bno);
             return 1;
         }
         catch(Exception e){
@@ -82,7 +82,7 @@ public class Board1ServiceImpl implements Board1Service{
      }
 
     // @Override
-    // public int deleteBoard1Batch(Long[] bNo) {
+    // public int deleteBoard1Batch(Long[] bno) {
     //     try{
     //         for( Board1 board1 : list) {
 	// 			//기본키를 이용해서 기존 데이터를 꺼냄
@@ -98,12 +98,12 @@ public class Board1ServiceImpl implements Board1Service{
     // }
 
     @Override
-    public int deleteBoard1Batch(Long[] bNo) {
+    public int deleteBoard1Batch(Long[] bno) {
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
 
-            for( Long tmp : bNo) {
+            for( Long tmp : bno) {
 				//기본키를 이용해서 기존 데이터를 꺼냄
                 Board1 board1 
                 = em.find(Board1.class, tmp);
@@ -121,10 +121,10 @@ public class Board1ServiceImpl implements Board1Service{
     }
 
     @Override
-    public int updateBoard1HitOne(Long bNo) {
+    public int updateBoard1HitOne(Long bno) {
         try{
-            Board1 board1 = b1Repository.findById(bNo).orElse(null);
-            board1.setBHit( board1.getBHit() + 1L );
+            Board1 board1 = b1Repository.findById(bno).orElse(null);
+            board1.setBhit( board1.getBhit() + 1L );
 
             b1Repository.save(board1);
             return 1;
@@ -138,9 +138,9 @@ public class Board1ServiceImpl implements Board1Service{
     }
 
     @Override
-    public Board1 selectBoard1One(Long bNo) {
+    public Board1 selectBoard1One(Long bno) {
         try{
-            return b1Repository.findById(bNo).orElse(null);
+            return b1Repository.findById(bno).orElse(null);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -150,9 +150,9 @@ public class Board1ServiceImpl implements Board1Service{
     }
 
     @Override
-    public List<Board1> selectBoard1List(String bTitle, PageRequest pageRequest) {
+    public List<Board1> selectBoard1List(String btitle, PageRequest pageRequest) {
         // try{
-        //     return b1Repository.findByBTitleContainingOrderByBNoDesc(bTitle, pageRequest);
+        //     return b1Repository.findByBTitleContainingOrderByBNoDesc(btitle, pageRequest);
 
         // }
         // catch(Exception e){

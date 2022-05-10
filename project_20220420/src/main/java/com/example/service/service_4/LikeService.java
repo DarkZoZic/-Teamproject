@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 public interface LikeService {
 
     // 일괄삭제
-    public int deleteLikeBatch(Long[] lNo);
+    public int deleteLikeBatch(Long[] lno);
     
 }

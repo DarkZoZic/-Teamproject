@@ -26,32 +26,33 @@ public class Qna {
   // 큐엔에이 글번호
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_QNA")
-  private long qNo;
+  @Column(name = "qno")
+  private long qno;
   
   // 큐엔에이 글제목
-  @Column(nullable = false)
-  private String qTitle;
+  @Column(name = "qtitle", nullable = false)
+  private String qtitle;
   
   // 큐엔에이 글내용
-  @Column(nullable = false)
-  private String qContent;
+  @Column(name = "qcontent", nullable = false)
+  private String qcontent;
   
   // 큐엔에이 조회수
-  @Column(nullable = false)
-  private Long qHit = 0L;
+  @Column(name = "qhit", nullable = false)
+  private Long qhit = 0L;
   
   // 큐엔에이 작성일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @CreationTimestamp // CURRENT_DATE
-  @Column(name = "QREGDATE", nullable = false)
-  private Date qRegdate;
+  @Column(name = "qregdate", nullable = false)
+  private Date qregdate;
 
   // 큐엔에이 공개여부
-  @Column(nullable = false)
-  private String qPrivate;
+  @Column(name = "qprivate", nullable = false)
+  private String qprivate;
   
   // 회원
   @ManyToOne
-  @JoinColumn(name = "m_id")
+  @JoinColumn(name = "mid")
   private Member member;
 }

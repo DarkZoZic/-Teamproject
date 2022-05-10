@@ -19,22 +19,22 @@ public interface Board1Service {
     public int updateBoard1One(Board1 board1);
 
     // 1개 삭제
-    public int deleteBoard1One(Long bNo);
+    public int deleteBoard1One(Long bno);
 
     // 1개 조회
-    public Board1 selectBoard1One(Long bNo);
+    public Board1 selectBoard1One(Long bno);
 
     // 검색어 + 페이지네이션
-    public List<Board1> selectBoard1List(String bTitle, PageRequest pageRequest);
+    public List<Board1> selectBoard1List(String btitle, PageRequest pageRequest);
     
     // // 페이지네이션
     // //public List<Board1> selectBoard1List()
 
     // 조회수 1 증가
-    public int updateBoard1HitOne(Long bNo); 
+    public int updateBoard1HitOne(Long bno); 
 
     // 일괄삭제
-    public int deleteBoard1Batch(Long[] bNo);
+    public int deleteBoard1Batch(Long[] bno);
 
    
 

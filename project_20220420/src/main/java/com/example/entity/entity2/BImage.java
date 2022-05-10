@@ -25,31 +25,43 @@ import lombok.Data;
 sequenceName = "SEQ_BIMAGE_IMGCODE", 
 allocationSize =  1,initialValue = 1)
 public class BImage {
+
   // 게시판이미지코드
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, 
   generator = "SEQ_BIMAGE") // 시퀀스 적용
-  private Long biImgcode;
-  // 게시판이미지등록일
+  @Column(name = "biimgcode")
+  private Long biimgcode;
 
+  // 게시판이미지등록일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
-	@Column(name = "BIREGDATE")
-  private Date biRegdate;
+	@Column(name = "biregdate")
+  private Date biregdate;
+
   // 게시판이미지
   @Lob
-  private byte[] biImage;
+  @Column(name = "biimage")
+  private byte[] biimage;
+
   // 게시판이미지크기
-  private Long biImagesize;
+  @Column(name = "biimagesize")
+  private Long biimagesize;
+
   // 게시판이미지타입
-  private String biImagetype;
+  @Column(name = "biimagetype")
+  private String biimagetype;
+
   // 게시판이미지명
-  private String biImagename;
-  // 클럽글번호
-  @Column(nullable = false)
-  private String cbNo;
+  @Column(name = "biimagename")
+  private String biimagename;
+
+  // 글번호 
+  @Column(name = "bno", nullable = false)
+  private String bno;
+
   // 게시판
   @ManyToOne
-  @JoinColumn(name = "b_no")
+  @JoinColumn(name = "bno")
   private Board1 board1;
 }

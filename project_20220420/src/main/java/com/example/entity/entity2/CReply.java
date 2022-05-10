@@ -40,52 +40,56 @@ public class CReply {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, 
   generator = "SEQ_CREPLY") // 시퀀스 적용
-  private Long reNumber;
+  @Column(name = "renumber")
+  private Long renumber;
 
   // 댓글 내용
-  @Column(nullable = false)
+  @Column(name = "recontent", nullable = false)
   @Lob
-  private String reContent;
+  private String recontent;
 
   // 댓글 작성일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @CreationTimestamp // CURRENT_DATE
-  private Date reRegdate;
+  @Column(name = "reregdate")
+  private Date reregdate;
 
   // 부모댓글번호
-  private Long reParentnumber;
+  @Column(name = "reparentnumber")
+  private Long reparentnumber;
 
   // 수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@UpdateTimestamp // CURRENT_DATE
-  private Date reUpdatedate;
+  @Column(name = "reparentnumber")
+  private Date reupdatedate;
 
+  // 댓글 공개여부
+  @Column(name = "reprivate", nullable = false)
+  private String reprivate;
+  
   // 자유게시판 글번호
   @ManyToOne
-  @JoinColumn(name = "b_no")
+  @JoinColumn(name = "bno")
   private Board1 board1;
 
   // 클럽게시판 글번호
   @ManyToOne
-  @JoinColumn(name = "cb_no")
-  private ClubBoard clubBoard;
-
-  // 댓글 공개여부
-  @Column(nullable = false)
-  private String rePrivate;
+  @JoinColumn(name = "cbno")
+  private ClubBoard clubboard;
 
   // 반응
   @ManyToOne
-  @JoinColumn(name = "r_id")
+  @JoinColumn(name = "rid")
   private Reaction reaction;
 
   // 회원 아이디
   @ManyToOne
-  @JoinColumn(name = "m_id")
+  @JoinColumn(name = "mid")
   private Member member;
 
   // 갤러리
-  // @OneToMany(mappedBy = "cReply")
+  // @OneToMany(mappedBy = "creply")
   // @JsonBackReference
   // private List<ClubGallery> clubGalleryList = new ArrayList<>();
 }
