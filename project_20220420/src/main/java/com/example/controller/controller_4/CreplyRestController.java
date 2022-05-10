@@ -37,8 +37,8 @@ public class CreplyRestController {
     @Autowired
     JwtUtil jwtUtil;
 
-    //127.0.0.1:9090/ROOT/creply/insert
-    @RequestMapping(value = "/insert", 
+    //127.0.0.1:9090/ROOT/creply/board_insert
+    @RequestMapping(value = "/board_insert", 
     method = {RequestMethod.POST},
     consumes = {MediaType.ALL_VALUE},
     produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -82,9 +82,9 @@ public class CreplyRestController {
         return map;
     }
 
-    // 127.0.0.1:9090/ROOT/creply/delete
+    // 127.0.0.1:9090/ROOT/creply/board_delete
     // {"bno":3}
-    @RequestMapping(value = "/delete", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
+    @RequestMapping(value = "/board_delete", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardDeletePost(
         @RequestBody CReply cReply,
@@ -124,10 +124,10 @@ public class CreplyRestController {
         return map;
     }
 
-    // 127.0.0.1:9090/ROOT/creply/update
+    // 127.0.0.1:9090/ROOT/creply/board_update
     // 제목, 내용, 번호
     // {"bno":2, "btitle":"222", "bcontent":"222"}
-    @RequestMapping(value = "/update", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
+    @RequestMapping(value = "/board_update", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardUpdatePost(
             @ModelAttribute CReply cReply, 
@@ -170,8 +170,8 @@ public class CreplyRestController {
     }
 
     // 원본 글번호가 일치하는 댓글 조회
-    // 127.0.0.1:9090/ROOT/creply/selectone
-    @RequestMapping(value = "/selectone", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
+    // 127.0.0.1:9090/ROOT/creply/board_selectone
+    @RequestMapping(value = "/board_selectone", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectOneGET(
         @RequestParam(name = "bno") Long bno,

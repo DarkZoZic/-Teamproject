@@ -143,9 +143,8 @@ public class LikeRestController {
             System.out.println(like.toString());
 
             if(token !=null) {
-                // List<Like> like1 = lRepository.findByMember_mIdOrderByLNoAsc(userid);
-       
-                // map.put("result",like1);
+                List<Like> like1 = lRepository.findByMember_midOrderByLnoAsc(userid);
+                map.put("result",like1);
                 map.put("status",200);
                 
             }
@@ -200,7 +199,7 @@ public class LikeRestController {
     // -- 찜 일괄 삭제 --
     //127.0.0.1:9090/ROOT/like/deletebatch
         @RequestMapping(value = "/deletebatch", 
-        method = {RequestMethod.GET},
+        method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> deleteBatchPOST(
