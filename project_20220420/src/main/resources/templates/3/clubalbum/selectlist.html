@@ -18,14 +18,14 @@
         	</tr>
         	
         	<tr th:each="tmp : ${list}">
-        		<td th:text="${tmp.caNo}"></td>
+        		<td th:text="${tmp.cano}"></td>
         		<td>
-        			<a th:href="@{/clubalbum/select(caNo=${tmp.caNo})}">
-	        			<!-- <img th:src="@{/clubalbum/image(caNo=${tmp.caNo},idx=0)}" style="width:200px;"/> -->
+        			<a th:href="@{/clubalbum/select(cano=${tmp.cano})}">
+	        			<!-- <img th:src="@{/clubalbum/image(cano=${tmp.cano},idx=0)}" style="width:200px;"/> -->
 	        		</a>
         		</td>
-        		<td ><a th:href="@{/clubalbum/select(caNo=${tmp.caNo})}" th:text="${tmp.caName}"></a></td>
-        		<td th:text="${tmp.caRegdate}"></td>
+        		<td ><a th:href="@{/clubalbum/select(cano=${tmp.cano})}" th:text="${tmp.caname}"></a></td>
+        		<td th:text="${tmp.caregdate}"></td>
         	</tr>
         </table>
         

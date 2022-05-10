@@ -44,7 +44,7 @@ public class CReply {
   private Long renumber;
 
   // 댓글 내용
-  @Column(name = "recontent", nullable = false)
+  @Column(name = "recontent")
   @Lob
   private String recontent;
 
@@ -55,17 +55,17 @@ public class CReply {
   private Date reregdate;
 
   // 부모댓글번호
-  @Column(name = "reparentnumber", insertable = false, updatable = false)
+  @Column(name = "reparentnumber")
   private Long reparentnumber;
 
   // 수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@UpdateTimestamp // CURRENT_DATE
-  @Column(name = "reparentnumber")
+  @Column(name = "reupdatedate")
   private Date reupdatedate;
 
   // 댓글 공개여부
-  @Column(name = "reprivate", nullable = false)
+  @Column(name = "reprivate")
   private String reprivate;
   
   // 자유게시판 글번호

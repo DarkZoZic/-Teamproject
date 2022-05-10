@@ -19,11 +19,11 @@
 	       	</tr>
 	       	
 	       	<tr th:each="tmp, idx : ${imagelist}">
-	       		<td th:text="${tmp.giImgcode}"></td>
-	       		<td th:text="${tmp.giImagename}"></td>
+	       		<td th:text="${tmp.gimgcode}"></td>
+	       		<td th:text="${tmp.gimagename}"></td>
 	       		<td th:text="${idx.count}"></td>
 	       		<td>
-	       			<img th:src="@{/clubgallery/image(cgNo=${tmp.clubgallery.cgNo},idx=${idx.index})}" style="width:200px;"/>
+	       			<img th:src="@{/clubgallery/image(cgno=${tmp.clubgallery.cgno},idx=${idx.index})}" style="width:200px;"/>
 	       		</td>
 	       	</tr>
        	</table>

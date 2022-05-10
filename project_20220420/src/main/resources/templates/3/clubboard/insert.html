@@ -10,10 +10,10 @@
     <div style="margin: 20px;">
         <h3>글쓰기</h3>
         <form th:action="@{/clubboard/insert}" method="post" enctype="multipart/form-data">
-        	<input type="hidden" name="cbNoticecheck" value="n" />
-        	<input type="hidden" name="cbDepth" value=0 />
-	        제목 <input type="text" name="cbTitle" /><br />
-	        내용 <textarea rows="10" style="width:400px;" name="cbContent" ></textarea><br />
+        	<input type="hidden" name="cbnoticecheck" value="n" />
+        	<input type="hidden" name="cbdepth" value=0 />
+	        제목 <input type="text" name="cbtitle" /><br />
+	        내용 <textarea rows="10" style="width:400px;" name="cbcontent" ></textarea><br />
 	        <input type="file" name="file" />
 	        <input type="submit" value="작성" />
         </form>

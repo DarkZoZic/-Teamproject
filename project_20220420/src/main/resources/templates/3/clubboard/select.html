@@ -10,12 +10,12 @@
     <div style="padding: 20px;">
         <h3>글상세</h3>
         <form th:action="@{/clubboard/update}" method="get">
-        		번호 <p th:text="${clubboard.cbNo}"></p>
-        		제목 <p th:text="${clubboard.cbTitle}"></p>
-        		내용 <p th:text="${clubboard.cbContent}"></p>
-        		이미지 <p th:if="${cbimage != null}" th:text="${cbimage.cbiImagename}"></p>
+        		번호 <p th:text="${clubboard.cbno}"></p>
+        		제목 <p th:text="${clubboard.cbtitle}"></p>
+        		내용 <p th:text="${clubboard.cbcontent}"></p>
+        		이미지 <p th:if="${cbimage != null}" th:text="${cbimage.cbimagename}"></p>
         		
-        		<img th:src="@{/clubboard/image(cbNo=${clubboard.cbNo})}" style="width:200px;" />
+        		<img th:src="@{/clubboard/image(cbno=${clubboard.cbno})}" style="width:200px;" />
         		
         </form>
         
@@ -27,12 +27,12 @@
         	</tr>
         	
         	<tr th:each="tmp : ${replylist}">
-        		<td th:text="${tmp.reContent}"></td>
-        		<td th:text="${tmp.reRegdate}"></td>
+        		<td th:text="${tmp.recontent}"></td>
+        		<td th:text="${tmp.reregdate}"></td>
         		<td>
         			<form th:action="@{/clubboard/deletereply}" method="post">
-        				<input type="hidden" name="reNumber" th:value="${tmp.reNumber}" />
-        				<input type="hidden" name="clubBoard" th:value=${clubboard.cbNo} />
+        				<input type="hidden" name="reNumber" th:value="${tmp.renumber}" />
+        				<input type="hidden" name="clubBoard" th:value=${clubboard.cbno} />
         				<input type="submit" th:value="삭제" />
         			</form>
         		</td>
@@ -41,8 +41,8 @@
         <br />
         
         <form th:action="@{/clubboard/insertreply}" method="post">
-        	<input type="hidden" name="cbNo" th:value=${clubboard.cbNo} />
-        	<input type="text" name="reContent" />
+        	<input type="hidden" name="cbno" th:value=${clubboard.cbno} />
+        	<input type="text" name="recontent" />
         	<input type="submit" value="댓글작성" />
         </form>
         
@@ -50,19 +50,19 @@
         <hr />
         <form th:action="@{/clubboard/update}" method="get" style="display:inline-block;">
 			<input type="submit" value="수정" />
-			<input type="hidden" name="cbNo" th:value=${clubboard.cbNo} />
+			<input type="hidden" name="cbno" th:value=${clubboard.cbno} />
 		</form>
         
         <form th:action="@{/clubboard/delete}" method="post" style="display:inline-block;">
 			<input type="submit" value="삭제" onclick="if(!confirm('삭제하시겠습니까?')){return false;}"/>
-			<input type="hidden" name="cbNo" th:value=${clubboard.cbNo} />
+			<input type="hidden" name="cbno" th:value=${clubboard.cbno} />
 		</form>
 		<br />
 		
 		<div th:if="${prev} != null" style="display:inline-block;">
 			<form th:action="@{/clubboard/prev}" method="post" style="display:inline-block;">
 				<input type="submit" value="이전글" />
-				<input type="hidden" name="cbNo" th:value=${clubboard.cbNo} />
+				<input type="hidden" name="cbno" th:value=${clubboard.cbno} />
 			</form>
 		</div>
 		
@@ -71,7 +71,7 @@
 		<div th:if="${next} != null" style="display:inline-block;">
 			<form th:action="@{/clubboard/next}" method="post" style="display:inline-block;">
 				<input type="submit" value="다음글" />
-				<input type="hidden" name="cbNo" th:value=${clubboard.cbNo} />
+				<input type="hidden" name="cbno" th:value=${clubboard.cbno} />
 			</form>
 		</div>
     </div>

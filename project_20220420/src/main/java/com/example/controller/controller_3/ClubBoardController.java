@@ -347,7 +347,7 @@ public class ClubBoardController {
 				if(!creply.getRecontent().equals(""))
 				{
 					creply.setClubboard(cbno); // 댓글 작성한 글번호(외래키)
-					creply.setReparentnumber(0L); // 부모댓글번호(미구현)
+//					creply.setReparentnumber(0L); // 부모댓글번호(미구현)
 					creply.setReprivate("n");	// 비밀댓글여부(미구현)
 					System.out.println(creply.toString());
 					crRep.save(creply); // 댓글 저장(작성)

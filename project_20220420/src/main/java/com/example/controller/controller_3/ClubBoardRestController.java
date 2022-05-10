@@ -24,11 +24,11 @@ public class ClubBoardRestController {
 			method={RequestMethod.PUT}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> clubboardUpdatehit1PUT(@RequestParam(name="cbNo") long cbNo)
+	public Map<String, Object> clubboardUpdatehit1PUT(@RequestParam(name="cbno") long cbno)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try {
-			ClubBoard board = cbRep.findById(cbNo).orElse(null);
+			ClubBoard board = cbRep.findById(cbno).orElse(null);
 			board.setCbhit( board.getCbhit() + 1L );
 			cbRep.save(board);
 			map.put("status", 200);
