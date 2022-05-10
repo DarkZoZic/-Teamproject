@@ -31,17 +31,20 @@ public class Notification {
   // 알림코드
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_NOTIFICATION")
-  private Long noCode;
+  @Column(name = "NOCODE")
+  private Long nocode;
   // 보낸사람
-  private String noMem;
+  @Column(name = "NOMEM")
+  private String nomem;
   // 알림내용
   @Lob
-  private String noContent;
+  @Column(name = "NOCONTENT")
+  private String nocontent;
   // 알림발생시
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
 	@Column(name = "NODATE")
-	private Date noDate;
+	private Date nodate;
   // 회원
   @ManyToOne
   @JoinColumn(name = "m_id")

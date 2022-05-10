@@ -32,21 +32,23 @@ public class Reaction {
   // 반응 아이디
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REACTION")
-  private String rCode;
+  @Column(name = "RCODE")
+  private String rcode;
   // 반응종류
-  @Column(nullable = false)
-  private String rType;
+  @Column(nullable = false, name = "RTYPE")
+  private String rtype;
   // 반응일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
 	@Column(name = "RREGDATE", nullable = false)
-  private Date rRegdate;
+  private Date rregdate;
   // 개수
-  private String rCount;
+  @Column(name = "RCOUNT")
+  private String rcount;
   // 클럽게시판
   @ManyToOne
   @JoinColumn(name = "cb_no")
-  private ClubBoard clubBoard;
+  private ClubBoard clubboard;
   // 댓글
   // @OneToMany(mappedBy = "reaction")
   // @JsonBackReference

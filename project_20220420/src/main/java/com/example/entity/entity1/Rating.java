@@ -27,19 +27,20 @@ public class Rating {
   // 후기코드
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RATING")
-  private String raCode;
+  @Column(name = "RACODE")
+  private String racode;
   // 후기내용
-  @Column(nullable = false)
+  @Column(nullable = false, name = "RACONTENT")
   @Lob
-  private String raContent;
+  private String racontent;
   // 후기제목
-  @Column(nullable = false)
-  private String raTitle;
+  @Column(nullable = false, name = "RATITLE")
+  private String ratitle;
   // 후기작성일자
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
 	@Column(name = "RAREGDATE", nullable = false)
-  private Date raRegdate;
+  private Date raregdate;
   // 회원
   @ManyToOne
   @JoinColumn(name = "m_id")
