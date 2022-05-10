@@ -20,7 +20,7 @@ public interface CreplyRepository extends JpaRepository<CReply, Long>{
     // BoardReplyEntity -> BoardEntity
     // Board 밑에 no : Board_no (언더바 _ 로 표시함)
     // Board_no 가 하나의 변수처럼
-    List<CReply> findByBoard1_bNoOrderByReNumberAsc(Long bNo);
+    // List<CReply> findByBoard1_bNoOrderByReNumberAsc(Long bNo);
 
     
 }
