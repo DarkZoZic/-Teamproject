@@ -9,7 +9,7 @@ import com.example.entity.entity2.CReply;
 
 @Repository
 public interface CReplyRepository extends JpaRepository<CReply, Long>{
-	List<CReply> findByClubBoard_CbnoOrderByRenumberDesc(long cbno);
+	List<CReply> findByClubboard_CbnoOrderByRenumberDesc(long cbno);
 
-	void deleteByClubBoard_cbno(long cbno);
+	void deleteByClubboard_cbno(long cbno);
 }

@@ -21,10 +21,10 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 	
 	// 클럽게시판 글쓰기
 	@Override
-	public int insertClubBoard(ClubBoard clubBoard) {
+	public int insertClubBoard(ClubBoard clubboard) {
 		try 
 		{
-			cbRep.save(clubBoard);
+			cbRep.save(clubboard);
 			return 1;
 		} 
 		catch (Exception e) 
@@ -35,7 +35,7 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 
 	// 클럽게시판 글목록
 	@Override
-	public List<ClubBoard> selectClubBoardList(Long cbNo, String cbTitle, Pageable pageable) {
+	public List<ClubBoard> selectClubBoardList(Long cbno, String cbTitle, Pageable pageable) {
 		try 
 		{
 			return cbRep.findByCbtitleContainingOrderByCbnoDesc(cbTitle, pageable);
@@ -48,13 +48,13 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 	
 	// 클럽게시판 글 상세내용
 	@Override
-	public ClubBoard selectClubBoard(Long cbNo) {
-		return cbRep.findById(cbNo).orElse(null);
+	public ClubBoard selectClubBoard(Long cbno) {
+		return cbRep.findById(cbno).orElse(null);
 	}
 	
 	// 클럽게시판 글수정
 	@Override
-	public int updateClubBoard(ClubBoard clubBoard) {
+	public int updateClubBoard(ClubBoard clubboard) {
 		try 
 		{
 //			cbRep.updateOne(clubBoard, clubBoard.getCbno());
@@ -68,9 +68,9 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 	
 	// 클럽게시판 글삭제
 	@Override
-	public int deleteClubBoard(Long cbNo) {
+	public int deleteClubBoard(Long cbno) {
 		try {
-			cbRep.deleteById(cbNo);
+			cbRep.deleteById(cbno);
 			return 1;
 		} catch (Exception e) {
 			return 0;
@@ -80,9 +80,9 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 
 	// 클럽게시판 댓글쓰기
 	@Override
-	public int insertCReply(CReply cReply) {
+	public int insertCReply(CReply creply) {
 		try {
-			crRep.save(cReply);
+			crRep.save(creply);
 			return 1;
 		} 
 		catch (Exception e) {
@@ -93,10 +93,10 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 
 	//클럽게시판 댓글목록
 	@Override
-	public List<CReply> selectCReplylist(long cbNo) {
+	public List<CReply> selectCReplylist(long cbno) {
 		try 
 		{
-			return crRep.findByClubBoard_CbnoOrderByRenumberDesc(cbNo);
+			return crRep.findByClubboard_CbnoOrderByRenumberDesc(cbno);
 		} 
 		catch (Exception e) 
 		{

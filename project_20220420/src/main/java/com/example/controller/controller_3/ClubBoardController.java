@@ -149,7 +149,7 @@ public class ClubBoardController {
 		try 
 		{
 			// 댓글 목록 저장할 배열 변수
-			List<CReply> replylist = crRep.findByClubBoard_CbnoOrderByRenumberDesc(cbno);
+			List<CReply> replylist = crRep.findByClubboard_CbnoOrderByRenumberDesc(cbno);
 			
 //			long rtype = cbrRep.selectReactionCount(cbno, rType);
 			
@@ -157,7 +157,7 @@ public class ClubBoardController {
 			model.addAttribute("replylist", replylist); // 댓글
 //			model.addAttribute("rtype", rtype); // 좋아요 수(미구현)
 			
-			CbImage image = cbiRep.findByClubBoard_CbnoOrderByCbimgcodeAsc(cbno); // 글에 첨부된 이미지 꺼내기
+			CbImage image = cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(cbno); // 글에 첨부된 이미지 꺼내기
 //			System.out.println("image : " + image);
 //			if(image != null) // 글에 첨부된 이미지가 있으면
 //			{
@@ -185,7 +185,7 @@ public class ClubBoardController {
 	{
 		try 
 		{
-			CbImage cbImage = cbiRep.findByClubBoard_CbnoOrderByCbimgcodeAsc(cbno);
+			CbImage cbImage = cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(cbno);
 			System.out.println("size : " + cbImage.getCbimagesize().toString());
 			System.out.println("length : " + cbImage.getCbimage().length);
 			HttpHeaders headers = new HttpHeaders();
@@ -234,8 +234,8 @@ public class ClubBoardController {
 	{
 		try 
 		{
-			cbiRep.deleteByClubBoard_cbno(cbno); //글에 첨부된 이미지 삭제
-			crRep.deleteByClubBoard_cbno(cbno); // 글에 달린 댓글삭제
+			cbiRep.deleteByClubboard_cbno(cbno); //글에 첨부된 이미지 삭제
+			crRep.deleteByClubboard_cbno(cbno); // 글에 달린 댓글삭제
 			cbRep.deleteById(cbno); //글 삭제
 			
 			return "redirect:/clubboard/selectlist";
@@ -255,7 +255,7 @@ public class ClubBoardController {
 		try 
 		{
 			model.addAttribute("clubboard", cbRep.findById(cbno).orElse(null)); //글내용 수정페이지로 넘겨주기
-			model.addAttribute("cbimage", cbiRep.findByClubBoard_CbnoOrderByCbimgcodeAsc(cbno)); //이미지파일 데이터 넘겨주기
+			model.addAttribute("cbimage", cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(cbno)); //이미지파일 데이터 넘겨주기
 			return "/3/clubboard/update";
 		} 
 		catch (Exception e) 
@@ -274,7 +274,7 @@ public class ClubBoardController {
 		try 
 		{
 			// 기존에 있던 이미지 데이터 보관용 변수
-			CbImage oldImage = cbiRep.findByClubBoard_CbnoOrderByCbimgcodeAsc(clubboard.getCbno());
+			CbImage oldImage = cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(clubboard.getCbno());
 			if(file != null)
 			{
 				if(file.getBytes().length > 0) //파일 첨부시 cbimage에 첨부한 파일 데이터 넣기
