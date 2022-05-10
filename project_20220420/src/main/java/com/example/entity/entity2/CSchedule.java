@@ -1,8 +1,6 @@
 package com.example.entity.entity2;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,39 +9,40 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.example.entity.entity1.CsImage;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "CSCHEDULETBL")
-@SequenceGenerator(name = "SEQ_CSCHEDULE",
-sequenceName = "SEQ_CSCHEDULE_NO", 
-allocationSize = 1, initialValue = 1)
+@SequenceGenerator(name = "SEQ_CSCHEDULE", sequenceName = "SEQ_CSCHEDULE_NO", allocationSize = 1, initialValue = 1)
 public class CSchedule {
  // 일정번호
  @Id
- @GeneratedValue(strategy = GenerationType.SEQUENCE, 
-  generator = "SEQ_CSCHEDULE") // 시퀀스 적용
- private Long sNo;
+ @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CSCHEDULE") // 시퀀스 적용
+ @Column(name = "SNO")
+ private Long sno;
  // 일정명
- private String sName;
+ @Column(name = "SNAME")
+ private String sname;
  // 일정내용
- private String sContent;
+ @Column(name = "SCONTENT")
+ private String scontent;
  // 날짜
- private Date sDate;
+ @Column(name = "SDATE")
+ private Date sdate;
  // 동호회번호
- private Long cNo;
+ @ManyToOne
+ @JoinColumn(name = "cno")
+ private Club club;
  // 스케줄이미지
  @ManyToOne
- @JoinColumn(name = "csi_imgcode")
- private CsImage csImage;
+ @JoinColumn(name = "csimgcode")
+ private CsImage csimage;
  // 동호회
 //  @OneToMany(mappedBy = "cSchedule")
 //  @JsonBackReference

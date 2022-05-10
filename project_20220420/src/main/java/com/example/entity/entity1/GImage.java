@@ -22,35 +22,40 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "GIMAGETBL")
+@Table
 @SequenceGenerator(name = "SEQ_GIMAGE", sequenceName = "SEQ_GIMAGE_CODE", allocationSize = 1, initialValue = 1)
 public class GImage {
-  // 이미지코드
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GIMAGE")
-  private Long giImgcode;
-
-  // 등록일
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-	@CreationTimestamp // CURRENT_DATE
-	@Column(name = "GIREGDATE")
-	private Date giRegdate;
-
-  // 이미지
-  @Lob
-  private byte[] giImage;
-  // 이미지크기
-  private Long giImagesize;
-  // 이미지타입
-  private String giImagetype;
-  // 이미지이름
-  private String giImagename;
-  // 갤러리
-  @ManyToOne
-  @JoinColumn(name="cgNo")
-  private ClubGallery clubgallery;
-  // 앨범
-  @ManyToOne
-  @JoinColumn(name="caNo")
-  private ClubAlbum clubalbum;
+	  // 이미지코드
+	  @Id
+	  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GIMAGE")
+	  @Column(name = "GIMGCODE")
+	  private Long gimgcode;
+	
+	  // 등록일
+	  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+	  @CreationTimestamp // CURRENT_DATE
+	  @Column(name = "GIREGDATE")
+	  private Date giregdate;
+	
+	  // 이미지
+	  @Lob
+	  @Column(name = "GIMAGE")
+	  private byte[] gimage;
+	  // 이미지크기
+	  @Column(name = "GIMAGESIZE")
+	  private Long gimagesize;
+	  // 이미지타입
+	  @Column(name = "GIMAGETYPE")
+	  private String gimagetype;
+	  // 이미지이름
+	  @Column(name = "GIMAGENAME")
+	  private String gimagename;
+	  // 갤러리
+	  @ManyToOne
+	  @JoinColumn(name="cgno")
+	  private ClubGallery clubgallery;
+	  // 앨범
+	  @ManyToOne
+	  @JoinColumn(name="cano")
+	  private ClubAlbum clubalbum;
 }

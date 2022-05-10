@@ -65,10 +65,10 @@ public class ClubScheduleController {
 					for(int i=0; i<file.length; i++)
 					{
 						CsImage csImage = new CsImage();
-						csImage.setCsiImage(file[i].getBytes());
-						csImage.setCsiImagename(file[i].getOriginalFilename());
-						csImage.setCsiImagesize(file[i].getSize());
-						csImage.setCsiImagetype(file[i].getContentType());
+						csImage.setCsimage(file[i].getBytes());
+						csImage.setCsimagename(file[i].getOriginalFilename());
+						csImage.setCsimagesize(file[i].getSize());
+						csImage.setCsimagetype(file[i].getContentType());
 						csImage.setCschedule(cs);
 						csiRep.save(csImage);
 					}
@@ -113,21 +113,21 @@ public class ClubScheduleController {
 			
 			HttpHeaders headers = new HttpHeaders();
 			
-			if(csImage.getCsiImagesize() > 0)
+			if(csImage.getCsimagesize() > 0)
 			{
-				if(csImage.getCsiImagetype().equals("image/jpeg"))
+				if(csImage.getCsimagetype().equals("image/jpeg"))
 				{
 					headers.setContentType(MediaType.IMAGE_JPEG);
 				}
-				else if(csImage.getCsiImagetype().equals("image/png"))
+				else if(csImage.getCsimagetype().equals("image/png"))
 				{
 					headers.setContentType(MediaType.IMAGE_PNG);
 				}
-				else if(csImage.getCsiImagetype().equals("image/gif"))
+				else if(csImage.getCsimagetype().equals("image/gif"))
 				{
 					headers.setContentType(MediaType.IMAGE_GIF);
 				}
-				ResponseEntity<byte[]> response = new ResponseEntity<>(csImage.getCsiImage(), headers, HttpStatus.OK);
+				ResponseEntity<byte[]> response = new ResponseEntity<>(csImage.getCsimage(), headers, HttpStatus.OK);
 				return response;
 			}
 			else
@@ -153,8 +153,8 @@ public class ClubScheduleController {
 	{
 		try 
 		{
-			csiRep.deleteByCschedule_sNo(cs.getSNo());
-			csRep.deleteById(cs.getSNo());
+			csiRep.deleteByCschedule_sNo(cs.getSno());
+			csRep.deleteById(cs.getSno());
 			return "redirect:/clubschedule/selectlist";
 		} 
 		catch (Exception e) 
@@ -191,10 +191,10 @@ public class ClubScheduleController {
 	{
 		try 
 		{
-			CSchedule sdate = csRep.findById(cs.getSNo()).orElse(null);
-			cs.setSDate(sdate.getSDate());
+			CSchedule sdate = csRep.findById(cs.getSno()).orElse(null);
+			cs.setSdate(sdate.getSdate());
 			csRep.save(cs);
-			return "redirect:/clubschedule/update?sNo=" + cs.getSNo();
+			return "redirect:/clubschedule/update?sNo=" + cs.getSno();
 			
 		} 
 		catch (Exception e) 
@@ -218,16 +218,16 @@ public class ClubScheduleController {
 					for(int i=0; i<file.length; i++)
 					{
 						CsImage csImage = new CsImage();
-						csImage.setCsiImage(file[i].getBytes());
-						csImage.setCsiImagename(file[i].getOriginalFilename());
-						csImage.setCsiImagesize(file[i].getSize());
-						csImage.setCsiImagetype(file[i].getContentType());
+						csImage.setCsimage(file[i].getBytes());
+						csImage.setCsimagename(file[i].getOriginalFilename());
+						csImage.setCsimagesize(file[i].getSize());
+						csImage.setCsimagetype(file[i].getContentType());
 						csImage.setCschedule(cs);
 						csiRep.save(csImage);
 					}
 				}
 			}
-			return "redirect:/clubschedule/update?sNo=" + cs.getSNo(); 
+			return "redirect:/clubschedule/update?sNo=" + cs.getSno(); 
 		} 
 		catch (Exception e) 
 		{
@@ -243,8 +243,8 @@ public class ClubScheduleController {
 	{
 		try 
 		{
-			csiRep.deleteById(csi.getCsiImgcode());
-			return "redirect:/clubschedule/update?sNo=" + cs.getSNo();
+			csiRep.deleteById(csi.getCsimgcode());
+			return "redirect:/clubschedule/update?sNo=" + cs.getSno();
 		} 
 		catch (Exception e) 
 		{

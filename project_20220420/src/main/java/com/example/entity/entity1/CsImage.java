@@ -1,8 +1,6 @@
 package com.example.entity.entity1;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,12 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.example.entity.entity2.CSchedule;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,32 +22,37 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "CSIMAGETBL")
+@Table
 @SequenceGenerator(name = "SEQ_CSIMAGE", sequenceName = "SEQ_CSIMAGE_CODE", allocationSize = 1, initialValue = 1)
 public class CsImage {
   // 스케줄이미지 코드
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CSIMAGE")
-  private Long csiImgcode;
-  // 스케줄이미지 등록일
+  @Column(name = "CSIMGCODE")
+  private Long csimgcode;
   
+  // 스케줄이미지 등록일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
 	@Column(name = "CSIREGDATE")
-	private Date csiRegdate;
+	private Date csiregdate;
 
   // 스케줄이미지
   @Lob
-  private byte[] csiImage;
+  @Column(name = "CSIMAGE")
+  private byte[] csimage;
   // 스케줄이미지 크기
-  private Long csiImagesize;
+  @Column(name = "CSIMAGESIZE")
+  private Long csimagesize;
   // 스케줄이미지 타입
-  private String csiImagetype;
+  @Column(name = "CSIMAGETYPE")
+  private String csimagetype;
   // 스케줄이미지 이름
-  private String csiImagename;
+  @Column(name = "CSIMAGENAME")
+  private String csimagename;
   // 스케줄(외래키)
   @ManyToOne
-  @JoinColumn(name="sNo")
+  @JoinColumn(name="sno")
   private CSchedule cschedule;
   // 클럽스케쥴
   // @OneToMany(mappedBy = "csImage")

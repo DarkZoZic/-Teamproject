@@ -9,8 +9,8 @@ import com.example.entity.entity1.Reaction;
 public interface ClubBoardReactionRepository extends JpaRepository<Reaction, String>{
 	
 	// rType(반응종류) 에 따른 각 반응의 총 갯수 각각 구하기(좋아요 ?개, 따봉 ?개, ...)
-	@Query(value = "SELECT COUNT(R.*) FROM REACTION R, CLUBBOARD C WHERE C.CBNO=:cbNo, R.RTYPE=:#{#obj.rtype}", nativeQuery=true)
-	public long selectReactionCount(@Param(value="cbNo") Long cbNo, @Param(value="obj") String rtype);
+//	@Query(value = "SELECT COUNT(R.*) FROM REACTION R, CLUBBOARD C WHERE C.CBNO=:cbNo, R.RTYPE=:#{#obj.rtype}", nativeQuery=true)
+//	public long selectReactionCount(@Param(value="cbNo") Long cbNo, @Param(value="obj") String rtype);
 	
 	
 }

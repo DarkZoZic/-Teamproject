@@ -10,9 +10,9 @@
     <div style="padding: 20px;">
         <h3>갤러리 편집</h3>
         	<form th:action="@{/clubgallery/updategallerytext}" method="post">
-        		<input type="hidden" name="cgNo" th:value="${gallery.cgNo}" />
-	       		갤러리명 <input type="text" name="cgName" th:value="${gallery.cgName}" /><br /><br />
-	        	<textarea rows="10" style="width:400px;" name="cgDesc" th:text="${gallery.cgDesc}"></textarea><br />
+        		<input type="hidden" name="cgno" th:value="${gallery.cgno}" />
+	       		갤러리명 <input type="text" name="cgname" th:value="${gallery.cgname}" /><br /><br />
+	        	<textarea rows="10" style="width:400px;" name="cgDesc" th:text="${gallery.cgdesc}"></textarea><br />
 	        	<input type="submit" value="수정" />
 	       	</form>
 	       	<br />
@@ -28,16 +28,16 @@
 		       	</tr>
 		       	
 		       	<tr th:each="tmp, idx : ${imagelist}">
-		       		<td th:text="${tmp.giImgcode}"></td>
-		       		<td th:text="${tmp.giImagename}"></td>
+		       		<td th:text="${tmp.gimgcode}"></td>
+		       		<td th:text="${tmp.gimagename}"></td>
 		       		<td th:text="${idx.count}"></td>
 		       		<td>
-		       			<img th:src="@{/clubgallery/image(cgNo=${tmp.clubgallery.cgNo},idx=${idx.index})}" style="width:200px;"/>
+		       			<img th:src="@{/clubgallery/image(cgno=${tmp.clubgallery.cgno},idx=${idx.index})}" style="width:200px;"/>
 		       		</td>
 		       		<td>
 			       		 <form th:action="@{/clubgallery/deletegimage}" method="post">
-			       			<input type="hidden" name="giImgcode" th:value="${tmp.giImgcode}" />
-			       			<input type="hidden" name="cgNo" th:value="${gallery.cgNo}" />
+			       			<input type="hidden" name="gimgcode" th:value="${tmp.gimgcode}" />
+			       			<input type="hidden" name="cgno" th:value="${gallery.cgno}" />
 		    				<input type="submit" value="삭제" />
 	   					</form>
 		       		</td>
@@ -49,12 +49,12 @@
 	       	<form th:action="@{/clubgallery/insertimages}" method="post" enctype="multipart/form-data">
 	       		<p>사진추가</p>
 	        	<input type="file" name="file" multiple/><br /><br />
-	       		<input type="hidden" name="cgNo" th:value="${gallery.cgNo}" />
+	       		<input type="hidden" name="cgno" th:value="${gallery.cgno}" />
 		        <input type="submit" value="추가" />
 	        </form>
        	<br /><br />
        	
-       	<a th:href=@{/clubgallery/select(cgNo=${gallery.cgNo})}>갤러리 화면으로</a>
+       	<a th:href=@{/clubgallery/select(cgno=${gallery.cgno})}>갤러리 화면으로</a>
     </div>
 </body>
 </html>

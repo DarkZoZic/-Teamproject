@@ -57,7 +57,7 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 	public int updateClubBoard(ClubBoard clubBoard) {
 		try 
 		{
-			cbRep.updateOne(clubBoard, clubBoard.getCbNo());
+			cbRep.updateOne(clubBoard, clubBoard.getCbno());
 			return 1;
 		} 
 		catch (Exception e) 

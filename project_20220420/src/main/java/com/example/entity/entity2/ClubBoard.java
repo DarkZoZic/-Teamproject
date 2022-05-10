@@ -1,22 +1,15 @@
 package com.example.entity.entity2;
 
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import com.example.entity.entity1.Reaction;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,37 +20,38 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "CLUBBOARDTBL")
-@SequenceGenerator(name = "SEQ_CLUBBOARD",
-sequenceName = "SEQ_CLUBBOARD_NO", 
-allocationSize = 1, initialValue = 1)
+@SequenceGenerator(name = "SEQ_CLUBBOARD", sequenceName = "SEQ_CLUBBOARD_NO", allocationSize = 1, initialValue = 1)
 public class ClubBoard {
   // 클럽글번호
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, 
-  generator = "SEQ_CLUBBOARD") // 시퀀스 적용
-  private Long cbNo;
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CLUBBOARD") // 시퀀스 적용
+  @Column(name = "CBNO")
+  private Long cbno;
   // 클럽글제목
-  private String cbTitle;
+  @Column(name = "CBTITLE")
+  private String cbtitle;
   // 클럽글내용
-  private String cbContent;
+  @Column(name = "CBCONTENT")
+  private String cbcontent;
   // 클럽글조회수
-  private Long cbHit = 0L;
+  @Column(name = "CBHIT")
+  private Long cbhit = 0L;
   // 클럽글작성일
 @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 @CreationTimestamp // CURRENT_DATE
 @Column(name = "CBREGDATE")
-  private Date cbRegdate;
-  // 클럽글파일첨부
-  @Lob
-  private byte[] cbFile;
+  private Date cbregdate;
   // 클럽글공지여부
-  private String cbNoticecheck;
+@Column(name = "CBNOTICECHECK")
+  private String cbnoticecheck;
   // 클럽글수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@UpdateTimestamp // CURRENT_DATE
-  private Date cbUpdatedate;
+	@Column(name = "CBUPDATEDATE")
+  private Date cbupdatedate;
   // 클럽글깊이
-  private Long cbDepth = 0L;
+@Column(name = "CBDEPTH")
+  private Long cbdepth = 0L;
   // 댓글
   // @OneToMany(mappedBy = "clubBoard")
   // @JsonBackReference

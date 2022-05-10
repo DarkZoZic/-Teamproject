@@ -95,18 +95,18 @@ public class ClubAlbumController {
 			// 찾은 giImgcode와 일치하는(해당 앨범에 등록한) 이미지 전부 찾기
 			GImage gImage = cgiRep.findById(imagecode).orElse(null);
 			HttpHeaders headers = new HttpHeaders();
-			if(gImage.getGiImagesize() > 0)
+			if(gImage.getGimagesize() > 0)
 			{
-				if(gImage.getGiImagetype().equals("image/jpeg")) {
+				if(gImage.getGimagetype().equals("image/jpeg")) {
 					headers.setContentType(MediaType.IMAGE_JPEG);
 				}
-				else if(gImage.getGiImagetype().equals("image/png")) {
+				else if(gImage.getGimagetype().equals("image/png")) {
 					headers.setContentType(MediaType.IMAGE_PNG);
 				}
-				else if(gImage.getGiImagetype().equals("image/gif")) {
+				else if(gImage.getGimagetype().equals("image/gif")) {
 					headers.setContentType(MediaType.IMAGE_GIF);
 				}
-				ResponseEntity<byte[]> response = new ResponseEntity<>(gImage.getGiImage(), headers, HttpStatus.OK);
+				ResponseEntity<byte[]> response = new ResponseEntity<>(gImage.getGimage(), headers, HttpStatus.OK);
 				return response;
 			}
 			else
@@ -134,7 +134,7 @@ public class ClubAlbumController {
 		{
 			model.addAttribute("album", caRep.findById(caNo).orElse(null));
 			
-			List<GImage> imagelist = cgiRep.findByClubalbum_caNoOrderByGiImgcodeAsc(caNo);
+			List<GImage> imagelist = cgiRep.findByClubalbum_canoOrderByGimgcodeAsc(caNo);
 			model.addAttribute("imagelist", imagelist);
 						
 			return "/3/clubalbum/select"; 
@@ -189,7 +189,7 @@ public class ClubAlbumController {
 	{
 		try 
 		{
-			model.addAttribute("imagelist", cgiRep.findByClubgallery_cgNoOrderByGiImgcodeAsc(cgNo));
+			model.addAttribute("imagelist", cgiRep.findByClubgallery_cgnoOrderByGimgcodeAsc(cgNo));
 			model.addAttribute("caNo", caNo);
 			return "/3/clubalbum/insertimages/imagelist";
 		} 
@@ -207,7 +207,7 @@ public class ClubAlbumController {
 	{
 		try 
 		{
-			caRep.deleteById(ca.getCaNo());
+			caRep.deleteById(ca.getCano());
 			return "redirect:/clubalbum/selectlist";
 		} 
 		catch (Exception e) 

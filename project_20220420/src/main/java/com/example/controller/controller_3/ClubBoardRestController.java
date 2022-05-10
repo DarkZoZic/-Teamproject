@@ -29,7 +29,7 @@ public class ClubBoardRestController {
 		Map<String, Object> map = new HashMap<>();
 		try {
 			ClubBoard board = cbRep.findById(cbNo).orElse(null);
-			board.setCbHit( board.getCbHit() + 1L );
+			board.setCbhit( board.getCbhit() + 1L );
 			cbRep.save(board);
 			map.put("status", 200);
 		} catch (Exception e) {

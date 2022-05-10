@@ -8,7 +8,7 @@
 </head>
 <body>
     <div style="padding: 20px;">
-        <h3 th:text="${gallery.cgName}"></h3>
+        <h3 th:text="${gallery.cgname}"></h3>
        	
        	<table border="1">
 	       	<tr>
@@ -19,21 +19,21 @@
 	       	</tr>
 	       	
 	       	<tr th:each="tmp, idx : ${imagelist}">
-	       		<td th:text="${tmp.giImgcode}"></td>
-	       		<td th:text="${tmp.giImagename}"></td>
+	       		<td th:text="${tmp.gimgcode}"></td>
+	       		<td th:text="${tmp.gimagename}"></td>
 	       		<td th:text="${idx.count}"></td>
-	       		<td><img th:src="@{/clubgallery/image(cgNo=${tmp.clubgallery.cgNo},idx=${idx.index})}" style="width:200px;"/></td>
+	       		<td><img th:src="@{/clubgallery/image(cgno=${tmp.clubgallery.cgno},idx=${idx.index})}" style="width:200px;"/></td>
 	       	</tr>
        	</table>
        	
         <hr />
         <form th:action="@{/clubgallery/delete}" method="post" style="display:inline-block;">
-        <input type="hidden" name="cgNo" th:value="${gallery.cgNo}" readonly/>
+        <input type="hidden" name="cgno" th:value="${gallery.cgno}" readonly/>
         	<input type="submit" value="삭제" />
         </form>
         
         <form th:action="@{/clubgallery/update}" method="get" style="display:inline-block;">
-        <input type="hidden" name="cgNo" th:value="${gallery.cgNo}" readonly/>
+        <input type="hidden" name="cgno" th:value="${gallery.cgno}" readonly/>
         	<input type="submit" value="수정" />
         </form>
         

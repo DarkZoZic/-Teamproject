@@ -21,32 +21,34 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "CBIMAGETBL")
-@SequenceGenerator(name = "SEQ_CBIMAGE",
-sequenceName = "SEQ_CBIMAGE_IMGCODE", 
-allocationSize = 1, initialValue = 1)
+@Table
+@SequenceGenerator(name = "SEQ_CBIMAGE", sequenceName = "SEQ_CBIMAGE_IMGCODE", allocationSize = 1, initialValue = 1)
 public class CbImage {
   // 이미지코드
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, 
-  generator = "SEQ_CBIMAGE") // 시퀀스 적용
-  private Long cbiImgcode;
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CBIMAGE") // 시퀀스 적용
+  @Column(name = "CBIMGCODE")
+  private Long cbimgcode;
   // 등록일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-	@CreationTimestamp // CURRENT_DATE
-	@Column(name = "CBIREGDATE")
-  private Date cbiRegdate;
+  @CreationTimestamp // CURRENT_DATE
+  @Column(name = "CBIREGDATE")
+  private Date cbiregdate;
   // 이미지
   @Lob
-  private byte[] cbiImage;
+  @Column(name = "CBIMAGE")
+  private byte[] cbimage;
   // 이미지크기
-  private Long cbiImagesize;
+  @Column(name = "CBIMAGESIZE")
+  private Long cbimagesize;
   // 이미지타입
-  private String cbiImagetype;
+  @Column(name = "CBIMAGETYPE")
+  private String cbimagetype;
   // 이미지이름
-  private String cbiImagename;
+  @Column(name = "CBIMAGENAME")
+  private String cbimagename;
   // 클럽게시판
   @ManyToOne
-  @JoinColumn(name = "b_no")
-  private ClubBoard clubBoard;
+  @JoinColumn(name = "bno")
+  private ClubBoard clubboard;
 }

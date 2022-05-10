@@ -46,11 +46,11 @@ public class ClubBoardImageServiceImpl implements ClubBoardImageService{
 	public int updateClubBoardImage(CbImage cbImage) {
 		try 
 		{
-			cbImage.setCbiImage(cbImage.getCbiImage());
-			cbImage.setCbiImagename(cbImage.getCbiImagename());
-			cbImage.setCbiImagesize(cbImage.getCbiImagesize());
-			cbImage.setCbiImagetype(cbImage.getCbiImagetype());
-			cbiRep.deleteById(cbImage.getCbiImgcode());
+			cbImage.setCbimage(cbImage.getCbimage());
+			cbImage.setCbimagename(cbImage.getCbimagename());
+			cbImage.setCbimagesize(cbImage.getCbimagesize());
+			cbImage.setCbimagetype(cbImage.getCbimagetype());
+			cbiRep.deleteById(cbImage.getCbimgcode());
 			cbiRep.save(cbImage);
 			return 1;
 		} catch (Exception e) 
