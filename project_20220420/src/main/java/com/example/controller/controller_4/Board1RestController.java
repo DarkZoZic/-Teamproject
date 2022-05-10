@@ -127,15 +127,15 @@ public class Board1RestController {
         try{
            BImage bImage = new BImage();
            if(file.isEmpty() == false) {
-               bImage.setBiImage(file.getBytes()); // 이미지
-               bImage.setBiImagename(file.getOriginalFilename()); // 파일명
-               bImage.setBiImagesize(file.getSize()); //사이즈
-               bImage.setBiImagetype(file.getContentType()); // 타입
+               bImage.setBiimage(file.getBytes()); // 이미지
+               bImage.setBiimagename(file.getOriginalFilename()); // 파일명
+               bImage.setBiimagesize(file.getSize()); //사이즈
+               bImage.setBiimagetype(file.getContentType());// 타입
             }
 
            b1IRepository.save(bImage);
            map.put("status", 200);
-           map.put("url", "/ROOT/board1/image?biImgcode=" + bImage.getBiImgcode() ); // url을 보내주어야 함
+           map.put("url", "/ROOT/board1/image?biimgcode=" + bImage.getBiimgcode() ); // url을 보내주어야 함
 
         }
         catch(Exception e){
@@ -156,19 +156,19 @@ public class Board1RestController {
 
         // 이미지명, 이미지크기, 이미지종류, 이미지데이터
         BImage bImage = b1IRepository.getById(biImgcode);
-        System.out.println(bImage.getBiImagetype());
-		System.out.println(bImage.getBiImage().length);
+        System.out.println(bImage.getBiimagetype());
+		System.out.println(bImage.getBiimage().length);
 
-        if (bImage.getBiImagesize() > 0) {
+        if (bImage.getBiimagesize() > 0) {
 			HttpHeaders headers = new HttpHeaders();
-			if (bImage.getBiImagetype().equals("image/jpeg")) {
+			if (bImage.getBiimagetype().equals("image/jpeg")) {
 				headers.setContentType(MediaType.IMAGE_JPEG);
-			} else if (bImage.getBiImagetype().equals("image/png")) {
+			} else if (bImage.getBiimagetype().equals("image/png")) {
 				headers.setContentType(MediaType.IMAGE_PNG);
-			} else if (bImage.getBiImagetype().equals("image/gif")) {
+			} else if (bImage.getBiimagetype().equals("image/gif")) {
 				headers.setContentType(MediaType.IMAGE_GIF);
 			}
-			ResponseEntity<byte[]> response = new ResponseEntity<>(bImage.getBiImage(), headers, HttpStatus.OK);
+			ResponseEntity<byte[]> response = new ResponseEntity<>(bImage.getBiimage(), headers, HttpStatus.OK);
 			return response;
 		} else {
 			InputStream is = resLoader.getResource(DEFAULT_IMAGE).getInputStream();
@@ -287,16 +287,16 @@ public class Board1RestController {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("USERNAME ==>" + userid);
 
-            Board1 board = b1Repository.getById(board1.getBNo());
+            Board1 board = b1Repository.getById(board1.getBno());
             System.out.println(board.toString());
 
-            System.out.println("번호"+board1.getBNo());
+            System.out.println("번호"+board1.getBno());
 
             if(userid.equals( board.getMember().getMid() )){
-                // Board1 result = b1Service.selectBoard1One(board.getBNo());
+                // Board1 result = b1Service.selectBoard1One(board.getBno());
 
                 // 삭제
-                int ret = b1Service.deleteBoard1One(board.getBNo());
+                int ret = b1Service.deleteBoard1One(board.getBno());
                 if(ret == 1){
                     map.put("status", 200); // 성공
                 }
@@ -331,17 +331,17 @@ public class Board1RestController {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("USERNAME ==>" + userid);
 
-            Board1 board = b1Repository.getById(board1.getBNo());
+            Board1 board = b1Repository.getById(board1.getBno());
             System.out.println(board.toString());
 
             System.out.println("=====" + board.getMember().getMid());
 
             if(userid.equals( board.getMember().getMid() )){
-                Board1 result = b1Service.selectBoard1One(board.getBNo());
+                Board1 result = b1Service.selectBoard1One(board.getBno());
 
                 // 수정
-                result.setBTitle(board1.getBTitle());
-                result.setBContent(board1.getBContent());
+                result.setBtitle(board1.getBtitle());
+                result.setBcontent(board1.getBcontent());
 
                 int ret = b1Service.updateBoard1One(result);
                 if(ret == 1){

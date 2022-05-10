@@ -24,29 +24,29 @@ public class MypageRestController {
     MypageService mService;
 
     // 127.0.0.1:9090/ROOT/mypage/pwupdate
-    @RequestMapping(value = "/pwupdate", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
-                    produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Map<String, Object> boardUpdatePost(
-            @RequestBody Member member,
-            @RequestHeader (name = "TOKEN")String token ) {
+    // @RequestMapping(value = "/pwupdate", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
+    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
+    // public Map<String, Object> boardUpdatePost(
+    //         @RequestBody Member member,
+    //         @RequestHeader (name = "TOKEN")String token ) {
 
-        Map<String ,Object> map = new HashMap<>();
-        try{
-            if(token !=null) {
-                Member member1 = mService.selectMemberOne( member.getMid() );
-                member1.setMpw( member.getMpw() );
+    //     Map<String ,Object> map = new HashMap<>();
+    //     try{
+    //         if(token !=null) {
+    //             Member member1 = mService.selectMemberOne( member.getMid() );
+    //             member1.setMpw( member.getMpw() );
                 
-                // mService.updateMember(member);
+    //             // mService.updateMember(member);
                
-                mService.updatePassword(member);
-                map.put("status", 200); // 성공
+    //             mService.updatePassword(member);
+    //             map.put("status", 200); // 성공
                 
-            }   
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            map.put("status", 0); // 실패
-        }
-        return map;
-    }
+    //         }   
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         map.put("status", 0); // 실패
+    //     }
+    //     return map;
+    // }
 }

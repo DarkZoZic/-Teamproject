@@ -177,13 +177,13 @@ public class LikeRestController {
             String userid = jwtUtil.extractUsername(token);
             // System.out.println("USERNAME ==>" + userid);
 
-            Like like1 = lRepository.getById(like.getLNo());
+            Like like1 = lRepository.getById(like.getLno());
 
             // System.out.println("찜번호" + like.getLNo());
             // System.out.println("찜회원 아이디" + like1.getMember().getMId());
 
            if( userid.equals( like1.getMember().getMid() )){
-                lRepository.deleteById(like.getLNo());
+                lRepository.deleteById(like.getLno());
                 map.put("status", 200); // 성공
             }
             else if( !userid.equals( like1.getMember().getMid() )){

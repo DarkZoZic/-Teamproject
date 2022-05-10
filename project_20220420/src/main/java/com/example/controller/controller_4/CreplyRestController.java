@@ -61,13 +61,13 @@ public class CreplyRestController {
             System.out.println(cReply.toString());
             
             Board1 board1Entity = new Board1();
-            board1Entity.setBNo(cReply.getBoard1().getBNo());
+            board1Entity.setBno(cReply.getBoard1().getBno());
 
             if(token !=null) {
                 cReply.setBoard1(board1Entity);
-                cReply.setReContent(cReply.getReContent());
-                cReply.setRePrivate(cReply.getRePrivate());
-                // cReply.setReParentnumber(cReply.getReParentnumber());
+                cReply.setRecontent(cReply.getRecontent());
+                cReply.setReprivate(cReply.getReprivate());
+                // cReply.setReparentnumber(cReply.getReparentnumber());
 
                 cRepository.save(cReply);
                 map.put("status", 200); // 성공
@@ -98,16 +98,16 @@ public class CreplyRestController {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("USERNAME ==>" + userid);
 
-            CReply cReply1 = cRepository.getById(cReply.getReNumber());
+            CReply cReply1 = cRepository.getById(cReply.getRenumber());
             System.out.println(cReply1.toString());
 
-            System.out.println("번호"+cReply.getReNumber());
+            System.out.println("번호"+cReply.getRenumber());
 
             if(userid.equals( cReply1.getMember().getMid() )){
                 // Board1 result = b1Service.selectBoard1One(board.getBNo());
 
                 // 삭제
-                cRepository.deleteById(cReply1.getReNumber());
+                cRepository.deleteById(cReply1.getRenumber());
                 map.put("status", 200); // 성공
 
                 
@@ -140,18 +140,18 @@ public class CreplyRestController {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("USERNAME ==>" + userid);
 
-            CReply cReply1 = cRepository.getById(cReply.getReNumber());
+            CReply cReply1 = cRepository.getById(cReply.getRenumber());
             System.out.println(cReply1.toString());
 
-            System.out.println("번호"+cReply.getReNumber());
+            System.out.println("번호"+cReply.getRenumber());
 
             if(userid.equals( cReply1.getMember().getMid() )){
                 // Board1 result = b1Service.selectBoard1One(board.getBNo());
-                CReply result = cRepository.getById(cReply1.getReNumber());
+                CReply result = cRepository.getById(cReply1.getRenumber());
 
                 // 수정
-                result.setReContent(cReply.getReContent());
-                result.setRePrivate(cReply.getRePrivate());
+                result.setRecontent(cReply.getRecontent());
+                result.setReprivate(cReply.getReprivate());
 
                 cRepository.save(result);
                 
