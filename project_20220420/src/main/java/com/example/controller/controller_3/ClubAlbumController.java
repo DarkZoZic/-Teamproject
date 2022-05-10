@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
@@ -175,7 +177,7 @@ public class ClubAlbumController {
 			
 			// 앨범에 추가하려는 이미지 코드 = 
 			// gimgcode와 cano가 일치하는 이미지가 없으면(이미지가 해당 앨범 내에서 중복이 아니면)
-			if(caiRep.findByGimage_gimgcode(caImage.getGimage().getGimgcode()) == null)
+			if(caiRep.findByGimage_gimgcodeAndClubalbum_cano(gimage.getGimgcode(), cano.getCano()) == null)
 			{
 				// image변수에 넣은 이미지데이터 caImage 모델에 넣기
 				caImage.setCaimage(image.getGimage());
@@ -232,13 +234,15 @@ public class ClubAlbumController {
 		}
 	}
 	
-	// 앨범 삭제(갤러리 이미지 - 앨범 연동 끊는 기능 미구현)
+	// 앨범 삭제
 	// 127.0.0.1:9090/ROOT/clubalbum/delete
+	@Transactional
 	@PostMapping(value="/delete")
 	public String deleteGET(@ModelAttribute ClubAlbum ca)
 	{
 		try 
 		{
+			caiRep.deleteByClubalbum_cano(ca.getCano());
 			caRep.deleteById(ca.getCano());
 			return "redirect:/clubalbum/selectlist";
 		} 
