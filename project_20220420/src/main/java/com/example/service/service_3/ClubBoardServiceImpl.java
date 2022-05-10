@@ -38,7 +38,7 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 	public List<ClubBoard> selectClubBoardList(Long cbNo, String cbTitle, Pageable pageable) {
 		try 
 		{
-			return cbRep.findByCbTitleContainingOrderByCbNoDesc(cbTitle, pageable);
+			return cbRep.findByCbtitleContainingOrderByCbnoDesc(cbTitle, pageable);
 		} 
 		catch (Exception e) 
 		{
@@ -57,7 +57,7 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 	public int updateClubBoard(ClubBoard clubBoard) {
 		try 
 		{
-			cbRep.updateOne(clubBoard, clubBoard.getCbno());
+//			cbRep.updateOne(clubBoard, clubBoard.getCbno());
 			return 1;
 		} 
 		catch (Exception e) 
@@ -96,7 +96,7 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 	public List<CReply> selectCReplylist(long cbNo) {
 		try 
 		{
-			return crRep.findByClubBoard_CbNoOrderByReNumberDesc(cbNo);
+			return crRep.findByClubBoard_CbnoOrderByRenumberDesc(cbNo);
 		} 
 		catch (Exception e) 
 		{

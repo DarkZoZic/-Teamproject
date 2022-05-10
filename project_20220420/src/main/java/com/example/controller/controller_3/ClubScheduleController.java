@@ -38,7 +38,7 @@ public class ClubScheduleController {
 	// 스케줄 입력 페이지 (날짜 선택 -> 해당 날짜 스케줄 입력)
 	// 127.0.0.1:9090/ROOT/clubschedule/insert
 	@GetMapping(value="/insert")
-	public String insertGET(@RequestParam(name="sNo") long sNo)
+	public String insertGET(@RequestParam(name="sno") long sno)
 	{
 		try 
 		{
@@ -103,11 +103,11 @@ public class ClubScheduleController {
 	}
 
 	// 스케줄 이미지 표시용 //clubgallerycontroller -> 갤러리 이미지 표시용 코드 구조와 동일
-	public ResponseEntity<byte[]> imageGET(@RequestParam(name="sNo") long sNo, @RequestParam(name="idx") long idx)
+	public ResponseEntity<byte[]> imageGET(@RequestParam(name="sno") long sno, @RequestParam(name="idx") long idx)
 	{
 		try 
 		{
-			long imagecode = csiRep.selectImageCode(sNo, idx);
+			long imagecode = csiRep.selectImageCode(sno, idx);
 			
 			CsImage csImage = csiRep.findById(imagecode).orElse(null);
 			
@@ -153,7 +153,7 @@ public class ClubScheduleController {
 	{
 		try 
 		{
-			csiRep.deleteByCschedule_sNo(cs.getSno());
+			csiRep.deleteByCschedule_sno(cs.getSno());
 			csRep.deleteById(cs.getSno());
 			return "redirect:/clubschedule/selectlist";
 		} 
@@ -165,15 +165,15 @@ public class ClubScheduleController {
 	}
 	
 	// 스케줄 수정 화면
-	// 127.0.0.1:9090/ROOT/clubschedule/update?sNo=
+	// 127.0.0.1:9090/ROOT/clubschedule/update?sno=
 	@GetMapping(value="/update")
-	public String updateGET(Model model, @RequestParam(name="sNo") long sNo)
+	public String updateGET(Model model, @RequestParam(name="sno") long sno)
 	{
 		try 
 		{
-			model.addAttribute("schedule", csRep.findById(sNo).orElse(null));
+			model.addAttribute("schedule", csRep.findById(sno).orElse(null));
 			
-			List<CsImage> imagelist = csiRep.findByCschedule_sNoOrderByCsiImgcodeAsc(sNo);
+			List<CsImage> imagelist = csiRep.findByCschedule_snoOrderByCsimgcodeAsc(sno);
 			model.addAttribute("imagelist", imagelist);
 			return "/3/clubschedule/update";
 		} 
@@ -194,7 +194,7 @@ public class ClubScheduleController {
 			CSchedule sdate = csRep.findById(cs.getSno()).orElse(null);
 			cs.setSdate(sdate.getSdate());
 			csRep.save(cs);
-			return "redirect:/clubschedule/update?sNo=" + cs.getSno();
+			return "redirect:/clubschedule/update?sno=" + cs.getSno();
 			
 		} 
 		catch (Exception e) 
@@ -227,7 +227,7 @@ public class ClubScheduleController {
 					}
 				}
 			}
-			return "redirect:/clubschedule/update?sNo=" + cs.getSno(); 
+			return "redirect:/clubschedule/update?sno=" + cs.getSno(); 
 		} 
 		catch (Exception e) 
 		{
@@ -244,7 +244,7 @@ public class ClubScheduleController {
 		try 
 		{
 			csiRep.deleteById(csi.getCsimgcode());
-			return "redirect:/clubschedule/update?sNo=" + cs.getSno();
+			return "redirect:/clubschedule/update?sno=" + cs.getSno();
 		} 
 		catch (Exception e) 
 		{

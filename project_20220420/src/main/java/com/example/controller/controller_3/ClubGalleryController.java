@@ -119,14 +119,14 @@ public class ClubGalleryController {
 	
 	
 	// 갤러리 이미지 표시용
-	// 127.0.0.1:9090/ROOT/clubgallery/image?cgNo=&idx=
+	// 127.0.0.1:9090/ROOT/clubgallery/image?cgno=&idx=
 	@GetMapping(value="/image")
-	public ResponseEntity<byte[]> imageGET(@RequestParam(name="cgNo") long cgNo, @RequestParam(name="idx") long idx) throws IOException
+	public ResponseEntity<byte[]> imageGET(@RequestParam(name="cgno") long cgno, @RequestParam(name="idx") long idx) throws IOException
 	{
 		try
 		{
-			// cgNo(갤러리번호) 조회해서 giImgcode 찾기
-			long imagecode = cgiRep.selectImageCode(cgNo, idx);
+			// cgno(갤러리번호) 조회해서 giImgcode 찾기
+			long imagecode = cgiRep.selectImageCode(cgno, idx);
 //			System.out.println("imagecode = " + imagecode);
 			
 			// 찾은 giImgcode와 일치하는(해당 갤러리에 등록한) 이미지 전부 찾기
@@ -167,7 +167,7 @@ public class ClubGalleryController {
 	}
 	
 	// 갤러리 페이지
-	// 127.0.0.1:9090/ROOT/clubgallery/select?cgNo=
+	// 127.0.0.1:9090/ROOT/clubgallery/select?cgno=
 	@GetMapping(value="/select")
 	public String selectGET(Model model, @RequestParam(name="cgno") long cgno)
 	{
@@ -195,7 +195,7 @@ public class ClubGalleryController {
 		try 
 		{
 //			System.out.println(cg.getGNo());
-			cgiRep.deleteByClubgallery_cgNo(cg.getCgno());
+			cgiRep.deleteByClubgallery_cgno(cg.getCgno());
 			cgRep.deleteById(cg.getCgno());
 			
 			return "redirect:/clubgallery/selectlist";
@@ -208,13 +208,13 @@ public class ClubGalleryController {
 	}
 	
 	// 갤러리 수정 페이지
-	// 127.0.0.1:9090/ROOT/clubgallery/update?cgNo=
+	// 127.0.0.1:9090/ROOT/clubgallery/update?cgno=
 	@GetMapping(value="/update")
 	public String updateGET(Model model, @RequestParam(name="cgno") long cgno)
 	{
 		try 
 		{
-//			System.out.println(cgNo);
+//			System.out.println(cgno);
 			model.addAttribute("gallery", cgRep.findById(cgno).orElse(null));
 			
 			List<GImage> imagelist = cgiRep.findByClubgallery_cgnoOrderByGimgcodeAsc(cgno);
@@ -241,7 +241,7 @@ public class ClubGalleryController {
 //			System.out.println("cg : " + cg);
 			cg.setCgregdate(gregdate.getCgregdate());
 			cgRep.save(cg);
-			return "redirect:/clubgallery/update?cgNo=" + cg.getCgno();
+			return "redirect:/clubgallery/update?cgno=" + cg.getCgno();
 		}
 		catch (Exception e) 
 		{
@@ -277,7 +277,7 @@ public class ClubGalleryController {
 					}
 				}
 			}
-			return "redirect:/clubgallery/update?cgNo=" + cg.getCgno();
+			return "redirect:/clubgallery/update?cgno=" + cg.getCgno();
 		} 
 		catch (Exception e) 
 		{
@@ -300,7 +300,7 @@ public class ClubGalleryController {
 			
 			cgiRep.deleteById(gi.getGimgcode());
 			
-			return "redirect:/clubgallery/update?cgNo=" + cg.getCgno();
+			return "redirect:/clubgallery/update?cgno=" + cg.getCgno();
 		} 
 		catch (Exception e) 
 		{
