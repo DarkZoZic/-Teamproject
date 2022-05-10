@@ -55,7 +55,7 @@ public class CReply {
   private Date reregdate;
 
   // 부모댓글번호
-  @Column(name = "reparentnumber")
+  @Column(name = "reparentnumber", insertable = false, updatable = false)
   private Long reparentnumber;
 
   // 수정일

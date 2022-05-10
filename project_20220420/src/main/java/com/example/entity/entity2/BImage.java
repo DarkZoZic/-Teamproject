@@ -62,6 +62,6 @@ public class BImage {
 
   // 게시판
   @ManyToOne
-  @JoinColumn(name = "bno")
+  @JoinColumn(name = "board1")
   private Board1 board1;
 }
