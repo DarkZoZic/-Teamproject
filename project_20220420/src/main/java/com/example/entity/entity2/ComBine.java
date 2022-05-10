@@ -26,34 +26,34 @@ public class ComBine {
     private Long no;
 
     // 아이디(설명)
-    @Column(name = "M_ID")
+    @Column(name = "MID")
     private String mid;
 
-    @Column(name = "M_ADDRESS")
+    @Column(name = "MADDRESS")
     private String maddress;
 
-    @Column(name = "M_NAME")
+    @Column(name = "MNAME")
     private String mname;
 
-    @Column(name = "M_PHONE")
+    @Column(name = "MPHONE")
     private String mphone;
 
-    @Column(name = "C_NO")
+    @Column(name = "CNO")
     private Long cno;
 
-    @Column(name = "C_AREA")
+    @Column(name = "CAREA")
     private String carea;
 
-    @Column(name = "C_CATE")
+    @Column(name = "CCATE")
     private String ccate;
 
-    @Column(name = "C_NAME")
+    @Column(name = "CNAME")
     private String cname;
 
-    @Column(name = "S_CONTENT")
+    @Column(name = "SCONTENT")
     private String scontent;
 
-    @Column(name = "S_CODE")
+    @Column(name = "SCODE")
     private Long scode;
 
     // 신청날짜
