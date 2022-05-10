@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.example.entity.entity2.Board1;
 import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.ClubBoard;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -33,10 +34,7 @@ public class Reaction {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REACTION")
   @Column(name = "RCODE")
-  private String rcode;
-  // 반응종류
-  @Column(nullable = false, name = "RTYPE")
-  private String rtype;
+  private long rcode;
   // 반응일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
@@ -44,11 +42,19 @@ public class Reaction {
   private Date rregdate;
   // 개수
   @Column(name = "RCOUNT")
-  private String rcount;
+  private Long rcount = 0L;
   // 클럽게시판
   @ManyToOne
   @JoinColumn(name = "cb_no")
   private ClubBoard clubboard;
+  // 멤버아이디
+  @ManyToOne
+  @JoinColumn(name = "m_id")
+  private Member member;
+
+  @ManyToOne
+  @JoinColumn(name = "b_no")
+  private Board1 board;
   // 댓글
   // @OneToMany(mappedBy = "reaction")
   // @JsonBackReference

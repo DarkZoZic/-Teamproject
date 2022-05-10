@@ -23,7 +23,8 @@ public class MemberPersonal {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, 
   generator = "SEQ_NICKNAME")
-  private Long mpNo;
+  @Column(name = "MPNO")
+  private Long mpno;
 
   // 닉네임 
   @Column(name = "MPNICKNAME", nullable = false)

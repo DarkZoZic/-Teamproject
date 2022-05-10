@@ -44,9 +44,6 @@ public class ComBine {
     @Column(name = "CAREA")
     private String carea;
 
-    @Column(name = "CCATE")
-    private String ccate;
-
     @Column(name = "CNAME")
     private String cname;
 

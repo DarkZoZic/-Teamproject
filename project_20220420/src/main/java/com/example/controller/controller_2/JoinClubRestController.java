@@ -42,7 +42,7 @@ try {
 
     Club club = new Club();
     club.setCno((Long) joinclub.getClub().getCno());
-    joinclub.setClub(club);;
+    joinclub.setClub(club);
     System.out.println(club);
 
     Steptbl steptbl = new Steptbl();
