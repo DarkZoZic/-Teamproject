@@ -15,7 +15,6 @@ import com.example.entity.entity2.CReply;
 import com.example.jwt.JwtUtil;
 import com.example.repository.repository_4.Board1ImageRepository;
 import com.example.repository.repository_4.Board1Repository;
-import com.example.repository.repository_4.Member1Repository;
 import com.example.service.UserDetailsServiceImpl;
 import com.example.service.service_4.Board1Service;
 
@@ -53,9 +52,7 @@ public class Board1RestController {
     @Autowired
     Board1ImageRepository b1IRepository;
 
-    @Autowired
-    Member1Repository mRepository;
-
+  
     @Autowired 
     Board1Service b1Service;
     
@@ -170,7 +167,8 @@ public class Board1RestController {
 			}
 			ResponseEntity<byte[]> response = new ResponseEntity<>(bImage.getBiimage(), headers, HttpStatus.OK);
 			return response;
-		} else {
+		} 
+        else {
 			InputStream is = resLoader.getResource(DEFAULT_IMAGE).getInputStream();
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.IMAGE_JPEG);
@@ -386,59 +384,91 @@ public class Board1RestController {
     }
 
     // 게시판 목록(페이지네이션만 있음, 검색x)
-    // 127.0.0.1:9090/ROOT/api/board/selectlist?page=1
-    // @RequestMapping(value = "/selectlist", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
-    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
-    // public Map<String, Object> boardSelectListGET(@RequestParam(name = "page") int page){
+    // 127.0.0.1:9090/ROOT/board1/selectlist?page=1
+    @RequestMapping(value = "/selectlist", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
+                    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> boardSelectListGET(
+        @RequestParam(name = "page") int page ){
 
-    //     Map<String ,Object> map = new HashMap<>();
-    //     try{
-    //         // List<Board1> list = b1Service.selectBoard1List(bNo);
-    //         map.put("status", 200); // 성공
+        Map<String ,Object> map = new HashMap<>();
+        try{
+            PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
+            List<Board1> bList = b1Repository.findAllByOrderByBnoDesc(pageRequest);
+            // System.out.println(bList);
+            map.put("status", 200); // 성공
+            map.put("result", bList);
 
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         map.put("status", 0); // 실패
-    //     }
-    //     return map;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
 
 
-    //     // List<BoardDTO> list = bMapper.selectBoardList((page * PAGECNT) - (PAGECNT -1), page * PAGECNT);
-    //     // if(list != null){
-    //     //     map.put("status", 200); // 성공
-    //     //     map.put("result", list); 
-    //     // }
+        // List<BoardDTO> list = bMapper.selectBoardList((page * PAGECNT) - (PAGECNT -1), page * PAGECNT);
+        // if(list != null){
+        //     map.put("status", 200); // 성공
+        //     map.put("result", list); 
+        // }
 
-    // // 페이지네이션                         목록이니까 List
-    // // @Select({
-    // //     "SELECT * FROM (",
-    // //         " SELECT B.*, ROW_NUMBER() OVER (ORDER BY BNO DESC) ROWN ",
-    // //         " FROM BOARD B ",
-    // //     " ) WHERE ROWN BETWEEN #{start} AND #{end}"
-    // // })
-    // // public List<BoardDTO> selectBoardList(@Param(value = "start") int s, @Param(value = "end") int e);
+    // 페이지네이션                         목록이니까 List
+    // @Select({
+    //     "SELECT * FROM (",
+    //         " SELECT B.*, ROW_NUMBER() OVER (ORDER BY BNO DESC) ROWN ",
+    //         " FROM BOARD B ",
+    //     " ) WHERE ROWN BETWEEN #{start} AND #{end}"
+    // })
+    // public List<BoardDTO> selectBoardList(@Param(value = "start") int s, @Param(value = "end") int e);
 
-    // }
+    }
+
+    // 검색(제목기준) + 페이지네이션
+    // 127.0.0.1:9090/ROOT/board1/search
+    @RequestMapping(value = "/search", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
+                    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> searchGET(
+        @RequestParam(name = "page") int page,
+        @RequestParam(name = "btitle", defaultValue = "") String btitle ){
+
+        System.out.println(btitle);
+
+        Map<String ,Object> map = new HashMap<>();
+        try{
+            PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
+            List<Board1> bList = b1Repository.findByBtitleContainingOrderByBnoDesc(btitle, pageRequest);
+            // System.out.println(bList);
+            map.put("status", 200); // 성공
+            map.put("result", bList);
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
+
+
 
     ////////////////////////////////////////////////////////////////////
 
-    // 127.0.0.1:9090/ROOT/board1/selectlist1?page=1
+    // 127.0.0.1:9090/ROOT/board1/selectlist1?page=1&btitle=y
     @RequestMapping(value = "/selectlist1", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectListGET(
         Model model,
         @RequestParam(name = "page", defaultValue = "1") int page,
-        @RequestParam(name = "bTitle", defaultValue = "") String bTitle ){
+        @RequestParam(name = "btitle", defaultValue = "") String btitle ){
 
         Map<String ,Object> map = new HashMap<>();
         try{
-            // 페이지네이션
-            PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
+            // 페이지네이션 (시작페이지(0부터. 1페이지는 0임), 개수)
+            // Pageable pageable = PageRequest.of(page-1, PAGECNT);
 
             // 검색어, 페이지네이션
             // List<Board1> list = b1Service.selectBoard1List(bTitle, pageRequest);
-            // List<Board1> list = b1Repository.findByBTitleContainingOrderByBNoDesc(bTitle, pageRequest);
+            // List<Board1> list = b1Repository.findByBtitleContainingOrderByBnoDesc(btitle, pageable);
             // model.addAttribute("list", list);
 
             // if(!list.isEmpty()){
@@ -458,7 +488,7 @@ public class Board1RestController {
             // }
 
             // 전체개수
-            // long total = b1Repository.countByBTitleContaining(bTitle);
+            // long total = b1Repository.countByBtitleContaining(btitle);
             // map.put("pages", (total-1)/PAGECNT +1);
             // model.addAttribute("pages", (total-1)/PAGECNT +1 );
 
@@ -504,61 +534,38 @@ public class Board1RestController {
     //     return "redirect:/board/selectone?no=" + prev.getNo();
     // }
 
+
     // 이전글, 다음글
+    @RequestMapping(value = "/prevnext", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
+                    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> prevnextPOST(
+        @RequestParam(name = "bno") long bno,
+        @RequestParam(name = "btn") String btn,
+        @RequestHeader (name = "token")String token){
 
-    // @RequestMapping(value = "/prevnext", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
-    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
-    // public Map<String, Object> prevnextPOST(
-    //     @RequestParam(name = "bNo") long bNo,
-    //     @RequestParam(name = "btn") String btn,
-    //     @RequestHeader (name = "token")String token){
-
-    //     Map<String ,Object> map = new HashMap<>();
-    //     try{
-    //         if(token != null){
-    //             if(btn.equals("이전글")){
-    //                 Board1 prev = 
-    //             }
-    //             int ret = b1Service.updateBoard1HitOne(bNo);
-    //             if(ret == 1){
-    //                 map.put("status", 200); // 성공
-    //             }
-    //         }
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         map.put("status", 0); // 실패
-    //     }
-    //     return map;
-    // }
-
-    // @PostMapping(value = "/selectone1")
-    // public String selectOnePOST(
-    //         Model model,
-    //         @RequestParam(name = "no") long no,
-    //         @RequestParam(name = "btn") String btn  ){
-        
-    //     try{
-    //         if(btn.equals("이전글")){
-    //             BoardEntity prev = bRepository.findTop1ByNoLessThanOrderByNoDesc(no);
-    //             return "redirect:/board/selectone?no=" + prev.getNo();
-    //         }
-    //         else if(btn.equals("다음글")){
-    //             BoardEntity next = bRepository.findTop1ByNoGreaterThanOrderByNoAsc(no);
-    //             return "redirect:/board/selectone?no=" + next.getNo();
-    //         }
-    //         return "redirect:/board/selectlist";
-
-    //     }
-    //     catch(Exception e){
-    //         return "redirect:/board/selectlist";
-
-    //     }
-        
-
-    // }
-
-
+        Map<String ,Object> map = new HashMap<>();
+        try{
+            if(token != null){
+                if(btn.equals("이전글")){
+                    Board1 prev = b1Repository.findTop1ByBnoLessThanOrderByBnoDesc(bno);
+                    // return "redirect:/board1/selectone?bno=" + prev.getBno();
+                    
+                }
+                else if(btn.equals("다음글")){
+                    Board1 next = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
+                    // return "redirect:/board1/selectone?bno=" + next.getBno();
+                }
+                // return "redirect:/board1/selectlist";
+                
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+            // return "redirect:/board1/selectlist";
+        }
+        return map;
+    }
 
     // 일괄삭제
     // 127.0.0.1:9090/ROOT/board1/deletebatch

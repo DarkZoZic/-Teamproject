@@ -13,7 +13,7 @@ public interface LikeRepository extends JpaRepository<Like, Long>{
     // 외래키, 구체적인 변수: findBy변수_하위변수
     // 주문목록 : 어떤 사람의 주문목록이니까 uemail이 필요 (고객용 주문내역)
     // 외래키 가져오기: Member_uemail -> member의 uemail
-    // List<Like> findByMember_mIdOrderByLNoAsc(String mId);
+    List<Like> findByMember_midOrderByLnoAsc(String mid);
 
     
 }
