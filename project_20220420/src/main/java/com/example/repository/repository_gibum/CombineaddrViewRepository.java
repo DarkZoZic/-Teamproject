@@ -30,7 +30,7 @@ public interface CombineaddrViewRepository
             @Param(value = "add")String add
         );
 
-        List<Combineaddr> findByaCode(long aCode);
+        // List<Combineaddr> findByaCode(long aCode);
 
 
         
@@ -45,22 +45,22 @@ public interface CombineaddrViewRepository
                 @Param(value="address") String address);
 
         @Query(value = "SELECT * FROM"+
-        " ADDRESSTABLEVIEW WHERE CG_CATE1=:cate", nativeQuery = true)
+        " ADDRESSTABLEVIEW WHERE CGCATE1=:cate", nativeQuery = true)
         public List<Combineaddr> CateSearch(
                 @Param(value="cate") String cate);
 
         @Query(value = "SELECT * FROM"+
-        " ADDRESSTABLEVIEW WHERE CG_CATE2=:cate", nativeQuery = true)
+        " ADDRESSTABLEVIEW WHERE CGCATE2=:cate", nativeQuery = true)
         public List<Combineaddr> CateSearch2(
                 @Param(value="cate") String cate);
 
         @Query(value = "SELECT * FROM"+
-        " ADDRESSTABLEVIEW WHERE C_NAME LIKE %:title% ORDER BY C_NO DESC", nativeQuery = true)
+        " ADDRESSTABLEVIEW WHERE CNAME LIKE %:title% ORDER BY CNO DESC", nativeQuery = true)
         public List<Combineaddr> Search(
                 @Param(value="title") String title);
 
         @Query(value = "SELECT * FROM"+
-        " ADDRESSTABLEVIEW WHERE CG_CATE2 LIKE %:title% ORDER BY C_NO DESC", nativeQuery = true)
+        " ADDRESSTABLEVIEW WHERE CGCATE2 LIKE %:title% ORDER BY CNO DESC", nativeQuery = true)
         public List<Combineaddr> Search2(
                 @Param(value="title") String title);
 

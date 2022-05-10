@@ -25,14 +25,14 @@ public interface AddressRepository
                 @Param(value="address") String address);
 
         @Query(value = "SELECT * FROM"+
-        " ADDRESSTBL A, CLUB C WHERE C.A_CODE=:address", nativeQuery = true)
+        " ADDRESSTBL A, CLUB C WHERE C.ACODE=:address", nativeQuery = true)
         public List<Address> addressesClubList(
                 @Param(value="address") String address);
 
 
-        Address findByaCode(Long address);
+        // Address findByaCode(Long address);
 
-        List<Address> findBya2(String address);
+        // List<Address> findBya2(String address);
 
         
 }

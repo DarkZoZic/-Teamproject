@@ -26,7 +26,7 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 
     // List<MemberIdprojection> findBymEmail(String email);
 
-    Member findBymEmail(String email);
+    Member findByMemail(String email);
 
 
 }

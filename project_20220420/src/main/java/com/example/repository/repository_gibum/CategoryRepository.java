@@ -17,7 +17,7 @@ public interface CategoryRepository
         // List<Category> findBycgCate1(String cate);
 
         @Query(value = "SELECT * FROM"+
-        " CATEGORYTBL WHERE CG_CATE1=:cate", nativeQuery = true)
+        " CATEGORYTBL WHERE CGCATE1=:cate", nativeQuery = true)
         public List<Category> cate1lList(
                 @Param(value="cate") String cate);
     

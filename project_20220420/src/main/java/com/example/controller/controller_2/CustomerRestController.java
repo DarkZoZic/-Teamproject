@@ -67,7 +67,7 @@ public class CustomerRestController {
 			MemberPersonal member = new MemberPersonal();
 			member.setMpnickname(memberPersonal.getMpnickname());
 
-			memberPersonal = mpsRepository.findByMember_mId(username);
+			memberPersonal = mpsRepository.findByMember_Mid(username);
 			System.out.println(member.getMpnickname());
 			memberPersonal.setMpnickname(member.getMpnickname());
 			
@@ -96,7 +96,7 @@ public class CustomerRestController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("status", 0); // 정상적이지 않을때
 			try {
-				Member member = mRepository.findBymEmail(email);
+				Member member = mRepository.findByMemail(email);
 				System.out.println(member);
 				// String mid = member.getMId();
 				// if(Match(member.getMPw(), user.getPassword()))

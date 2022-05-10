@@ -35,13 +35,13 @@ public interface CombineViewRepository
                 @Param(value="no") long no,
                 @Param(value="id") String id);
 
-        ComBine findTop1ByNoGreaterThanOrderByNoDesc(long no);
+        // ComBine findTop1ByNoGreaterThanOrderByNoDesc(long no);
 
 
 
         
-        List<ComBine> findByScode(Long scode);
-        List<ComBine> findByOrderByScodeAsc();
+        // List<ComBine> findByScode(Long scode);
+        // List<ComBine> findByOrderByScodeAsc();
 
     
 }

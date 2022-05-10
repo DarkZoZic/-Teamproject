@@ -13,6 +13,6 @@ public interface MemberPSRepository
     extends JpaRepository<MemberPersonal, Long>{
 
         // MemberPersonal findByMemberMId(String memberId);
-        MemberPersonal findByMember_mId(String userid);
+        MemberPersonal findByMember_Mid(String userid);
     
 }
