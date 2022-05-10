@@ -96,7 +96,7 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 	public List<CReply> selectCReplylist(long cbNo) {
 		try 
 		{
-			return crRep.findByClubboard_CbnoOrderByRenumberDesc(cbNo);
+			return crRep.findByClubBoard_CbnoOrderByRenumberDesc(cbNo);
 		} 
 		catch (Exception e) 
 		{
