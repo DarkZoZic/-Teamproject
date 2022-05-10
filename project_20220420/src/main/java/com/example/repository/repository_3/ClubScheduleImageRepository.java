@@ -10,10 +10,10 @@ import com.example.entity.entity1.CsImage;
 
 @Repository
 public interface ClubScheduleImageRepository extends JpaRepository<CsImage, Long>{
-	@Query(value = "SELECT CSI_IMGCODE FROM CSIMAGETBL WHERE S_NO=:sNo ORDER BY CSI_IMGCODE ASC LIMIT :idx, 1", nativeQuery = true)
-	long selectImageCode(long sNo, long idx);
+	@Query(value = "SELECT CSIMGCODE FROM CSIMAGE WHERE SNO=:sno ORDER BY CSIMGCODE ASC LIMIT :idx, 1", nativeQuery = true)
+	long selectImageCode(long sno, long idx);
 
-	void deleteByCschedule_sNo(Long sNo);
+	void deleteByCschedule_sno(Long sno);
 	
-	List<CsImage> findByCschedule_sNoOrderByCsiImgcodeAsc(long sNo);
+	List<CsImage> findByCschedule_snoOrderByCsimgcodeAsc(long sno);
 }

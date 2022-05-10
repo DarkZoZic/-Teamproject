@@ -32,7 +32,7 @@ public class ClubBoardImageServiceImpl implements ClubBoardImageService{
 	{
 		try 
 		{
-			CbImage cbImage = cbiRep.findByCbiImgcode(cbiImgcode);
+			CbImage cbImage = cbiRep.findByCbimgcode(cbiImgcode);
 			return cbImage;
 		} 
 		catch (Exception e) 
