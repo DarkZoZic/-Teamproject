@@ -28,13 +28,14 @@ public class Category {
  @Id
  @GeneratedValue(strategy = GenerationType.SEQUENCE, 
   generator = "SEQ_CATEGORY") // 시퀀스 적용
- private Long cgCode;
+  @Column(name = "CGCODE")
+ private Long cgcode;
  // 카테고리 대분류
- @Column(nullable = false)
- private String cgCate1;
+ @Column(name = "CGCATE1", nullable = false)
+ private String cgcate1;
  // 카테고리 상세분류
- @Column(nullable = false)
- private String cgCate2;
+ @Column(name = "CGCATE2", nullable = false)
+ private String cgcate2;
  // 동호회
 // @OneToMany(mappedBy = "category")
 // @JsonBackReference

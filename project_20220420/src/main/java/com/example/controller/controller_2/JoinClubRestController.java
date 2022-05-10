@@ -36,17 +36,17 @@ public Map<String, Object> JoinPost(
 Map<String, Object> map = new HashMap<>();
 try {
     Member member = new Member();
-    member.setMId((String) joinclub.getMember().getMId());
+    member.setMid((String) joinclub.getMember().getMid());
     joinclub.setMember(member);
     System.out.println("========="+joinclub);    
 
     Club club = new Club();
-    club.setCNo((Long) joinclub.getClub().getCNo());
+    club.setCno((Long) joinclub.getClub().getCno());
     joinclub.setClub(club);;
     System.out.println(club);
 
     Steptbl steptbl = new Steptbl();
-    steptbl.setSCode((Long) joinclub.getSteptbl().getSCode());
+    steptbl.setScode((Long) joinclub.getSteptbl().getScode());
     joinclub.setSteptbl(steptbl);
     System.out.println(steptbl);
 

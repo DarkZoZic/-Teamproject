@@ -2,6 +2,7 @@ package com.example.entity.entity1;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,9 +29,10 @@ public class JoinClub {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_JOINCLUB") // 시퀀스 적용
   private Long no;
   // 신청날짜
+  @Column(name = "JCDATE")
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
-  private Date JCdate;
+  private Date jcdate;
   // 동호회
   @ManyToOne
   @JoinColumn(name = "c_no")

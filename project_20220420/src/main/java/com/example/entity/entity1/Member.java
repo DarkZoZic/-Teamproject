@@ -33,36 +33,41 @@ public class Member {
   // 아이디
   @Id
   // @GeneratedValue
-  private String mId;
+  @Column(name = "MID")
+  private String mid;
   // 비밀번호
-  @Column(nullable = false)
-  private String mPw;
+  @Column(name = "MPW", nullable = false)
+  private String mpw;
   // 이름
-  @Column(nullable = false)
-  private String mName;
+  @Column(name = "MNAME", nullable = false)
+  private String mname;
   // 연락처
-  @Column(nullable = false)
-  private String mPhone;
+  @Column(name = "MPHONE", nullable = false)
+  private String mphone;
   // 주소
-  @Column(nullable = false)
-  private String mAddress;
+  @Column(name = "MADDRESS", nullable = false)
+  private String maddress;
   // 가입일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
 	@Column(name = "MREGDATE", nullable = false)
-	private Date mRegdate;
+	private Date mregdate;
   // 프로필사진
   @Lob
-  private byte[] mProfile;
+  @Column(name = "MPROFILE")
+  private byte[] mprofile;
 
-  private String mImagename;
+  @Column(name = "MIMAGENAME")
+  private String mimagename;
 
-  private String mImagetype;
+  @Column(name = "MIMAGETYPE")
+  private String mimagetype;
 
-  private Long mImagesize = 0L;
+  @Column(name = "MIMAGESIZE")
+  private Long mimagesize = 0L;
   // 이메일
-  @Column(nullable = false)
-  private String mEmail;
+  @Column(name = "MEMAIL", nullable = false)
+  private String memail;
 
   // 임시변수
   @Transient

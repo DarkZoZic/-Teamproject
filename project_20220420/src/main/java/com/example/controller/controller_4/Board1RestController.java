@@ -91,7 +91,7 @@ public class Board1RestController {
             System.out.println("USERNAME ==>" + userid);
 
             Member memberEntity = new Member();
-            memberEntity.setMId(userid);
+            memberEntity.setMid(userid);
             System.out.println(memberEntity);
 
             board1.setMember(memberEntity);
@@ -292,7 +292,7 @@ public class Board1RestController {
 
             System.out.println("번호"+board1.getBNo());
 
-            if(userid.equals( board.getMember().getMId() )){
+            if(userid.equals( board.getMember().getMid() )){
                 // Board1 result = b1Service.selectBoard1One(board.getBNo());
 
                 // 삭제
@@ -301,7 +301,7 @@ public class Board1RestController {
                     map.put("status", 200); // 성공
                 }
             }
-            else if (!userid.equals( board.getMember().getMId() )){
+            else if (!userid.equals( board.getMember().getMid() )){
                 map.put("status", 0); 
             }
            
@@ -334,9 +334,9 @@ public class Board1RestController {
             Board1 board = b1Repository.getById(board1.getBNo());
             System.out.println(board.toString());
 
-            System.out.println("=====" + board.getMember().getMId());
+            System.out.println("=====" + board.getMember().getMid());
 
-            if(userid.equals( board.getMember().getMId() )){
+            if(userid.equals( board.getMember().getMid() )){
                 Board1 result = b1Service.selectBoard1One(board.getBNo());
 
                 // 수정
@@ -348,7 +348,7 @@ public class Board1RestController {
                     map.put("status", 200); // 성공
                 }
             }
-            else if (!userid.equals( board.getMember().getMId() )){
+            else if (!userid.equals( board.getMember().getMid() )){
                 map.put("status", 0); 
             }
         }

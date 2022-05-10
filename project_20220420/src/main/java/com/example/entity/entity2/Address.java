@@ -3,6 +3,7 @@ package com.example.entity.entity2;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,13 +28,17 @@ public class Address {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, 
   generator = "SEQ_ADDRESS") // 시퀀스 적용
-  private Long aCode;
+  @Column(name = "ACODE")
+  private Long acode;
   // 시, 도
+  @Column(name = "A1")
   private String a1;
   // 구, 군
+  @Column(name = "A2")
   private String a2;
   // 주소상세
-  private String aDetail;
+  @Column(name = "ADETAIL")
+  private String adetail;
   // 동호회
   // @OneToMany(mappedBy = "address")
   // @JsonBackReference

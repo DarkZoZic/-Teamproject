@@ -65,11 +65,11 @@ public class CustomerRestController {
 			String username = jwtUtil.extractUsername(token);
 			System.out.println(username);
 			MemberPersonal member = new MemberPersonal();
-			member.setMpNickname(memberPersonal.getMpNickname());
+			member.setMpnickname(memberPersonal.getMpnickname());
 
 			memberPersonal = mpsRepository.findByMember_mId(username);
-			System.out.println(member.getMpNickname());
-			memberPersonal.setMpNickname(member.getMpNickname());
+			System.out.println(member.getMpnickname());
+			memberPersonal.setMpnickname(member.getMpnickname());
 			
 			
 				
@@ -100,7 +100,7 @@ public class CustomerRestController {
 				System.out.println(member);
 				// String mid = member.getMId();
 				// if(Match(member.getMPw(), user.getPassword()))
-				map.put("id", member.getMId());
+				map.put("id", member.getMid());
 				map.put("status", 200); 
 
 			}	
@@ -137,28 +137,28 @@ public class CustomerRestController {
 			// System.out.println("===="+ user);
 			// // 현재암호랑 입력한 암호가 맞는지 확인
 			// // user.getPassword() 는 암호화 된거  member.getUpw() 는 암호화x
-			if(bcpe.matches(member.getMPw(), user.getPassword())){
+			if(bcpe.matches(member.getMpw(), user.getPassword())){
 			Member member1 =mRepository.findById(username).orElse(null);
 				
 			if(file != null){
 					if(!file.isEmpty()){
-						member1.setMProfile(file.getBytes());
-						member1.setMImagesize(file.getSize());
-						member1.setMImagetype(file.getContentType());
-						member1.setMImagename(file.getOriginalFilename());
+						member1.setMprofile(file.getBytes());
+						member1.setMimagesize(file.getSize());
+						member1.setMimagetype(file.getContentType());
+						member1.setMimagename(file.getOriginalFilename());
 			}
 			else{
-				member1.setMProfile(null);
-				member1.setMImagesize(0L);
-				member1.setMImagetype(null);
-				member1.setMImagename(null);
+				member1.setMprofile(null);
+				member1.setMimagesize(0L);
+				member1.setMimagetype(null);
+				member1.setMimagename(null);
 			}
 		}
-				member1.setMName(member.getMName());
-				member1.setMPhone(member.getMPhone());
-				member1.setMAddress(member.getMAddress());
-				member1.setMEmail(member.getMEmail());
-				System.out.println(member1.getMEmail());
+				member1.setMname(member.getMname());
+				member1.setMphone(member.getMphone());
+				member1.setMaddress(member.getMaddress());
+				member1.setMemail(member.getMemail());
+				System.out.println(member1.getMemail());
 				mRepository.save(member1);
 				
 				
@@ -190,7 +190,7 @@ public class CustomerRestController {
 		String username = jwtUtil.extractUsername(token);
 		UserDetails user = userDetailservice.loadUserByUsername(username);
 
-		if(bcpe.matches(member.getMPw(), user.getPassword())){
+		if(bcpe.matches(member.getMpw(), user.getPassword())){
 
 
 		Member member1 = mRepository.findById(username).orElse(null);
@@ -230,11 +230,11 @@ public class CustomerRestController {
 			BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 			// // 현재암호랑 입력한 암호가 맞는지 확인
 			// // user.getPassword() 는 암호화 된거  member.getUpw() 는 암호화x
-			if(bcpe.matches(member.getMPw(), user.getPassword())){
+			if(bcpe.matches(member.getMpw(), user.getPassword())){
 				Member member1 =mRepository.findById(username).orElse(null);
 
 				// 암호화
-				member1.setMPw(bcpe.encode(member.getNewpw()));
+				member1.setMpw(bcpe.encode(member.getNewpw()));
 				// System.out.println(member1.toString());
 				// member1 = mRepository.save(member);
 				mRepository.save(member1);
@@ -283,13 +283,13 @@ public class CustomerRestController {
 		map.put("status", 0); // 정상적이지 않을때
 
 		
-		UserDetails user = userDetailservice.loadUserByUsername(member.getMId());
+		UserDetails user = userDetailservice.loadUserByUsername(member.getMid());
 			System.out.println(user);
 		BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 		// user.getPassword() 는 암호화 된거  member.getUpw() 는 암호화x
 		// 암호회 되지 않은 것과 암호화 된것 비교하기
-		if(bcpe.matches(member.getMPw(), user.getPassword())){
-			String token = jwtUtil.generatorToKen(member.getMId());
+		if(bcpe.matches(member.getMpw(), user.getPassword())){
+			String token = jwtUtil.generatorToKen(member.getMid());
 			map.put("status", 200); // 0 -> 200
 			map.put("token", token);
 		}
@@ -315,15 +315,15 @@ public class CustomerRestController {
 			if(
 			file != null){
 			if(!file.isEmpty()){
-				member.setMProfile(file.getBytes());
-				member.setMImagesize(file.getSize());
-				member.setMImagetype(file.getContentType());
-				member.setMImagename(file.getOriginalFilename());
+				member.setMprofile(file.getBytes());
+				member.setMimagesize(file.getSize());
+				member.setMimagetype(file.getContentType());
+				member.setMimagename(file.getOriginalFilename());
 				
 			}
 		}
 	
-			member.setMPw(bcpe.encode( member.getMPw()) );
+			member.setMpw(bcpe.encode( member.getMpw()) );
 			mRepository.save(member);
 			// mService.memberInsert(member);
 			map.put("status", 200);
@@ -348,7 +348,7 @@ public class CustomerRestController {
 			Map<String, Object> map = new HashMap<>();
 		try {
 			Member member = new Member();
-			member.setMId((String) psmemberpersonal.getMember().getMId());
+			member.setMid((String) psmemberpersonal.getMember().getMid());
 			psmemberpersonal.setMember(member);
 			
 			mpsRepository.save(psmemberpersonal);
@@ -375,7 +375,7 @@ public Map<String, Object> CompanyJoinPost(
 try {
 
 	Member member = new Member();
-	member.setMId((String) cpmember.getMember().getMId());
+	member.setMid((String) cpmember.getMember().getMid());
 	cpmember.setMember(member);
 	System.out.println(member);
 

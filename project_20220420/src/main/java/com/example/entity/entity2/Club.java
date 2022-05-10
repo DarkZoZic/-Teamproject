@@ -37,44 +37,49 @@ public class Club {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, 
   generator = "SEQ_CLUB") // 시퀀스 적용
-  private Long cNo;
+  @Column(name = "CNO")
+  private Long cno;
   // 동호회 이름
-  @Column(nullable = false)
-  private String cName;
+  @Column(name = "CNAME", nullable = false)
+  private String cname;
   // 동호회 썸네일
   @Lob
-  private byte[] cThumbnail;
+  @Column(name = "CTHUMBNAIL")
+  private byte[] cthumbnail;
 
-  private String cImagename;
+  @Column(name = "CIMAGENAME")
+  private String cimagename;
 
-  private String cImagetype;
+  @Column(name = "CIMAGETYPE")
+  private String cimagetype;
 
-  private Long cImagesize = 0L;
+  @Column(name = "CIMAGESIZE")
+  private Long cimagesize = 0L;
 
   // 동호회 공개여부
-  @Column(nullable = false)
-  private String cPrivate;
+  @Column(name = "CPRIVATE", nullable = false)
+  private String cprivate;
   // 동호회 설명
-  @Column(nullable = false)
-  private String cDesc;
-  // 동호회 카테고리
-  @Column(nullable = false)
-  private String cCate;
+  @Column(name = "CDESC", nullable = false)
+  private String cdesc;
+
   // 동호회 최대인원
-  private String cMax;
+  @Column(name = "CMAX")
+  private String cmax;
   // 동호회 생성일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
 	@Column(name = "CREGDATE",nullable = false)
-  private Date cRegdate;
+  private Date cregdate;
   // 동호회 창립일
-  @Column(nullable = false)
-  private String cBirth;
+  @Column(name = "CBIRTH", nullable = false)
+  private String cbirth;
   // 동호회 활동지역
-  @Column(nullable = false)
-  private String cArea;
+  @Column(name = "CAREA", nullable = false)
+  private String carea;
   // 동호회 회비
-  private String cFee;
+  @Column(name = "CFEE")
+  private String cfee;
   // 클럽스케쥴
   @ManyToOne
   @JoinColumn(name = "s_no")

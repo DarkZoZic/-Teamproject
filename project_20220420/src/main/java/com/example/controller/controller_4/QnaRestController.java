@@ -48,7 +48,7 @@ public class QnaRestController {
             System.out.println("USERNAME ==>" + userid);
 
             Member memberEntity = new Member();
-            memberEntity.setMId(userid);
+            memberEntity.setMid(userid);
             System.out.println(memberEntity);
 
             qna.setMember(memberEntity);

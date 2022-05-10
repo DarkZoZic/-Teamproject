@@ -33,8 +33,8 @@ public class MypageRestController {
         Map<String ,Object> map = new HashMap<>();
         try{
             if(token !=null) {
-                Member member1 = mService.selectMemberOne( member.getMId() );
-                member1.setMPw( member.getMPw() );
+                Member member1 = mService.selectMemberOne( member.getMid() );
+                member1.setMpw( member.getMpw() );
                 
                 // mService.updateMember(member);
                

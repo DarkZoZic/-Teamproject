@@ -59,7 +59,8 @@ public class ComBine {
     // 신청날짜
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
-    private Date JCdate;
+    @Column(name = "JCDATE")
+    private Date jcdate;
 
     
 

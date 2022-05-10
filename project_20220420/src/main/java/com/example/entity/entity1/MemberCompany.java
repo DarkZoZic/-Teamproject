@@ -17,19 +17,20 @@ import lombok.Data;
 public class MemberCompany {
   // 기업 사업자번호
   @Id
-  private String mcNo;
+  @Column(name = "MCNO")
+  private String mcno;
 
   // 기업설명
-  @Column(nullable = false)
-  private String mcDesc;
+  @Column(name = "MCDESC", nullable = false)
+  private String mcdesc;
 
   // 기업이름
-  @Column(nullable = false)
-  private String mcName;
+  @Column(name = "MCNAME", nullable = false)
+  private String mcname;
   
   // 기업설립일
 	@Column(name = "MCBIRTH")
-	private String mcBirth;
+	private String mcbirth;
   // 회원
   @ManyToOne
   @JoinColumn(name = "m_id")

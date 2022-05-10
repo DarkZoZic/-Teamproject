@@ -37,8 +37,8 @@ public class SteptblRestController {
         // step.setSContent(step.getSContent());
         // System.out.println(step);
         // Steptbl steptbl = new Steptbl();
-        System.out.println(step.getSContent());
-        System.out.println(step.getSCode());
+        System.out.println(step.getScontent());
+        System.out.println(step.getScode());
         stRepository.save(step);
         
         

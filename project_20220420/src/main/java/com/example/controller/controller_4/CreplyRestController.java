@@ -54,7 +54,7 @@ public class CreplyRestController {
             System.out.println("USERNAME ==>" + userid);
 
             Member memberEntity = new Member();
-            memberEntity.setMId(userid);
+            memberEntity.setMid(userid);
             System.out.println(memberEntity);
 
             cReply.setMember(memberEntity);
@@ -103,7 +103,7 @@ public class CreplyRestController {
 
             System.out.println("번호"+cReply.getReNumber());
 
-            if(userid.equals( cReply1.getMember().getMId() )){
+            if(userid.equals( cReply1.getMember().getMid() )){
                 // Board1 result = b1Service.selectBoard1One(board.getBNo());
 
                 // 삭제
@@ -112,7 +112,7 @@ public class CreplyRestController {
 
                 
             }
-            else if (!userid.equals( cReply1.getMember().getMId() )){
+            else if (!userid.equals( cReply1.getMember().getMid() )){
                 map.put("status", 0); 
             }
            
@@ -145,7 +145,7 @@ public class CreplyRestController {
 
             System.out.println("번호"+cReply.getReNumber());
 
-            if(userid.equals( cReply1.getMember().getMId() )){
+            if(userid.equals( cReply1.getMember().getMid() )){
                 // Board1 result = b1Service.selectBoard1One(board.getBNo());
                 CReply result = cRepository.getById(cReply1.getReNumber());
 
@@ -158,7 +158,7 @@ public class CreplyRestController {
                 map.put("status", 200); // 성공
                 
             }
-            else if (!userid.equals( cReply1.getMember().getMId() )){
+            else if (!userid.equals( cReply1.getMember().getMid() )){
                 map.put("status", 0); 
             }
         }

@@ -40,18 +40,18 @@ try {
     if(
     file != null){
     if(!file.isEmpty()){
-        club.setCThumbnail(file.getBytes());
-        club.setCImagesize(file.getSize());
-        club.setCImagetype(file.getContentType());
-        club.setCImagename(file.getOriginalFilename());
+        club.setCthumbnail(file.getBytes());
+        club.setCimagesize(file.getSize());
+        club.setCimagetype(file.getContentType());
+        club.setCimagename(file.getOriginalFilename());
         
     }
 }
     Address address = new Address();
-    address.setACode((Long) club.getAddress().getACode());
+    address.setAcode((Long) club.getAddress().getAcode());
 
     Category category = new Category();
-    category.setCgCode((Long) club.getCategory().getCgCode());
+    category.setCgcode((Long) club.getCategory().getCgcode());
     
     cRepository.save(club);
     map.put("status", 200);

@@ -55,11 +55,11 @@ public class LikeRestController {
 
             // 회원 엔티티 객체 생성 및 아이디 추가
             Member memberEntity = new Member();
-            memberEntity.setMId(userid);
+            memberEntity.setMid(userid);
 
             // 클럽 엔티티 
             Club clubEntity = new Club();
-            clubEntity.setCNo(like.getClub().getCNo());
+            clubEntity.setCno(like.getClub().getCno());
 
             // 찜 엔티티에 추가
             like.setMember(memberEntity);
@@ -101,7 +101,7 @@ public class LikeRestController {
             System.out.println("USERNAME ==>" + userid);
 
             Member memberEntity = new Member();
-            memberEntity.setMId(userid);
+            memberEntity.setMid(userid);
             System.out.println(memberEntity);
 
             like.setMember(memberEntity);
@@ -136,7 +136,7 @@ public class LikeRestController {
             System.out.println("USERNAME ==>" + userid);
 
             Member memberEntity = new Member();
-            memberEntity.setMId(userid);
+            memberEntity.setMid(userid);
             System.out.println(memberEntity);
 
             like.setMember(memberEntity);
@@ -182,11 +182,11 @@ public class LikeRestController {
             // System.out.println("찜번호" + like.getLNo());
             // System.out.println("찜회원 아이디" + like1.getMember().getMId());
 
-           if( userid.equals( like1.getMember().getMId() )){
+           if( userid.equals( like1.getMember().getMid() )){
                 lRepository.deleteById(like.getLNo());
                 map.put("status", 200); // 성공
             }
-            else if( !userid.equals( like1.getMember().getMId() )){
+            else if( !userid.equals( like1.getMember().getMid() )){
                 map.put("status", 0);
             } 
         }

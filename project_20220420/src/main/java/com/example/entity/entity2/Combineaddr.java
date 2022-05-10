@@ -21,31 +21,41 @@ import lombok.Data;
 public class Combineaddr {
 
     
+
+    
+    @Id
+    @Column(name = "CNO")
+    private Long cno;
     
 
     // 아이디(설명)
-    private Long aCode;
+    @Column(name = "ACODE")
+    private Long acode;
     // 시, 도
+    @Column(name = "A1")
     private String a1;
     // 구, 군
+    @Column(name = "A2")
     private String a2;
     // 주소상세
-    private String aDetail;
+    @Column(name = "ADETAIL")
+    private String adetail;
 
     // 카테고리 코드
-    private Long cgCode;
+    @Column(name = "CGCODE")
+    private Long cgcode;
 
     // 카테고리 대분류
-    private String cgCate1;
+    @Column(name = "CGCATE1")
+    private String cgcate1;
 
     // 카테고리 상세분류
-    private String cgCate2;
+    @Column(name = "CGCATE2")
+    private String cgcate2;
 
-    @Id
-    private Long cNo;
 
-    @Column(nullable = false)
-    private String cName;
+    @Column(name = "CNAME", nullable = false)
+    private String cname;
 
     
 
