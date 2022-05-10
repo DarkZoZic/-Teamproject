@@ -174,7 +174,7 @@ public class CreplyRestController {
     @RequestMapping(value = "/selectone", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectOneGET(
-        @RequestParam(name = "bNo") Long bNo,
+        @RequestParam(name = "bno") Long bno,
         @RequestHeader (name = "token") String token){
 
         Map<String ,Object> map = new HashMap<>();
@@ -182,7 +182,7 @@ public class CreplyRestController {
         try{
             if(token != null){
 
-                List<CReply> cReply = cRepository.findByBoard1_bNoOrderByReNumberAsc(bNo);
+                List<CReply> cReply = cRepository.findByBoard1_bnoOrderByRenumberAsc(bno);
                 map.put("result",cReply);
                 map.put("status",200);
 
