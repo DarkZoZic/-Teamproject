@@ -129,7 +129,7 @@ public class ClubGalleryController {
 			long imagecode = cgiRep.selectImageCode(cgno, idx);
 //			System.out.println("imagecode = " + imagecode);
 			
-			// 찾은 giImgcode와 일치하는(해당 갤러리에 등록한) 이미지 전부 찾기
+			// 찾은 giImgcode와 일치하는(해당 갤러리에 등록한) 이미지 찾기
 			GImage gImage = cgiRep.findById(imagecode).orElse(null);
 			
 //			System.out.println("size : " + gImage.getGiImagesize().toString());
@@ -137,13 +137,16 @@ public class ClubGalleryController {
 			HttpHeaders headers = new HttpHeaders();
 			if(gImage.getGimagesize() > 0)
 			{
-				if(gImage.getGimagetype().equals("image/jpeg")) {
+				if(gImage.getGimagetype().equals("image/jpeg")) 
+				{
 					headers.setContentType(MediaType.IMAGE_JPEG);
 				}
-				else if(gImage.getGimagetype().equals("image/png")) {
+				else if(gImage.getGimagetype().equals("image/png")) 
+				{
 					headers.setContentType(MediaType.IMAGE_PNG);
 				}
-				else if(gImage.getGimagetype().equals("image/gif")) {
+				else if(gImage.getGimagetype().equals("image/gif")) 
+				{
 					headers.setContentType(MediaType.IMAGE_GIF);
 				}
 				ResponseEntity<byte[]> response = new ResponseEntity<>(gImage.getGimage(), headers, HttpStatus.OK);

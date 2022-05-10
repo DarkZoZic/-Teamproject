@@ -18,7 +18,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table
+@Table(name="CLUBALBUM")
 @SequenceGenerator(name = "SEQ_CLUBALBUM", sequenceName = "SEQ_CLUBALBUM_NO", allocationSize = 1, initialValue = 1)
 public class ClubAlbum {
  // 앨범번호

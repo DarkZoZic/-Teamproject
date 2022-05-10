@@ -12,7 +12,7 @@
         	<form th:action="@{/clubgallery/updategallerytext}" method="post">
         		<input type="hidden" name="cgno" th:value="${gallery.cgno}" />
 	       		갤러리명 <input type="text" name="cgname" th:value="${gallery.cgname}" /><br /><br />
-	        	<textarea rows="10" style="width:400px;" name="cgDesc" th:text="${gallery.cgdesc}"></textarea><br />
+	        	<textarea rows="10" style="width:400px;" name="cgdesc" th:text="${gallery.cgdesc}"></textarea><br />
 	        	<input type="submit" value="수정" />
 	       	</form>
 	       	<br />

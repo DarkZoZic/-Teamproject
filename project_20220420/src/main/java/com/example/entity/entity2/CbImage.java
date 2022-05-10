@@ -21,7 +21,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table
+@Table(name="CBIMAGE")
 @SequenceGenerator(name = "SEQ_CBIMAGE", sequenceName = "SEQ_CBIMAGE_IMGCODE", allocationSize = 1, initialValue = 1)
 public class CbImage {
   // 이미지코드

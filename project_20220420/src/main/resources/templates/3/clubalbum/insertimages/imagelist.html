@@ -16,6 +16,7 @@
 	       		<th>이미지명</th>
 	       		<th>idx</th>
 	       		<th>이미지</th>
+	       		<th></th>
 	       	</tr>
 	       	
 	       	<tr th:each="tmp, idx : ${imagelist}">
@@ -24,6 +25,12 @@
 	       		<td th:text="${idx.count}"></td>
 	       		<td>
 	       			<img th:src="@{/clubgallery/image(cgno=${tmp.clubgallery.cgno},idx=${idx.index})}" style="width:200px;"/>
+	       		</td>
+	       		<td>
+	       			<form th:action="@{/clubalbum/insertimage(cano=${cano})}" method="post">
+	       				<input type="hidden" name="gimgcode" th:value="${tmp.gimgcode}" />
+	       				<input type="submit" value="추가" />
+	       			</form>
 	       		</td>
 	       	</tr>
        	</table>

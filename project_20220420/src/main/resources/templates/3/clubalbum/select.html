@@ -19,11 +19,11 @@
 	       	</tr>
 	       	
 	       	<tr th:each="tmp, idx : ${imagelist}">
-	       		<td th:text="${tmp.gimgcode}"></td>
-	       		<td th:text="${tmp.gimagename}"></td>
+	       		<td th:text="${tmp.caimgcode}"></td>
+	       		<td th:text="${tmp.caimagename}"></td>
 	       		<td th:text="${idx.count}"></td>
 	       		<td>
-	       			<img th:src="@{/clubalbum/image(caNo=${tmp.album.cano},idx=${idx.index})}" style="width:200px;"/>
+	       			<img th:src="@{/clubalbum/image(cano=${album.cano},idx=${idx.index})}" style="width:200px;"/>
 	       		</td>
 	       	</tr>
        	</table>
@@ -36,12 +36,12 @@
         <hr />
         
         <form th:action="@{/clubalbum/delete}" method="post" style="display:inline-block;">
-        <input type="hidden" name="cano" th:value="${album.cano}" readonly/>
+        <input type="hidden" name="cano" th:value="${album.cano}" />
         	<input type="submit" value="삭제" />
         </form>
         
         <form th:action="@{/clubalbum/update}" method="get" style="display:inline-block;">
-        <input type="hidden" name="cano" th:value="${album.cano}" readonly/>
+        <input type="hidden" name="cano" th:value="${album.cano}" />
         	<input type="submit" value="수정" />
         </form>
         

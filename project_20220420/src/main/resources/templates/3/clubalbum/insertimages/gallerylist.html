@@ -21,7 +21,7 @@
         	<tr th:each="tmp : ${list}">
         		<td th:text="${tmp.cgno}"></td>
         		<td>
-        			<a th:href="@{/clubalbum/imagelist(cgno=${tmp.cgno})}">
+        			<a th:href="@{/clubalbum/imagelist(cgno=${tmp.cgno}, cano=${cano})}">
 	        			<img th:src="@{/clubgallery/image(cgno=${tmp.cgno},idx=0)}" style="width:200px;"/>
 	        		</a>
         		</td>

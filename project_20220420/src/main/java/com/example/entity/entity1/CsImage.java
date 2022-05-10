@@ -22,7 +22,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table
+@Table(name="CSIMAGE")
 @SequenceGenerator(name = "SEQ_CSIMAGE", sequenceName = "SEQ_CSIMAGE_CODE", allocationSize = 1, initialValue = 1)
 public class CsImage {
   // 스케줄이미지 코드

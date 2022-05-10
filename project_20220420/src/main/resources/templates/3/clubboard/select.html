@@ -13,11 +13,13 @@
         		번호 <p th:text="${clubboard.cbno}"></p>
         		제목 <p th:text="${clubboard.cbtitle}"></p>
         		내용 <p th:text="${clubboard.cbcontent}"></p>
-        		이미지 <p th:if="${cbimage != null}" th:text="${cbimage.cbimagename}"></p>
+        		이미지 <p th:if="${cbimage} != null" th:text="${cbimage.cbimagename}"></p>
         		
-        		<img th:src="@{/clubboard/image(cbno=${clubboard.cbno})}" style="width:200px;" />
+        		<img th:src="@{/clubboard/image(cbno=${clubboard.cbno})}" style="width:200px;" th:if="${cbimage} != null" />
         		
         </form>
+        
+        <br />
         
         <table border="1">
         	<tr>
@@ -31,8 +33,8 @@
         		<td th:text="${tmp.reregdate}"></td>
         		<td>
         			<form th:action="@{/clubboard/deletereply}" method="post">
-        				<input type="hidden" name="reNumber" th:value="${tmp.renumber}" />
-        				<input type="hidden" name="clubBoard" th:value=${clubboard.cbno} />
+        				<input type="hidden" name="renumber" th:value="${tmp.renumber}" />
+        				<input type="hidden" name="clubboard" th:value=${clubboard.cbno} />
         				<input type="submit" th:value="삭제" />
         			</form>
         		</td>

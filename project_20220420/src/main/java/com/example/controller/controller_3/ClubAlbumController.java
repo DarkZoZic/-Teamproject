@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.entity.entity1.GImage;
+import com.example.entity.entity2.CaImage;
 import com.example.entity.entity2.ClubAlbum;
+import com.example.repository.repository_3.ClubAlbumImageRepository;
 import com.example.repository.repository_3.ClubAlbumRepository;
 import com.example.repository.repository_3.ClubGalleryImageRepository;
 import com.example.repository.repository_3.ClubGalleryRepository;
@@ -35,6 +37,9 @@ public class ClubAlbumController {
 	
 	@Autowired
 	ClubGalleryImageRepository cgiRep;
+	
+	@Autowired
+	ClubAlbumImageRepository caiRep;
 	
 	@Autowired
 	ResourceLoader resLoader;
@@ -89,24 +94,28 @@ public class ClubAlbumController {
 	{
 		try
 		{
-			// cano(앨범번호) 조회해서 giImgcode 찾기
-			long imagecode = cgiRep.selectAlbumImageCode(cano, idx);
+			long imagecode = caiRep.selectAlbumImageCode(cano, idx);
+		
+			System.out.println("imagecode = " + imagecode);
 			
-			// 찾은 giImgcode와 일치하는(해당 앨범에 등록한) 이미지 전부 찾기
-			GImage gImage = cgiRep.findById(imagecode).orElse(null);
+			CaImage caImage = caiRep.findById(imagecode).orElse(null);
+			
 			HttpHeaders headers = new HttpHeaders();
-			if(gImage.getGimagesize() > 0)
+			if(caImage.getCaimagesize() > 0)
 			{
-				if(gImage.getGimagetype().equals("image/jpeg")) {
+				if(caImage.getCaimagetype().equals("image/jpeg"))
+				{
 					headers.setContentType(MediaType.IMAGE_JPEG);
 				}
-				else if(gImage.getGimagetype().equals("image/png")) {
+				else if(caImage.getCaimagetype().equals("image/png"))
+				{
 					headers.setContentType(MediaType.IMAGE_PNG);
 				}
-				else if(gImage.getGimagetype().equals("image/gif")) {
+				else if(caImage.getCaimagetype().equals("image/gif"))
+				{
 					headers.setContentType(MediaType.IMAGE_GIF);
 				}
-				ResponseEntity<byte[]> response = new ResponseEntity<>(gImage.getGimage(), headers, HttpStatus.OK);
+				ResponseEntity<byte[]> response = new ResponseEntity<>(caImage.getCaimage(), headers, HttpStatus.OK);
 				return response;
 			}
 			else
@@ -134,7 +143,8 @@ public class ClubAlbumController {
 		{
 			model.addAttribute("album", caRep.findById(cano).orElse(null));
 			
-			List<GImage> imagelist = cgiRep.findByClubalbum_canoOrderByGimgcodeAsc(cano);
+			List<CaImage> imagelist = caiRep.findByClubalbum_canoOrderByCaimgcodeAsc(cano);
+			System.out.println("imagelist : " + imagelist.toString());
 			model.addAttribute("imagelist", imagelist);
 						
 			return "/3/clubalbum/select"; 
@@ -145,17 +155,39 @@ public class ClubAlbumController {
 		}
 	}
 	
-	// 앨범에 선택한 갤러리 이미지 추가 // 미구현
+	// 앨범에 선택한 갤러리 이미지 추가
 	// 127.0.0.1:9090/ROOT/clubalbum/insertimage?cano=
 	@PostMapping(value="/insertimage")
-	public String insertimagePOST(@RequestParam(name="cano") long cano, @ModelAttribute GImage gimage)
+	public String insertimagePOST(@RequestParam(name="cano") ClubAlbum cano, @ModelAttribute GImage gimage)
 	{
 		try 
 		{
 			System.out.println(cano);
-			System.out.println(gimage.toString());
-//			cgiRep.insertImageInAlbum(cano, gimage.getGiImgcode());
-			return "redirect:/clubalbum/select";
+			System.out.println(gimage);
+//			System.out.println(cgiRep.findById(gimage.getGimgcode()).orElse(null));
+			
+			// gimage = 이미지코드만 가지고 있는 모델 // 이미지코드가 일치하는 이미지파일 데이터 가져와서 image 변수에 넣기
+			GImage image = cgiRep.findById(gimage.getGimgcode()).orElse(null); 
+			// GImage -> CaImage 변환용 변수
+			CaImage caImage = new CaImage();
+			// 중복조회용 gimgcode
+			caImage.setGimage(gimage);
+			
+			// 앨범에 추가하려는 이미지 코드 = 
+			// gimgcode와 cano가 일치하는 이미지가 없으면(이미지가 해당 앨범 내에서 중복이 아니면)
+			if(caiRep.findByGimage_gimgcode(caImage.getGimage().getGimgcode()) == null)
+			{
+				// image변수에 넣은 이미지데이터 caImage 모델에 넣기
+				caImage.setCaimage(image.getGimage());
+				caImage.setCaimagename(image.getGimagename());
+				caImage.setCaimagesize(image.getGimagesize());
+				caImage.setCaimagetype(image.getGimagetype());
+				caImage.setClubalbum(cano);
+				// CaImage 테이블에 이미지 저장
+				caiRep.save(caImage);
+			}
+			
+			return "redirect:/clubalbum/select?cano=" + cano.getCano();
 		} 
 		catch (Exception e) 
 		{

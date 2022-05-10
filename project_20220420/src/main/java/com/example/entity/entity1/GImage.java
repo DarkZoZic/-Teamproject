@@ -22,7 +22,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table
+@Table(name="GIMAGE")
 @SequenceGenerator(name = "SEQ_GIMAGE", sequenceName = "SEQ_GIMAGE_CODE", allocationSize = 1, initialValue = 1)
 public class GImage {
 	  // 이미지코드

@@ -20,7 +20,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "CHATTBL")
+@Table(name = "CHAT")
 public class Chat {
   // 채팅ID
   @Id
