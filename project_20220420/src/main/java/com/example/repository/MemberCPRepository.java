@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface MemberCPRepository 
     extends JpaRepository<MemberCompany, String>{
 
-        // String findBymId(String mid);
+        MemberCompany findByMember_Mid(String userid);
     
 }

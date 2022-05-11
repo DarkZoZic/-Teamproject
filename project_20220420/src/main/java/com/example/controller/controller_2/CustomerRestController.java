@@ -211,8 +211,14 @@ public class CustomerRestController {
 		memberPersonal.setMpgender("_");
 		memberPersonal.setMpbirth("_");
 		memberPersonal.setMprole("_");
+		// MemberCompany memberCompany = cpRepository.findByMember_Mid(member1.getMid());
+		// memberCompany.setMcdesc("_");
+		// memberCompany.setMcdesc("_");
+		// memberCompany.setMcdesc("_");
+		// memberCompany.setMcdesc("_");
 		mpsRepository.save(memberPersonal);
 		mRepository.save(member1);
+		
 		
 		map.put("status", 200);
 		}
