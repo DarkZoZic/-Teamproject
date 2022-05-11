@@ -56,10 +56,6 @@ public class BImage {
   @Column(name = "biimagename")
   private String biimagename;
 
-  // 글번호 
-  @Column(name = "bno", nullable = false)
-  private String bno;
-
   // 게시판
   @ManyToOne
   @JoinColumn(name = "board1")
