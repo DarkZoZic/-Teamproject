@@ -19,6 +19,7 @@ import javax.persistence.Table;
 
 import com.example.entity.entity1.ClubGallery;
 import com.example.entity.entity1.Member;
+import com.example.entity.entity1.Qna;
 import com.example.entity.entity1.Reaction;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -77,6 +78,11 @@ public class CReply {
   @ManyToOne
   @JoinColumn(name = "cbno")
   private ClubBoard clubboard;
+
+  // 큐엔에이 게시판 글번호
+  @ManyToOne
+  @JoinColumn(name = "qno")
+  private Qna qna;
 
   // 반응
   @ManyToOne
