@@ -10,9 +10,11 @@ import javax.servlet.http.HttpSession;
 
 import com.example.entity.entity1.Member;
 import com.example.entity.entity2.BImage;
+import com.example.entity.entity2.Bckeditor;
 import com.example.entity.entity2.Board1;
 import com.example.entity.entity2.CReply;
 import com.example.jwt.JwtUtil;
+import com.example.repository.repository_4.BckeditorRepository;
 import com.example.repository.repository_4.Board1ImageRepository;
 import com.example.repository.repository_4.Board1Repository;
 import com.example.service.UserDetailsServiceImpl;
@@ -52,6 +54,8 @@ public class Board1RestController {
     @Autowired
     Board1ImageRepository b1IRepository;
 
+    @Autowired
+    BckeditorRepository bcRepository;
   
     @Autowired 
     Board1Service b1Service;
@@ -72,36 +76,62 @@ public class Board1RestController {
     @Value("${board.page.count}") int PAGECNT;
 
     //127.0.0.1:9090/ROOT/board1/insert
+    // @RequestMapping(value = "/insert", 
+    //     method = {RequestMethod.POST},
+    //     consumes = {MediaType.ALL_VALUE},
+    //     produces = {MediaType.APPLICATION_JSON_VALUE})
+    // public Map<String, Object> InsertPost(
+    //     @ModelAttribute Board1 board1,
+    //     @RequestHeader (name = "token") String token ) {
+
+    //     Map<String ,Object> map = new HashMap<>();
+
+    //     try{
+    //         // 토큰 추출
+    //         String userid = jwtUtil.extractUsername(token);
+    //         System.out.println("USERNAME ==>" + userid);
+
+    //         Member memberEntity = new Member();
+    //         memberEntity.setMid(userid);
+    //         System.out.println(memberEntity);
+
+    //         board1.setMember(memberEntity);
+    //         System.out.println(board1.toString());
+
+    //         if(token !=null) {
+    //             int ret = b1Service.insertBoard1One(board1);
+    //             System.out.println(board1.toString());
+    //             if(ret == 1){
+    //                 map.put("status", 200); // 성공
+    //                 map.put("result", "등록완료");
+    //             }
+    //         }
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         map.put("status", 0); // 실패
+    //     }
+    //     return map;
+    // }
+
     @RequestMapping(value = "/insert", 
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> InsertPost(
-        @ModelAttribute Board1 board1,
-        @RequestHeader (name = "token") String token ) {
+        @ModelAttribute Board1 board1) {
 
         Map<String ,Object> map = new HashMap<>();
 
         try{
-            // 토큰 추출
-            String userid = jwtUtil.extractUsername(token);
-            System.out.println("USERNAME ==>" + userid);
 
-            Member memberEntity = new Member();
-            memberEntity.setMid(userid);
-            System.out.println(memberEntity);
-
-            board1.setMember(memberEntity);
+            int ret = b1Service.insertBoard1One(board1);
             System.out.println(board1.toString());
-
-            if(token !=null) {
-                int ret = b1Service.insertBoard1One(board1);
-                System.out.println(board1.toString());
-                if(ret == 1){
-                    map.put("status", 200); // 성공
-                    map.put("result", "등록완료");
-                }
+            if(ret == 1){
+                map.put("status", 200); // 성공
+                map.put("result", "등록완료");
             }
+            
         }
         catch(Exception e){
             e.printStackTrace();
@@ -119,20 +149,23 @@ public class Board1RestController {
     public Map<String, Object> ckImagePOST(
       @RequestParam(name = "image") MultipartFile file ) {
 
+        System.out.println(file.getOriginalFilename());
+
         Map<String ,Object> map = new HashMap<>();
 
         try{
-           BImage bImage = new BImage();
-           if(file.isEmpty() == false) {
-               bImage.setBiimage(file.getBytes()); // 이미지
-               bImage.setBiimagename(file.getOriginalFilename()); // 파일명
-               bImage.setBiimagesize(file.getSize()); //사이즈
-               bImage.setBiimagetype(file.getContentType());// 타입
+            Bckeditor bckeditor = new Bckeditor();
+            if(file.isEmpty() == false) {
+                bckeditor.setBcimage(file.getBytes()); // 이미지
+                bckeditor.setBcimagename(file.getOriginalFilename()); // 파일명
+                bckeditor.setBcimagesize(file.getSize()); //사이즈
+                bckeditor.setBcimagetype(file.getContentType());// 타입
             }
 
-           b1IRepository.save(bImage);
-           map.put("status", 200);
-           map.put("url", "/ROOT/board1/image?biimgcode=" + bImage.getBiimgcode() ); // url을 보내주어야 함
+            bcRepository.save(bckeditor);
+
+            map.put("status", 200);
+            map.put("url", "/ROOT/board1/image?biimgcode=" + bckeditor.getBcimgcode() ); // url 보내기
 
         }
         catch(Exception e){
@@ -142,30 +175,33 @@ public class Board1RestController {
         return map;
     }
 
-    // 127.0.0.1:9090/ROOT/board1/image?biImgcode=1
-    // <img th:src="@{/board1/image(biImgcode=1)}" style="width:100px" />
+    // 127.0.0.1:9090/ROOT/board1/image?biimgcode=1
+    // <img th:src="@{/board1/image(biimgcode=1)}" style="width:100px" />
     @RequestMapping(value = "/image", 
         method = {RequestMethod.GET},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<byte[]> imageGET(
-      @RequestParam(name = "biImgcode") Long biImgcode ) throws IOException  {
+      @RequestParam(name = "biimgcode") Long biimgcode ) throws IOException  {
+
+        Bckeditor bckeditor = bcRepository.getById(biimgcode);
+
 
         // 이미지명, 이미지크기, 이미지종류, 이미지데이터
-        BImage bImage = b1IRepository.getById(biImgcode);
-        System.out.println(bImage.getBiimagetype());
-		System.out.println(bImage.getBiimage().length);
+        // BImage bImage = b1IRepository.getById(biimgcode);
+        // System.out.println(bImage.getBiimagetype());
+		// System.out.println(bImage.getBiimage().length);
 
-        if (bImage.getBiimagesize() > 0) {
+        if (bckeditor.getBcimagesize() > 0) {
 			HttpHeaders headers = new HttpHeaders();
-			if (bImage.getBiimagetype().equals("image/jpeg")) {
+			if (bckeditor.getBcimagetype().equals("image/jpeg")) {
 				headers.setContentType(MediaType.IMAGE_JPEG);
-			} else if (bImage.getBiimagetype().equals("image/png")) {
+			} else if (bckeditor.getBcimagetype().equals("image/png")) {
 				headers.setContentType(MediaType.IMAGE_PNG);
-			} else if (bImage.getBiimagetype().equals("image/gif")) {
+			} else if (bckeditor.getBcimagetype().equals("image/gif")) {
 				headers.setContentType(MediaType.IMAGE_GIF);
 			}
-			ResponseEntity<byte[]> response = new ResponseEntity<>(bImage.getBiimage(), headers, HttpStatus.OK);
+			ResponseEntity<byte[]> response = new ResponseEntity<>(bckeditor.getBcimage(), headers, HttpStatus.OK);
 			return response;
 		} 
         else {
@@ -177,7 +213,7 @@ public class Board1RestController {
 		}
     }
 
-    // 이미지 넣는거 왜 안되지?
+
    
     //     @RequestMapping(value = "/insert", 
     //     method = {RequestMethod.POST},
@@ -404,23 +440,6 @@ public class Board1RestController {
             map.put("status", 0); // 실패
         }
         return map;
-
-
-        // List<BoardDTO> list = bMapper.selectBoardList((page * PAGECNT) - (PAGECNT -1), page * PAGECNT);
-        // if(list != null){
-        //     map.put("status", 200); // 성공
-        //     map.put("result", list); 
-        // }
-
-    // 페이지네이션                         목록이니까 List
-    // @Select({
-    //     "SELECT * FROM (",
-    //         " SELECT B.*, ROW_NUMBER() OVER (ORDER BY BNO DESC) ROWN ",
-    //         " FROM BOARD B ",
-    //     " ) WHERE ROWN BETWEEN #{start} AND #{end}"
-    // })
-    // public List<BoardDTO> selectBoardList(@Param(value = "start") int s, @Param(value = "end") int e);
-
     }
 
     // 검색(제목기준) + 페이지네이션
