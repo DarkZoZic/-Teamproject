@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("UserDetailsService: " + username);
         Member member = mRepository.getById(username);
-        System.out.println(member.toString());
+        System.out.println("UserDetailsServiceImpl"+member.toString());
 
         // 권한 정보를 문자열 배열로 만듦
         String[] strRole = { member.getMaddress() };

@@ -177,7 +177,7 @@ public class CustomerRestController {
 	// 회원탈퇴
 	// 127.0.0.1:9090/ROOT/member/delete
 	@RequestMapping(value = "/delete", 
-            method = { RequestMethod.DELETE },
+            method = { RequestMethod.PUT },
             consumes = { MediaType.ALL_VALUE },
             produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> DeleteMember(
@@ -194,8 +194,25 @@ public class CustomerRestController {
 
 
 		Member member1 = mRepository.findById(username).orElse(null);
-			System.out.println(member1);
-		mRepository.delete(member1);
+			System.out.println(member1.toString());
+			member1.setCategory(null);
+			member1.setMpw("agsafsdfish12");
+			member1.setMname("_");
+			member1.setMphone("_");
+			member1.setMaddress("_");
+			member1.setMprofile(null);
+			member1.setMimagename(null);
+			member1.setMimagetype(null);
+			member1.setMimagesize(0L);
+			member1.setMemail("_");
+		MemberPersonal memberPersonal = mpsRepository.findByMember_Mid(member1.getMid());
+		System.out.println(memberPersonal.toString());
+		memberPersonal.setMpnickname("_");
+		memberPersonal.setMpgender("_");
+		memberPersonal.setMpbirth("_");
+		memberPersonal.setMprole("_");
+		mpsRepository.save(memberPersonal);
+		mRepository.save(member1);
 		
 		map.put("status", 200);
 		}
