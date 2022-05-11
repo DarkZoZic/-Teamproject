@@ -51,10 +51,14 @@ public class Reaction {
   @ManyToOne
   @JoinColumn(name = "m_id")
   private Member member;
-
+  // 자유게시판
   @ManyToOne
   @JoinColumn(name = "b_no")
   private Board1 board;
+  // 클럽갤러리
+  @ManyToOne
+  @JoinColumn(name = "cg_no")
+  private ClubGallery clubgallery;
   // 댓글
   // @OneToMany(mappedBy = "reaction")
   // @JsonBackReference

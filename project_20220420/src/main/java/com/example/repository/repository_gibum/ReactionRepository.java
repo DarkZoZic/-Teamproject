@@ -22,12 +22,41 @@ public interface ReactionRepository
         //     @Param(value = "id")String id,
         //     @Param(value ="bno")long bno
         // );
-        Reaction findByBoard_Bno(long bno);
-        
+        // Reaction findByBoard_Bno(long bno);
 
+        // 자유게시판
+        @Query(value = "SELECT * FROM REACTIONTBL WHERE B_NO=:bno",
+        countQuery = "SELECT count(*) FROM REACTIONTBL  RCOUNT",
+        nativeQuery = true)
+        List<Reaction> findByReaction_B_no(@Param(value = "bno")long bno);
+
+        // 클럽게시판
+        @Query(value = "SELECT * FROM REACTIONTBL WHERE CB_NO=:cbno",
+        countQuery = "SELECT count(*) FROM REACTIONTBL RCOUNT",
+        nativeQuery = true)
+        List<Reaction> findByReaction_Cb_no(@Param(value = "cbno")long cbno);
+
+        // 클럽갤러리
+        @Query(value = "SELECT * FROM REACTIONTBL WHERE CG_NO=:cgno",
+        countQuery = "SELECT count(*) FROM REACTIONTBL RCOUNT",
+        nativeQuery = true)
+        List<Reaction> findByReaction_Cg_no(@Param(value = "cgno")long cgno);
+
+        // 자유게시판
         Reaction findByMember_MidAndBoard_Bno(
             @Param(value = "id") String member,
-            @Param(value = "bno") Long board1
+            @Param(value = "bno") Long bno
+        );
+        // 클럽게시판
+        Reaction findByMember_MidAndClubboard_Cbno(
+            @Param(value = "id") String id,
+            @Param(value = "cbno") Long cbno
+        );
+
+        // 클럽갤러리게시판
+        Reaction findByMember_MidAndClubgallery_Cgno(
+            @Param(value = "id") String id,
+            @Param(value = "cgno") Long cgno
         );
 
         // Reaction findByCount
