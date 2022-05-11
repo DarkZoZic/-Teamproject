@@ -8,12 +8,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.example.entity.entity1.Member;
 
 import lombok.Data;
 
@@ -52,6 +57,15 @@ public class ClubBoard {
   // 클럽글깊이
 @Column(name = "CBDEPTH")
   private Long cbdepth = 0L;
+
+//이미지 표시용 임시 url
+@Transient
+private String cbimageurl;
+
+// 글 작성자
+@ManyToOne
+@JoinColumn(name = "mid")
+private Member member;
   // 댓글
   // @OneToMany(mappedBy = "clubBoard")
   // @JsonBackReference
