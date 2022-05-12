@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Boot20220225Application",
+            "request": "launch",
+            "mainClass": "com.example.boot_20220225.Boot20220225Application",
+            "projectName": "boot_20220225"
+        },
+        {
+            "type": "java",
             "name": "Launch Project20220420Application",
             "request": "launch",
             "mainClass": "com.example.project_20220420.Project20220420Application",
