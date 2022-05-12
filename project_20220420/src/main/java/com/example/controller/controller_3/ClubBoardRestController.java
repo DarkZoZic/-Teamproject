@@ -87,36 +87,58 @@ public class ClubBoardRestController {
 	
 	// 클럽게시판 글작성 이미지 첨부 시 ckeditor에서 미리보기 기능 구현용 이미지데이터 저장
 	// /ROOT/api/clubboard/ckimage
-	@RequestMapping(value="/ckimage", 
-			method={RequestMethod.POST}, 
-			consumes = {MediaType.ALL_VALUE},
-			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> ckimagePOST(@ModelAttribute MultipartFile file) throws IOException
-	{
-		Map<String, Object> map = new HashMap<>();
-		try 
-		{
-			Cbckeditor cbck = new Cbckeditor();
-			if(file != null)
-			{
-				if(!file.isEmpty())
-				{
-					cbck.setCbckimage(file.getBytes());
-					cbck.setCbckimagename(file.getOriginalFilename());
-					cbck.setCbckimagesize(file.getSize());
-					cbck.setCbckimagetype(file.getContentType());
-					cbckRep.save(cbck);
-				}
-			}
-			
-			map.put("status", 200);
-		} 
-		catch (Exception e) 
-		{
-			map.put("status", 0);
-		}
-		return map;
-	}
+//	@RequestMapping(value="/ckimage", 
+//			method={RequestMethod.POST}, 
+//			consumes = {MediaType.ALL_VALUE},
+//			produces= {MediaType.APPLICATION_JSON_VALUE})
+//	public Map<String, Object> ckimagePOST(@ModelAttribute MultipartFile file) throws IOException
+//	{
+//		Map<String, Object> map = new HashMap<>();
+//		try 
+//		{
+//			Cbckeditor cbck = new Cbckeditor();
+//			if(file != null)
+//			{
+//				if(!file.isEmpty())
+//				{
+//					cbck.setCbckimage(file.getBytes());
+//					cbck.setCbckimagename(file.getOriginalFilename());
+//					cbck.setCbckimagesize(file.getSize());
+//					cbck.setCbckimagetype(file.getContentType());
+//					cbckRep.save(cbck);
+//				}
+//			}
+//			
+//			map.put("status", 200);
+//		} 
+//		catch (Exception e) 
+//		{
+//			map.put("status", 0);
+//		}
+//		return map;
+//	}
+	
+	// /ROOT/api/clubboard/ckimage
+//		@RequestMapping(value="/ckimage", 
+//				method={RequestMethod.POST}, 
+//				consumes = {MediaType.ALL_VALUE},
+//				produces= {MediaType.APPLICATION_JSON_VALUE})
+//		public Map<String, Object> ckimagePOST()
+//		{
+//			Map<String, Object> map = new HashMap<>();
+//			try 
+//			{
+//			
+//				
+//				map.put("status", 200);
+//			} 
+//			catch (Exception e) 
+//			{
+//				map.put("status", 0);
+//			}
+//			return map;
+//			
+//		}
 	
 	
 	
