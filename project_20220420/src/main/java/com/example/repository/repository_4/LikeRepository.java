@@ -15,5 +15,7 @@ public interface LikeRepository extends JpaRepository<Like, Long>{
     // 외래키 가져오기: Member_uemail -> member의 uemail
     List<Like> findByMember_midOrderByLnoAsc(String mid);
 
+    Long findByLno(Long[] lno);
+
     
 }

@@ -1,5 +1,6 @@
 package com.example.controller.controller_4;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -198,44 +199,104 @@ public class LikeRestController {
 
     // -- 찜 일괄 삭제 --
     //127.0.0.1:9090/ROOT/like/deletebatch
-        @RequestMapping(value = "/deletebatch", 
-        method = {RequestMethod.POST},
-        consumes = {MediaType.ALL_VALUE},
-        produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Map<String, Object> deleteBatchPOST(
-        // @RequestBody List<Like> like,
-        // @RequestBody List <Map<String, Object>> like,
-        @RequestParam(name = "lNo") Long[] lNo,
-        @RequestHeader (name = "token") String token ) {
-            // System.out.println(token);
-            // System.out.println(like.getLNo());
+    //     @RequestMapping(value = "/deletebatch", 
+    //     method = {RequestMethod.POST},
+    //     consumes = {MediaType.ALL_VALUE},
+    //     produces = {MediaType.APPLICATION_JSON_VALUE})
+    // public Map<String, Object> deleteBatchPOST(
+    //     // @RequestBody List<Like> like,
+    //     // @RequestBody List <Map<String, Object>> like,
+    //     @RequestParam(name = "lno") Long[] lno,
+    //     @RequestHeader (name = "token") String token ) {
+    //         // System.out.println(token);
+    //         // System.out.println(like.getLNo());
 
-        Map<String, Object> map = new HashMap<>();
-        try{
-            System.out.println(lNo);
-            // 토큰 추출
-            String userid = jwtUtil.extractUsername(token);
-            System.out.println("USERNAME ==>" + userid);
+    //     Map<String, Object> map = new HashMap<>();
+    //     try{
+    //         System.out.println(lno);
+    //         // 토큰 추출
+    //         String userid = jwtUtil.extractUsername(token);
+    //         System.out.println("USERNAME ==>" + userid);
 
-            // Like like1 = lRepository.getById(lNo);
+    //         Like like1 = lRepository.getById(lno);
 
-            // System.out.println("찜번호" + like.getLNo());
-            // System.out.println("찜회원 아이디" + like1.getMember().getMId());
+    //         // System.out.println("찜번호" + like.getLNo());
+    //         // System.out.println("찜회원 아이디" + like1.getMember().getMId());
 
-            // if( userid.equals( like1.getMember().getMId() )){
-            //     lService.deleteLikeBatch(lNo);
-            //     map.put("status", 200); // 성공
-            // }
-            // else if( !userid.equals( like1.getMember().getMId() )){
-            //     map.put("status", 0);
-            // } 
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            map.put("status",-1);
-        }
-        return map;
-    }
+    //         if( userid.equals( like1.getMember().getMId() )){
+    //             lService.deleteLikeBatch(lNo);
+    //             map.put("status", 200); // 성공
+    //         }
+    //         else if( !userid.equals( like1.getMember().getMId() )){
+    //             map.put("status", 0);
+    //         } 
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         map.put("status",-1);
+    //     }
+    //     return map;
+    // }
+
+
+    //127.0.0.1:9090/ROOT/like/deletebatch1
+    //     @RequestMapping(value = "/deletebatch1", 
+    //     method = {RequestMethod.POST},
+    //     consumes = {MediaType.ALL_VALUE},
+    //     produces = {MediaType.APPLICATION_JSON_VALUE})
+    // public Map<String, Object> deleteBatch1POST(
+    //     @RequestBody Like like,
+    //     @RequestParam(name = "lno") Long[] lno,
+    //     @RequestHeader (name = "token") String token ) {
+
+    //     Map<String, Object> map = new HashMap<>();
+        
+    //     try{
+    //         // 토큰 추출
+    //         String userid = jwtUtil.extractUsername(token);
+    //         System.out.println("USERNAME ==>" + userid);
+            
+    //         Like like1 = lRepository.getById(like.getLno());
+            
+    //         if( userid.equals( like1.getMember().getMid() )){
+
+    //             List<Like> list = new ArrayList<>();
+
+    //             for(int i=0;i<0;i++){
+    //                 System.out.println(lno[i]);
+
+    //                 Like likeEntity = new Like();
+    //                 likeEntity.setLno(lno[i]);
+
+    //                 list.remove(likeEntity);
+    //             }
+    //             lRepository.deleteAllInBatch(list);
+
+    //             map.put("status", 200); // 성공
+    //         }
+    //         else if( !userid.equals( like1.getMember().getMid() )){
+    //             map.put("status", 0);
+    //         } 
+
+
+
+            
+
+            
+    //         // for(Like like : list){
+    //         //     list.remove(like.getLno());
+        
+    //         // }
+
+    //         // lService.deleteLikeBatch(list);
+    //         // lService.deleteLikeBatch1(lno);
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         map.put("status",-1);
+    //     }
+    //     return map;
+    // }
 
 
     

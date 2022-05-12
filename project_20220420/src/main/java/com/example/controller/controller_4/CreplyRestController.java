@@ -336,7 +336,7 @@ public class CreplyRestController {
     @RequestMapping(value = "/qna_selectone", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> QSelectOneGET(
-        @RequestParam(name = "qno") Long bno,
+        @RequestParam(name = "qno") Long qno,
         @RequestHeader (name = "token") String token){
 
         Map<String ,Object> map = new HashMap<>();
@@ -344,9 +344,9 @@ public class CreplyRestController {
         try{
             if(token != null){
 
-                // List<CReply> cReply = cRepository.findByBoard1_bnoOrderByRenumberAsc(qno);
-                // map.put("result",cReply);
-                // map.put("status",200);
+                List<CReply> cReply = cRepository.findByQna_qnoOrderByRenumberAsc(qno);
+                map.put("result",cReply);
+                map.put("status",200);
 
             }
 
