@@ -350,6 +350,7 @@ public class CustomerRestController {
 			mRepository.save(member);
 			// mService.memberInsert(member);
 			map.put("status", 200);
+			map.put("result", member.getMid());
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -384,6 +385,49 @@ public class CustomerRestController {
             
             return map;
         }
+	// 개인+회원가입(개인회원)
+	// 127.0.0.1:9090/ROOT/member/join2.json
+	//{"mid":"c1", "mpw":"c1" };
+	// @PostMapping(value = "/join2.json", 
+	// consumes = MediaType.ALL_VALUE, 
+	// produces = MediaType.APPLICATION_JSON_VALUE)
+	// public Map<String, Object> PersonalJoin1Post(
+	// 	@RequestParam(name = "file",required = false) MultipartFile file,
+	// 	@ModelAttribute MemberPersonal psmemberpersonal,
+	// 	@ModelAttribute Member member){
+	// 		// 이미지,배열 형식이면 ModelAttribute, 폼데이터 사용
+	// 		// System.out.println(psmemberpersonal.toString());
+	// 		BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+	// 		Map<String, Object> map = new HashMap<>();
+	// 	try {
+
+	// 		if(
+	// 		file != null){
+	// 		if(!file.isEmpty()){
+	// 			member.setMprofile(file.getBytes());
+	// 			member.setMimagesize(file.getSize());
+	// 			member.setMimagetype(file.getContentType());
+	// 			member.setMimagename(file.getOriginalFilename());
+				
+	// 		}
+	// 	}
+	
+	// 		member.setMpw(bcpe.encode( member.getMpw()) );
+	// 		mRepository.save(member);
+			
+	// 		member.setMid((String) psmemberpersonal.getMember().getMid());
+	// 		psmemberpersonal.setMember(member);
+			
+	// 		mpsRepository.save(psmemberpersonal);
+	// 		map.put("status", 200);
+    //         }
+    //         catch (Exception e) {
+    //             e.printStackTrace();
+    //             map.put("status", 0);
+    //         }
+            
+    //         return map;
+    //     }
 		// 기업회원가입(Company)
 	// 127.0.0.1:9090/ROOT/member/cpjoin.json
 	//{"mid":"c1", "mpw":"c1" };
