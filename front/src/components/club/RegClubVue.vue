@@ -237,6 +237,17 @@
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
+
+                                    <v-expansion-panel class="panel">
+                                        <v-row>
+                                            <v-col>
+                                                <v-file-input
+                                                accept="image/*"
+                                                label="File input"
+                                                ></v-file-input>
+                                            </v-col>
+                                        </v-row>
+                                    </v-expansion-panel>
                                 </v-form>
                             </v-expansion-panels>
                         </v-col>
@@ -257,7 +268,6 @@
 
                         <v-col sm="4"></v-col>
                     </v-row>
-
 
                 </v-col>
 
