@@ -1,4 +1,5 @@
 <template>
+<div>
   <v-row dense>
     <v-col style="border-top:2px solid gold; margin-top: 20px;"></v-col>
   </v-row>
@@ -36,6 +37,8 @@
       </v-card-text>
     </v-card>
   </v-footer>
+   <router-view></router-view>
+</div>
 </template>
 
 <script>
