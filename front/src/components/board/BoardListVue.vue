@@ -1,5 +1,6 @@
 <template>
 <div>
+                <div v-if="state.items">
 <HeaderVue style="height: 220px;"></HeaderVue>
     <v-app>
         <v-main style="padding: 10px;">      
@@ -17,23 +18,22 @@
                         <v-col class="col_left">
                             <h2>자유게시판</h2>
                         </v-col>
-
                         <v-col md="8" class="col_right">
                             <v-flex class="select">
-                                <v-select variant="outlined" density="compact" :items="state.items" style="height: 40px;"></v-select>
+                                <v-select variant="outlined" density="compact" :items1="state.items1" style="height: 40px;"></v-select>
                             </v-flex>
-                            <input type="text" class="board_search_box" style="outline-width: 0;" v-model="state.search">
+
+                            <input type="text" class="board_search_box" @keyup.enter="search()" style="outline-width: 0;" v-model="state.text">
                             <v-btn style="height: 40px;" @click="search()"><h4>검색</h4></v-btn>
                             <router-link to="/bwrite">
                                 <v-btn style="margin-left: 10px; height: 40px; background-color: gold;">
                                     <h4>글쓰기</h4>
                                 </v-btn>
                             </router-link>
-                        </v-col>
-                    </v-row>
-                    {{state.member[1]}}            
-                    <v-row dense style="border: 1px solid #CCC; border-top: 1px solid #CCC; padding: 10px; padding-left: 20px;  ">
-                        <v-col>
+                                </v-col>
+                            </v-row>
+                            <v-row dense style="border: 1px solid #CCC; border-top: 1px solid #CCC; padding: 10px; padding-left: 20px;  ">
+                            <v-col>
                             <v-table height="800px">
                                 <thead>
                                     <tr>
@@ -46,8 +46,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr
-                                        v-for="item in state.items" :key="item">
+                                    <tr v-for="item in state.items" :key="item">
                                         <td>{{ item.bno }}</td>
                                         <td><router-link to="/bcontent">{{ item.btitle }}</router-link></td>
                                         <td>{{ item.member }}</td>
@@ -56,7 +55,7 @@
                                         <td>{{ item.blike }}</td>
                                     </tr>
                                 </tbody>
-                            </v-table>                            
+                            </v-table>       
                         </v-col>
                     </v-row>
                 </v-col>
@@ -67,15 +66,21 @@
 
             <v-row dense>
                 <v-col>
+                     <button v-for="tmp in state.total" :key="tmp"
+                    @click="handlePagenation(tmp)">
+                    {{tmp}}
+                </button>
                     <v-pagination
-                    v-model="state.page"
-                    :length="6"
-                    ></v-pagination>
+                    v-for="tmp in state.total" :key="tmp"
+                    @click="handlePagenation(tmp)">
+                    {{tmp}}</v-pagination>
+
                 </v-col>
             </v-row>
         </v-main>
     </v-app>
     <FooterVue></FooterVue>
+                </div>
 </div>
 </template>
 
@@ -95,16 +100,21 @@ export default {
             handleData();
         });
          const state = reactive({
-             member : [],
              mid : '',
-             items : [],
-             search: '검색내용',
+             text: '',
              page: 1,
- 
-             items: [
+             total : 0,
+            items1: [
                  '전체', '제목', '내용', '글쓴이'
              ]
+ 
          })
+
+          const handlePagenation = (tmp) => {
+            state.total = Number(tmp);
+            console.log(state.page);
+            handleLoadData();
+        }
 
      const handleData = async() => {
             const url = `/ROOT/board1/selectlist?page=${state.page}`
@@ -112,22 +122,26 @@ export default {
             const response = await axios.get(url, {headers});
             console.log(response.data);
             if(response.data.status === 200){
-                state.items = response.data.result
-                state.items.member = response.data.result[0].member
-                console.log(response.data.result[1].member);
-                // for(var i=0;i <=state.items.length;i++){
-                //     state.member[i] = response.data.result[i].member;
-                // }
-                
-                console.log(state.items[0].member.mid);
+            state.items = response.data.result
+            console.log(response.data.result[0]);
+            // 1~10  => 1page  => Math.floor((page-1)/10+1)
+            // 11~20 => 2page
+            state.total = Math.floor((Number(response.data.result.length)-1)/10+1) ;
             }
         };
 
         const search = async() => {
-
+            const url = `/ROOT/board1/search?btitle=${state.text}&page=${state.page}`
+            const headers = {"Content-Type":"application/json"};
+            const response = await axios.get(url, {headers});
+              console.log('ExBoard.vue =>',response.data);
+            if(response.data.status === 200){
+                state.items = response.data.result;
+                console.log(response.data.result.length);
+            }
         }
 
-        return { state, search }
+        return { state,search,handlePagenation }
     },
 }
 </script>
