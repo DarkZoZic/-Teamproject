@@ -243,7 +243,8 @@
                                             <v-col>
                                                 <v-file-input
                                                 accept="image/*"
-                                                label="File input"
+                                                label="사진을 넣어주세요"
+                                                multiple
                                                 ></v-file-input>
                                             </v-col>
                                         </v-row>
