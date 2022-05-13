@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.PageRequest;
@@ -55,7 +57,7 @@ public class ClubBoardRestController {
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertPOST(@RequestBody ClubBoard cb, @ModelAttribute MultipartFile file) throws IOException
+	public Map<String, Object> insertPOST(@ModelAttribute ClubBoard cb, @ModelAttribute MultipartFile file) throws IOException
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
@@ -292,6 +294,30 @@ public class ClubBoardRestController {
 			}
 			return map;
 		}
+	
+	// 클럽게시판 글삭제
+	// /ROOT/api/clubboard/delete
+	@Transactional
+	@RequestMapping(value="/delete", 
+	method={RequestMethod.DELETE}, 
+	consumes = {MediaType.ALL_VALUE},
+	produces= {MediaType.APPLICATION_JSON_VALUE})
+	public Map<String, Object> delete(@RequestBody ClubBoard cb)
+	{
+		Map<String, Object> map = new HashMap<>();
+		try 
+		{
+			cbiRep.deleteByClubboard_cbno(cb.getCbno());
+			cbRep.deleteById(cb.getCbno());
+			map.put("status", 200);
+		} 
+		catch (Exception e) 
+		{
+			map.put("status", 0);
+		}
+		return map;
+	}
+	
 
 	// 클럽게시판 댓글작성
 	// /ROOT/api/clubboard/insertreply?cbno=
