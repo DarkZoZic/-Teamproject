@@ -1,0 +1,314 @@
+header {
+    margin: auto; /* header의 양쪽 여백(margin)을 동등하게 맞춤 -> 수평가운데정렬 */
+    width: 1080px;
+    height: 215px;
+    display: flex;
+    text-align: center;
+    align-items: center; /* 하위 요소들 수직 가운데정렬 */
+    position: relative;
+  }
+fieldset {
+  border: none; /* 기본 border 없애기(이 코드를 지우고 기본 border를 확인해보세요) */
+}
+
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+.search {
+  position: relative;
+  width: 300px;
+}
+.search_box1 {
+  width: 100%;
+  height: 36px;
+  border: 3px solid navy;
+  border-radius: 4px;
+  padding-left: 10px;
+}
+.search_box2 {
+  width: 100%;
+  height: 40px;
+  border: 2px solid navy;
+}
+.board_title {
+  width: 630px;
+  height: 36px;
+  border: 3px solid navy;
+  border-radius: 4px;
+  padding-left: 10px;
+}
+.search_button {
+  margin-left: 5px;
+  border: navy 3px solid;
+  box-shadow: none;
+}
+.tab_menu {
+  width: 120px;
+}
+.club_card {
+  border-width: 4px; 
+  border-color: navy;
+}
+
+/* panel */
+.panel {
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 12px;
+  padding-top: 15px;
+  display: flex;
+}
+
+/* box */
+.box1 {
+  width:500px;
+  height:500px;
+  overflow:auto;  
+  border:1px solid black;
+  padding: 0 0.5em;
+}
+
+/* textarea */
+.textarea {
+  border: navy 3px solid;
+  border-radius: 4px;
+  resize: none;
+  width: 100%;
+}
+.none_border_box {
+  width: 100%;
+  height: 40px; 
+  outline-width: 0;
+}
+.club_list_h {
+  padding-left: 5px;
+  display: flex;
+  margin: 10px;
+  text-align: center;
+}
+.club_list_input {
+  width: 90%; 
+  height: 30px; 
+  display: flex;
+  padding-left: 10px;
+  margin: 10px;
+  border: 1px solid #CCC;
+  vertical-align: middle;
+}
+.club_list_btn {
+  margin: 10px;
+  width: 40px;
+}
+.club_list_chk {
+  margin-left:10px; 
+  width: 15px; 
+  height: 15px;
+  margin-right: 5px;
+}
+
+.club_detail_box1 {
+  border-top: 2px solid; 
+  border-left: 1px solid #CCC; 
+  border-bottom: 1px solid #CCC; 
+  border-right: 1px solid #CCC; 
+  padding: 20px;
+}
+.club_detail_box2 {
+  border: 1px solid #CCC; 
+  padding: 20px;
+}
+
+.board_search_box {
+  width: 300px; 
+  height: 40px; 
+  border-radius: 4px;
+  display: flex;
+  padding-left: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border: 1px solid rgb(177, 177, 177);
+  vertical-align: middle;
+}
+
+.board_search_box1 {
+  width: 70%;
+  height: 40px; 
+  border-radius: 4px;
+  display: flex;
+  padding-left: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border: 1px solid rgb(177, 177, 177);
+  vertical-align: middle;
+}
+
+.region {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+/* col */
+.col_center {
+  justify-content: center; 
+  display: flex;
+  align-items: center;
+}
+.col_center1 {
+  justify-content: center; 
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+.col_right {
+  justify-content: right; 
+  display: flex;
+  align-items: center;
+}
+.col_right1 {
+  justify-content: right; 
+  display: flex;
+  align-items: center;
+  padding-right: 25px;
+}
+.col_left {
+  justify-content: left; 
+  display: flex;
+  align-items: center;
+}
+.col_pad20 {
+  padding: 20px;
+}
+.col_pad-l25 {
+  padding-left: 25px;
+}
+.col_replybox {
+  display: flex; 
+  padding-top: 10px; 
+  padding-left: 10px;
+  justify-content: left; 
+  align-items: center;
+}
+
+/* row */
+.row_bwrite1 {
+  padding-top: 15px;
+  padding-left: 15px;
+}
+.row_bwrite2 {
+  padding-bottom: 10px; 
+  border-bottom: 1px solid #CCC;
+}
+.row_pad5 {
+  padding: 5px;
+}
+
+/* border */
+.border-b_1_CCC {
+  border-bottom: 1px solid #CCC;
+}
+
+/* height */
+.height50 {
+  height: 50px;
+}
+
+/* img */
+.img {
+  position : absolute;
+  width: 17px;
+  top: 10px;
+  right: 12px;
+  margin: 0;
+}
+.img1 {
+  width: 15px; 
+  margin-right: 3px;
+}
+.img2 {
+  width: 40px; 
+  margin-right: 3px;
+}
+.img_logo {
+  margin-bottom: 12px;
+  width: 220px;
+  height: 65px;
+}
+
+/* margin */
+.mar-l_10 {
+  margin-left: 10px;
+}
+
+/* padding */
+.pad10 {
+  padding: 10px;
+}
+
+.home_box {
+  border-width: 4px; 
+  border-color: navy;
+}
+
+/* nav */
+header > nav {
+  width: 100%;
+  height: 45px;
+  position: absolute;
+  bottom: 0;
+}
+.nav_items {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  font-weight: bold;
+  border-top: 1px solid #0066ff;
+}
+.keyword {
+  width: 200px;
+}
+.nav_items ul > li {
+  display: inline-block;
+  margin-left: 8px;
+}
+.nav_items ul > li:nth-child(-n + 7) > a {
+  /* <ul>하위 7번째 <li>까지 각각 내부의 <a> 태그 접근 */
+  color: #ff0000;
+}
+.nav_items ul > li > a {
+  text-decoration: none;
+  cursor: pointer;
+}
+body {
+  margin: 0;
+  font-family: 'NanumBarunGothic';
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+a:hover {
+  text-decoration: none;
+}
+* {
+  box-sizing: border-box; /* 길이 계산을 편하게 하기위함. box-sizing에 관한 설명은 아래 링크를 참고해주세요 */
+}
+footer {
+  width: 1080px;
+  height: 310px;
+  margin: auto;
+  padding: 0 8px 0 8px; /* 각각 위 오른쪽 아래 왼쪽 */
+  display: flex;
+  flex-direction: column; /* 요소들을 수평정렬 */
+  font-size: 12px;
+}
