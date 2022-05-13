@@ -10,6 +10,8 @@ import com.example.entity.entity2.CReply;
 @Repository
 public interface CReplyRepository extends JpaRepository<CReply, Long>{
 	List<CReply> findByClubboard_CbnoOrderByRenumberDesc(long cbno);
+	
+	List<CReply> findByClubgallery_cgnoOrderByRenumberDesc(long cgno);
 
 	void deleteByClubboard_cbno(long cbno);
 }

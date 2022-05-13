@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/creply")
+@RequestMapping(value = "/api/creply")
 public class CreplyRestController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class CreplyRestController {
     @Autowired
     JwtUtil jwtUtil;
 
-    //127.0.0.1:9090/ROOT/creply/board_insert
+    //127.0.0.1:9090/ROOT/api/creply/board_insert
     @RequestMapping(value = "/board_insert", 
     method = {RequestMethod.POST},
     consumes = {MediaType.ALL_VALUE},
@@ -83,7 +83,7 @@ public class CreplyRestController {
         return map;
     }
 
-    // 127.0.0.1:9090/ROOT/creply/board_delete
+    // 127.0.0.1:9090/ROOT/api/creply/board_delete
     // {"bno":3}
     @RequestMapping(value = "/board_delete", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -125,7 +125,7 @@ public class CreplyRestController {
         return map;
     }
 
-    // 127.0.0.1:9090/ROOT/creply/board_update
+    // 127.0.0.1:9090/ROOT/api/creply/board_update
     // 제목, 내용, 번호
     // {"bno":2, "btitle":"222", "bcontent":"222"}
     @RequestMapping(value = "/board_update", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
@@ -171,7 +171,7 @@ public class CreplyRestController {
     }
 
     // 원본 글번호가 일치하는 댓글 조회
-    // 127.0.0.1:9090/ROOT/creply/board_selectone
+    // 127.0.0.1:9090/ROOT/api/creply/board_selectone
     @RequestMapping(value = "/board_selectone", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> BSelectOneGET(
@@ -200,7 +200,7 @@ public class CreplyRestController {
 
     // =======================================================================================
 
-    //127.0.0.1:9090/ROOT/creply/qna_insert
+    //127.0.0.1:9090/ROOT/api/creply/qna_insert
     @RequestMapping(value = "/qna_insert", 
     method = {RequestMethod.POST},
     consumes = {MediaType.ALL_VALUE},
@@ -245,7 +245,7 @@ public class CreplyRestController {
         return map;
     }
 
-    // 127.0.0.1:9090/ROOT/creply/qna_delete
+    // 127.0.0.1:9090/ROOT/api/creply/qna_delete
     // {"bno":3}
     @RequestMapping(value = "/qna_delete", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -286,7 +286,7 @@ public class CreplyRestController {
         return map;
     }
  
-    // 127.0.0.1:9090/ROOT/creply/qna_update
+    // 127.0.0.1:9090/ROOT/api/creply/qna_update
     // 제목, 내용, 번호
     // {"bno":2, "btitle":"222", "bcontent":"222"}
     @RequestMapping(value = "/qna_update", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
@@ -332,7 +332,7 @@ public class CreplyRestController {
     }
 
     // 원본 글번호가 일치하는 댓글 조회
-    // 127.0.0.1:9090/ROOT/creply/qna_selectone
+    // 127.0.0.1:9090/ROOT/api/creply/qna_selectone
     @RequestMapping(value = "/qna_selectone", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> QSelectOneGET(

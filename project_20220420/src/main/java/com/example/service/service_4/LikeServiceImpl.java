@@ -16,6 +16,7 @@ public class LikeServiceImpl implements LikeService{
 
     @Autowired
     LikeRepository lRepository;
+    
     @Autowired 
     EntityManagerFactory emf;
 
@@ -48,7 +49,6 @@ public class LikeServiceImpl implements LikeService{
             em.getTransaction().begin();
 
             for( Like like : list) {
-		
                 em.remove(like);
 			}
             
@@ -61,6 +61,9 @@ public class LikeServiceImpl implements LikeService{
             return 0;
         } 
     }
+
+
+    
 
     @Override
     public int deleteLikeBatch1(Long[] lno) {

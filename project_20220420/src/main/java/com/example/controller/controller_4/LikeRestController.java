@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 import com.example.entity.entity1.Like;
 import com.example.entity.entity1.Member;
 import com.example.entity.entity2.Club;
@@ -14,6 +17,7 @@ import com.example.service.service_4.LikeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/like")
+@RequestMapping(value = "/api/like")
 public class LikeRestController {
 
     @Autowired
@@ -33,6 +37,9 @@ public class LikeRestController {
 
     @Autowired 
     JwtUtil jwtUtil;
+
+    @Autowired 
+    EntityManagerFactory emf;
 
     // -- 찜 추가 -- 
     //127.0.0.1:9090/ROOT/like/insert
@@ -297,6 +304,35 @@ public class LikeRestController {
     //     }
     //     return map;
     // }
+
+
+    //127.0.0.1:9090/ROOT/api/like/deletebatch
+        @RequestMapping(value = "/deletebatch", 
+        method = {RequestMethod.POST},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> deleteBatch2POST(
+        @RequestParam(name = "lno") Long[] lno,
+        @RequestHeader (name = "token") String token ) {
+
+        Map<String, Object> map = new HashMap<>();
+        
+        try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
+            
+            lRepository.deleteByMember_midAndLnoIn(userid, lno);
+            map.put("status", 200); // 성공
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status",0);
+        }
+        return map;
+    }
+
 
 
     
