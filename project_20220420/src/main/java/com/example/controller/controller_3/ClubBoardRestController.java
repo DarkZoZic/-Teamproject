@@ -148,7 +148,7 @@ public class ClubBoardRestController {
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertPOST(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text)
+	public Map<String, Object> selectlistPOST(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 

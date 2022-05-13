@@ -94,8 +94,8 @@ public class CReply {
   @JoinColumn(name = "mid")
   private Member member;
 
-  // 갤러리
-  // @OneToMany(mappedBy = "creply")
-  // @JsonBackReference
-  // private List<ClubGallery> clubGalleryList = new ArrayList<>();
+  // 갤러리 번호
+  @ManyToOne
+  @JoinColumn(name = "cgno")
+  private ClubGallery clubgallery;
 }

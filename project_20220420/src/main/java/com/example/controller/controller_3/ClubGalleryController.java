@@ -55,13 +55,14 @@ public class ClubGalleryController {
 		{
 			System.out.println("cg : " + cg);
 			System.out.println(file.length);
-			cgRep.save(cg);
+			
 			if(file != null) 
 			{
 				if(file.length > 0)// 이미지파일 첨부시
 				{
 					for(int i=0; i<file.length; i++)
 					{
+						cgRep.save(cg);
 						GImage gImage = new GImage();
 						System.out.println("file[i] : " + file[i].getContentType());
 //						cg.setGThumbnail(file[0].getBytes());
@@ -71,6 +72,7 @@ public class ClubGalleryController {
 						gImage.setGimagetype(file[i].getContentType());
 						gImage.setClubgallery(cg);
 						cgiRep.save(gImage);
+						
 //						System.out.println("gImage : " + gImage.getGiImagename().toString());
 					}
 					
@@ -125,15 +127,15 @@ public class ClubGalleryController {
 	{
 		try
 		{
-			// cgno(갤러리번호) 조회해서 giImgcode 찾기
+			// cgno(갤러리번호) 조회해서 gimgcode 찾기
 			long imagecode = cgiRep.selectImageCode(cgno, idx);
 //			System.out.println("imagecode = " + imagecode);
 			
 			// 찾은 giImgcode와 일치하는(해당 갤러리에 등록한) 이미지 찾기
 			GImage gImage = cgiRep.findById(imagecode).orElse(null);
 			
-//			System.out.println("size : " + gImage.getGiImagesize().toString());
-//			System.out.println("length : " + gImage.getGiImage().length);
+//			System.out.println("size : " + gImage.getGimagesize().toString());
+//			System.out.println("length : " + gImage.getGimage().length);
 			HttpHeaders headers = new HttpHeaders();
 			if(gImage.getGimagesize() > 0)
 			{
