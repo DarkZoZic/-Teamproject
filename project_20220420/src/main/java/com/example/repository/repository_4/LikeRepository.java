@@ -2,6 +2,8 @@ package com.example.repository.repository_4;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import com.example.entity.entity1.Like;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +18,10 @@ public interface LikeRepository extends JpaRepository<Like, Long>{
     List<Like> findByMember_midOrderByLnoAsc(String mid);
 
     Long findByLno(Long[] lno);
+
+    // 일괄삭제
+    @Transactional
+    int deleteByMember_midAndLnoIn(String mid, Long[] lno);
 
     
 }

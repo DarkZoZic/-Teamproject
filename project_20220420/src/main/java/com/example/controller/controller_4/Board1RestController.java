@@ -45,7 +45,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping(value = "/board1")
+@RequestMapping(value = "/api/board1")
 public class Board1RestController {
 
     @Autowired 
@@ -75,63 +75,37 @@ public class Board1RestController {
     // global.properties 사용하기. 나중에 숫자 바꾸고 싶은대로 바꾸면 됨
     @Value("${board.page.count}") int PAGECNT;
 
-    //127.0.0.1:9090/ROOT/board1/insert
-    // @RequestMapping(value = "/insert", 
-    //     method = {RequestMethod.POST},
-    //     consumes = {MediaType.ALL_VALUE},
-    //     produces = {MediaType.APPLICATION_JSON_VALUE})
-    // public Map<String, Object> InsertPost(
-    //     @ModelAttribute Board1 board1,
-    //     @RequestHeader (name = "token") String token ) {
-
-    //     Map<String ,Object> map = new HashMap<>();
-
-    //     try{
-    //         // 토큰 추출
-    //         String userid = jwtUtil.extractUsername(token);
-    //         System.out.println("USERNAME ==>" + userid);
-
-    //         Member memberEntity = new Member();
-    //         memberEntity.setMid(userid);
-    //         System.out.println(memberEntity);
-
-    //         board1.setMember(memberEntity);
-    //         System.out.println(board1.toString());
-
-    //         if(token !=null) {
-    //             int ret = b1Service.insertBoard1One(board1);
-    //             System.out.println(board1.toString());
-    //             if(ret == 1){
-    //                 map.put("status", 200); // 성공
-    //                 map.put("result", "등록완료");
-    //             }
-    //         }
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         map.put("status", 0); // 실패
-    //     }
-    //     return map;
-    // }
-
+    //127.0.0.1:9090/ROOT/api/board1/insert
     @RequestMapping(value = "/insert", 
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> InsertPost(
-        @ModelAttribute Board1 board1) {
+        @ModelAttribute Board1 board1,
+        @RequestHeader (name = "token") String token ) {
 
         Map<String ,Object> map = new HashMap<>();
 
         try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
 
-            int ret = b1Service.insertBoard1One(board1);
+            Member memberEntity = new Member();
+            memberEntity.setMid(userid);
+            System.out.println(memberEntity);
+
+            board1.setMember(memberEntity);
             System.out.println(board1.toString());
-            if(ret == 1){
-                map.put("status", 200); // 성공
-                map.put("result", "등록완료");
+
+            if(token !=null) {
+                int ret = b1Service.insertBoard1One(board1);
+                System.out.println(board1.toString());
+                if(ret == 1){
+                    map.put("status", 200); // 성공
+                    map.put("result", "등록완료");
+                }
             }
-            
         }
         catch(Exception e){
             e.printStackTrace();
@@ -140,8 +114,34 @@ public class Board1RestController {
         return map;
     }
 
+    // @RequestMapping(value = "/insert", 
+    //     method = {RequestMethod.POST},
+    //     consumes = {MediaType.ALL_VALUE},
+    //     produces = {MediaType.APPLICATION_JSON_VALUE})
+    // public Map<String, Object> InsertPost(
+    //     @ModelAttribute Board1 board1) {
+
+    //     Map<String ,Object> map = new HashMap<>();
+
+    //     try{
+
+    //         int ret = b1Service.insertBoard1One(board1);
+    //         System.out.println(board1.toString());
+    //         if(ret == 1){
+    //             map.put("status", 200); // 성공
+    //             map.put("result", "등록완료");
+    //         }
+            
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         map.put("status", 0); // 실패
+    //     }
+    //     return map;
+    // }
+
     // ckeditor에서 첨부하는 이미지 보관하는 곳
-    // 127.0.0.1:9090/ROOT/board1/ckimage
+    // 127.0.0.1:9090/ROOT/api/board1/ckimage
     @RequestMapping(value = "/ckimage", 
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
@@ -175,7 +175,7 @@ public class Board1RestController {
         return map;
     }
 
-    // 127.0.0.1:9090/ROOT/board1/image?biimgcode=1
+    // 127.0.0.1:9090/ROOT/api/board1/image?biimgcode=1
     // <img th:src="@{/board1/image(biimgcode=1)}" style="width:100px" />
     @RequestMapping(value = "/image", 
         method = {RequestMethod.GET},
@@ -306,7 +306,7 @@ public class Board1RestController {
     //     return map;
     // }
 
-    // 127.0.0.1:9090/ROOT/board1/delete
+    // 127.0.0.1:9090/ROOT/api/board1/delete
     // {"bno":3}
     @RequestMapping(value = "/delete", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -347,7 +347,7 @@ public class Board1RestController {
         return map;
     }
 
-    // 127.0.0.1:9090/ROOT/board1/update
+    // 127.0.0.1:9090/ROOT/api/board1/update
     // 제목, 내용, 번호
     // {"bno":2, "btitle":"222", "bcontent":"222"}
     @RequestMapping(value = "/update", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
@@ -393,7 +393,7 @@ public class Board1RestController {
         return map;
     }
 
-    // 127.0.0.1:9090/ROOT/board1/selectone?bno=2
+    // 127.0.0.1:9090/ROOT/api/board1/selectone?bno=2
     @RequestMapping(value = "/selectone", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectOneGET(
@@ -420,7 +420,7 @@ public class Board1RestController {
     }
 
     // 게시판 목록(페이지네이션만 있음, 검색x)
-    // 127.0.0.1:9090/ROOT/board1/selectlist?page=1
+    // 127.0.0.1:9090/ROOT/api/board1/selectlist?page=1
     @RequestMapping(value = "/selectlist", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectListGET(
@@ -443,7 +443,7 @@ public class Board1RestController {
     }
 
     // 검색(제목기준) + 페이지네이션
-    // 127.0.0.1:9090/ROOT/board1/search
+    // 127.0.0.1:9090/ROOT/api/board1/search
     @RequestMapping(value = "/search", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> searchGET(
@@ -468,11 +468,9 @@ public class Board1RestController {
         return map;
     }
 
-
-
     ////////////////////////////////////////////////////////////////////
 
-    // 127.0.0.1:9090/ROOT/board1/selectlist1?page=1&btitle=y
+    // 127.0.0.1:9090/ROOT/api/board1/selectlist1?page=1&btitle=y
     @RequestMapping(value = "/selectlist1", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectListGET(
@@ -522,7 +520,7 @@ public class Board1RestController {
 
 
     // 게시물 조회수 1증가 시킴
-    // 127.0.0.1:9090/ROOT/board1/updatehit?bno=2
+    // 127.0.0.1:9090/ROOT/api/board1/updatehit?bno=2
     @RequestMapping(value = "/updatehit", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardUpdateHitGET(
@@ -555,106 +553,124 @@ public class Board1RestController {
 
 
     // 이전글, 다음글
-    @RequestMapping(value = "/prevnext", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
+    // @RequestMapping(value = "/prevnext", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
+    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
+    // public Map<String, Object> prevnextPOST(
+    //     @RequestParam(name = "bno") long bno,
+    //     @RequestParam(name = "btn") String btn,
+    //     @RequestHeader (name = "token")String token){
+
+    //     Map<String ,Object> map = new HashMap<>();
+    //     try{
+    //         if(token != null){
+    //             if(btn.equals("이전글")){
+    //                 Board1 prev = b1Repository.findTop1ByBnoLessThanOrderByBnoDesc(bno);
+    //                 // return "redirect:/board1/selectone?bno=" + prev.getBno();
+    //                 map.put("result", prev);
+                    
+    //             }
+    //             else if(btn.equals("다음글")){
+    //                 Board1 next = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
+    //                 // return "redirect:/board1/selectone?bno=" + next.getBno();
+    //                 map.put("result", next);
+    //             }
+    //             // return "redirect:/board1/selectlist";
+
+    //             map.put("status", 200);
+                
+    //         }
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         map.put("status", 0); // 실패
+    //         // return "redirect:/board1/selectlist";
+    //     }
+    //     return map;
+    // }
+
+    // 이전글
+    // 127.0.0.1:9090/ROOT/api/board1/prev
+    @RequestMapping(value = "/prev", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Map<String, Object> prevnextPOST(
+    public Map<String, Object> prevGET(
         @RequestParam(name = "bno") long bno,
-        @RequestParam(name = "btn") String btn,
         @RequestHeader (name = "token")String token){
 
         Map<String ,Object> map = new HashMap<>();
         try{
             if(token != null){
-                if(btn.equals("이전글")){
-                    Board1 prev = b1Repository.findTop1ByBnoLessThanOrderByBnoDesc(bno);
-                    // return "redirect:/board1/selectone?bno=" + prev.getBno();
-                    
+              
+                Board1 prev = b1Repository.findTop1ByBnoLessThanOrderByBnoDesc(bno);   
+                if(prev.getBno()!=null){
+                    Board1 board1 = b1Repository.findById(prev.getBno()).orElse(null);
+
+                    map.put("result",board1);
+                    map.put("status", 200); // 성공
                 }
-                else if(btn.equals("다음글")){
-                    Board1 next = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
-                    // return "redirect:/board1/selectone?bno=" + next.getBno();
-                }
-                // return "redirect:/board1/selectlist";
                 
             }
         }
         catch(Exception e){
             e.printStackTrace();
             map.put("status", 0); // 실패
-            // return "redirect:/board1/selectlist";
+        }
+        return map;
+    }
+
+    // 다음글
+    // 127.0.0.1:9090/ROOT/api/board1/next
+    @RequestMapping(value = "/next", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
+                    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> nextGET(
+        @RequestParam(name = "bno") long bno,
+        @RequestHeader (name = "token")String token){
+
+        Map<String ,Object> map = new HashMap<>();
+        try{
+            if(token != null){
+
+                Board1 next = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
+                if(next.getBno()!=null){
+                    Board1 board1 = b1Repository.findById(next.getBno()).orElse(null);
+                
+                    map.put("result", board1);
+                    map.put("status", 200); // 성공
+
+                }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
         }
         return map;
     }
 
     // 일괄삭제
-    // 127.0.0.1:9090/ROOT/board1/deletebatch
-    // @RequestMapping(value = "/deletebatch", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
-    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
-    // public Map<String, Object> deleteBatch(
-    //     @RequestParam(name = "bNo") Long[] bNo,
-    //     @RequestHeader (name = "token")String token){
+    // 127.0.0.1:9090/ROOT/api/board1/deletebatch
+    @RequestMapping(value = "/deletebatch", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
+                    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> deleteBatch(
+        @RequestParam(name = "bno") Long[] bno,
+        @RequestHeader (name = "token")String token){
 
-    //     Map<String ,Object> map = new HashMap<>();
-    //     try{
-    //         // 토큰 추출
-    //         String userid = jwtUtil.extractUsername(token);
-    //         System.out.println("USERNAME ==>" + userid);
+        Map<String ,Object> map = new HashMap<>();
+        try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
 
-
-    //         // Board1 board = b1Repository.getById(board1.getBNo());
-
-    //         Board1 board = b1Repository.
-    //         System.out.println(board.toString());
-
-    //         System.out.println("번호" + board1.getBNo());
-
-    //         if(userid.equals( bNo.getMember().getMId() )){
-    //             // 삭제
-    //             b1Service.deleteBoard1Batch(bNo);
-    //             map.put("status", 200); // 성공
-                
-    //         }
-    //         else if (!userid.equals( board.getMember().getMId() )){
-    //             map.put("status", 0); 
-    //         }
-           
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         map.put("status", -1); // 실패
-    //     }
-    //     return map;
-    // }
-
-    // 일괄 수정, 삭제
-    // @GetMapping(value = "/deleteupdatebatch")
-    // public String deleteupdatebatchGET(
-    //     Model model,
-    //     @RequestParam(name = "btn") String btn,
-    //     @RequestParam(name = "no") Long[] no  ){
-    //         // 버튼(btn)이랑 체크박스(no) 받기
-
-    //     System.out.println(btn);
-    //     System.out.println(no[0]);
-    //     if(btn.equals("일괄수정")){
-
-    //         List<ItemEntity> list = iService.selectItemEntityIn(no);
-    //         model.addAttribute("list", list);
-            
-    //         return "/seller/updateitem_batch";
-
-    //     }
-    //     else if(btn.equals("일괄삭제")){
-
-    //        iService.deleteItemBatch(no);
-    //     }
-
-    //     return "redirect:/seller/home";
-
-    // }
+            b1Repository.deleteByMember_midAndBnoIn(userid, bno);
+            map.put("status", 200); // 성공
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
 
    
-
 
     
 }

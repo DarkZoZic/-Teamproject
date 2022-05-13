@@ -2,6 +2,8 @@ package com.example.repository.repository_4;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import com.example.entity.entity1.Member;
 import com.example.entity.entity2.Board1;
 
@@ -45,6 +47,9 @@ public interface Board1Repository extends JpaRepository<Board1, Long> {
     // 글목록
     List<Board1> findAllByOrderByBnoDesc(Pageable pageable);
     
+    // 일괄삭제
+    @Transactional
+    int deleteByMember_midAndBnoIn(String mid, Long[] bno);
 
 
 }
