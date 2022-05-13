@@ -1,4 +1,5 @@
 <template>
+<div>
 <HeaderVue style="height: 220px;"></HeaderVue>
     <v-app>
         <v-main style="padding: 10px;">
@@ -208,6 +209,7 @@
         </v-main>
     </v-app>
     <FooterVue></FooterVue>
+</div>
 </template>
 
 <script>

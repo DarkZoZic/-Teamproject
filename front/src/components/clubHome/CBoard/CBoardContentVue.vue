@@ -1,4 +1,5 @@
 <template>
+<div>
 <CHHeaderVue style="height: 150px;"></CHHeaderVue>
   <v-app>
     <v-main style="padding: 10px;" >      
@@ -193,7 +194,7 @@
       </v-row>
     </v-main>
   </v-app>
-
+</div>
 </template>
 
 <script>

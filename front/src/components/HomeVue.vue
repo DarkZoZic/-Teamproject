@@ -1,4 +1,5 @@
 <template>
+<div>
 <HeaderVue style="height: 220px;"></HeaderVue>
     <v-app id="inspire"> 
         <!-- 메인 리스트 -->
@@ -244,6 +245,7 @@
         </v-main>
     </v-app>
     <FooterVue></FooterVue>
+    </div>
 </template>
 
 <script>
