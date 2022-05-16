@@ -35,6 +35,9 @@ public class ClubGallery {
   // 갤러리설명
   @Column(name = "CGDESC")
   private String cgdesc;
+  //조회수(기본값 = 0)
+  @Column(name="CGHIT")
+  private Long cghit = 0L;
   // 등록일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 @CreationTimestamp // CURRENT_DATE
