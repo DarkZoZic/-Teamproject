@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { reactive } from '@vue/reactivity';
 import FooterVue from '../../components/FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
 
@@ -39,7 +40,7 @@ export default {
     components: { HeaderVue, FooterVue },
     setup () {
         const state = reactive({
-
+          
         })
 
         return { state }

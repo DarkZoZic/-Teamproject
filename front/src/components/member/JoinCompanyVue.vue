@@ -814,8 +814,8 @@ export default {
       ],
       
       birthcompanyRules: [
-        v => v.length >= 8 || '10자리 숫자만 입력하세요',
-        v => v.length <= 8 || '10자리 숫자만 입력하세요',
+        v => v.length >= 8 || '8자리 숫자만 입력하세요',
+        v => v.length <= 8 || '8자리 숫자만 입력하세요',
       ],
 
       nameRules: [
