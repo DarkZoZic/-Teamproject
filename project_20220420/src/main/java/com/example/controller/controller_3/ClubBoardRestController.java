@@ -145,12 +145,13 @@ public class ClubBoardRestController {
 	
 	
 	// 클럽게시판 글목록 (페이지, 검색 기능)
-	// /ROOT/api/clubboard/selectlist
+	// /ROOT/api/clubboard/selectlist?page=&text=&items= // page = 페이지, text = 검색어, items = 검색기준(제목, 내용, 글쓴이, 전체)
 	@RequestMapping(value="/selectlist", 
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> selectlistPOST(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text)
+	public Map<String, Object> selectlistPOST(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text,
+			@RequestParam(name="option", defaultValue="") String option)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
@@ -159,9 +160,37 @@ public class ClubBoardRestController {
 			PageRequest pageRequest = PageRequest.of(page-1, 20); 
 			System.out.println(pageRequest);
 			
-			//검색어 포함, 1페이지 20글, 글번호 내림차순
-			List<ClubBoard> list = cbRep.findByCbtitleContainingOrderByCbnoDesc(text, pageRequest);
-			model.addAttribute("list", list);
+			if(!text.equals(""))
+			{
+				if(option.equals("제목"))
+				{
+					//검색어 포함, 1페이지 20글, 글번호 내림차순
+					List<ClubBoard> list = cbRep.findByCbtitleContainingOrderByCbnoDesc(text, pageRequest);
+					model.addAttribute("list", list);
+				}
+				else if(option.equals("내용"))
+				{
+					List<ClubBoard> list = cbRep.findByCbcontentContainingOrderByCbnoDesc(text, pageRequest);
+					model.addAttribute("list", list);
+				}
+				else if(option.equals("글쓴이"))
+				{
+					List<ClubBoard> list = cbRep.findByMember_mnameContainingOrderByCbnoDesc(text, pageRequest);
+					model.addAttribute("list", list);
+				}
+				else if(option.equals("전체"))
+				{
+					List<ClubBoard> list = cbRep.findByAllOptions(text, pageRequest);
+					model.addAttribute("list", list);
+				}
+			}
+			
+			else
+			{
+				List<ClubBoard> list = cbRep.findAll();
+				model.addAttribute("list", list);
+			}
+			
 //			System.out.println(list.toString());
 			
 			//페이지네이션 구현용 글 개수 가져와서 model에 넣기
@@ -325,7 +354,7 @@ public class ClubBoardRestController {
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertPOST(@RequestBody CReply cr, @RequestParam(name="cbno") long cbno)
+	public Map<String, Object> insertrepPOST(@RequestBody CReply cr, @RequestParam(name="cbno") long cbno)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
@@ -341,6 +370,30 @@ public class ClubBoardRestController {
 		}
 		return map;
 	}
+	
+	// 클럽게시판 대댓글 작성 //미완성
+	// /ROOT/api/clubboard/insertrereply?cbno=
+//	@RequestMapping(value="/insertrereply", 
+//			method={RequestMethod.POST}, 
+//			consumes = {MediaType.ALL_VALUE},
+//			produces= {MediaType.APPLICATION_JSON_VALUE})
+//	public Map<String, Object> insertrerepPOST(@RequestBody CReply cr, @RequestParam(name="cbno") long cbno)
+//	{
+//		Map<String, Object> map = new HashMap<>();
+//		try 
+//		{
+//			ClubBoard cb = cbRep.findById(cbno).orElse(null);
+//			cr.setClubboard(cb); // 댓글 작성한 글의 번호 저장
+//			crRep.save(cr);
+//			map.put("status", 200);
+//		}
+//		catch (Exception e)
+//		{
+//			map.put("status", 0);
+//		}
+//		return map;
+//	}
+	
 	
 	// 클럽게시판 댓글삭제
 	// /ROOT/api/clubboard/deletereply

@@ -1,5 +1,4 @@
 <template>
-<div>
 <HeaderVue style="height: 220px;"></HeaderVue>
     <v-app>
         <v-main style="padding: 10px;">      
@@ -25,6 +24,7 @@
                             <v-file-input
                             multiple
                             label="File input"
+                            @change="insertimage($event)"
                             ></v-file-input>
                         </v-col>
                     </v-row>
@@ -49,7 +49,6 @@
         </v-main>
     </v-app>
     <FooterVue></FooterVue>
-</div>
 </template>
 
 <script>
@@ -61,14 +60,38 @@ export default {
     components: { HeaderVue, FooterVue },
     setup () {
         const state = reactive({
-            galleryName: '일상갤러리'
+            galleryName: '일상갤러리',
+            imageFile : [],
+            imageUrl : ''
         })
 
-        const upload = () => {
-
+        const insertimage = (e) =>
+        {
+            if(e.target.files.length > 0)
+            {
+                for(let i=0; i<e.target.files.length; i++)
+                {
+                    state.imageUrl[i] = URL.createObjectURL(e.target.files[i]);
+                    state.imageFile[i] = e.target.files[i];
+                }
+            }
+            else
+            {
+                state.imageUrl = null;
+                state.imageFile = null;
+            }
         }
 
-        return { state, upload }
+        const upload = async() => {
+            const url = `/ROOT/api/clubgallery/insert`;
+            const headers = {"Content-Type":"multipart/form-data"};
+            const body = new FormData();
+            body.append("file", state.imageFile);
+            const response = await axios.post(url, body, {headers});
+            console.log(response.data);
+        }
+
+        return { state, upload, insertimage }
     }
 }
 </script>

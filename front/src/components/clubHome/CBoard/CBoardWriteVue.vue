@@ -1,5 +1,4 @@
 <template>
-<div>
 <CHHeaderVue style="height: 150px;"></CHHeaderVue>
     <v-app>
         <v-main style="padding: 10px;">
@@ -77,7 +76,8 @@
                                                 </v-col>
 
                                                 <v-col sm="8" style="display: flex; align-items: center;">
-                                                    <input type="file">
+                                                    <img :src="state.imageUrl" style="width:200px;" />
+                                                    <input type="file" @change="insertFile($event)">
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -115,10 +115,10 @@
         </v-main>
     </v-app>
     <FooterVue></FooterVue>
-</div>
 </template>
 
 <script>
+import axios from 'axios';
 import FooterVue     from '../../FooterVue.vue';
 import CHHeaderVue  from '../CHHeaderVue.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -138,7 +138,9 @@ export default {
             title      : 'asdf',
             editor     : ClassicEditor, // ckeditor종류
             editorData : '',
-            boardname  : '자유게시판'
+            boardname  : '자유게시판',
+            imageFile  : '',
+            imageUrl   : ''
         })
 
         const onReady = ( editor ) => {
@@ -155,15 +157,42 @@ export default {
         
         const handleCancel = async() => {
             if (confirm('정말 취소하시겠습니까?') == true) {
-                router.push({ name: "BoardListVue"});
+                router.push({ name: "CBoardListVue"});
             }
         }
 
         const write = async() => {
+            const url = `/ROOT/api/clubboard/insert`;
+            const headers = {"Content-Type" : "multipart/form-data"};
+            const body = new FormData();
+            body.append("cbtitle", state.title);
+            body.append("cbcontent", state.editorData);
+            body.append("file", state.imageFile);
 
+            const response = await axios.post(url, body, {headers});
+            console.log(response.data);
+            if(response.data.status === 200)
+            {
+                alert("작성되었습니다.");
+                router.push({name: "CBoardListVue"});
+            }
         }
 
-        return { state, onReady, handleCancel, write }
+        const insertFile = (e) =>
+        {
+            if(e.target.files[0])
+            {
+                state.imageUrl = URL.createObjectURL(e.target.files[0]);
+                state.imageFile = e.target.files[0];
+            }
+            else
+            {
+                state.imageUrl = null;
+                state.imageFile = null;
+            }
+        }
+
+        return { state, onReady, handleCancel, write, insertFile }
     },
 }
 </script>

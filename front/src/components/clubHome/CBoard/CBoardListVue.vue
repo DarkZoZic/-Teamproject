@@ -1,5 +1,4 @@
 <template>
-<div>
 <CHHeaderVue style="height: 150px;"></CHHeaderVue>
     <v-app>
         <v-main style="padding: 10px;">      
@@ -15,13 +14,13 @@
 
                     <v-row dense style="padding-top: 10px; padding-bottom: 5px; padding-left: 10px; ">
                         <v-col class="col_left">
-                            <h2>자유게시판</h2>
+                            <h2>클럽게시판</h2>
                         </v-col>
 
                         <v-col md="8" class="col_right">
                             <v-flex class="select">
-                                <v-select variant="outlined" density="compact" :items="state.items" style="height: 40px;"></v-select>
-                            </v-flex>                            
+                                <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px;" ></v-select>
+                            </v-flex>                        
                             <input type="text" class="board_search_box" style="outline-width: 0;" v-model="state.search">
                             <v-btn style="height: 40px;" @click="search"><h4>검색</h4></v-btn>
                             <router-link to="/cbwrite">
@@ -48,7 +47,7 @@
                                 <tbody>
                                     <tr
                                         v-for="item in state.notice"
-                                        :key="item.no"
+                                        :key="item.cbno"
                                     >
                                         <td style="background-color: gold;"><h4>{{ item.no }}</h4></td>
                                         <td style="background-color: gold;"><router-link to="/cbcontent">{{ item.title }}</router-link></td>
@@ -61,11 +60,11 @@
                                         v-for="item in state.board"
                                         :key="item.no"
                                     >
-                                        <td>{{ item.no }}</td>
-                                        <td><router-link to="/cbcontent">{{ item.title }}</router-link></td>
-                                        <td>{{ item.writer }}</td>
-                                        <td>{{ item.date }}</td>
-                                        <td>{{ item.hit }}</td>
+                                        <td>{{ item.cbno }}</td>
+                                        <td @click="selectContent(item.cbno)" style="cursor:pointer;">{{ item.cbtitle }}</td>
+                                        <td>{{ item.cbwriter }}</td>
+                                        <td>{{ item.cbregdate }}</td>
+                                        <td>{{ item.cbhit }}</td>
                                         <td>{{ item.like }}</td>
                                     </tr>
                                 </tbody>
@@ -80,7 +79,7 @@
                 <v-col>
                     <v-pagination
                     v-model="state.page"
-                    :length="6"
+                    :length="state.page"
                     ></v-pagination>
                 </v-col>
             </v-row>
@@ -88,17 +87,21 @@
         </v-main>
     </v-app>
     <FooterVue></FooterVue>
-</div>
 </template>
 
 <script>
+import axios from 'axios';
 import { reactive } from '@vue/reactivity';
 import CHHeaderVue  from '../CHHeaderVue.vue';
 import FooterVue    from '../../FooterVue.vue';
+import { onMounted } from '@vue/runtime-core';
+import { useRouter } from 'vue-router';
 
 export default {
   components: { CHHeaderVue, FooterVue },
     setup () {
+        const router = useRouter();
+
         const state = reactive({
             board: [
                 {
@@ -141,18 +144,45 @@ export default {
             boardname: '자유게시판',
             items: [
                 '전체', '제목', '내용', '글쓴이'
-            ]
+            ],
+            option : '전체'
         })
 
-        const content = () => {
-            state.board = [];
+        const content = async() => {
+            const url = `/ROOT/api/clubboard/selectlist`;
+            const headers = {"Content-Type":"application/json"};
+            const response = await axios.get(url, {headers});
+            console.log(response.data.result);
+            if(response.data.status === 200)
+            {
+                state.board = response.data.result.list;
+                state.page = response.data.result.pages;
+            }
         }   
 
-        const search = async() => {
-
+        const selectContent = (cbno) =>
+        {
+            router.push({name:"CBoardContentVue", query:{cbno:cbno}});
         }
 
-        return { state, search, content }
+        const search = async() => {
+            const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&text=${state.search}&option=${state.option}`;
+            const headers = {"Content-Type":"application/json"};
+            const response = await axios.get(url, {headers});
+            console.log(response.data.result);
+            if(response.data.status === 200)
+            {
+                state.board = response.data.result.list;
+                state.page = response.data.result.pages;
+            }
+        }
+
+        onMounted(() =>
+        {
+            content();
+        });
+
+        return { state, search, selectContent}
     },
 }
 </script>

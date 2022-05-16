@@ -64,9 +64,9 @@ public class ClubGalleryRestController {
 			{
 				if(file.length > 0)// 이미지파일 첨부시
 				{
+					cgRep.save(cg);
 					for(int i=0; i<file.length; i++)
 					{
-						cgRep.save(cg);
 						GImage gImage = new GImage();
 						System.out.println("file[i] : " + file[i].getContentType());
 //						cg.setGThumbnail(file[0].getBytes());

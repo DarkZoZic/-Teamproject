@@ -1,5 +1,4 @@
 <template>
-<div>
 <CHHeaderVue style="height: 150px;"></CHHeaderVue>
   <v-app>
     <v-main style="padding: 10px;" >      
@@ -52,7 +51,7 @@
 
           <v-row dense>
             <v-col style="display: flex; padding-top: 10px; padding-left: 10px;" class="col_left">
-              <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{state.reply.count}}</h5><h5>개</h5>
+              <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{state.reply.length}}</h5><h5>개</h5>
             </v-col>
           </v-row>
 
@@ -62,39 +61,16 @@
             <v-col style="border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; padding-left: 20px; padding-right: 20px;">
 
               <!-- 댓글하나 -->
-              <v-row dense style="padding-top: 10px;">
+
+              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="tmp in state.reply" :key="tmp">
                 <v-col>
                   <!-- 댓글작성자 -->
                   <v-row dense>
                     <v-col class="col_left">
-                      <h5 style="padding-right: 10px;">{{state.reply.writer}}</h5> 
-                      <h5 style="color: #676767;">{{state.reply.date}}</h5>
+                      <h5 style="padding-right: 10px;">{{tmp.writer}}</h5> 
+                      <h5 style="color: #676767;">{{tmp.reregdate}}</h5>
                       <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
-                      <h5 style="color: #676767;">{{state.like}}</h5>
-
-                      <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
-                    </v-col>
-                  </v-row>
-
-                  <!-- 댓글내용 -->
-                  <v-row dense>
-                    <v-col style="border-bottom: 1px solid #CCC;">
-                      <h4 style="padding-left: 10px;">{{state.reply.content}}</h4>
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
-
-              <!-- 댓글하나 -->
-              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;">
-                <v-col>
-                  <!-- 댓글작성자 -->
-                  <v-row dense>
-                    <v-col class="col_left">
-                      <h5 style="padding-right: 10px;">{{state.reply.writer}}</h5> 
-                      <h5 style="color: #676767;">{{state.reply.date}}</h5>
-                      <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
-                      <h5 style="color: #676767;">{{state.like}}</h5>
+                      <h5 style="color: #676767;">{{tmp.like}}</h5>
                       <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
                     </v-col>
                   </v-row>
@@ -102,17 +78,17 @@
                   <!-- 댓글내용 -->
                   <v-row dense style="padding-right: 10px;">
                     <v-col>
-                      <h4 style="padding-left: 10px; padding-right: 10px;">{{state.reply.content}}</h4>
+                      <h4 style="padding-left: 10px; padding-right: 10px;">{{tmp.recontent}}</h4>
                     </v-col>
                   </v-row>
 
                   <!-- 대댓글. 대댓글이 있으면 테두리가 없게 하는게 가능한가? -->
-                  <v-row dense style="padding-left: 10px;">
+                  <v-row dense style="padding-left: 10px;" v-if="tmp.reparentnumber !== null">
                     <v-col>
                       <v-row dense>
                         <v-col style="display: flex">
                           <img :src="require('../../../assets/img/reply.png')" style="margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
-                          <!-- 댓글작성자 -->
+                          
                           <v-row dense>
                             <v-col class="col_left">
                               <h5 style="padding-right: 10px;">{{state.reply.writer1}}</h5> 
@@ -126,35 +102,11 @@
                         </v-col>
                       </v-row>
 
-                      <!-- 댓글내용 -->
                       <v-row dense style="padding-right: 10px;">
                         <v-col>
-                          <h4 style="padding-left: 30px;">{{state.reply.content1}}</h4>
+                          <h4 style="padding-left: 30px;">{{state.reply.content}}</h4>
                         </v-col>
                       </v-row>
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
-
-              <!-- 댓글하나 -->
-              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;">
-                <v-col>
-                  <!-- 댓글작성자 -->
-                  <v-row dense>
-                    <v-col class="col_left">
-                      <h5 style="padding-right: 10px;">{{state.reply.writer}}</h5> 
-                      <h5 style="color: #676767;">{{state.reply.date}}</h5>
-                      <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
-                      <h5 style="color: #676767;">{{state.like}}</h5>
-                      <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
-                    </v-col>
-                  </v-row>
-
-                  <!-- 댓글내용 -->
-                  <v-row dense style="padding-right: 10px;">
-                    <v-col>
-                      <h4 style="padding-left: 10px;">{{state.reply.content}}</h4>
                     </v-col>
                   </v-row>
                 </v-col>
@@ -169,7 +121,7 @@
                 </v-col>
                 
                 <v-col sm="1" style="padding: 10px;" class="col_center">
-                  <v-btn style="width: 100%; height:69px; border: 1px solid #CCC;"><h4>댓글작성</h4></v-btn>
+                  <v-btn style="width: 100%; height:69px; border: 1px solid #CCC;" @click="insertreply"><h4>댓글작성</h4></v-btn>
                 </v-col>
               </v-row>
             </v-col>
@@ -194,19 +146,25 @@
       </v-row>
     </v-main>
   </v-app>
-</div>
+
 </template>
 
 <script>
 import { reactive } from '@vue/reactivity';
 import FooterVue    from '../../FooterVue.vue';
 import CHHeaderVue  from '../CHHeaderVue.vue';
+import { useRoute, useRouter } from 'vue-router';
+import axios from 'axios';
+import { onMounted } from '@vue/runtime-core';
 
 export default {
   components: { CHHeaderVue, FooterVue },
   setup () {
+    const route = useRoute();
+    const router = useRouter(); 
 
     const state = reactive({
+      cbno : route.query.cbno,
       title: '글제목입니다',
       writer: '작성자입니다',
       hit: 11,
@@ -216,17 +174,23 @@ export default {
       date: '2022-05-02 22:01',
       replycontent: '',
 
-      reply: {
-        count: 3,
-        writer: '핑키프라미쑤',
-        date: '2022-05-04 15:44',
-        content: 'ㄹㅇㅋㅋ',
-
-        writer1: '어썰트기어',
-        date1: '2022-05-05 15:44',
-        content1: '222',  
-      }
+      reply: [],
+      rereply : []
     })
+
+    const content = async() =>
+    {
+      const url = `/ROOT/api/clubboard/select?cbno=${state.cbno}`;
+      const headers = {"Content-Type":"application/json"};
+      const response = await axios.get(url, {headers});
+      console.log(response.data.result);
+      if(response.data.status === 200)
+      {
+        state.title = response.data.result.clubboard.cbtitle;
+        state.content = response.data.result.clubboard.cbcontent;
+        state.reply = response.data.result.replylist;
+      }
+    }
 
     const like = async() => {
 
@@ -236,11 +200,29 @@ export default {
 
     }
 
-    const reply = async() => {
-
+    const insertreply = async() => {
+      const url = `/ROOT/api/clubboard/insertreply?cbno=${state.cbno}`;
+      const headers = {"Content-Type":"application/json"};
+      const body = 
+      {
+        recontent : state.replycontent
+      };
+      const response = await axios.post(url, body, {headers});
+      console.log(response.data);
+      if(response.data.status === 200)
+      {
+        router.push({name:'CBoardContentVue', query:{cbno:cbno}});
+      }
     }
 
-    return { state, like, replylike, reply }
+    
+
+    onMounted(() =>
+    {
+      content();
+    });
+
+    return { state, like, replylike, insertreply }
   }
 }
 </script>
