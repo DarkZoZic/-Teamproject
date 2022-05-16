@@ -676,7 +676,7 @@ Top
             <v-col sm="4">
               <v-row dense>
                 <v-btn @click="handleJoin" style="width: 100%; height: 80px; background-color: #5d00ff;">
-                  <h2>기업회원가입</h2>
+                  <h2 style="color: white;">기업회원가입</h2>
                 </v-btn>
               </v-row>
             </v-col>
