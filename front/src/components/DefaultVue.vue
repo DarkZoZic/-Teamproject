@@ -5,10 +5,10 @@
     <v-main style="padding: 10px;">      
       <v-row dense>
         <!-- 사이드 -->
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
         
         <!-- 메인 -->
-        <v-col md="8" style="border-bottom: 1px solid #CCC;">
+        <v-col sm="8" style="border-bottom: 1px solid #CCC;">
           <v-row dense="" style="border-bottom: 1px solid #CCC;">
             <v-col sm="6">
               <h5><router-link to="/">홈</router-link> > <router-link to="/h">고객센터</router-link> > 회원탈퇴</h5>
@@ -23,7 +23,7 @@
         </v-col>
 
         <!-- 사이드 -->
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
       </v-row>
     </v-main>
   </v-app>
