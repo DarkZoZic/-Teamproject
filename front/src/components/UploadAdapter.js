@@ -25,7 +25,7 @@ export default class UploadAdapter {
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
 
-        xhr.open( 'POST', '/board/ckeditor_image', true );
+        xhr.open( 'POST', '/ROOT/api/board1/ckimage', true );
         xhr.responseType = 'json';
     }
 

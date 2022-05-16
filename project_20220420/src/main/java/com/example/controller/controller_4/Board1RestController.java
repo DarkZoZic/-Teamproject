@@ -169,7 +169,7 @@ public class Board1RestController {
             bcRepository.save(bckeditor);
 
             map.put("status", 200);
-            map.put("url", "/ROOT/board1/image?biimgcode=" + bckeditor.getBcimgcode() ); // url 보내기
+            map.put("url", "/ROOT/api/board1/image?biimgcode=" + bckeditor.getBcimgcode() ); // url 보내기
 
         }
         catch(Exception e){

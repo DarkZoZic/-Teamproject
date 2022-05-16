@@ -108,10 +108,12 @@ public class QnaRestController {
         Map<String ,Object> map = new HashMap<>();
         try{
             PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
+            long total = qRepository.count();
             List<Qna> qList = qRepository.findAllByOrderByQnoDesc(pageRequest);
             // System.out.println(qList);
             map.put("status", 200); // 성공
             map.put("result", qList);
+            map.put("result1", total);
 
         }
         catch(Exception e){

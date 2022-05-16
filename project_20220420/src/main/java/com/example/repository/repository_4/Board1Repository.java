@@ -43,6 +43,15 @@ public interface Board1Repository extends JpaRepository<Board1, Long> {
 
     // 검색(글제목 기준) + 글번호 내림차순 페이지네이션
     List<Board1> findByBtitleContainingOrderByBnoDesc(String btitle, Pageable pageable);
+
+    // 검색(내용) + 글번호 내림차순 페이지네이션
+    List<Board1> findByBcontentContainingOrderByBnoDesc(String bcontent, Pageable pageable);
+    
+    // 검색(작성자) + 글번호 내림차순 페이지네이션
+    List<Board1> findByMember_midContainingOrderByBnoDesc(String mid, Pageable pageable);
+
+    // 검색(제목, 내용, 작성자) + 글번호 내림차순 페이지네이션
+    List<Board1> findByBcontentOrMember_midOrBtitleContainingOrderByBnoDesc(String btitle, String bcontent, String mid, Pageable pageable);
     
     // 글목록
     List<Board1> findAllByOrderByBnoDesc(Pageable pageable);
@@ -50,6 +59,8 @@ public interface Board1Repository extends JpaRepository<Board1, Long> {
     // 일괄삭제
     @Transactional
     int deleteByMember_midAndBnoIn(String mid, Long[] bno);
+
+  
 
 
 }
