@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import com.example.entity.entity1.Member;
+import com.example.entity.entity1.Reaction;
 import com.example.entity.entity2.BImage;
 import com.example.entity.entity2.Bckeditor;
 import com.example.entity.entity2.Board1;
@@ -17,6 +18,7 @@ import com.example.jwt.JwtUtil;
 import com.example.repository.repository_4.BckeditorRepository;
 import com.example.repository.repository_4.Board1ImageRepository;
 import com.example.repository.repository_4.Board1Repository;
+import com.example.repository.repository_gibum.ReactionRepository;
 import com.example.service.UserDetailsServiceImpl;
 import com.example.service.service_4.Board1Service;
 
@@ -47,6 +49,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping(value = "/api/board1")
 public class Board1RestController {
+    
+    @Autowired ReactionRepository rRepository;
 
     @Autowired 
     Board1Repository b1Repository;
@@ -433,6 +437,10 @@ public class Board1RestController {
             long total = b1Repository.count();
             // System.out.println(total);
             List<Board1> bList = b1Repository.findAllByOrderByBnoDesc(pageRequest);
+            for(int i =0;i<bList.size();i++){
+                List<Reaction> reaction = rRepository.findByReaction_B_no(bList.get(i).getBno());
+                bList.get(i).setBlike(reaction.size());
+            }
             // System.out.println(bList);
             map.put("status", 200); // 성공
             map.put("result", bList);

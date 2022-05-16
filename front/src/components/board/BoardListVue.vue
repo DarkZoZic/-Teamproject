@@ -1,6 +1,7 @@
 <template>
 <div>
                 <div v-if="state.items">
+                
 <HeaderVue style="height: 220px;"></HeaderVue>
     <v-app>
         <v-main style="padding: 10px;">      
@@ -63,19 +64,24 @@
                 <v-col md="2">
                 </v-col>
             </v-row>
-
             <v-row dense>
                 <v-col>
-                     <!-- <button v-for="tmp in state.total" :key="tmp"
-                    @click="handlePagenation(tmp)">
-                    {{tmp}}
-                </button> -->
-                    <v-pagination
+                     
+                    <!-- <v-pagination
                     v-for="tmp in state.total" :key="tmp"
                     @click="handlePagenation(tmp)">
-                    {{tmp}}</v-pagination>
+                    </v-pagination> -->
+                     <v-pagination
+                     v-model="state.page"
+                    :length="state.total" 
+                    @click="handlePagenation()"
+                    >
+                    </v-pagination>
+                     <!-- <next-icon @click="handjo(tmp)">
+                     </next-icon> -->
                      <!-- <v-pagination
                     v-for="tmp in state.total" :key="tmp"
+                    :length="tmp"
                     @click="handlePagenation(tmp)">
                     </v-pagination> -->
 
@@ -104,18 +110,20 @@ export default {
             handleData();
         });
          const state = reactive({
-             mid : '',
-             text: '',
-             page: 1,
+             pa : 1,
+             text: '',  // 검색어
+             page: 1,   // 현재페이지
             items1: [
                  '전체', '제목', '내용', '글쓴이'
              ]
  
          })
+         
 
-          const handlePagenation = (tmp) => {
-            state.page++;
-            state.total = Number(tmp);
+          const handlePagenation = () => {
+            state.page = state.page;
+            // state.total = Number(tmp);
+            
             console.log(state.page);
             handleData();
         }
@@ -127,10 +135,13 @@ export default {
             console.log(response.data);
             if(response.data.status === 200){
             state.items = response.data.result
-            console.log(response.data.result);
-            // 1~10  => 1page  => Math.floor((page-1)/10+1)
-            // 11~20 => 2page
-            state.total = Math.floor((state.page-1)/10+1);
+            // for(var i = 0; i<state.items.length; i++){
+            //     const url1 = `ROOT/reaction/likelist.json?bno=${state.items[i].bno}`;
+            //     const headers1 = {"Content-Type":"application/json"};
+            //     const response1 = await axios.get(url1, {headers1}); 
+            //     state.items[i].blike = response1.data.result
+            // }
+            state.total = Math.floor(((response.data.result1)-1)/10+1);
             console.log(state.total);
             }
         };
@@ -146,7 +157,15 @@ export default {
             }
         }
 
-        return { state,search,handlePagenation }
+        const like = async() => {
+            const url = `ROOT/reaction/likelist.json?bno=1`;
+            const headers = {"Content-Type":"application/json"};
+            const response = await axios.get(url, {headers}); 
+            console.log(response.data);
+            handleData();
+        }
+
+        return { state,search,handlePagenation,like }
     },
 }
 </script>

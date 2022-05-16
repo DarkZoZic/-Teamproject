@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.example.entity.entity2.Board1;
 import com.example.entity.entity2.CReply;
@@ -63,6 +64,9 @@ public class Reaction {
   @ManyToOne
   @JoinColumn(name = "renumber")
   private CReply creply;
+
+
+  
   // 댓글
   // @OneToMany(mappedBy = "reaction")
   // @JsonBackReference

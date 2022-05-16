@@ -14,6 +14,7 @@ import com.example.repository.repository_gibum.ReactionRepository;
 import com.example.service.service_2.ReactionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -269,10 +270,11 @@ try {
     consumes = { MediaType.ALL_VALUE },
     produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> likelistPost(
-    @RequestBody Board1 board){
+    @Param(value = "bno")long bno){
         Map<String, Object> map = new HashMap<>();
     try {
-        long bno = board.getBno();
+        // Board1 board = new Board1();
+        // bno = board.getBno();
         System.out.println(bno);
         List<Reaction> reaction = rRepository.findByReaction_B_no(bno);
         System.out.println(reaction.size());

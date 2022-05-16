@@ -14,12 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.example.entity.entity1.Member;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -70,11 +70,15 @@ public class Board1 {
   // 임시변수
   @Transient
   private String bimageurl;
-
+  
+  @Transient
+  private long blike;
+  
   // 회원
   @ManyToOne
   @JoinColumn(name = "mid")
   private Member member;
+
 
   // 게시판이미지
   // @OneToMany(mappedBy = "board1")
