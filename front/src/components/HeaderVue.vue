@@ -84,27 +84,27 @@
                     </v-tab>
                   </router-link>
 
-                  <v-tab value="1" class="tab_menu">
+                  <v-tab value="1" class="tab_menu" disabled>
                     <h3>인기클럽</h3>
                   </v-tab>
 
-                  <v-tab value="2" class="tab_menu">
+                  <v-tab value="2" class="tab_menu" disabled>
                     <h3>클럽홍보</h3>
                   </v-tab>
 
-                  <v-tab value="3" class="tab_menu">
+                  <v-tab value="3" class="tab_menu" disabled>
                     <h3>클럽랭킹</h3>
                   </v-tab>
 
-                  <v-tab value="4" class="tab_menu">
+                  <v-tab value="4" class="tab_menu" disabled>
                     <h3>클럽샵</h3>
                   </v-tab>
 
-                  <v-tab value="5" class="tab_menu">
+                  <v-tab value="5" class="tab_menu" disabled>
                     <h3>페이지소개</h3>
                   </v-tab>
 
-                  <v-tab value="6" class="tab_menu">
+                  <v-tab value="6" class="tab_menu" disabled>
                     <h3>채팅</h3>
                   </v-tab>                                    
 

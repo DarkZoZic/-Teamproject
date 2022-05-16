@@ -64,7 +64,7 @@
           <!-- 자주묻는질문 -->
           <v-row dense style="padding-top: 10px;">
             <v-col>
-              <v-row dense >
+              <v-row dense>
                 <!-- 개인 -->
                 <v-col sm="6" style="padding-right: 10px; border: 1px solid #CCC;">
                   <v-row dense style=" padding: 10px;">
@@ -73,39 +73,91 @@
                     </v-col>
                   </v-row>
 
-                  <v-row dense style="padding-left: 10px; padding-bottom: 5px;">
+                  <v-row dense style="padding-left: 15px; padding-bottom: 5px;">
                     <v-col sm="6">
                       <h3>자주묻는 질문</h3>
                     </v-col>
                   </v-row>
 
                   <v-row dense style="padding-left: 20px; padding-right: 20px; padding-bottom: 10px;">
-                    <v-row dense style="border: 1px solid #CCC;">
-                      <v-row dense>
-                        <v-col sm="3" class="col_center" style="height: 100%;">
-                          <h4>{{state.q1}}</h4>
-                        </v-col>
-                        <v-col sm="3" class="col_center" style="height: 100%;">
-                          <h4>질문2</h4>
-                        </v-col>
-                        <v-col sm="3" class="col_center" style="height: 100%;">
-                          <h4>질문3</h4>
-                        </v-col>
-                        <v-col sm="3" class="col_center" style="height: 100%;">
-                          <h4>질문4</h4>
+                    <v-col>
+                      <v-row dense style="border: 1px solid #CCC;">
+                        <v-col>
+                          <v-row dense style="border-bottom: 1px solid #CCC; padding: 5px;">
+                            <v-col class="col_left">
+                              <h3 style="color: gold;">Q)&nbsp;</h3><h3>{{state.q1}}</h3>
+                            </v-col>
+                          </v-row>
+
+                          <v-row dense style="border-bottom: 1px solid #CCC; padding: 5px;">
+                            <v-col class="col_left">
+                              <h3 style="color: gold;">Q)&nbsp;</h3><h3>{{state.q2}}</h3>
+                            </v-col>
+                          </v-row>
+
+                          <v-row dense style="border-bottom: 1px solid #CCC; padding: 5px;">
+                            <v-col class="col_left">
+                              <h3 style="color: gold;">Q)&nbsp;</h3><h3>{{state.q3}}</h3>
+                            </v-col>
+                          </v-row>
+
+                          <v-row dense style="border-bottom: 1px solid #CCC; padding: 5px;">
+                            <v-col class="col_left">
+                              <h3 style="color: gold;">Q)&nbsp;</h3><h3>{{state.q4}}</h3>
+                            </v-col>
+                          </v-row>
                         </v-col>
                       </v-row>
-                    </v-row>
-                  
+                    </v-col>
                   </v-row>
                 </v-col>
+
                 <!-- 기업 -->
-                <v-col sm="6" style="padding-left: 10px;">
-                  <v-row dense style="border: 1px solid #CCC; padding: 10px;">
+                <v-col sm="6" style="padding-left: 10px; border: 1px solid #CCC;">
+                  <v-row dense style="padding: 10px;">
                     <v-col class="col_center" style="border-bottom: 3px solid #5d00ff;">
                       <h2 style="color: #5d00ff">기업회원</h2>
                     </v-col>
                   </v-row>
+
+                  <v-row dense style="padding-left: 15px; padding-bottom: 5px;">
+                    <v-col sm="6">
+                      <h3>자주묻는 질문</h3>
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense style="padding-left: 20px; padding-right: 20px; padding-bottom: 10px;">
+                    <v-col>
+                      <v-row dense style="border: 1px solid #CCC;">
+                        <v-col>
+                          <v-row dense style="border-bottom: 1px solid #CCC; padding: 5px;">
+                            <v-col class="col_left">
+                              <h3 style="color: gold;">Q)&nbsp;</h3><h3>{{state.q1}}</h3>
+                            </v-col>
+                          </v-row>
+
+                          <v-row dense style="border-bottom: 1px solid #CCC; padding: 5px;">
+                            <v-col class="col_left">
+                              <h3 style="color: gold;">Q)&nbsp;</h3><h3>{{state.q2}}</h3>
+                            </v-col>
+                          </v-row>
+
+                          <v-row dense style="border-bottom: 1px solid #CCC; padding: 5px;">
+                            <v-col class="col_left">
+                              <h3 style="color: gold;">Q)&nbsp;</h3><h3>{{state.q5}}</h3>
+                            </v-col>
+                          </v-row>
+
+                          <v-row dense style="border-bottom: 1px solid #CCC; padding: 5px;">
+                            <v-col class="col_left">
+                              <h3 style="color: gold;">Q)&nbsp;</h3><h3>{{state.q6}}</h3>
+                            </v-col>
+                          </v-row>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                  </v-row>
+
                 </v-col>
               </v-row>
             </v-col>
@@ -113,7 +165,6 @@
 
           <v-row dense>
             <v-col class="col_right">
-              <v-btn @click="dontgo()"><h4>회원탈퇴</h4></v-btn>
             </v-col>
           </v-row>
         </v-col>
@@ -141,7 +192,12 @@ export default {
     const state = reactive({
       title: '공지공지사항사항',
       title1: '사항사항공지공지',
-      q1: '질문질문질문'
+      q1: '아이디와 비밀번호를 분실했어요!',
+      q2: '클럽을 만들고 싶어요!',
+      q3: '클럽을 가입하고 싶어요!',
+      q4: '클럽을 탈퇴하고 싶어요!',
+      q5: '클럽을 삭제하고 싶어요!',
+      q6: '클럽마스터를 양도하고 싶어요!',
     });
 
     const dontgo = async() => {
