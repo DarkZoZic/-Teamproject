@@ -424,15 +424,20 @@ public class Board1RestController {
     @RequestMapping(value = "/selectlist", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectListGET(
+      
         @RequestParam(name = "page") int page ){
 
         Map<String ,Object> map = new HashMap<>();
         try{
             PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
+            long total = b1Repository.count();
+            // System.out.println(total);
             List<Board1> bList = b1Repository.findAllByOrderByBnoDesc(pageRequest);
             // System.out.println(bList);
             map.put("status", 200); // 성공
             map.put("result", bList);
+            map.put("result1", total);
+       
 
         }
         catch(Exception e){
