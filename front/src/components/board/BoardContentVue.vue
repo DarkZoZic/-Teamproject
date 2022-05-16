@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="state.items">
 <HeaderVue style="height: 220px;"></HeaderVue>
   <v-app>
     <v-main style="padding: 10px;" >      
@@ -37,7 +37,7 @@
 
           <v-row dense>
             <v-col class="col_pad20">
-              {{state.content}}
+              {{state.items.bcontent}}
             </v-col>
           </v-row>
 
@@ -45,7 +45,7 @@
             <v-col style="padding: 20px;" class="col_center">
               <v-btn style="height: 50px;" @click="like()">
                 <img :src="state.likeimage" style="width: 40px; margin-right: 3px;"/>
-                <h3 style="margin-left: 10px;">{{state.like}}</h3>
+                <h3 style="margin-left: 10px;">{{state.items.blike}}</h3>
               </v-btn>
             </v-col>
           </v-row>
@@ -205,17 +205,25 @@ import FooterVue from '../FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
 import { onMounted } from '@vue/runtime-core';
 import axios from 'axios';
+import { useRoute } from 'vue-router';
 
 export default {
   components: { HeaderVue, FooterVue },
   setup () {
 
+    onMounted(() => {
+      handleData();
+        })
+    const route = useRoute();
+
     const state = reactive({
+      token : sessionStorage.getItem("TOKEN"),
+      bno : route.query.bno,
       title: '',
       writer: '',
       hit: 0,
       like: 7,
-      content: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      content: 'asd',
       date: '2022-04-30 16:44',
       likeimage : require('../../assets/img/thumb.png'),
       token  : sessionStorage.getItem("TOKEN"),
@@ -231,22 +239,34 @@ export default {
         content1: '222',  
       }
     })
-
-    const like = async() => {
-      const url = `ROOT/reaction/like.json`;
-      const headers = {"Content-Type":"multipart/form-data"};
-            const body = new FormData;
-            body.append("token", state.token);
-            body.append("mpw",state.pw);
-            const response = await axios.post(url, body,{headers});
-            console.log(response.data);
-            if(response.data.status === 200){
-                sessionStorage.setItem("TOKEN", response.data.token);
-                alert('로그인성공');
-                router.push({path : '/'})
-
+    const handleData = async() => {
+      const url = `/ROOT/api/board1/selectone?bNo=${state.bno}`;
+      const headers = {"Content-Type":"application/json",
+                      token : state.token};
+      const response = await axios.get(url, {headers});
+      console.log(response.data);
+        if(response.data.status === 200){
+                state.items = response.data.result;
+                console.log(state.items);
             }
+
     }
+
+    // const like = async() => {
+    //   const url = `ROOT/reaction/like.json`;
+    //   const headers = {"Content-Type":"multipart/form-data"};
+    //         const body = new FormData;
+    //         body.append("token", state.token);
+    //         body.append("mpw",state.pw);
+    //         const response = await axios.post(url, body,{headers});
+    //         console.log(response.data);
+    //         if(response.data.status === 200){
+    //             sessionStorage.setItem("TOKEN", response.data.token);
+    //             alert('로그인성공');
+    //             router.push({path : '/'})
+
+    //         }
+    // }
 
     const replylike = async() => {
 
@@ -256,7 +276,7 @@ export default {
 
     }
 
-    return { state, like, replylike, reply }
+    return { state,  replylike, reply }
   }
 }
 </script>

@@ -49,7 +49,7 @@
                                 <tbody>
                                     <tr v-for="item in state.items" :key="item">
                                         <td>{{ item.bno }}</td>
-                                        <td><router-link to="/bcontent">{{ item.btitle }}</router-link></td>
+                                        <td @click="handlePage(item.bno)" ><router-link to="/bcontent">{{ item.btitle }}</router-link></td>
                                         <td>{{ item.member.mid }}</td>
                                         <td>{{ item.bregdate }}</td>
                                         <td>{{ item.bhit }}</td>
@@ -67,23 +67,14 @@
             <v-row dense>
                 <v-col>
                      
-                    <!-- <v-pagination
-                    v-for="tmp in state.total" :key="tmp"
-                    @click="handlePagenation(tmp)">
-                    </v-pagination> -->
+                    
                      <v-pagination
                      v-model="state.page"
                     :length="state.total" 
                     @click="handlePagenation()"
                     >
                     </v-pagination>
-                     <!-- <next-icon @click="handjo(tmp)">
-                     </next-icon> -->
-                     <!-- <v-pagination
-                    v-for="tmp in state.total" :key="tmp"
-                    :length="tmp"
-                    @click="handlePagenation(tmp)">
-                    </v-pagination> -->
+                    
 
                 </v-col>
             </v-row>
@@ -100,6 +91,7 @@ import FooterVue from '../FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
 import { onMounted } from '@vue/runtime-core';
 import axios from 'axios';
+import {useRouter} from 'vue-router';
 
 export default {
   components: { HeaderVue, FooterVue },
@@ -109,7 +101,9 @@ export default {
      onMounted(() => {
             handleData();
         });
+        const router = useRouter();
          const state = reactive({
+             token : sessionStorage.getItem("TOKEN"),
              pa : 1,
              text: '',  // 검색어
              page: 1,   // 현재페이지
@@ -118,6 +112,25 @@ export default {
              ]
  
          })
+
+         
+
+          // 조회수 1증가 시키기
+         const handlePage = async(bno) => {
+             if(state.token !== null){
+            const url = `/ROOT/api/board1/updatehit?bNo=${bno}`;
+            const headers = {"Content-Type":"application/json", 
+            token : state.token};
+            const response = await axios.put(url,{},{headers});
+            console.log(response.data);
+                router.push({name:"BoardContentVue"
+                , query:{bno : bno}
+                } )
+            console.log(bno);
+             }
+
+            
+        }
          
 
           const handlePagenation = () => {
@@ -133,8 +146,16 @@ export default {
             const headers = {"Content-Type":"application/json"};
             const response = await axios.get(url, {headers});
             console.log(response.data);
+            if(state.token !== null){
+                console.log("토큰있음");
+            }
+            else{
+                console.log("토큰없음");
+            }
+
             if(response.data.status === 200){
             state.items = response.data.result
+            //  테이블에 좋아요 넣기 (for문을 돌려서 넣으므로 느림) 
             // for(var i = 0; i<state.items.length; i++){
             //     const url1 = `ROOT/reaction/likelist.json?bno=${state.items[i].bno}`;
             //     const headers1 = {"Content-Type":"application/json"};
@@ -157,15 +178,9 @@ export default {
             }
         }
 
-        const like = async() => {
-            const url = `ROOT/reaction/likelist.json?bno=1`;
-            const headers = {"Content-Type":"application/json"};
-            const response = await axios.get(url, {headers}); 
-            console.log(response.data);
-            handleData();
-        }
+        
 
-        return { state,search,handlePagenation,like }
+        return { state,search,handlePagenation,handlePage}
     },
 }
 </script>
