@@ -591,7 +591,7 @@ Top
                     <v-text-field
                       id="address"
                       label="주소"
-                      v-model="state.address"
+                      v-model="address"
                       variant="plain"
                       :rules="nameRules"
                       density="compact"
@@ -614,8 +614,8 @@ Top
                   <v-col sm="8" style="height: 80px;">
                     <v-text-field
                       label="상세주소"
-                      v-model="state.detailAddress"
-                      id="detailAddress"
+                      v-model="extraAddress"
+                      id="extraAddress"
                       variant="plain"
                       :rules="nameRules"
                       density="compact"
@@ -626,7 +626,7 @@ Top
                   <v-col sm="4" style="height: 80px;">
                     <v-text-field
                       label="우편번호"
-                      v-model="state.postcode"
+                      v-model="postcode"
                       id="postcode"
                       variant="plain"
                       :rules="nameRules"
@@ -687,9 +687,6 @@ export default {
         pw1 : '',
         mname : '',
         phone : '',
-        address : '',
-        detailAddress : '',
-        postcode : '',
         email : '',
         nickname : '',
         gender : [{ value: "남", text: "남성", },
