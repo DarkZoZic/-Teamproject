@@ -39,7 +39,7 @@
 
             <!-- 로고 -->
             <v-col md="3">
-              <router-link to="/"><img :src="require('../assets/img/Logo.png')" style="width:90%;"/></router-link>
+              <router-link to="/"><img :src="require('../assets/img/heaven.jpg')" style="width: 100%;"/></router-link>
             </v-col>
 
             <!-- 중앙 -->
