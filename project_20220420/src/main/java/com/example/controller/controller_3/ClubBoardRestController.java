@@ -62,8 +62,8 @@ public class ClubBoardRestController {
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-//			System.out.println(cb);
-//			System.out.println(file.getOriginalFilename());
+			System.out.println(cb);
+			System.out.println(file.getOriginalFilename());
 			cbRep.save(cb);
 			if(file != null)
 			{
@@ -325,7 +325,7 @@ public class ClubBoardRestController {
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertPOST(@RequestBody CReply cr, @RequestParam(name="cbno") long cbno)
+	public Map<String, Object> insertrepPOST(@RequestBody CReply cr, @RequestParam(name="cbno") long cbno)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
@@ -341,6 +341,30 @@ public class ClubBoardRestController {
 		}
 		return map;
 	}
+	
+	// 클럽게시판 대댓글작성 // 미완성
+	// /ROOT/api/clubboard/insertrereply?cbno=
+//	@RequestMapping(value="/insertrereply", 
+//			method={RequestMethod.POST}, 
+//			consumes = {MediaType.ALL_VALUE},
+//			produces= {MediaType.APPLICATION_JSON_VALUE})
+//	public Map<String, Object> insertrerepPOST(@RequestBody CReply cr, @RequestParam(name="cbno") long cbno)
+//	{
+//		Map<String, Object> map = new HashMap<>();
+//		try 
+//		{
+//			ClubBoard cb = cbRep.findById(cbno).orElse(null);
+//			cr.setClubboard(cb); // 댓글 작성한 글의 번호 저장
+//			cr.setReparentnumber(cr.getRenumber()); // 대댓글 작성할 댓글의 댓글번호를 부모번호로 저장
+//			crRep.save(cr);
+//			map.put("status", 200);
+//		}
+//		catch (Exception e)
+//		{
+//			map.put("status", 0);
+//		}
+//		return map;
+//	}
 	
 	// 클럽게시판 댓글삭제
 	// /ROOT/api/clubboard/deletereply
