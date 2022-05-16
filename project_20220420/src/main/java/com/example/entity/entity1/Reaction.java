@@ -38,7 +38,7 @@ public class Reaction {
   // 반응일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
-	@Column(name = "RREGDATE", nullable = false)
+	@Column(name = "RREGDATE")
   private Date rregdate;
   // 개수
   @Column(name = "RCOUNT")
@@ -59,6 +59,10 @@ public class Reaction {
   @ManyToOne
   @JoinColumn(name = "cg_no")
   private ClubGallery clubgallery;
+//댓글
+  @ManyToOne
+  @JoinColumn(name = "renumber")
+  private CReply creply;
   // 댓글
   // @OneToMany(mappedBy = "reaction")
   // @JsonBackReference
