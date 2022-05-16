@@ -49,16 +49,20 @@
                                     <h3 style="font-family: 'HallymGothic-Regular'">{{ state.items[2] }}</h3>
                                 </v-tab>
 
-                                <v-tab @click="member()">
+                                <v-tab @click="schedule()">
                                     <h3 style="font-family: 'HallymGothic-Regular'">{{ state.items[3] }}</h3>
                                 </v-tab>
 
-                                <v-tab @click="chat()">
+                                <v-tab @click="member()">
                                     <h3 style="font-family: 'HallymGothic-Regular'">{{ state.items[4] }}</h3>
                                 </v-tab>
 
-                                <v-tab @click="setting()">
+                                <v-tab @click="chat()">
                                     <h3 style="font-family: 'HallymGothic-Regular'">{{ state.items[5] }}</h3>
+                                </v-tab>
+
+                                <v-tab @click="setting()">
+                                    <h3 style="font-family: 'HallymGothic-Regular'">{{ state.items[6] }}</h3>
                                 </v-tab>
                             </v-tabs>
                         </v-card>
@@ -84,7 +88,7 @@ export default {
             clubname: '삥뽕탁구클럽',
             tab: 'Appp',
             items: [
-                '홈', '게시판', '갤러리', '클럽원', '채팅', '설정'
+                '홈', '게시판', '갤러리', '일정', '클럽원', '채팅', '설정'
             ],
             text: 'Lorem ipsum',
             chk: 0,
@@ -104,6 +108,10 @@ export default {
             router.push({ name: "CGalleryVue"});
         };
 
+        const schedule = () => {
+            router.push({ name: "CScheduleVue"});
+        };        
+
         const member = () => {
             router.push({ name: "CMemberVue"});
         };
@@ -116,7 +124,7 @@ export default {
             router.push({ name: "CSettingVue"});
         };
 
-        return { state, Home, boardList, gallery, member, chat, setting }
+        return { state, Home, boardList, gallery, schedule, member, chat, setting }
     }
 }
 </script>

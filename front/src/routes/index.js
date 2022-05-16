@@ -51,6 +51,9 @@ import CGalleryVue       from '@/components/clubHome/CGallery/CGalleryVue.vue';
 import CGContentVue      from '@/components/clubHome/CGallery/CGContentVue.vue';
 import CGUploadVue       from '@/components/clubHome/CGallery/CGUploadVue.vue';
 
+// clubSchedule
+import CScheduleVue      from '@/components/clubHome/CSchedule/CScheduleVue.vue';
+
 // clubMember
 import CMemberVue        from '@/components/clubHome/CMember/CMemberVue.vue';
 
@@ -113,7 +116,10 @@ const routes = [
     { path: '/cgallery',  name: "CGalleryVue",       component: CGalleryVue },
     { path: '/cgcontent', name: "CGContentVue",      component: CGContentVue },
     { path: '/cgupload',  name: "CGUploadVue",       component: CGUploadVue },
- 
+
+     // clubSchedule
+    { path: '/cschedule', name: "CScheduleVue",      component: CScheduleVue },
+
     // clubMember
     { path: '/cmember',   name: "CMemberVue",        component: CMemberVue },
 

@@ -9,9 +9,157 @@
         
         <!-- 메인 -->
         <v-col md="8">
-          <v-row dense>
-            <v-col>홈</v-col>
+          <v-row dense style="padding: 10px;">
+            <!-- 게시판 -->
+            <v-col md="6" style="padding: 15px;">
+              <v-row dense style="height: 200px;">
+                <v-col>
+                  <v-row dense style="border-bottom: 1px solid #CCC; margin-bottom: 10px;">
+                    <v-col md="5">
+                      <h3>게시판</h3>
+                    </v-col>
+
+                    <v-col md="7" class="col_right" style="padding-right: 20px;">
+                      <router-link to="/cblist"><v-icon icon="mdi-plus" style="width: 10px;" /></router-link>
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense style="padding-left: 10px;">
+                    <v-col>
+                      <h4 @click="B()" style="cursor: pointer;">{{state.B.title}}</h4>
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense style="padding-left: 10px;">
+                    <v-col>
+                      <h4 @click="B()" style="cursor: pointer;">{{state.B.title}}</h4>
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense style="padding-left: 10px;">
+                    <v-col>
+                      <h4 @click="B()" style="cursor: pointer;">{{state.B.title}}</h4>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+
+              <!-- 게시판 -->
+              <v-row dense style="height: 300px;">
+                <v-col>
+                  <v-row dense style="border-bottom: 1px solid #CCC; margin-bottom: 10px;">
+                    <v-col md="5">
+                      <h3>일정</h3>
+                    </v-col>
+                    
+                    <v-col md="7" class="col_right" style="padding-right: 20px;">
+                      <router-link to="/cschedule"><v-icon icon="mdi-plus" style="width: 10px;" /></router-link>
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense style="padding-left: 10px;">
+                    <v-col>
+                      <h4 @click="B()" style="cursor: pointer;">{{state.S.title1}}</h4>
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense style="padding-left: 10px;">
+                    <v-col>
+                      <h4 @click="B()" style="cursor: pointer;">{{state.S.title2}}</h4>
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense style="padding-left: 10px;">
+                    <v-col>
+                      <h4 @click="B()" style="cursor: pointer;">{{state.S.title3}}</h4>
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense style="padding-left: 10px;">
+                    <v-col>
+                      <h4 @click="B()" style="cursor: pointer;">{{state.S.title4}}</h4>
+                    </v-col>
+                  </v-row>                  
+                </v-col>
+              </v-row>
+            </v-col>
+
+            <!-- 갤러리 -->
+            <v-col md="6" style="padding: 15px;">
+              <!-- 상단 -->
+              <v-row dense style="border-bottom: 1px solid #CCC; margin-bottom: 10px;">
+                <v-col md="5">
+                  <h3>갤러리</h3>
+                </v-col>
+
+                <v-col md="7" class="col_right" style="padding-right: 20px;">
+                  <router-link to="/cgallery"><v-icon icon="mdi-plus" style="width: 10px;" /></router-link>
+                </v-col>
+              </v-row>
+
+              <v-row dense style="padding-left: 10px; padding-right: 10px;">
+                <v-col md="6" style="padding-right: 10px;">
+                  <v-row dense style="height: 200px; border: 1px solid #CCC;">
+                    <v-col class="col_center">
+                      <img :src="require('../../assets/img/photo1.jpg')" @click="G()" style="cursor: pointer; max-width: auto; height: 190px;">
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense style="padding-top: 10px;">
+                    <v-col>
+                      <h4 @click="G()" style="cursor: pointer;">{{state.G.title1}}</h4>
+                    </v-col>
+                  </v-row>
+                </v-col>
+
+                <v-col md="6" style="padding-left: 10px;">
+                  <v-row dense style="height: 200px; border: 1px solid #CCC;">
+                    <v-col class="col_center">
+                      <img :src="require('../../assets/img/photo2.jpg')" @click="G()" style="cursor: pointer; max-width: auto; height: 190px;">
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense style="padding-top: 10px;">
+                    <v-col>
+                      <h4 @click="G()" style="cursor: pointer;">{{state.G.title2}}</h4>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+              
+              <v-row dense style="padding-left: 10px; padding-right: 10px;">
+                <v-col md="6" style="padding-right: 10px;">
+                  <v-row dense style="height: 200px; border: 1px solid #CCC;">
+                    <v-col class="col_center">
+                      <img :src="require('../../assets/img/photo1.jpg')" @click="G()" style="cursor: pointer; max-width: auto; height: 190px;">
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense style="padding-top: 10px;">
+                    <v-col>
+                      <h4 @click="G()" style="cursor: pointer;">{{state.G.title1}}</h4>
+                    </v-col>
+                  </v-row>
+                </v-col>
+
+                <v-col md="6" style="padding-left: 10px;">
+                  <v-row dense style="height: 200px; border: 1px solid #CCC;">
+                    <v-col class="col_center">
+                      <img :src="require('../../assets/img/photo2.jpg')" @click="G()" style="cursor: pointer; max-width: auto; height: 190px;">
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense style="padding-top: 10px;">
+                    <v-col>
+                      <h4 @click="G()" style="cursor: pointer;">{{state.G.title2}}</h4>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>              
+            </v-col>
+
           </v-row>
+
         </v-col>
 
         <!-- 사이드 -->
@@ -27,16 +175,41 @@
 import { reactive } from '@vue/reactivity';
 import FooterVue    from '../FooterVue.vue';
 import CHHeaderVue  from './CHHeaderVue.vue';
+import { useRouter } from 'vue-router';
 
 export default {
   components: { CHHeaderVue, FooterVue },
   setup () {
-    const state = reactive({
+    const router = useRouter();
 
+    const state = reactive({
+      B: {
+        title: '이렇게 탁구치면 진짜 웃길듯 ㅋㅋㅋㅋ',
+      },
+
+      S: {
+        title1: '일정1',
+        title2: '일정2',
+        title3: '일정3',
+        title4: '일정4',
+      },
+
+      G: {
+        title1: '이렇게 탁구치면 진짜 웃길듯 ㅋㅋㅋㅋ',
+        title2: '탁구왕 김제빵ㅋㅋㅋ'
+      }
     })
 
+    const B = () => {
+      router.push({ name: "CBoardContentVue"});
+    };
 
-    return { state }
+    const G = () => {
+      router.push({ name: "CGContentVue"});
+    };
+
+
+    return { state, B, G }
   }
 }
 </script>

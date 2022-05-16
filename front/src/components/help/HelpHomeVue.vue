@@ -66,7 +66,7 @@
             <v-col>
               <v-row dense>
                 <!-- 개인 -->
-                <v-col sm="6" style="padding-right: 10px; border: 1px solid #CCC;">
+                <v-col sm="6" style="padding-right: 10px;">
                   <v-row dense style=" padding: 10px;">
                     <v-col class="col_center" style="border-bottom: 3px solid #ffcc00;">
                       <h2 style="color: #ffcc00">개인회원</h2>
@@ -113,7 +113,7 @@
                 </v-col>
 
                 <!-- 기업 -->
-                <v-col sm="6" style="padding-left: 10px; border: 1px solid #CCC;">
+                <v-col sm="6" style="padding-left: 10px; border-left: 1px solid #CCC; ">
                   <v-row dense style="padding: 10px;">
                     <v-col class="col_center" style="border-bottom: 3px solid #5d00ff;">
                       <h2 style="color: #5d00ff">기업회원</h2>
