@@ -1,6 +1,8 @@
 package com.example.entity.entity1;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,12 +11,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.example.entity.entity2.Board1;
 import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.ClubBoard;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,28 +38,27 @@ public class Reaction {
   // 반응일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
-	@Column(name = "RREGDATE")
+	@Column(name = "RREGDATE", nullable = false)
   private Date rregdate;
+  // 개수
+  @Column(name = "RCOUNT")
+  private Long rcount = 0L;
   // 클럽게시판
   @ManyToOne
-  @JoinColumn(name = "cbno")
+  @JoinColumn(name = "cb_no")
   private ClubBoard clubboard;
-  // 멤버아이디(좋아요 누른 회원)
+  // 멤버아이디
   @ManyToOne
-  @JoinColumn(name = "mid")
+  @JoinColumn(name = "m_id")
   private Member member;
   // 자유게시판
   @ManyToOne
-  @JoinColumn(name = "bno")
+  @JoinColumn(name = "b_no")
   private Board1 board;
   // 클럽갤러리
   @ManyToOne
-  @JoinColumn(name = "cgno")
+  @JoinColumn(name = "cg_no")
   private ClubGallery clubgallery;
-  //댓글
-  @ManyToOne
-  @JoinColumn(name = "renumber")
-  private CReply creply;
   // 댓글
   // @OneToMany(mappedBy = "reaction")
   // @JsonBackReference

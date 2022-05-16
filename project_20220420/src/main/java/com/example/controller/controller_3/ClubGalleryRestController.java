@@ -121,33 +121,11 @@ public class ClubGalleryRestController {
 		catch (Exception e) 
 		{
 			map.put("status", 0);
+			map.put("result", model);
 		}
 		return map;
 	}
-	
-	// 조회수 증가 스크립트
-	@RequestMapping(value="/updatehit", 
-			method={RequestMethod.PUT}, 
-			consumes = {MediaType.ALL_VALUE},
-			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> cgUpdatehit1PUT(@RequestParam(name="cgno") long cgno)
-	{
-		Map<String, Object> map = new HashMap<>();
-		try
-		{
-			ClubGallery cg = cgRep.findById(cgno).orElse(null);
-			cg.setCghit(cg.getCghit() + 1L);
-			cgRep.save(cg);
-			map.put("status", 200);
-		}
-		catch (Exception e) 
-		{
-			map.put("status", 0);
-		}
-		return map;
-	}
-	
-	// 갤러리 상세내용 + 댓글목록
+	// 클럽게시판 글상세내용 + 댓글목록
 	// /ROOT/api/clubgallery/select?cgno=
 	@RequestMapping(value="/select", 
 			method={RequestMethod.GET}, 
@@ -235,29 +213,6 @@ public class ClubGalleryRestController {
 		return map;
 	}
 	
-	// 갤러리 수정
-	// /ROOT/api/clubgallery/update
-	@RequestMapping(value="/update", 
-	method={RequestMethod.POST}, 
-	consumes = {MediaType.ALL_VALUE},
-	produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> cgupdatePOST(@RequestBody ClubGallery cg)
-	{
-		Map<String, Object> map = new HashMap<>();
-		try 
-		{
-			ClubGallery gregdate = cgRep.findById(cg.getCgno()).orElse(null);
-			cg.setCgregdate(gregdate.getCgregdate());
-			cgRep.save(cg);
-			map.put("status", 200);
-		} 
-		catch (Exception e) 
-		{
-			map.put("status", 0);
-		}
-		return map;
-	}
-	
 	// 갤러리 삭제
 	// /ROOT/api/clubgallery/delete
 	@Transactional
@@ -265,7 +220,7 @@ public class ClubGalleryRestController {
 	method={RequestMethod.DELETE}, 
 	consumes = {MediaType.ALL_VALUE},
 	produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> delete(@RequestBody ClubGallery cg) 
+	public Map<String, Object> delete(@RequestBody ClubGallery cg)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
