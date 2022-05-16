@@ -49,7 +49,7 @@
                                     <tr v-for="item in state.items" :key="item">
                                         <td>{{ item.bno }}</td>
                                         <td><router-link to="/bcontent">{{ item.btitle }}</router-link></td>
-                                        <td>{{ item.member }}</td>
+                                        <td>{{ item.member.mid }}</td>
                                         <td>{{ item.bregdate }}</td>
                                         <td>{{ item.bhit }}</td>
                                         <td>{{ item.blike }}</td>
@@ -66,14 +66,18 @@
 
             <v-row dense>
                 <v-col>
-                     <button v-for="tmp in state.total" :key="tmp"
+                     <!-- <button v-for="tmp in state.total" :key="tmp"
                     @click="handlePagenation(tmp)">
                     {{tmp}}
-                </button>
+                </button> -->
                     <v-pagination
                     v-for="tmp in state.total" :key="tmp"
                     @click="handlePagenation(tmp)">
                     {{tmp}}</v-pagination>
+                     <!-- <v-pagination
+                    v-for="tmp in state.total" :key="tmp"
+                    @click="handlePagenation(tmp)">
+                    </v-pagination> -->
 
                 </v-col>
             </v-row>
@@ -103,7 +107,6 @@ export default {
              mid : '',
              text: '',
              page: 1,
-             total : 0,
             items1: [
                  '전체', '제목', '내용', '글쓴이'
              ]
@@ -111,27 +114,29 @@ export default {
          })
 
           const handlePagenation = (tmp) => {
+            state.page++;
             state.total = Number(tmp);
             console.log(state.page);
-            handleLoadData();
+            handleData();
         }
 
      const handleData = async() => {
-            const url = `/ROOT/board1/selectlist?page=${state.page}`
+            const url = `/ROOT/api/board1/selectlist?page=${state.page}`
             const headers = {"Content-Type":"application/json"};
             const response = await axios.get(url, {headers});
             console.log(response.data);
             if(response.data.status === 200){
             state.items = response.data.result
-            console.log(response.data.result[0]);
+            console.log(response.data.result);
             // 1~10  => 1page  => Math.floor((page-1)/10+1)
             // 11~20 => 2page
-            state.total = Math.floor((Number(response.data.result.length)-1)/10+1) ;
+            state.total = Math.floor((state.page-1)/10+1);
+            console.log(state.total);
             }
         };
 
         const search = async() => {
-            const url = `/ROOT/board1/search?btitle=${state.text}&page=${state.page}`
+            const url = `/ROOT/api/board1/search?btitle=${state.text}&page=${state.page}`
             const headers = {"Content-Type":"application/json"};
             const response = await axios.get(url, {headers});
               console.log('ExBoard.vue =>',response.data);
