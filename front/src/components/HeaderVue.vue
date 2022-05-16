@@ -38,8 +38,8 @@
             <v-col md="1"></v-col>
 
             <!-- 로고 -->
-            <v-col md="3">
-              <router-link to="/"><img :src="require('../assets/img/heaven.jpg')" style="width: 100%;"/></router-link>
+            <v-col md="3" class="col_center">
+              <router-link to="/"><img :src="require('../assets/img/cluver.jpg')" style="height: 100px;" /></router-link>
             </v-col>
 
             <!-- 중앙 -->

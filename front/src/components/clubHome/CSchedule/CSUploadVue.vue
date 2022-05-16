@@ -54,6 +54,28 @@
                                             </v-row>
                                         </v-expansion-panel>
 
+                                        <!-- 제목 -->
+                                        <v-expansion-panel class="panel">
+                                            <v-row dense style="padding:10px;">
+                                                <v-col sm="2" style="justify-content: right; display: flex; align-items: center; ">
+                                                    일시:
+                                                </v-col>
+
+                                                <v-col sm="3" class="col_left">
+                                                    <Datepicker style="width: 100%;" v-model="state.startDate" :month-year-component="monthYear" />
+                                                </v-col>
+                                                <v-col sm="2" class="col_center">
+                                                    <h4>-</h4>
+                                                </v-col>
+                                                
+                                                <v-col sm="3" class="col_left">
+                                                    <Datepicker style="width: 100%;" v-model="state.endDate" :month-year-component="monthYear" />
+                                                </v-col>
+
+                                                <v-col sm="2"></v-col>
+                                            </v-row>
+                                        </v-expansion-panel>
+                                        
                                         <!-- 내용 -->
                                         <v-expansion-panel class="panel">
                                             <v-row dense style="padding:10px;">
@@ -138,7 +160,9 @@ export default {
             title      : 'asdf',
             editor     : ClassicEditor, // ckeditor종류
             editorData : '',
-            boardname  : '자유게시판'
+            boardname  : '자유게시판',
+            startDate  : '',
+            endDate    : '',
         })
 
         const onReady = ( editor ) => {

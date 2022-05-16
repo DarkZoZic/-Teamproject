@@ -17,7 +17,7 @@
 
           <v-row dense style="padding-top: 10px; padding-bottom: 5px; padding-left: 10px; ">
             <v-col class="col_left">
-                <h2>일정</h2>
+              <h2>일정</h2>
             </v-col>
 
             <v-col md="6" class="col_right">
@@ -28,14 +28,12 @@
               <v-btn style="height: 40px;" @click="search()"><h4>검색</h4></v-btn>
               <router-link to="/csupload">
                 <v-btn style="margin-left: 10px; height: 40px; background-color: gold;">
-                  <h4>업로드</h4>
+                  <h4>일정생성</h4>
                 </v-btn>
               </router-link>
             </v-col>
           </v-row>
         </v-col>
-
-        
 
         <!-- 사이드 -->
         <v-col md="2"></v-col>
