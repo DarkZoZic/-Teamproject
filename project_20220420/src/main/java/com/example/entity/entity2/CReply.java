@@ -71,17 +71,17 @@ public class CReply {
   
   // 자유게시판 글번호
   @ManyToOne
-  @JoinColumn(name = "bno")
+  @JoinColumn(name = "bno1")
   private Board1 board1;
 
   // 클럽게시판 글번호
   @ManyToOne
-  @JoinColumn(name = "cbno")
+  @JoinColumn(name = "cbno1")
   private ClubBoard clubboard;
 
   // 큐엔에이 게시판 글번호
   @ManyToOne
-  @JoinColumn(name = "qno")
+  @JoinColumn(name = "qno1")
   private Qna qna;
 
   // 반응
@@ -91,7 +91,7 @@ public class CReply {
 
   // 회원 아이디
   @ManyToOne
-  @JoinColumn(name = "mid")
+  @JoinColumn(name = "mid1")
   private Member member;
 
   // 갤러리 번호
