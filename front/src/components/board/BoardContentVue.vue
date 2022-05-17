@@ -166,7 +166,7 @@ import FooterVue from '../FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
 import { onMounted } from '@vue/runtime-core';
 import axios from 'axios';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
   components: { HeaderVue, FooterVue },
@@ -177,6 +177,7 @@ export default {
     })
 
     const route = useRoute();
+    const router = useRouter();
 
     const state = reactive({
       token : sessionStorage.getItem("TOKEN"),

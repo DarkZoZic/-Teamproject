@@ -9,13 +9,13 @@
                 <v-col md="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
-                            <h5><router-link to="/">홈</router-link> > <router-link to="/blist">자유게시판</router-link> > 글쓰기</h5>
+                            <h5><router-link to="/">홈</router-link> > <router-link to="/blist">자유게시판</router-link> > 글수정</h5>
                         </v-col>                                
                     </v-row>
 
                     <v-row dense style="padding-top: 15px; padding-bottom: 10px; padding-left:10px; border-bottom: 1px solid #CCC;">
                         <v-col>
-                            <h2>글쓰기</h2>
+                            <h2>글수정</h2>
                         </v-col>
                     </v-row>
 
@@ -47,7 +47,7 @@
                                                 </v-col>
 
                                                 <v-col sm="8" style="display: flex; align-items: center; width:100%;">
-                                                    <input type="text" v-model="state.btitle" style="outline-width: 0; padding-left: 3px; width: 100%; border-bottom: 1px solid #CCC;"/>
+                                                    {{state.btitle}}
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -92,7 +92,7 @@
 
                                                 <v-col sm="4" style="justify-content: center; display: flex; align-items: center;">
                                                     <v-btn @click="handleInsert" style="width: 100px; height:40px; background-color: gold;">
-                                                        <h3>글쓰기</h3>
+                                                        <h3>수정</h3>
                                                     </v-btn>
 
                                                     <v-btn @click="handleCancel" style="width: 100px; height:40px; margin-left:20px; background-color: white;">
