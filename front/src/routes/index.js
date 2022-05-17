@@ -60,6 +60,7 @@ import CMemberVue        from '@/components/clubHome/CMember/CMemberVue.vue';
 
 // clubChat
 import CChatVue          from '@/components/clubHome/CChat/CChatVue.vue';
+// import CChatRoomVue      from '@/components/clubHome/CChat/CChatRoomVue.vue';
 
 // clubSetting
 import CSettingVue       from '@/components/clubHome/CSetting/CSettingVue.vue';
@@ -127,6 +128,7 @@ const routes = [
 
     // clubChat
     { path: '/cchat',     name: "CChatVue",          component: CChatVue },
+    // { path: '/croom',     name: "CChatRoomVue",      component: CChatRoomVue },
 
     // clubSetting
     { path: '/csetting',  name: "CSettingVue",       component: CSettingVue },

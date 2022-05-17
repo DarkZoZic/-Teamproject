@@ -224,7 +224,7 @@
                                                 ></v-text-field>
                                             </v-col>
 
-                                            <v-col sm="4" style="height: 80px;">
+                                            <!-- <v-col sm="4" style="height: 80px;">
                                                 <v-text-field
                                                 label="우편번호"
                                                 v-model="state.postcode"
@@ -234,7 +234,7 @@
                                                 density="compact"
                                                 required
                                                 ></v-text-field>
-                                            </v-col>
+                                            </v-col> -->
                                         </v-row>
                                     </v-expansion-panel>
 
