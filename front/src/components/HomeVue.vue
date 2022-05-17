@@ -194,36 +194,42 @@
                             </v-col>
 
                             <v-col md="3" style="align:center;" v-if="state.logged">
-                                <v-row>
+                                <v-row dense>
                                     <v-col>
                                         <v-card style="padding: 10px; border-width: 4px; border-color: gold; align-item: center; height: 313px;">
                                             <v-row dense>
-                                                <v-col md="5">
-                                                    <img :src="require('../assets/img/profile_sample.png')" style="width:80px;"/>
+                                                <v-col md="6">
+                                                    <img :src="require('../assets/img/profile_sample.png')" style="width: 100px;"/>
+                                                    
                                                 </v-col>
 
-                                                <v-col md="5">
+                                                <v-col md="6">
                                                     <v-row dense>
-                                                        <v-col>
-                                                            <h4>{{state.profile.nickname}}</h4>
+                                                        <v-col class="col_right">
+                                                            <router-link to="/mypage"><v-icon icon="mdi-bell-outline" /></router-link>
+                                                            <v-icon icon="mdi-close" style="cursor: pointer;" @click="handlelogout()"/>
                                                         </v-col>
                                                     </v-row>
-                                                    <v-row dense>
 
+                                                    <v-row dense>
+                                                        <router-link to="/mypage"><v-btn><h4>내정보</h4></v-btn></router-link>
+                                                        <router-link to="/likelist"><v-btn><h4>찜목록</h4></v-btn></router-link>
                                                     </v-row>
                                                 </v-col>
 
                                                 <v-col>
-                                                    <router-link to="/mypage"><v-icon icon="mdi-bell-outline" /></router-link>
+                                                    
                                                 </v-col>
                                             </v-row>
 
                                             <v-row dense>
-                                                <router-link to="/mypage"><v-btn>내정보</v-btn></router-link>
-                                                <router-link to="/likelist"><v-btn>찜목록</v-btn></router-link>
+                                                <h4>{{state.profile.nickname}}</h4>
+
                                             </v-row>
 
-                                            <v-row></v-row>
+                                            <v-row dense>
+                                                
+                                            </v-row>
                                         </v-card>
                                     </v-col>
                                 </v-row>
@@ -324,8 +330,9 @@ export default {
 
             profile: {
                 nickname: '탁구왕김제빵',
-
             }
+
+            
         });
 
         const changeheart = () => {
@@ -341,10 +348,15 @@ export default {
                 state.card.desc1 = state.card.desc.substring(0, 40) + '...'
             }
             state.card.desc1 = state.card.desc;
-        })
+        });
 
         const notice = () => {
             router.push({ name: "HelpQnaContentVue" });
+        };
+
+        const handlelogout = () => {
+            if(confirm('로그아웃 하시겠습니까?'))
+            router.push({ name: "LogoutVue" });
         };
 
         const clubDetail = () => {
@@ -360,7 +372,7 @@ export default {
             }
         })
 
-        return { state, changeheart, notice, clubDetail }
+        return { state, changeheart, handlelogout, notice, clubDetail }
     },
     data: () => ({
         autoPlaying: true,
