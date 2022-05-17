@@ -23,7 +23,7 @@
 
                         <v-col sm="7" class="col_right">
                             <router-link to="/regclub">
-                                <v-btn style="background-color: gold;"><h2>클럽등록</h2></v-btn>
+                                <v-btn style="background-color: gold;"><h3>클럽등록</h3></v-btn>
                             </router-link>
                         </v-col>
                     </v-row>

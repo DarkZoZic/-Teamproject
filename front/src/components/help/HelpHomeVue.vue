@@ -163,8 +163,23 @@
             </v-col>
           </v-row> 
 
+          <v-row dense style="height: 200px;">
+            <v-col class="col_left">
+            </v-col>
+          </v-row>
           <v-row dense>
-            <v-col class="col_right">
+            <v-col class="col_left">
+              <h1>고객센터</h1>
+            </v-col>
+          </v-row>
+          <v-row dense>
+            <v-col class="col_left" style="padding-left: 10px;">
+              <h1 style="color: gold;">02-1111-1111</h1>
+            </v-col>
+          </v-row>
+          <v-row dense>
+            <v-col class="col_left" style="padding-left: 30px;">
+              <h3>운영시간: 06:00 - 17:30</h3>
             </v-col>
           </v-row>
         </v-col>

@@ -567,7 +567,7 @@ Top
                   <v-col sm="10" style="height: 80px;">
                     <v-text-field
                       label="인증번호"
-                      v-model="validnumber"
+                      v-model="state.validnumber"
                       variant="plain"
                       :rules="validnumberRules"
                       density="compact"

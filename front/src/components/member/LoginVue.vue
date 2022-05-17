@@ -141,29 +141,29 @@ import { useRouter } from 'vue-router';
 export default {
     components: { HeaderVue, FooterVue },
     setup () {
-    const router = useRouter();
+        const router = useRouter();
 
-    const state = reactive({
-        id   : '',
-        pw   : '',
-        valid: '',
-    })
+        const state = reactive({
+            id   : '',
+            pw   : '',
+            valid: '',
+        })
 
-    const submit = async() => {
-        const url = `/ROOT/member/login`;
-        const headers = {"Content-Type":"multipart/form-data"};
-        const body = new FormData;
-        body.append("mid", state.id);
-        body.append("mpw",state.pw);
-        const response = await axios.post(url, body,{headers});
-        console.log(response.data);
-        if(response.data.status === 200) {
-            sessionStorage.setItem("TOKEN", response.data.token);
-            alert('로그인성공');
-            router.push({path : '/'})
-
+        const submit = async() => {
+            const url = `/ROOT/member/login`;
+            const headers = {"Content-Type":"multipart/form-data"};
+            const body = new FormData;
+            body.append("mid", state.id);
+            body.append("mpw",state.pw);
+            const response = await axios.post(url, body,{headers});
+            console.log(response.data);
+            if(response.data.status === 200) {
+                sessionStorage.setItem("TOKEN", response.data.token);
+                alert('로그인성공');
+                router.push({path : '/'})
+                // store.commit('moduleA/setMenu', "/");
+            }
         }
-    }
 
         return {state,submit}
     },
