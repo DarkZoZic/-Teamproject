@@ -68,25 +68,7 @@
                                         </v-card>
                                     </v-col>
                                 </v-row>
-                            </v-col>
 
-                            <v-col md="3" style="align:center;" >
-                                <router-link to="/login">
-                                    <v-card height="150" style="padding-top: 6%; border-width: 4px; border-color: gold;">
-                                        <v-row dense>
-                                            <v-col class="col_center">
-                                                <img :src="require('../assets/img/login.png')" style="width:80px;"/>
-                                            </v-col>
-                                        </v-row>
-                                        
-                                        <v-row dense><v-col class="col_center"><h3>로그인</h3></v-col></v-row>
-                                    </v-card>
-                                </router-link>
-                            </v-col>
-                        </v-row>
-
-                        <v-row>
-                            <v-col md="9">
                                 <v-row>
                                     <v-col md="6" class="home_box">
                                         <v-card height="150" style="border-width: 4px; border-color: gold;">
@@ -106,8 +88,7 @@
                                             </v-row>
                                             
                                             <v-row dense>
-                                                <v-col md="1">
-                                                </v-col>
+                                                <v-col md="1"></v-col>
 
                                                 <v-col md="10" style="justify-content: center; display: flex; border-bottom: 1px solid #CCC;">
                                                     <a class="region">강원</a> <a class="region">충북</a> <a class="region">충남</a> <a class="region">전북</a>
@@ -179,19 +160,72 @@
                                 </v-row>
                             </v-col>
 
-                            <v-col md="3">
-                                <router-link to="/join">
-                                    <v-card height="150" style="padding-top: 6%; border-width: 4px; border-color: gold; align-item: center;">
-                                        <v-row dense>
-                                            <v-col class="col_center">
-                                                <img :src="require('../assets/img/join.png')" style="width:80px;"/>
-                                            </v-col>
-                                        </v-row>
-                                        
-                                        <v-row dense><v-col class="col_center"><h3>회원가입</h3></v-col></v-row>
-                                    </v-card>
-                                </router-link>
+                            <v-col md="3" style="align:center;" v-if="state.logged">
+                                <v-row>
+                                    <v-col>
+                                        <router-link to="/login">
+                                            <v-card height="150" style="padding-top: 6%; border-width: 4px; border-color: gold;">
+                                                <v-row dense>
+                                                    <v-col class="col_center">
+                                                        <img :src="require('../assets/img/login.png')" style="width:80px;"/>
+                                                    </v-col>
+                                                </v-row>
+                                                
+                                                <v-row dense><v-col class="col_center"><h3>로그인</h3></v-col></v-row>
+                                            </v-card>
+                                        </router-link>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col>
+                                        <router-link to="/join">
+                                            <v-card height="150" style="padding-top: 6%; border-width: 4px; border-color: gold; align-item: center;">
+                                                <v-row dense>
+                                                    <v-col class="col_center">
+                                                        <img :src="require('../assets/img/join.png')" style="width:80px;"/>
+                                                    </v-col>
+                                                </v-row>
+                                                
+                                                <v-row dense><v-col class="col_center"><h3>회원가입</h3></v-col></v-row>
+                                            </v-card>
+                                        </router-link>
+                                    </v-col>
+                                </v-row>
                             </v-col>
+
+                            <v-col md="3" style="align:center;" v-if="!state.logged">
+                                <v-row>
+                                    <v-col>
+                                        <v-card style="padding: 10px; border-width: 4px; border-color: gold; align-item: center; height: 313px;">
+                                            <v-row dense>
+                                                <v-col md="5">
+                                                    <img :src="require('../assets/img/profile_sample.png')" style="width:80px;"/>
+                                                </v-col>
+
+                                                <v-col md="5">
+                                                    <v-row dense>
+                                                        <v-col>
+                                                            <h4>{{state.profile.nickname}}</h4>
+                                                        </v-col>
+                                                    </v-row>
+                                                    <v-row dense>
+
+                                                    </v-row>
+                                                </v-col>
+
+                                                <v-col>
+                                                    <router-link to="/mypage"><v-icon icon="mdi-bell-outline" /></router-link>
+                                                </v-col>
+                                            </v-row>
+                                            <v-row dense>
+                                                <router-link to="/mypage"><v-btn>내정보</v-btn></router-link>
+                                            </v-row>
+                                            <v-row></v-row>
+                                        </v-card>
+                                    </v-col>
+                                </v-row>
+                            </v-col>
+
                         </v-row>
 
                         <v-row style="margin-top: 20px;"><h4 style="margin-left: 15px;">슈퍼 클럽</h4></v-row>
@@ -251,18 +285,23 @@
 <script>
 import { reactive } from '@vue/reactivity';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex'
 import { VueperSlides, VueperSlide } from 'vueperslides'
 import 'vueperslides/dist/vueperslides.css'
 import FooterVue from '../components/FooterVue.vue';
 import HeaderVue from '../components/HeaderVue.vue';
-import { onMounted } from '@vue/runtime-core';
+import { onMounted, computed } from '@vue/runtime-core';
 
 export default {
     components: { VueperSlides, VueperSlide, HeaderVue, FooterVue },
     setup () {
         const router = useRouter();
+        const store = useStore();
 
         const state = reactive({
+            logged: computed(() => store.getters['moduleA/getLogged']),
+            token : sessionStorage.getItem("TOKEN"),
+
             slides: [
                 { title: '', image: require('../assets/img/ad1.jpg') },
                 { title: '', image: require('../assets/img/ad2.jpg') },
@@ -279,6 +318,11 @@ export default {
                 area2: '연제구',
             },
             notice: '공지글입니딩~',
+
+            profile: {
+                nickname: '탁구왕김제빵',
+
+            }
         });
 
         const changeheart = () => {
@@ -303,6 +347,14 @@ export default {
         const clubDetail = () => {
             router.push({ name: "ClubDetailVue" });
         }
+        onMounted(() => {
+            if(state.token === null){
+                store.commit('moduleA/setLogged', false)
+            } 
+            else{
+                store.commit('moduleA/setLogged', true)
+            }
+        })
 
         return { state, changeheart, notice, clubDetail }
     },
