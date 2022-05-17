@@ -57,14 +57,18 @@
 import { reactive } from '@vue/reactivity';
 import FooterVue from '../../FooterVue.vue';
 import HeaderVue from '../../HeaderVue.vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 export default {
     components: { HeaderVue, FooterVue },
     setup () {
+        const router = useRouter();
+        
         const state = reactive({
             galleryName: '일상갤러리',
             imageFile : [],
-            imageUrl : ''
+            imageUrl : []
         })
 
         const insertimage = (e) =>
@@ -88,9 +92,18 @@ export default {
             const url = `/ROOT/api/clubgallery/insert`;
             const headers = {"Content-Type":"multipart/form-data"};
             const body = new FormData();
-            body.append("file", state.imageFile);
+            for(let i=0; i<state.imageFile.length; i++)
+            {
+                body.append("file", state.imageFile[i]);
+            }
+            body.append("cgname", state.galleryName);
+            console.log(body);
             const response = await axios.post(url, body, {headers});
             console.log(response.data);
+            if(response.data.status === 200)
+            {
+                router.push({name:'CGalleryVue'});
+            }
         }
 
         return { state, upload, insertimage }

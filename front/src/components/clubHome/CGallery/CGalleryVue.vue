@@ -34,36 +34,37 @@
 
           <v-row dense style="border: 1px solid #CCC; border-top: 1px solid #CCC; padding: 10px; padding-left: 20px;  ">
             <v-col
-              v-for="n in 12"
-              :key="n"
+              v-for="tmp in state.gallery"
+              :key="tmp"
               cols="4"
             >
-              <v-card height="300px" class="club_card" style="padding: 20px;" @click="content()">
+              <v-card height="300px" class="club_card" style="padding: 20px;" @click="content(tmp.cgno)">
                 <v-row dense>
                   <v-col class="col_center">
-                    <img :src="require(`../../../assets/img/${state.image2}.jpg`)" style="height: 200px;  padding: 5px; border: 1px solid #CCC;"/>
+                    
+                    <img :src="`/ROOT/clubgallery/image?cgno=${tmp.cgno}&idx=0`" style="height: 200px;  padding: 5px; border: 1px solid #CCC;" />
                   </v-col>
                 </v-row>
 
                 <v-row dense style="padding-top: 5px;">
                   <v-col sm="8">
-                    <h4>{{state.title}}</h4>
+                    <h4>{{tmp.cgname}}</h4>
                   </v-col>
 
                   <v-col class="col_right">
-                    <h5 style="color: gray">조회 {{state.hit}}</h5>
+                    <h5 style="color: gray">조회 {{tmp.hit}}</h5>
                     <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
-                    <h5 style="color: gray;">{{state.like}}</h5>
+                    <h5 style="color: gray;">{{tmp.like}}</h5>
                   </v-col>
                 </v-row>
 
                 <v-row dense>
                   <v-col style="padding-left: 10px;">
-                    <h5 style="color: gray">{{state.writer}}</h5>
+                    <h5 style="color: gray">{{tmp.writer}}</h5>
                   </v-col>
 
                   <v-col sm="6" class="col_right">
-                    <h5 style="color: gray">{{state.date}}</h5>
+                    <h5 style="color: gray">{{tmp.cgregdate}}</h5>
                   </v-col>
                 </v-row>
               </v-card>
@@ -79,7 +80,7 @@
         <v-col>
           <v-pagination
           v-model="state.page"
-          :length="10"
+          :length="state.page"
           ></v-pagination>
         </v-col>
       </v-row>
@@ -94,6 +95,8 @@ import { reactive }  from '@vue/reactivity';
 import { useRouter } from 'vue-router';
 import FooterVue     from '../../FooterVue.vue';
 import CHHeaderVue   from '../CHHeaderVue.vue';
+import {onMounted} from 'vue';
+import axios from 'axios';
 
 export default {
   components: { CHHeaderVue, FooterVue },
@@ -101,30 +104,61 @@ export default {
     const router = useRouter();
 
     const state = reactive({
-      galleryName: '일상갤러리',
-      title: '탁구왕 김탁구~ㅋ',
-      image1: 'photo1',
-      image2: 'photo2',
-      date: '2022-05-10 10:42',
-      writer: '탁생탁사',
-      like: 7,
-      hit: 22,
-
+      gallery : [],
       page: 1,
-
       items: [
         '전체', '제목', '내용', '글쓴이'
       ],
-      option: '전체'
+
+      option: '전체',
+      thumbnail : []
     });
 
-    const content = () => {
-      router.push({ name: "CGContentVue" });
+    const selectlist = async() =>
+    {
+      const url = `/ROOT/api/clubgallery/selectlist`;
+      const headers = {"Content-Type":"application/json"};
+      const response = await axios.get(url, {headers});
+      // console.log(response.data);
+      if(response.data.status === 200)
+      {
+        state.page = response.data.result.pages;
+        state.gallery = response.data.result.list;
+      }
+      console.log(state.gallery);
+    }
+
+    const selectlistimage = async() =>
+    {
+      // console.log(state.gallery);
+      for(let i=0; i<state.gallery.length; i++)
+      {
+        const url = `/ROOT/api/clubgallery/image?cgno=${state.gallery[i].cgno}&idx=0`;
+        const headers = {"Content-Type":"multipart/form-data"};
+        const response = await axios.get(url, {headers});
+        if(response.data.status === 200)
+        {
+          state.thumbnail.push(response.data.result);
+
+        }
+      }
+      console.log(state.thumbnail);
+      
+    }
+
+    const content = (cgno) => {
+      router.push({ name: "CGContentVue", query : {cgno:cgno} });
     }
 
     const search = () => {
 
     }
+
+    onMounted(async() =>
+    {
+      await selectlist();
+      selectlistimage();
+    });
 
     return { state, content, search }
   }

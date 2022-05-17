@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -43,6 +44,9 @@ public class ClubGallery {
 @CreationTimestamp // CURRENT_DATE
 @Column(name = "CGREGDATE")
   private Date cgregdate;
+  //이미지 url
+  @Transient
+  private String gimageurl;
   // 반응
   @ManyToOne
   @JoinColumn(name = "rid")
