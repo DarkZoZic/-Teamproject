@@ -48,8 +48,9 @@
 
                             <v-row dense style="padding: 10px;">
                                 <v-col class="col_center">
+                                    
                                     <input type="file" name="file" @change="handleImage($event)" style="width: 80px;">
-                                    <button>sdfs</button>
+                                    <v-btn>초기화</v-btn>
                                 </v-col>
                             </v-row>
                         </v-expansion-panel>
