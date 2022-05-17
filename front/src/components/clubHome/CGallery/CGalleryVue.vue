@@ -110,8 +110,7 @@ export default {
         '전체', '제목', '내용', '글쓴이'
       ],
 
-      option: '전체',
-      thumbnail : []
+      option: '전체'
     });
 
     const selectlist = async() =>
@@ -128,24 +127,6 @@ export default {
       console.log(state.gallery);
     }
 
-    const selectlistimage = async() =>
-    {
-      // console.log(state.gallery);
-      for(let i=0; i<state.gallery.length; i++)
-      {
-        const url = `/ROOT/api/clubgallery/image?cgno=${state.gallery[i].cgno}&idx=0`;
-        const headers = {"Content-Type":"multipart/form-data"};
-        const response = await axios.get(url, {headers});
-        if(response.data.status === 200)
-        {
-          state.thumbnail.push(response.data.result);
-
-        }
-      }
-      console.log(state.thumbnail);
-      
-    }
-
     const content = (cgno) => {
       router.push({ name: "CGContentVue", query : {cgno:cgno} });
     }
@@ -157,7 +138,6 @@ export default {
     onMounted(async() =>
     {
       await selectlist();
-      selectlistimage();
     });
 
     return { state, content, search }

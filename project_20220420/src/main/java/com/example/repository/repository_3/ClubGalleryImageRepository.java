@@ -15,6 +15,9 @@ public interface ClubGalleryImageRepository extends JpaRepository<GImage, Long>{
 	// 갤러리 페이지용 이미지 데이터 찾기
 	List<GImage> findByClubgallery_cgnoOrderByGimgcodeAsc(long cgno);
 	
+	// 갤러리에 등록된 이미지 개수 세기(이미지 url 생성용)
+	long countByClubgallery_cgno(long cgno);
+	
 	// 갤러리 번호(외래키) 일치하는 이미지 찾기
 	GImage findByClubgallery_cgno(long cgno);
 	

@@ -111,25 +111,13 @@ public class ClubGalleryRestController {
 			
 			for(int i=0; i<list.toArray().length; i++)
 			{
-				
 				ClubGallery cg = list.get(i);
-				System.out.println("cg : " + cg.getCgno());
-				
-//				 cgno(갤러리번호) 조회해서 gimgcode 찾기
-//				long imagecode = cgiRep.selectImageCode(cg.getCgno(), idx);
-				
-				// 찾은 giImgcode와 일치하는(해당 갤러리에 등록한) 이미지 찾기
-//				GImage gImage = cgiRep.findById(imagecode).orElse(null);
+//				System.out.println("cg : " + cg.getCgno());
 				
 				ClubGallery clubGallery = cgRep.findById(cg.getCgno()).orElse(null);
 				
 				clubGallery.setGimageurl("/ROOT/clubgallery/image?cgno=" + cg.getCgno() + "&idx=0");
-				
 			}
-			
-			
-			
-			
 			
 			//페이지네이션 구현용 글 개수 가져와서 model에 넣기
 			long total = cgRep.countByCgnameContaining(text);
@@ -147,7 +135,7 @@ public class ClubGalleryRestController {
 		}
 		return map;
 	}
-	// 클럽게시판 글상세내용 + 댓글목록
+	// 갤러리 상세보기 + 댓글목록
 	// /ROOT/api/clubgallery/select?cgno=
 	@RequestMapping(value="/select", 
 			method={RequestMethod.GET}, 
@@ -160,14 +148,22 @@ public class ClubGalleryRestController {
 			// 댓글 목록 저장할 배열 변수
 			List<CReply> replylist = crRep.findByClubgallery_cgnoOrderByRenumberDesc(cgno);
 			
-			model.addAttribute("clubgallery", cgRep.findById(cgno).orElse(null)); //글상세내용
+			model.addAttribute("clubgallery", cgRep.findById(cgno).orElse(null)); //글상세내용			
 			model.addAttribute("replylist", replylist); // 댓글
 			
-			List<GImage> image = cgiRep.findByClubgallery_cgnoOrderByGimgcodeAsc(cgno); // 글에 첨부된 이미지 꺼내기
+			
+			long imagecount = cgiRep.countByClubgallery_cgno(cgno); // 글에 첨부된 이미지 꺼내기
+			
+			for(int i=0; i<imagecount; i++)
+			{
+				
+			}
+			
+			
 //				System.out.println("image : " + image);
 //				if(image != null) // 글에 첨부된 이미지가 있으면
 //				{
-			model.addAttribute("cbimage", image); //이미지
+//			model.addAttribute("cbimage", image); //이미지
 //				}
 			
 			map.put("status", 200);
@@ -182,33 +178,32 @@ public class ClubGalleryRestController {
 	
 	// 갤러리 이미지 표시
 	// /ROOT/api/clubgallery/image/cgno=&idx=
-	@RequestMapping(value="/image", 
-			method={RequestMethod.GET}, 
-			consumes = {MediaType.ALL_VALUE},
-			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> imageGET(@RequestParam(name="cgno") long cgno, @RequestParam(name="idx") long idx) throws IOException
-	{
-		Map<String, Object> map = new HashMap<>();
-		try 
-		{
-			// cgno(갤러리번호) 조회해서 gimgcode 찾기
-			long imagecode = cgiRep.selectImageCode(cgno, idx);
-			
-			// 찾은 giImgcode와 일치하는(해당 갤러리에 등록한) 이미지 찾기
-			GImage gImage = cgiRep.findById(imagecode).orElse(null);
-			
-//			gImage.setGimageurl("/ROOT/clubgallery/image?cgno=" + cgno + "&idx=0");
+//	@RequestMapping(value="/image", 
+//			method={RequestMethod.GET}, 
+//			consumes = {MediaType.ALL_VALUE},
+//			produces= {MediaType.APPLICATION_JSON_VALUE})
+//	public Map<String, Object> imageGET(@RequestParam(name="cgno") long cgno, @RequestParam(name="idx") long idx) throws IOException
+//	{
+//		Map<String, Object> map = new HashMap<>();
+//		try 
+//		{
+//			// cgno(갤러리번호) 조회해서 gimgcode 찾기
+//			long imagecode = cgiRep.selectImageCode(cgno, idx);
+//			
+//			// 찾은 giImgcode와 일치하는(해당 갤러리에 등록한) 이미지 찾기
+//			GImage gImage = cgiRep.findById(imagecode).orElse(null);
+//			
 //			System.out.println("gimage : " + gImage.getGimagename());
-			
-			map.put("status", 200);
-			map.put("result", gImage);
-		}
-		catch (Exception e) 
-		{
-			map.put("status", 0);
-		}
-		return map;
-	}
+//			
+//			map.put("status", 200);
+//			map.put("result", gImage);
+//		}
+//		catch (Exception e) 
+//		{
+//			map.put("status", 0);
+//		}
+//		return map;
+//	}
 	
 	
 	
