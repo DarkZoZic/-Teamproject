@@ -39,7 +39,7 @@
 
             <!-- 로고 -->
             <v-col md="3" class="col_center">
-              <router-link to="/"><img :src="require('../assets/img/cluver.jpg')" style="height: 100px;" /></router-link>
+              <router-link to="/"><img :src="require('../assets/img/cluver.jpg')" style="height: 90px;" /></router-link>
             </v-col>
 
             <!-- 중앙 -->
