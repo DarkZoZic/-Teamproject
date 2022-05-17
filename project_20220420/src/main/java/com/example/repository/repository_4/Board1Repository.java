@@ -60,6 +60,9 @@ public interface Board1Repository extends JpaRepository<Board1, Long> {
     @Transactional
     int deleteByMember_midAndBnoIn(String mid, Long[] bno);
 
+    // 토큰 아이디와 작성자가 같은 글
+    // List<Board1> findByMember_midOrderByBnoDesc(String mid);
+
   
 
 

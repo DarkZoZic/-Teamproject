@@ -24,4 +24,7 @@ public interface CreplyRepository extends JpaRepository<CReply, Long>{
 
     // Qna 원본 글번호가 일치하는 댓글 
     List<CReply> findByQna_qnoOrderByRenumberAsc(long qno);
+
+    // 내가 쓴 댓글찾기?
+    // List<CReply> findByMember_mid(String mid);
 }
