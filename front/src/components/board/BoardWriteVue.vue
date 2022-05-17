@@ -162,7 +162,7 @@ export default {
             console.log(response.data);
             if(response.data.status === 200){
                 alert('등록완료');
-               router.push({name:'HomeVue'});
+                router.push({name: 'BoardListVue'});
             }
 
         }
