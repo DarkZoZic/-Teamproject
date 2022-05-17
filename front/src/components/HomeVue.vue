@@ -160,7 +160,7 @@
                                 </v-row>
                             </v-col>
 
-                            <v-col md="3" style="align:center;" v-if="state.logged">
+                            <v-col md="3" style="align:center;" v-if="!state.logged">
                                 <v-row>
                                     <v-col>
                                         <router-link to="/login">
@@ -193,7 +193,7 @@
                                 </v-row>
                             </v-col>
 
-                            <v-col md="3" style="align:center;" v-if="!state.logged">
+                            <v-col md="3" style="align:center;" v-if="state.logged">
                                 <v-row>
                                     <v-col>
                                         <v-card style="padding: 10px; border-width: 4px; border-color: gold; align-item: center; height: 313px;">
@@ -217,9 +217,12 @@
                                                     <router-link to="/mypage"><v-icon icon="mdi-bell-outline" /></router-link>
                                                 </v-col>
                                             </v-row>
+
                                             <v-row dense>
                                                 <router-link to="/mypage"><v-btn>내정보</v-btn></router-link>
+                                                <router-link to="/likelist"><v-btn>찜목록</v-btn></router-link>
                                             </v-row>
+
                                             <v-row></v-row>
                                         </v-card>
                                     </v-col>
@@ -278,8 +281,8 @@
             </div>
         </v-main>
     </v-app>
-    <FooterVue></FooterVue>
-    </div>
+<FooterVue></FooterVue>
+</div>
 </template>
 
 <script>
@@ -347,6 +350,7 @@ export default {
         const clubDetail = () => {
             router.push({ name: "ClubDetailVue" });
         }
+
         onMounted(() => {
             if(state.token === null){
                 store.commit('moduleA/setLogged', false)

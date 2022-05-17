@@ -174,7 +174,7 @@
           </v-row>
           <v-row dense>
             <v-col class="col_left" style="padding-left: 10px;">
-              <h1 style="color: gold;">02-1111-1111</h1>
+              <h1 style="color: navy;">02-1111-1111</h1><h1 style="padding-left: 10px; padding-right: 10px;">/</h1><h1 style="color: navy;">cluver@naver.com</h1>
             </v-col>
           </v-row>
           <v-row dense>
