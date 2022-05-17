@@ -51,8 +51,14 @@
           </v-row>
 
           <v-row dense>
-            <v-col style="display: flex; padding-top: 10px; padding-left: 10px;" class="col_left">
+            <v-col sm="5" style="padding: 10px;" class="col_left">
               <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{state.reply.count}}</h5><h5>개</h5>
+            </v-col>
+
+            <!-- 토큰이 일치할 때 -->
+            <v-col class="col_right">
+              <h5 @click="handleUpdate()" style="padding-right: 10px; cursor: pointer;">수정</h5>
+              <h5 @click="handleDelete()" style="cursor: pointer;">삭제</h5>
             </v-col>
           </v-row>
 
@@ -62,40 +68,17 @@
             <v-col style="border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; padding-left: 20px; padding-right: 20px;">
 
               <!-- 댓글하나 -->
-              <v-row dense style="padding-top: 10px;">
-                <v-col>
-                  <!-- 댓글작성자 -->
-                  <v-row dense>
-                    <v-col class="col_left">
-                      <h5 style="padding-right: 10px;">{{state.reply.writer}}</h5> 
-                      <h5 style="color: #676767;">{{state.reply.date}}</h5>
-                      <a><img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
-                      <h5 style="color: #676767;">{{state.like}}</h5>
-
-                      <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
-                    </v-col>
-                  </v-row>
-
-                  <!-- 댓글내용 -->
-                  <v-row dense>
-                    <v-col style="border-bottom: 1px solid #CCC;">
-                      <h4 style="padding-left: 10px;">{{state.reply.content}}</h4>
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
-
-              <!-- 댓글하나 -->
               <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;">
                 <v-col>
                   <!-- 댓글작성자 -->
                   <v-row dense>
                     <v-col class="col_left">
                       <h5 style="padding-right: 10px;">{{state.reply.writer}}</h5> 
-                      <h5 style="color: #676767;">{{state.reply.date}}</h5>
-                      <a><img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
-                      <h5 style="color: #676767;">{{state.like}}</h5>
-                      <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
+                      <h5 style="color: gray;">{{state.reply.date}}</h5>
+                      <img :src="require('../../assets/img/thumb.png')" @click="like()"
+                        style="width: 15px; margin-left: 10px; margin-right: 3px; cursor: pointer;"/>
+                      <h5 style="color: gray;">{{state.like}}</h5>
+                      <h5 style="color: gray; padding-left: 10px; cursor: pointer;">댓글</h5>
                     </v-col>
                   </v-row>
 
@@ -116,11 +99,12 @@
                           <v-row dense>
                             <v-col class="col_left">
                               <h5 style="padding-right: 10px;">{{state.reply.writer1}}</h5> 
-                              <h5 style="color: #676767;">{{state.reply.date1}}</h5>
-                              <a><img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
-                              <h5 style="color: #676767;">{{state.like}}</h5>
-
-                              <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
+                              <h5 style="color: gray;">{{state.reply.date1}}</h5>
+                              <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px; cursor: pointer;"/>
+                              <h5 style="color: gray;">{{state.like}}</h5>
+                              <h5 @click="handleUpdate()" style="padding-left: 10px; color: gray; padding-right: 10px; cursor: pointer;">수정</h5>
+                              <h5 @click="handleDelete()" style="cursor: pointer; color: gray;">삭제</h5>
+                              
                             </v-col>
                           </v-row>
                         </v-col>
@@ -137,30 +121,7 @@
                 </v-col>
               </v-row>
 
-              <!-- 댓글하나 -->
-              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;">
-                <v-col>
-                  <!-- 댓글작성자 -->
-                  <v-row dense>
-                    <v-col class="col_left">
-                      <h5 style="padding-right: 10px;">{{state.reply.writer}}</h5> 
-                      <h5 style="color: #676767;">{{state.reply.date}}</h5>
-                      <a><img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
-                      <h5 style="color: #676767;">{{state.like}}</h5>
-                      <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
-                    </v-col>
-                  </v-row>
-
-                  <!-- 댓글내용 -->
-                  <v-row dense style="padding-right: 10px;">
-                    <v-col>
-                      <h4 style="padding-left: 10px;">{{state.reply.content}}</h4>
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
-
-              <v-row dense="">
+              <v-row dense>
                 <v-col sm="9" style="padding-top: 10px;">
                   <textarea 
                     style="border: 1px solid #CCC; padding: 10px; background-color: white; width: 100%; height: 70px; outline-width: 0; resize: none;"
@@ -213,7 +174,8 @@ export default {
 
     onMounted(() => {
       handleData();
-        })
+    })
+
     const route = useRoute();
 
     const state = reactive({
@@ -239,6 +201,7 @@ export default {
         content1: '222',  
       }
     })
+
     const handleData = async() => {
       const url = `/ROOT/api/board1/selectone?bNo=${state.bno}`;
       const headers = {"Content-Type":"application/json",
@@ -249,7 +212,18 @@ export default {
                 state.items = response.data.result;
                 console.log(state.items);
             }
+    }
 
+    const handleDelete = () => {
+      if (confirm('정말 삭제하시겠습니까?')) {
+        router.push({name:"BoardListVue"})
+      }
+    }
+
+    const handleUpdate = () => {
+      if (confirm('정말 수정하시겠습니까?')) {
+        router.push({name:"BoardUpdateVue"})
+      }
     }
 
     // const like = async() => {
@@ -276,7 +250,7 @@ export default {
 
     }
 
-    return { state,  replylike, reply }
+    return { state, handleUpdate, handleDelete, replylike, reply }
   }
 }
 </script>
