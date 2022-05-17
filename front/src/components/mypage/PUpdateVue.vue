@@ -48,7 +48,6 @@
 
                             <v-row dense style="padding: 10px;">
                                 <v-col class="col_center">
-                                    
                                     <input type="file" name="file" @change="handleImage($event)" style="width: 80px;">
                                     <v-btn>초기화</v-btn>
                                 </v-col>
@@ -271,7 +270,7 @@ export default {
                 }
                 else{
                     // state.imageUrl = require('../../assets/img/profile_sample.png');
-                    state.imageUrl = state.items.mimageurl;
+                    state.imageUrl = require('../../assets/img/profile_sample.png');
                     state.imageFile = null;
                 }
             }
@@ -298,7 +297,7 @@ export default {
             body.append("maddress",state.items.maddress);
             body.append("detailaddress",state.items.detailaddress);
             body.append("memail",state.items.memail);
-            body.append("file",state.imageUrl);
+            body.append("file",state.items.imageUrl);
         const response = await axios.put(url,body,{headers});
         console.log(state.imageFile);
         console.log(response.data);
@@ -320,8 +319,9 @@ export default {
             console.log(response.data.result);
 
             if(response.data.status === 200){
-                state.imageUrl = response.data.result.mimageurl
                 state.items = response.data.result;
+                state.imageUrl = response.data.result.mimageurl
+                // if(response.data.result.mimageurl)
                 // handlenick();
             }
         }
