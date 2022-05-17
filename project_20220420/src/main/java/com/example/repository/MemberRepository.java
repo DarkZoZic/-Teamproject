@@ -4,6 +4,7 @@ package com.example.repository;
 
 
 import com.example.entity.entity1.Member;
+import com.example.entity.entity2.MemberProjection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -24,8 +25,9 @@ public interface MemberRepository extends JpaRepository<Member, String>{
     // void changePwd(@Param("password")
     // String password, @Param("mid")String mid);
 
-    // List<MemberIdprojection> findBymEmail(String email);
+    // MemberProjection findByMpno(long id);
 
+    Member findByMid(String email);
     Member findByMemail(String email);
 
 

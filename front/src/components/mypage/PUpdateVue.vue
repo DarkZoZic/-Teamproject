@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="state.items">
 <HeaderVue style="height: 220px;"></HeaderVue>
     <v-app>
         <v-main style="padding: 10px;">
@@ -43,6 +43,7 @@
                             <v-row dense>
                                 <v-col style="width: 100%; height: 165px;" class="col_center">
                                     <img :src="state.imageUrl"  style="width: 160px; border: 1px solid #CCC;"/>
+                                    <img :src="`data:${state.items.mimagetype};base64,${state.items.mprofile}`" style="width: 160px; border: 1px solid #CCC;"/>
                                 </v-col>
                             </v-row>
 
@@ -69,7 +70,7 @@
                                     <v-col style="height: 80px;">
                                         <v-text-field
                                         label="닉네임"
-                                        v-model="state.nickname"
+                                        v-model="state.nick"
                                         variant="plain"
                                         :rules="nicknameRules"
                                         density="compact"
@@ -85,7 +86,7 @@
                                     <v-col style="height:80px;">
                                         <v-text-field
                                         label="이메일"
-                                        v-model="state.email"
+                                        v-model="state.items.memail"
                                         variant="plain"
                                         :rules="emailRules"
                                         density="compact"
@@ -101,7 +102,7 @@
                                     <v-col sm="10" style="height: 80px;">
                                         <v-text-field
                                         label="연락처"
-                                        v-model="state.phone"
+                                        v-model="state.items.mphone"
                                         variant="plain"
                                         :rules="phoneRules"
                                         hint="숫자만 입력하세요"
@@ -148,7 +149,7 @@
                                         <v-text-field
                                         id="address"
                                         label="주소"
-                                        v-model="state.address"
+                                        v-model="state.items.maddress"
                                         variant="plain"
                                         :rules="nameRules"
                                         density="compact"
@@ -171,7 +172,7 @@
                                     <v-col sm="8" style="height: 80px;">
                                         <v-text-field
                                         label="상세주소"
-                                        v-model="state.detailAddress"
+                                        v-model="state.items.detailaddress"
                                         id="detailAddress"
                                         variant="plain"
                                         :rules="nameRules"
@@ -180,7 +181,7 @@
                                         ></v-text-field>
                                     </v-col>
 
-                                    <v-col sm="4" style="height: 80px;">
+                                    <!-- <v-col sm="4" style="height: 80px;">
                                         <v-text-field
                                         label="우편번호"
                                         v-model="state.postcode"
@@ -190,7 +191,7 @@
                                         density="compact"
                                         required
                                         ></v-text-field>
-                                    </v-col>
+                                    </v-col> -->
                                 </v-row>
                             </v-expansion-panel>
                         </v-form>
@@ -233,12 +234,14 @@ import { useRouter } from 'vue-router';
 import FooterVue from '../FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
 import axios from 'axios';
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 
 export default {
     components: { HeaderVue, FooterVue },
     setup () {
         const state = reactive({
+            nick : '',
+            token : sessionStorage.getItem("TOKEN"),
             id : '',
             pw : '',
             pw1 : '',
@@ -249,17 +252,15 @@ export default {
             postcode : '',
             email : '',
             nickname : '',
-            gender : [{ value: "남", text: "남성", },
-            { value: "여", text: "여성", }],
             birth : '',
             role : 'PERSONAL',
             imageUrl : require('../../assets/img/profile_sample.png'),
             imageFile : null,
         })
         
-        // onMounted(() => {
-        //       handleJoin2();
-        //   })
+        onMounted(() => {
+            handlenick(),mypage();
+          })
         const router = useRouter();
 
         const handleImage = (e) => {
@@ -273,42 +274,60 @@ export default {
                 }
             }
 
-        const handleJoin2 = async() => {
-        const url = `/ROOT/member/psjoin.json`;
-        const headers = {"Content-Type":"multipart/form-data"};
-
-        const body = new FormData;
-            body.append("mpnickname", state.nickname);
-            body.append("mpgender",state.gender);
-            body.append("mpbirth",state.birth);
-            body.append("mprole",state.role);
-            body.append("member",state.id);
-        const response = await axios.post(url,body,{headers});
-        console.log(response.data);
-        if(response.data.status === 200){
-            alert('회원가입완료')
-            router.push({ path : 'login' });
+        const handlenick = async() => {
+            const url = `/ROOT/member/psmynick`;
+            const headers = {"Content-Type":"application/json", 
+            token : state.token};
+            const response = await axios.get(url, {headers});
+            console.log(response.data.result);
+            if(response.data.status === 200){
+                state.nick = response.data.result.mpnickname;
+                console.log(state.nick);
+            }
         }
-        }
-        const handleJoin = async() => {
-        // 유효성검사 통과후
-            
-        const url = `/ROOT/member/join.json`;
-        const headers = {"Content-Type":"multipart/form-data"};
 
+        const handleUpdate = async() => {
+        const url = `/ROOT/member/updatemember`;
+        const headers = {"Content-Type":"multipart/form-data",
+        token : state.token};
         const body = new FormData;
-            body.append("mname",state.mname);
-            body.append("mphone",state.phone);
-            body.append("maddress",state.address + state.detailAddress + state.postcode);
-            body.append("memail",state.email);
+            body.append("mname",state.items.mname);
+            body.append("mphone",state.items.mphone);
+            body.append("maddress",state.items.maddress);
+            body.append("detailaddress",state.items.detailaddress);
+            body.append("memail",state.items.memail);
             body.append("file",state.imageFile);
-        const response = await axios.post(url,body,{headers});
+        const response = await axios.put(url,body,{headers});
+        console.log(state.imageFile);
         console.log(response.data);
         if(response.data.status === 200){
-            handleJoin2();
+            alert('정보수정완료')
+            router.push({path : 'mypage'})
+
+        }
+        else{
+            console.log('실패');
         }
         }
-        return { handleJoin, state, handleImage }
+
+        const mypage = async() => {
+            const url = `/ROOT/member/mypage`;
+            const headers = {"Content-Type":"application/json", 
+            token : state.token};
+            const response = await axios.get(url, {headers});
+            console.log(response.data.result);
+
+            // const url1 = `/ROOT/member/psmynick`;
+            // const headers1 = {"Content-Type":"application/json", 
+            // token : state.token};
+            // const response1 = await axios.get(url1, {headers1});
+            // console.log(response1.data.result);
+            if(response.data.status === 200){
+                state.items = response.data.result;
+                // handlenick();
+            }
+        }
+        return { handleUpdate, state,handleImage }
     },
     data () {
         return {

@@ -1,5 +1,6 @@
 package com.example.controller.controller_2;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import io.lettuce.core.dynamic.annotation.Param;
+
 import com.example.entity.entity1.Member;
 import com.example.entity.entity1.MemberCompany;
 import com.example.entity.entity1.MemberPersonal;
+import com.example.entity.entity2.MemberNicknameview;
+import com.example.entity.entity2.MemberProjection;
 import com.example.entity.projection.MemberIdprojection;
 import com.example.jwt.JwtUtil;
 import com.example.repository.MemberCPRepository;
@@ -137,7 +142,6 @@ public class CustomerRestController {
 			// System.out.println("===="+ user);
 			// // 현재암호랑 입력한 암호가 맞는지 확인
 			// // user.getPassword() 는 암호화 된거  member.getUpw() 는 암호화x
-			if(bcpe.matches(member.getMpw(), user.getPassword())){
 			Member member1 =mRepository.findById(username).orElse(null);
 				
 			if(file != null){
@@ -157,6 +161,7 @@ public class CustomerRestController {
 				member1.setMname(member.getMname());
 				member1.setMphone(member.getMphone());
 				member1.setMaddress(member.getMaddress());
+				member1.setDetailaddress(member.getDetailaddress());
 				member1.setMemail(member.getMemail());
 				System.out.println(member1.getMemail());
 				mRepository.save(member1);
@@ -165,7 +170,6 @@ public class CustomerRestController {
 				
 			map.put("status", 200); // 0 -> 200
 	}
-		}
 		
 		catch (Exception e) {
 			e.printStackTrace();
@@ -278,7 +282,6 @@ public class CustomerRestController {
 	// 마이페이지
 	// 127.0.0.1:9090/ROOT/member/mypage
 	@RequestMapping(value = "/mypage", 
-	//{"uemail":"c1", "upw":"c1" };
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },
 			produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -286,10 +289,34 @@ public class CustomerRestController {
 		@RequestHeader(name = "TOKEN") String token){
 		String username = jwtUtil.extractUsername(token);
 		System.out.println(username);
+		Member member = mRepository.findByMid(username);
 
 		// 토큰이 있어야 실행됨
 		Map<String, Object> map = new HashMap<>();
 		map.put("status", 200); 
+		map.put("result", member); 
+		return map;
+	}
+	// 닉네임 가져오기
+	// 127.0.0.1:9090/ROOT/member/psmynick
+	@RequestMapping(value = "/psmynick", 
+			method = { RequestMethod.GET },
+			consumes = { MediaType.ALL_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> psmyNickGet(
+		@RequestHeader(name = "TOKEN") String token){
+		Map<String, Object> map = new HashMap<String, Object>();
+		String username = jwtUtil.extractUsername(token);
+		System.out.println(username);
+		
+		MemberPersonal memberPersonal = mpsRepository.findByMember_Mid(username);
+		MemberProjection mem = mpsRepository.findByMpno(memberPersonal.getMpno());
+		System.out.println(mem);
+
+		// Membe.out.println(memberPersonal);
+		// 토큰이 있어야 실행됨
+		map.put("status", 200); 
+		map.put("result", mem); 
 		return map;
 	}
 
@@ -385,51 +412,8 @@ public class CustomerRestController {
             
             return map;
         }
-	// 개인+회원가입(개인회원)
-	// 127.0.0.1:9090/ROOT/member/join2.json
-	//{"mid":"c1", "mpw":"c1" };
-	// @PostMapping(value = "/join2.json", 
-	// consumes = MediaType.ALL_VALUE, 
-	// produces = MediaType.APPLICATION_JSON_VALUE)
-	// public Map<String, Object> PersonalJoin1Post(
-	// 	@RequestParam(name = "file",required = false) MultipartFile file,
-	// 	@ModelAttribute MemberPersonal psmemberpersonal,
-	// 	@ModelAttribute Member member){
-	// 		// 이미지,배열 형식이면 ModelAttribute, 폼데이터 사용
-	// 		// System.out.println(psmemberpersonal.toString());
-	// 		BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
-	// 		Map<String, Object> map = new HashMap<>();
-	// 	try {
-
-	// 		if(
-	// 		file != null){
-	// 		if(!file.isEmpty()){
-	// 			member.setMprofile(file.getBytes());
-	// 			member.setMimagesize(file.getSize());
-	// 			member.setMimagetype(file.getContentType());
-	// 			member.setMimagename(file.getOriginalFilename());
-				
-	// 		}
-	// 	}
-	
-	// 		member.setMpw(bcpe.encode( member.getMpw()) );
-	// 		mRepository.save(member);
-			
-	// 		member.setMid((String) psmemberpersonal.getMember().getMid());
-	// 		psmemberpersonal.setMember(member);
-			
-	// 		mpsRepository.save(psmemberpersonal);
-	// 		map.put("status", 200);
-    //         }
-    //         catch (Exception e) {
-    //             e.printStackTrace();
-    //             map.put("status", 0);
-    //         }
-            
-    //         return map;
-    //     }
 		// 기업회원가입(Company)
-	// 127.0.0.1:9090/ROOT/member/cpjoin.json
+		// 127.0.0.1:9090/ROOT/member/cpjoin.json
 	//{"mid":"c1", "mpw":"c1" };
 	@RequestMapping(value = "/cpjoin.json", 
 	method = { RequestMethod.POST },
@@ -463,4 +447,49 @@ try {
 	
 	return map;
 }
+
+
 }
+// 개인+회원가입(개인회원)
+// 127.0.0.1:9090/ROOT/member/join2.json
+//{"mid":"c1", "mpw":"c1" };
+// @PostMapping(value = "/join2.json", 
+// consumes = MediaType.ALL_VALUE, 
+// produces = MediaType.APPLICATION_JSON_VALUE)
+// public Map<String, Object> PersonalJoin1Post(
+// 	@RequestParam(name = "file",required = false) MultipartFile file,
+// 	@ModelAttribute MemberPersonal psmemberpersonal,
+// 	@ModelAttribute Member member){
+// 		// 이미지,배열 형식이면 ModelAttribute, 폼데이터 사용
+// 		// System.out.println(psmemberpersonal.toString());
+// 		BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+// 		Map<String, Object> map = new HashMap<>();
+// 	try {
+
+// 		if(
+// 		file != null){
+// 		if(!file.isEmpty()){
+// 			member.setMprofile(file.getBytes());
+// 			member.setMimagesize(file.getSize());
+// 			member.setMimagetype(file.getContentType());
+// 			member.setMimagename(file.getOriginalFilename());
+			
+// 		}
+// 	}
+
+// 		member.setMpw(bcpe.encode( member.getMpw()) );
+// 		mRepository.save(member);
+		
+// 		member.setMid((String) psmemberpersonal.getMember().getMid());
+// 		psmemberpersonal.setMember(member);
+		
+// 		mpsRepository.save(psmemberpersonal);
+// 		map.put("status", 200);
+//         }
+//         catch (Exception e) {
+//             e.printStackTrace();
+//             map.put("status", 0);
+//         }
+		
+//         return map;
+//     }

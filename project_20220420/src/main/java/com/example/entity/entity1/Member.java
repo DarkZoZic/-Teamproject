@@ -47,6 +47,9 @@ public class Member {
   // 주소
   @Column(name = "MADDRESS", nullable = false)
   private String maddress;
+  // 상세주소
+  @Column(name = "DETAILADDRESS")
+  private String detailaddress;
   // 가입일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
