@@ -26,7 +26,7 @@
 
                         <v-col style="display: flex; align-items: center;">
                             <v-expansion-panels style="width:100%">
-                                <v-form v-model="valid" style="width:100%">
+                                <v-form v-model="state.valid" style="width:100%">
                                     <!-- 클럽명 -->
                                     <v-expansion-panel class="panel">
                                         <v-row>
@@ -292,20 +292,21 @@ export default {
         const state = reactive({
             datechk: [],
             timechk: [],
-            gender: [],
-            age: [],
+            gender : [],
+            age    : [],
 
-            name: '',
-            area: '',
-            postcode: '',
-            detailAddress: '',
-            address: '',
-            desc: '',
+            name          : '',
+            area          : '',
+            postcode      : '',
+            detailAddress : '',
+            address       : '',
+            desc          : '',
 
             nameRules: [
                 v => !!v || '필수 입력 사항입니다',
                 v => !/[~!@#$%^&*()_+|<>?:{}]/.test(v) || '이름에는 특수문자를 사용할 수 없습니다'
             ],
+            valid: '',
         })
         const handleReg = () => {
 

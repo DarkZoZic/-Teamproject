@@ -14,7 +14,7 @@
                     </v-row>
                     <v-card style="width:100%; margin: 10px; margin-top: 30px; margin-bottom: 30px;">
                         <v-expansion-panels style="width:100%">
-                            <v-form v-model="valid" style="width:100%">
+                            <v-form v-model="state.valid" style="width:100%">
                                 <!-- 지원클럽 -->
                                 <v-expansion-panel class="panel">
                                     <v-row dense style="padding:10px;">
@@ -138,9 +138,10 @@ export default {
         const state = reactive({
             editor     : ClassicEditor, // ckeditor종류
             editorData : '',
-            clubname: '삥뽕탁구클럽',
-            id: 'aaa',
-            title: '제목입니다',
+            clubname   : '삥뽕탁구클럽',
+            id         : 'aaa',
+            title      : '제목입니다',
+            valid      : '',
         })
 
         const onReady = ( editor ) => {

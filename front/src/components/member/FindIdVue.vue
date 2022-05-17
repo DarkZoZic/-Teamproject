@@ -36,7 +36,7 @@
                             <v-col style="justify-content: right;display: flex; align-items: center; ">
                             <!-- 아이디 -->
                                 <v-expansion-panels style="width:100%">
-                                    <v-form v-model="valid" style="width:100%">
+                                    <v-form v-model="state.valid" style="width:100%">
                                         <v-expansion-panel class="panel">
                                             <v-row>
                                                 <v-col style="height: 80px;">
@@ -103,7 +103,7 @@
                             <v-col style="justify-content: right;display: flex; align-items: center; ">
                             <!-- 아이디 -->
                                 <v-expansion-panels style="width:100%">
-                                    <v-form v-model="valid" style="width:100%">
+                                    <v-form v-model="state.valid" style="width:100%">
                                         <v-expansion-panel class="panel">
                                             <v-row>
                                                 <v-col style="height: 80px;">
@@ -190,16 +190,17 @@ export default {
     components: { HeaderVue, FooterVue },
     setup () {
         const state = reactive({
-            pname: '',
-            pphone: '',
-            cname: '',
+            pname  : '',
+            pphone : '',
+            cname  : '',
             cnumber: '',
-            chone: '',            
+            chone  : '',            
             numberRules: [
                 v => !!v || '필수 입력 사항입니다',
                 v => v.length >= 10 || '10자리 숫자만 입력하세요',
                 v => v.length <= 10 || '10자리 숫자만 입력하세요',
             ],
+            valid  : '',
         })
 
         return { state }

@@ -137,7 +137,7 @@ export default {
             title      : '글제목입니다',
             editor     : ClassicEditor, // ckeditor종류
             editorData : '수정일자입니다',
-            valid: '',
+            valid      : '',
         })
 
         const onReady = ( editor ) => {

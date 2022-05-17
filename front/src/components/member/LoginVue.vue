@@ -25,7 +25,7 @@
                     <v-col style="justify-content: right;display: flex; align-items: center;">
                     <!-- 아이디 -->
                         <v-expansion-panels style="width:100%">
-                            <v-form v-model="valid" style="width:100%">
+                            <v-form v-model="state.valid" style="width:100%">
                                 <v-expansion-panel class="panel">
                                     <v-row>
                                         <v-col style="height: 80px;">
@@ -143,25 +143,27 @@ export default {
     setup () {
     const router = useRouter();
 
-        const state = reactive({
-        id : '',
-        pw : '',
-      })
-        const submit = async() => {
-            const url = `/ROOT/member/login`;
-            const headers = {"Content-Type":"multipart/form-data"};
-            const body = new FormData;
-            body.append("mid", state.id);
-            body.append("mpw",state.pw);
-            const response = await axios.post(url, body,{headers});
-            console.log(response.data);
-            if(response.data.status === 200){
-                sessionStorage.setItem("TOKEN", response.data.token);
-                alert('로그인성공');
-                router.push({path : '/'})
+    const state = reactive({
+        id   : '',
+        pw   : '',
+        valid: '',
+    })
 
-            }
+    const submit = async() => {
+        const url = `/ROOT/member/login`;
+        const headers = {"Content-Type":"multipart/form-data"};
+        const body = new FormData;
+        body.append("mid", state.id);
+        body.append("mpw",state.pw);
+        const response = await axios.post(url, body,{headers});
+        console.log(response.data);
+        if(response.data.status === 200) {
+            sessionStorage.setItem("TOKEN", response.data.token);
+            alert('로그인성공');
+            router.push({path : '/'})
+
         }
+    }
 
         return {state,submit}
     },

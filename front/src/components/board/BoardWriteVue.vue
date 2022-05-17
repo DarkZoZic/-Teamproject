@@ -23,7 +23,7 @@
                         <v-col class="col_center">                        
                             <v-card style="width:100%; margin: 10px; margin-top: 20px; margin-bottom: 30px;">
                                 <v-expansion-panels style="width:100%">
-                                    <v-form v-model="valid" style="width:100%">
+                                    <v-form v-model="state.valid" style="width:100%">
                                         <!-- 작성자 -->
                                         <!-- <v-expansion-panel class="panel">
                                             <v-row dense style="padding:10px;">
@@ -142,6 +142,7 @@ export default {
             editor     : ClassicEditor, // ckeditor종류
             editorData : "미리 추가되는 내용",
             token      : sessionStorage.getItem("TOKEN"),
+            valid      : '',
         })
         
 
