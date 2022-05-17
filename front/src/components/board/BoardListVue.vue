@@ -1,7 +1,5 @@
 <template>
-<div>
-                <div v-if="state.items">
-                
+<div v-if="state.items">
 <HeaderVue style="height: 220px;"></HeaderVue>
     <v-app>
         <v-main style="padding: 10px;">      
@@ -16,14 +14,10 @@
                     </v-row>
 
                     <v-row dense style="padding-top: 10px; padding-bottom: 5px; padding-left: 10px; ">
-                        <v-col class="col_left">
-                            <h2>자유게시판</h2>
-                        </v-col>
+                        <v-col class="col_left"><h2>자유게시판</h2></v-col>
+                        
                         <v-col md="8" class="col_right">
-                            <v-flex class="select">
-                                <v-select variant="outlined" density="compact" :items1="state.items1" style="height: 40px;"></v-select>
-                            </v-flex>
-
+                            <v-select variant="outlined" density="compact" :items="state.items1" v-model="state.select" style="height: 40px; padding-right: 10px;"></v-select>
                             <input type="text" class="board_search_box" @keyup.enter="search()" style="outline-width: 0;" v-model="state.text">
                             <v-btn style="height: 40px;" @click="search()"><h4>검색</h4></v-btn>
                             <router-link to="/bwrite">
@@ -31,10 +25,11 @@
                                     <h4>글쓰기</h4>
                                 </v-btn>
                             </router-link>
-                                </v-col>
-                            </v-row>
-                            <v-row dense style="border: 1px solid #CCC; border-top: 1px solid #CCC; padding: 10px; padding-left: 20px;  ">
-                            <v-col>
+                        </v-col>
+                    </v-row>
+
+                    <v-row dense style="border: 1px solid #CCC; border-top: 1px solid #CCC; padding: 10px; padding-left: 20px;  ">
+                        <v-col>
                             <v-table height="800px">
                                 <thead>
                                     <tr>
@@ -61,27 +56,22 @@
                     </v-row>
                 </v-col>
 
-                <v-col md="2">
-                </v-col>
+                <v-col md="2"></v-col>
             </v-row>
+
             <v-row dense>
                 <v-col>
-                     
-                    
                      <v-pagination
                      v-model="state.page"
                     :length="state.total" 
                     @click="handlePagenation()"
                     >
                     </v-pagination>
-                    
-
                 </v-col>
             </v-row>
         </v-main>
     </v-app>
-    <FooterVue></FooterVue>
-                </div>
+<FooterVue></FooterVue>
 </div>
 </template>
 
@@ -96,44 +86,38 @@ import {useRouter} from 'vue-router';
 export default {
   components: { HeaderVue, FooterVue },
     setup () {
-
         
-     onMounted(() => {
+        onMounted(() => {
             handleData();
         });
+
         const router = useRouter();
-         const state = reactive({
-             token : sessionStorage.getItem("TOKEN"),
-             pa : 1,
-             text: '',  // 검색어
-             page: 1,   // 현재페이지
+
+        const state = reactive({
+            token : sessionStorage.getItem("TOKEN"),
+            pa: 1,
+            text: '',  // 검색어
+            page: 1,   // 현재페이지
+            select: '',
             items1: [
-                 '전체', '제목', '내용', '글쓴이'
-             ]
- 
-         })
+                '전체', '제목', '내용', '글쓴이'
+            ]
+        });
 
-         
-
-          // 조회수 1증가 시키기
-         const handlePage = async(bno) => {
-             if(state.token !== null){
+        // 조회수 1증가 시키기
+        const handlePage = async(bno) => {
+            if(state.token !== null){
             const url = `/ROOT/api/board1/updatehit?bNo=${bno}`;
-            const headers = {"Content-Type":"application/json", 
-            token : state.token};
-            const response = await axios.put(url,{},{headers});
+            const headers = { "Content-Type":"application/json", token: state.token };
+            const response = await axios.put(url, {}, { headers });
             console.log(response.data);
-                router.push({name:"BoardContentVue"
-                , query:{bno : bno}
-                } )
+                router.push({name:"BoardContentVue", query:{ bno: bno }})
+
             console.log(bno);
-             }
-
-            
+            }  
         }
-         
 
-          const handlePagenation = () => {
+        const handlePagenation = () => {
             state.page = state.page;
             // state.total = Number(tmp);
             
@@ -141,10 +125,10 @@ export default {
             handleData();
         }
 
-     const handleData = async() => {
+        const handleData = async() => {
             const url = `/ROOT/api/board1/selectlist?page=${state.page}`
-            const headers = {"Content-Type":"application/json"};
-            const response = await axios.get(url, {headers});
+            const headers = { "Content-Type": "application/json" };
+            const response = await axios.get(url, { headers });
             console.log(response.data);
             if(state.token !== null){
                 console.log("토큰있음");
@@ -170,17 +154,16 @@ export default {
         const search = async() => {
             const url = `/ROOT/api/board1/search?btitle=${state.text}&page=${state.page}`
             const headers = {"Content-Type":"application/json"};
-            const response = await axios.get(url, {headers});
-              console.log('ExBoard.vue =>',response.data);
+            const response = await axios.get(url, { headers });
+            console.log('ExBoard.vue =>',response.data);
+
             if(response.data.status === 200){
                 state.items = response.data.result;
                 console.log(response.data.result.length);
             }
         }
 
-        
-
-        return { state,search,handlePagenation,handlePage}
+        return { state, search, handlePagenation, handlePage }
     },
 }
 </script>
