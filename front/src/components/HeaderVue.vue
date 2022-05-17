@@ -14,11 +14,8 @@
             <!-- 우측중앙 로그인 회원가입 -->
             <v-col md="5" class="col_right">
               <router-link :to="{ name:'LoginVue' }" v-if="!state.logged"><h4 style="margin-left:10px;">로그인</h4></router-link>
-
               <router-link :to="{ name:'ChoiceJoinVue' }" v-if="!state.logged"><h4 style="margin-left:10px;">회원가입</h4></router-link>
-
               <router-link :to="{ name:'LogoutVue' }" v-if="state.logged"><h4 style="margin-left:10px;">로그아웃</h4></router-link>
-
               <router-link :to="{ name:'MypageVue' }" v-if="state.logged"><h4 style="margin-left:10px;">마이페이지</h4></router-link>
             </v-col>
           </v-row>
