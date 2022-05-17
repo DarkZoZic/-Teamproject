@@ -1,40 +1,58 @@
 package com.example.controller.controller_4;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.example.entity.entity1.Member;
+import com.example.entity.entity1.QImage;
 import com.example.entity.entity1.Qna;
+import com.example.entity.entity2.Qckeditor;
 import com.example.jwt.JwtUtil;
+import com.example.repository.repository_4.QckeditorRepository;
 import com.example.repository.repository_4.QnaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping(value = "/qna")
+@RequestMapping(value = "/api/qna")
 public class QnaRestController {
 
     @Autowired
     QnaRepository qRepository;
+
+    @Autowired
+    QckeditorRepository qcRepository;
     
     @Autowired 
     JwtUtil jwtUtil;
+
+    @Autowired 
+    ResourceLoader resLoader;
+
+    @Value("${default.image}") String DEFAULT_IMAGE;
 
     // int PAGECNT = 10
     // global.properties 사용하기. 나중에 숫자 바꾸고 싶은대로 바꾸면 됨
     @Value("${board.page.count}") int PAGECNT;
 
-    //127.0.0.1:9090/ROOT/qna/insert
+    //127.0.0.1:9090/ROOT/api/qna/insert
     @RequestMapping(value = "/insert", 
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
@@ -71,8 +89,78 @@ public class QnaRestController {
         return map;
     }
 
+    // ckeditor에서 첨부하는 이미지 보관하는 곳
+    // 127.0.0.1:9090/ROOT/api/qna/ckimage
+    @RequestMapping(value = "/ckimage", 
+        method = {RequestMethod.POST},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> ckImagePOST(
+      @RequestParam(name = "image") MultipartFile file ) {
+
+        System.out.println(file.getOriginalFilename());
+
+        Map<String ,Object> map = new HashMap<>();
+
+        try{
+            Qckeditor qckeditor = new Qckeditor();
+            if(file.isEmpty() == false) {
+                qckeditor.setQcimage(file.getBytes()); // 이미지
+                qckeditor.setQcimagename(file.getOriginalFilename()); // 파일명
+                qckeditor.setQcimagesize(file.getSize()); //사이즈
+                qckeditor.setQcimagetype(file.getContentType());// 타입
+            }
+
+            qcRepository.save(qckeditor);
+
+            map.put("status", 200);
+            map.put("url", "/ROOT/api/qna/image?qimgcode=" + qckeditor.getQcimgcode() ); // url 보내기
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
+
+    // 127.0.0.1:9090/ROOT/api/qna/image?biimgcode=1
+    // <img th:src="@{/qna/image(biimgcode=1)}" style="width:100px" />
+    @RequestMapping(value = "/image", 
+        method = {RequestMethod.GET},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<byte[]> imageGET(
+      @RequestParam(name = "qimgcode") Long qimgcode ) throws IOException  {
+
+        Qckeditor qckeditor = qcRepository.getById(qimgcode);
+
+
+        // 이미지명, 이미지크기, 이미지종류, 이미지데이터
+
+        if (qckeditor.getQcimagesize() > 0) {
+			HttpHeaders headers = new HttpHeaders();
+			if (qckeditor.getQcimagetype().equals("image/jpeg")) {
+				headers.setContentType(MediaType.IMAGE_JPEG);
+			} else if (qckeditor.getQcimagetype().equals("image/png")) {
+				headers.setContentType(MediaType.IMAGE_PNG);
+			} else if (qckeditor.getQcimagetype().equals("image/gif")) {
+				headers.setContentType(MediaType.IMAGE_GIF);
+			}
+			ResponseEntity<byte[]> response = new ResponseEntity<>(qckeditor.getQcimage(), headers, HttpStatus.OK);
+			return response;
+		} 
+        else {
+			InputStream is = resLoader.getResource(DEFAULT_IMAGE).getInputStream();
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.IMAGE_JPEG);
+			ResponseEntity<byte[]> response = new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
+			return response;
+		}
+    }
+
     // 1개조회
-    // 127.0.0.1:9090/ROOT/qna/selectone?qno=2
+    // 127.0.0.1:9090/ROOT/api/qna/selectone?qno=2
     @RequestMapping(value = "/selectone", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectOneGET(
@@ -99,7 +187,7 @@ public class QnaRestController {
     }
 
     // 게시판 목록(페이지네이션만 있음, 검색x)
-    // 127.0.0.1:9090/ROOT/qna/selectlist?page=1
+    // 127.0.0.1:9090/ROOT/api/qna/selectlist?page=1
     @RequestMapping(value = "/selectlist", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectListGET(
@@ -124,7 +212,7 @@ public class QnaRestController {
     } 
 
     // 검색 + 페이지네이션
-    // 127.0.0.1:9090/ROOT/qna/search
+    // 127.0.0.1:9090/ROOT/api/qna/search
     @RequestMapping(value = "/search", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> searchGET(

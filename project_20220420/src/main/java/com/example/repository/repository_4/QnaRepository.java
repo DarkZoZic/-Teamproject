@@ -25,5 +25,8 @@ public interface QnaRepository extends JpaRepository<Qna, Long> {
 
     // 검색(제목, 내용, 작성자) + 글번호 내림차순 페이지네이션
     List<Qna> findByQcontentOrMember_midOrQtitleContainingOrderByQnoDesc(String qtitle, String qcontent, String mid, Pageable pageable);
+
+    // 토큰 아이디와 작성자가 같은 글
+    // List<Qna> findByMember_midOrderByQnoDesc(String mid);
     
 }
