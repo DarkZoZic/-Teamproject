@@ -36,7 +36,7 @@
 
             <!-- 로고 -->
             <v-col md="3" class="col_center">
-              <router-link to="/"><img :src="require('../assets/img/cluver.jpg')" style="height: 90px;" /></router-link>
+              <img :src="require('../assets/img/cluver.jpg')" style="height: 90px; cursor: pointer;" @click="handleClick('/')"/>
             </v-col>
 
             <!-- 중앙 -->
@@ -74,48 +74,11 @@
           <v-row dense style="padding-bottom: 5px; padding-top: 10px;">
             <v-col>
               <v-card>
-                <v-tabs v-model="state.tab" background-color="white">
-                  <router-link to="/clist">
-                    <v-tab value="clist" class="tab_menu">
-                      <h3>클럽목록</h3>
-                    </v-tab>
-                  </router-link>
-
-                  <v-tab value="1" class="tab_menu" disabled>
-                    <h3>인기클럽</h3>
-                  </v-tab>
-
-                  <v-tab value="2" class="tab_menu" disabled>
-                    <h3>클럽홍보</h3>
-                  </v-tab>
-
-                  <v-tab value="3" class="tab_menu" disabled>
-                    <h3>클럽랭킹</h3>
-                  </v-tab>
-
-                  <v-tab value="4" class="tab_menu" disabled>
-                    <h3>클럽샵</h3>
-                  </v-tab>
-
-                  <v-tab value="5" class="tab_menu" disabled>
-                    <h3>페이지소개</h3>
-                  </v-tab>
-
-                  <v-tab value="6" class="tab_menu" disabled>
-                    <h3>채팅</h3>
-                  </v-tab>                                    
-
-                  <router-link to="/blist">
-                    <v-tab value="board" class="tab_menu">
-                      <h3>자유게시판</h3>
-                    </v-tab>
-                  </router-link>
-
-                  <router-link to="/h">
-                    <v-tab value="help" class="tab_menu">
-                      <h3>고객센터</h3>
-                    </v-tab>
-                  </router-link>
+                <v-tabs v-model="state.tab">
+                  <v-tab value=""      @click="handleClick('/')"><h3>홈</h3></v-tab>
+                  <v-tab value="clist" @click="handleClick('clist')"><h3>클럽목록</h3></v-tab>
+                  <v-tab value="blist" @click="handleClick('blist')"><h3>게시판</h3></v-tab>
+                  <v-tab value="h"     @click="handleClick('h')"><h3>고객센터</h3></v-tab>
                 </v-tabs>
               </v-card>
             </v-col>
@@ -136,28 +99,44 @@
 <script>
 import { reactive } from '@vue/reactivity';
 import { useRouter } from 'vue-router';
-import { onMounted,computed } from '@vue/runtime-core';
+import HomeVue    from './HomeVue.vue';
+import FooterVue    from './FooterVue.vue';
+import BoardListVue    from './board/BoardListVue.vue';
+import { onMounted, computed } from '@vue/runtime-core';
 import { useStore } from 'vuex'
 export default {
-  
+  components: { HomeVue, FooterVue, BoardListVue },
   setup () {
     const router = useRouter();
     const store = useStore();
+
+    const handleClick = (e) =>{
+      console.log('handleClick', e)    
+      sessionStorage.setItem("MENU", e);
+      router.push(e);
+    }
+
     const state = reactive({
-      tab: '',
-      logged : computed(() =>  store.getters['moduleA/getLogged']),
-      token  : sessionStorage.getItem("TOKEN")
-    })
-     onMounted(() => {
+      logged: computed(() => store.getters['moduleA/getLogged']),
+      token : sessionStorage.getItem("TOKEN"),
+      tab: ''
+    });
+
+    // store.subscribe((mutation, state) => {
+    //   console.log('store.subscribe', mutation, state);
+    // });
+
+    onMounted(() => {
       if(state.token === null){
-        store.commit('moduleA/setLogged',false)
+        store.commit('moduleA/setLogged', false)
       } 
       else{
-        store.commit('moduleA/setLogged',true)
+        store.commit('moduleA/setLogged', true)
       }
+      state.tab = sessionStorage.getItem("MENU");
     })
 
-    return { router, state }
+    return { handleClick, state }
   },
 }
 </script>
