@@ -1,14 +1,29 @@
 package com.example.controller.controller_2;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import com.example.entity.entity1.Member;
+import com.example.entity.entity1.MemberCompany;
+import com.example.entity.entity1.MemberPersonal;
+import com.example.entity.entity2.MemberProjection;
+import com.example.jwt.JwtUtil;
+import com.example.repository.MemberCPRepository;
+import com.example.repository.MemberPSRepository;
+import com.example.repository.MemberRepository;
+import com.example.service.UserDetailsServiceImpl;
+import com.example.service.service_2.MemberService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,22 +33,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import io.lettuce.core.dynamic.annotation.Param;
-
-import com.example.entity.entity1.Member;
-import com.example.entity.entity1.MemberCompany;
-import com.example.entity.entity1.MemberPersonal;
-import com.example.entity.entity2.MemberNicknameview;
-import com.example.entity.entity2.MemberProjection;
-import com.example.entity.projection.MemberIdprojection;
-import com.example.jwt.JwtUtil;
-import com.example.repository.MemberCPRepository;
-import com.example.repository.MemberPSRepository;
-import com.example.repository.MemberRepository;
-import com.example.service.UserDetailsServiceImpl;
-import com.example.service.service_2.MemberService;
-import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
 
 // backend만 구현함. 화면구현 X, vue.js 또는 react.js 연동
 
@@ -278,6 +277,53 @@ public class CustomerRestController {
 	   }
 		return map;
 	}
+	// 127.0.0.1:9090/ROOT/member/image?mid=ada
+	@GetMapping(value ="/image")
+    public ResponseEntity<byte[]> imageGET(
+        @RequestParam(name ="mid") String mid) throws IOException {
+            // 이미지명, 이미지크기, 이미지종류, 이미지데이터
+			Member member = mRepository.findByMid(mid);
+
+            if(member != null){ // 물품정보가 존해하면
+                if(member.getMimagesize() > 0) { // 첨부한 파일 존재
+                    HttpHeaders headers = new HttpHeaders();
+                    
+                    if(member.getMimagetype().equals("image/jpeg")){
+                        headers.setContentType(MediaType.IMAGE_JPEG);
+                    }
+
+                    else if(member.getMimagetype().equals("image/png")){
+                        headers.setContentType(MediaType.IMAGE_PNG);
+                    }
+
+                    else if(member.getMimagetype().equals("image/gif")){
+                        headers.setContentType(MediaType.IMAGE_GIF);
+                    }
+
+                    // 이미지 byte[], headers, HttpStatus.OK
+                    ResponseEntity<byte[]> response 
+                    = new ResponseEntity<>(member.getMprofile(),
+                        headers, HttpStatus.OK);
+                        return response;
+                }
+                // else {
+                //     InputStream is =
+                //     resLoader
+                //     .getResource("classpath:/static/img/default.png")
+                //     .getInputStream();
+
+                //     HttpHeaders headers = new HttpHeaders();
+                //     headers.setContentType(MediaType.IMAGE_PNG);
+
+                //     ResponseEntity<byte[]> response
+                //     = new ResponseEntity<>(is.readAllBytes(),
+                //     headers, HttpStatus.OK);
+
+                //     return response;
+                // }
+            }
+            return null;
+        }
 
 	// 마이페이지
 	// 127.0.0.1:9090/ROOT/member/mypage
@@ -290,6 +336,7 @@ public class CustomerRestController {
 		String username = jwtUtil.extractUsername(token);
 		System.out.println(username);
 		Member member = mRepository.findByMid(username);
+		member.setMimageurl("/ROOT/member/image?mid=" +username);
 
 		// 토큰이 있어야 실행됨
 		Map<String, Object> map = new HashMap<>();

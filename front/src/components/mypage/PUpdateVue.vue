@@ -42,14 +42,14 @@
 
                             <v-row dense>
                                 <v-col style="width: 100%; height: 165px;" class="col_center">
-                                    <img :src="state.imageUrl"  style="width: 160px; border: 1px solid #CCC;"/>
-                                    <img :src="`data:${state.items.mimagetype};base64,${state.items.mprofile}`" style="width: 160px; border: 1px solid #CCC;"/>
+                                    <img  :src="state.imageUrl"  style="width: 160px; border: 1px solid #CCC;"/>
                                 </v-col>
                             </v-row>
 
                             <v-row dense style="padding: 10px;">
                                 <v-col class="col_center">
                                     <input type="file" name="file" @change="handleImage($event)" style="width: 80px;">
+                                    <button>sdfs</button>
                                 </v-col>
                             </v-row>
                         </v-expansion-panel>
@@ -205,7 +205,7 @@
                 <v-col md="2"></v-col>
 
                 <v-col md="8" >
-                    <!-- 가입버튼 -->
+                    <!-- 수정버튼 -->
                     <v-row dense style="padding-top: 20px;">
                         <v-col sm="4"></v-col>
 
@@ -269,7 +269,8 @@ export default {
                     state.imageFile = e.target.files[0];
                 }
                 else{
-                    state.imageUrl = require('../../assets/img/profile_sample.png');
+                    // state.imageUrl = require('../../assets/img/profile_sample.png');
+                    state.imageUrl = state.items.mimageurl;
                     state.imageFile = null;
                 }
             }
@@ -296,7 +297,7 @@ export default {
             body.append("maddress",state.items.maddress);
             body.append("detailaddress",state.items.detailaddress);
             body.append("memail",state.items.memail);
-            body.append("file",state.imageFile);
+            body.append("file",state.imageUrl);
         const response = await axios.put(url,body,{headers});
         console.log(state.imageFile);
         console.log(response.data);
@@ -317,12 +318,8 @@ export default {
             const response = await axios.get(url, {headers});
             console.log(response.data.result);
 
-            // const url1 = `/ROOT/member/psmynick`;
-            // const headers1 = {"Content-Type":"application/json", 
-            // token : state.token};
-            // const response1 = await axios.get(url1, {headers1});
-            // console.log(response1.data.result);
             if(response.data.status === 200){
+                state.imageUrl = response.data.result.mimageurl
                 state.items = response.data.result;
                 // handlenick();
             }
