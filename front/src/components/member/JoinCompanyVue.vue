@@ -372,6 +372,7 @@ Top
                   <v-col style="height: 80px;">
                     <v-text-field
                       label="아이디"
+                      ref="id"
                       :rules="idRules"
                       :counter="6"
                       v-model="state.id"
@@ -543,25 +544,7 @@ Top
                   </v-col>
                 </v-row>
               </v-expansion-panel>
-              <!-- 설명글 -->
-              <v-expansion-panel class="panel">
-                <v-row>
-                  <v-col sm="10" style="height: 80px;">
-                    <v-text-field
-                      label="설명글"
-                      v-model="state.desc"
-                      variant="plain"
-                      :rules="phoneRules"
-                      hint="기업에 대한 설명을 입력하세요"
-                      density="compact"
-                      required
-                    ></v-text-field>
-                  </v-col>
 
-                  <v-col sm="2">
-                  </v-col>
-                </v-row>
-              </v-expansion-panel>
 
               <!-- 인증번호 -->
               <v-expansion-panel class="panel">
@@ -581,6 +564,23 @@ Top
                     <v-btn style="width: 100%; height:40px;">
                       <h4>확인</h4>
                     </v-btn>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel>
+
+              <!-- 설명글 -->
+              <v-expansion-panel class="panel">
+                <v-row>
+                  <v-col style="height: 80px;">
+                    <v-text-field
+                      label="설명글"
+                      v-model="state.desc"
+                      variant="plain"
+                      :rules="phoneRules"
+                      hint="기업에 대한 설명을 입력하세요"
+                      density="compact"
+                      required
+                    ></v-text-field>
                   </v-col>
                 </v-row>
               </v-expansion-panel>
@@ -613,7 +613,7 @@ Top
                     <v-text-field
                       id="address"
                       label="주소"
-                      v-model="state.address"
+                      v-model="address"
                       variant="plain"
                       :rules="nameRules"
                       density="compact"
@@ -636,8 +636,8 @@ Top
                   <v-col sm="8" style="height: 80px;">
                     <v-text-field
                       label="상세주소"
-                      v-model="state.detailAddress"
-                      id="detailAddress"
+                      v-model="extraAddress"
+                      id="extraAddress"
                       variant="plain"
                       :rules="nameRules"
                       density="compact"
@@ -648,7 +648,7 @@ Top
                   <v-col sm="4" style="height: 80px;">
                     <v-text-field
                       label="우편번호"
-                      v-model="state.postcode"
+                      v-model="postcode"
                       id="postcode"
                       variant="plain"
                       :rules="nameRules"
@@ -705,9 +705,8 @@ import axios from 'axios';
 
 
 export default {
-    components: { HeaderVue, FooterVue },
+  components: { HeaderVue, FooterVue },
   setup () {
-
     const state = reactive({
       id: '',
       pw: '',
@@ -729,45 +728,80 @@ export default {
 
 
     const handleImage = (e) => {
-            if(e.target.files[0]){
-                state.imageUrl = URL.createObjectURL(e.target.files[0]);
-                state.imageFile = e.target.files[0];
-            }
-            else{
-                state.imageUrl = require('../../assets/img/profile_sample.png');
-                state.imageFile = null;
-            }
-        }
+      if(e.target.files[0]){
+          state.imageUrl = URL.createObjectURL(e.target.files[0]);
+          state.imageFile = e.target.files[0];
+      }
+      else{
+          state.imageUrl = require('../../assets/img/profile_sample.png');
+          state.imageFile = null;
+      }
+    }
 
-        const handleJoin2 = async() => {
+    const handleJoin2 = async() => {
       const url = `/ROOT/member/cpjoin.json`;
       const headers = {"Content-Type":"multipart/form-data"};
       const body = new FormData;
-        body.append("mcno", state.number);
-        body.append("mcdesc",state.desc);
-        body.append("mcname",state.cpname);
-        body.append("mcbirth",state.birthcompany);
-        body.append("member",state.id);
+        body.append("mcno",    state.number);
+        body.append("mcdesc",  state.desc);
+        body.append("mcname",  state.cpname);
+        body.append("mcbirth", state.birthcompany);
+        body.append("member",  state.id);
       const response = await axios.post(url,body,{headers});
       console.log(response.data);
       if(response.data.status === 200){
-          alert('회원가입완료')
-          router.push({path : 'login'});
+        alert('회원가입완료')
+        router.push({path : 'login'});
       }
     }
 
     const handleJoin = async() => {
+      if(state.id === '' || state.id.length < 6) {
+        alert('아이디를 6자 이상 입력하세요')
+        return false;
+      }
+
+      else if(state.pw === '') {
+        alert('비밀번호를 입력하세요')
+        return false;
+      }
+
+      else if(state.pw1 === '') {
+        alert('비밀번호 확인을 입력하세요')
+        return false;
+      }
+
+      else if(state.number === '' || state.number.length < 10 || state.number.length > 10) {
+        alert('사업자등록번호 10자리를 입력하세요')
+        return false;
+      }      
+
+      else if(state.mname === '') {
+        alert('이름을 입력하세요')
+        return false;
+      }
+
+      else if(state.cpname === '') {
+        alert('기업명을 입력하세요')
+        return false;
+      }
+
+      else if(state.phone === '') {
+        alert('연락처를 입력하세요')
+        return false;
+      }
+
       const url = `/ROOT/member/join.json`;
       const headers = {"Content-Type":"multipart/form-data"};
 
       const body = new FormData;
-        body.append("mid", state.id);
-        body.append("mpw",state.pw);
-        body.append("mname",state.mname);
-        body.append("mphone",state.phone);
-        body.append("maddress",state.address + state.detailAddress + state.postcode);
-        body.append("memail",state.email);
-        body.append("file",state.imageFile);
+        body.append("mid",      state.id);
+        body.append("mpw",      state.pw);
+        body.append("mname",    state.mname);
+        body.append("mphone",   state.phone);
+        body.append("maddress", state.address + state.detailAddress + state.postcode);
+        body.append("memail",   state.email);
+        body.append("file",     state.imageFile);
       const response = await axios.post(url,body,{headers});
       console.log(response.data);
       if(response.data.status === 200){

@@ -689,6 +689,7 @@ export default {
         phone : '',
         email : '',
         nickname : '',
+        validnumber: '',
         gender : [{ value: "남", text: "남성", },
          { value: "여", text: "여성", }],
         birth : '',
@@ -704,15 +705,15 @@ export default {
     const router = useRouter();
 
      const handleImage = (e) => {
-            if(e.target.files[0]){
-                state.imageUrl = URL.createObjectURL(e.target.files[0]);
-                state.imageFile = e.target.files[0];
-            }
-            else{
-                state.imageUrl = require('../../assets/img/profile_sample.png');
-                state.imageFile = null;
-            }
-        }
+      if(e.target.files[0]){
+        state.imageUrl = URL.createObjectURL(e.target.files[0]);
+        state.imageFile = e.target.files[0];
+      }
+      else{
+        state.imageUrl = require('../../assets/img/profile_sample.png');
+        state.imageFile = null;
+      }
+    }
 
     const handleJoin2 = async() => {
       const url = `/ROOT/member/psjoin.json`;
@@ -720,10 +721,10 @@ export default {
 
       const body = new FormData;
         body.append("mpnickname", state.nickname);
-        body.append("mpgender",state.gender);
-        body.append("mpbirth",state.birth);
-        body.append("mprole",state.role);
-        body.append("member",state.id);
+        body.append("mpgender",   state.gender);
+        body.append("mpbirth",    state.birth);
+        body.append("mprole",     state.role);
+        body.append("member",     state.id);
       const response = await axios.post(url,body,{headers});
       console.log(response.data);
       if(response.data.status === 200){
@@ -732,19 +733,67 @@ export default {
       }
     }
     const handleJoin = async() => {
+      if(state.id === '' || state.id.length < 6) {
+        alert('아이디를 6자 이상 입력하세요')
+        return false;
+      }
+
+      else if(state.pw === '') {
+        alert('비밀번호를 입력하세요')
+        return false;
+      }
+
+      else if(state.pw1 === '') {
+        alert('비밀번호 확인을 입력하세요')
+        return false;
+      }
+      
+      else if(state.mname === '') {
+        alert('이름을 입력하세요')
+        return false;
+      }
+      
+      else if(state.nickname === '' || state.nickname.length < 1) {
+        alert('닉네임을 2자 이상 입력하세요')
+        return false;
+      } 
+
+      else if(state.nickname === '' || state.nickname.length < 1) {
+        alert('이메일을 입력하세요')
+        return false;
+      } 
+
+      else if(state.birth === '' || state.birth.length < 8 || state.birth.length > 8) {
+        alert('생년월일 8자리를 입력하세요')
+        return false;
+      }
+
+      else if(state.gender === '') {
+        alert('성별을 입력하세요')
+        return false;
+      }
+
+      else if(state.phone === '') {
+        alert('연락처를 입력하세요')
+        return false;
+      }
+
+      else if(state.validnumber === '') {
+        alert('인증번호를 입력하세요')
+        return false;
+      }
+
       // 유효성검사 통과후
-           
       const url = `/ROOT/member/join.json`;
       const headers = {"Content-Type":"multipart/form-data"};
-
       const body = new FormData;
-        body.append("mid", state.id);
-        body.append("mpw",state.pw);
-        body.append("mname",state.mname);
-        body.append("mphone",state.phone);
-        body.append("maddress",state.address + state.detailAddress + state.postcode);
-        body.append("memail",state.email);
-        body.append("file",state.imageFile);
+        body.append("mid",      state.id);
+        body.append("mpw",      state.pw);
+        body.append("mname",    state.mname);
+        body.append("mphone",   state.phone);
+        body.append("maddress", state.address + state.detailAddress + state.postcode);
+        body.append("memail",   state.email);
+        body.append("file",     state.imageFile);
       const response = await axios.post(url,body,{headers});
       console.log(response.data);
       if(response.data.status === 200){
