@@ -15,9 +15,9 @@
 
                     <v-row dense style="padding-top: 10px; padding-bottom: 5px; padding-left: 10px; ">
                         <v-col class="col_left"><h2>자유게시판</h2></v-col>
-                        
+
                         <v-col md="8" class="col_right">
-                            <v-select variant="outlined" density="compact" :items="state.items1" v-model="state.select" style="height: 40px; padding-right: 10px;"></v-select>
+                            <v-select variant="outlined" density="compact" :items="state.items1" v-model="state.option" style="height: 40px; padding-right: 10px;"></v-select>
                             <input type="text" class="board_search_box" @keyup.enter="search()" style="outline-width: 0;" v-model="state.text">
                             <v-btn style="height: 40px;" @click="search()"><h4>검색</h4></v-btn>
                             <router-link to="/bwrite">
@@ -98,7 +98,7 @@ export default {
             pa: 1,
             text: '',  // 검색어
             page: 1,   // 현재페이지
-            select: '',
+            option: '전체',
             items1: [
                 '전체', '제목', '내용', '글쓴이'
             ]

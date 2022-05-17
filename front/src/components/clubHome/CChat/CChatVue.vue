@@ -21,9 +21,7 @@
             </v-col>
 
             <v-col md="10" class="col_right">
-              <v-flex class="select">
-                  <v-select variant="outlined" density="compact" :items="state.items" style="height: 40px;"></v-select>
-              </v-flex>                            
+              <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px;" ></v-select>
               <input type="text" class="board_search_box" style="outline-width: 0;" v-model="state.search">
               <v-btn style="height: 40px;" @click="search()"><h4>검색</h4></v-btn>
               <router-link to="/cbwrite">
@@ -91,7 +89,8 @@ export default {
 
       items: [
         '전체', '닉네임', '채팅명'
-      ]
+      ],
+      option: '전체'
     })
 
     

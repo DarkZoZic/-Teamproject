@@ -21,9 +21,7 @@
             </v-col>
 
             <v-col md="6" class="col_right">
-              <v-flex class="select">
-                <v-select variant="outlined" density="compact" :items="state.items" style="height: 40px;"></v-select>
-              </v-flex>                
+              <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px;" ></v-select>
               <input type="text" class="board_search_box" style="outline-width: 0;" v-model="state.search">
               <v-btn style="height: 40px;" @click="search()"><h4>검색</h4></v-btn>
               <router-link to="/csupload">
@@ -40,7 +38,7 @@
       </v-row>
     </v-main>
   </v-app>
-  <FooterVue></FooterVue>
+<FooterVue></FooterVue>
 </div>
 </template>
 
@@ -53,7 +51,10 @@ export default {
   components: { CHHeaderVue, FooterVue },
   setup () {
     const state = reactive({
-
+      option: '전체',
+      items: [
+        '전체', '제목', '생성자', '내용'
+      ],
     })
 
 
