@@ -19,17 +19,18 @@
                         <v-col sm="6" class="col_left">
                             <h2>나의 활동</h2>
                         </v-col>
-                        <v-col>
+                        <v-col class="col_right">
                             <router-link to="/pupdate"><v-btn><h3>회원정보수정</h3></v-btn></router-link>
                             <router-link to="/pwupdate"><v-btn><h3>비밀번호변경</h3></v-btn></router-link>
                             <router-link to="/dontgo"><v-btn><h3>회원탈퇴</h3></v-btn></router-link>
                             <router-link to="/likelist"><v-btn><h3>찜목록</h3></v-btn></router-link>
+                            <router-link to="/activity"><v-btn><h3>내활동</h3></v-btn></router-link>
                         </v-col>
                     </v-row>
 
                     <v-row dense>
                         <v-col>
-                            <v-tabs v-model="state.tab">
+                            <v-tabs v-model="state.tab" fixed-tabs>
                                 <v-tab value='1'><h3>내 글</h3></v-tab>
                                 <v-tab value='2'><h3>내 댓글</h3></v-tab>
                                 <v-tab value='3'><h3>내 활동</h3></v-tab>
@@ -39,8 +40,11 @@
                                 <v-window-item value='1'>
                                     <v-card style="padding: 10px;">
                                         <v-row dense>
-                                            <v-btn><h4>선택삭제</h4></v-btn>
+                                            <v-col class="col_right">
+                                                <v-btn><h4>선택삭제</h4></v-btn>
+                                            </v-col>
                                         </v-row>
+
                                         <v-row dense>
                                             <v-col>
                                                 <v-table>

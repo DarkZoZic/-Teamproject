@@ -206,24 +206,41 @@
                                                 <v-col md="6">
                                                     <v-row dense>
                                                         <v-col class="col_right">
-                                                            <router-link to="/mypage"><v-icon icon="mdi-bell-outline" /></router-link>
+                                                            <router-link to="/activity"><v-icon icon="mdi-bell-outline" /></router-link>
                                                             <v-icon icon="mdi-close" style="cursor: pointer;" @click="handlelogout()"/>
                                                         </v-col>
                                                     </v-row>
 
-                                                    <v-row dense>
-                                                        <router-link to="/mypage"><v-btn><h4>내정보</h4></v-btn></router-link>
-                                                        <router-link to="/likelist"><v-btn><h4>찜목록</h4></v-btn></router-link>
+
+                                                </v-col>
+                                            </v-row>
+
+                                            <v-row dense style="padding-left: 10px; height: 155px;">
+                                                <v-col>
+                                                    <v-row>
+                                                        <v-col class="col_left">
+                                                            <h4>{{state.profile.nickname}}</h4>님 환영합니다!
+                                                        </v-col>
+                                                    </v-row>
+
+                                                    <v-row>
+                                                        <v-col></v-col>
                                                     </v-row>
                                                 </v-col>
                                             </v-row>
 
                                             <v-row dense>
-                                                <h4>{{state.profile.nickname}}</h4>
+                                                <v-col sm="4" class="col_center">
+                                                    <router-link to="/mypage"><h4>내정보</h4></router-link>
+                                                </v-col>
 
-                                            </v-row>
+                                                <v-col sm="4" class="col_center">
+                                                    <router-link to="/mypage"><h4>찜목록</h4></router-link>
+                                                </v-col>
 
-                                            <v-row dense>
+                                                <v-col sm="4" class="col_center">
+                                                    <router-link to="/mypage"><h4>내정보</h4></router-link>
+                                                </v-col>
                                             </v-row>
                                         </v-card>
                                     </v-col>
