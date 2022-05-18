@@ -115,67 +115,7 @@ public class CustomerRestController {
 		return map;
 	}
 
-	// 회원정보 수정
-	// 127.0.0.1:9090/ROOT/member/updatemember
-	@RequestMapping(value = "/updatemember", 
-	//{"uemail":"c1", "upw":"c1" };
-			method = { RequestMethod.PUT },
-			consumes = { MediaType.ALL_VALUE },
-			produces = { MediaType.APPLICATION_JSON_VALUE })
-	public Map<String, Object> UpdateMemberPut(
-		@ModelAttribute Member member,
-		@RequestHeader(name = "TOKEN") String token,
-		@RequestParam(name = "file",required = false) MultipartFile file){
-		System.out.println(member.toString());
-		Map<String, Object> map = new HashMap<>();
-		map.put("status", 0);
-		try {
-			
-			String username = jwtUtil.extractUsername(token);
-			System.out.println(username);
-			BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
-			UserDetails user = userDetailservice.loadUserByUsername(username);
-			// Member member1 = new Member();
-			
-			// UserDetails user = userDetailservice.loadUserByUsername(username);
-			// System.out.println("===="+ user);
-			// // 현재암호랑 입력한 암호가 맞는지 확인
-			// // user.getPassword() 는 암호화 된거  member.getUpw() 는 암호화x
-			Member member1 =mRepository.findById(username).orElse(null);
-				
-			if(file != null){
-					if(!file.isEmpty()){
-						member1.setMprofile(file.getBytes());
-						member1.setMimagesize(file.getSize());
-						member1.setMimagetype(file.getContentType());
-						member1.setMimagename(file.getOriginalFilename());
-			}
-			else{
-				member1.setMprofile(null);
-				member1.setMimagesize(0L);
-				member1.setMimagetype(null);
-				member1.setMimagename(null);
-			}
-		}
-				member1.setMname(member.getMname());
-				member1.setMphone(member.getMphone());
-				member1.setMaddress(member.getMaddress());
-				member1.setDetailaddress(member.getDetailaddress());
-				member1.setMemail(member.getMemail());
-				System.out.println(member1.getMemail());
-				mRepository.save(member1);
-				
-				
-				
-			map.put("status", 200); // 0 -> 200
-	}
-		
-		catch (Exception e) {
-			e.printStackTrace();
-	   }
-		return map;
-	}
-
+	
 
 	// 회원탈퇴
 	// 127.0.0.1:9090/ROOT/member/delete
@@ -277,6 +217,68 @@ public class CustomerRestController {
 	   }
 		return map;
 	}
+
+	// 회원정보 수정
+	// 127.0.0.1:9090/ROOT/member/updatemember
+	@RequestMapping(value = "/updatemember", 
+	//{"uemail":"c1", "upw":"c1" };
+			method = { RequestMethod.PUT },
+			consumes = { MediaType.ALL_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> UpdateMemberPut(
+		@ModelAttribute Member member,
+		@RequestHeader(name = "TOKEN") String token,
+		@RequestParam(name = "file",required = false) MultipartFile file){
+		System.out.println(member.toString());
+		Map<String, Object> map = new HashMap<>();
+		map.put("status", 0);
+		try {
+			
+			String username = jwtUtil.extractUsername(token);
+			System.out.println(username);
+			BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+			UserDetails user = userDetailservice.loadUserByUsername(username);
+			// Member member1 = new Member();
+			
+			// UserDetails user = userDetailservice.loadUserByUsername(username);
+			// System.out.println("===="+ user);
+			// // 현재암호랑 입력한 암호가 맞는지 확인
+			// // user.getPassword() 는 암호화 된거  member.getUpw() 는 암호화x
+			Member member1 =mRepository.findById(username).orElse(null);
+				
+			if(file != null){
+						// member1.setMimageurl("/ROOT/member/image?mid=" +username);
+						member1.setMprofile(file.getBytes());
+						member1.setMimagesize(file.getSize());
+						member1.setMimagetype(file.getContentType());
+						member1.setMimagename(file.getOriginalFilename());
+					}
+			else{
+				// member1.setMimageurl(null);
+				member1.setMprofile(null);
+				member1.setMimagesize(0L);
+				member1.setMimagetype(null);
+				member1.setMimagename(null);
+		}
+				member1.setMname(member.getMname());
+				member1.setMphone(member.getMphone());
+				member1.setMaddress(member.getMaddress());
+				member1.setDetailaddress(member.getDetailaddress());
+				member1.setMemail(member.getMemail());
+				System.out.println(member1.getMemail());
+				mRepository.save(member1);
+				
+				
+				
+			map.put("status", 200); // 0 -> 200
+	}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+	   }
+		return map;
+	}
+
 	// 127.0.0.1:9090/ROOT/member/image?mid=ada
 	@GetMapping(value ="/image")
     public ResponseEntity<byte[]> imageGET(
