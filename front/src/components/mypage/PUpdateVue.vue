@@ -21,9 +21,10 @@
                         <v-col class="col_right">
                             <router-link to="/pupdate"><v-btn><h3>회원정보수정</h3></v-btn></router-link>
                             <router-link to="/pwupdate"><v-btn><h3>비밀번호변경</h3></v-btn></router-link>
+                            <router-link to="/nupdate"><v-btn><h3>닉네임변경</h3></v-btn></router-link>
                             <router-link to="/dontgo"><v-btn><h3>회원탈퇴</h3></v-btn></router-link>
                             <router-link to="/likelist"><v-btn><h3>찜목록</h3></v-btn></router-link>
-                            <router-link to="/activity"><v-btn><h3>내활동</h3></v-btn></router-link>                            
+                            <router-link to="/activity"><v-btn><h3>내활동</h3></v-btn></router-link>
                         </v-col>
                     </v-row>
                 </v-col>
@@ -65,23 +66,6 @@
                 <v-col sm="6" style="display: flex; align-items: center;">
                     <v-expansion-panels style="width:100%">
                         <v-form v-model="valid" style="width:100%">
-
-                            <!-- 닉네임 -->
-                            <v-expansion-panel class="panel">
-                                <v-row>
-                                    <v-col style="height: 80px;">
-                                        <v-text-field
-                                        label="닉네임"
-                                        v-model="state.nick"
-                                        variant="plain"
-                                        :rules="nicknameRules"
-                                        density="compact"
-                                        required
-                                        ></v-text-field>
-                                    </v-col>
-                                </v-row>
-                            </v-expansion-panel>
-
                             <!-- 이메일 -->
                             <v-expansion-panel class="panel">
                                 <v-row>
