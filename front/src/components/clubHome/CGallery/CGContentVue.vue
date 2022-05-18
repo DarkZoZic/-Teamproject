@@ -10,35 +10,36 @@
             <v-col md="8">
             <v-row dense class="border-b_1_CCC">
                 <v-col>
-                <h5><router-link to="/chome">클럽홈</router-link> > <router-link to="/cblist">{{state.galleryName}}</router-link> > 글읽기</h5>
+                <h5><router-link to="/chome">클럽홈</router-link> > <router-link to="/cblist">{{state.gallery.cgname}}</router-link> > 글읽기</h5>
                 </v-col>
             </v-row>
 
             <v-row dense>
                 <v-col class="row_bwrite1">
-                <h2>{{state.title}}</h2>
+                <h2>{{state.gallery.cgtitle}}</h2>
                 </v-col>
             </v-row>
 
             <!-- 상단메뉴 -->
             <v-row dense class="row_bwrite2">
                 <v-col sm="6" class="col_pad-l25">
-                <h4 style="color: #787878">{{state.writer}}</h4>
+                <h4 style="color: #787878">{{state.gallery.cgwriter}}</h4>
                 </v-col>
 
                 <v-col sm="6" class="col_right1">
                 <h5 style="color: #787878">
                     조회 {{state.hit}} &nbsp; | &nbsp; 
                     <img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.like}}
-                    &nbsp; | &nbsp; {{state.date}}
+                    &nbsp; | &nbsp; {{state.gallery.cgregdate}}
                 </h5>
                 </v-col>
             </v-row>
 
             <!-- 내용 -->
             <v-row dense>
-                <v-col class="col_center" style="padding: 20px;">
-                    <img :src="require(`../../../assets/img/${state.image2}.jpg`)" style="height: 600px;  padding: 5px; border: 1px solid #CCC;"/>
+                <v-col class="col_center" style="padding: 20px;" v-for="tmp in state.imageurl" :key="tmp">
+                    
+                    <img :src="tmp" style="height: 600px;  padding: 5px; border: 1px solid #CCC;"/>
                 </v-col>
             </v-row>
 
@@ -53,7 +54,7 @@
 
             <v-row dense>
                 <v-col style="display: flex; padding-top: 10px; padding-left: 10px;" class="col_left">
-                <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{state.reply.count}}</h5><h5>개</h5>
+                <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{}}</h5><h5>개</h5>
                 </v-col>
             </v-row>
 
@@ -63,37 +64,13 @@
                 <v-col style="border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; padding-left: 20px; padding-right: 20px;">
 
                 <!-- 댓글하나 -->
-                <v-row dense style="padding-top: 10px;">
+                <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="tmp in state.replylist" :key="tmp">
                     <v-col>
                     <!-- 댓글작성자 -->
                     <v-row dense>
                         <v-col class="col_left">
-                        <h5 style="padding-right: 10px;">{{state.reply.writer}}</h5> 
-                        <h5 style="color: #676767;">{{state.reply.date}}</h5>
-                        <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
-                        <h5 style="color: #676767;">{{state.like}}</h5>
-
-                        <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
-                        </v-col>
-                    </v-row>
-
-                    <!-- 댓글내용 -->
-                    <v-row dense>
-                        <v-col style="border-bottom: 1px solid #CCC;">
-                        <h4 style="padding-left: 10px;">{{state.reply.content}}</h4>
-                        </v-col>
-                    </v-row>
-                    </v-col>
-                </v-row>
-
-                <!-- 댓글하나 -->
-                <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;">
-                    <v-col>
-                    <!-- 댓글작성자 -->
-                    <v-row dense>
-                        <v-col class="col_left">
-                        <h5 style="padding-right: 10px;">{{state.reply.writer}}</h5> 
-                        <h5 style="color: #676767;">{{state.reply.date}}</h5>
+                        <h5 style="padding-right: 10px;">{{tmp.rewriter}}</h5> 
+                        <h5 style="color: #676767;">{{tmp.reregdate}}</h5>
                         <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
                         <h5 style="color: #676767;">{{state.like}}</h5>
                         <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
@@ -103,12 +80,12 @@
                     <!-- 댓글내용 -->
                     <v-row dense style="padding-right: 10px;">
                         <v-col>
-                        <h4 style="padding-left: 10px; padding-right: 10px;">{{state.reply.content}}</h4>
+                        <h4 style="padding-left: 10px; padding-right: 10px;">{{tmp.recontent}}</h4>
                         </v-col>
                     </v-row>
 
                     <!-- 대댓글. 대댓글이 있으면 테두리가 없게 하는게 가능한가? -->
-                    <v-row dense style="padding-left: 10px;">
+                    <v-row dense style="padding-left: 10px;" v-if="tmp.reparentnumber !== null">
                         <v-col>
                         <v-row dense>
                             <v-col style="display: flex">
@@ -138,29 +115,6 @@
                     </v-col>
                 </v-row>
 
-                <!-- 댓글하나 -->
-                <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;">
-                    <v-col>
-                    <!-- 댓글작성자 -->
-                    <v-row dense>
-                        <v-col class="col_left">
-                        <h5 style="padding-right: 10px;">{{state.reply.writer}}</h5> 
-                        <h5 style="color: #676767;">{{state.reply.date}}</h5>
-                        <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
-                        <h5 style="color: #676767;">{{state.like}}</h5>
-                        <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
-                        </v-col>
-                    </v-row>
-
-                    <!-- 댓글내용 -->
-                    <v-row dense style="padding-right: 10px;">
-                        <v-col>
-                        <h4 style="padding-left: 10px;">{{state.reply.content}}</h4>
-                        </v-col>
-                    </v-row>
-                    </v-col>
-                </v-row>
-
                 <v-row dense="">
                     <v-col sm="9" style="padding-top: 10px;">
                     <textarea 
@@ -170,7 +124,7 @@
                     </v-col>
                     
                     <v-col sm="1" style="padding: 10px;" class="col_center">
-                    <v-btn style="width: 100%; height:69px; border: 1px solid #CCC;"><h4>댓글작성</h4></v-btn>
+                    <v-btn style="width: 100%; height:69px; border: 1px solid #CCC;" @click="insertreply"><h4>댓글작성</h4></v-btn>
                     </v-col>
                 </v-row>
                 </v-col>
@@ -202,7 +156,7 @@
 import { reactive } from '@vue/reactivity';
 import FooterVue    from '../../FooterVue.vue';
 import CHHeaderVue  from '../CHHeaderVue.vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { onMounted } from '@vue/runtime-core';
 
@@ -210,43 +164,65 @@ export default {
     components: { CHHeaderVue, FooterVue },
     setup () {
         const route = useRoute();
+        const router = useRouter();
 
         const state = reactive({
         cgno : route.query.cgno,
-        galleryName: '일상갤러리',
+        gallery :
+        {
 
-        title: '글제목입니다',
-        writer: '작성자입니다',
-        hit: 11,
-        like: 7,
-        content: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-        boardname: '자유게시판',
-        date: '2022-05-02 22:01',
-        image2: 'photo2',
+        },
+
+        imagecount : 0,
+        imageurl : [],
+        
         replycontent: '',
 
-        reply: {
-            count: 3,
-            writer: '핑키프라미쑤',
-            date: '2022-05-04 15:44',
-            content: 'ㄹㅇㅋㅋ',
-
-            writer1: '어썰트기어',
-            date1: '2022-05-05 15:44',
-            content1: '222',  
-        }
+        replylist: []
     })
 
-        const gallery = async() => // 갤러리 상세내용(이미지 포함, 이미지 url 생성 미구현)
+        const gallery = async() => // 갤러리 상세내용(이미지 포함)
         {
             const url = `/ROOT/api/clubgallery/select?cgno=${state.cgno}`;
             const headers = {"Content-Type" : "application/json"};
             const response = await axios.get(url, {headers});
             console.log(response.data);
+            if(response.data.status === 200)
+            {
+                state.gallery = response.data.result.clubgallery;
+                state.imagecount = response.data.result.imagecount; //idx
+                state.replylist = response.data.result.replylist;
+
+                for(let i=0; i<state.imagecount; i++)
+                {
+                    state.imageurl[i] = state.gallery.gimageurl + "&idx=" + i;
+                    // console.log(state.imageurl[i]);
+                }
+            }
         }
 
         const like = async() => {
 
+        }
+
+        const insertreply = async() =>
+        {
+            const url = `/ROOT/api/clubgallery/insertreply?cgno=${state.cgno}`;
+            const headers = {"Content-Type":"application/json"};
+            const body = 
+            {
+                recontent : state.replycontent,
+                clubgallery : 
+                {
+                    cgno : state.cgno
+                }
+            }
+            const response = await axios.post(url, body, {headers});
+            console.log(response.data);
+            if(response.data.status === 200)
+            {
+                router.push({name:'CGContentVue', query:{cgno:state.cgno}});
+            }
         }
 
         const replylike = async() => {
@@ -262,7 +238,7 @@ export default {
             gallery();
         });
 
-        return { state, like, replylike, reply }
+        return { state, like, insertreply, replylike, reply }
     }
 }
 </script>

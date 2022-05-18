@@ -1,5 +1,6 @@
 package com.example.entity.entity2;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,7 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.example.entity.entity1.CsImage;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -32,17 +34,19 @@ public class CSchedule {
  // 일정내용
  @Column(name = "SCONTENT")
  private String scontent;
- // 날짜
+ // 일정 예정일시(분단위까지)
+ @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
  @Column(name = "SDATE")
- private Date sdate;
+ private LocalDateTime sdate;
+ // 일정 등록일
+ @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+ @CreationTimestamp //CURRENT_DATE
+ @Column(name= "SREGDATE")
+ private Date sregdate;
  // 동호회번호
  @ManyToOne
  @JoinColumn(name = "cno")
  private Club club;
- // 스케줄이미지
- @ManyToOne
- @JoinColumn(name = "csimgcode")
- private CsImage csimage;
  // 동호회
 //  @OneToMany(mappedBy = "cSchedule")
 //  @JsonBackReference

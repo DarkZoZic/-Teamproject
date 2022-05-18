@@ -35,6 +35,8 @@
             </v-col>
           </v-row>
 
+          <img :src="state.imageurl" style="width:200px; margin: 10px; padding: 5px; border: 1px solid #CCC;" />
+
           <v-row dense>
             <v-col class="col_pad20">
               {{state.content}}
@@ -170,6 +172,7 @@ export default {
       writer: '작성자입니다',
       hit: 11,
       like: 7,
+      imageurl : '',
       content: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
       boardname: '자유게시판',
       date: '2022-05-02 22:01',
@@ -190,6 +193,7 @@ export default {
         state.title = response.data.result.clubboard.cbtitle;
         state.content = response.data.result.clubboard.cbcontent;
         state.reply = response.data.result.replylist;
+        state.imageurl = response.data.result.clubboard.cbimageurl;
       }
     }
 
@@ -212,11 +216,9 @@ export default {
       console.log(response.data);
       if(response.data.status === 200)
       {
-        router.push({name:'CBoardContentVue', query:{cbno:cbno}});
+        router.push({name:'CBoardContentVue', query:{cbno:state.cbno}});
       }
     }
-
-    
 
     onMounted(() =>
     {

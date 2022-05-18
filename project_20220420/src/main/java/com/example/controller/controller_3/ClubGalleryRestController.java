@@ -135,7 +135,7 @@ public class ClubGalleryRestController {
 		}
 		return map;
 	}
-	// 갤러리 상세보기 + 댓글목록
+	// 갤러리 상세보기 + 댓글목록 + 이미지 url
 	// /ROOT/api/clubgallery/select?cgno=
 	@RequestMapping(value="/select", 
 			method={RequestMethod.GET}, 
@@ -145,20 +145,17 @@ public class ClubGalleryRestController {
 	{
 		Map<String, Object> map = new HashMap<>();
 		try {
+			
+			ClubGallery clubGallery = cgRep.findById(cgno).orElse(null);
+			long imagecount = cgiRep.countByClubgallery_cgno(cgno);
+			
+			clubGallery.setGimageurl("/ROOT/clubgallery/image?cgno=" + cgno); // 이미지 url 보내기(idx값은 프론트에서 반복문으로 입력)
 			// 댓글 목록 저장할 배열 변수
 			List<CReply> replylist = crRep.findByClubgallery_cgnoOrderByRenumberDesc(cgno);
 			
-			model.addAttribute("clubgallery", cgRep.findById(cgno).orElse(null)); //글상세내용			
+			model.addAttribute("clubgallery", clubGallery); //글상세내용(이미지 url 포함)		
 			model.addAttribute("replylist", replylist); // 댓글
-			
-			
-			long imagecount = cgiRep.countByClubgallery_cgno(cgno); // 글에 첨부된 이미지 꺼내기
-			
-			for(int i=0; i<imagecount; i++)
-			{
-				
-			}
-			
+			model.addAttribute("imagecount", imagecount); // 이미지 개수(idx)
 			
 //				System.out.println("image : " + image);
 //				if(image != null) // 글에 첨부된 이미지가 있으면

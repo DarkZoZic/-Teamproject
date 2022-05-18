@@ -1,10 +1,16 @@
 package com.example.controller.controller_3;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,13 +32,13 @@ public class ClubScheduleRestController {
 	@Autowired
 	ClubScheduleImageRepository csiRep;
 
-	// 일정 등록 //미완성
+	// 일정 등록
 	// /ROOT/api/schedule/insert
 	@RequestMapping(value="/insert", 
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertPOST(@ModelAttribute CSchedule cs, @RequestParam(name="file") MultipartFile[] file)
+	public Map<String, Object> insertPOST(@ModelAttribute CSchedule cs, @RequestParam(name="file", required=false) MultipartFile[] file)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try
@@ -51,6 +57,7 @@ public class ClubScheduleRestController {
 						csimage.setCsimagesize(file[i].getSize());
 						csimage.setCsimagetype(file[i].getContentType());
 						csimage.setCschedule(cs);
+						csiRep.save(csimage);
 					}
 				}
 			}
@@ -62,4 +69,29 @@ public class ClubScheduleRestController {
 		}
 		return map;
 	}
+	
+	// 일정 목록
+	// /ROOT/api/schedule/selectlist
+	@RequestMapping(value="/selectlist", 
+			method={RequestMethod.GET}, 
+			consumes = {MediaType.ALL_VALUE},
+			produces= {MediaType.APPLICATION_JSON_VALUE})
+	public Map<String, Object> selectlistGET(Model model)
+	{
+		Map<String, Object> map = new HashMap<>();
+		try 
+		{
+			List<CSchedule> list = csRep.findAll();
+			model.addAttribute("list", list);
+			map.put("status", 200);
+			map.put("result", model);
+		} 
+		catch (Exception e) 
+		{
+			map.put("status", 0);
+		}
+		return map;
+	}
+	
+	
 }

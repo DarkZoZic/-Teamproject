@@ -253,17 +253,20 @@ public class ClubBoardRestController {
 	{
 		Map<String, Object> map = new HashMap<>();
 		try {
+			
+			ClubBoard cb = cbRep.findById(cbno).orElse(null);
+			cb.setCbimageurl("/ROOT/clubboard/image?cbno=" + cbno);
 			// 댓글 목록 저장할 배열 변수
 			List<CReply> replylist = crRep.findByClubboard_CbnoOrderByRenumberDesc(cbno);
 			
-			model.addAttribute("clubboard", cbRep.findById(cbno).orElse(null)); //글상세내용
+			model.addAttribute("clubboard", cb); //글상세내용
 			model.addAttribute("replylist", replylist); // 댓글
 			
-			CbImage image = cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(cbno); // 글에 첨부된 이미지 꺼내기
+//			CbImage image = cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(cbno); // 글에 첨부된 이미지 꺼내기
 //			System.out.println("image : " + image);
 //			if(image != null) // 글에 첨부된 이미지가 있으면
 //			{
-			model.addAttribute("cbimage", image); //이미지
+//			model.addAttribute("cbimage", image); //이미지
 //			}
 			
 			ClubBoard prev = cbRep.findTop1ByCbnoLessThanOrderByCbnoDesc(cbno); // 이전글번호 찾기
