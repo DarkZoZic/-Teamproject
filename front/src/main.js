@@ -7,7 +7,7 @@ import store from './stores/index'
 import HeaderVue from './components/HeaderVue.vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
-import vueCookies from "vue-cookies";
+// import vueCookies from "vue-cookies";
 
 
 loadFonts()
