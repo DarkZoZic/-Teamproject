@@ -591,7 +591,7 @@ Top
                     <v-text-field
                       id="address"
                       label="주소"
-                      v-model="state.ad"
+                      v-model="address"
                       variant="plain"
                       :rules="nameRules"
                       density="compact"
@@ -614,7 +614,7 @@ Top
                   <v-col sm="8" style="height: 80px;">
                     <v-text-field
                       label="상세주소"
-                      v-model="state.ad1"
+                      v-model="extraAddress"
                       id="extraAddress"
                       variant="plain"
                       :rules="nameRules"
@@ -682,8 +682,6 @@ export default {
   components: { HeaderVue, FooterVue },
   setup () {
       const state = reactive({
-        ad : '',
-        ad1 : '',
         id : '',
         pw : '',
         pw1 : '',
@@ -793,8 +791,7 @@ export default {
         body.append("mpw",      state.pw);
         body.append("mname",    state.mname);
         body.append("mphone",   state.phone);
-        body.append("maddress", state.ad);
-        body.append("detailaddress", state.ad1);
+        body.append("maddress", state.address + state.detailAddress + state.postcode);
         body.append("memail",   state.email);
         body.append("file",     state.imageFile);
       const response = await axios.post(url,body,{headers});

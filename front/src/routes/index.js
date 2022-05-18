@@ -25,6 +25,7 @@ import LikeListVue       from '@/components/mypage/LikeListVue.vue';
 import BoardListVue      from '@/components/board/BoardListVue.vue';
 import BoardWriteVue     from '@/components/board/BoardWriteVue.vue';
 import BoardContentVue   from '@/components/board/BoardContentVue.vue';
+import BoardUpdateVue    from '@/components/board/BoardUpdateVue.vue';
 
 // club
 import ClubListVue       from '@/components/club/ClubListVue.vue';
@@ -93,6 +94,7 @@ const routes = [
     { path: '/blist',     name: "BoardListVue",      component: BoardListVue },
     { path: '/bwrite',    name: "BoardWriteVue",     component: BoardWriteVue },
     { path: '/bcontent',  name: "BoardContentVue",   component: BoardContentVue },
+    { path: '/bupdate',   name: "BoardUpdateVue",    component: BoardUpdateVue },
 
     // club
     { path: '/clist',     name: "ClubListVue",       component: ClubListVue },
