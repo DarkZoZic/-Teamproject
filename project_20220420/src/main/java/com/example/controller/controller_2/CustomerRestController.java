@@ -137,7 +137,7 @@ public class CustomerRestController {
 
 
 		Member member1 = mRepository.findById(username).orElse(null);
-			System.out.println(member1.toString());
+			System.out.println("+++++++++"+member1.toString());
 			member1.setCategory(null);
 			member1.setMpw("agsafsdfish12");
 			member1.setMname("_");
@@ -148,23 +148,29 @@ public class CustomerRestController {
 			member1.setMimagetype(null);
 			member1.setMimagesize(0L);
 			member1.setMemail("_");
-		MemberPersonal memberPersonal = mpsRepository.findByMember_Mid(member1.getMid());
-		System.out.println(memberPersonal.toString());
-		memberPersonal.setMpnickname("_");
-		memberPersonal.setMpgender("_");
-		memberPersonal.setMpbirth("_");
-		memberPersonal.setMprole("_");
-		// MemberCompany memberCompany = cpRepository.findByMember_Mid(member1.getMid());
-		// memberCompany.setMcdesc("_");
-		// memberCompany.setMcdesc("_");
-		// memberCompany.setMcdesc("_");
-		// memberCompany.setMcdesc("_");
-		mpsRepository.save(memberPersonal);
-		mRepository.save(member1);
-		
-		
-		map.put("status", 200);
-		}
+			MemberCompany memberCompany = cpRepository.findByMember_Mid(member1.getMid());
+			MemberPersonal memberPersonal = mpsRepository.findByMember_Mid(member1.getMid());
+			if(memberPersonal.getMprole().equals("PERSONAL")){
+				System.out.println(memberPersonal.toString());
+				memberPersonal.setMpnickname("_");
+				memberPersonal.setMpgender("_");
+				memberPersonal.setMpbirth("_");
+				memberPersonal.setMprole("_");
+				mpsRepository.save(memberPersonal);
+				mRepository.save(member1);
+			}
+			else if(memberPersonal.getMember() == memberCompany.getMember()){
+				memberCompany.setMcbirth("-");
+				memberCompany.setMcdesc("-");
+				memberCompany.setMcname("-");
+				cpRepository.save(memberCompany);
+				mRepository.save(member1);
+			}
+			// cpRepository.save(memberCompany);
+			// mpsRepository.save(memberPersonal);
+			// mRepository.save(member1);
+	}
+	map.put("status", 200);
 	}
 	catch (Exception e) {
 		e.printStackTrace();

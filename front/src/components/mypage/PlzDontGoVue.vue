@@ -63,20 +63,41 @@ import { reactive } from '@vue/reactivity';
 import FooterVue from '../FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
 import { useRouter } from 'vue-router';
+import { useStore} from 'vuex'
+import axios from 'axios';
 
 export default {
     components: { HeaderVue, FooterVue },
     setup () {
         const router = useRouter();
-
+        const store = useStore();
         const state = reactive({
+          token : sessionStorage.getItem("TOKEN"),
           pw: '',
         })
-
-        const exit = () => {
+        const exit = async() => {
           if (confirm('정말 탈퇴하시겠습니까?') == true) {
-            alert("탈퇴 되었습니다");
-            router.push({ name: "HomeVue"});
+            const url = `/ROOT/member/delete`;
+            // multipart/form-data
+            // application/json
+            const headers = {"Content-Type":"multipart/form-data",
+                             TOKEN :state.token};
+          const body = new FormData;
+            body.append("mpw",state.pw);
+          // const body = {
+          //           mpw : state.pw}
+            const response = await axios.put(url,body, {headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+              alert('회원탈퇴 되었습니다.');
+                    // 토큰삭제
+                    sessionStorage.removeItem("TOKEN");
+
+                    //  홈페이지로 이동
+                    router.push({name:'HomeVue'});
+                    //  로그아웃
+                    store.commit('moduleA/setLogged', false);
+                }
           }
         }
 

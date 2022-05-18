@@ -67,7 +67,7 @@
 
           <v-row>
             <v-col class="col_center">
-              <v-btn style="background-color: gold;"><h3>비밀번호변경</h3></v-btn>
+              <v-btn style="background-color: gold;" @click="updatepw()"><h3>비밀번호변경</h3></v-btn>
             </v-col>
           </v-row>
         </v-col>
@@ -85,17 +85,62 @@
 import { reactive } from '@vue/reactivity';
 import FooterVue from '../FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 export default {
     components: { HeaderVue, FooterVue },
     setup () {
+      const router = useRouter();
       const state = reactive({
+        token : sessionStorage.getItem("TOKEN"),
         pw: '',
         pw1: '',
         pw2: '',
       })
 
-        return { state }
+      const updatepw = async() => {
+          if(state.pw1 !== state.pw2){
+              alert('변경암호가 일치하지 않습니다');
+                return false;
+            }
+            const url = `/ROOT/member/updatepw`;
+            const headers = {"Content-Type":"multipart/form-data", 
+            TOKEN : state.token};
+             const body = new FormData;
+            body.append("mpw",state.pw);
+            body.append("newpw",state.pw1);
+            const response = await axios.put(url,body, {headers});
+            console.log(response.data);
+           if(response.data.status === 200){
+               alert('정보수정완료')
+           router.push({path : 'mypage'})
+         }
+          if(state.pw === ''){
+           alert('현재암호를 입력하세요');
+                return false;
+            }
+            else if(state.pw1 === ''){
+              alert('변경암호를 입력하세요');
+                return false;
+            }
+           else if(state.pw2 === ''){
+             alert('변경암호를 입력하세요');
+                return false;
+            }
+            //   if(state.pw1 !== state.pw2){
+            //   alert('변경암호가 일치하지 않습니다');
+            //     return false;
+            // }
+           
+            else if(response.data.status === 0){
+              alert('현재암호가 일치하지 않습니다')
+                return false;
+            }
+
+      }
+
+        return { state,updatepw }
     }
 }
 </script>
