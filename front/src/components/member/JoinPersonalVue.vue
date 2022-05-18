@@ -162,7 +162,7 @@ Top
                   <v-col style="height: 80px;">
                     <v-text-field
                       label="아이디"
-                      :rules="idRules"
+                      :rules="state.idRules"
                       :counter="6"
                       v-model="state.id"
                       density="compact"
@@ -184,9 +184,9 @@ Top
                       variant="plain"
                       density="compact"
                       required
-                      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                      @click:append="show1 = !show1"
-                      :type="show1 ? 'text' : 'password'"
+                      :append-icon="state.show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                      @click:append="state.show1 = !state.show1"
+                      :type="state.show1 ? 'text' : 'password'"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -202,9 +202,9 @@ Top
                       variant="plain"
                       density="compact"
                       required
-                      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                      @click:append="show2 = !show2"
-                      :type="show2 ? 'text' : 'password'"
+                      :append-icon="state.show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                      @click:append="state.show2 = !state.show2"
+                      :type="state.show2 ? 'text' : 'password'"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -253,7 +253,7 @@ Top
                       label="이름"
                       v-model="state.mname"
                       variant="plain"
-                      :rules="nameRules"
+                      :rules="state.nameRules"
                       density="compact"
                       required
                     ></v-text-field>
@@ -269,7 +269,7 @@ Top
                       label="닉네임"
                       v-model="state.nickname"
                       variant="plain"
-                      :rules="nicknameRules"
+                      :rules="state.nicknameRules"
                       density="compact"
                       required
                     ></v-text-field>
@@ -285,7 +285,7 @@ Top
                       label="이메일"
                       v-model="state.email"
                       variant="plain"
-                      :rules="emailRules"
+                      :rules="state.emailRules"
                       density="compact"
                       required
                     ></v-text-field>
@@ -299,7 +299,7 @@ Top
                   <v-col sm="9" style="height: 80px;">
                     <v-text-field
                       label="생년월일"
-                      :rules="birthRules"
+                      :rules="state.birthRules"
                       :counter="8"
                       v-model="state.birth"
                       density="compact"
@@ -335,7 +335,7 @@ Top
                       label="연락처"
                       v-model="state.phone"
                       variant="plain"
-                      :rules="phoneRules"
+                      :rules="state.phoneRules"
                       hint="숫자만 입력하세요"
                       density="compact"
                       required
@@ -358,7 +358,7 @@ Top
                       label="인증번호"
                       v-model="state.validnumber"
                       variant="plain"
-                      :rules="validnumberRules"
+                      :rules="state.validnumberRules"
                       density="compact"
                       hint="숫자만 입력하세요"
                       required
@@ -382,7 +382,6 @@ Top
                       label="주소"
                       v-model="state.address"
                       variant="plain"
-                      :rules="nameRules"
                       density="compact"
                       required
                     ></v-text-field>
@@ -391,7 +390,7 @@ Top
                   <!-- 우편번호찾기버튼 -->
                   <v-col sm="2">
                     <v-btn @click="post" style="width: 100%; height:40px;">
-                      <h4>우편번호찾기</h4>
+                      <h4>주소찾기</h4>
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -400,25 +399,12 @@ Top
               <!-- 상세주소, 우편번호 -->
               <v-expansion-panel class="panel">
                 <v-row>
-                  <v-col sm="8" style="height: 80px;">
+                  <v-col style="height: 80px;">
                     <v-text-field
                       label="상세주소"
                       v-model="state.extraAddress"
                       id="extraAddress"
                       variant="plain"
-                      :rules="nameRules"
-                      density="compact"
-                      required
-                    ></v-text-field>
-                  </v-col>
-
-                  <v-col sm="4" style="height: 80px;">
-                    <v-text-field
-                      label="우편번호"
-                      v-model="state.postcode"
-                      id="postcode"
-                      variant="plain"
-                      :rules="nameRules"
                       density="compact"
                       required
                     ></v-text-field>
@@ -489,6 +475,44 @@ export default {
         role : 'PERSONAL',
         imageUrl : require('../../assets/img/profile_sample.png'),
         imageFile : null,
+        show1: false,
+        show2: false,
+
+        idRules: [
+          v => !!v || '필수 입력 사항입니다',
+          v => v.length >= 6 || '6자 이상 입력하세요',
+        ],
+
+        nameRules: [
+          v => !!v || '필수 입력 사항입니다',
+        ],
+
+        nicknameRules: [
+          v => !!v || '필수 입력 사항입니다',
+        ],
+
+        emailRules: [
+          v => !!v || '필수 입력 사항입니다',
+          v => /.+@.+/.test(v) || '이메일 형식이 아닙니다',
+        ],
+
+        birthRules: [
+          v => !!v || '필수 입력 사항입니다',
+          v => v.length >= 8 || '8자만 입력하세요',
+          v => v.length <= 8 || '8자만 입력하세요',
+        ],
+
+        phoneRules: [
+          v => !!v || '필수 입력 사항입니다',
+          v => v.length >= 8 || '',
+          v => v.length <= 11 || '',
+        ],
+
+        validnumberRules: [
+          v => !!v || '필수 입력 사항입니다',
+          v => v.length >= 6 || '',
+          v => v.length <= 6 || '',
+        ],
 
       })
       
@@ -525,6 +549,7 @@ export default {
           router.push({path : 'login'});
       }
     }
+
     const handleJoin = async() => {
       if(state.id === '' || state.id.length < 6) {
         alert('아이디를 6자 이상 입력하세요')

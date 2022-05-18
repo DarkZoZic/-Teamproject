@@ -49,16 +49,16 @@
                                         <v-col style="height: 80px;">
                                             <v-text-field
                                             label="비밀번호"
-                                            :rules="pwRules"
+                                            :rules="state.pwRules"
                                             :counter="8"
                                             v-model="state.pw"
                                             variant="plain"
                                             density="compact"
                                             required
                                             hint="8자 이상 입력하세요"
-                                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                                            @click:append="show1 = !show1"
-                                            :type="show1 ? 'text' : 'password'"
+                                            :append-icon="state.show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                            @click:append="state.show1 = !state.show1"
+                                            :type="state.show1 ? 'text' : 'password'"
                                             ></v-text-field>
                                         </v-col>
                                     </v-row>
@@ -146,7 +146,18 @@ export default {
         const state = reactive({
             id   : '',
             pw   : '',
-            valid: '',
+            valid: false,
+            show1: false,
+
+            pwRules: [
+                v => !!v || '필수 입력 사항입니다',
+                v => v.length >= 8 || '8자 이상 입력하세요',
+            ],
+
+            idRules: [
+            v => !!v || '필수 입력 사항입니다',
+            v => v.length >= 6 || '6자 이상 입력하세요',
+            ],            
         })
 
         const submit = async() => {
@@ -163,28 +174,8 @@ export default {
                 // store.commit('moduleA/setMenu', "/");
             }
         }
-
         return {state,submit}
-    },
-    data () {
-        return {
-            valid: false,
-            id: '',
-            pw: '',
-            show1: false,
-
-            pwRules: [
-                v => !!v || '필수 입력 사항입니다',
-                v => v.length >= 8 || '8자 이상 입력하세요',
-            ],
-
-            idRules: [
-            v => !!v || '필수 입력 사항입니다',
-            v => v.length >= 6 || '6자 이상 입력하세요',
-            ],
-            
-        }
-    },
+    }
 }
 </script>
 
