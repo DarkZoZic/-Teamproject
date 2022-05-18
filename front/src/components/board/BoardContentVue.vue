@@ -17,7 +17,6 @@
           <v-row dense>
             <v-col class="row_bwrite1">
               <h2>{{state.items.btitle}}</h2>
-               <p>현재시간 : {{today}}</p>
             </v-col>
           </v-row>
 
@@ -31,9 +30,7 @@
               <h5 style="color: #787878">
                 조회 {{state.items.bhit}} &nbsp; | &nbsp; 
                 <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.items.blike}}
-                &nbsp; | &nbsp; 
-                <!-- {{state.items.bregdate}} -->
-      
+                &nbsp; | &nbsp; {{state.items.bregdate}}
               </h5>
             </v-col>
           </v-row>
@@ -170,16 +167,9 @@ import HeaderVue from '../HeaderVue.vue';
 import { onMounted } from '@vue/runtime-core';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
-import dayjs from 'dayjs'
-
-
-
-
-
 
 export default {
-  components: { HeaderVue, FooterVue, dayjs },
-  data() { return { today: dayjs().format("YYYY-MM-DD HH:mm:ss"), } },
+  components: { HeaderVue, FooterVue },
   setup () {
 
     onMounted(() => {
@@ -188,7 +178,6 @@ export default {
 
     const route = useRoute();
     const router = useRouter();
-  
 
     const state = reactive({
       bno : route.query.bno,
