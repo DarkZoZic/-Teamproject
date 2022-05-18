@@ -106,7 +106,12 @@ export default {
             }
         }
 
-        return { state, upload, insertimage }
+        const handleCancel = () =>
+        {
+            router.push({name : 'CGalleryVue'});
+        }
+
+        return { state, upload, insertimage, handleCancel }
     }
 }
 </script>

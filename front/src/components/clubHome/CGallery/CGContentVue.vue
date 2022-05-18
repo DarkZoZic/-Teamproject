@@ -178,13 +178,13 @@
             
             <v-row dense style="padding-top: 10px; padding-bottom: 20px;">
                 <v-col sm="3">
-                <router-link to="/cblist">
+                <router-link to="/cgallery">
                     <v-btn class="col_center"><img :src="require('../../../assets/img/list.png')" style="width: 20px; margin-right: 3px;"/><h4>목록</h4></v-btn>
                 </router-link>
                 </v-col>
 
                 <v-col class="col_right">
-                <router-link to="/cbwrite">
+                <router-link to="/cgupload">
                     <v-btn class="col_center"><img :src="require('../../../assets/img/pencil.png')" style="width: 20px; margin-right: 3px;"/><h4>글쓰기</h4></v-btn>
                 </router-link>
                 </v-col>
@@ -202,12 +202,17 @@
 import { reactive } from '@vue/reactivity';
 import FooterVue    from '../../FooterVue.vue';
 import CHHeaderVue  from '../CHHeaderVue.vue';
+import { useRoute } from 'vue-router';
+import axios from 'axios';
+import { onMounted } from '@vue/runtime-core';
 
 export default {
     components: { CHHeaderVue, FooterVue },
     setup () {
+        const route = useRoute();
 
         const state = reactive({
+        cgno : route.query.cgno,
         galleryName: '일상갤러리',
 
         title: '글제목입니다',
@@ -232,17 +237,30 @@ export default {
         }
     })
 
-    const like = async() => {
+        const gallery = async() => // 갤러리 상세내용(이미지 포함, 이미지 url 생성 미구현)
+        {
+            const url = `/ROOT/api/clubgallery/select?cgno=${state.cgno}`;
+            const headers = {"Content-Type" : "application/json"};
+            const response = await axios.get(url, {headers});
+            console.log(response.data);
+        }
 
-    }
+        const like = async() => {
 
-    const replylike = async() => {
+        }
 
-    }
+        const replylike = async() => {
 
-    const reply = async() => {
+        }
 
-    }
+        const reply = async() => {
+
+        }
+
+        onMounted(()=>
+        {
+            gallery();
+        });
 
         return { state, like, replylike, reply }
     }

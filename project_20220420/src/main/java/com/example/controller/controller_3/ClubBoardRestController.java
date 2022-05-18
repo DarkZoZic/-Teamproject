@@ -2,6 +2,7 @@ package com.example.controller.controller_3;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -160,35 +161,45 @@ public class ClubBoardRestController {
 			PageRequest pageRequest = PageRequest.of(page-1, 20); 
 			System.out.println(pageRequest);
 			
+			List<ClubBoard> list = new ArrayList<>();
 			if(!text.equals(""))
 			{
 				if(option.equals("제목"))
 				{
 					//검색어 포함, 1페이지 20글, 글번호 내림차순
-					List<ClubBoard> list = cbRep.findByCbtitleContainingOrderByCbnoDesc(text, pageRequest);
+					list = cbRep.findByCbtitleContainingOrderByCbnoDesc(text, pageRequest);
 					model.addAttribute("list", list);
 				}
 				else if(option.equals("내용"))
 				{
-					List<ClubBoard> list = cbRep.findByCbcontentContainingOrderByCbnoDesc(text, pageRequest);
+					list = cbRep.findByCbcontentContainingOrderByCbnoDesc(text, pageRequest);
 					model.addAttribute("list", list);
 				}
 				else if(option.equals("글쓴이"))
 				{
-					List<ClubBoard> list = cbRep.findByMember_mnameContainingOrderByCbnoDesc(text, pageRequest);
+					list = cbRep.findByMember_mnameContainingOrderByCbnoDesc(text, pageRequest);
 					model.addAttribute("list", list);
 				}
-				else if(option.equals("전체"))
+				else
 				{
-					List<ClubBoard> list = cbRep.findByAllOptions(text, pageRequest);
+					list = cbRep.findByAllOptions(text, pageRequest);
 					model.addAttribute("list", list);
 				}
 			}
 			
 			else
 			{
-				List<ClubBoard> list = cbRep.findAll();
+				list = cbRep.findAll();
 				model.addAttribute("list", list);
+			}
+			
+			for(int i=0; i<list.toArray().length; i++)
+			{
+				ClubBoard cb = list.get(i);
+				
+				ClubBoard clubBoard = cbRep.findById(cb.getCbno()).orElse(null);
+				
+				clubBoard.setCbimageurl("/ROOT/clubboard/image/cbno=" + cb.getCbno());
 			}
 			
 //			System.out.println(list.toString());
