@@ -152,12 +152,13 @@ export default {
                 "Content-Type" : "application/json",
                 "token"        : state.token,
             };
-            const body= { 
-                mid      : state.mid,
-                btitle   : state.btitle,
-                bcontent : state.editorData,
-                btype    : state.btype,
-            };
+            
+            const body= new FormData();
+            body.append("mid", state.mid);
+            body.append("btitle", state.btitle);
+            body.append("bcontent", state.editorData);
+            body.append("btype", state.btype);
+                
             const response = await axios.post(url, body, {headers});
             console.log(response.data);
             if(response.data.status === 200){
