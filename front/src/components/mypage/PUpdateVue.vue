@@ -49,7 +49,7 @@
                             <v-row dense style="padding: 10px;">
                                 <v-col class="col_center">
                                     <input type="file" name="file" @change="handleImage($event)" style="width: 80px;">
-                                    <v-btn>초기화</v-btn>
+                                    <v-btn @click="nullbutton()">초기화</v-btn>
                                 </v-col>
                             </v-row>
                         </v-expansion-panel>
@@ -240,6 +240,7 @@ export default {
     components: { HeaderVue, FooterVue },
     setup () {
         const state = reactive({
+            imagenull : null,
             nick : '',
             token : sessionStorage.getItem("TOKEN"),
             id : '',
@@ -255,12 +256,23 @@ export default {
             birth : '',
             role : 'PERSONAL',
             imageUrl : require('../../assets/img/profile_sample.png'),
+            imageUrl1 : '',
             imageFile : null,
         })
         
         onMounted(() => {
             handlenick(),mypage();
           })
+        const nullbutton = () => {
+            // state.imageFile = require('../../assets/img/profile_sample.png');
+            console.log(state.imageFile);
+            state.imageUrl = require('../../assets/img/profile_sample.png');
+            state.imageFile = null;
+            state.items.mprofile = null;
+            console.log(state.items.mprofile);
+
+        }
+           
         const router = useRouter();
 
         const handleImage = (e) => {
@@ -269,12 +281,24 @@ export default {
                     state.imageFile = e.target.files[0];
                 }
                 else{
-                    // state.imageUrl = require('../../assets/img/profile_sample.png');
-                    state.imageUrl = require('../../assets/img/profile_sample.png');
-                    state.imageFile = null;
+                    state.imageUrl = state.imageUrl1
+                    state.imageFile = '';
                 }
             }
 
+        const handlenickupdate = async() => {
+            const url = `/ROOT/member/updatenickname`;
+            const headers = {"Content-Type":"application/json", 
+            token : state.token};
+            const body = {
+                mpnickname   : state.nick
+            };
+            const response = await axios.put(url,body,{headers});
+            console.log(state.nick);
+            if(response.data.status === 200){
+                console.log(state.nick);
+            }
+        }
         const handlenick = async() => {
             const url = `/ROOT/member/psmynick`;
             const headers = {"Content-Type":"application/json", 
@@ -297,11 +321,12 @@ export default {
             body.append("maddress",state.items.maddress);
             body.append("detailaddress",state.items.detailaddress);
             body.append("memail",state.items.memail);
-            body.append("file",state.items.imageUrl);
+            body.append("file", state.imageFile);
         const response = await axios.put(url,body,{headers});
-        console.log(state.imageFile);
+        console.log(state.imagenull);
         console.log(response.data);
         if(response.data.status === 200){
+            handlenickupdate();
             alert('정보수정완료')
             router.push({path : 'mypage'})
 
@@ -320,12 +345,21 @@ export default {
 
             if(response.data.status === 200){
                 state.items = response.data.result;
-                state.imageUrl = response.data.result.mimageurl
+                if(state.items.mprofile != ""){
+                    if(state.items.mprofile != null){
+                        
+                        state.imageUrl = response.data.result.mimageurl
+                        state.imageUrl1 = response.data.result.mimageurl
+                    }
+                }
+                else{
+                    state.imageUrl = require('../../assets/img/profile_sample.png');
+                }
                 // if(response.data.result.mimageurl)
                 // handlenick();
             }
         }
-        return { handleUpdate, state,handleImage }
+        return { handleUpdate, state,handleImage,nullbutton,handlenickupdate }
     },
     data () {
         return {
