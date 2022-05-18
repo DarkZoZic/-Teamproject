@@ -23,6 +23,10 @@ import PUpdateVue        from '@/components/mypage/PUpdateVue.vue';
 import LikeListVue       from '@/components/mypage/LikeListVue.vue';
 import MyActivityVue     from '@/components/mypage/MyActivityVue.vue';
 
+// companymypage
+import CMypageVue         from '@/components/companymypage/CMypageVue.vue';
+import CUpdateVue         from '@/components/companymypage/CUpdateVue.vue';
+
 // board
 import BoardListVue      from '@/components/board/BoardListVue.vue';
 import BoardWriteVue     from '@/components/board/BoardWriteVue.vue';
@@ -94,6 +98,10 @@ const routes = [
     { path: '/likelist',  name: "LikeListVue",       component: LikeListVue },
     { path: '/activity',  name: "MyActivityVue",     component: MyActivityVue },
 
+    // companymypage
+    { path: '/cmypage',   name: "CMypageVue",        component: CMypageVue },
+    { path: '/cupdate',   name: "CUpdateVue",        component: CUpdateVue },
+    
     // board
     { path: '/blist',     name: "BoardListVue",      component: BoardListVue },
     { path: '/bwrite',    name: "BoardWriteVue",     component: BoardWriteVue },

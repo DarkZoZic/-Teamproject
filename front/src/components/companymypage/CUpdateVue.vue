@@ -9,7 +9,7 @@
                 <v-col md="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
-                            <h5><router-link to="/">홈</router-link> > <router-link to="/mypage">마이페이지</router-link> > 회원정보수정</h5>
+                            <h5><router-link to="/">홈</router-link> > <router-link to="/cmypage">마이페이지</router-link> > 회원정보수정</h5>
                         </v-col>
                     </v-row>
 
@@ -19,10 +19,8 @@
                         </v-col>
 
                         <v-col class="col_right">
-                            <router-link to="/pupdate"><v-btn><h3>회원정보수정</h3></v-btn></router-link>
+                            <router-link to="/cupdate"><v-btn><h3>회원정보수정</h3></v-btn></router-link>
                             <router-link to="/pwupdate"><v-btn><h3>비밀번호변경</h3></v-btn></router-link>
-                            <router-link to="/nupdate"><v-btn><h3>닉네임변경</h3></v-btn></router-link>
-                            <router-link to="/likelist"><v-btn><h3>찜목록</h3></v-btn></router-link>
                             <router-link to="/activity"><v-btn><h3>내활동</h3></v-btn></router-link>
                             <router-link to="/dontgo"><v-btn><h3>회원탈퇴</h3></v-btn></router-link>
                         </v-col>
@@ -99,7 +97,7 @@
 
                                     <v-col sm="2">
                                         <v-btn style="width: 100%; height:40px;">
-                                        <h4>인증번호전송</h4>
+                                            <h4>인증번호전송</h4>
                                         </v-btn>
                                     </v-col>
                                 </v-row>
@@ -142,7 +140,7 @@
                                         ></v-text-field>
                                     </v-col>
 
-                                    <!-- 주소찾기버튼 -->
+                                    <!-- 우편번호찾기버튼 -->
                                     <v-col sm="2">
                                         <v-btn @click="post" style="width: 100%; height:40px;">
                                         <h4>주소찾기</h4>
@@ -213,7 +211,6 @@ export default {
     setup () {
         const state = reactive({
             imagenull : null,
-            nick : '',
             token : sessionStorage.getItem("TOKEN"),
             id : '',
             pw : '',
@@ -223,25 +220,15 @@ export default {
             address: '',
             extraAddress: '',
             detailAddress: '',
-            postcode : '',
             email : '',
-            nickname : '',
-            birth : '',
-            role : 'PERSONAL',
+            role : 'COMPANY',
             imageUrl : require('../../assets/img/profile_sample.png'),
             imageUrl1 : '',
             imageFile : null,
-            valid: false,
 
             emailRules: [
                 v => !!v || '필수 입력 사항입니다',
                 v => /.+@.+/.test(v) || '이메일 형식이 아닙니다',
-            ],
-
-            birthRules: [
-                v => !!v || '필수 입력 사항입니다',
-                v => v.length >= 8 || '8자만 입력하세요',
-                v => v.length <= 8 || '8자만 입력하세요',
             ],
 
             phoneRules: [
@@ -398,7 +385,7 @@ export default {
         }).open();
         }
 
-        return { post, handleUpdate, state, handleImage, nullbutton, handlenickupdate }
+        return { post, handleUpdate, state,handleImage,nullbutton,handlenickupdate }
     },
 }
 </script>
