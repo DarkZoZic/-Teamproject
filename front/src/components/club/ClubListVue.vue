@@ -268,6 +268,10 @@ export default {
         };
 
         const search = async() => {
+            
+        }
+
+        const area = async() => {
 
         }
         
