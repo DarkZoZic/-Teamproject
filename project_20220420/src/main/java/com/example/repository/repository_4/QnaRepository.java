@@ -2,6 +2,8 @@ package com.example.repository.repository_4;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import com.example.entity.entity1.Qna;
 
 import org.springframework.data.domain.Pageable;
@@ -27,6 +29,13 @@ public interface QnaRepository extends JpaRepository<Qna, Long> {
     List<Qna> findByQcontentOrMember_midOrQtitleContainingOrderByQnoDesc(String qtitle, String qcontent, String mid, Pageable pageable);
 
     // 토큰 아이디와 작성자가 같은 글
-    // List<Qna> findByMember_midOrderByQnoDesc(String mid);
+    List<Qna> findByMember_midOrderByQnoDesc(String mid, Pageable pageable);
+
+    // 아이디로 개수 세기
+    long countByMember_mid(String mid);
+
+    // 일괄삭제
+    @Transactional
+    int deleteByMember_midAndQnoIn(String mid, Long[] qno);
     
 }

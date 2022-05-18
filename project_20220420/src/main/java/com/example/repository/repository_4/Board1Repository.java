@@ -16,12 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface Board1Repository extends JpaRepository<Board1, Long> {
 
-    // 이전글 : 작은것 중에서 가장 큰값 1개
-    Board1 findTop1ByBnoLessThanOrderByBnoDesc(Long bno);
-
-    // 다음글 : 큰것 중에서 가장 작은값 1개
-    Board1 findTop1ByBnoGreaterThanOrderByBnoAsc(long bno);
-
     // 검색어를 제목을 기준으로. 글번호 내림차순 페이지네이션  
     // List<Board1> findByBtitleContainingOrderByBnoDesc(String btitle, Pageable pageable);
 
@@ -38,8 +32,13 @@ public interface Board1Repository extends JpaRepository<Board1, Long> {
     // 회원 목록 + 검색
     // Page<Board1> findAll(Pageable pageable);
 
-    
 
+
+    // 이전글 : 작은것 중에서 가장 큰값 1개
+    Board1 findTop1ByBnoLessThanOrderByBnoDesc(Long bno);
+
+    // 다음글 : 큰것 중에서 가장 작은값 1개
+    Board1 findTop1ByBnoGreaterThanOrderByBnoAsc(long bno);
 
     // 검색(글제목 기준) + 글번호 내림차순 페이지네이션
     List<Board1> findByBtitleContainingOrderByBnoDesc(String btitle, Pageable pageable);
@@ -61,7 +60,10 @@ public interface Board1Repository extends JpaRepository<Board1, Long> {
     int deleteByMember_midAndBnoIn(String mid, Long[] bno);
 
     // 토큰 아이디와 작성자가 같은 글
-    // List<Board1> findByMember_midOrderByBnoDesc(String mid);
+    List<Board1> findByMember_midOrderByBnoDesc(String mid, Pageable pageable);
+
+    // 아이디로 개수 세기
+    long countByMember_mid(String mid);
 
   
 

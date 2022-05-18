@@ -401,13 +401,13 @@ public class Board1RestController {
     @RequestMapping(value = "/selectone", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectOneGET(
-        @RequestParam(name = "bNo") long bNo,
+        @RequestParam(name = "bno") Long bno,
         @RequestHeader (name = "token") String token ){
 
         Map<String ,Object> map = new HashMap<>();
         try{
             if(token != null){
-                Board1 board1 = b1Service.selectBoard1One(bNo);
+                Board1 board1 = b1Service.selectBoard1One(bno);
                 if(board1 != null){
                     map.put("status", 200); // 성공 
                     map.put("result", board1);
@@ -454,6 +454,7 @@ public class Board1RestController {
         }
         return map;
     }
+    
 
     // 검색(제목기준) + 페이지네이션
     // 127.0.0.1:9090/ROOT/api/board1/search
@@ -537,13 +538,13 @@ public class Board1RestController {
     @RequestMapping(value = "/updatehit", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardUpdateHitGET(
-        @RequestParam(name = "bNo") long bNo,
+        @RequestParam(name = "bno") long bno,
         @RequestHeader (name = "token")String token){
 
         Map<String ,Object> map = new HashMap<>();
         try{
             if(token != null){
-                int ret = b1Service.updateBoard1HitOne(bNo);
+                int ret = b1Service.updateBoard1HitOne(bno);
                 if(ret == 1){
                     map.put("status", 200); // 성공
                 }
@@ -660,6 +661,7 @@ public class Board1RestController {
     }
 
     // 일괄삭제
+    // 관리자만 가능하도록 해야하는데 아직 그건 구현 못함
     // 127.0.0.1:9090/ROOT/api/board1/deletebatch
     @RequestMapping(value = "/deletebatch", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -684,6 +686,37 @@ public class Board1RestController {
     }
 
    
+    // 게시글 작성자와 토큰의 아이디가 일치하는 글만 조회
+    // 127.0.0.1:9090/ROOT/api/board1/selectboard
+    @RequestMapping(value = "/selectboard", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
+                    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> selectBoardGET(
+        @RequestParam(name = "page") int page, 
+        @RequestHeader (name = "token") String token ){
+
+        Map<String ,Object> map = new HashMap<>();
+        try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
+
+            PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
+            long total = b1Repository.countByMember_mid(userid);
+
+            List<Board1> bList = b1Repository.findByMember_midOrderByBnoDesc(userid, pageRequest);
+            // System.out.println(qList);
+            map.put("status", 200); // 성공
+            map.put("result", bList);
+            map.put("result1", total);
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    } 
+
 
     
 }

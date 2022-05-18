@@ -2,8 +2,11 @@ package com.example.repository.repository_4;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import com.example.entity.entity2.CReply;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -26,5 +29,12 @@ public interface CreplyRepository extends JpaRepository<CReply, Long>{
     List<CReply> findByQna_qnoOrderByRenumberAsc(long qno);
 
     // 내가 쓴 댓글찾기?
-    // List<CReply> findByMember_mid(String mid);
+    List<CReply> findByMember_midOrderByRenumberDesc(String mid, Pageable pageable);
+    
+    // 아이디로 개수 세기
+    long countByMember_mid(String mid);
+
+    // 일괄삭제
+    @Transactional
+    int deleteByMember_midAndRenumberIn(String mid, Long[] renumber);
 }

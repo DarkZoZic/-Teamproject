@@ -16,6 +16,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +39,10 @@ public class CreplyRestController {
 
     @Autowired
     JwtUtil jwtUtil;
+
+    // int PAGECNT = 10
+    // global.properties 사용하기. 나중에 숫자 바꾸고 싶은대로 바꾸면 됨
+    @Value("${board.page.count}") int PAGECNT;
 
     //127.0.0.1:9090/ROOT/api/creply/board_insert
     @RequestMapping(value = "/board_insert", 
@@ -358,6 +364,63 @@ public class CreplyRestController {
         return map;
 
     }
+
+    // 댓글 작성자와 토큰의 아이디가 일치하는 댓글 조회
+    // 127.0.0.1:9090/ROOT/api/creply/selectreply
+    @RequestMapping(value = "/selectreply", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
+                    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> selectBoardGET(
+        @RequestParam(name = "page") int page, 
+        @RequestHeader (name = "token") String token ){
+
+        Map<String ,Object> map = new HashMap<>();
+        try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
+
+            PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
+            long total = cRepository.countByMember_mid(userid);
+
+            List<CReply> cList = cRepository.findByMember_midOrderByRenumberDesc(userid, pageRequest);
+            // System.out.println(qList);
+            map.put("status", 200); // 성공
+            map.put("result", cList);
+            map.put("result1", total);
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    } 
+
+    // 일괄삭제
+    // 127.0.0.1:9090/ROOT/api/creply/deletebatch
+    @RequestMapping(value = "/deletebatch", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
+                    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> deleteBatch(
+        @RequestParam(name = "renumber") Long[] renumber,
+        @RequestHeader (name = "token")String token ){
+
+        Map<String ,Object> map = new HashMap<>();
+        try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
+
+            cRepository.deleteByMember_midAndRenumberIn(userid, renumber);
+            map.put("status", 200); // 성공
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
+
+
 
 
 
