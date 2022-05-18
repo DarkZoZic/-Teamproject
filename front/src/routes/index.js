@@ -20,6 +20,7 @@ import MypageVue         from '@/components/mypage/MypageVue.vue';
 import PwUpdateVue       from '@/components/mypage/PwUpdateVue.vue';
 import PUpdateVue        from '@/components/mypage/PUpdateVue.vue';
 import LikeListVue       from '@/components/mypage/LikeListVue.vue';
+import MyActivityVue     from '@/components/mypage/MyActivityVue.vue';
 
 // board
 import BoardListVue      from '@/components/board/BoardListVue.vue';
@@ -89,6 +90,7 @@ const routes = [
     { path: '/pwupdate',  name: "PwUpdateVue",       component: PwUpdateVue },
     { path: '/pupdate',   name: "PUpdateVue",        component: PUpdateVue },
     { path: '/likelist',  name: "LikeListVue",       component: LikeListVue },
+    { path: '/activity',  name: "MyActivityVue",     component: MyActivityVue },
 
     // board
     { path: '/blist',     name: "BoardListVue",      component: BoardListVue },

@@ -159,7 +159,6 @@ export default {
             console.log(response.data);
             if(response.data.status === 200) {
                 sessionStorage.setItem("TOKEN", response.data.token);
-                alert('로그인성공');
                 router.push({path : '/'})
                 // store.commit('moduleA/setMenu', "/");
             }
@@ -183,8 +182,9 @@ export default {
             v => !!v || '필수 입력 사항입니다',
             v => v.length >= 6 || '6자 이상 입력하세요',
             ],
+            
         }
-    }
+    },
 }
 </script>
 

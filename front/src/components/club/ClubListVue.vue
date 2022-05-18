@@ -72,7 +72,15 @@
                             </v-row>
                         </v-col>
                     </v-row>
-                    
+                    <div id="app">
+                        <div class="search">
+                            <p>
+                                <input type="text" style="border: 1px solid;" @change="input"/>
+                                <button @click="click">click</button>
+                            </p> 
+                            <p>{{state.text}}</p> 
+                        </div> 
+                    </div>
                     <v-row dense style="margin-top: 20px;">
                         <v-col>
                             <v-row dense style="border: 1px solid #CCC">
@@ -235,7 +243,17 @@ export default {
                 area2: '연제구',
             },
 
+            text: '',
+            inputText: '',
+
         });
+
+        const input = (e) => {
+            return state.inputText = e.target.value
+        };
+        const click = () => {
+            return state.text = state.inputText
+        }
 
         onMounted (()=>{
             if (state.card.desc.length >= 40) {
@@ -253,7 +271,7 @@ export default {
 
         }
         
-        return { state, reset, search }
+        return { input, click, state, reset, search }
     }
 }
 </script>

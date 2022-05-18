@@ -27,6 +27,7 @@
                             <router-link to="/pwupdate"><v-btn><h3>비밀번호변경</h3></v-btn></router-link>
                             <router-link to="/dontgo"><v-btn><h3>회원탈퇴</h3></v-btn></router-link>
                             <router-link to="/likelist"><v-btn><h3>찜목록</h3></v-btn></router-link>
+                            <router-link to="/activity"><v-btn><h3>내활동</h3></v-btn></router-link>
                         </v-col>
                     </v-row>
                 </v-col>
@@ -41,21 +42,24 @@
 </template>
 
 <script>
+import { reactive } from '@vue/reactivity';
 import { useRouter } from 'vue-router';
 import FooterVue from '../../components/FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
 
 export default {
     components: { HeaderVue, FooterVue },
-    // setup () {
-    //     const router = useRouter();
+    setup () {
+        const router = useRouter();
 
-    //     const state = reactive({
+        const state = reactive({
+            tabs: [
+                'a', 'b'
+            ]
+        })
 
-    //     })
-
-    //     return { state }
-    // }
+        return { state }
+    }
 }
 </script>
 

@@ -216,10 +216,6 @@
                                                         <router-link to="/likelist"><v-btn><h4>찜목록</h4></v-btn></router-link>
                                                     </v-row>
                                                 </v-col>
-
-                                                <v-col>
-                                                    
-                                                </v-col>
                                             </v-row>
 
                                             <v-row dense>
@@ -228,7 +224,6 @@
                                             </v-row>
 
                                             <v-row dense>
-                                                
                                             </v-row>
                                         </v-card>
                                     </v-col>
@@ -248,11 +243,13 @@
                                 <v-card height="200px" class="club_card" style="padding: 20px; ">
                                     <v-row dense>
                                         <v-col md="3"></v-col>
+
                                         <v-col md="6" class="col_center">
                                             <router-link to="/cdetail" class="col_center">
                                                 <img :src="require(`../assets/img/${state.logo}.png`)" style="width: 100%"/>
                                             </router-link>
                                         </v-col>
+
                                         <v-col md="3" class="col_right">
                                             <v-btn style="height: 100%; width: 10px;" id="like" @click="changeheart()">
                                                 <img :src="require(`../assets/img/${state.imgName}.png`)" style="width: 30px"/>
@@ -330,9 +327,7 @@ export default {
 
             profile: {
                 nickname: '탁구왕김제빵',
-            }
-
-            
+            },            
         });
 
         const changeheart = () => {

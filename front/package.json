@@ -17,6 +17,7 @@
     "mqtt": "^4.3.7",
     "roboto-fontface": "*",
     "vue": "^3.2.13",
+    "vue-cookies": "^1.8.1",
     "vue-router": "^4.0.13",
     "vue3-datepicker": "^0.3.3",
     "vueperslides": "^3.3.2",
