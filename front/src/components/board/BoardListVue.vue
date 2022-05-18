@@ -107,8 +107,11 @@ export default {
         // 조회수 1증가 시키기
         const handlePage = async(bno) => {
             if(state.token !== null){
-            const url = `/ROOT/api/board1/updatehit?bNo=${bno}`;
-            const headers = { "Content-Type":"application/json", token: state.token };
+            const url = `/ROOT/api/board1/updatehit?bno=${bno}`;
+            const headers = { 
+                "Content-Type":"application/json",
+                "token" : state.token,
+            };
             const response = await axios.put(url, {}, { headers });
             console.log(response.data);
                 router.push({name:"BoardContentVue", query:{ bno: bno }})
@@ -127,7 +130,10 @@ export default {
 
         const handleData = async() => {
             const url = `/ROOT/api/board1/selectlist?page=${state.page}`
-            const headers = { "Content-Type": "application/json" };
+            const headers = { 
+                "Content-Type": "application/json", 
+                "token" : state.token,
+            };
             const response = await axios.get(url, { headers });
             console.log(response.data);
             if(state.token !== null){

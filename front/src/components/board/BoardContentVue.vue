@@ -16,21 +16,21 @@
 
           <v-row dense>
             <v-col class="row_bwrite1">
-              <h2>{{state.title}}</h2>
+              <h2>{{state.items.btitle}}</h2>
             </v-col>
           </v-row>
 
           <!-- 상단메뉴 -->
           <v-row dense class="row_bwrite2">
             <v-col sm="6" class="col_pad-l25">
-              <h4 style="color: #787878">{{state.writer}}</h4>
+              <h4 style="color: #787878">{{state.items.mid}}</h4>
             </v-col>
 
             <v-col sm="6" class="col_right1">
               <h5 style="color: #787878">
-                조회 {{state.hit}} &nbsp; | &nbsp; 
-                <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.like}}
-                &nbsp; | &nbsp; {{state.date}}
+                조회 {{state.items.bhit}} &nbsp; | &nbsp; 
+                <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.items.blike}}
+                &nbsp; | &nbsp; {{state.items.bregdate}}
               </h5>
             </v-col>
           </v-row>
@@ -101,7 +101,7 @@
                               <h5 style="padding-right: 10px;">{{state.reply.writer1}}</h5> 
                               <h5 style="color: gray;">{{state.reply.date1}}</h5>
                               <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px; cursor: pointer;"/>
-                              <h5 style="color: gray;">{{state.like}}</h5>
+                              <h5 style="color: gray;">{{state.blike}}</h5>
                               <h5 @click="handleUpdate()" style="padding-left: 10px; color: gray; padding-right: 10px; cursor: pointer;">수정</h5>
                               <h5 @click="handleDelete()" style="cursor: pointer; color: gray;">삭제</h5>
                               
@@ -180,14 +180,13 @@ export default {
     const router = useRouter();
 
     const state = reactive({
-      token : sessionStorage.getItem("TOKEN"),
       bno : route.query.bno,
-      title: '',
-      writer: '',
-      hit: 0,
-      like: 7,
-      content: 'asd',
-      date: '2022-04-30 16:44',
+      btitle: '',
+      mid: '',
+      bhit: 0,
+      blike: 0,
+      bcontent: '',
+      bregdate: '',
       likeimage : require('../../assets/img/thumb.png'),
       token  : sessionStorage.getItem("TOKEN"),
 
@@ -204,15 +203,15 @@ export default {
     })
 
     const handleData = async() => {
-      const url = `/ROOT/api/board1/selectone?bNo=${state.bno}`;
+      const url = `/ROOT/api/board1/selectone?bno=${state.bno}`;
       const headers = {"Content-Type":"application/json",
-                      token : state.token};
+                      "token" : state.token };
       const response = await axios.get(url, {headers});
       console.log(response.data);
-        if(response.data.status === 200){
-                state.items = response.data.result;
-                console.log(state.items);
-            }
+      if(response.data.status === 200){
+        state.items = response.data.result;
+        console.log(state.items);
+      }
     }
 
     const handleDelete = async() => {
