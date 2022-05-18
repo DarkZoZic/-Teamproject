@@ -269,5 +269,37 @@ public class QnaRestController {
         }
         return map;
     }
+
+    // 게시글 작성자와 토큰의 아이디가 일치하는 글만 조회
+    // 127.0.0.1:9090/ROOT/api/qna/selectboard
+    @RequestMapping(value = "/selectboard", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
+                    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> selectBoardGET(
+        @RequestParam(name = "page") int page, 
+        @RequestHeader (name = "token") String token ){
+
+        Map<String ,Object> map = new HashMap<>();
+        try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
+
+            PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
+            long total = qRepository.countByMember_mid(userid);
+
+            List<Qna> qList = qRepository.findByMember_midOrderByQnoDesc(userid, pageRequest);
+            // System.out.println(qList);
+            map.put("status", 200); // 성공
+            map.put("result", qList);
+            map.put("result1", total);
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    } 
+
     
 }
