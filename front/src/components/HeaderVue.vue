@@ -74,7 +74,7 @@
           <v-row dense style="padding-bottom: 5px; padding-top: 10px;">
             <v-col>
               <v-card>
-                <v-tabs v-model="state.tab" fixed-tabs>
+                <v-tabs v-model="state.tab">
                   <v-tab value=""      @click="handleClick('/')"><h3>홈</h3></v-tab>
                   <v-tab value="clist" @click="handleClick('clist')"><h3>클럽목록</h3></v-tab>
                   <v-tab value="blist" @click="handleClick('blist')"><h3>게시판</h3></v-tab>
