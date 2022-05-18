@@ -31,6 +31,10 @@ public class MemberCompany {
   // 기업설립일
 	@Column(name = "MCBIRTH")
 	private String mcbirth;
+
+  // 회원권한
+  @Column(name = "MCROLE")
+  private String mcrole;
   // 회원
   @ManyToOne
   @JoinColumn(name = "m_id")

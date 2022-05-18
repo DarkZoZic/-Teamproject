@@ -714,6 +714,7 @@ export default {
       address: '',
       postcode: '',
       detailAddress: '',
+      role : 'COMPANY',
       email: '',
       number: '',
       extraAddress: '',
@@ -744,6 +745,7 @@ export default {
         body.append("mcdesc",  state.desc);
         body.append("mcname",  state.cpname);
         body.append("mcbirth", state.birthcompany);
+        body.append("mcrole",   state.role);
         body.append("member",  state.id);
       const response = await axios.post(url,body,{headers});
       console.log(response.data);

@@ -53,7 +53,7 @@ public class Member {
   // 가입일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp // CURRENT_DATE
-	@Column(name = "MREGDATE", nullable = false)
+	@Column(name = "MREGDATE")
 	private Date mregdate;
   // 프로필사진
   @Lob

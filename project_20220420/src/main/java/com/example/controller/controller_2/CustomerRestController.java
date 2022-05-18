@@ -137,40 +137,48 @@ public class CustomerRestController {
 
 
 		Member member1 = mRepository.findById(username).orElse(null);
-			System.out.println("+++++++++"+member1.toString());
 			member1.setCategory(null);
 			member1.setMpw("agsafsdfish12");
 			member1.setMname("_");
 			member1.setMphone("_");
 			member1.setMaddress("_");
+			member1.setDetailaddress("_");
 			member1.setMprofile(null);
 			member1.setMimagename(null);
 			member1.setMimagetype(null);
 			member1.setMimagesize(0L);
 			member1.setMemail("_");
-			MemberCompany memberCompany = cpRepository.findByMember_Mid(member1.getMid());
 			MemberPersonal memberPersonal = mpsRepository.findByMember_Mid(member1.getMid());
-			if(memberPersonal.getMprole().equals("PERSONAL")){
-				System.out.println(memberPersonal.toString());
-				memberPersonal.setMpnickname("_");
-				memberPersonal.setMpgender("_");
-				memberPersonal.setMpbirth("_");
-				memberPersonal.setMprole("_");
-				mpsRepository.save(memberPersonal);
-				mRepository.save(member1);
+			if(memberPersonal != null){
+				if(memberPersonal.getMprole().equals("PERSONAL")){
+					System.out.println(memberPersonal.toString());
+					memberPersonal.setMpnickname("_");
+					memberPersonal.setMpgender("_");
+					memberPersonal.setMpbirth("_");
+					memberPersonal.setMprole("_");
+					mpsRepository.save(memberPersonal);
+					mRepository.save(member1);
+				}
 			}
-			else if(memberPersonal.getMember() == memberCompany.getMember()){
-				memberCompany.setMcbirth("-");
-				memberCompany.setMcdesc("-");
-				memberCompany.setMcname("-");
-				cpRepository.save(memberCompany);
-				mRepository.save(member1);
+			MemberCompany memberCompany = cpRepository.findByMember_Mid(member1.getMid());
+			if(memberCompany != null){
+				System.out.println("++++++++++++" +memberCompany.toString());
+				if(memberCompany.getMcrole().equals("COMPANY")){
+					System.out.println(memberCompany);
+					memberCompany.setMcbirth("-");
+					memberCompany.setMcdesc("-");
+					memberCompany.setMcname("-");
+					memberCompany.setMcrole("_");
+					cpRepository.save(memberCompany);
+					mRepository.save(member1);
+				}
 			}
+			// mpsRepory.save(member1);
 			// cpRepository.save(memberCompany);
 			// mpsRepository.save(memberPersonal);
 			// mRepository.save(member1);
-	}
-	map.put("status", 200);
+		}
+		map.put("status", 200);
 	}
 	catch (Exception e) {
 		e.printStackTrace();
