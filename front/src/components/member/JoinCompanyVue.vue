@@ -615,7 +615,6 @@ Top
                       label="주소"
                       v-model="address"
                       variant="plain"
-                      :rules="nameRules"
                       density="compact"
                       required
                     ></v-text-field>
@@ -639,7 +638,6 @@ Top
                       v-model="extraAddress"
                       id="extraAddress"
                       variant="plain"
-                      :rules="nameRules"
                       density="compact"
                       required
                     ></v-text-field>
@@ -651,7 +649,6 @@ Top
                       v-model="postcode"
                       id="postcode"
                       variant="plain"
-                      :rules="nameRules"
                       density="compact"
                       required
                     ></v-text-field>
