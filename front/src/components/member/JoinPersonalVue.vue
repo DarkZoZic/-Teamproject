@@ -380,7 +380,7 @@ Top
                     <v-text-field
                       id="address"
                       label="주소"
-                      v-model="address"
+                      v-model="state.address"
                       variant="plain"
                       :rules="nameRules"
                       density="compact"
@@ -403,7 +403,7 @@ Top
                   <v-col sm="8" style="height: 80px;">
                     <v-text-field
                       label="상세주소"
-                      v-model="extraAddress"
+                      v-model="state.extraAddress"
                       id="extraAddress"
                       variant="plain"
                       :rules="nameRules"
@@ -415,7 +415,7 @@ Top
                   <v-col sm="4" style="height: 80px;">
                     <v-text-field
                       label="우편번호"
-                      v-model="postcode"
+                      v-model="state.postcode"
                       id="postcode"
                       variant="plain"
                       :rules="nameRules"
@@ -479,6 +479,10 @@ export default {
         email : '',
         nickname : '',
         validnumber: '',
+        postcode: '',
+        address: '',
+        extraAddress: '',
+        detailAddress: '',
         gender : [{ value: "남", text: "남성", },
          { value: "여", text: "여성", }],
         birth : '',
@@ -580,7 +584,8 @@ export default {
         body.append("mpw",      state.pw);
         body.append("mname",    state.mname);
         body.append("mphone",   state.phone);
-        body.append("maddress", state.address + state.detailAddress + state.postcode);
+        body.append("maddress", state.address);
+        body.append("detailaddress" ,state.extraAddress);
         body.append("memail",   state.email);
         body.append("file",     state.imageFile);
       const response = await axios.post(url,body,{headers});
@@ -589,83 +594,20 @@ export default {
         handleJoin2();
       }
     }
-    return { handleJoin, state, handleImage }
-  },
-  data () {
-    return {
-      column: null,
-      row: null,
-      e6: 1,
-      valid: false,
-      id: '',
-      pw: '',
-      pw1: '',
-      name: '',
-      nickname: '',
-      email: '',
-      birth: '',
-      gender: '',
-      phone: '',
-      postcode: '',
-      address: '',
-      extraAddress: '',
-      detailAddress: '',
-      validnumber: '',
 
-      show1: false,
-      show2: false,
-
-      idRules: [
-        v => !!v || '필수 입력 사항입니다',
-        v => v.length >= 6 || '6자 이상 입력하세요',
-      ],
-
-      nameRules: [
-        v => !!v || '필수 입력 사항입니다',
-      ],
-
-      nicknameRules: [
-        v => !!v || '필수 입력 사항입니다',
-      ],
-
-      emailRules: [
-        v => !!v || '필수 입력 사항입니다',
-        v => /.+@.+/.test(v) || '이메일 형식이 아닙니다',
-      ],
-
-      birthRules: [
-        v => !!v || '필수 입력 사항입니다',
-        v => v.length >= 8 || '8자만 입력하세요',
-        v => v.length <= 8 || '8자만 입력하세요',
-      ],
-
-      phoneRules: [
-        v => !!v || '필수 입력 사항입니다',
-        v => v.length >= 8 || '',
-        v => v.length <= 11 || '',
-      ],
-
-      validnumberRules: [
-        v => !!v || '필수 입력 사항입니다',
-        v => v.length >= 6 || '',
-        v => v.length <= 6 || '',
-      ],
-    }
-  },
-  methods: {
-    // 주소 API
-    post() {
+    const post = () => {
       new window.daum.Postcode({
         oncomplete: (data) => {
-          if (this.extraAddress !== "") {
-            this.extraAddress = "";
+          if (state.extraAddress !== "") {
+            state.extraAddress = "";
           }
           if (data.userSelectedType === "R") {
             // 사용자가 도로명 주소를 선택했을 경우
-            this.address = data.roadAddress;
+            state.address = data.roadAddress;
+
           } else {
             // 사용자가 지번 주소를 선택했을 경우(J)
-            this.address = data.jibunAddress;
+            state.address = data.jibunAddress;
           }
  
           // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
@@ -673,28 +615,30 @@ export default {
             // 법정동명이 있을 경우 추가한다. (법정리는 제외)
             // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
             if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
-              this.extraAddress += data.bname;
+              state.extraAddress += data.bname;
             }
             // 건물명이 있고, 공동주택일 경우 추가한다.
             if (data.buildingName !== "" && data.apartment === "Y") {
-              this.extraAddress +=
-                this.extraAddress !== ""
+              state.extraAddress +=
+                state.extraAddress !== ""
                   ? `, ${data.buildingName}`
                   : data.buildingName;
             }
             // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-            if (this.extraAddress !== "") {
-              this.extraAddress = `(${this.extraAddress})`;
+            if (state.extraAddress !== "") {
+              state.extraAddress = `(${state.extraAddress})`;
             }
           } else {
-            this.extraAddress = "";
+            state.extraAddress = "";
           }
           // 우편번호를 입력한다.
-          this.postcode = data.zonecode;
+          state.postcode = data.zonecode;
         },
       }).open();
-    },
-  },
+    }
+
+    return { post, handleJoin, state, handleImage }
+  }
 }
 </script>
 
