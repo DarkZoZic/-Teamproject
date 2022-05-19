@@ -29,6 +29,13 @@ public interface AddressRepository
         public List<Address> addressesClubList(
                 @Param(value="address") String address);
 
+        @Query(value = "SELECT  * FROM"+
+        " ADDRESSTBL WHERE A1 =", nativeQuery = true)
+        public List<Address> addressesList3();
+
+        List<Address> findDistinctByA1(String a1);
+
+
 
         // Address findByaCode(Long address);
 
