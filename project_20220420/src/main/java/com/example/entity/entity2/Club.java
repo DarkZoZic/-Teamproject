@@ -23,6 +23,7 @@ import com.example.entity.entity1.Like;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -80,6 +81,10 @@ public class Club {
   // 동호회 회비
   @Column(name = "CFEE")
   private String cfee;
+
+  @Transient
+  private String cimageurl;
+  
   // 클럽스케쥴
   @ManyToOne
   @JoinColumn(name = "s_no")

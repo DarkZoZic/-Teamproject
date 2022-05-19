@@ -1,5 +1,6 @@
 package com.example.controller.controller_2;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,8 +10,11 @@ import com.example.entity.entity2.Club;
 import com.example.repository.repository_gibum.ClubRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,8 +25,57 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping(value = "/club")
 public class ClubRestController {
-
     @Autowired ClubRepository cRepository;
+
+
+    // 127.0.0.1:9090/ROOT/club/image?mid=ada
+	@GetMapping(value ="/image")
+    public ResponseEntity<byte[]> imageGET(
+        @RequestParam(name ="cno") Long cno) throws IOException {
+            // 이미지명, 이미지크기, 이미지종류, 이미지데이터
+			Club club = cRepository.findByCno(cno);
+
+            if(club != null){ // 물품정보가 존해하면
+                if(club.getCimagesize() > 0) { // 첨부한 파일 존재
+                    HttpHeaders headers = new HttpHeaders();
+                    
+                    if(club.getCimagetype().equals("image/jpeg")){
+                        headers.setContentType(MediaType.IMAGE_JPEG);
+                    }
+
+                    else if(club.getCimagetype().equals("image/png")){
+                        headers.setContentType(MediaType.IMAGE_PNG);
+                    }
+
+                    else if(club.getCimagetype().equals("image/gif")){
+                        headers.setContentType(MediaType.IMAGE_GIF);
+                    }
+
+                    // 이미지 byte[], headers, HttpStatus.OK
+                    ResponseEntity<byte[]> response 
+                    = new ResponseEntity<>(club.getCthumbnail(),
+                        headers, HttpStatus.OK);
+                        return response;
+                }
+                // else {
+                //     InputStream is =
+                //     resLoader
+                //     .getResource("classpath:/static/img/default.png")
+                //     .getInputStream();
+
+                //     HttpHeaders headers = new HttpHeaders();
+                //     headers.setContentType(MediaType.IMAGE_PNG);
+
+                //     ResponseEntity<byte[]> response
+                //     = new ResponseEntity<>(is.readAllBytes(),
+                //     headers, HttpStatus.OK);
+
+                //     return response;
+                // }
+            }
+            return null;
+        }
+
     // 클럽생성
 	// 127.0.0.1:9090/ROOT/club/insert.json
 	//{"mid":"c1", "mpw":"c1" };

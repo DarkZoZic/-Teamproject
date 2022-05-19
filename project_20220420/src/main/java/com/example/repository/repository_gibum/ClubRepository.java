@@ -22,5 +22,8 @@ public interface ClubRepository
         // " ADDRESSTABLEVIEW WHERE A_CODE=:no", nativeQuery = true)
         // public List<Club> addressclublList(
         //         @Param(value="no") Long no);
+
+        Club findByCno(long cno);
+
     
 }
