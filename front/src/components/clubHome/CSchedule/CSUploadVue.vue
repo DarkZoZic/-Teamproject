@@ -192,14 +192,15 @@ export default {
             // console.log(state);
             // 일정 시작일자(startdate) 형식 yyyy-MM-dd hh:mm로 변환
             const sd = state.schedule.startdate;
-            var year = sd.getFullYear();
-            var month = ('0' + (sd.getMonth() + 1)).slice(-2);
-            var day = ('0' + sd.getDate()).slice(-2);
+            var year = sd.getFullYear(); //년
+            var month = ('0' + (sd.getMonth() + 1)).slice(-2); //월
+            var day = ('0' + sd.getDate()).slice(-2); //일
 
             var sdateString = year + '-' + month  + '-' + day;
 
-            var hours = ('0' + sd.getHours()).slice(-2); 
-            var minutes = ('0' + sd.getMinutes()).slice(-2);
+            var hours = ('0' + sd.getHours()).slice(-2); //시
+            var minutes = ('0' + sd.getMinutes()).slice(-2); //분
+            // var seconds = ('0' + today.getSeconds()).slice(-2);  //초
 
             var stimeString = hours + ':' + minutes;
 
@@ -218,6 +219,7 @@ export default {
 
             var hours = ('0' + ed.getHours()).slice(-2); 
             var minutes = ('0' + ed.getMinutes()).slice(-2);
+            // var seconds = ('0' + today.getSeconds()).slice(-2);  //초
 
             var etimeString = hours + ':' + minutes;
 

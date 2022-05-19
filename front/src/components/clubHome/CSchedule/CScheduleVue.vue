@@ -90,7 +90,7 @@ export default {
       const url = `/ROOT/api/schedule/selectlist`;
       const headers = {"Content-Type":"application/json"};
       const response = await axios.get(url, {headers});
-      console.log(response.data);
+      // console.log(response.data);
       if(response.data.status === 200)
       {
         state.schedule = response.data.result.list;
