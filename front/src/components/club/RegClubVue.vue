@@ -93,7 +93,7 @@
                                     </v-expansion-panel>
 
                                     <!--  -->
-                                    <v-expansion-panel>
+                                    <v-expansion-panel >
                                         <v-row dense>
                                             <v-col style="padding: 20px;">
                                                 <v-row dense>
@@ -205,6 +205,9 @@
                                                 required
                                                 ></v-text-field>
                                             </v-col>
+                                            <v-col class="col_right">
+                                                <h4 style="padding-right: 10px;">온라인</h4><input type="checkbox" @change="online()" style="width: 15px; height: 15px;">
+                                            </v-col>
                                         </v-row>
                                     </v-expansion-panel>
 
@@ -299,11 +302,32 @@ export default {
 
         };
 
+        const online = () => {
+
+        }
+
         const reset = async() => {
             state.datechk = [];
             state.timechk = [];
         };
-        return { state, handleReg, reset }
+                
+        const handleReg = async() => {
+            const url = `/ROOT/club/insert.json`;
+            const headers = {"Content-Type":"multipart/form-data"};
+            const body = new FormData;
+                body.append("cname",  state.cname);
+                body.append("cdesc",  state.desc);
+                body.append("cmax", state.cmax);
+                body.append("cprivate",   state.cprivate);
+                body.append("carea",  state.carea);
+            const response = await axios.post(url,body,{headers});
+                console.log(response.data);
+            if(response.data.status === 200){
+                alert('회원가입완료')
+                router.push({path : 'login'});
+            }
+        }
+        return { state, handleReg, online, reset }
     }
 }
 </script>
