@@ -6,13 +6,13 @@
         <v-main>
             <div style="padding: 20px;">
                 <v-row>
-                    <v-col md="2"><img :src="require('../assets/img/banner_left.jpg')" style="width: 100%; cursor: pointer;" @click="clubDetail()"/></v-col>
+                    <v-col sm="2"><img :src="require('../assets/img/banner_left.jpg')" style="width: 100%; cursor: pointer;" @click="clubDetail()"/></v-col>
 
                     <v-col>
                         <v-row>
-                            <v-col md="9">
+                            <v-col sm="9">
                                 <v-row>
-                                    <v-col md="8">
+                                    <v-col sm="8">
                                         <v-card height="150" style="border-width: 4px; border-color: gold;">
                                             <vueper-slides ref="myVueperSlides" autoplay fixed-height="100%">
                                                 <vueper-slide
@@ -22,22 +22,22 @@
                                         </v-card>
                                     </v-col>
 
-                                    <v-col md="4">
+                                    <v-col sm="4">
                                         <v-card height="150" style="padding: 10px; border-width: 4px; border-color: gold;">
                                             <v-row dense style="padding-bottom: 10px;">
-                                                <v-col md="5" class="col_left"><h4>공지사항</h4></v-col>
+                                                <v-col sm="5" class="col_left"><h4>공지사항</h4></v-col>
 
-                                                <v-col md="5"></v-col>
+                                                <v-col sm="5"></v-col>
 
-                                                <v-col md="2" class="col_right">
+                                                <v-col sm="2" class="col_right">
                                                     <router-link to="/hqna" class="col_right">
-                                                        <v-icon style="margin-top: -5px;" icon="mdi-arrow-right-bold" />
+                                                        <v-icon style="margin-top: -5px;" icon="smi-arrow-right-bold" />
                                                     </router-link>
                                                 </v-col>
                                             </v-row>
 
                                             <v-row dense @click="notice()" style="cursor: pointer;">
-                                                <v-col md="3">
+                                                <v-col sm="3">
                                                     <h4 style="color: navy;">[공지]</h4>
                                                 </v-col>
 
@@ -47,7 +47,7 @@
                                             </v-row>
 
                                             <v-row dense @click="notice()" style="cursor: pointer;">
-                                                <v-col md="3">
+                                                <v-col sm="3">
                                                     <h4 style="color: navy;">[공지]</h4>
                                                 </v-col>
 
@@ -57,7 +57,7 @@
                                             </v-row>
                                             
                                             <v-row dense @click="notice()" style="cursor: pointer;">
-                                                <v-col md="3">
+                                                <v-col sm="3">
                                                     <h4 style="color: navy;">[공지]</h4>
                                                 </v-col>
 
@@ -70,97 +70,97 @@
                                 </v-row>
 
                                 <v-row>
-                                    <v-col md="6" class="home_box">
+                                    <v-col sm="6" class="home_box">
                                         <v-card height="150" style="border-width: 4px; border-color: gold;">
                                             <v-row dense>
                                                 <v-col class="col_center"><h3 style="margin-top: 10px;">지역별 클럽</h3></v-col>
                                             </v-row>
 
                                             <v-row dense>
-                                                <v-col md="1"></v-col>
+                                                <v-col sm="1"></v-col>
 
-                                                <v-col md="10" style="justify-content: center; display: flex;">
+                                                <v-col sm="10" style="justify-content: center; display: flex;">
                                                     <a class="region">전국</a> <a class="region">서울</a> <a class="region">경기</a> <a class="region">인천</a>
                                                     <a class="region">부산</a> <a class="region">대전</a> <a class="region">대구</a> <a class="region">울산</a>
                                                 </v-col>
 
-                                                <v-col md="1"></v-col>
+                                                <v-col sm="1"></v-col>
                                             </v-row>
                                             
                                             <v-row dense>
-                                                <v-col md="1"></v-col>
+                                                <v-col sm="1"></v-col>
 
-                                                <v-col md="10" style="justify-content: center; display: flex; border-bottom: 1px solid #CCC;">
+                                                <v-col sm="10" style="justify-content: center; display: flex; border-bottom: 1px solid #CCC;">
                                                     <a class="region">강원</a> <a class="region">충북</a> <a class="region">충남</a> <a class="region">전북</a>
                                                     <a class="region">전남</a> <a class="region">경북</a> <a class="region">경남</a> <a class="region">제주</a> 
                                                 </v-col>
 
-                                                <v-col md="1"></v-col>
+                                                <v-col sm="1"></v-col>
                                             </v-row>
 
                                             <v-row dense>
-                                                <v-col md="1"></v-col>
+                                                <v-col sm="1"></v-col>
 
-                                                <v-col md="10" style="margin-top: 5px; justify-content: center; display: flex;">
+                                                <v-col sm="10" style="margin-top: 5px; justify-content: center; display: flex;">
                                                     <v-row dense="">
-                                                        <v-col md="4" class="col_center"><a>온라인</a></v-col>
-                                                        <v-col md="4" class="col_center"><a>대대대</a></v-col>
-                                                        <v-col md="4" class="col_center"><a>클럽맵</a></v-col>
+                                                        <v-col sm="4" class="col_center"><a>온라인</a></v-col>
+                                                        <v-col sm="4" class="col_center"><a>대대대</a></v-col>
+                                                        <v-col sm="4" class="col_center"><a>클럽맵</a></v-col>
                                                     </v-row>
                                                 </v-col>
 
-                                                <v-col md="1"></v-col>
+                                                <v-col sm="1"></v-col>
                                             </v-row>
                                         </v-card>
                                     </v-col>
 
-                                    <v-col md="6">
+                                    <v-col sm="6">
                                         <v-card height="150" style="border-width: 4px; border-color: gold;">
                                             <v-row dense>
                                                 <v-col class="col_center"><h3 style="margin-top: 10px;">테마별 클럽</h3></v-col>
                                             </v-row>
 
                                             <v-row dense>
-                                                <v-col md="1"></v-col>
+                                                <v-col sm="1"></v-col>
 
-                                                <v-col md="10" style="justify-content: center; display: flex;">
+                                                <v-col sm="10" style="justify-content: center; display: flex;">
                                                     <a class="region">스포츠</a> <a class="region">헬스</a> <a class="region">음악</a> <a class="region">영화</a>
                                                     <a class="region">IT</a> <a class="region">아웃팅</a> <a class="region">여행</a> 
                                                 </v-col>
 
-                                                <v-col md="1"></v-col>
+                                                <v-col sm="1"></v-col>
                                             </v-row>
                                             
                                             <v-row dense>
-                                                <v-col md="1"></v-col>
+                                                <v-col sm="1"></v-col>
 
-                                                <v-col md="10" style="justify-content: center; display: flex; border-bottom: 1px solid #CCC;">
+                                                <v-col sm="10" style="justify-content: center; display: flex; border-bottom: 1px solid #CCC;">
                                                     <a class="region">게임</a> <a class="region">스터디</a> <a class="region">캠핑</a> <a class="region">주식/재테크</a>
                                                     <a class="region">자기계발</a>
                                                 </v-col>
 
-                                                <v-col md="1"></v-col>
+                                                <v-col sm="1"></v-col>
                                             </v-row>
 
                                             <v-row dense>
-                                                <v-col md="1"></v-col>
+                                                <v-col sm="1"></v-col>
 
-                                                <v-col md="10" style="margin-top: 5px; justify-content: center; display: flex;">
+                                                <v-col sm="10" style="margin-top: 5px; justify-content: center; display: flex;">
                                                     <v-row dense="">
-                                                        <v-col md="4" class="col_center"><a>연령별</a></v-col>
-                                                        <v-col md="4" class="col_center"><a>고민된다</a></v-col>
-                                                        <v-col md="4" class="col_center"><a>잠온다</a></v-col>
+                                                        <v-col sm="4" class="col_center"><a>연령별</a></v-col>
+                                                        <v-col sm="4" class="col_center"><a>고민된다</a></v-col>
+                                                        <v-col sm="4" class="col_center"><a>잠온다</a></v-col>
                                                     </v-row>
                                                 </v-col>
 
-                                                <v-col md="1"></v-col>
+                                                <v-col sm="1"></v-col>
                                             </v-row>
                                         </v-card>
                                     </v-col>
                                 </v-row>
                             </v-col>
 
-                            <v-col md="3" style="align:center;" v-if="!state.logged">
+                            <v-col sm="3" style="align:center;" v-if="!state.logged">
                                 <v-row>
                                     <v-col>
                                         <router-link to="/login">
@@ -193,21 +193,21 @@
                                 </v-row>
                             </v-col>
 
-                            <v-col md="3" style="align:center;" v-if="state.logged">
+                            <v-col sm="3" style="align:center;" v-if="state.logged">
                                 <v-row dense>
                                     <v-col>
                                         <v-card style="padding: 10px; border-width: 4px; border-color: gold; align-item: center; height: 313px;">
                                             <v-row dense>
-                                                <v-col md="6">
+                                                <v-col sm="6">
                                                     <img  :src="state.imageUrl"  style="width: 100px; border: 1px solid #CCC;"/>
                                                     
                                                 </v-col>
 
-                                                <v-col md="6">
+                                                <v-col sm="6">
                                                     <v-row dense>
                                                         <v-col class="col_right">
-                                                            <router-link to="/activity"><v-icon icon="mdi-bell-outline" /></router-link>
-                                                            <v-icon icon="mdi-close" style="cursor: pointer;" @click="handlelogout()"/>
+                                                            <router-link to="/activity"><v-icon icon="smi-bell-outline" /></router-link>
+                                                            <v-icon icon="smi-close" style="cursor: pointer;" @click="handlelogout()"/>
                                                         </v-col>
                                                     </v-row>
                                                 </v-col>
@@ -260,15 +260,15 @@
                             >
                                 <v-card height="200px" class="club_card" style="padding: 20px; ">
                                     <v-row dense>
-                                        <v-col md="3"></v-col>
+                                        <v-col sm="3"></v-col>
 
-                                        <v-col md="6" class="col_center">
+                                        <v-col sm="6" class="col_center">
                                             <router-link to="/cdetail" class="col_center">
                                                 <img :src="require(`../assets/img/${state.logo}.png`)" style="width: 100%"/>
                                             </router-link>
                                         </v-col>
 
-                                        <v-col md="3" class="col_right">
+                                        <v-col sm="3" class="col_right">
                                             <v-btn style="height: 100%; width: 10px;" id="like" @click="changeheart()">
                                                 <img :src="require(`../assets/img/${state.imgName}.png`)" style="width: 30px"/>
                                             </v-btn>
@@ -282,7 +282,7 @@
                                     </v-row>
 
                                     <v-row dense style="height: 70px;">
-                                        <v-col md="12">
+                                        <v-col sm="12">
                                             <h5 style="display: flex">{{state.card.desc1}}</h5>
                                         </v-col>
                                     </v-row>
@@ -297,7 +297,7 @@
                         </v-row>
                     </v-col>
 
-                    <v-col md="2"><img :src="require('../assets/img/banner_right.jpg')" style="width:100%; cursor: pointer;" @click="clubDetail()"/></v-col>
+                    <v-col sm="2"><img :src="require('../assets/img/banner_right.jpg')" style="width:100%; cursor: pointer;" @click="clubDetail()"/></v-col>
                 </v-row>
             </div>
         </v-main>
