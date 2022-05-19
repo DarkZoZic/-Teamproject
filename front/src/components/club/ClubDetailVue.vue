@@ -106,14 +106,12 @@
                                         <h4 style="color: #787878">성별</h4>
                                         <h4 style="color: #787878; margin-top: 10px;">연령</h4>
                                         <h4 style="color: #787878; margin-top: 10px;">모집인원</h4>
-                                        <h4 style="color: #787878; margin-top: 10px;">기타사항</h4>
                                     </v-col>
 
                                     <v-col sm="10">
                                         <h4>{{state.gender}}</h4>
                                         <h4 style="margin-top: 10px;">{{state.age}}</h4>
                                         <h4 style="margin-top: 10px;">{{state.howmany}}명</h4>
-                                        <h4 style="margin-top: 10px;">{{state.guitar}}</h4>
                                     </v-col>
                                 </v-row>
                             </v-col>
@@ -227,7 +225,6 @@ export default {
             gender: '성별무관',
             age: '20세 이상(2003년생 ~)',
             howmany: '0',
-            guitar: '없음',
             addrname: '성찬미탁구클럽',
             addr: '부산광역시 부산진구 동평로 221',
             imgName: 'heart',
