@@ -45,7 +45,6 @@ public class ClubScheduleRestController {
 			{
 				if(file.length > 0)
 				{
-					
 					for(int i=0; i<file.length; i++)
 					{
 						CsImage csimage = new CsImage();
