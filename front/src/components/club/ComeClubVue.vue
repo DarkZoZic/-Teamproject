@@ -11,13 +11,13 @@
                 <v-col md="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
-                            <h5><router-link to="/">홈</router-link> > <router-link to="/clist">클럽</router-link> > 클럽등록</h5>
+                            <h5><router-link to="/">홈</router-link> > <router-link to="/clist">클럽</router-link> > 공고등록</h5>
                         </v-col>
                     </v-row>
                     
                     <v-row dense class="row_bwrite2" style="padding-top: 20px; padding-bottom: 15px; padding-left: 10px;">
                         <v-col sm="6" class="col_left">
-                            <h2>클럽등록</h2>
+                            <h2>공고등록</h2>
                         </v-col>
                     </v-row>
 
@@ -30,17 +30,8 @@
                                     <!-- 클럽명 -->
                                     <v-expansion-panel class="panel">
                                         <v-row>
-                                            <v-col style="height: 80px;">
-                                                <v-text-field
-                                                label="클럽명"
-                                                v-model="state.name"
-                                                variant="plain"
-                                                hint="10자 이하로 입력하세요"                      
-                                                :rules="numberRules"
-                                                :counter="10"                      
-                                                density="compact"
-                                                required
-                                                ></v-text-field>
+                                            <v-col style="height: 80px;" class="col_left">
+                                                <h2>{{state.name}}</h2>
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
@@ -148,80 +139,27 @@
                                                 </v-row>
                                             </v-col>
                                         </v-row>
-                                    </v-expansion-panel>                                    
-
-                                    <!-- 주소 -->
-                                    <v-expansion-panel class="panel">
-                                        <v-row>
-                                            <v-col sm="10" style="height: 80px;">
-                                                <v-text-field
-                                                label="장소명"
-                                                v-model="state.area"
-                                                variant="plain"
-                                                hint="장소 이름을 입력하세요"
-                                                density="compact"
-                                                required
-                                                ></v-text-field>
-                                            </v-col>
-
-                                            <v-col sm="2">
-                                            </v-col>
-                                        </v-row>
                                     </v-expansion-panel>
 
                                     <v-expansion-panel class="panel">
-                                        <v-row>
-                                            <!-- 주소 -->
-                                            <v-col sm="10" style="height: 80px;">
-                                                <v-text-field
-                                                id="address"
-                                                label="주소"
-                                                v-model="state.address"
-                                                variant="plain"
-                                                density="compact"
-                                                required
-                                                ></v-text-field>
+                                        <v-row dense style="padding:10px;">
+                                            <v-col sm="2" style="justify-content: right; display: flex; align-items: center; ">
+                                                모집마감일:
+                                            </v-col>
+                                            
+                                            <v-col sm="3" class="col_left">
+                                                <Datepicker style="width: 100%;" v-model="state.enddate" :month-year-component="monthYear" />
                                             </v-col>
 
-                                            <!-- 우편번호찾기버튼 -->
-                                            <v-col sm="2">
-                                                <v-btn @click="post" style="width: 100%; height:40px;">
-                                                <h4>주소찾기</h4>
-                                                </v-btn>
-                                            </v-col>
+                                            <v-col sm="2"></v-col>
                                         </v-row>
                                     </v-expansion-panel>
 
-                                    <!-- 상세주소 -->
+                                    <!-- 설명글 -->
                                     <v-expansion-panel class="panel">
                                         <v-row>
-                                            <v-col sm="8" style="height: 80px;">
-                                                <v-text-field
-                                                label="상세주소"
-                                                v-model="state.detailAddress"
-                                                id="detailAddress"
-                                                variant="plain"
-                                                density="compact"
-                                                required
-                                                ></v-text-field>
-                                            </v-col>
-                                        </v-row>
-                                    </v-expansion-panel>
-
-                                    <v-expansion-panel class="panel" style="height: 70px;">
-                                        <v-row>
-                                            <v-col sm="2" style="height: 50px;">
-                                                <v-text-field
-                                                label="동호회 최대인원"
-                                                v-model="state.max"
-                                                id="max"
-                                                variant="plain"
-                                                density="compact"
-                                                required
-                                                ></v-text-field>
-                                            </v-col>
-                                            <v-col sm="4" style="height: 70px;" class="col_left">
-                                                명
+                                            <v-col style="height: 670px;" >
+                                                <ckeditor :editor="state.editor" v-model="state.editorData" @ready="onReady"></ckeditor>                                          
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
@@ -231,7 +169,7 @@
                                             <v-col>
                                                 <v-file-input
                                                 accept="image/*"
-                                                label="로고 사진을 넣어주세요"
+                                                label="사진을 넣어주세요"
                                                 multiple
                                                 ></v-file-input>
                                             </v-col>
@@ -250,7 +188,7 @@
                         <v-col sm="4">
                             <v-row dense>
                                 <v-btn @click="handleReg()" style="width:100%; height:80px; background-color: gold;">
-                                    <h2>클럽등록</h2>
+                                    <h2>공고등록</h2>
                                 </v-btn>
                             </v-row>
                         </v-col>
@@ -271,24 +209,27 @@
 
 <script>
 import { reactive }  from '@vue/reactivity';
-import FooterVue from '../../components/FooterVue.vue';
+import FooterVue from '../FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import UploadAdapter from '../UploadAdapter.js';
+import CKEditor      from '@ckeditor/ckeditor5-vue'
 
 export default {
-    components: { HeaderVue, FooterVue },
+    components: { HeaderVue, FooterVue, ckeditor: CKEditor.component },
     setup () {
         const state = reactive({
             datechk: [],
             timechk: [],
             gender : [],
             age    : [],
-
-            name          : '',
+            enddate: '',
+            name          : '클럽이름',
             area          : '',
-            postcode      : '',
-            detailAddress : '',
-            address       : '',
-            max           : '',
+            editor     : ClassicEditor, // ckeditor종류
+            editorData : "미리 추가되는 내용",
+
+
             nameRules: [
                 v => !!v || '필수 입력 사항입니다',
                 v => !/[~!@#$%^&*()_+|<>?:{}]/.test(v) || '이름에는 특수문자를 사용할 수 없습니다'
@@ -303,7 +244,19 @@ export default {
             state.datechk = [];
             state.timechk = [];
         };
-        return { state, handleReg, reset }
+
+        const onReady = ( editor ) => {
+            console.log(editor);
+            editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+                return new UploadAdapter( loader );
+            };
+            
+            editor.editing.view.change( writer => {
+                writer.setStyle( 'height', '600px', editor.editing.view.document.getRoot() );
+            });
+            console.log(editor.editing.view);
+        }
+        return { state, onReady, handleReg, reset }
     }
 }
 </script>

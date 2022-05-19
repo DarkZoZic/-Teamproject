@@ -25,6 +25,9 @@
                             <router-link to="/regclub">
                                 <v-btn style="background-color: gold;"><h3>클럽등록</h3></v-btn>
                             </router-link>
+                            <router-link to="/comeclub">
+                                <v-btn style="background-color: gold;"><h3>공고등록</h3></v-btn>
+                            </router-link>                            
                         </v-col>
                     </v-row>
                     
