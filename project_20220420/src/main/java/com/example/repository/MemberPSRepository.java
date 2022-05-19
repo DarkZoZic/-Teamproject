@@ -20,6 +20,8 @@ public interface MemberPSRepository
 
         MemberProjection findByMpno(Long id);
 
+        MemberPersonal findByMpnickname(String mpnickname);
+
         // MemberNicknameview findByMpno(long id);
 
 
