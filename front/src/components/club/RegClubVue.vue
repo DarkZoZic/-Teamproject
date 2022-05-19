@@ -298,9 +298,6 @@ export default {
             ],
             valid: '',
         })
-        const handleReg = () => {
-
-        };
 
         const online = () => {
 
