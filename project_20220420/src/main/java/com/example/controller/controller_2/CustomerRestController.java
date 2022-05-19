@@ -8,6 +8,7 @@ import java.util.Map;
 import com.example.entity.entity1.Member;
 import com.example.entity.entity1.MemberCompany;
 import com.example.entity.entity1.MemberPersonal;
+import com.example.entity.entity2.CompanyProjection;
 import com.example.entity.entity2.MemberProjection;
 import com.example.jwt.JwtUtil;
 import com.example.repository.MemberCPRepository;
@@ -382,6 +383,29 @@ public class CustomerRestController {
 		map.put("result", mem); 
 		return map;
 	}
+	// 기업이름 가져오기
+	// 127.0.0.1:9090/ROOT/member/cname
+	@RequestMapping(value = "/cname", 
+			method = { RequestMethod.GET },
+			consumes = { MediaType.ALL_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> CompanynameGet(
+		@RequestHeader(name = "TOKEN") String token){
+		Map<String, Object> map = new HashMap<String, Object>();
+		String username = jwtUtil.extractUsername(token);
+		System.out.println(username);
+
+		MemberCompany memberCompany = cpRepository.findByMember_Mid(username);
+
+		CompanyProjection cno = cpRepository.findByMcno(memberCompany.getMcno());
+		System.out.println(cno);
+
+		// Membe.out.println(memberPersonal);
+		// 토큰이 있어야 실행됨
+		map.put("status", 200); 
+		map.put("result", cno); 
+		return map;
+	}
 	// 권한 가져오기
 	// 127.0.0.1:9090/ROOT/member/role
 	@RequestMapping(value = "/role", 
@@ -397,8 +421,10 @@ public class CustomerRestController {
 		MemberPersonal memberPersonal = mpsRepository.findByMember_Mid(username);
 		if(memberCompany != null){
 			String companyrole = memberCompany.getMcrole();
+			// String companyname = memberCompany.getMcname();
 			map.put("status", 200); 
-			map.put("result", companyrole ); 
+			map.put("result", companyrole); 
+			// map.put("result", companyname ); 
 		}
 		else{
 			String memberrole = memberPersonal.getMprole();
