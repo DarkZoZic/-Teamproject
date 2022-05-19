@@ -18,6 +18,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.example.entity.entity1.Member;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
@@ -38,10 +39,12 @@ public class CSchedule {
  @Column(name = "SCONTENT")
  private String scontent;
  // 일정 시작일시(분단위까지)
+ @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
  @Column(name = "STARTDATE")
  private LocalDateTime startdate;
  // 일정 예상종료일시(분단위)
+ @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
  @Column(name = "ENDDATE")
  private LocalDateTime enddate;

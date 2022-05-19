@@ -184,25 +184,66 @@ export default {
         
         const handleCancel = async() => {
             if (confirm('정말 취소하시겠습니까?') == true) {
-                router.push({ name: "CSchduleVue"});
+                router.push({ name: "CScheduleVue"});
             }
         }
 
         const create = async() => {
-            console.log(state);
+            // console.log(state);
+            // 일정 시작일자(startdate) 형식 yyyy-MM-dd hh:mm로 변환
+            const sd = state.schedule.startdate;
+            var year = sd.getFullYear();
+            var month = ('0' + (sd.getMonth() + 1)).slice(-2);
+            var day = ('0' + sd.getDate()).slice(-2);
+
+            var sdateString = year + '-' + month  + '-' + day;
+
+            var hours = ('0' + sd.getHours()).slice(-2); 
+            var minutes = ('0' + sd.getMinutes()).slice(-2);
+
+            var stimeString = hours + ':' + minutes;
+
+            // console.log(sdateString, stimeString);
+
+            const startdate = sdateString + ' ' + stimeString;
+            // console.log(startdate);
+
+            // 예상 일정종료일자(enddate) 형식 yyyy-MM-dd hh:mm로 변환
+            const ed = state.schedule.enddate;
+            var year = ed.getFullYear();
+            var month = ('0' + (ed.getMonth() + 1)).slice(-2);
+            var day = ('0' + ed.getDate()).slice(-2);
+
+            var edateString = year + '-' + month  + '-' + day;
+
+            var hours = ('0' + ed.getHours()).slice(-2); 
+            var minutes = ('0' + ed.getMinutes()).slice(-2);
+
+            var etimeString = hours + ':' + minutes;
+
+            // console.log(edateString, etimeString);
+
+            const enddate = edateString + ' ' + etimeString;
+            // console.log(enddate);
+
             const url = `/ROOT/api/schedule/insert`;
             const headers = {"Content-Type":"multipart/form-data"};
             const body = new FormData();
             // body.append("swriter", state.schedule.swriter); //미구현
             body.append("sname", state.schedule.sname);
             body.append("scontent", state.schedule.scontent);
-            body.append("startdate", state.schedule.startdate); //localdatetime으로 변환
-            body.append("enddate", state.schedule.enddate); //localdatetime으로 변환
+            body.append("startdate", startdate); //localdatetime으로 변환
+            body.append("enddate", enddate); //localdatetime으로 변환
             body.append("sthumbnail", state.thumbnailUrl);
             body.append("file", state.thumbnail);
 
             const response = await axios.post(url, body, {headers});
             console.log(response.data);
+            if(response.data.status === 200)
+            {
+                alert('일정이 등록되었습니다.');
+                router.push({name:'CScheduleVue'});
+            }
         }
 
         const insertThumbnail = (e) =>
