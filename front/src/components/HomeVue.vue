@@ -312,12 +312,21 @@ import 'vueperslides/dist/vueperslides.css'
 import FooterVue from '../components/FooterVue.vue';
 import HeaderVue from '../components/HeaderVue.vue';
 import { onMounted, computed } from '@vue/runtime-core';
+import axios from 'axios';
 
 export default {
     components: { VueperSlides, VueperSlide, HeaderVue, FooterVue },
     setup () {
         const router = useRouter();
         const store = useStore();
+
+        onMounted (()=>{
+            role();
+            if (state.card.desc.length >= 40) {
+                state.card.desc1 = state.card.desc.substring(0, 40) + '...'
+            }
+            state.card.desc1 = state.card.desc;
+        });
 
         const state = reactive({
             logged: computed(() => store.getters['moduleA/getLogged']),
@@ -345,6 +354,17 @@ export default {
             },            
         });
 
+        const role = async() => {
+            const url = `/ROOT/member/role`;
+            const headers = {"Content-Type":"application/json", 
+            token : state.token};
+            const response = await axios.get(url, {headers});
+            console.log(response.data.result);
+            if(response.data.status === 200){
+                state.role = response.data.result;
+            }
+        }
+
         const changeheart = () => {
             if (state.imgName === 'heart') {
                 state.imgName = 'heart1'
@@ -353,12 +373,7 @@ export default {
             }
         };
 
-        onMounted (()=>{
-            if (state.card.desc.length >= 40) {
-                state.card.desc1 = state.card.desc.substring(0, 40) + '...'
-            }
-            state.card.desc1 = state.card.desc;
-        });
+        
 
         const notice = () => {
             router.push({ name: "HelpQnaContentVue" });

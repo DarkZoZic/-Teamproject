@@ -382,6 +382,32 @@ public class CustomerRestController {
 		map.put("result", mem); 
 		return map;
 	}
+	// 권한 가져오기
+	// 127.0.0.1:9090/ROOT/member/role
+	@RequestMapping(value = "/role", 
+			method = { RequestMethod.GET },
+			consumes = { MediaType.ALL_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> RoleGet(
+		@RequestHeader(name = "TOKEN") String token){
+		Map<String, Object> map = new HashMap<String, Object>();
+		String username = jwtUtil.extractUsername(token);
+		System.out.println(username);
+		MemberCompany memberCompany = cpRepository.findByMember_Mid(username);
+		MemberPersonal memberPersonal = mpsRepository.findByMember_Mid(username);
+		if(memberCompany != null){
+			String companyrole = memberCompany.getMcrole();
+			map.put("status", 200); 
+			map.put("result", companyrole ); 
+		}
+		else{
+			String memberrole = memberPersonal.getMprole();
+			map.put("status", 200); 
+			map.put("result", memberrole );
+		}
+		return map;
+	}
+
 
 	// 로그인
 	// 127.0.0.1:9090/ROOT/member/login
@@ -399,6 +425,7 @@ public class CustomerRestController {
 		UserDetails user = userDetailservice.loadUserByUsername(member.getMid());
 			System.out.println(user);
 		BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+		
 		// user.getPassword() 는 암호화 된거  member.getUpw() 는 암호화x
 		// 암호회 되지 않은 것과 암호화 된것 비교하기
 		if(bcpe.matches(member.getMpw(), user.getPassword())){
