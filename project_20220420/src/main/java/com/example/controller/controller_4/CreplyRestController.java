@@ -74,7 +74,7 @@ public class CreplyRestController {
                 cReply.setBoard1(board1Entity);
                 cReply.setRecontent(cReply.getRecontent());
                 cReply.setReprivate(cReply.getReprivate());
-                // cReply.setReparentnumber(cReply.getReparentnumber());
+                cReply.setReparentnumber(cReply.getReparentnumber());
 
                 cRepository.save(cReply);
                 map.put("status", 200); // 성공

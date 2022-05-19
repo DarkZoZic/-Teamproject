@@ -1,5 +1,6 @@
 package com.example.controller.controller_4;
 
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -79,6 +80,7 @@ public class Board1RestController {
     // global.properties 사용하기. 나중에 숫자 바꾸고 싶은대로 바꾸면 됨
     @Value("${board.page.count}") int PAGECNT;
 
+    // 글쓰기
     //127.0.0.1:9090/ROOT/api/board1/insert
     @RequestMapping(value = "/insert", 
         method = {RequestMethod.POST},
@@ -310,6 +312,7 @@ public class Board1RestController {
     //     return map;
     // }
 
+    // 글 삭제
     // 127.0.0.1:9090/ROOT/api/board1/delete
     // {"bno":3}
     @RequestMapping(value = "/delete", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
@@ -351,6 +354,7 @@ public class Board1RestController {
         return map;
     }
 
+    // 글 수정
     // 127.0.0.1:9090/ROOT/api/board1/update
     // 제목, 내용, 번호
     // {"bno":2, "btitle":"222", "bcontent":"222"}
@@ -397,6 +401,7 @@ public class Board1RestController {
         return map;
     }
 
+    // 1개 조회
     // 127.0.0.1:9090/ROOT/api/board1/selectone?bno=2
     @RequestMapping(value = "/selectone", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -408,6 +413,10 @@ public class Board1RestController {
         try{
             if(token != null){
                 Board1 board1 = b1Service.selectBoard1One(bno);
+              
+                // Bckeditor bckeditor = new Bckeditor();
+                // board1.setBimageurl("/ROOT/api/board1/image?biimgcode=" + bckeditor.getBcimgcode() ); // 이미지 url
+                
                 if(board1 != null){
                     map.put("status", 200); // 성공 
                     map.put("result", board1);

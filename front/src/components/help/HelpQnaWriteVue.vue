@@ -24,20 +24,6 @@
                             <v-card style="width:100%; margin: 10px; margin-top: 20px; margin-bottom: 30px;">
                                 <v-expansion-panels style="width:100%">
                                     <v-form v-model="state.valid" style="width:100%">
-                                        <!-- 작성자 -->
-                                        <v-expansion-panel class="panel">
-                                            <v-row dense style="padding:10px;">
-                                                <v-col sm="2" style="justify-content: right; display: flex; align-items: center;">
-                                                    작성자:
-                                                </v-col>
-
-                                                <v-col sm="8" style="display: flex; align-items: center;">
-                                                    {{state.writer}}
-                                                </v-col>
-
-                                                <v-col sm="2"></v-col>
-                                            </v-row>
-                                        </v-expansion-panel>
 
                                         <!-- 제목 -->
                                         <v-expansion-panel class="panel">
@@ -47,7 +33,7 @@
                                                 </v-col>
 
                                                 <v-col sm="8" style="display: flex; align-items: center; width:100%;">
-                                                    <input type="text" v-model="state.title" style="outline-width: 0; padding-left: 3px; width: 100%; border-bottom: 1px solid #CCC;"/>
+                                                    <input type="text" v-model="state.qtitle" style="outline-width: 0; padding-left: 3px; width: 100%; border-bottom: 1px solid #CCC;"/>
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -91,7 +77,7 @@
                                                 <v-col sm="4"></v-col>
 
                                                 <v-col sm="4" style="justify-content: center; display: flex; align-items: center;">
-                                                    <v-btn @click="write" style="width: 100px; height:40px; background-color: gold;">
+                                                    <v-btn @click="handleInsert" style="width: 100px; height:40px; background-color: gold;">
                                                         <h3>글쓰기</h3>
                                                     </v-btn>
 
@@ -126,6 +112,7 @@ import UploadAdapter from '../UploadAdapter.js';
 import CKEditor      from '@ckeditor/ckeditor5-vue'
 import { reactive }  from '@vue/reactivity';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 export default {
     components: { HeaderVue, FooterVue, ckeditor: CKEditor.component },
@@ -133,11 +120,12 @@ export default {
         const router = useRouter();
 
         const state = reactive({
-            writer     : '작성자입니다',
-            title      : '글제목입니다',
+            mid        : '',
+            qtitle      : '글제목입니다',
             editor     : ClassicEditor, // ckeditor종류
             editorData : '수정일자입니다',
             valid      : '',
+            token      : sessionStorage.getItem("TOKEN"),
         })
 
         const onReady = ( editor ) => {
@@ -158,11 +146,28 @@ export default {
             }
         }
 
-        const write = async() => {
+        const handleInsert = async() => {
+            const url = `/ROOT/api/qna/insert`;
+            const headers = {
+                "Content-Type" : "application/json",
+                "token"        : state.token,
+            };
+            
+            const body= new FormData();
+            body.append("mid", state.mid);
+            body.append("qtitle", state.qtitle);
+            body.append("qcontent", state.editorData);
+           
+            const response = await axios.post(url, body, {headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+                alert('등록완료');
+                router.push({name: 'BoardListVue'});
+            }
 
         }
 
-        return { state, onReady, handleCancel, write }
+        return { state, onReady, handleCancel, handleInsert }
     },
 }
 </script>

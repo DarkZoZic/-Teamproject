@@ -52,7 +52,7 @@ public class Board1 {
   private Long bhit = 0L;
 
   // 글작성일
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@CreationTimestamp // CURRENT_DATE
 	@Column(name = "bregdate")
   private Date bregdate;

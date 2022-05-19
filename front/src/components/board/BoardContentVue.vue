@@ -37,8 +37,24 @@
 
           <v-row dense>
             <v-col class="col_pad20">
-              {{state.items.bcontent}}
+            
+              <div v-html="state.items.bcontent">
+              </div>
             </v-col>
+
+            <!-- <v-col style="width: 100%; height: 165px;" class="col_center">
+              <img  :src="state.items.bimageurl"  style="width: 160px; border: 1px solid #CCC;"/>
+            </v-col> -->
+<!-- 
+            <v-col class="col_center" style="padding: 20px;" v-for="tmp in state.imageurl" :key="tmp">   
+              <img :src="tmp" style="height: 600px;  padding: 5px; border: 1px solid #CCC;"/>
+            </v-col> -->
+
+            <v-row dense>
+              <v-col style="width: 100%; height: 165px;" class="col_center">
+                  <img  :src="state.bimageurl"  style="width: 160px; border: 1px solid #CCC;"/>
+              </v-col>
+            </v-row>
           </v-row>
 
           <v-row dense class="border-b_1_CCC">
@@ -52,7 +68,7 @@
 
           <v-row dense>
             <v-col sm="5" style="padding: 10px;" class="col_left">
-              <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{state.reply.count}}</h5><h5>개</h5>
+              <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{}}</h5><h5>개</h5>
             </v-col>
 
             <!-- 토큰이 일치할 때 -->
@@ -68,16 +84,16 @@
             <v-col style="border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; padding-left: 20px; padding-right: 20px;">
 
               <!-- 댓글하나 -->
-              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;">
+              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="tmp in state.replylist" :key="tmp">
                 <v-col>
                   <!-- 댓글작성자 -->
                   <v-row dense>
                     <v-col class="col_left">
-                      <h5 style="padding-right: 10px;">{{state.reply.writer}}</h5> 
-                      <h5 style="color: gray;">{{state.reply.date}}</h5>
+                      <h5 style="padding-right: 10px;">{{tmp.rewriter}}</h5> 
+                      <h5 style="color: gray;">{{tmp.reregdate}}</h5>
                       <img :src="require('../../assets/img/thumb.png')" @click="like()"
                         style="width: 15px; margin-left: 10px; margin-right: 3px; cursor: pointer;"/>
-                      <h5 style="color: gray;">{{state.like}}</h5>
+                      <h5 style="color: gray;">{{tmp.like}}</h5>
                       <h5 style="color: gray; padding-left: 10px; cursor: pointer;">댓글</h5>
                     </v-col>
                   </v-row>
@@ -85,12 +101,12 @@
                   <!-- 댓글내용 -->
                   <v-row dense style="padding-right: 10px;">
                     <v-col>
-                      <h4 style="padding-left: 10px; padding-right: 10px;">{{state.reply.content}}</h4>
+                      <h4 style="padding-left: 10px; padding-right: 10px;">{{tmp.recontent}}</h4>
                     </v-col>
                   </v-row>
 
                   <!-- 대댓글. 대댓글이 있으면 테두리가 없게 하는게 가능한가? -->
-                  <v-row dense style="padding-left: 10px;">
+                  <v-row dense style="padding-left: 10px;" v-if="tmp.reparentnumber !== null">
                     <v-col>
                       <v-row dense>
                         <v-col style="display: flex">
@@ -113,7 +129,7 @@
                       <!-- 댓글내용 -->
                       <v-row dense style="padding-right: 10px;">
                         <v-col>
-                          <h4 style="padding-left: 30px;">{{state.reply.content1}}</h4>
+                          <h4 style="padding-left: 30px;">{{state.items.recontent}}</h4>
                         </v-col>
                       </v-row>
                     </v-col>
@@ -125,12 +141,12 @@
                 <v-col sm="9" style="padding-top: 10px;">
                   <textarea 
                     style="border: 1px solid #CCC; padding: 10px; background-color: white; width: 100%; height: 70px; outline-width: 0; resize: none;"
-                    v-model="replycontent"
+                    v-model="recontent"
                   ></textarea>
                 </v-col>
                 
                 <v-col sm="1" style="padding: 10px;" class="col_center">
-                  <v-btn style="width: 100%; height:69px; border: 1px solid #CCC;"><h4>댓글작성</h4></v-btn>
+                  <v-btn style="width: 100%; height:69px; border: 1px solid #CCC;" @click="handleReplyInsert"><h4>댓글작성</h4></v-btn>
                 </v-col>
               </v-row>
             </v-col>
@@ -168,12 +184,15 @@ import { onMounted } from '@vue/runtime-core';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 
+
 export default {
   components: { HeaderVue, FooterVue },
+
   setup () {
 
-    onMounted(() => {
-      handleData();
+    onMounted( async() => {
+      await handleData();
+    
     })
 
     const route = useRoute();
@@ -188,18 +207,13 @@ export default {
       bcontent: '',
       bregdate: '',
       likeimage : require('../../assets/img/thumb.png'),
+      bimageurl : '',
       token  : sessionStorage.getItem("TOKEN"),
 
-      reply: {
-        count: 3,
-        writer: '핑키프라미쑤',
-        date: '2022-05-04 15:44',
-        content: 'ㄹㅇㅋㅋ',
+      recontent : '',
+      reparentnumber : 0,
 
-        writer1: '어썰트기어',
-        date1: '2022-05-05 15:44',
-        content1: '222',  
-      }
+      replylist: []
     })
 
     const handleData = async() => {
@@ -248,9 +262,38 @@ export default {
 
     const reply = async() => {
 
+      // const url = `/ROOT/api/creply/board_selectone=bno${state.bno}`;
+      // const headers = {"Content-Type":"application/json",
+      //                 "token" : state.token };
+      // const response = await axios.get(url, {headers});
+      // console.log(response.data);
+      // if(response.data.status === 200){
+      //   state.items = response.data.result;
+      //   console.log(state.items);
+      // }
+
     }
 
-    return { state, handleUpdate, handleDelete, replylike, reply }
+    const handleReplyInsert = async() => {
+      // const url = `/ROOT/api/creply/board_insert`;
+      // const headers = {"Content-Type":"application/json",
+      //                 "token" : state.token };
+      // const body = new FormData;
+      // body.append("token", state.token);
+      // body.append("bno",state.bno);
+      // body.append("recontent",state.recontent);
+      // body.append("reparentnumber",state.reparentnumber);
+      // // body.append("reprivate",state.reprivate);
+      // const response = await axios.post(url, body,{headers});
+      // console.log(response.data);
+      // if(response.data.status === 200){
+      //   state.items = response.data.result;
+      //   console.log(state.items);
+      // }
+
+    }
+
+    return { state, handleUpdate, handleDelete, replylike, reply, handleReplyInsert}
   }
 }
 </script>
