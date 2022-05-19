@@ -1,5 +1,6 @@
 package com.example.controller.controller_3;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +78,7 @@ public class ClubScheduleRestController {
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-			List<CSchedule> list = csRep.findAll();
+			List<CSchedule> list = csRep.findByOrderBySnoDesc();
 			model.addAttribute("list", list);
 			map.put("status", 200);
 			map.put("result", model);
@@ -88,6 +89,4 @@ public class ClubScheduleRestController {
 		}
 		return map;
 	}
-	
-	
 }

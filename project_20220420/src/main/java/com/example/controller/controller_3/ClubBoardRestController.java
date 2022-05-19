@@ -189,7 +189,7 @@ public class ClubBoardRestController {
 			
 			else
 			{
-				list = cbRep.findAll();
+				list = cbRep.findByOrderByCbnoDesc(pageRequest);
 				model.addAttribute("list", list);
 			}
 			
