@@ -7,6 +7,7 @@ import java.util.Map;
 import com.example.entity.entity2.Address;
 import com.example.entity.entity2.Category;
 import com.example.entity.entity2.Club;
+import com.example.jwt.JwtUtil;
 import com.example.repository.repository_gibum.ClubRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping(value = "/club")
 public class ClubRestController {
     @Autowired ClubRepository cRepository;
+
+    @Autowired JwtUtil jwtUtil;
 
 
     // 127.0.0.1:9090/ROOT/club/image?mid=ada
@@ -85,10 +89,13 @@ public class ClubRestController {
     produces = { MediaType.APPLICATION_JSON_VALUE })
 public Map<String, Object> JoinClubpost(
     @ModelAttribute Club club,
-    @RequestParam(name = "file",required = false) MultipartFile file){
+    @RequestParam(name = "file",required = false) MultipartFile file,
+    @RequestHeader(name = "TOKEN") String token){
     System.out.println(club);
 Map<String, Object> map = new HashMap<>();
 try {
+    String username = jwtUtil.extractUsername(token);
+    System.out.println(username);
     System.out.println(file);
     if(
     file != null){

@@ -380,7 +380,6 @@
                       required
                     ></v-text-field>
                   </v-col>
-{{state.gender}}
                   <v-col sm="3" >
                     <v-radio-group
                       v-model="state.gender"
@@ -529,9 +528,9 @@ export default {
   components: { HeaderVue, FooterVue },
   setup () {
       const state = reactive({
-        chk1: false,
-        chk2: false,
-        chk3: false,
+        chk1: true,
+        chk2: true,
+        chk3: true,
         chk4: false,
         chk5: false,
         id : '',
@@ -546,8 +545,8 @@ export default {
         address: '',
         extraAddress: '',
         detailAddress: '',
-        gender : [{ value: "남", text: "남성", },
-         { value: "여", text: "여성", }],
+        gender : [{ value: "남" },
+         { value: "여" }],
         birth : '',
         role : 'PERSONAL',
         imageUrl : require('../../assets/img/profile_sample.png'),
@@ -678,7 +677,7 @@ export default {
         return false;
       }
 
-      else if(state.gender === '') {
+      else if(state.gender != "남" && "여") {
         alert('성별을 입력하세요')
         return false;
       }
