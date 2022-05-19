@@ -28,119 +28,191 @@
           <!-- 약관동의 -->
           <v-expansion-panels variant="accordion" style="width:100%" class="mb-6">
             <v-expansion-panel>
-              <v-expansion-panel-title dense hide-actions>
+              <v-expansion-panel-title dense>
                 <v-row>
                   <v-col sm="6" class="col_left">
                     <h4 style="color:red;">[필수]</h4>만 15세 이상입니다
                   </v-col>
+                </v-row>
+              </v-expansion-panel-title>
+              <v-expansion-panel-text>
+                <v-row dense style="border: 1px solid #CCC;">
                   <v-col>
-                    <input type="checkbox">
+                    <v-row dense >
+                      <v-col class="col_right" style="background-color: gold;">
+                        <h4 style="padding-right: 10px;">위 내용에 동의합니다</h4>
+                        <input type="checkbox" v-model="state.chk1" style="height: 15px; width: 15px;">
+                      </v-col>
+                    </v-row>
                   </v-col>
                 </v-row>
-                  <template v-slot:actions="{ expanded }">
-                  <v-icon :color="!expanded ? 'teal' : ''" :icon="expanded ? 'mdi-pencil' : 'mdi-check'"></v-icon>
-                </template>
-              </v-expansion-panel-title>
+                
+              </v-expansion-panel-text>
+
             </v-expansion-panel>
 
             <v-expansion-panel>
               <v-expansion-panel-title style="height: 30px;">
+
                 <v-row dense style="height: 100%;">
                   <v-col sm="6" class="col_left">
                     <h4 style="color: red;">[필수]</h4>서비스 이용약관 동의 
                   </v-col>
-
-                  <v-col class="col_right">
-
-                  </v-col>
-                  </v-row>
+                </v-row>
               </v-expansion-panel-title>
-              <v-expansion-panel-text style="overflow: scroll; height: 150px;" >
-                제 1 조 (목적)
-본 약관은 (주)미디어윌네트웍스(이하 “회사”)가 운영하는 알바천국, 간호잡, 강사닷컴 등의 온라인 웹사이트를 통하여 직업정보 관련 제반 “서비스”를 제공함에 있어 이용 고객(이하 “회원”)과 “회사”간의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
+              <v-expansion-panel-text style="overflow: scroll; height: 300px;">
+                <v-row style="border: 1px solid #CCC;">
+                  <v-col>
+                    <v-row dense >
+                      <v-col>
+                        본 약관은 (주)미디어윌네트웍스(이하 “회사”)가 운영하는 알바천국, 간호잡, 
+                        강사닷컴 등의 온라인 웹사이트를 통하여 직업정보 관련 제반 “서비스”를 제공함
+                        에 있어 이용 고객(이하 “회원”)과 “회사”간의 권리, 의무 및 책임사항, 
+                        기타 필요한 사항을 규정함을 목적으로 합니다.<br /><br />
 
-Top
+                        제 2 조 (용어의 정의)<br />
+                        본 약관에서 사용하는 용어의 정의는 아래와 같습니다.<br /><br />
 
-제 2 조 (용어의 정의)
-본 약관에서 사용하는 용어의 정의는 아래와 같습니다.
+                        ① “사이트”라 함은 “회사”가 “회원”에게 “서비스”를 제공하기 위하여 
+                        컴퓨터 및 휴대폰 단말기 등의 정보통신설비를 이용하여 설정한 가상의 영업장 
+                        또는 “회사”가 운영하는 웹사이트를 말하며, 통합된 하나의 “회원 아이디(ID)” 
+                        및 “비밀번호”를 이용하여 “서비스”를 제공받을 수 있는 아래의 “사이트”
+                        를 말합니다.<br />
+                        - 알바천국 = http://www.alba.co.kr / 지역 알바천국<br /><br />
 
-① “사이트”라 함은 “회사”가 “회원”에게 “서비스”를 제공하기 위하여 컴퓨터 및 휴대폰 단말기 등의 정보통신설비를 이용하여 설정한 가상의 영업장 또는 “회사”가 운영하는 웹사이트를 말하며, 통합된 하나의 “회원 아이디(ID)” 및 “비밀번호”를 이용하여 “서비스”를 제공받을 수 있는 아래의 “사이트”를 말합니다.
-- 알바천국 = http://www.alba.co.kr / 지역 알바천국
-- 간호잡 = http://www.ganhojob.com
-- 강사닷컴 = http://www.gangsa.com
-② “서비스”라 함은 “회사”가 운영하는 “사이트”를 통해 “회원”이 등록하는 자료 등을 각각의 목적에 맞게 분류 가공, 집계하여 정보를 제공하는 서비스와 기타 관련된 모든 부대 서비스를 말합니다.
-③ “개인 회원”이라 함은 “회사”가 운영하는 “사이트”를 통하여 본 약관에 동의하고, “회사” 와 이용 계약을 체결하여 “아이디(ID)”를 부여 받은 개인을 말합니다.
-④ “기업 회원”이라 함은 인력 채용 및 교육을 목적으로 “회사”가 운영하는 “사이트”를 통하여 본 약관에 동의하고, “회사”와 이용 계약을 체결하여 “아이디(ID)”를 부여 받은 기업과 단체를 말합니다.
-⑤ “아이디(ID)”라 함은 “회원” 식별과 “회원”의 “서비스” 이용을 위하여 “회원”이 직접 지정하고 이를 “회사”가 부여하는 문자 또는 숫자의 조합을 말합니다.
-⑥ “비밀번호”라 함은 “서비스”를 이용하려는 사람이 “아이디(ID)”를 부여 받은 자와 동일인임을 확인하고, “회원”의 권익을 보호하기 위하여 “회원”이 직접 지정한 문자 또는 숫자의 조합을 말합니다.
-Top
+                        ② “서비스”라 함은 “회사”가 운영하는 “사이트”를 통해 “회원”이 등록하
+                        는 자료 등을 각각의 목적에 맞게 분류 가공, 집계하여 정보를 제공하는 
+                        서비스와 기타 관련된 모든 부대 서비스를 말합니다.<br /><br />
+                        ③ “개인 회원”이라 함은 “회사”가 운영하는 “사이트”를 통하여 본 약관에 
+                        동의하고, “회사” 와 이용 계약을 체결하여 “아이디(ID)”를 부여 받은 
+                        개인을 말합니다.<br /><br />
+                        ④ “기업 회원”이라 함은 인력 채용 및 교육을 목적으로 “회사”가 운영하는 
+                        “사이트”를 통하여 본 약관에 동의하고, “회사”와 이용 계약을 체결하여 
+                        “아이디(ID)”를 부여 받은 기업과 단체를 말합니다.<br /><br />
+                        ⑤ “아이디(ID)”라 함은 “회원” 식별과 “회원”의 “서비스” 이용을 위하여 
+                        “회원”이 직접 지정하고 이를 “회사”가 부여하는 문자 또는 숫자의 조합을 
+                        말합니다.<br /><br />
+                        ⑥ “비밀번호”라 함은 “서비스”를 이용하려는 사람이 “아이디(ID)”를 부여 
+                        받은 자와 동일인임을 확인하고, “회원”의 권익을 보호하기 위하여 “회원”이 
+                        직접 지정한 문자 또는 숫자의 조합을 말합니다.<br /><br />
+                      </v-col>
+                    </v-row>
 
+                    <v-row dense>
+                      <v-col class="col_right" style="background-color: gold;">
+                        <h4 style="padding-right: 10px;">위 내용에 동의합니다</h4>
+                        <input type="checkbox" v-model="state.chk2" style="height: 15px; width: 15px;">
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                </v-row>
+                
               </v-expansion-panel-text>
             </v-expansion-panel>
 
             <v-expansion-panel>
-              <v-expansion-panel-title expand-icon="mdi-plus" collapse-icon="mdi-minus" style="height:30px;"> 
-                <h4 style="color:red;">[필수]</h4>개인정보 이용 동의
-                <template v-slot:actions="{ expanded }">
-                  <v-icon :color="!expanded ? 'teal' : ''" :icon="expanded ? 'mdi-pencil' : 'mdi-check'"></v-icon>
-                </template>
-              </v-expansion-panel-title >
-              <v-expansion-panel-text style="overflow: scroll; height: 150px;" >
-                <v-checkbox></v-checkbox>
-                1.이용자 식별, 본인인증, 회원서비스 제공을 위해 다음과 같은 정보를 수집하고 있습니다.
-                ①알바천국 일반 회원가입
-                -(필수) 아이디, 비밀번호, 이름, 이메일, 휴대폰번호, 본인인증기관을 통해 인증된 개인식별번호
-                ②알바천국 Social계정으로 가입(네이버)
-                -(필수) 이용자 고유 식별자, 이름, 이메일주소
-                ③알바천국 Social계정으로 가입(카카오)
-                -(필수) 닉네임, 프로필사진
-                ④알바천국 Social계정으로 가입(페이스북)
-                -(필수) (필수)이름, 프로필 사진
-                2.이력서 관리 및 지원 서비스 제공을 위해 다음과 같은 정보를 수집하고 있습니다.
-                (필수) 학력정보, 경력사항, 주소, 자기소개서
-                알바천국 이력서 등록 시 수집하는 개인정보 항목(선택)
-                3.보유 기한 : 회원탈퇴 또는 동의 철회 시 까지
-                ※ 위와 같이 개인정보의 수집 및 이용에 동의를 거부할 권리가 있으며, 동의를 거부할 경우 서비스 사용에 제한이 있습니다.
+              <v-expansion-panel-title style="height:30px;">
+                <v-row dense style="height: 100%;">
+                  <v-col sm="6" class="col_left">
+                    <h4 style="color:red;">[필수]</h4>개인정보 이용 동의
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-title>
+              <v-expansion-panel-text style="overflow: scroll; height: 300px;">
+                <v-row style="border: 1px solid #CCC;">
+                  <v-col>
+                    <v-row dense >
+                      <v-col>
+                        1.이용자 식별, 본인인증, 회원서비스 제공을 위해 다음과 같은 정보를 수집하고 
+                        있습니다.<br>
+                        ①알바천국 일반 회원가입<br />
+                        -(필수) 아이디, 비밀번호, 이름, 이메일, 휴대폰번호, 본인인증기관을 통해 인증된 
+                        개인식별번호<br />
+                        ②알바천국 Social계정으로 가입(네이버)<br />
+                        -(필수) 이용자 고유 식별자, 이름, 이메일주소<br />
+                        ③알바천국 Social계정으로 가입(카카오)<br />
+                        -(필수) 닉네임, 프로필사진<br /><br />
+                        2.이력서 관리 및 지원 서비스 제공을 위해 다음과 같은 정보를 수집하고 있습니다.<br />
+                        (필수) 학력정보, 경력사항, 주소, 자기소개서<br />
+                        알바천국 이력서 등록 시 수집하는 개인정보 항목(선택)<br /><br />
+                        3.보유 기한 : 회원탈퇴 또는 동의 철회 시 까지<br />
+                        ※ 위와 같이 개인정보의 수집 및 이용에 동의를 거부할 권리가 있으며, 
+                        동의를 거부할 경우 서비스 사용에 제한이 있습니다.<br /><br />
+                      </v-col>
+                    </v-row>
+
+                    <v-row dense>
+                      <v-col class="col_right" style="background-color: gold;">
+                        <h4 style="padding-right: 10px;">위 내용에 동의합니다</h4>
+                        <input type="checkbox" v-model="state.chk3" style="height: 15px; width: 15px;">
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                </v-row>
               </v-expansion-panel-text>
             </v-expansion-panel>
 
             <v-expansion-panel>
               <v-expansion-panel-title expand-icon="mdi-menu-down" style="height:30px;">
                 <h4>[선택]</h4>광고성 개인정보 수신 동의(SMS/MMS)
-                <template v-slot:actions="{ expanded }">
-                  <v-icon :color="!expanded ? 'teal' : ''" :icon="expanded ? 'mdi-pencil' : 'mdi-check'"></v-icon>
-                </template>
               </v-expansion-panel-title>
-              <v-expansion-panel-text style="height: 150px;" >
-                1.수집·이용의 목적
-                -회원의 SMS/MMS을 이용하여 뉴스(맞춤 알바 포함), 이벤트, 소식, 설문, 광고 정보를 전송
-                2.수집·이용 항목
-                -SMS/MMS
-                3.보유 기한
-                -관계 법령의 규정에 따라 보존할 의무가 있는 경우가 아닌 한, 회원탈퇴 또는 동의 철회 시 까지
-                4.수신동의 거부 철회 방법
-                -본 동의는 거부하실 수 있습니다. 다만 거부 시 동의를 통해 제공 가능한 각종 혜택, 이벤트 안내를 받아 보실 수 없습니다.
-                본 수신동의를 철회하고자 할 경우에는 회원정보 수정 페이지에서 수신여부를 변경하실 수 있습니다.
+              <v-expansion-panel-text style="overflow: scroll; height: 300px;" >
+                <v-row style="border: 1px solid #CCC;">
+                  <v-col>
+                    <v-row dense >
+                      <v-col>
+                        1.수집·이용의 목적<br />
+                        -회원의 SMS/MMS을 이용하여 뉴스(맞춤 알바 포함), 이벤트, 소식, 설문, 광고 정보를 전송<br /><br />
+                        2.수집·이용 항목<br />
+                        -SMS/MMS<br /><br />
+                        3.보유 기한<br />
+                        -관계 법령의 규정에 따라 보존할 의무가 있는 경우가 아닌 한, 회원탈퇴 또는 동의 철회 시 까지<br /><br />
+                        4.수신동의 거부 철회 방법<br />
+                        -본 동의는 거부하실 수 있습니다. 다만 거부 시 동의를 통해 제공 가능한 각종 혜택, 이벤트 안내를 받아 보실 수 없습니다.
+                        본 수신동의를 철회하고자 할 경우에는 회원정보 수정 페이지에서 수신여부를 변경하실 수 있습니다.<br /><br />
+                      </v-col>
+                    </v-row>
+
+                    <v-row dense>
+                      <v-col class="col_right" style="background-color: gold;">
+                        <h4 style="padding-right: 10px;">위 내용에 동의합니다</h4>
+                        <input type="checkbox" v-model="state.chk4" style="height: 15px; width: 15px;">
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                </v-row>
               </v-expansion-panel-text>
             </v-expansion-panel>
 
             <v-expansion-panel>
               <v-expansion-panel-title style="height:30px;">
                 <h4>[선택]</h4>광고성 개인정보 수신 동의(EMAIL)
-                <template v-slot:actions="{ expanded }">
-                  <v-icon :color="!expanded ? 'teal' : ''" :icon="expanded ? 'mdi-pencil' : 'mdi-check'"></v-icon>
-                </template>
               </v-expansion-panel-title >
-              <v-expansion-panel-text style="height: 150px;" >
-                1.수집·이용의 목적
-                -회원의 이메일을 이용하여 뉴스(맞춤 알바 포함), 이벤트, 소식, 설문, 광고 정보를 전송
-                2.수집·이용 항목
-                -이메일
-                3.보유 기한
-                -관계 법령의 규정에 따라 보존할 의무가 있는 경우가 아닌 한, 회원탈퇴 또는 동의 철회 시 까지
-                4.수신동의 거부 철회 방법
-                -본 동의는 거부하실 수 있습니다. 다만 거부 시 동의를 통해 제공 가능한 각종 혜택, 이벤트 안내를 받아 보실 수 없습니다.
-                본 수신동의를 철회하고자 할 경우에는 회원정보 수정 페이지에서 수신여부를 변경하실 수 있습니다.
+              <v-expansion-panel-text style="overflow: scroll; height: 300px;">
+                <v-row style="border: 1px solid #CCC;">
+                  <v-col>
+                    <v-row dense >
+                      <v-col>                
+                        1.수집·이용의 목적<br />
+                        -회원의 이메일을 이용하여 뉴스(맞춤 알바 포함), 이벤트, 소식, 설문, 광고 정보를 전송<br /><br />
+                        2.수집·이용 항목<br />
+                        -이메일<br /><br />
+                        3.보유 기한<br />
+                        -관계 법령의 규정에 따라 보존할 의무가 있는 경우가 아닌 한, 회원탈퇴 또는 동의 철회 시 까지<br /><br />
+                        4.수신동의 거부 철회 방법<br />
+                        -본 동의는 거부하실 수 있습니다. 다만 거부 시 동의를 통해 제공 가능한 각종 혜택, 이벤트 안내를 받아 보실 수 없습니다.<br /><br />
+                        본 수신동의를 철회하고자 할 경우에는 회원정보 수정 페이지에서 수신여부를 변경하실 수 있습니다.<br /><br />
+                      </v-col>
+                    </v-row>
+
+                    <v-row dense>
+                      <v-col class="col_right" style="background-color: gold;">
+                        <h4 style="padding-right: 10px;">위 내용에 동의합니다</h4>
+                        <input type="checkbox" v-model="state.chk5" style="height: 15px; width: 15px;">
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                </v-row>
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -308,7 +380,7 @@ Top
                       required
                     ></v-text-field>
                   </v-col>
-
+{{state.gender}}
                   <v-col sm="3" >
                     <v-radio-group
                       v-model="state.gender"
@@ -457,6 +529,11 @@ export default {
   components: { HeaderVue, FooterVue },
   setup () {
       const state = reactive({
+        chk1: false,
+        chk2: false,
+        chk3: false,
+        chk4: false,
+        chk5: false,
         id : '',
         pw : '',
         pw1 : '',
@@ -551,7 +628,22 @@ export default {
     }
 
     const handleJoin = async() => {
-      if(state.id === '' || state.id.length < 6) {
+      if(state.chk1 === false) {
+        alert('만 15세 이상만 가입할 수 있습니다')
+        return false;
+      }
+
+      else if(state.chk2 === false) {
+        alert('서비스 이용약관에 동의하세요')
+        return false;
+      }
+
+      else if(state.chk3 === false) {
+        alert('개인정보 이용에 동의하세요')
+        return false;
+      }
+
+      else if(state.id === '' || state.id.length < 6) {
         alert('아이디를 6자 이상 입력하세요')
         return false;
       }
@@ -668,4 +760,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import url(../../assets/css/style.css);
+
 </style>
