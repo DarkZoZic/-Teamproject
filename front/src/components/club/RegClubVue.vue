@@ -223,7 +223,7 @@
                                                 required
                                                 ></v-text-field>
                                             </v-col>
-                                            <v-col sm="4" style="height: 70px;" class="col_left">
+                                            <v-col sm="4" style="height: 65px;" class="col_left">
                                                 명
                                             </v-col>
                                         </v-row>

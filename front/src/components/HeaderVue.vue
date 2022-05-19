@@ -141,5 +141,6 @@ export default {
 }
 </script>
 <style>
+.container{width: 1200px; max-width:961px !important;}
   @import url(../assets/css/style.css);
 </style>
