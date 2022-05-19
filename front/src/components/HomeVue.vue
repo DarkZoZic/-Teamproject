@@ -199,7 +199,7 @@
                                         <v-card style="padding: 10px; border-width: 4px; border-color: gold; align-item: center; height: 313px;">
                                             <v-row dense>
                                                 <v-col md="6">
-                                                    <img :src="require('../assets/img/profile_sample.png')" style="width: 100px;"/>
+                                                    <img  :src="state.imageUrl"  style="width: 100px; border: 1px solid #CCC;"/>
                                                     
                                                 </v-col>
 
@@ -216,9 +216,12 @@
                                             <v-row dense style="padding-left: 10px; height: 155px;">
                                                 <v-col>
                                                     <v-row>
-                                                        <v-col class="col_left">
-                                                            <h4>{{state.profile.nickname}}</h4>님 환영합니다!
+                                                        <v-col class="col_left" v-if="state.cname">
+                                                            <h4>{{state.cname.mcname}}</h4>님 환영합니다!
                                                         </v-col>
+                                                    <v-col class="col_left" v-if="state.nick">
+                                                            <h4>{{state.nick}}</h4>님 환영합니다!
+                                                    </v-col>
                                                     </v-row>
 
                                                     <v-row>
@@ -321,7 +324,18 @@ export default {
         const store = useStore();
 
         onMounted (()=>{
-            role();
+            if(state.token != null){
+                role(),mypage();
+                // console.log(state.role);
+                // if(state.role3 === 'PERSONAL'){
+                //     handlenick();
+                //     }
+                // if(state.role2 =='COMPANY'){
+                //     cname();
+                // }
+
+                
+            }
             if (state.card.desc.length >= 40) {
                 state.card.desc1 = state.card.desc.substring(0, 40) + '...'
             }
@@ -329,6 +343,11 @@ export default {
         });
 
         const state = reactive({
+            role1 : 'PERSONAL',
+            role2 : 'COMPANY',
+            role3 : '',
+            imageUrl1 : '',
+            imageUrl : require('../assets/img/profile_sample.png'),
             logged: computed(() => store.getters['moduleA/getLogged']),
             token : sessionStorage.getItem("TOKEN"),
 
@@ -354,14 +373,62 @@ export default {
             },            
         });
 
-        const role = async() => {
-            const url = `/ROOT/member/role`;
+        const mypage = async() => {
+            const url = `/ROOT/member/mypage`;
+            const headers = {"Content-Type":"application/json", 
+            token : state.token};
+            const response = await axios.get(url, {headers});
+            console.log(response.data.result);
+
+            if(response.data.status === 200){
+                state.items = response.data.result;
+                if(state.items.mprofile != ""){
+                    if(state.items.mprofile != null){
+                        state.imageUrl = response.data.result.mimageurl
+                        state.imageUrl1 = response.data.result.mimageurl
+                    }
+                }
+                else{
+                    state.imageUrl = '';
+                }
+            }
+        }
+
+            const cname = async() => {
+                const url = `/ROOT/member/cname`;
+                const headers = {"Content-Type":"application/json", 
+                token : state.token};
+                const response = await axios.get(url, {headers});
+                console.log(response.data.result);
+                if(response.data.status === 200){
+                    state.cname = response.data.result;
+                }
+            }
+            const role = async() => {
+                const url = `/ROOT/member/role`;
+                const headers = {"Content-Type":"application/json", 
+                token : state.token};
+                const response = await axios.get(url, {headers});
+                console.log(response.data.result);
+                if(response.data.status === 200){
+                    state.role = response.data.result;
+                    if(state.role === 'PERSONAL'){
+                        handlenick();
+                    }
+                    if(state.role === 'COMPANY'){
+                        cname();
+                    }
+                }
+            }
+        const handlenick = async() => {
+            const url = `/ROOT/member/psmynick`;
             const headers = {"Content-Type":"application/json", 
             token : state.token};
             const response = await axios.get(url, {headers});
             console.log(response.data.result);
             if(response.data.status === 200){
-                state.role = response.data.result;
+                state.nick = response.data.result.mpnickname;
+                console.log(state.nick);
             }
         }
 

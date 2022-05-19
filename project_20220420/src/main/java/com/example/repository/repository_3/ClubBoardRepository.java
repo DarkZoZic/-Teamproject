@@ -25,6 +25,8 @@ public interface ClubBoardRepository extends JpaRepository<ClubBoard, Long>{
 	@Query(value="SELECT * FROM CLUBBOARDTBL WHERE CBTITLE = :text OR CBCONTENT =:text OR MID=:text ORDER BY CBNO DESC", nativeQuery = true)
 	List<ClubBoard> findByAllOptions(String text, Pageable pageable);
 	
+	List<ClubBoard> findByOrderByCbnoDesc(Pageable pageable);
+	
 //	List<ClubBoard> findByCbtitleAndCbcontentAndMember_mnameContainingOrderByCbnoDesc(String text, Pageable pageable);
 	
 	//클럽게시판 글목록 검색기능 구현용(제목에 text가 포함된 글 개수)

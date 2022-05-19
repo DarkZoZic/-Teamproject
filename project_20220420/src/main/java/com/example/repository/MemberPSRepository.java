@@ -18,7 +18,7 @@ public interface MemberPSRepository
 
         MemberPersonal findByMember_Mid(String userid);
 
-        MemberProjection findByMpno(long id);
+        MemberProjection findByMpno(Long id);
 
         // MemberNicknameview findByMpno(long id);
 

@@ -234,7 +234,6 @@ export default {
             body.append("scontent", state.schedule.scontent);
             body.append("startdate", startdate); //localdatetime으로 변환
             body.append("enddate", enddate); //localdatetime으로 변환
-            body.append("sthumbnail", state.thumbnailUrl);
             body.append("file", state.thumbnail);
 
             const response = await axios.post(url, body, {headers});
@@ -252,17 +251,17 @@ export default {
             if(e.target.files[0])
             {
                 state.thumbnail = e.target.files[0];
-                state.thumbnailUrl = URL.createObjectURL(e.target.files[0]);
+                // state.thumbnailUrl = URL.createObjectURL(e.target.files[0]);
             }
             else
             {
                 state.thumbnail = null;
-                state.thumbnailUrl = null;
+                // state.thumbnailUrl = null;
             }
         }
         
 
-        return { state, onReady, handleCancel, create, insertThumbnail }
+        return { state, onReady, handleCancel, create, insertThumbnail}
     },
 }
 </script>

@@ -31,6 +31,31 @@
               </router-link>
             </v-col>
           </v-row>
+
+          <v-row dense style="border: 1px solid #CCC; border-top: 1px solid #CCC; padding: 10px; padding-left: 20px;  ">
+                        <v-col>
+                            <v-table height="800px">
+                                <thead>
+                                    <tr>
+                                      <td style="border-bottom: 2px solid #CCC; width:70px;"><h3>No</h3></td>
+                                      <td style="border-bottom: 2px solid #CCC; width:70px;"><h3>일정명</h3></td>
+                                      <td style="border-bottom: 2px solid #CCC; width:70px;"><h3>일정 내용</h3></td>
+                                      <td style="border-bottom: 2px solid #CCC; width:70px;"><h3>일정 시작일시</h3></td>
+                                      <td style="border-bottom: 2px solid #CCC; width:70px;"><h3>일정 종료일시</h3></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="tmp in state.schedule" :key="tmp">
+                                      <td>{{tmp.sno}}</td>
+                                      <td>{{tmp.sname}}</td>
+                                      <td>{{tmp.scontent}}</td>
+                                      <td>{{tmp.startdate}}</td>
+                                      <td>{{tmp.enddate}}</td>
+                                    </tr>
+                                </tbody>
+                            </v-table>
+                        </v-col>
+                    </v-row>
         </v-col>
 
         <!-- 사이드 -->
@@ -46,19 +71,38 @@
 import { reactive } from '@vue/reactivity';
 import FooterVue    from '../../FooterVue.vue';
 import CHHeaderVue  from '../CHHeaderVue.vue';
+import { onMounted } from '@vue/runtime-core';
+import axios from 'axios';
 
 export default {
   components: { CHHeaderVue, FooterVue },
   setup () {
     const state = reactive({
+      schedule : [],
       option: '전체',
       items: [
         '전체', '제목', '생성자', '내용'
       ],
-    })
+    });
 
+    const selectlist = async() =>
+    {
+      const url = `/ROOT/api/schedule/selectlist`;
+      const headers = {"Content-Type":"application/json"};
+      const response = await axios.get(url, {headers});
+      console.log(response.data);
+      if(response.data.status === 200)
+      {
+        state.schedule = response.data.result.list;
+      }
+    }
 
-    return { state }
+    onMounted(()=>
+    {
+      selectlist();
+    });
+
+    return { state}
   }
 }
 </script>
