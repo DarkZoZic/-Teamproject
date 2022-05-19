@@ -135,7 +135,7 @@
                                         <v-text-field
                                         id="address"
                                         label="주소"
-                                        v-model="state.items.maddress"
+                                        v-model="state.address"
                                         variant="plain"
                                         density="compact"
                                         required
@@ -157,7 +157,7 @@
                                     <v-col sm="8" style="height: 80px;">
                                         <v-text-field
                                         label="상세주소"
-                                        v-model="state.items.detailaddress"
+                                        v-model="state.extraAddress"
                                         id="detailAddress"
                                         variant="plain"
                                         density="compact"
@@ -258,7 +258,7 @@ export default {
         })
         
         onMounted(() => {
-            handlenick(),mypage();
+            mypage();
           })
         const nullbutton = () => {
             // state.imageFile = require('../../assets/img/profile_sample.png');
@@ -283,30 +283,7 @@ export default {
                 }
             }
 
-        const handlenickupdate = async() => {
-            const url = `/ROOT/member/updatenickname`;
-            const headers = {"Content-Type":"application/json", 
-            token : state.token};
-            const body = {
-                mpnickname   : state.nick
-            };
-            const response = await axios.put(url,body,{headers});
-            console.log(state.nick);
-            if(response.data.status === 200){
-                console.log(state.nick);
-            }
-        }
-        const handlenick = async() => {
-            const url = `/ROOT/member/psmynick`;
-            const headers = {"Content-Type":"application/json", 
-            token : state.token};
-            const response = await axios.get(url, {headers});
-            console.log(response.data.result);
-            if(response.data.status === 200){
-                state.nick = response.data.result.mpnickname;
-                console.log(state.nick);
-            }
-        }
+        
 
         const handleUpdate = async() => {
         const url = `/ROOT/member/updatemember`;
@@ -323,13 +300,13 @@ export default {
         console.log(state.imagenull);
         console.log(response.data);
         if(response.data.status === 200){
-            handlenickupdate();
             alert('정보수정완료')
             router.push({path : 'mypage'})
 
         }
         else{
             console.log('실패');
+            console.log(state.address);
         }
     }
 
@@ -342,6 +319,8 @@ export default {
 
             if(response.data.status === 200){
                 state.items = response.data.result;
+                state.address = response.data.result.maddress
+                state.extraAddress = response.data.result.detailaddress
                 if(state.items.mprofile != ""){
                     if(state.items.mprofile != null){
                         
@@ -398,7 +377,7 @@ export default {
         }).open();
         }
 
-        return { post, handleUpdate, state, handleImage, nullbutton, handlenickupdate }
+        return { post, handleUpdate, state, handleImage, nullbutton }
     },
 }
 </script>
