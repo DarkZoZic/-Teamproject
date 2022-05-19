@@ -52,7 +52,7 @@
                   </v-col>
 
                   <v-col class="col_right">
-                    <h5 style="color: gray">조회 {{tmp.hit}}</h5>
+                    <h5 style="color: gray">조회 {{tmp.cghit}}</h5>
                     <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
                     <h5 style="color: gray;">{{tmp.like}}</h5>
                   </v-col>

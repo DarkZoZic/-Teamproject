@@ -32,7 +32,7 @@
                                                 </v-col>
 
                                                 <v-col sm="8" style="display: flex; align-items: center;">
-                                                    {{state.writer}}
+                                                    {{state.schedule.swriter}}
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -47,7 +47,7 @@
                                                 </v-col>
 
                                                 <v-col sm="8" style="display: flex; align-items: center; width:100%;">
-                                                    <input type="text" v-model="state.title" style="outline-width: 0; padding-left: 3px; width: 100%; border-bottom: 1px solid #CCC;"/>
+                                                    <input type="text" v-model="state.schedule.sname" style="outline-width: 0; padding-left: 3px; width: 100%; border-bottom: 1px solid #CCC;"/>
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -62,14 +62,14 @@
                                                 </v-col>
 
                                                 <v-col sm="3" class="col_left">
-                                                    <Datepicker style="width: 100%;" v-model="state.startDate" :month-year-component="monthYear" />
+                                                    <Datepicker style="width: 100%;" v-model="state.schedule.startdate" :month-year-component="monthYear" />
                                                 </v-col>
                                                 <v-col sm="2" class="col_center">
                                                     <h4>-</h4>
                                                 </v-col>
                                                 
                                                 <v-col sm="3" class="col_left">
-                                                    <Datepicker style="width: 100%;" v-model="state.endDate" :month-year-component="monthYear" />
+                                                    <Datepicker style="width: 100%;" v-model="state.schedule.enddate" :month-year-component="monthYear" />
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -84,7 +84,7 @@
                                                 </v-col>
 
                                                 <v-col sm="8" >
-                                                    <ckeditor :editor="state.editor" v-model="state.editorData" @ready="onReady"></ckeditor>
+                                                    <ckeditor :editor="state.editor" v-model="state.schedule.scontent" @ready="onReady"></ckeditor>
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -99,7 +99,7 @@
                                                 </v-col>
 
                                                 <v-col sm="8" style="display: flex; align-items: center;">
-                                                    <input type="file">
+                                                    <input type="file" @change="insertThumbnail($event)">
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -113,7 +113,7 @@
                                                 <v-col sm="4"></v-col>
 
                                                 <v-col sm="4" style="justify-content: center; display: flex; align-items: center;">
-                                                    <v-btn @click="create()" style="width: 100px; height:40px; background-color: gold;">
+                                                    <v-btn @click="create" style="width: 100px; height:40px; background-color: gold;">
                                                         <h3>일정생성</h3>
                                                     </v-btn>
 
@@ -148,6 +148,7 @@ import UploadAdapter from '../../UploadAdapter.js';
 import CKEditor      from '@ckeditor/ckeditor5-vue'
 import { reactive }  from '@vue/reactivity';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 
 export default {
@@ -156,18 +157,21 @@ export default {
         const router = useRouter();
 
         const state = reactive({
-            writer     : '작성자입니다',
-            title      : 'asdf',
+            schedule : {},
+            // writer     : '작성자입니다',
+            // title      : 'asdf',
             editor     : ClassicEditor, // ckeditor종류
-            editorData : '',
-            boardname  : '자유게시판',
-            startDate  : '',
-            endDate    : '',
-            valid      : '',
+            // editorData : '',
+            // boardname  : '일정표',
+            // startDate  : '',
+            // endDate    : '',
+            // valid      : '',
+            thumbnail  : '',
+            thumbnailUrl : ''
         })
 
         const onReady = ( editor ) => {
-            console.log(editor);
+            // console.log(editor);
             editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
                     return new UploadAdapter( loader );
             };
@@ -175,20 +179,49 @@ export default {
             editor.editing.view.change( writer => {
                 writer.setStyle( 'height', '600px', editor.editing.view.document.getRoot() );
             });
-            console.log(editor.editing.view);
+            // console.log(editor.editing.view);
         }
         
         const handleCancel = async() => {
             if (confirm('정말 취소하시겠습니까?') == true) {
-                router.push({ name: "BoardListVue"});
+                router.push({ name: "CSchduleVue"});
             }
         }
 
         const create = async() => {
+            console.log(state);
+            const url = `/ROOT/api/schedule/insert`;
+            const headers = {"Content-Type":"multipart/form-data"};
+            const body = new FormData();
+            // body.append("swriter", state.schedule.swriter); //미구현
+            body.append("sname", state.schedule.sname);
+            body.append("scontent", state.schedule.scontent);
+            body.append("startdate", state.schedule.startdate); //localdatetime으로 변환
+            body.append("enddate", state.schedule.enddate); //localdatetime으로 변환
+            body.append("sthumbnail", state.thumbnailUrl);
+            body.append("file", state.thumbnail);
 
+            const response = await axios.post(url, body, {headers});
+            console.log(response.data);
         }
 
-        return { state, onReady, handleCancel, create }
+        const insertThumbnail = (e) =>
+        {
+            console.log(e.target.files);
+            if(e.target.files[0])
+            {
+                state.thumbnail = e.target.files[0];
+                state.thumbnailUrl = URL.createObjectURL(e.target.files[0]);
+            }
+            else
+            {
+                state.thumbnail = null;
+                state.thumbnailUrl = null;
+            }
+        }
+        
+
+        return { state, onReady, handleCancel, create, insertThumbnail }
     },
 }
 </script>

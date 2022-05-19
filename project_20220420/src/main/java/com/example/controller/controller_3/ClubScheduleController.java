@@ -103,6 +103,7 @@ public class ClubScheduleController {
 	}
 
 	// 스케줄 이미지 표시용 //clubgallerycontroller -> 갤러리 이미지 표시용 코드 구조와 동일
+	// /ROOT/schedule/image?sno=&idx=
 	public ResponseEntity<byte[]> imageGET(@RequestParam(name="sno") long sno, @RequestParam(name="idx") long idx)
 	{
 		try 
@@ -192,7 +193,7 @@ public class ClubScheduleController {
 		try 
 		{
 			CSchedule sdate = csRep.findById(cs.getSno()).orElse(null);
-			cs.setSdate(sdate.getSdate());
+			cs.setSregdate(sdate.getSregdate());
 			csRep.save(cs);
 			return "redirect:/clubschedule/update?sno=" + cs.getSno();
 			

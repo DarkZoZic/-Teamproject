@@ -58,6 +58,10 @@ public class ClubGallery {
   @ManyToOne
   @JoinColumn(name = "renumber")
   private CReply creply;
+  //작성자 정보
+  @ManyToOne
+  @JoinColumn(name = "mid")
+  private Member member;
   // 앨범
 //  @ManyToOne
 //  @JoinColumn(name = "ca_no")

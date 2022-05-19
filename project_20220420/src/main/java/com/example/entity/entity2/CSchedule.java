@@ -12,9 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.example.entity.entity1.Member;
 
 import lombok.Data;
 
@@ -34,19 +37,30 @@ public class CSchedule {
  // 일정내용
  @Column(name = "SCONTENT")
  private String scontent;
- // 일정 예정일시(분단위까지)
+ // 일정 시작일시(분단위까지)
  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
- @Column(name = "SDATE")
- private LocalDateTime sdate;
+ @Column(name = "STARTDATE")
+ private LocalDateTime startdate;
+ // 일정 예상종료일시(분단위)
+ @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+ @Column(name = "ENDDATE")
+ private LocalDateTime enddate;
  // 일정 등록일
  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
  @CreationTimestamp //CURRENT_DATE
  @Column(name= "SREGDATE")
  private Date sregdate;
+ // 썸네일 임시변수
+ @Transient
+ private String sthumbnail;
  // 동호회번호
  @ManyToOne
  @JoinColumn(name = "cno")
  private Club club;
+ // 작성자명
+ @ManyToOne
+ @JoinColumn(name = "mid")
+ private Member member;
  // 동호회
 //  @OneToMany(mappedBy = "cSchedule")
 //  @JsonBackReference

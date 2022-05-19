@@ -1,9 +1,5 @@
 package com.example.controller.controller_3;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +39,7 @@ public class ClubScheduleRestController {
 		Map<String, Object> map = new HashMap<>();
 		try
 		{
+			System.out.println(cs.toString());
 			csRep.save(cs);
 			if(file != null)
 			{
