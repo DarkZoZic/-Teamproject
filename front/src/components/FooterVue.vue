@@ -54,5 +54,13 @@
 </script>
 
 <style lang="scss" scoped>
-
+footer {
+  width: 1080px;
+  height: 310px;
+  margin: auto;
+  padding: 0 8px 0 8px; /* 각각 위 오른쪽 아래 왼쪽 */
+  display: flex;
+  flex-direction: column; /* 요소들을 수평정렬 */
+  font-size: 12px;
+}
 </style>

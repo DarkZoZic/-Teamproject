@@ -13,10 +13,10 @@
 
             <!-- 우측중앙 로그인 회원가입 -->
             <v-col sm="5" class="col_right">
-              <router-link :to="{ name:'LoginVue' }" v-if="!state.logged"><h4 style="margin-left:10px;">로그인</h4></router-link>
-              <router-link :to="{ name:'ChoiceJoinVue' }" v-if="!state.logged"><h4 style="margin-left:10px;">회원가입</h4></router-link>
-              <router-link :to="{ name:'LogoutVue' }" v-if="state.logged"><h4 style="margin-left:10px;">로그아웃</h4></router-link>
-              <router-link :to="{ name:'MypageVue' }" v-if="state.logged"><h4 style="margin-left:10px;">마이페이지</h4></router-link>
+              <router-link :to="{ name:'LoginVue' }" v-if="!state.logged"><h4 class="mar-l_10">로그인</h4></router-link>
+              <router-link :to="{ name:'ChoiceJoinVue' }" v-if="!state.logged"><h4 class="mar-l_10">회원가입</h4></router-link>
+              <router-link :to="{ name:'LogoutVue' }" v-if="state.logged"><h4 class="mar-l_10">로그아웃</h4></router-link>
+              <router-link :to="{ name:'MypageVue' }" v-if="state.logged"><h4 class="mar-l_10">마이페이지</h4></router-link>
             </v-col>
           </v-row>
         </v-col>
@@ -36,14 +36,14 @@
 
             <!-- 로고 -->
             <v-col sm="3" class="col_center">
-              <img :src="require('../assets/img/cluver.jpg')" style="height: 90px; cursor: pointer;" @click="handleClick('/')"/>
+              <img :src="require('../assets/img/cluver.jpg')" class="img_header" @click="handleClick('/')"/>
             </v-col>
 
             <!-- 중앙 -->
             <v-col sm="5">
               <!-- 검색창 -->
-              <v-row dense style="display: flex; align-items: center;">
-                <v-col sm="10" style="height: 60px; border:3px solid gold; border-radius: 4px; padding-left: 10px;">
+              <v-row dense class="col_center">
+                <v-col sm="10" style="height: 60px; border: 3px solid gold; border-radius: 4px; padding-left: 10px;">
                   <input type="text" style="width: 100%; height: 100%; outline-width: 0;">
                 </v-col>
 
@@ -141,6 +141,4 @@ export default {
 }
 </script>
 <style>
-.container{width: 1200px; max-width:961px !important;}
-  @import url(../assets/css/style.css);
 </style>
