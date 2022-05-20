@@ -17,6 +17,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.example.entity.entity2.CReply;
+import com.example.entity.entity2.Club;
 
 import lombok.Data;
 
@@ -62,6 +63,10 @@ public class ClubGallery {
   @ManyToOne
   @JoinColumn(name = "mid")
   private Member member;
+  // 클럽번호
+  @ManyToOne
+  @JoinColumn(name = "cno")
+  private Club club;
   // 앨범
 //  @ManyToOne
 //  @JoinColumn(name = "ca_no")

@@ -94,7 +94,8 @@ public class ClubGalleryRestController {
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> selectlistGET(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text)
+	public Map<String, Object> selectlistGET(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text,
+			@RequestParam(name="cno") long cno)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
@@ -104,7 +105,7 @@ public class ClubGalleryRestController {
 			System.out.println(pageRequest);
 			
 			//검색어 포함, 1페이지 20글, 글번호 내림차순
-			List<ClubGallery> list = cgRep.findByCgnameContainingOrderByCgnoDesc(text, pageRequest);
+			List<ClubGallery> list = cgRep.findByCgnameAndClub_cnoContainingOrderByCgnoDesc(text, cno, pageRequest);
 			
 			model.addAttribute("list", list);
 			System.out.println("list : " + list);
@@ -120,7 +121,7 @@ public class ClubGalleryRestController {
 			}
 			
 			//페이지네이션 구현용 글 개수 가져와서 model에 넣기
-			long total = cgRep.countByCgnameContaining(text);
+			long total = cgRep.countByCgnameAndClub_cnoContaining(text, cno);
 			
 			// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
 			model.addAttribute("pages", (total-1) / 20 + 1);

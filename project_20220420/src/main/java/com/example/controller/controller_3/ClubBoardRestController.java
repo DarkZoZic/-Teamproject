@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.CbImage;
 import com.example.entity.entity2.Cbckeditor;
+import com.example.entity.entity2.Club;
 import com.example.entity.entity2.ClubBoard;
 import com.example.repository.repository_3.CReplyRepository;
 import com.example.repository.repository_3.CbckeditorRepository;
@@ -62,13 +63,16 @@ public class ClubBoardRestController {
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertPOST(@ModelAttribute ClubBoard cb, @ModelAttribute MultipartFile file) throws IOException
+	public Map<String, Object> insertPOST(@ModelAttribute ClubBoard cb, @ModelAttribute MultipartFile file, @RequestParam(name="cno") Club cno) throws IOException
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-//			System.out.println(cb);
+			cb.setClub(cno);
+			System.out.println(cb);
 //			System.out.println(file.getOriginalFilename());
+			
+			
 			cbRep.save(cb);
 			if(file != null)
 			{
@@ -164,6 +168,8 @@ public class ClubBoardRestController {
 			//1페이지 당 20글 표시
 			PageRequest pageRequest = PageRequest.of(page-1, 20); 
 			System.out.println(pageRequest);
+			
+			System.out.println("cno : "+cno);
 			
 			List<ClubBoard> list = new ArrayList<>();
 			if(!text.equals(""))

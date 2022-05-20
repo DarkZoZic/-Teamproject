@@ -38,7 +38,8 @@ public class ClubBoardServiceImpl implements ClubBoardService{
 	public List<ClubBoard> selectClubBoardList(Long cbno, String cbTitle, Pageable pageable) {
 		try 
 		{
-			return cbRep.findByCbtitleContainingOrderByCbnoDesc(cbTitle, pageable);
+//			return cbRep.findByCbtitleContainingOrderByCbnoDesc(cbTitle, pageable);
+			return null;
 		} 
 		catch (Exception e) 
 		{

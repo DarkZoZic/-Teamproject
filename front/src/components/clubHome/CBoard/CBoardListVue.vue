@@ -129,11 +129,12 @@ export default {
             items: [
                 '전체', '제목', '내용', '글쓴이'
             ],
-            option : '전체'
+            option : '전체',
+            cno : 0
         })
 
         const content = async() => {
-            const url = `/ROOT/api/clubboard/selectlist`;
+            const url = `/ROOT/api/clubboard/selectlist?cno=1`;
             const headers = {"Content-Type":"application/json"};
             const response = await axios.get(url, {headers});
             console.log(response.data.result);
