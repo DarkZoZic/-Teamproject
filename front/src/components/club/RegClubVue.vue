@@ -147,6 +147,7 @@
                                                 accept="image/*"
                                                 label="로고 사진을 넣어주세요"
                                                 multiple
+                                                name="file" @change="handleImage($event)" >
                                                 ></v-file-input>
                                             </v-col>
                                         </v-row>
@@ -187,11 +188,18 @@
 import { reactive }  from '@vue/reactivity';
 import FooterVue from '../../components/FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
+import axios from 'axios';
 
 export default {
     components: { HeaderVue, FooterVue },
     setup () {
         const state = reactive({
+            items : [],
+            birth : '2020년',
+            token : sessionStorage.getItem("TOKEN"),
+            imageUrl : require('../../assets/img/profile_sample.png'),
+            imageFile : null,
+            private : '공개',
             datechk: [],
             timechk: [],
             gender : [],
@@ -210,6 +218,16 @@ export default {
             ],
             valid: '',
         })
+        const handleImage = (e) => {
+      if(e.target.files[0]){
+        state.imageUrl = URL.createObjectURL(e.target.files[0]);
+        state.imageFile = e.target.files[0];
+      }
+      else{
+        state.imageUrl = require('../../assets/img/profile_sample.png');
+        state.imageFile = null;
+      }
+    }
 
         const online = () => {
 
@@ -222,21 +240,43 @@ export default {
                 
         const handleReg = async() => {
             const url = `/ROOT/club/insert.json`;
-            const headers = {"Content-Type":"multipart/form-data"};
+            const headers = {"Content-Type":"multipart/form-data",
+            token : state.token};
             const body = new FormData;
-                body.append("cname",  state.cname);
+                body.append("cname",  state.name);
                 body.append("cdesc",  state.desc);
-                body.append("cmax", state.cmax);
-                body.append("cprivate",   state.cprivate);
-                body.append("carea",  state.carea);
+                body.append("cmax", state.max);
+                body.append("cprivate",  state.private);
+                body.append("carea",  state.area);
+                body.append("cbirth",  state.birth);
+                body.append("file", state.imageFile)
+                body.append("caddress", state.address)
             const response = await axios.post(url,body,{headers});
                 console.log(response.data);
             if(response.data.status === 200){
-                alert('회원가입완료')
-                router.push({path : 'login'});
+                handleJoinclub();
+                alert('클럽생성완료');
+                // console.log(response.data.result);
+                state.items = response.data.result;
+                // console.log(response.data);
+                // console.log(state.items);
+
+                // router.push({path : 'login'});
             }
         }
-        return { state, handleReg, online, reset }
+        const handleJoinclub = async() => {
+            console.log(state.items);
+            // const url = `/ROOT/joinclub/insert.json`;
+            // const headers = {"Content-Type":"multipart/form-data"};
+            // const body = new FormData;
+            //     body.append("member",  state.name);
+            //     body.append("steptbl",  state.desc);
+            //     body.append("club", state.max);
+            // const response = await axios.post(url,body,{headers});
+            //     console.log(response.data);
+
+        }
+        return { state, handleReg, online, reset,handleImage }
     }
 }
 </script>

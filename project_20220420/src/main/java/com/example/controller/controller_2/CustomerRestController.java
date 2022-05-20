@@ -502,6 +502,30 @@ public class CustomerRestController {
             
             return map;
         }
+
+	// 닉네임 중복확인
+	// 127.0.0.1:9090/ROOT/member/nickcheck
+	@PostMapping(value = "/nickcheck", 
+	consumes = MediaType.ALL_VALUE, 
+	produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> NickCheckPost(
+		@RequestParam(value = "nick") String nick){
+		Map<String, Object> map = new HashMap<>();
+		try {
+			System.out.println(nick);
+			MemberPersonal member1 = mpsRepository.findByMpnickname(nick);
+			if(member1 == null){
+				System.out.println("사용가능 닉네임");	
+				map.put("status", 200);
+			}
+		}
+            catch (Exception e) {
+                e.printStackTrace();
+                map.put("status", 0);
+            }
+            
+            return map;
+        }
 	// 개인회원가입(개인회원)
 	// 127.0.0.1:9090/ROOT/member/psjoin.json
 	//{"mid":"c1", "mpw":"c1" };
@@ -517,9 +541,15 @@ public class CustomerRestController {
 			Member member = new Member();
 			member.setMid((String) psmemberpersonal.getMember().getMid());
 			psmemberpersonal.setMember(member);
-			
-			mpsRepository.save(psmemberpersonal);
-			map.put("status", 200);
+			MemberPersonal member1 = mpsRepository.findByMpnickname(psmemberpersonal.getMpnickname());
+			if(member1 == null){
+				System.out.println("사용가능 닉네임");	
+				mpsRepository.save(psmemberpersonal);
+				map.put("status", 200);
+			}
+			else {
+				System.out.println("중복된닉네임");
+			}
             }
             catch (Exception e) {
                 e.printStackTrace();

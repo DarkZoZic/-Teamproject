@@ -107,14 +107,16 @@ try {
         
     }
 }
-    Address address = new Address();
-    address.setAcode((Long) club.getAddress().getAcode());
+    // Address address = new Address();
+    // address.setAcode((Long) club.getAddress().getAcode());
 
-    Category category = new Category();
-    category.setCgcode((Long) club.getCategory().getCgcode());
+    // Category category = new Category();
+    // category.setCgcode((Long) club.getCategory().getCgcode());
     
     cRepository.save(club);
     map.put("status", 200);
+    map.put("result", club);
+    map.put("mid", username);
     }
     catch (Exception e) {
         e.printStackTrace();

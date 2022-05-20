@@ -73,7 +73,7 @@ public class Club {
 	@Column(name = "CREGDATE",nullable = false)
   private Date cregdate;
   // 동호회 창립일
-  @Column(name = "CBIRTH")
+  @Column(name = "CBIRTH",nullable = true)
   private String cbirth;
   // 동호회 활동지역
   @Column(name = "CAREA", nullable = false)
@@ -102,9 +102,8 @@ public class Club {
   @JoinColumn(name = "cg_code")
   private Category category;
   // 주소분류
-  @ManyToOne
-  @JoinColumn(name = "a_code")
-  private Address address;
+  @Column(name = "CADDRESS")
+  private String caddress;
   // 찜
   // @OneToMany(mappedBy = "club")
   // @JsonBackReference

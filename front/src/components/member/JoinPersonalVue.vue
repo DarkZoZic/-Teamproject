@@ -346,8 +346,14 @@
                       required
                     ></v-text-field>
                   </v-col>
+                  <v-col sm="2">
+                    <v-btn style="width: 100%; height:40px;" @click="handlenick()">
+                      <h4>닉네임 중복확인</h4>
+                    </v-btn>
+                  </v-col>
                 </v-row>
               </v-expansion-panel>
+                 
 
               <!-- 이메일 -->
               <v-expansion-panel class="panel">
@@ -545,6 +551,7 @@ export default {
         address: '',
         extraAddress: '',
         detailAddress: '',
+        nickcheck: '',
         gender : [{ value: "남" },
          { value: "여" }],
         birth : '',
@@ -625,8 +632,23 @@ export default {
           router.push({path : 'login'});
       }
     }
+    const handlenick = async() => {
+      const url = `/ROOT/member/nickcheck?nick=${state.nickname}`;
+      const headers = {"Content-Type":"application/json"};
+      const response = await axios.post(url,[],{headers});
+      console.log(response.data);
+      if(response.data.status === 200){
+        alert('사용할수있는 닉네임')
+        state.nickcheck = response.data.status
+      }
+      else{
+        alert('중복된 닉네임')
+        state.nickcheck = '';
+      }
+    }
 
     const handleJoin = async() => {
+
       if(state.chk1 === false) {
         alert('만 15세 이상만 가입할 수 있습니다')
         return false;
@@ -667,8 +689,9 @@ export default {
         return false;
       } 
 
-      else if(state.nickname === '' || state.nickname.length < 1) {
+      else if(state.email === '' || state.email < 1) {
         alert('이메일을 입력하세요')
+        console.log(state.nickcheck);
         return false;
       } 
 
@@ -677,10 +700,11 @@ export default {
         return false;
       }
 
-      else if(state.gender != "남" && "여") {
+      else if(state.gender.length !== 1) {
         alert('성별을 입력하세요')
         return false;
       }
+      
 
       else if(state.phone === '') {
         alert('연락처를 입력하세요')
@@ -689,6 +713,10 @@ export default {
 
       else if(state.validnumber === '') {
         alert('인증번호를 입력하세요')
+        return false;
+      }
+      else if(state.nickcheck !== 200) {
+        alert('닉네임을 확인하세요')
         return false;
       }
 
@@ -753,7 +781,7 @@ export default {
       }).open();
     }
 
-    return { post, handleJoin, state, handleImage }
+    return { post, handleJoin, state, handleImage,handlenick }
   }
 }
 </script>
