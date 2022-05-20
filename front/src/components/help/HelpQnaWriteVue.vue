@@ -4,9 +4,9 @@
     <v-app>
         <v-main style="padding: 10px;">
             <v-row dense>
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
 
-                <v-col md="8">
+                <v-col sm="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
                             <h5><router-link to="/">홈</router-link> > <router-link to="/h">고객센터</router-link> > <router-link to="/hqna">질문및답변</router-link> > 문의글쓰기</h5>
@@ -98,7 +98,7 @@
                     </v-row>
                 </v-col>
 
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
             </v-row>
         </v-main>
     </v-app>

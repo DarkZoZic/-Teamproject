@@ -5,10 +5,10 @@
     <v-main style="padding: 10px;">      
       <v-row dense>
         <!-- 사이드 -->
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
         
         <!-- 메인 -->
-        <v-col md="8" style="border-bottom: 1px solid #CCC;">
+        <v-col sm="8" style="border-bottom: 1px solid #CCC;">
           <v-row dense="" style="border-bottom: 1px solid #CCC;">
             <v-col sm="6">
               <h5><router-link to="/">홈</router-link> > <router-link to="/h">고객센터</router-link> > 질문및답변</h5>
@@ -20,7 +20,7 @@
               <h2>질문및답변</h2>
             </v-col>
 
-            <v-col md="6" class="col_right">
+            <v-col sm="6" class="col_right">
               <v-select variant="outlined" density="compact" :items="state.items1" v-model="state.option" style="height: 40px; padding-right: 10px;"></v-select>
 
               <input type="text" class="board_search_box" style="outline-width: 0;" v-model="state.search">
@@ -73,7 +73,7 @@
         </v-col>
 
         <!-- 사이드 -->
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
       </v-row>
       <v-row dense>
         <v-col>
