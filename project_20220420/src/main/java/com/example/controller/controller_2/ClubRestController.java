@@ -208,16 +208,8 @@ try {
 	public Map<String, Object> clubimagelist1Get(){
             Map<String, Object> map = new HashMap<>();
             try {
-                // List<Cimage> list = new ArrayList<>();
-                List<Club> club = new ArrayList<>();
-                System.out.println(club.size());
-                for(var i=0; i <= club.toString().length(); i++){
-                    System.out.println(i);
-                    // club.setCimageurl("/ROOT/club/cimage?cno=" +club.getCno());
-                    // List<Club> club1 = cRepository.
-                }
+                
                     map.put("status", 200); 
-                    map.put("result", club); 
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -240,12 +232,19 @@ try {
                 List<ClubProjection> club = cRepository.findByCprivate(private12);
                 // club.setCimageurl("/ROOT/club/cimage?cno=" +club.getCno());
                 // List<ClubProjection> cp = cRepository.find
+                List<Map <String, Object>> list = new ArrayList<>();
+                for(ClubProjection obj:club  ){
+                    Map <String, Object> map1 = new HashMap<>();
+                    map1.put("obj", obj);
+                    map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                    list.add(map1);
+                }
 
 
                 // System.out.println(club);
 		        // club.set ("/ROOT/member/image?mid=" +username);
                 map.put("status", 200); 
-                map.put("result", club); 
+                map.put("result", list); 
                 map.put("개수", club.size()); 
             }
             catch (Exception e) {

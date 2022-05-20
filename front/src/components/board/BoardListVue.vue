@@ -58,8 +58,8 @@
 
                 <v-col sm="2"></v-col>
             </v-row>
-
             <v-row dense>
+                {{state.items[0].bregdate}}
                 <v-col>
                      <v-pagination
                      v-model="state.page"
@@ -94,6 +94,7 @@ export default {
         const router = useRouter();
 
         const state = reactive({
+            data : '',
             token : sessionStorage.getItem("TOKEN"),
             pa: 1,
             text: '',  // 검색어

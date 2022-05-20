@@ -182,7 +182,8 @@
                                     <v-col sm="3"></v-col>
                                     <v-col sm="6" class="col_center">
                                         <router-link to="/cdetail" class="col_center">
-                                            <img :src="require(`../../assets/img/${state.logo}.png`)" style="width: 100%"/>
+                                        <img  :src="state.imageUrl"  style="width: 100%;"/>
+                                            <!-- <img :src="require(`../../assets/img/${state.logo}.png`)" style="width: 100%"/> -->
                                         </router-link>
                                     </v-col>
                                     <v-col sm="3" class="col_right">
@@ -194,7 +195,7 @@
                                 
                                 <v-row dense>
                                     <v-col>
-                                        <h4>{{item.cno}}</h4>
+                                        <h4>{{item.obj.cname}}</h4>
                                             
 
                                     </v-col>
@@ -202,7 +203,7 @@
 
                                 <v-row dense style="height: 70px;" >
                                     <v-col sm="12">
-                                        <h4>{{item.cdesc}}</h4>
+                                        <h4>{{item.obj.cdesc}}</h4>
                                         <!-- {{items.cdesc}} -->
                                         <!-- {{state.card.desc1}} -->
                                     </v-col>
@@ -210,7 +211,7 @@
 
                                 <v-row dense>
                                     <v-col>
-                                        <h4>{{item.carea}}</h4>
+                                        <h4>{{item.obj.carea}}</h4>
 
                                         <!-- <h5>{{state.card.area1}}&nbsp;{{state.card.area2}}</h5> -->
                                     </v-col>
@@ -272,22 +273,25 @@ export default {
                 console.log(response.data);
                 if(response.data.status === 200){
                     state.items = response.data.result;
-                    console.log(response.data);
-                    handleimage1();
+                    console.log(state.items.result);
+                    // state.imageUrl = response.data.result.imgurl
+                    // console.log(state.imageUrl);
         }
+   
+                
         }
-        const handleimage1 = async() => {
-            console.log(state.items1);
-            const url = `/ROOT/club/selectone?cno=135`;
-            const headers = {"Content-Type":"application.json"};
-            const response = await axios.get(url,{headers:headers});
-                console.log(response.data);
-                if(response.data.status === 200){
-                    // state.items = response.data.result;
-                    console.log(response.data.result);
-        }
+        // const handleimage1 = async() => {
+        //     console.log(state.items1);
+        //     const url = `/ROOT/club/selectone?cno=135`;
+        //     const headers = {"Content-Type":"application.json"};
+        //     const response = await axios.get(url,{headers:headers});
+        //         console.log(response.data);
+        //         if(response.data.status === 200){
+        //             // state.items = response.data.result;
+        //             console.log(response.data.result);
+        // }
 
-        }
+        // }
 
         const input = (e) => {
             return state.inputText = e.target.value
