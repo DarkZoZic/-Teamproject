@@ -15,7 +15,8 @@
 
                     <v-row dense style="padding-top: 15px; padding-bottom: 10px; padding-left:10px; border-bottom: 1px solid #CCC;">
                         <v-col>
-                            <h2>글수정</h2>
+                            <h2>글수정</h2> 
+                           
                         </v-col>
                     </v-row>
 
@@ -24,21 +25,7 @@
                             <v-card style="width:100%; margin: 10px; margin-top: 20px; margin-bottom: 30px;">
                                 <v-expansion-panels style="width:100%">
                                     <v-form v-model="state.valid" style="width:100%">
-                                        <!-- 작성자 -->
-                                        <!-- <v-expansion-panel class="panel">
-                                            <v-row dense style="padding:10px;">
-                                                <v-col sm="2" style="justify-content: right; display: flex; align-items: center;">
-                                                    작성자: {{state.mid}}
-                                                </v-col>
-
-                                                <v-col sm="8" style="display: flex; align-items: center;">
-                                                    {{state.mid}}
-                                                </v-col>
-
-                                                <v-col sm="2"></v-col>
-                                            </v-row>
-                                        </v-expansion-panel> -->
-
+                                        {{state}}
                                         <!-- 제목 -->
                                         <v-expansion-panel class="panel">
                                             <v-row dense style="padding:10px;">
@@ -47,7 +34,7 @@
                                                 </v-col>
 
                                                 <v-col sm="8" style="display: flex; align-items: center; width:100%;">
-                                                    {{state.btitle}}
+                                                    <input type="text" v-model="state.btitle" style="outline-width: 0; padding-left: 3px; width: 100%; border-bottom: 1px solid #CCC;"/>
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -91,7 +78,7 @@
                                                 <v-col sm="4"></v-col>
 
                                                 <v-col sm="4" style="justify-content: center; display: flex; align-items: center;">
-                                                    <v-btn @click="handleInsert" style="width: 100px; height:40px; background-color: gold;">
+                                                    <v-btn @click="handleUpdate" style="width: 100px; height:40px; background-color: gold;">
                                                         <h3>수정</h3>
                                                     </v-btn>
 
@@ -121,48 +108,67 @@
 <script>
 import FooterVue     from '../FooterVue.vue';
 import HeaderVue     from '../HeaderVue.vue';
+import { onMounted } from '@vue/runtime-core';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import UploadAdapter from '../UploadAdapter.js';
 import CKEditor      from '@ckeditor/ckeditor5-vue'
 import { reactive }  from '@vue/reactivity';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 
 
 export default {
     components: { HeaderVue, FooterVue, ckeditor: CKEditor.component },
     setup () {
+
+        const route = useRoute();
         const router = useRouter();
 
         const state = reactive({
-            mid        : "",
-            btitle     : "asdf",
-            bcontent   : "",
+            bno : route.query.bno,
+            mid        : '',
+            btitle     : '',
+            bcontent   : '',
             btype      : 1,
             editor     : ClassicEditor, // ckeditor종류
-            editorData : "미리 추가되는 내용",
+            editorData : '',
             token      : sessionStorage.getItem("TOKEN"),
             valid      : '',
         })
+
+        const handleData = async() => {
+            const url = `/ROOT/api/board1/selectone?bno=${state.bno}`;
+            const headers = {"Content-Type":"application/json",
+                            "token" : state.token };
+            const response = await axios.get(url, {headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+                console.log(response.data.result);
+                state.item = response.data.result;
+                // console.log(state.item);
+               
+            }
+        }
         
 
-        const handleInsert = async() => {
-            const url = `/ROOT/api/board1/insert`;
+        const handleUpdate = async() => {
+            const url = `/ROOT/api/board1/update`;
             const headers = {
                 "Content-Type" : "application/json",
                 "token"        : state.token,
             };
-            const body= { 
-                mid      : state.mid,
-                btitle   : state.btitle,
-                bcontent : state.editorData,
-                btype    : state.btype,
-            };
+            const body= new FormData();
+            // body.append("bno", state.bno);
+            body.append("btitle", state.btitle);
+            body.append("bcontent", state.editorData);
+            body.append("btype", state.btype);
+
             const response = await axios.post(url, body, {headers});
             console.log(response.data);
             if(response.data.status === 200){
-                alert('등록완료');
-               router.push({name:'HomeVue'});
+                alert('수정완료');
+                // 원래 게시글로 돌아가야 함
+               router.push({name:'BoardListVue'});
             }
 
         }
@@ -185,7 +191,13 @@ export default {
             console.log(editor.editing.view);
         }
 
-        return { state, onReady, handleCancel, handleInsert }
+
+        onMounted( async() => {
+            await handleData();
+        
+        })
+
+        return { state, onReady, handleCancel, handleUpdate }
     },
 }
 </script>

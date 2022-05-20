@@ -230,13 +230,21 @@ export default {
 
     const handleDelete = async() => {
       if (confirm('정말 삭제하시겠습니까?')) {
-        router.push({name:"BoardListVue"})
+        const url = `/ROOT/api/board1/delete`;
+        const headers = {"Content-Type":"application/json",
+                          "token" : state.token };
+        const response = await axios.delete(url, {headers, data : {mid : state.mid, bno : state.bno}});
+        console.log(response.data);
+        if(response.data.status === 200){
+          alert('삭제되었습니다.');
+          router.push({name:"BoardListVue"})
+        }
       }
     }
 
     const handleUpdate = async() => {
-      if (confirm('정말 수정하시겠습니까?')) {
-        router.push({name:"BoardUpdateVue"})
+      if (confirm('수정하시겠습니까?')) {
+        router.push({name:"BoardUpdateVue", query : {bno : state.bno }})
       }
     }
 

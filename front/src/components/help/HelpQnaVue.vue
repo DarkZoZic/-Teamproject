@@ -50,21 +50,21 @@
                     v-for="item in state.notice"
                     :key="item.no"
                   >
-                    <td style="background-color: gold;"><h4>{{ item.no }}</h4></td>
-                    <td style="background-color: gold;"><router-link to="/hqcontent">{{ item.title }}</router-link></td>
-                    <td style="background-color: gold;">{{ item.writer }}</td>
-                    <td style="background-color: gold;">{{ item.date }}</td>
-                    <td style="background-color: gold;">{{ item.hit }}</td>
+                    <td style="background-color: gold;"><h4>{{ item.qno }}</h4></td>
+                    <td style="background-color: gold;"><router-link to="/hqcontent">{{ item.qtitle }}</router-link></td>
+                    <td style="background-color: gold;">{{ item.mid }}</td>
+                    <td style="background-color: gold;">{{ item.qregdate }}</td>
+                    <td style="background-color: gold;">{{ item.qhit }}</td>
                   </tr>
                   <tr
                       v-for="item in state.board"
                       :key="item.no"
                   >
-                    <td>{{ item.no }}</td>
-                    <td><router-link to="/hqcontent">{{ item.title }}</router-link></td>
-                    <td>{{ item.writer }}</td>
-                    <td>{{ item.date }}</td>
-                    <td>{{ item.hit }}</td>
+                    <td>{{ item.qno }}</td>
+                    <td style="cursor: pointer;" @click="handlePage(item.qno)" >{{ item.qtitle }}</td>
+                    <td>{{ item.mid }}</td>
+                    <td>{{ item.qregdate }}</td>
+                    <td>{{ item.qhit }}</td>
                   </tr>
                 </tbody>
               </v-table>
@@ -98,33 +98,11 @@ export default {
   components: { HeaderVue, FooterVue },
   setup () {
     const state = reactive({
-        board: [
-          {
-            no: 1,
-            title: '제목1',
-            writer: '흔들리는샴푸속에서니린스향이느껴진거야',
-            date: '2022-05-06',
-            hit: 22,
-          },
-          {
-            no: 2,
-            title: '제목2',
-            writer: '글쓴이2',
-            date: '2022-05-06',
-            hit: 222,
-          },
-        ],
+ 
         notice: [
           {
             no: '[공지]',
             title: '회원 탈퇴하고 싶어요? 싫어요!',
-            writer: '운영자',
-            date: '2022-05-13',
-            hit: 452,
-          },
-          {
-            no: '[공지]',
-            title: '아이디는 어떻게 바꾸냐구요?',
             writer: '운영자',
             date: '2022-05-13',
             hit: 452,
@@ -134,7 +112,9 @@ export default {
           '전체', '제목', '내용', '글쓴이'
         ],
 
-        search: '검색내용',
+        token : sessionStorage.getItem("TOKEN"),
+
+        search: '검색내용', // 검색어
         page: 1,
     })
 
