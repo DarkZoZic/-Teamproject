@@ -167,7 +167,7 @@ export default {
         const write = async() => {
             const url = `/ROOT/api/clubboard/insert`;
             const headers = {"Content-Type" : "multipart/form-data"};
-            const body = new Forsmata();
+            const body = new FormData();
             body.append("cbtitle", state.title);
             body.append("cbcontent", state.editorData);
             body.append("file", state.imageFile);

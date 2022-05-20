@@ -157,7 +157,7 @@ export default {
                 "Content-Type" : "application/json",
                 "token"        : state.token,
             };
-            const body= new Forsmata();
+            const body= new FormData();
             // body.append("bno", state.bno);
             body.append("btitle", state.btitle);
             body.append("bcontent", state.editorData);

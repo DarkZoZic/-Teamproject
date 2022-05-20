@@ -230,7 +230,7 @@ export default {
 
             const url = `/ROOT/api/schedule/insert`;
             const headers = {"Content-Type":"multipart/form-data"};
-            const body = new Forsmata();
+            const body = new FormData();
             // body.append("swriter", state.schedule.swriter); //미구현
             body.append("sname", state.schedule.sname);
             body.append("scontent", state.schedule.scontent);

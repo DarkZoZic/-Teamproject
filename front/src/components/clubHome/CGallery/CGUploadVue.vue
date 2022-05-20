@@ -91,7 +91,7 @@ export default {
         const upload = async() => {
             const url = `/ROOT/api/clubgallery/insert`;
             const headers = {"Content-Type":"multipart/form-data"};
-            const body = new Forsmata();
+            const body = new FormData();
             for(let i=0; i<state.imageFile.length; i++)
             {
                 body.append("file", state.imageFile[i]);
