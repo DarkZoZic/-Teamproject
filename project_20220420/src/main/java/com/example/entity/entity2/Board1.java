@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.example.entity.entity1.Member;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -79,8 +81,12 @@ public class Board1 {
   @JoinColumn(name = "mid")
   private Member member;
 
-
   // 게시판이미지
   // @OneToMany(mappedBy = "board1")
   // private List<BImage> bImageList = new ArrayList<>();
+
+  // 댓글
+  // @OneToMany(mappedBy = "board1", cascade = CascadeType.REMOVE)
+  // @JsonBackReference(value = "breply")
+  // private List<CReply> cReplyList = new ArrayList<>();
 }

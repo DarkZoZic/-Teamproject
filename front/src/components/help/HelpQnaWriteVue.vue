@@ -67,6 +67,8 @@
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
+
+                                                {{state.qprivate}}
                                             </v-row>
                                         </v-expansion-panel>
 
@@ -126,6 +128,7 @@ export default {
             editorData : '수정일자입니다',
             valid      : '',
             token      : sessionStorage.getItem("TOKEN"),
+            qprivate : 'n',
         })
 
         const onReady = ( editor ) => {
@@ -157,12 +160,13 @@ export default {
             body.append("mid", state.mid);
             body.append("qtitle", state.qtitle);
             body.append("qcontent", state.editorData);
+            body.append("qprivate", state.qprivate);
            
             const response = await axios.post(url, body, {headers});
             console.log(response.data);
             if(response.data.status === 200){
                 alert('등록완료');
-                router.push({name: 'BoardListVue'});
+                router.push({name: 'HelpQnaVue'});
             }
 
         }

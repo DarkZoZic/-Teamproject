@@ -26,12 +26,13 @@ export default class UploadAdapter {
         const xhr = this.xhr = new XMLHttpRequest();
 
         xhr.open( 'POST', '/ROOT/api/board1/ckimage', true );
+        xhr.open( 'POST', '/ROOT/api/qna/ckimage', true );
         xhr.responseType = 'json';
     }
 
     // Initializes XMLHttpRequest listeners.
     _initListeners( resolve, reject, file ) {
-        console.log(resolve);
+        console.log("==========",resolve);
         const xhr = this.xhr;
         const loader = this.loader;
         const genericErrorText = `Couldn't upload file: ${ file.name }.`;

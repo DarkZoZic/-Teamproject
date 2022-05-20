@@ -62,7 +62,7 @@
                   >
                     <td>{{ item.qno }}</td>
                     <td style="cursor: pointer;" @click="handlePage(item.qno)" >{{ item.qtitle }}</td>
-                    <td>{{ item.mid }}</td>
+                    <td>{{ item.member.mid }}</td>
                     <td>{{ item.qregdate }}</td>
                     <td>{{ item.qhit }}</td>
                   </tr>
@@ -93,10 +93,19 @@
 import { reactive } from '@vue/reactivity';
 import FooterVue    from '../FooterVue.vue';
 import HeaderVue    from '../HeaderVue.vue';
-
+import { onMounted } from '@vue/runtime-core';
+import axios from 'axios';
+import {useRouter} from 'vue-router';
 export default {
   components: { HeaderVue, FooterVue },
   setup () {
+
+    onMounted(() => {
+      handleData();
+    });
+
+    const router = useRouter();
+
     const state = reactive({
  
         notice: [
@@ -116,13 +125,29 @@ export default {
 
         search: '검색내용', // 검색어
         page: 1,
-    })
+    });
+
+    // 조회수 1증가 시키기
+    const handlePage = async(qno) => {
+      if(state.token !== null){
+        const url = `/ROOT/api/qna/updatehit?qno=${qno}`;
+        const headers = { 
+            "Content-Type":"application/json",
+            "token" : state.token,
+        };
+        const response = await axios.put(url, {}, { headers });
+        console.log(response.data);
+            router.push({name:"HelpQnaContentVue", query:{ qno: qno }})
+
+        console.log(qno);
+      }  
+    }
 
     const search = async() => {
 
     }
 
-    return { state, search }
+    return { state, search, handlePage }
   },
 }
 </script>
