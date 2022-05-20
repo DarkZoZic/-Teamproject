@@ -1,14 +1,18 @@
 package com.example.controller.controller_2;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.example.entity.entity2.Address;
 import com.example.entity.entity2.Category;
+import com.example.entity.entity2.Cimage;
 import com.example.entity.entity2.Club;
+import com.example.entity.entity2.ClubProjection;
 import com.example.jwt.JwtUtil;
+import com.example.repository.repository_gibum.CimageRepository;
 import com.example.repository.repository_gibum.ClubRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,54 +36,96 @@ public class ClubRestController {
 
     @Autowired JwtUtil jwtUtil;
 
+    @Autowired CimageRepository ciRepository;
 
     // 127.0.0.1:9090/ROOT/club/image?cno=179
-	// @GetMapping(value ="/image")
-    // public ResponseEntity<byte[]> imageGET(
-    //     @RequestParam(name ="cno") Long cno) throws IOException {
-    //         // 이미지명, 이미지크기, 이미지종류, 이미지데이터
-	// 		Club club = cRepository.findByCno(cno);
+	@GetMapping(value ="/cimage")
+    public ResponseEntity<byte[]> imageGET(
+        @RequestParam(name ="cno") Long cno) throws IOException {
+            // 이미지명, 이미지크기, 이미지종류, 이미지데이터
+			Cimage cimage = ciRepository.findByClub_Cno(cno);
 
-    //         if(club != null){ // 물품정보가 존해하면
-    //             if(club.getCimagesize() > 0) { // 첨부한 파일 존재
-    //                 HttpHeaders headers = new HttpHeaders();
+            if(cimage != null){ // 물품정보가 존해하면
+                if(cimage.getCimagesize() > 0) { // 첨부한 파일 존재
+                    HttpHeaders headers = new HttpHeaders();
                     
-    //                 if(club.getCimagetype().equals("image/jpeg")){
-    //                     headers.setContentType(MediaType.IMAGE_JPEG);
-    //                 }
+                    if(cimage.getCimagetype().equals("image/jpeg")){
+                        headers.setContentType(MediaType.IMAGE_JPEG);
+                    }
 
-    //                 else if(club.getCimagetype().equals("image/png")){
-    //                     headers.setContentType(MediaType.IMAGE_PNG);
-    //                 }
+                    else if(cimage.getCimagetype().equals("image/png")){
+                        headers.setContentType(MediaType.IMAGE_PNG);
+                    }
 
-    //                 else if(club.getCimagetype().equals("image/gif")){
-    //                     headers.setContentType(MediaType.IMAGE_GIF);
-    //                 }
+                    else if(cimage.getCimagetype().equals("image/gif")){
+                        headers.setContentType(MediaType.IMAGE_GIF);
+                    }
 
-    //                 // 이미지 byte[], headers, HttpStatus.OK
-    //                 ResponseEntity<byte[]> response 
-    //                 = new ResponseEntity<>(club.getCthumbnail(),
-    //                     headers, HttpStatus.OK);
-    //                     return response;
-    //             }
-    //             // else {
-    //             //     InputStream is =
-    //             //     resLoader
-    //             //     .getResource("classpath:/static/img/default.png")
-    //             //     .getInputStream();
+                    // 이미지 byte[], headers, HttpStatus.OK
+                    ResponseEntity<byte[]> response 
+                    = new ResponseEntity<>(cimage.getCimage(),
+                        headers, HttpStatus.OK);
+                        return response;
+                }
+                // else {
+                //         InputStream is =
+                //         resLoader
+                //         .getResource("classpath:/static/img/default.png")
+                //         .getInputStream();
 
-    //             //     HttpHeaders headers = new HttpHeaders();
-    //             //     headers.setContentType(MediaType.IMAGE_PNG);
+                //     HttpHeaders headers = new HttpHeaders();
+                //     headers.setContentType(MediaType.IMAGE_PNG);
 
-    //             //     ResponseEntity<byte[]> response
-    //             //     = new ResponseEntity<>(is.readAllBytes(),
-    //             //     headers, HttpStatus.OK);
+                //     ResponseEntity<byte[]> response
+                //     = new ResponseEntity<>(is.readAllBytes(),
+                //     headers, HttpStatus.OK);
 
-    //             //     return response;
-    //             // }
-    //         }
-    //         return null;
-    //     }
+                //     return response;
+                // }
+            }
+            return null;
+        }
+
+    
+    
+    
+
+    // cimage  이미지 보관하는 곳
+    // 127.0.0.1:9090/ROOT/club/cbimage
+    @RequestMapping(value = "/cbimage", 
+        method = {RequestMethod.POST},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> ckImagePOST(
+        @ModelAttribute Club club,
+        @RequestParam(name = "file") MultipartFile file ) {
+        System.out.println(file.getOriginalFilename());
+
+        Map<String ,Object> map = new HashMap<>();
+
+        try{
+            Cimage cimage = new Cimage();
+            if(file.isEmpty() == false) {
+                cimage.setCimage(file.getBytes()); // 이미지
+                cimage.setCimagename(file.getOriginalFilename()); // 파일명
+                cimage.setCimagesize(file.getSize()); //사이즈
+                cimage.setCimagetype(file.getContentType());// 타입
+            }
+
+                cimage.setClub(cRepository.findByCno(club.getCno()));
+                System.out.println(cimage.getClub());
+                ciRepository.save(cimage);
+
+            map.put("status", 200);
+            map.put("url", "/ROOT/club/cimage?cno=" + cimage.getClub().getCno() ); // url 보내기
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
 
     // 클럽생성
 	// 127.0.0.1:9090/ROOT/club/insert.json
@@ -126,20 +172,52 @@ try {
     
     return map;
 }
-    // 클럽1개 조회(클럽생성시 바로 받아오기)
-	// 127.0.0.1:9090/ROOT/club/selectone
+// // 
+
+
+    // 클럽 이미지1개조회(클럽생성시 바로 받아오기)
+	// 127.0.0.1:9090/ROOT/club/selectone?cno=139
 	@RequestMapping(value = "/selectone", 
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },
 			produces = { MediaType.APPLICATION_JSON_VALUE })
-	public Map<String, Object> customerMypageGet(
+	public Map<String, Object> stomerMypageGet(
 		@RequestParam(value = "cno")long cno){
             Map<String, Object> map = new HashMap<>();
             try {
                 
                 Club club = cRepository.findByCno(cno);
+                club.setCimageurl("/ROOT/club/cimage?cno=" +club.getCno());
                 System.out.println(club);
                 map.put("status", 200); 
+                map.put("result", club); 
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                map.put("status", 0);
+            }
+
+		return map;
+	}
+    // 이미지 리스트받아오기
+	// 127.0.0.1:9090/ROOT/club/selectlist1
+	@RequestMapping(value = "/selectlist1", 
+			method = { RequestMethod.GET },
+			consumes = { MediaType.ALL_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> clubimagelist1Get(){
+            Map<String, Object> map = new HashMap<>();
+            try {
+                // List<Cimage> list = new ArrayList<>();
+                List<Club> club = new ArrayList<>();
+                System.out.println(club.size());
+                for(var i=0; i <= club.toString().length(); i++){
+                    System.out.println(i);
+                    // club.setCimageurl("/ROOT/club/cimage?cno=" +club.getCno());
+                    // List<Club> club1 = cRepository.
+                }
+                    map.put("status", 200); 
+                    map.put("result", club); 
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -154,17 +232,21 @@ try {
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },
 			produces = { MediaType.APPLICATION_JSON_VALUE })
-	public Map<String, Object> customerMypageGet(){
+	public Map<String, Object> ssGet(){
             Map<String, Object> map = new HashMap<>();
             try {
                 String private12 = "공개";
-                List<Club> club = cRepository.findByCprivate(private12);
+
+                List<ClubProjection> club = cRepository.findByCprivate(private12);
+                // club.setCimageurl("/ROOT/club/cimage?cno=" +club.getCno());
+                // List<ClubProjection> cp = cRepository.find
 
 
-                System.out.println(club);
+                // System.out.println(club);
 		        // club.set ("/ROOT/member/image?mid=" +username);
                 map.put("status", 200); 
                 map.put("result", club); 
+                map.put("개수", club.size()); 
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -175,3 +257,18 @@ try {
 	}
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

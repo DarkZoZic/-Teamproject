@@ -3,6 +3,7 @@ package com.example.repository.repository_gibum;
 import java.util.List;
 
 import com.example.entity.entity2.Club;
+import com.example.entity.entity2.ClubProjection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,7 +26,9 @@ public interface ClubRepository
 
         Club findByCno(long cno);
 
-        List<Club> findByCprivate(String cprivate);
+        List<ClubProjection> findByCprivate(String cprivate);
+
+        // List<Club> findByCno(Long cno);
 
     
 }

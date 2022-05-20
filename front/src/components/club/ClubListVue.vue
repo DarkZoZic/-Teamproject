@@ -169,16 +169,15 @@
                     <v-row dense="">
                         <v-col>
                             <h3>클럽정보</h3>
+
                         </v-col>
+                        
                     </v-row>
 
-                    <v-row>
-                        <v-col
-                            v-for="n in 12"
-                            :key="n"
-                            cols="4"
-                        >
-                            <v-card height="200px" class="club_card" style="padding: 20px;">
+                    <v-row >
+                        <v-col v-for="item in state.items" :key="item"
+                            cols="4">
+                            <v-card height="200px" class="club_card" style="padding: 20px;" >
                                 <v-row dense>
                                     <v-col sm="3"></v-col>
                                     <v-col sm="6" class="col_center">
@@ -195,19 +194,25 @@
                                 
                                 <v-row dense>
                                     <v-col>
-                                        <h4>{{state.card.clubname}}</h4>
+                                        <h4>{{item.cno}}</h4>
+                                            
+
                                     </v-col>
                                 </v-row>
 
-                                <v-row dense style="height: 70px;">
+                                <v-row dense style="height: 70px;" >
                                     <v-col sm="12">
-                                        {{state.card.desc1}}
+                                        <h4>{{item.cdesc}}</h4>
+                                        <!-- {{items.cdesc}} -->
+                                        <!-- {{state.card.desc1}} -->
                                     </v-col>
                                 </v-row>
 
                                 <v-row dense>
                                     <v-col>
-                                        <h5>{{state.card.area1}}&nbsp;{{state.card.area2}}</h5>
+                                        <h4>{{item.carea}}</h4>
+
+                                        <!-- <h5>{{state.card.area1}}&nbsp;{{state.card.area2}}</h5> -->
                                     </v-col>
                                 </v-row>
                             </v-card>                        
@@ -228,11 +233,13 @@ import { reactive } from '@vue/reactivity';
 import FooterVue from '../FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
 import { onMounted } from '@vue/runtime-core';
+import axios from 'axios';
 
 export default {
     components: { HeaderVue, FooterVue },
     setup () {
         const state = reactive({
+            items1 : '',
             datechk: [],
             timechk: [],
             imgName: 'heart',
@@ -251,6 +258,37 @@ export default {
 
         });
 
+        onMounted (()=>{
+            handleData();
+            if (state.card.desc.length >= 20) {
+                state.card.desc1 = state.card.desc.substring(0, 20) + '...'
+            }
+        })
+
+        const handleData = async() => {
+            const url = `/ROOT/club/selectlist`;
+            const headers = {"Content-Type":"application.json"};
+            const response = await axios.get(url,{headers:headers});
+                console.log(response.data);
+                if(response.data.status === 200){
+                    state.items = response.data.result;
+                    console.log(response.data);
+                    handleimage1();
+        }
+        }
+        const handleimage1 = async() => {
+            console.log(state.items1);
+            const url = `/ROOT/club/selectone?cno=135`;
+            const headers = {"Content-Type":"application.json"};
+            const response = await axios.get(url,{headers:headers});
+                console.log(response.data);
+                if(response.data.status === 200){
+                    // state.items = response.data.result;
+                    console.log(response.data.result);
+        }
+
+        }
+
         const input = (e) => {
             return state.inputText = e.target.value
         };
@@ -258,11 +296,7 @@ export default {
             return state.text = state.inputText
         }
 
-        onMounted (()=>{
-            if (state.card.desc.length >= 20) {
-                state.card.desc1 = state.card.desc.substring(0, 20) + '...'
-            }
-        })
+        
 
         const reset = async() => {
             state.datechk = [];
