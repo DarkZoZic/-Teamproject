@@ -143,6 +143,25 @@
                                     <v-expansion-panel class="panel">
                                         <v-row>
                                             <v-col>
+                                                <v-radio-group
+                                                label="클럽 공개 여부"
+                                    v-model="state.private"
+                                    inline style="height:70px; align-items: right;">
+                                    <v-radio
+                                        label="공개"
+                                        value="공개"
+                                    ></v-radio>
+                                    <v-radio
+                                        label="비공개"
+                                        value="비공개"
+                                    ></v-radio>
+                                    </v-radio-group>
+                                            </v-col>
+                                        </v-row>
+                                    </v-expansion-panel>
+                                    <v-expansion-panel class="panel">
+                                        <v-row>
+                                            <v-col>
                                                 <v-file-input
                                                 accept="image/*"
                                                 label="로고 사진을 넣어주세요"
@@ -189,17 +208,20 @@ import { reactive }  from '@vue/reactivity';
 import FooterVue from '../../components/FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 export default {
     components: { HeaderVue, FooterVue },
     setup () {
+        const router = useRouter();
+
         const state = reactive({
-            items : [],
+            items : [{}],
             birth : '2020년',
             token : sessionStorage.getItem("TOKEN"),
             imageUrl : require('../../assets/img/profile_sample.png'),
             imageFile : null,
-            private : '공개',
+            // private : '공개',
             datechk: [],
             timechk: [],
             gender : [],
@@ -254,26 +276,33 @@ export default {
             const response = await axios.post(url,body,{headers});
                 console.log(response.data);
             if(response.data.status === 200){
-                handleJoinclub();
                 alert('클럽생성완료');
                 // console.log(response.data.result);
                 state.items = response.data.result;
-                // console.log(response.data);
-                // console.log(state.items);
+                state.cno = response.data.result.cno;
+                state.mid = response.data.mid;
+
+                console.log(state.cno);
+                handleJoinclub();
 
                 // router.push({path : 'login'});
             }
         }
         const handleJoinclub = async() => {
-            console.log(state.items);
-            // const url = `/ROOT/joinclub/insert.json`;
-            // const headers = {"Content-Type":"multipart/form-data"};
-            // const body = new FormData;
-            //     body.append("member",  state.name);
-            //     body.append("steptbl",  state.desc);
-            //     body.append("club", state.max);
-            // const response = await axios.post(url,body,{headers});
-            //     console.log(response.data);
+            console.log(state.cno);
+            console.log(state.mid);
+            const url = `/ROOT/joinclub/insert.json`;
+            const headers = {"Content-Type":"multipart/form-data"};
+            const body = new FormData;
+                body.append("member",  state.mid);
+                body.append("steptbl",  101);
+                body.append("club", state.cno);
+            const response = await axios.post(url,body,{headers});
+                console.log(response.data);
+                if(response.data.status === 200){
+            router.push({path : 'chome'})
+
+        }
 
         }
         return { state, handleReg, online, reset,handleImage }

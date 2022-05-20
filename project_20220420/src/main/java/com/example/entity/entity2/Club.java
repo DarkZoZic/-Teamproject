@@ -44,18 +44,18 @@ public class Club {
   @Column(name = "CNAME", nullable = false)
   private String cname;
   // 동호회 썸네일
-  @Lob
-  @Column(name = "CTHUMBNAIL")
-  private byte[] cthumbnail;
+  // @Lob
+  // @Column(name = "CTHUMBNAIL")
+  // private byte[] cthumbnail;
 
-  @Column(name = "CIMAGENAME")
-  private String cimagename;
+  // @Column(name = "CIMAGENAME")
+  // private String cimagename;
 
-  @Column(name = "CIMAGETYPE")
-  private String cimagetype;
+  // @Column(name = "CIMAGETYPE")
+  // private String cimagetype;
 
-  @Column(name = "CIMAGESIZE")
-  private Long cimagesize = 0L;
+  // @Column(name = "CIMAGESIZE")
+  // private Long cimagesize = 0L;
 
   // 동호회 공개여부
   @Column(name = "CPRIVATE", nullable = false)

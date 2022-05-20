@@ -25,5 +25,7 @@ public interface ClubRepository
 
         Club findByCno(long cno);
 
+        List<Club> findByCprivate(String cprivate);
+
     
 }
