@@ -6,9 +6,9 @@
 
             <!-- 상단 표 -->
             <v-row dense>
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
                 
-                <v-col md="8">
+                <v-col sm="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="5">
                             <h5><router-link to="/">홈 > </router-link><router-link to="/clist">클럽목록</router-link></h5>
@@ -158,14 +158,14 @@
                     </v-row>
                 </v-col>
 
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
             </v-row>
 
             <!-- 클럽정보 -->
             <v-row>
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
                 
-                <v-col md="8">
+                <v-col sm="8">
                     <v-row dense="">
                         <v-col>
                             <h3>클럽정보</h3>
@@ -220,7 +220,7 @@
                     </v-row>
                 </v-col>
 
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
             </v-row>
         </v-main>
     </v-app>

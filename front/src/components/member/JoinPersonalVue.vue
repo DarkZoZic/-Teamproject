@@ -4,9 +4,9 @@
   <v-app>
     <v-main style="padding: 10px;">
       <v-row dense>
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
 
-        <v-col md="8" style="border-bottom: 1px solid #CCC;">
+        <v-col sm="8" style="border-bottom: 1px solid #CCC;">
           <v-row dense="" style="border-bottom: 1px solid #CCC;">
             <v-col sm="6">
               <h5><router-link to="/">홈</router-link> > <router-link to="/join">회원가입</router-link> > 개인회원가입</h5>
@@ -496,9 +496,9 @@
       </v-row>
 
       <v-row dense="">
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
 
-        <v-col md="8" >
+        <v-col sm="8" >
           <!-- 가입버튼 -->
           <v-row dense style="padding-top: 20px;">
             <v-col sm="4"></v-col>
@@ -515,7 +515,7 @@
           </v-row>
         </v-col>
 
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
       </v-row>
     </v-main>
   </v-app>
