@@ -199,9 +199,9 @@
                                     </v-col>
                                 </v-row>
 
-                                <v-row dense>
+                                <v-row dense style="height: 70px;">
                                     <v-col sm="12">
-                                        {{state.card.desc}}
+                                        {{state.card.desc1}}
                                     </v-col>
                                 </v-row>
 
@@ -240,7 +240,7 @@ export default {
 
             card: {
                 clubname: '삥뽕탁구클럽',
-                desc: '설명글을 잔뜩!',
+                desc: '설명글을 잔뜩!zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz',
                 desc1: '',
                 area1: '부산',
                 area2: '연제구',
@@ -259,10 +259,9 @@ export default {
         }
 
         onMounted (()=>{
-            if (state.card.desc.length >= 40) {
-                state.card.desc1 = state.card.desc.substring(0, 40) + '...'
+            if (state.card.desc.length >= 20) {
+                state.card.desc1 = state.card.desc.substring(0, 20) + '...'
             }
-            state.card.desc1 = state.card.desc;
         })
 
         const reset = async() => {
