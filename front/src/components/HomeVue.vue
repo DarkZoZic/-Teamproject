@@ -333,13 +333,20 @@ export default {
                 // if(state.role2 =='COMPANY'){
                 //     cname();
                 // }
-
-                
             }
+
+            if(state.token === null){
+                store.commit('moduleA/setLogged', false)
+            } 
+            else{
+                store.commit('moduleA/setLogged', true)
+            }
+
             if (state.card.desc.length >= 40) {
                 state.card.desc1 = state.card.desc.substring(0, 40) + '...'
             }
-            state.card.desc1 = state.card.desc;
+            console.log(state.card.desc1);
+            
         });
 
         const state = reactive({
@@ -361,7 +368,7 @@ export default {
 
             card: {
                 clubname: '삥뽕탁구클럽',
-                desc: '설명글을 잔뜩!',
+                desc: '설명글을 잔뜩!zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz',
                 desc1: '',
                 area1: '부산',
                 area2: '연제구',
@@ -455,14 +462,6 @@ export default {
             router.push({ name: "ClubDetailVue" });
         }
 
-        onMounted(() => {
-            if(state.token === null){
-                store.commit('moduleA/setLogged', false)
-            } 
-            else{
-                store.commit('moduleA/setLogged', true)
-            }
-        })
 
         return { state, changeheart, handlelogout, notice, clubDetail }
     },
