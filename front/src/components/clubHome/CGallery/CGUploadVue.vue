@@ -5,10 +5,10 @@
         <v-main style="padding: 10px;">      
             <v-row dense>
                 <!-- 사이드 -->
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
                 
                 <!-- 메인 -->
-                <v-col md="8" style="border-bottom: 1px solid #CCC;">
+                <v-col sm="8" style="border-bottom: 1px solid #CCC;">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
                             <h5><router-link to="/chome">클럽홈</router-link> > <router-link to="/cblist">{{state.galleryName}}</router-link> > 업로드</h5>
@@ -45,7 +45,7 @@
                 </v-col>
 
                 <!-- 사이드 -->
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
             </v-row>
         </v-main>
     </v-app>
@@ -91,7 +91,7 @@ export default {
         const upload = async() => {
             const url = `/ROOT/api/clubgallery/insert`;
             const headers = {"Content-Type":"multipart/form-data"};
-            const body = new FormData();
+            const body = new Forsmata();
             for(let i=0; i<state.imageFile.length; i++)
             {
                 body.append("file", state.imageFile[i]);

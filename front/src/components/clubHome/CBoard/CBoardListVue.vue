@@ -4,7 +4,7 @@
     <v-app>
         <v-main style="padding: 10px;">      
             <v-row dense>
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
                 
                 <v-col sm="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
@@ -18,7 +18,7 @@
                             <h2>클럽게시판</h2>
                         </v-col>
 
-                        <v-col md="8" class="col_right">
+                        <v-col sm="8" class="col_right">
                             <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px;" ></v-select>
                             <input type="text" class="board_search_box" style="outline-width: 0;" v-model="state.search">
                             <v-btn style="height: 40px;" @click="search"><h4>검색</h4></v-btn>
@@ -71,7 +71,7 @@
                         </v-col>
                     </v-row>
                 </v-col>
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
             </v-row>
 
             <v-row dense>

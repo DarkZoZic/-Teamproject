@@ -4,9 +4,9 @@
     <v-app>
         <v-main style="padding: 10px;">
             <v-row dense>
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
 
-                <v-col md="8">
+                <v-col sm="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
                             <h5><router-link to="/chome">홈</router-link> > <router-link to="/cblist">{{state.boardname}}</router-link> > 글쓰기</h5>
@@ -111,7 +111,7 @@
                     </v-row>
                 </v-col>
 
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
             </v-row>
         </v-main>
     </v-app>
@@ -167,7 +167,7 @@ export default {
         const write = async() => {
             const url = `/ROOT/api/clubboard/insert`;
             const headers = {"Content-Type" : "multipart/form-data"};
-            const body = new FormData();
+            const body = new Forsmata();
             body.append("cbtitle", state.title);
             body.append("cbcontent", state.editorData);
             body.append("file", state.imageFile);

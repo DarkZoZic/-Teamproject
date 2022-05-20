@@ -5,22 +5,22 @@
     <v-main style="padding: 10px;">      
       <v-row dense>
         <!-- 사이드 -->
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
         
         <!-- 메인 -->
-        <v-col md="8">
+        <v-col sm="8">
           <v-row dense style="padding: 10px;">
             <!-- 게시판 -->
-            <v-col md="6" style="padding: 15px;">
+            <v-col sm="6" style="padding: 15px;">
               <v-row dense style="height: 200px;">
                 <v-col>
                   <v-row dense style="border-bottom: 1px solid #CCC; margin-bottom: 10px;">
-                    <v-col md="5">
+                    <v-col sm="5">
                       <h3>게시판</h3>
                     </v-col>
 
-                    <v-col md="7" class="col_right" style="padding-right: 20px;">
-                      <router-link to="/cblist"><v-icon icon="mdi-plus" style="width: 10px;" /></router-link>
+                    <v-col sm="7" class="col_right" style="padding-right: 20px;">
+                      <router-link to="/cblist"><v-icon icon="smi-plus" style="width: 10px;" /></router-link>
                     </v-col>
                   </v-row>
 
@@ -48,12 +48,12 @@
               <v-row dense style="height: 300px;">
                 <v-col>
                   <v-row dense style="border-bottom: 1px solid #CCC; margin-bottom: 10px;">
-                    <v-col md="5">
+                    <v-col sm="5">
                       <h3>일정</h3>
                     </v-col>
                     
-                    <v-col md="7" class="col_right" style="padding-right: 20px;">
-                      <router-link to="/cschedule"><v-icon icon="mdi-plus" style="width: 10px;" /></router-link>
+                    <v-col sm="7" class="col_right" style="padding-right: 20px;">
+                      <router-link to="/cschedule"><v-icon icon="smi-plus" style="width: 10px;" /></router-link>
                     </v-col>
                   </v-row>
 
@@ -85,20 +85,20 @@
             </v-col>
 
             <!-- 갤러리 -->
-            <v-col md="6" style="padding: 15px;">
+            <v-col sm="6" style="padding: 15px;">
               <!-- 상단 -->
               <v-row dense style="border-bottom: 1px solid #CCC; margin-bottom: 10px;">
-                <v-col md="5">
+                <v-col sm="5">
                   <h3>갤러리</h3>
                 </v-col>
 
-                <v-col md="7" class="col_right" style="padding-right: 20px;">
-                  <router-link to="/cgallery"><v-icon icon="mdi-plus" style="width: 10px;" /></router-link>
+                <v-col sm="7" class="col_right" style="padding-right: 20px;">
+                  <router-link to="/cgallery"><v-icon icon="smi-plus" style="width: 10px;" /></router-link>
                 </v-col>
               </v-row>
 
               <v-row dense style="padding-left: 10px; padding-right: 10px;">
-                <v-col md="6" style="padding-right: 10px;">
+                <v-col sm="6" style="padding-right: 10px;">
                   <v-row dense style="height: 200px; border: 1px solid #CCC;">
                     <v-col class="col_center">
                       <img :src="require('../../assets/img/photo1.jpg')" @click="G()" style="cursor: pointer; max-width: auto; height: 190px;">
@@ -112,7 +112,7 @@
                   </v-row>
                 </v-col>
 
-                <v-col md="6" style="padding-left: 10px;">
+                <v-col sm="6" style="padding-left: 10px;">
                   <v-row dense style="height: 200px; border: 1px solid #CCC;">
                     <v-col class="col_center">
                       <img :src="require('../../assets/img/photo2.jpg')" @click="G()" style="cursor: pointer; max-width: auto; height: 190px;">
@@ -128,7 +128,7 @@
               </v-row>
               
               <v-row dense style="padding-left: 10px; padding-right: 10px;">
-                <v-col md="6" style="padding-right: 10px;">
+                <v-col sm="6" style="padding-right: 10px;">
                   <v-row dense style="height: 200px; border: 1px solid #CCC;">
                     <v-col class="col_center">
                       <img :src="require('../../assets/img/photo1.jpg')" @click="G()" style="cursor: pointer; max-width: auto; height: 190px;">
@@ -142,7 +142,7 @@
                   </v-row>
                 </v-col>
 
-                <v-col md="6" style="padding-left: 10px;">
+                <v-col sm="6" style="padding-left: 10px;">
                   <v-row dense style="height: 200px; border: 1px solid #CCC;">
                     <v-col class="col_center">
                       <img :src="require('../../assets/img/photo2.jpg')" @click="G()" style="cursor: pointer; max-width: auto; height: 190px;">
@@ -163,7 +163,7 @@
         </v-col>
 
         <!-- 사이드 -->
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
       </v-row>
     </v-main>
   </v-app>
