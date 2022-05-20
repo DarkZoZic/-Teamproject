@@ -30,7 +30,7 @@
               <h5 style="color: #787878">
                 조회 {{state.items.bhit}} &nbsp; | &nbsp; 
                 <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.items.blike}}
-                &nbsp; | &nbsp; {{state.items.bregdate}}
+                &nbsp; | &nbsp; {{state.bregdate1}}
               </h5>
             </v-col>
           </v-row>
@@ -183,7 +183,7 @@ import HeaderVue from '../HeaderVue.vue';
 import { onMounted } from '@vue/runtime-core';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
-
+import dayjs from 'dayjs';
 
 export default {
   components: { HeaderVue, FooterVue },
@@ -191,9 +191,14 @@ export default {
   setup () {
 
     onMounted( async() => {
-      await handleData();
+      await handleData(); 
+      date();
     
     })
+
+    const date = () => {
+      state.bregdate1 = dayjs(state.items.bregdate).format('YY.MM.DD HH:MM');
+    }
 
     const route = useRoute();
     const router = useRouter();
@@ -301,7 +306,7 @@ export default {
 
     }
 
-    return { state, handleUpdate, handleDelete, replylike, reply, handleReplyInsert}
+    return { state, date, handleUpdate, handleDelete, replylike, reply, handleReplyInsert}
   }
 }
 </script>
