@@ -44,7 +44,7 @@
                                 <tbody>
                                     <tr v-for="item in state.items" :key="item">
                                         <td>{{ item.bno }}</td>
-                                        <td @click="handlePage(item.bno)" >{{ item.btitle }}</td>
+                                        <td style="cursor: pointer;" @click="handlePage(item.bno)" >{{ item.btitle }}</td>
                                         <td>{{ item.member.mid }}</td>
                                         <td>{{ item.bregdate }}</td>
                                         <td>{{ item.bhit }}</td>

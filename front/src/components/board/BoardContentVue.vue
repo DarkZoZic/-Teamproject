@@ -52,7 +52,7 @@
 
             <v-row dense>
               <v-col style="width: 100%; height: 165px;" class="col_center">
-                  <img  :src="state.bimageurl"  style="width: 160px; border: 1px solid #CCC;"/>
+                  <img :src="state.bimageurl"  style="width: 160px; border: 1px solid #CCC;"/>
               </v-col>
             </v-row>
           </v-row>

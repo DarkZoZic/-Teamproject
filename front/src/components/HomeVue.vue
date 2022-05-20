@@ -294,7 +294,7 @@
                                     </v-row>
 
                                     <v-row dense style="height: 70px;">
-                                        <v-col sm="12">
+                                        <v-col>
                                             <h5 style="display: flex">{{state.card.desc1}}</h5>
                                         </v-col>
                                     </v-row>
