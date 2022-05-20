@@ -1,6 +1,10 @@
 body {
   font-family: 'NanumbarunGothic';
 }
+@font-face { font-family: 'NanumBarunGothic';
+  src: url('/fonts/NanumBarunGothic.eot');
+  src: url('/fonts/NanumBarunGothic.eot') format('embedded-opentype'),
+  url('/fonts/NanumBarunGothic.woff') format('woff');}
 
 fieldset {
   border: none; /* 기본 border 없애기(이 코드를 지우고 기본 border를 확인해보세요) */
