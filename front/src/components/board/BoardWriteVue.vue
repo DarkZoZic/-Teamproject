@@ -4,9 +4,9 @@
     <v-app>
         <v-main style="padding: 10px;">
             <v-row dense>
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
 
-                <v-col md="8">
+                <v-col sm="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
                             <h5><router-link to="/">홈</router-link> > <router-link to="/blist">자유게시판</router-link> > 글쓰기</h5>
@@ -110,7 +110,7 @@
                     </v-row>
                 </v-col>
 
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
             </v-row>
         </v-main>
     </v-app>
@@ -153,7 +153,7 @@ export default {
                 "token"        : state.token,
             };
             
-            const body= new FormData();
+            const body= new Forsmata();
             body.append("mid", state.mid);
             body.append("btitle", state.btitle);
             body.append("bcontent", state.editorData);

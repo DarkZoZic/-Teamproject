@@ -1,6 +1,6 @@
 <template>
 <v-app>
-    <v-main >      
+    <v-main style="min-width: 1600px;">      
       <router-view />
     </v-main>
   </v-app>

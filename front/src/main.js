@@ -7,6 +7,7 @@ import store from './stores/index'
 import HeaderVue from './components/HeaderVue.vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
+import dayjs from 'dayjs'
 // import vueCookies from "vue-cookies";
 
 
@@ -17,5 +18,6 @@ app.use(router);
 app.use(vuetify);
 app.mount('#app');
 app.use(store);
+app.use(dayjs);
 app.component('Datepicker', Datepicker);
 app.component('HeaderVue', HeaderVue);

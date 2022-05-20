@@ -4,10 +4,10 @@
   <v-app>
     <v-main style="padding: 10px;" >      
       <v-row dense>
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
         
         <!-- 메인 -->
-        <v-col md="8">
+        <v-col sm="8">
           <v-row dense class="border-b_1_CCC">
             <v-col>
               <h5><router-link to="/">홈</router-link> > <router-link to="/blist">자유게시판</router-link> > 글읽기</h5>
@@ -30,7 +30,7 @@
               <h5 style="color: #787878">
                 조회 {{state.items.bhit}} &nbsp; | &nbsp; 
                 <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.items.blike}}
-                &nbsp; | &nbsp; {{state.items.bregdate}}
+                &nbsp; | &nbsp; {{state.bregdate1}}
               </h5>
             </v-col>
           </v-row>
@@ -167,7 +167,7 @@
           </v-row>
         </v-col>
 
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
       </v-row>
     </v-main>
   </v-app>
@@ -183,7 +183,7 @@ import HeaderVue from '../HeaderVue.vue';
 import { onMounted } from '@vue/runtime-core';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
-
+import dayjs from 'dayjs';
 
 export default {
   components: { HeaderVue, FooterVue },
@@ -192,11 +192,16 @@ export default {
 
     onMounted( async() => {
       await handleData();
-    
+      date();
+      console.log(dayjs(state.items.bregdate).format('YY.MM.DD HH:MM:SS'));
     })
 
     const route = useRoute();
     const router = useRouter();
+
+    const date = () => {
+      state.bregdate1 = dayjs(state.items.bregdate).format('YY.MM.DD HH:MM');
+    }
 
     const state = reactive({
       bno : route.query.bno,
@@ -243,7 +248,7 @@ export default {
     // const like = async() => {
     //   const url = `ROOT/reaction/like.json`;
     //   const headers = {"Content-Type":"multipart/form-data"};
-    //         const body = new FormData;
+    //         const body = new Forsmata;
     //         body.append("token", state.token);
     //         body.append("mpw",state.pw);
     //         const response = await axios.post(url, body,{headers});
@@ -278,7 +283,7 @@ export default {
       // const url = `/ROOT/api/creply/board_insert`;
       // const headers = {"Content-Type":"application/json",
       //                 "token" : state.token };
-      // const body = new FormData;
+      // const body = new Forsmata;
       // body.append("token", state.token);
       // body.append("bno",state.bno);
       // body.append("recontent",state.recontent);
@@ -293,7 +298,7 @@ export default {
 
     }
 
-    return { state, handleUpdate, handleDelete, replylike, reply, handleReplyInsert}
+    return { state, date, handleUpdate, handleDelete, replylike, reply, handleReplyInsert}
   }
 }
 </script>
