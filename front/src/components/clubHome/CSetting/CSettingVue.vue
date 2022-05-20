@@ -5,17 +5,17 @@
     <v-main style="padding: 10px;">      
       <v-row dense>
         <!-- 사이드 -->
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
         
         <!-- 메인 -->
-        <v-col md="8">
+        <v-col sm="8">
           <v-row dense>
             <v-col>셋-팅</v-col>
           </v-row>
         </v-col>
 
         <!-- 사이드 -->
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
       </v-row>
     </v-main>
   </v-app>

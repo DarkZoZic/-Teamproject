@@ -4,10 +4,10 @@
   <v-app>
     <v-main style="padding: 10px;" >      
       <v-row dense>
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
         
         <!-- 메인 -->
-        <v-col md="8">
+        <v-col sm="8">
           <v-row dense class="border-b_1_CCC">
             <v-col>
               <h5><router-link to="/chome">클럽홈</router-link> > <router-link to="/cblist">{{state.boardname}}</router-link> > 글읽기</h5>
@@ -145,7 +145,7 @@
           </v-row>
         </v-col>
 
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
       </v-row>
     </v-main>
   </v-app>

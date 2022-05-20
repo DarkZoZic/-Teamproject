@@ -5,10 +5,10 @@
     <v-main style="padding: 10px;">      
       <v-row dense>
         <!-- 사이드 -->
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
         
         <!-- 메인 -->
-        <v-col md="8">
+        <v-col sm="8">
           <v-row dense="" style="border-bottom: 1px solid #CCC;">
             <v-col sm="6">
               <h5><router-link to="/chome">클럽홈</router-link> > 채팅</h5>
@@ -20,7 +20,7 @@
               <h2>채팅</h2>
             </v-col>
 
-            <v-col md="10" class="col_right">
+            <v-col sm="10" class="col_right">
               <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px;" ></v-select>
               <input type="text" class="board_search_box" style="outline-width: 0;" v-model="state.search">
               <v-btn style="height: 40px;" @click="search()"><h4>검색</h4></v-btn>
@@ -61,7 +61,7 @@
         </v-col>
 
         <!-- 사이드 -->
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
       </v-row>
     </v-main>
   </v-app>

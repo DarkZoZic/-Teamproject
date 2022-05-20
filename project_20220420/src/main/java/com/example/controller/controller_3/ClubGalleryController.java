@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.entity.entity1.ClubGallery;
 import com.example.entity.entity1.GImage;
+import com.example.entity.entity2.Club;
 import com.example.repository.repository_3.ClubGalleryImageRepository;
 import com.example.repository.repository_3.ClubGalleryRepository;
 
@@ -93,17 +94,17 @@ public class ClubGalleryController {
 	// 127.0.0.1:9090/ROOT/clubgallery/selectlist?page=&text=
 	@GetMapping(value="/selectlist")
 	public String selectlistGET(Model model, @RequestParam(name="page", defaultValue="1") int page, 
-			@RequestParam(name="text", defaultValue="") String text)
+			@RequestParam(name="text", defaultValue="") String text, @RequestParam(name="cno") long cno)
 	{
 		try
 		{
 			PageRequest pageRequest = PageRequest.of(page-1, 20); 
 			System.out.println(pageRequest);
 			
-			List<ClubGallery> list = cgRep.findByCgnameContainingOrderByCgnoDesc(text, pageRequest);
+			List<ClubGallery> list = cgRep.findByCgnameAndClub_cnoContainingOrderByCgnoDesc(text, cno, pageRequest);
 			model.addAttribute("list", list);
 			
-			long total = cgRep.countByCgnameContaining(text);
+			long total = cgRep.countByCgnameAndClub_cnoContaining(text, cno);
 			
 			// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20갤러리
 			model.addAttribute("pages", (total-1) / 20 + 1);
