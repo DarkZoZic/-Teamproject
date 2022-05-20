@@ -1,7 +1,9 @@
 <template>
-<div style="min-width: 1660px;">
-  <router-view></router-view>
-</div>
+<v-app>
+    <v-main >      
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
 
 <script>
@@ -16,5 +18,5 @@ export default {
 }
 </script>
 <style>
-  @import url(assets/css/style.css);
+
 </style>

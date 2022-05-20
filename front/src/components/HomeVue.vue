@@ -200,28 +200,40 @@
                                             <v-row dense>
                                                 <v-col sm="6">
                                                     <img  :src="state.imageUrl"  style="width: 100px; border: 1px solid #CCC;"/>
-                                                    
                                                 </v-col>
 
                                                 <v-col sm="6">
                                                     <v-row dense>
-                                                        <v-col class="col_right">
-                                                            <router-link to="/activity"><v-icon icon="smi-bell-outline" /></router-link>
-                                                            <v-icon icon="smi-close" style="cursor: pointer;" @click="handlelogout()"/>
+                                                        <v-col v-if="state.cname" style="padding-top: 5px;">
+                                                            <h5>개인회원</h5>
                                                         </v-col>
+                                                        
+                                                        <v-col v-if="state.nick" style="padding-top: 5px;">
+                                                            <h5>기업회원</h5>
+                                                        </v-col>
+
+                                                        <v-col class="col_right">
+                                                            <router-link to="/activity"><img :src="require(`../assets/img/bell.png`)" style="width: 20px"/></router-link>
+                                                        </v-col>
+                                                    </v-row>
+
+                                                    <v-row dense>
+
                                                     </v-row>
                                                 </v-col>
                                             </v-row>
 
                                             <v-row dense style="padding-left: 10px; height: 155px;">
                                                 <v-col>
-                                                    <v-row>
-                                                        <v-col class="col_left" v-if="state.cname">
+                                                    <v-row v-if="state.cname">
+                                                        <v-col class="col_left" >
                                                             <h4>{{state.cname.mcname}}</h4>님 환영합니다!
                                                         </v-col>
-                                                    <v-col class="col_left" v-if="state.nick">
-                                                            <h4>{{state.nick}}</h4>님 환영합니다!
-                                                    </v-col>
+                                                    </v-row>
+                                                    <v-row v-if="state.nick">
+                                                        <v-col class="col_left" >
+                                                                <h4>{{state.nick}}</h4>님 환영합니다!
+                                                        </v-col>
                                                     </v-row>
 
                                                     <v-row>
@@ -240,7 +252,7 @@
                                                 </v-col>
 
                                                 <v-col sm="4" class="col_center">
-                                                    <router-link to="/mypage"><h4>내정보</h4></router-link>
+                                                    <router-link to="/logout"><h4>로그아웃</h4></router-link>
                                                 </v-col>
                                             </v-row>
                                         </v-card>
@@ -250,7 +262,7 @@
 
                         </v-row>
 
-                        <v-row style="margin-top: 20px;"><h4 style="margin-left: 15px;">슈퍼 클럽</h4></v-row>
+                        <v-row style="border-top: 1px solid #CCC; margin-top: 20px;"><h4 style="padding: 10px;">슈퍼 클럽</h4></v-row>
 
                         <v-row>
                             <v-col

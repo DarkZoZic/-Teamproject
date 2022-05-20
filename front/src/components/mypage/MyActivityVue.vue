@@ -19,6 +19,7 @@
                         <v-col sm="6" class="col_left">
                             <h2>나의 활동</h2>
                         </v-col>
+
                         <v-col class="col_right">
                             <router-link to="/pupdate"><v-btn><h3>회원정보수정</h3></v-btn></router-link>
                             <router-link to="/pwupdate"><v-btn><h3>비밀번호변경</h3></v-btn></router-link>
@@ -45,6 +46,7 @@
                                                 <v-btn><h4>선택삭제</h4></v-btn>
                                             </v-col>
                                         </v-row>
+
                                         <v-row dense>
                                             <v-col>
                                                 <v-table>
@@ -69,20 +71,26 @@
                                                 </v-table>
                                             </v-col>
                                         </v-row>
-                                        <v-col>
-                                            <v-pagination
-                                            v-model="state.page"
-                                            :length="state.total" 
-                                            >
-                                            </v-pagination>
-                                        </v-col>                  
+
+                                        <v-row>
+                                            <v-col>
+                                                <v-pagination
+                                                v-model="state.page"
+                                                :length="state.total" 
+                                                >
+                                                </v-pagination>
+                                            </v-col>
+                                        </v-row>
                                     </v-card>
                                 </v-window-item>
                                 <v-window-item value='2'>
                                     <v-card style="padding: 10px;">
                                         <v-row dense>
-                                            <v-btn><h4>선택삭제</h4></v-btn>
+                                            <v-col class="col_right">
+                                                <v-btn><h4>선택삭제</h4></v-btn>
+                                            </v-col>
                                         </v-row>
+
                                         <v-row dense>
                                             <v-col>
                                                 <v-table>
@@ -105,13 +113,16 @@
                                                 </v-table>
                                             </v-col>
                                         </v-row>
-                                        <v-col>
-                                            <v-pagination
-                                            v-model="state.page"
-                                            :length="state.total" 
-                                            >
-                                            </v-pagination>
-                                        </v-col>                  
+                                        
+                                        <v-row>
+                                            <v-col>
+                                                <v-pagination
+                                                v-model="state.page"
+                                                :length="state.total" 
+                                                >
+                                                </v-pagination>
+                                            </v-col>
+                                        </v-row>                  
                                     </v-card>
                                 </v-window-item>
                                 <v-window-item value='3'>
