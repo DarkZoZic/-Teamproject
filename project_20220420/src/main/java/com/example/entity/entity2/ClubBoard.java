@@ -27,45 +27,50 @@ import lombok.Data;
 @Table(name = "CLUBBOARDTBL")
 @SequenceGenerator(name = "SEQ_CLUBBOARD", sequenceName = "SEQ_CLUBBOARD_NO", allocationSize = 1, initialValue = 1)
 public class ClubBoard {
-  // 클럽글번호
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CLUBBOARD") // 시퀀스 적용
-  @Column(name = "CBNO")
-  private Long cbno;
-  // 클럽글제목
-  @Column(name = "CBTITLE")
-  private String cbtitle;
-  // 클럽글내용
-  @Column(name = "CBCONTENT")
-  private String cbcontent;
-  // 클럽글조회수
-  @Column(name = "CBHIT")
-  private Long cbhit = 0L;
-  // 클럽글작성일
-@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-@CreationTimestamp // CURRENT_DATE
-@Column(name = "CBREGDATE")
-  private Date cbregdate;
-  // 클럽글공지여부
-@Column(name = "CBNOTICECHECK")
-  private String cbnoticecheck;
-  // 클럽글수정일
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    // 클럽글번호
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CLUBBOARD") // 시퀀스 적용
+    @Column(name = "CBNO")
+    private Long cbno;
+    // 클럽글제목
+    @Column(name = "CBTITLE")
+    private String cbtitle;
+    // 클럽글내용
+    @Column(name = "CBCONTENT")
+    private String cbcontent;
+    // 클럽글조회수
+    @Column(name = "CBHIT")
+    private Long cbhit = 0L;
+  	// 클럽글작성일
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+	@CreationTimestamp // CURRENT_DATE
+	@Column(name = "CBREGDATE")
+	private Date cbregdate;
+	// 클럽글공지여부
+	@Column(name = "CBNOTICECHECK")
+	private String cbnoticecheck;
+	// 클럽글수정일
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@UpdateTimestamp // CURRENT_DATE
 	@Column(name = "CBUPDATEDATE")
-  private Date cbupdatedate;
-  // 클럽글깊이
-@Column(name = "CBDEPTH")
-  private Long cbdepth = 0L;
+    private Date cbupdatedate;
+    // 클럽글깊이
+    @Column(name = "CBDEPTH")
+    private Long cbdepth = 0L;
 
-//이미지 표시용 임시 url
-@Transient
-private String cbimageurl;
-
-// 글 작성자
-@ManyToOne
-@JoinColumn(name = "mid")
-private Member member;
+	//이미지 표시용 임시 url
+	@Transient
+	private String cbimageurl;
+	
+	// 글 작성자
+	@ManyToOne
+	@JoinColumn(name = "mid")
+	private Member member;
+	
+	// 클럽
+	@ManyToOne
+	@JoinColumn(name = "cno")
+	private Club club;
   // 댓글
   // @OneToMany(mappedBy = "clubBoard")
   // @JsonBackReference

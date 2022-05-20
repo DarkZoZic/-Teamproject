@@ -33,6 +33,7 @@ import com.example.repository.repository_3.CReplyRepository;
 import com.example.repository.repository_3.CbckeditorRepository;
 import com.example.repository.repository_3.ClubBoardImageRepository;
 import com.example.repository.repository_3.ClubBoardRepository;
+import com.example.repository.repository_gibum.ClubRepository;
 
 @RestController
 @RequestMapping(value="/api/clubboard")
@@ -51,6 +52,9 @@ public class ClubBoardRestController {
 	
 	@Autowired
 	ResourceLoader resLoader;
+	
+	@Autowired
+	ClubRepository cRep;
 	
 	// 클럽게시판 글작성
 	// /ROOT/api/clubboard/insert
@@ -146,13 +150,13 @@ public class ClubBoardRestController {
 	
 	
 	// 클럽게시판 글목록 (페이지, 검색 기능)
-	// /ROOT/api/clubboard/selectlist?page=&text=&items= // page = 페이지, text = 검색어, items = 검색기준(제목, 내용, 글쓴이, 전체)
+	// /ROOT/api/clubboard/selectlist?page=&text=&option= // page = 페이지, text = 검색어, items = 검색기준(제목, 내용, 글쓴이, 전체)
 	@RequestMapping(value="/selectlist", 
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
 	public Map<String, Object> selectlistPOST(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text,
-			@RequestParam(name="option", defaultValue="") String option)
+			@RequestParam(name="option", defaultValue="") String option, @RequestParam(name="cno") long cno)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
@@ -167,17 +171,17 @@ public class ClubBoardRestController {
 				if(option.equals("제목"))
 				{
 					//검색어 포함, 1페이지 20글, 글번호 내림차순
-					list = cbRep.findByCbtitleContainingOrderByCbnoDesc(text, pageRequest);
+					list = cbRep.findByCbtitleAndClub_cnoContainingOrderByCbnoDesc(text, cno, pageRequest);
 					model.addAttribute("list", list);
 				}
 				else if(option.equals("내용"))
 				{
-					list = cbRep.findByCbcontentContainingOrderByCbnoDesc(text, pageRequest);
+					list = cbRep.findByCbcontentAndClub_cnoContainingOrderByCbnoDesc(text, cno, pageRequest);
 					model.addAttribute("list", list);
 				}
 				else if(option.equals("글쓴이"))
 				{
-					list = cbRep.findByMember_mnameContainingOrderByCbnoDesc(text, pageRequest);
+					list = cbRep.findByMember_mnameAndClub_cnoContainingOrderByCbnoDesc(text, cno, pageRequest);
 					model.addAttribute("list", list);
 				}
 				else
@@ -189,7 +193,7 @@ public class ClubBoardRestController {
 			
 			else
 			{
-				list = cbRep.findByOrderByCbnoDesc(pageRequest);
+				list = cbRep.findByClub_cnoOrderByCbnoDesc(cno, pageRequest);
 				model.addAttribute("list", list);
 			}
 			
@@ -205,7 +209,7 @@ public class ClubBoardRestController {
 //			System.out.println(list.toString());
 			
 			//페이지네이션 구현용 글 개수 가져와서 model에 넣기
-			long total = cbRep.countByCbtitleContaining(text);
+			long total = cbRep.countByCbtitleAndClub_cnoContaining(text, cno);
 			
 			// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
 			model.addAttribute("pages", (total-1) / 20 + 1);
@@ -249,7 +253,7 @@ public class ClubBoardRestController {
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertPOST(Model model, @RequestParam(name="cbno") long cbno)
+	public Map<String, Object> insertPOST(Model model, @RequestParam(name="cbno") long cbno, @RequestParam(name="cno") long cno)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try {
@@ -269,8 +273,8 @@ public class ClubBoardRestController {
 //			model.addAttribute("cbimage", image); //이미지
 //			}
 			
-			ClubBoard prev = cbRep.findTop1ByCbnoLessThanOrderByCbnoDesc(cbno); // 이전글번호 찾기
-			ClubBoard next = cbRep.findTop1ByCbnoGreaterThanOrderByCbnoAsc(cbno); // 다음글번호 찾기
+			ClubBoard prev = cbRep.findTop1ByCbnoAndClub_cnoLessThanOrderByCbnoDesc(cbno, cno); // 이전글번호 찾기
+			ClubBoard next = cbRep.findTop1ByCbnoAndClub_cnoGreaterThanOrderByCbnoAsc(cbno, cno); // 다음글번호 찾기
 			model.addAttribute("prev", prev);
 			model.addAttribute("next", next);
 			map.put("status", 200);

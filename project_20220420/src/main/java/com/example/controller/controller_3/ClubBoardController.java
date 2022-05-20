@@ -109,74 +109,74 @@ public class ClubBoardController {
 	
 	// 클럽게시판 글목록 페이지
 	// 127.0.0.1:9090/ROOT/clubboard/selectlist?text=&page=
-	@GetMapping(value="/selectlist")
-	public String selectlistGET(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text)
-	{
-		try 
-		{
-			//1페이지 당 20글 표시
-			PageRequest pageRequest = PageRequest.of(page-1, 20); 
-			System.out.println(pageRequest);
-			
-			//검색어 포함, 1페이지 20글, 글번호 내림차순
-			List<ClubBoard> list = cbRep.findByCbtitleContainingOrderByCbnoDesc(text, pageRequest);
-			model.addAttribute("list", list);
-//			System.out.println(list.toString());
-			
-			//페이지네이션 구현용 글 개수 가져와서 model에 넣기
-			long total = cbRep.countByCbtitleContaining(text);
-			
-			// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
-			model.addAttribute("pages", (total-1) / 20 + 1);
-			System.out.println("total = " + total);
-			System.out.println((total-1) / 20 + 1);
-			return "/3/clubboard/selectlist";
-		} 
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			return "redirect:/";
-		}
-	}
+//	@GetMapping(value="/selectlist")
+//	public String selectlistGET(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text)
+//	{
+//		try 
+//		{
+//			//1페이지 당 20글 표시
+//			PageRequest pageRequest = PageRequest.of(page-1, 20); 
+//			System.out.println(pageRequest);
+//			
+//			//검색어 포함, 1페이지 20글, 글번호 내림차순
+//			List<ClubBoard> list = cbRep.findByCbtitleContainingOrderByCbnoDesc(text, pageRequest);
+//			model.addAttribute("list", list);
+////			System.out.println(list.toString());
+//			
+//			//페이지네이션 구현용 글 개수 가져와서 model에 넣기
+//			long total = cbRep.countByCbtitleContaining(text);
+//			
+//			// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
+//			model.addAttribute("pages", (total-1) / 20 + 1);
+//			System.out.println("total = " + total);
+//			System.out.println((total-1) / 20 + 1);
+//			return "/3/clubboard/selectlist";
+//		} 
+//		catch (Exception e) 
+//		{
+//			e.printStackTrace();
+//			return "redirect:/";
+//		}
+//	}
 
 	// 클럽게시판 글 상세내용 페이지 (첨부이미지, 댓글 포함) // 좋아요 기능 미구현
 	// 127.0.0.1:9090/ROOT/clubboard/select?cbno=
-	@GetMapping(value="/select")
-	public String selectGET(Model model, @RequestParam(name="cbno") long cbno
-//			@RequestParam(name="rType") String rType
-			)
-	{
-		try 
-		{
-			// 댓글 목록 저장할 배열 변수
-			List<CReply> replylist = crRep.findByClubboard_CbnoOrderByRenumberDesc(cbno);
-			
-//			long rtype = cbrRep.selectReactionCount(cbno, rType);
-			
-			model.addAttribute("clubboard", cbRep.findById(cbno).orElse(null)); //글상세내용
-			model.addAttribute("replylist", replylist); // 댓글
-//			model.addAttribute("rtype", rtype); // 좋아요 수(미구현)
-			
-			CbImage image = cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(cbno); // 글에 첨부된 이미지 꺼내기
-//			System.out.println("image : " + image);
-//			if(image != null) // 글에 첨부된 이미지가 있으면
-//			{
-			model.addAttribute("cbimage", image); //이미지
-//			}
-			
-			ClubBoard prev = cbRep.findTop1ByCbnoLessThanOrderByCbnoDesc(cbno); // 이전글번호 찾기
-			ClubBoard next = cbRep.findTop1ByCbnoGreaterThanOrderByCbnoAsc(cbno); // 다음글번호 찾기
-			model.addAttribute("prev", prev);
-			model.addAttribute("next", next);
-			
-			return "/3/clubboard/select";
-		} 
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			return "redirect:/";
-		}
-	}
+//	@GetMapping(value="/select")
+//	public String selectGET(Model model, @RequestParam(name="cbno") long cbno
+////			@RequestParam(name="rType") String rType
+//			)
+//	{
+//		try 
+//		{
+//			// 댓글 목록 저장할 배열 변수
+//			List<CReply> replylist = crRep.findByClubboard_CbnoOrderByRenumberDesc(cbno);
+//			
+////			long rtype = cbrRep.selectReactionCount(cbno, rType);
+//			
+//			model.addAttribute("clubboard", cbRep.findById(cbno).orElse(null)); //글상세내용
+//			model.addAttribute("replylist", replylist); // 댓글
+////			model.addAttribute("rtype", rtype); // 좋아요 수(미구현)
+//			
+//			CbImage image = cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(cbno); // 글에 첨부된 이미지 꺼내기
+////			System.out.println("image : " + image);
+////			if(image != null) // 글에 첨부된 이미지가 있으면
+////			{
+//			model.addAttribute("cbimage", image); //이미지
+////			}
+//			
+//			ClubBoard prev = cbRep.findTop1ByCbnoLessThanOrderByCbnoDesc(cbno); // 이전글번호 찾기
+//			ClubBoard next = cbRep.findTop1ByCbnoGreaterThanOrderByCbnoAsc(cbno); // 다음글번호 찾기
+//			model.addAttribute("prev", prev);
+//			model.addAttribute("next", next);
+//			
+//			return "/3/clubboard/select";
+//		} 
+//		catch (Exception e) 
+//		{
+//			e.printStackTrace();
+//			return "redirect:/";
+//		}
+//	}
 	
 	// 클럽게시판 글상세 이미지 표시
 	// 127.0.0.1:9090/ROOT/clubboard/image?cbno=
@@ -404,46 +404,46 @@ public class ClubBoardController {
 	}
 	
 	// 이전글 구현용
-	@PostMapping(value="/prev")
-	public String prevPOST(@RequestParam(name="cbno") long cbno, Model model)
-	{
-		try 
-		{
-			ClubBoard prev = cbRep.findTop1ByCbnoLessThanOrderByCbnoDesc(cbno);
-			
-			if(prev == null)
-			{
-				return "redirect:/clubboard/select?cbno=" + cbno;
-			}
-			model.addAttribute("clubboard", prev);
-			return "redirect:/clubboard/select?cbno=" + prev.getCbno();
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			return "redirect:/";
-		}
-	}
+//	@PostMapping(value="/prev")
+//	public String prevPOST(@RequestParam(name="cbno") long cbno, Model model)
+//	{
+//		try 
+//		{
+//			ClubBoard prev = cbRep.findTop1ByCbnoLessThanOrderByCbnoDesc(cbno);
+//			
+//			if(prev == null)
+//			{
+//				return "redirect:/clubboard/select?cbno=" + cbno;
+//			}
+//			model.addAttribute("clubboard", prev);
+//			return "redirect:/clubboard/select?cbno=" + prev.getCbno();
+//		}
+//		catch (Exception e) 
+//		{
+//			e.printStackTrace();
+//			return "redirect:/";
+//		}
+//	}
 	
 	// 다음글 구현용
-	@PostMapping(value="/next")
-	public String nextPOST(@RequestParam(name="cbno") long cbno, Model model)
-	{
-		try 
-		{
-			ClubBoard next = cbRep.findTop1ByCbnoGreaterThanOrderByCbnoAsc(cbno);
-			
-			if(next == null)
-			{
-				return "redirect:/clubboard/select?cbno=" + cbno;
-			}
-			model.addAttribute("clubboard", next);
-			return "redirect:/clubboard/select?cbno=" + next.getCbno();
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			return "redirect:/";
-		}
-	}
+//	@PostMapping(value="/next")
+//	public String nextPOST(@RequestParam(name="cbno") long cbno, Model model)
+//	{
+//		try 
+//		{
+//			ClubBoard next = cbRep.findTop1ByCbnoGreaterThanOrderByCbnoAsc(cbno);
+//			
+//			if(next == null)
+//			{
+//				return "redirect:/clubboard/select?cbno=" + cbno;
+//			}
+//			model.addAttribute("clubboard", next);
+//			return "redirect:/clubboard/select?cbno=" + next.getCbno();
+//		}
+//		catch (Exception e) 
+//		{
+//			e.printStackTrace();
+//			return "redirect:/";
+//		}
+//	}
 }

@@ -103,24 +103,7 @@ export default {
         const router = useRouter();
 
         const state = reactive({
-            board: [
-                {
-                no: 1,
-                title: '제목1',
-                writer: '흔들리는샴푸속',
-                date: '2022-05-06',
-                hit: 22,
-                like: 12
-                },
-                {
-                no: 2,
-                title: '제목2',
-                writer: '글쓴이2',
-                date: '2022-05-06',
-                hit: 222,
-                like: 77
-                },
-            ],
+            board: [],
 
             notice: [
               {
