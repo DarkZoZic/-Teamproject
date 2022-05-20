@@ -5,10 +5,10 @@
     <v-main style="padding: 10px;">      
       <v-row dense>
         <!-- 사이드 -->
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
         
         <!-- 메인 -->
-        <v-col md="8">
+        <v-col sm="8">
           <v-row dense="" style="border-bottom: 1px solid #CCC;">
             <v-col sm="6">
               <h5><router-link to="/">홈</router-link> > <router-link to="/mypage">마이페이지</router-link> > 비밀번호변경 </h5>
@@ -76,7 +76,7 @@
         </v-col>
 
         <!-- 사이드 -->
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
       </v-row>
     </v-main>
   </v-app>

@@ -4,9 +4,9 @@
     <v-app>
         <v-main style="padding: 10px;">
             <v-row dense>
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
 
-                <v-col md="8">
+                <v-col sm="8">
                     <v-row dense>
                         <v-col sm="6">
                             <h5><router-link to="/">홈</router-link> > <router-link to="/cdetail">클럽상세</router-link> > 가입신청</h5>
@@ -113,7 +113,7 @@
                     </v-card>
                 </v-col>
 
-                <v-col md="2"></v-col>
+                <v-col sm="2"></v-col>
             </v-row>
         </v-main>
     </v-app>

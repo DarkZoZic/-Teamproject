@@ -4,9 +4,9 @@
   <v-app>
     <v-main style="padding: 10px;">
       <v-row dense>
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
 
-        <v-col md="8">
+        <v-col sm="8">
             <v-row dense="" style="border-bottom: 1px solid #CCC;">
                 <v-col sm="6">
                     <h5><router-link to="/">홈</router-link> > 로그인</h5>
@@ -20,7 +20,7 @@
             </v-row>
             <form>
                 <v-row dense style="padding-top: 30px;">        
-                    <v-col md="2"></v-col>
+                    <v-col sm="2"></v-col>
 
                     <v-col style="justify-content: right;display: flex; align-items: center;">
                     <!-- 아이디 -->
@@ -67,7 +67,7 @@
                         </v-expansion-panels>
                     </v-col>
 
-                    <v-col md="2"></v-col>
+                    <v-col sm="2"></v-col>
                 </v-row>
 
                 <v-row dense>
@@ -121,9 +121,9 @@
             </form>        
         </v-col>
 
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
 
-        <v-col md="2"></v-col>
+        <v-col sm="2"></v-col>
       </v-row>
     </v-main>
   </v-app>
