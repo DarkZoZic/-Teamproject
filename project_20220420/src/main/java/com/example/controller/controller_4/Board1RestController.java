@@ -355,12 +355,13 @@ public class Board1RestController {
     }
 
     // 글 수정
-    // 127.0.0.1:9090/ROOT/api/board1/update
+    // 127.0.0.1:9090/ROOT/api/board1/update?bno=3
     // 제목, 내용, 번호
     // {"bno":2, "btitle":"222", "bcontent":"222"}
     @RequestMapping(value = "/update", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardUpdatePost(
+            // @RequestParam(name = "bno") Long bno,
             @ModelAttribute Board1 board1, 
             @RequestHeader (name = "TOKEN")String token ) {
 
@@ -379,11 +380,12 @@ public class Board1RestController {
             System.out.println("=====" + board.getMember().getMid());
 
             if(userid.equals( board.getMember().getMid() )){
-                Board1 result = b1Service.selectBoard1One(board.getBno());
+                Board1 result = b1Service.selectBoard1One(board1.getBno());
 
                 // 수정
                 result.setBtitle(board1.getBtitle());
                 result.setBcontent(board1.getBcontent());
+                result.setBtype(board1.getBtype());
 
                 int ret = b1Service.updateBoard1One(result);
                 if(ret == 1){

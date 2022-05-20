@@ -22,6 +22,8 @@ import com.example.entity.entity1.Member;
 import com.example.entity.entity1.Qna;
 import com.example.entity.entity1.Reaction;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -71,17 +73,18 @@ public class CReply {
   
   // 자유게시판 글번호
   @ManyToOne
-  @JoinColumn(name = "bno1")
+  @JoinColumn(name = "bno")
+  // @JsonBackReference(value = "bno")
   private Board1 board1;
 
   // 클럽게시판 글번호
   @ManyToOne
-  @JoinColumn(name = "cbno1")
+  @JoinColumn(name = "cbno")
   private ClubBoard clubboard;
 
   // 큐엔에이 게시판 글번호
   @ManyToOne
-  @JoinColumn(name = "qno1")
+  @JoinColumn(name = "qno")
   private Qna qna;
 
   // 반응
@@ -91,7 +94,7 @@ public class CReply {
 
   // 회원 아이디
   @ManyToOne
-  @JoinColumn(name = "mid1")
+  @JoinColumn(name = "mid")
   private Member member;
 
   // 갤러리 번호

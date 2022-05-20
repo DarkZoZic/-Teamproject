@@ -19,6 +19,7 @@ import javax.persistence.Transient;
 
 import com.example.entity.entity1.Member;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -87,6 +88,6 @@ public class Board1 {
 
   // 댓글
   // @OneToMany(mappedBy = "board1", cascade = CascadeType.REMOVE)
-  // @JsonBackReference(value = "breply")
+  // @JsonManagedReference 
   // private List<CReply> cReplyList = new ArrayList<>();
 }
