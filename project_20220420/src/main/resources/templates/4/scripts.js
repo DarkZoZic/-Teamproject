@@ -36,10 +36,5 @@
 
 // function sendMessage() {
 //     console.log("sending private message");
-//     stompClient.send("/ws/private-message", {}, JSON.stringify({'messageContent : $("#message").val()}));
-// }
-
-// function sendMessage() {
-//     console.log("sending message");
-//     stompClient.send("/ws/message", {}, JSON.stringify({'messageContent : $("#message").val()}));
+//     stompClient.send( "/ws/private-message", {}, JSON.stringify({ 'messageContent : $("#message").val() }) );
 // }

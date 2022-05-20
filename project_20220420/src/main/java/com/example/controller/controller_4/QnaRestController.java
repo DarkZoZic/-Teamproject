@@ -124,8 +124,8 @@ public class QnaRestController {
         return map;
     }
 
-    // 127.0.0.1:9090/ROOT/api/qna/image?biimgcode=1
-    // <img th:src="@{/qna/image(biimgcode=1)}" style="width:100px" />
+    // 127.0.0.1:9090/ROOT/api/qna/image?qimgcode=1
+    // <img th:src="@{/qna/image(qimgcode=1)}" style="width:100px" />
     @RequestMapping(value = "/image", 
         method = {RequestMethod.GET},
         consumes = {MediaType.ALL_VALUE},
@@ -210,6 +210,32 @@ public class QnaRestController {
         }
         return map;
     } 
+
+    // 게시물 조회수 1증가 시킴
+    // 127.0.0.1:9090/ROOT/api/qna/updatehit?qno=2
+    @RequestMapping(value = "/updatehit", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
+                    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> boardUpdateHitGET(
+        @RequestParam(name = "qno") long bno,
+        @RequestHeader (name = "token")String token){
+
+        Map<String ,Object> map = new HashMap<>();
+        try{
+            if(token != null){
+                Qna qna = qRepository.findById(bno).orElse(null);
+                qna.setQhit( qna.getQhit() + 1L );
+                qRepository.save(qna);
+                
+                map.put("status", 200); // 성공
+                
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
 
     // 검색 + 페이지네이션
     // 127.0.0.1:9090/ROOT/api/qna/search
