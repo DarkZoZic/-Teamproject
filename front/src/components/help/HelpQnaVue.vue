@@ -96,6 +96,7 @@ import HeaderVue    from '../HeaderVue.vue';
 import { onMounted } from '@vue/runtime-core';
 import axios from 'axios';
 import {useRouter} from 'vue-router';
+
 export default {
   components: { HeaderVue, FooterVue },
   setup () {
@@ -141,6 +142,36 @@ export default {
 
         console.log(qno);
       }  
+    }
+
+    const handleData = async() => {
+      const url = `/ROOT/api/qna/selectlist?page=${state.page}`
+      const headers = { 
+          "Content-Type": "application/json", 
+          "token" : state.token,
+      };
+      const response = await axios.get(url, { headers });
+      console.log(response.data);
+      if(state.token !== null){
+          console.log("토큰있음");
+      }
+      else{
+          console.log("토큰없음");
+      }
+
+      if(response.data.status === 200){
+      state.items = response.data.result
+      //  테이블에 좋아요 넣기 (for문을 돌려서 넣으므로 느림) 
+      // for(var i = 0; i<state.items.length; i++){
+      //     const url1 = `ROOT/reaction/likelist.json?bno=${state.items[i].bno}`;
+      //     const headers1 = {"Content-Type":"application/json"};
+      //     const response1 = await axios.get(url1, {headers1}); 
+      //     state.items[i].blike = response1.data.result
+      // }
+      state.total = Math.floor(((response.data.result1)-1)/10+1);
+      console.log(state.total);
+      }
+
     }
 
     const search = async() => {
