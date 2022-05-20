@@ -4,9 +4,9 @@
     <v-app>
         <v-main style="padding: 10px;">      
             <v-row dense>
-                <v-col sm="2"></v-col>
+                <v-col md="2"></v-col>
 
-                <v-col sm="8">
+                <v-col md="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
                             <h5><router-link to="/">홈</router-link> > 자유게시판</h5>
@@ -16,7 +16,7 @@
                     <v-row dense style="padding-top: 10px; padding-bottom: 5px; padding-left: 10px; ">
                         <v-col class="col_left"><h2>자유게시판</h2></v-col>
 
-                        <v-col sm="8" class="col_right">
+                        <v-col md="8" class="col_right">
                             <v-select variant="outlined" density="compact" :items="state.items1" v-model="state.option" style="height: 40px; padding-right: 10px;"></v-select>
                             <input type="text" class="board_search_box" @keyup.enter="search()" style="outline-width: 0;" v-model="state.text">
                             <v-btn style="height: 40px;" @click="search()"><h4>검색</h4></v-btn>
@@ -56,7 +56,7 @@
                     </v-row>
                 </v-col>
 
-                <v-col sm="2"></v-col>
+                <v-col md="2"></v-col>
             </v-row>
 
             <v-row dense>
@@ -82,11 +82,15 @@ import HeaderVue from '../HeaderVue.vue';
 import { onMounted } from '@vue/runtime-core';
 import axios from 'axios';
 import {useRouter} from 'vue-router';
-import dayjs from 'dayjs';
 
 export default {
   components: { HeaderVue, FooterVue },
     setup () {
+        
+        onMounted(() => {
+            handleData();
+        });
+
         const router = useRouter();
 
         const state = reactive({
@@ -95,19 +99,10 @@ export default {
             text: '',  // 검색어
             page: 1,   // 현재페이지
             option: '전체',
-            bregdate: '',
             items1: [
                 '전체', '제목', '내용', '글쓴이'
             ]
         });
-        onMounted(() => {
-                        handleData();
-            console.log(state.items);
-
-        });
-        // const date = () => {
-        //     state.bregdate1 = dayjs(state.items.bregdate).format('YY.MM.DD HH:MM');
-        // }
 
         // 조회수 1증가 시키기
         const handlePage = async(bno) => {
@@ -128,6 +123,8 @@ export default {
         const handlePagenation = () => {
             state.page = state.page;
             // state.total = Number(tmp);
+            
+            console.log(state.page);
             handleData();
         }
 

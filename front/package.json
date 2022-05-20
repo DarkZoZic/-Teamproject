@@ -14,7 +14,6 @@
     "@vuepic/vue-datepicker": "^3.2.1",
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
-    "dayjs": "^1.11.2",
     "mqtt": "^4.3.7",
     "roboto-fontface": "*",
     "vue": "^3.2.13",

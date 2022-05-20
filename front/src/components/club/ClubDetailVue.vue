@@ -4,9 +4,9 @@
     <v-app>
         <v-main style="padding: 10px;">      
             <v-row dense>
-                <v-col sm="2"></v-col>
+                <v-col md="2"></v-col>
                 
-                <v-col sm="8">
+                <v-col md="8">
                     <v-row dense="" style="padding-bottom: 4px;">
                         <v-col sm="6">
                             <h5><router-link to="/">홈</router-link> > <router-link to="/cdetail">클럽목록</router-link> > 상세정보</h5>
@@ -195,7 +195,7 @@
                     </v-row>
                 </v-col>
 
-                <v-col sm="2"></v-col>
+                <v-col md="2"></v-col>
             </v-row>
         </v-main>
     </v-app>
