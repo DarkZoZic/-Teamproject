@@ -95,12 +95,13 @@ import { reactive } from '@vue/reactivity';
 import CHHeaderVue  from '../CHHeaderVue.vue';
 import FooterVue    from '../../FooterVue.vue';
 import { onMounted } from '@vue/runtime-core';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
   components: { CHHeaderVue, FooterVue },
     setup () {
         const router = useRouter();
+        const route = useRoute();
 
         const state = reactive({
             board: [],
@@ -130,11 +131,11 @@ export default {
                 '전체', '제목', '내용', '글쓴이'
             ],
             option : '전체',
-            cno : 1 //미구현
+            cno : route.query.cno //미구현
         })
 
         const content = async() => {
-            const url = `/ROOT/api/clubboard/selectlist?cno=1`; //cno 차후 수정
+            const url = `/ROOT/api/clubboard/selectlist?cno=${state.cno}`;
             const headers = {"Content-Type":"application/json"};
             const response = await axios.get(url, {headers});
             console.log(response.data.result);
@@ -147,11 +148,11 @@ export default {
 
         const selectContent = (cbno) =>
         {
-            router.push({name:"CBoardContentVue", query:{cbno:cbno}});
+            router.push({name:"CBoardContentVue", query:{cbno:cbno, cno:state.cno}});
         }
 
         const search = async() => {
-            const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&text=${state.search}&option=${state.option}`;
+            const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
             const headers = {"Content-Type":"application/json"};
             const response = await axios.get(url, {headers});
             console.log(response.data.result);

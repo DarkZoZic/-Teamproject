@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.entity.entity1.ClubGallery;
 import com.example.entity.entity1.GImage;
 import com.example.entity.entity2.CReply;
+import com.example.entity.entity2.Club;
 import com.example.repository.repository_3.CReplyRepository;
 import com.example.repository.repository_3.ClubGalleryImageRepository;
 import com.example.repository.repository_3.ClubGalleryRepository;
@@ -52,11 +53,12 @@ public class ClubGalleryRestController {
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertPOST(@ModelAttribute ClubGallery cg, @ModelAttribute MultipartFile[] file) throws IOException
+	public Map<String, Object> insertPOST(@ModelAttribute ClubGallery cg, @ModelAttribute MultipartFile[] file, @RequestParam(name="cno") Club cno) throws IOException
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
+			cg.setClub(cno);
 			System.out.println("cg : " + cg);
 			System.out.println(file.length);
 			
@@ -89,7 +91,7 @@ public class ClubGalleryRestController {
 	}
 	
 	// 클럽갤러리 목록
-	// /ROOT/api/clubgallery/selectlist
+	// /ROOT/api/clubgallery/selectlist?page=&text=&cno=
 	@RequestMapping(value="/selectlist", 
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},

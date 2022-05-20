@@ -68,6 +68,7 @@ public class ClubBoardRestController {
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
+			System.out.println(cno);
 			cb.setClub(cno);
 			System.out.println(cb);
 //			System.out.println(file.getOriginalFilename());
@@ -169,7 +170,7 @@ public class ClubBoardRestController {
 			PageRequest pageRequest = PageRequest.of(page-1, 20); 
 			System.out.println(pageRequest);
 			
-			System.out.println("cno : "+cno);
+			System.out.println("cno : " + cno);
 			
 			List<ClubBoard> list = new ArrayList<>();
 			if(!text.equals(""))

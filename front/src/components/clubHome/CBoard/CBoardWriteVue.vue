@@ -127,13 +127,14 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import UploadAdapter from '../../UploadAdapter.js';
 import CKEditor      from '@ckeditor/ckeditor5-vue'
 import { reactive }  from '@vue/reactivity';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 
 export default {
     components: { CHHeaderVue, FooterVue, ckeditor: CKEditor.component },
     setup () {
         const router = useRouter();
+        const route = useRoute();
 
         const state = reactive({
             writer     : '작성자입니다',
@@ -144,6 +145,7 @@ export default {
             imageFile  : '',
             imageUrl   : '',
             valid      : '',
+            cno : route.query.cno
         })
 
         const onReady = ( editor ) => {
@@ -177,7 +179,7 @@ export default {
             if(response.data.status === 200)
             {
                 alert("작성되었습니다.");
-                router.push({name: "CBoardListVue"});
+                router.push({name: "CBoardListVue", query : {cno : state.cno}});
             }
         }
 
