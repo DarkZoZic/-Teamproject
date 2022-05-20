@@ -22,7 +22,7 @@
                             <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px;" ></v-select>
                             <input type="text" class="board_search_box" style="outline-width: 0;" v-model="state.search">
                             <v-btn style="height: 40px;" @click="search"><h4>검색</h4></v-btn>
-                            <router-link to="/cbwrite">
+                            <router-link :to="{name : 'CBoardWriteVue', query : {cno : state.cno}}">
                                 <v-btn style="margin-left: 10px; height: 40px; background-color: gold;">
                                     <h4>글쓰기</h4>
                                 </v-btn>
@@ -130,11 +130,11 @@ export default {
                 '전체', '제목', '내용', '글쓴이'
             ],
             option : '전체',
-            cno : 0
+            cno : 1 //미구현
         })
 
         const content = async() => {
-            const url = `/ROOT/api/clubboard/selectlist?cno=1`;
+            const url = `/ROOT/api/clubboard/selectlist?cno=1`; //cno 차후 수정
             const headers = {"Content-Type":"application/json"};
             const response = await axios.get(url, {headers});
             console.log(response.data.result);
