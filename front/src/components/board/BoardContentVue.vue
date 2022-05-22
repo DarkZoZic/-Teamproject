@@ -89,7 +89,7 @@
                   <!-- 댓글작성자 -->
                   <v-row dense>
                     <v-col class="col_left">
-                      <h5 style="padding-right: 10px;">{{tmp.rewriter}}</h5> 
+                      <h5 style="padding-right: 10px;">{{tmp.mid}}</h5> 
                       <h5 style="color: gray;">{{tmp.reregdate}}</h5>
                       <img :src="require('../../assets/img/thumb.png')" @click="like()"
                         style="width: 15px; margin-left: 10px; margin-right: 3px; cursor: pointer;"/>
@@ -139,9 +139,9 @@
 
               <v-row dense>
                 <v-col sm="9" style="padding-top: 10px;">
-                  <textarea 
+                  <textarea  
                     style="border: 1px solid #CCC; padding: 10px; background-color: white; width: 100%; height: 70px; outline-width: 0; resize: none;"
-                    v-model="recontent"
+                    v-model="state.items.recontent"
                   ></textarea>
                 </v-col>
                 
@@ -193,6 +193,9 @@ export default {
     onMounted( async() => {
       await handleData(); 
       date();
+      reply();
+      
+
     
     })
 
@@ -217,6 +220,7 @@ export default {
 
       recontent : '',
       reparentnumber : 0,
+      reprivate : 'n',
 
       replylist: []
     })
@@ -253,21 +257,21 @@ export default {
       }
     }
 
-    // const like = async() => {
-    //   const url = `ROOT/reaction/like.json`;
-    //   const headers = {"Content-Type":"multipart/form-data"};
-    //         const body = new FormData;
-    //         body.append("token", state.token);
-    //         body.append("mpw",state.pw);
-    //         const response = await axios.post(url, body,{headers});
-    //         console.log(response.data);
-    //         if(response.data.status === 200){
-    //             sessionStorage.setItem("TOKEN", response.data.token);
-    //             alert('로그인성공');
-    //             router.push({path : '/'})
+    const like = async() => {
+      // const url = `ROOT/reaction/like.json`;
+      // const headers = {"Content-Type":"multipart/form-data"};
+      //       const body = new FormData;
+      //       body.append("token", state.token);
+      //       body.append("mpw",state.pw);
+      //       const response = await axios.post(url, body,{headers});
+      //       console.log(response.data);
+      //       if(response.data.status === 200){
+      //           sessionStorage.setItem("TOKEN", response.data.token);
+      //           alert('로그인성공');
+      //           router.push({path : '/'})
 
-    //         }
-    // }
+      //       }
+    }
 
     const replylike = async() => {
 
@@ -275,38 +279,40 @@ export default {
 
     const reply = async() => {
 
-      // const url = `/ROOT/api/creply/board_selectone=bno${state.bno}`;
-      // const headers = {"Content-Type":"application/json",
-      //                 "token" : state.token };
-      // const response = await axios.get(url, {headers});
-      // console.log(response.data);
-      // if(response.data.status === 200){
-      //   state.items = response.data.result;
-      //   console.log(state.items);
-      // }
+      const url = `/ROOT/api/creply/board_selectone=bno${state.bno}`;
+      const headers = {"Content-Type":"application/json",
+                      "token" : state.token };
+      const response = await axios.get(url, {headers});
+      console.log(response.data);
+      if(response.data.status === 200){
+        state.items = response.data.result;
+        console.log(state.items);
+      }
 
     }
 
     const handleReplyInsert = async() => {
-      // const url = `/ROOT/api/creply/board_insert`;
-      // const headers = {"Content-Type":"application/json",
-      //                 "token" : state.token };
-      // const body = new FormData;
-      // body.append("token", state.token);
-      // body.append("bno",state.bno);
-      // body.append("recontent",state.recontent);
-      // body.append("reparentnumber",state.reparentnumber);
-      // // body.append("reprivate",state.reprivate);
-      // const response = await axios.post(url, body,{headers});
-      // console.log(response.data);
-      // if(response.data.status === 200){
-      //   state.items = response.data.result;
-      //   console.log(state.items);
-      // }
+      const url = `/ROOT/api/creply/board_insert`;
+      const headers = {"Content-Type":"application/json",
+                      "token" : state.token };
+      const body = new FormData;
+      body.append("mid", state.mid);
+      body.append("bno",state.bno);
+      body.append("recontent",state.recontent);
+      body.append("reparentnumber",state.reparentnumber);
+      body.append("reprivate",state.reprivate);
+
+      const response = await axios.post(url, body,{headers});
+      console.log(response.data);
+      if(response.data.status === 200){
+        alert('댓글 등록 완료');
+        state.items = response.data.result;
+        console.log(state.items);
+      }
 
     }
 
-    return { state, date, handleUpdate, handleDelete, replylike, reply, handleReplyInsert}
+    return { state, date, handleUpdate, handleDelete, replylike, handleReplyInsert, }
   }
 }
 </script>

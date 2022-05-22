@@ -32,11 +32,11 @@ public class Board1Controller {
 
     // @Value("${board.page.count}") int PAGECNT;
 
-    // // 글쓰기
-    // @GetMapping(value = "/insert")
-    // public String insertGET(){
-    //     return "/4/board1/insert";
-    // }
+    // 글쓰기
+    @GetMapping(value = "/insert")
+    public String insertGET(){
+        return "/4/board1/insert";
+    }
 
     // @PostMapping(value = "/insert")
     // public String insertPOST( Model model,

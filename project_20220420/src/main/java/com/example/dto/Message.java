@@ -1,17 +1,20 @@
-// package com.example.dto;
+package com.example.dto;
 
-// public class Message {
+import lombok.Data;
 
-//     private String messageContent;
+@Data
+public class Message {
 
-//     public String getMessageContent(){
-//         return messageContent;
-//     }
+    private String messageContent;
 
-//     public void setMessageContent(String messageContent) {
-//         this.messageContent = messageContent;
-//     }
+    // public String getMessageContent(){
+    //     return messageContent;
+    // }
+
+    // public void setMessageContent(String messageContent) {
+    //     this.messageContent = messageContent;
+    // }
 
     
     
-// }
+}
