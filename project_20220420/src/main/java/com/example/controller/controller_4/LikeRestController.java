@@ -48,7 +48,7 @@ public class LikeRestController {
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> likeInsertPost(
-        @RequestBody  Like like,
+        @ModelAttribute  Like like,
         @RequestHeader (name = "token") String token ) {
 
         System.out.println("------" + like.toString());

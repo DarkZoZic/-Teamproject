@@ -174,7 +174,7 @@
                         </v-col>
                         
                     </v-row>
-
+                    <div v-if="state.items">
                     <v-row >
                         <v-col v-for="item in state.items" :key="item"
                             cols="4">
@@ -188,8 +188,8 @@
                                         </router-link>
                                     </v-col>
                                     <v-col sm="3" class="col_right">
-                                        <v-btn style="height: 100%; width: 10px;" id="like" @click="changeheart(item.obj.cno)">
-                                            <img :src="require(`../../assets/img/${state.imgName}.png`)" style="width: 30px"/>
+                                        <v-btn style="height: 100%; width: 10px;" id="like"  @click="changeheart(item.obj.cno)">
+                                            <img :src="require(`../../assets/img/heart.png`)" style="width: 30px"/>
                                         </v-btn>
                                     </v-col>
                                 </v-row>
@@ -220,6 +220,7 @@
                             </v-card>                        
                         </v-col>
                     </v-row>
+                    </div>
                 </v-col>
 
                 <v-col sm="2"></v-col>
@@ -241,6 +242,7 @@ export default {
     components: { HeaderVue, FooterVue },
     setup () {
         const state = reactive({
+            token : sessionStorage.getItem("TOKEN"),
             items1 : '',
             datechk: [],
             timechk: [],
@@ -304,7 +306,14 @@ export default {
                     state.items = response.data.result;
         }
         }
-         const changeheart = () => {
+         const changeheart = async(cno) => {
+            const url =`/ROOT/api/like/insert`
+            const headers = {"Content-Type":"multipart/form-data",
+                            token : state.token};
+            const body = new FormData;
+        body.append("club", cno);
+            const response = await axios.post(url,body,{headers:headers});
+                console.log(response.data);
             if (state.imgName === 'heart') {
                 state.imgName = 'heart1'
                 console.log(state.imgName);
@@ -319,9 +328,19 @@ export default {
         const input = (e) => {
             return state.inputText = e.target.value
         };
-        const click = () => {
-            return state.text = state.inputText
-        }
+    //     const like = async() => {
+    //    const url =`/ROOT/like/insert`
+    //         const headers = {"Content-Type":"application.json"};
+    //         const body = {
+    //             club = state.items.obj.cno
+    //         }
+    //         const response = await axios.post(url,body,{headers:headers});
+    //             console.log(response.data);
+    //             if(response.data.status === 200){
+    //                 console.log(area);
+    //                 state.items = response.data.result;
+    //     }
+    //     }
 
         
 
@@ -338,7 +357,9 @@ export default {
 
         }
         
-        return { input, click, state, reset, search,Clicksearch,all,changeheart }
+        return { input,
+        // like,
+        state, reset, search,Clicksearch,all,changeheart }
     }
 }
 </script>
