@@ -2,6 +2,7 @@ package com.example.controller.controller_3;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,34 +55,48 @@ public class ClubGalleryRestController {
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertPOST(@ModelAttribute ClubGallery cg, @ModelAttribute MultipartFile[] file, @RequestParam(name="cno") Club cno) throws IOException
+	public Map<String, Object> insertPOST(@ModelAttribute ClubGallery cg, @ModelAttribute MultipartFile[] file, @RequestParam(name="cno") Club cno,
+			@RequestHeader(name="token") String token) throws IOException
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-			cg.setClub(cno);
-			System.out.println("cg : " + cg);
-			System.out.println(file.length);
-			
-			if(file != null) 
+			if(token != null)
 			{
-				if(file.length > 0)// 이미지파일 첨부시
+				cg.setClub(cno);
+				System.out.println("cg : " + cg);
+				System.out.println(file.length);
+				
+				if(file != null) 
 				{
-					cgRep.save(cg);
-					for(int i=0; i<file.length; i++)
+					if(file.length > 0)// 이미지파일 첨부시
 					{
-						GImage gImage = new GImage();
-						System.out.println("file[i] : " + file[i].getContentType());
-//						cg.setGThumbnail(file[0].getBytes());
-						gImage.setGimage(file[i].getBytes());
-						gImage.setGimagename(file[i].getOriginalFilename());
-						gImage.setGimagesize(file[i].getSize());
-						gImage.setGimagetype(file[i].getContentType());
-						gImage.setClubgallery(cg);
-						cgiRep.save(gImage);
-						map.put("status", 200);
-					}	
+						cgRep.save(cg);
+						for(int i=0; i<file.length; i++)
+						{
+							GImage gImage = new GImage();
+							System.out.println("file[i] : " + file[i].getContentType());
+//							cg.setGThumbnail(file[0].getBytes());
+							gImage.setGimage(file[i].getBytes());
+							gImage.setGimagename(file[i].getOriginalFilename());
+							gImage.setGimagesize(file[i].getSize());
+							gImage.setGimagetype(file[i].getContentType());
+							gImage.setClubgallery(cg);
+							cgiRep.save(gImage);
+							map.put("status", 200);
+						}	
+					}
+					else
+					{
+						map.put("status", 0);
+						map.put("result", "이미지없음");
+					}
 				}
+			}
+			else
+			{
+				map.put("status", 0);
+				map.put("result", "토큰없음");
 			}
 		} 
 		catch (Exception e) 
@@ -96,41 +112,80 @@ public class ClubGalleryRestController {
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> selectlistGET(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text,
-			@RequestParam(name="cno") long cno)
+	public Map<String, Object> selectlistGET(Model model, 
+			@RequestParam(name="page", defaultValue="1") int page, 
+			@RequestParam(name="text", defaultValue="", required=false) String text,
+			@RequestParam(name="option", defaultValue="", required=false) String option,
+			@RequestParam(name="cno") long cno, 
+			@RequestHeader(name="token") String token)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-			//1페이지 당 20글 표시
-			PageRequest pageRequest = PageRequest.of(page-1, 20); 
-			System.out.println(pageRequest);
-			
-			//검색어 포함, 1페이지 20글, 글번호 내림차순
-			List<ClubGallery> list = cgRep.findByCgnameAndClub_cnoContainingOrderByCgnoDesc(text, cno, pageRequest);
-			
-			model.addAttribute("list", list);
-			System.out.println("list : " + list);
-			
-			for(int i=0; i<list.toArray().length; i++)
+			if(token != null)
 			{
-				ClubGallery cg = list.get(i);
-//				System.out.println("cg : " + cg.getCgno());
+				//1페이지 당 20글 표시
+				PageRequest pageRequest = PageRequest.of(page-1, 20); 
+				System.out.println(pageRequest);
 				
-				ClubGallery clubGallery = cgRep.findById(cg.getCgno()).orElse(null);
+				//검색어 포함, 1페이지 20글, 글번호 내림차순
+				List<ClubGallery> list = new ArrayList<>();
+				if(!text.equals(""))
+				{
+					if(option.equals("갤러리명"))
+					{
+						list = cgRep.findByCgnameAndClub_cnoContainingOrderByCgnoDesc(text, cno, pageRequest);
+					}
+					else if(option.equals("갤러리설명"))
+					{
+						list = cgRep.findByCgdescAndClub_cnoContainingOrderByCgnoDesc(text, cno, pageRequest);
+					}
+					else if(option.equals("갤러리작성자"))
+					{
+						list = cgRep.findByMember_midAndClub_cnoContainingOrderByCgnoDesc(text, cno, pageRequest);
+					}
+					else
+					{
+						list = cgRep.findByAllOptions(text, pageRequest);
+					}
+				}
+				else
+				{
+					list = cgRep.findByClub_cnoOrderByCgnoDesc(cno, pageRequest);
+				}
 				
-				clubGallery.setGimageurl("/ROOT/clubgallery/image?cgno=" + cg.getCgno() + "&idx=0");
+				
+				model.addAttribute("list", list);
+				System.out.println("list : " + list);
+				
+				//페이지 구현용 글 개수
+				long total = list.toArray().length;
+				System.out.println("total = " + total);
+				model.addAttribute("total", total);
+				
+				// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
+				System.out.println("pages : " + (total-1) / 20 + 1);
+				model.addAttribute("pages", (total-1) / 20 + 1);	
+				
+				for(int i=0; i<list.toArray().length; i++)
+				{
+					ClubGallery cg = list.get(i);
+//					System.out.println("cg : " + cg.getCgno());
+					
+					ClubGallery clubGallery = cgRep.findById(cg.getCgno()).orElse(null);
+					
+					clubGallery.setGimageurl("/ROOT/clubgallery/image?cgno=" + cg.getCgno() + "&idx=0");
+				}
+				
+				map.put("status", 200);
+				map.put("result", model);
+			}
+			else
+			{
+				map.put("status", 0);
+				map.put("result", "토큰없음");
 			}
 			
-			//페이지네이션 구현용 글 개수 가져와서 model에 넣기
-			long total = cgRep.countByCgnameAndClub_cnoContaining(text, cno);
-			
-			// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
-			model.addAttribute("pages", (total-1) / 20 + 1);
-			System.out.println("total = " + total);
-			System.out.println((total-1) / 20 + 1);
-			map.put("status", 200);
-			map.put("result", model);
 		} 
 		catch (Exception e) 
 		{

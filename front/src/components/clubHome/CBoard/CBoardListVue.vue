@@ -22,11 +22,9 @@
                             <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px;" ></v-select>
                             <input type="text" class="board_search_box" style="outline-width: 0;" v-model="state.search">
                             <v-btn style="height: 40px;" @click="search"><h4>검색</h4></v-btn>
-                            <router-link :to="{name : 'CBoardWriteVue', query : {cno : state.cno}}">
-                                <v-btn style="margin-left: 10px; height: 40px; background-color: gold;">
+                                <v-btn style="margin-left: 10px; height: 40px; background-color: gold;" @click="handleWrite">
                                     <h4>글쓰기</h4>
                                 </v-btn>
-                            </router-link>
                         </v-col>
                     </v-row>
 
@@ -124,25 +122,33 @@ export default {
                 like: 5
               },
             ],
-            search: '검색내용',
+            search: '',
             page: 1,
             boardname: '자유게시판',
             items: [
                 '전체', '제목', '내용', '글쓴이'
             ],
             option : '전체',
-            cno : route.query.cno //미구현
+            cno : route.query.cno, //미구현
+            token : sessionStorage.getItem("TOKEN")
         })
 
         const content = async() => {
-            const url = `/ROOT/api/clubboard/selectlist?cno=${state.cno}`;
-            const headers = {"Content-Type":"application/json"};
-            const response = await axios.get(url, {headers});
-            console.log(response.data.result);
-            if(response.data.status === 200)
+            if(state.token !== null)
             {
-                state.board = response.data.result.list;
-                state.page = response.data.result.pages;
+                const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&cno=${state.cno}`;
+                const headers = {"Content-Type":"application/json", "token" : state.token};
+                const response = await axios.get(url, {headers});
+                console.log(response.data.result);
+                if(response.data.status === 200)
+                {
+                    state.board = response.data.result.list;
+                    state.page = response.data.result.pages;
+                }
+            }
+            else
+            {
+                router.push({name:'LoginVue'});
             }
         }   
 
@@ -152,15 +158,31 @@ export default {
         }
 
         const search = async() => {
-            const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
-            const headers = {"Content-Type":"application/json"};
-            const response = await axios.get(url, {headers});
-            console.log(response.data.result);
-            if(response.data.status === 200)
+            if(state.token !== null)
             {
-                state.board = response.data.result.list;
-                state.page = response.data.result.pages;
+                console.log(state.page);
+                console.log(state.search);
+                console.log(state.option);
+                console.log(state.cno);
+                const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
+                const headers = {"Content-Type":"application/json", "token" : state.token};
+                const response = await axios.get(url, {headers});
+                console.log(response.data);
+                if(response.data.status === 200)
+                {
+                    state.board = response.data.result.list;
+                    state.page = response.data.result.pages;
+                }
             }
+            else
+            {
+                router.push({name:'LoginVue'});
+            }
+        }
+
+        const handleWrite = () =>
+        {
+            router.push({name:'CBoardWriteVue', query:{cno : state.cno}});
         }
 
         onMounted(() =>
@@ -168,7 +190,7 @@ export default {
             content();
         });
 
-        return { state, search, selectContent}
+        return { state, search, selectContent, handleWrite}
     },
 }
 </script>

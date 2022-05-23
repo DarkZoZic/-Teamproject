@@ -10,36 +10,36 @@
         <v-col sm="8">
           <v-row dense class="border-b_1_CCC">
             <v-col>
-              <h5><router-link to="/chome">클럽홈</router-link> > <router-link to="/cblist">{{state.boardname}}</router-link> > 글읽기</h5>
+              <h5><router-link :to="{name:'CHomeVue', query :{cno : state.cno}}">클럽홈</router-link> > <router-link :to="{name:'CBoardListVue', query :{cno : state.cno}}">{{state.boardname}}</router-link> > 글읽기</h5>
             </v-col>
           </v-row>
 
           <v-row dense>
             <v-col class="row_bwrite1">
-              <h2>{{state.title}}</h2>
+              <h2>{{state.board.cbtitle}}</h2>
             </v-col>
           </v-row>
 
           <!-- 상단메뉴 -->
           <v-row dense class="row_bwrite2">
             <v-col sm="6" class="col_pad-l25">
-              <h4 style="color: #787878">{{state.writer}}</h4>
+              <h4 style="color: #787878">{{state.board.mid}}</h4>
             </v-col>
 
             <v-col sm="6" class="col_right1">
               <h5 style="color: #787878">
-                조회 {{state.hit}} &nbsp; | &nbsp; 
+                조회 {{state.board.cbhit}} &nbsp; | &nbsp; 
                 <img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.like}}
-                &nbsp; | &nbsp; {{state.date}}
+                &nbsp; | &nbsp; {{state.board.like}}
               </h5>
             </v-col>
           </v-row>
 
-          <img :src="state.imageurl" style="width:200px; margin: 10px; padding: 5px; border: 1px solid #CCC;" />
+          <img :src="state.board.imageurl" style="width:200px; margin: 10px; padding: 5px; border: 1px solid #CCC;" />
 
           <v-row dense>
             <v-col class="col_pad20">
-              {{state.content}}
+              {{state.board.cbcontent}}
             </v-col>
           </v-row>
 
@@ -132,13 +132,13 @@
           
           <v-row dense style="padding-top: 10px; padding-bottom: 20px;">
             <v-col sm="3">
-              <router-link to="/cblist">
+              <router-link :to="{name:'CBoardListVue', query :{cno : state.cno}}">
                 <v-btn class="col_center"><img :src="require('../../../assets/img/list.png')" style="width: 20px; margin-right: 3px;"/><h4>목록</h4></v-btn>
               </router-link>
             </v-col>
 
             <v-col class="col_right">
-              <router-link to="/cbwrite">
+              <router-link :to="{name:'CBoardWriteVue', query :{cno : state.cno}}">
                 <v-btn class="col_center"><img :src="require('../../../assets/img/pencil.png')" style="width: 20px; margin-right: 3px;"/><h4>글쓰기</h4></v-btn>
               </router-link>
             </v-col>
@@ -168,15 +168,12 @@ export default {
 
     const state = reactive({
       cbno : route.query.cbno,
-      title: '글제목입니다',
-      writer: '작성자입니다',
-      hit: 11,
-      like: 7,
+      cno : route.query.cno,
+      board : '',
       imageurl : '',
-      content: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-      boardname: '자유게시판',
-      date: '2022-05-02 22:01',
+      boardname: '클럽게시판',
       replycontent: '',
+      token : sessionStorage.getItem("TOKEN"),
 
       reply: [],
       rereply : []
@@ -184,16 +181,24 @@ export default {
 
     const content = async() =>
     {
-      const url = `/ROOT/api/clubboard/select?cbno=${state.cbno}`;
-      const headers = {"Content-Type":"application/json"};
-      const response = await axios.get(url, {headers});
-      console.log(response.data.result);
+      const url = `/ROOT/api/clubboard/updatehit`;
+      const headers = {"Content-Type" : "application/json", "token" : state.token};
+      const body = {cbno : state.cbno};
+      const response = await axios.post(url, body, {headers});
+      // console.log(response.data);
       if(response.data.status === 200)
       {
-        state.title = response.data.result.clubboard.cbtitle;
-        state.content = response.data.result.clubboard.cbcontent;
-        state.reply = response.data.result.replylist;
-        state.imageurl = response.data.result.clubboard.cbimageurl;
+        const url = `/ROOT/api/clubboard/select?cbno=${state.cbno}&cno=${state.cno}`;
+        const headers = {"Content-Type":"application/json", "token" : state.token};
+        
+        const response = await axios.get(url, {headers});
+        console.log(response.data.result);
+        if(response.data.status === 200)
+        {
+          state.board = response.data.result.clubboard;
+          state.reply = response.data.result.replylist;
+          state.imageurl = response.data.result.clubboard.cbimageurl;
+        }
       }
     }
 
@@ -207,7 +212,7 @@ export default {
 
     const insertreply = async() => {
       const url = `/ROOT/api/clubboard/insertreply?cbno=${state.cbno}`;
-      const headers = {"Content-Type":"application/json"};
+      const headers = {"Content-Type":"application/json", "token" : state.token};
       const body = 
       {
         recontent : state.replycontent
@@ -216,7 +221,7 @@ export default {
       console.log(response.data);
       if(response.data.status === 200)
       {
-        router.push({name:'CBoardContentVue', query:{cbno:state.cbno}});
+        router.push({name:'CBoardContentVue', query:{cbno:state.cbno, cno:state.cno}});
       }
     }
 

@@ -19,17 +19,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.entity.entity1.Member;
 import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.CbImage;
 import com.example.entity.entity2.Cbckeditor;
 import com.example.entity.entity2.Club;
 import com.example.entity.entity2.ClubBoard;
+import com.example.jwt.JwtUtil;
 import com.example.repository.repository_3.CReplyRepository;
 import com.example.repository.repository_3.CbckeditorRepository;
 import com.example.repository.repository_3.ClubBoardImageRepository;
@@ -57,38 +60,57 @@ public class ClubBoardRestController {
 	@Autowired
 	ClubRepository cRep;
 	
+	@Autowired
+	JwtUtil jwtUtil;
+	
 	// 클럽게시판 글작성
 	// /ROOT/api/clubboard/insert
 	@RequestMapping(value="/insert", 
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertPOST(@ModelAttribute ClubBoard cb, @ModelAttribute MultipartFile file, @RequestParam(name="cno") Club cno) throws IOException
+	public Map<String, Object> insertPOST(@ModelAttribute ClubBoard cb, @ModelAttribute MultipartFile file, @RequestParam(name="cno") long cno,
+			@RequestHeader(name="token") String token) throws IOException
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-			System.out.println(cno);
-			cb.setClub(cno);
-			System.out.println(cb);
-//			System.out.println(file.getOriginalFilename());
-			
-			
-			cbRep.save(cb);
-			if(file != null)
+			if(token != null)
 			{
-				if(!file.isEmpty())
+				System.out.println("cno : " + cno);
+				Club cnum = new Club();
+				cnum.setCno(cno);
+				cb.setClub(cnum);
+				
+				Member mid = new Member(); 
+				mid.setMid(jwtUtil.extractUsername(token));
+				cb.setMember(mid);
+				
+				System.out.println("cb : " + cb);
+//				System.out.println(file.getOriginalFilename());
+				
+				
+				cbRep.save(cb);
+				if(file != null)
 				{
-					CbImage cbImage = new CbImage(); // 첨부한 이미지파일 받을 변수
-					cbImage.setCbimage(file.getBytes()); 
-					cbImage.setCbimagename(file.getOriginalFilename());
-					cbImage.setCbimagesize(file.getSize());
-					cbImage.setCbimagetype(file.getContentType());
-					cbImage.setClubboard(cb);
-					cbiRep.save(cbImage); // 이미지파일 변수에 이미지 데이터 넣고 CbImage 테이블에 저장
+					if(!file.isEmpty())
+					{
+						CbImage cbImage = new CbImage(); // 첨부한 이미지파일 받을 변수
+						cbImage.setCbimage(file.getBytes()); 
+						cbImage.setCbimagename(file.getOriginalFilename());
+						cbImage.setCbimagesize(file.getSize());
+						cbImage.setCbimagetype(file.getContentType());
+						cbImage.setClubboard(cb);
+						cbiRep.save(cbImage); // 이미지파일 변수에 이미지 데이터 넣고 CbImage 테이블에 저장
+					}
 				}
+				map.put("status", 200);
 			}
-			map.put("status", 200);
+			else
+			{
+				map.put("status", 0);
+				map.put("result", "토큰없음");
+			}
 		} 
 		catch (Exception e) 
 		{
@@ -160,70 +182,82 @@ public class ClubBoardRestController {
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> selectlistPOST(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text,
-			@RequestParam(name="option", defaultValue="") String option, @RequestParam(name="cno") long cno)
+	public Map<String, Object> selectlistPOST(Model model, 
+			@RequestParam(name="page", defaultValue="1") int page, 
+			@RequestParam(name="text", defaultValue="", required=false) String text,
+			@RequestParam(name="option", defaultValue="", required=false) String option, 
+			@RequestParam(name="cno") long cno, 
+			@RequestHeader(name="token") String token)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-			//1페이지 당 20글 표시
-			PageRequest pageRequest = PageRequest.of(page-1, 20); 
-			System.out.println(pageRequest);
-			
-			System.out.println("cno : " + cno);
-			
-			List<ClubBoard> list = new ArrayList<>();
-			if(!text.equals(""))
+			if(token != null)
 			{
-				if(option.equals("제목"))
+				//1페이지 당 20글 표시
+				PageRequest pageRequest = PageRequest.of(page-1, 20); 
+				System.out.println(pageRequest);
+				System.out.println("text : " + text);
+				System.out.println("option : " + option);
+				System.out.println("cno : " + cno);
+				
+				List<ClubBoard> list = new ArrayList<>();
+				
+				if(option == "제목")
 				{
 					//검색어 포함, 1페이지 20글, 글번호 내림차순
 					list = cbRep.findByCbtitleAndClub_cnoContainingOrderByCbnoDesc(text, cno, pageRequest);
-					model.addAttribute("list", list);
 				}
-				else if(option.equals("내용"))
+				else if(option == "내용")
 				{
 					list = cbRep.findByCbcontentAndClub_cnoContainingOrderByCbnoDesc(text, cno, pageRequest);
-					model.addAttribute("list", list);
 				}
-				else if(option.equals("글쓴이"))
+				else if(option == "글쓴이")
 				{
-					list = cbRep.findByMember_mnameAndClub_cnoContainingOrderByCbnoDesc(text, cno, pageRequest);
-					model.addAttribute("list", list);
+					list = cbRep.findByMember_midAndClub_cnoContainingOrderByCbnoDesc(text, cno, pageRequest);
+				}
+				else if(option == "전체")
+				{
+					list = cbRep.findByAllOptions(text, pageRequest);
 				}
 				else
 				{
-					list = cbRep.findByAllOptions(text, pageRequest);
-					model.addAttribute("list", list);
+					list = cbRep.findByClub_cnoOrderByCbnoDesc(cno, pageRequest);
 				}
+				//페이지 구현용 글 개수
+				long total = list.toArray().length;
+				System.out.println("total = " + total);
+				model.addAttribute("total", total);
+				
+				// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
+				System.out.println("pages : " + (total-1) / 20 + 1);
+				model.addAttribute("pages", (total-1) / 20 + 1);	
+				
+				for(int i=0; i<list.toArray().length; i++)
+				{
+					ClubBoard cb = list.get(i);
+					
+					ClubBoard clubBoard = cbRep.findById(cb.getCbno()).orElse(null);
+					
+					clubBoard.setCbimageurl("/ROOT/clubboard/image/cbno=" + cb.getCbno());
+				}
+				
+//				System.out.println("list : " + list);
+				
+				model.addAttribute("list", list);
+				
+//				System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvv");
+//				System.out.println("model : " + model.toString());
+//				System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^");
+				map.put("status", 200);
+				map.put("result", model);
 			}
-			
 			else
 			{
-				list = cbRep.findByClub_cnoOrderByCbnoDesc(cno, pageRequest);
-				model.addAttribute("list", list);
+				map.put("status", 0);
+				map.put("result", "토큰없음");
 			}
 			
-			for(int i=0; i<list.toArray().length; i++)
-			{
-				ClubBoard cb = list.get(i);
-				
-				ClubBoard clubBoard = cbRep.findById(cb.getCbno()).orElse(null);
-				
-				clubBoard.setCbimageurl("/ROOT/clubboard/image/cbno=" + cb.getCbno());
-			}
-			
-//			System.out.println(list.toString());
-			
-			//페이지네이션 구현용 글 개수 가져와서 model에 넣기
-			long total = cbRep.countByCbtitleAndClub_cnoContaining(text, cno);
-			
-			// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
-			model.addAttribute("pages", (total-1) / 20 + 1);
-			System.out.println("total = " + total);
-			System.out.println((total-1) / 20 + 1);
-			map.put("status", 200);
-			map.put("result", model);
 		} 
 		catch (Exception e) 
 		{
@@ -234,15 +268,15 @@ public class ClubBoardRestController {
 	
 	// 조회수 증가 스크립트
 	@RequestMapping(value="/updatehit", 
-			method={RequestMethod.PUT}, 
+			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> clubboardUpdatehit1PUT(@RequestParam(name="cbno") long cbno)
+	public Map<String, Object> clubboardUpdatehit1PUT(@RequestBody ClubBoard cbno)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-			ClubBoard board = cbRep.findById(cbno).orElse(null);
+			ClubBoard board = cbRep.findById(cbno.getCbno()).orElse(null);
 			board.setCbhit( board.getCbhit() + 1L );
 			cbRep.save(board);
 			map.put("status", 200);
@@ -260,32 +294,40 @@ public class ClubBoardRestController {
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertPOST(Model model, @RequestParam(name="cbno") long cbno, @RequestParam(name="cno") long cno)
+	public Map<String, Object> insertPOST(Model model, @RequestParam(name="cbno") long cbno, @RequestParam(name="cno") long cno, @RequestHeader(name="token") String token)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try {
+			if(token != null)
+			{
+				ClubBoard cb = cbRep.findById(cbno).orElse(null);
+				cb.setCbimageurl("/ROOT/clubboard/image?cbno=" + cbno);
+				// 댓글 목록 저장할 배열 변수
+				List<CReply> replylist = crRep.findByClubboard_CbnoOrderByRenumberDesc(cbno);
+				
+				model.addAttribute("clubboard", cb); //글상세내용
+				model.addAttribute("replylist", replylist); // 댓글
+				
+//				CbImage image = cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(cbno); // 글에 첨부된 이미지 꺼내기
+//				System.out.println("image : " + image);
+//				if(image != null) // 글에 첨부된 이미지가 있으면
+//				{
+//				model.addAttribute("cbimage", image); //이미지
+//				}
+				
+				ClubBoard prev = cbRep.findTop1ByCbnoAndClub_cnoLessThanOrderByCbnoDesc(cbno, cno); // 이전글
+				ClubBoard next = cbRep.findTop1ByCbnoAndClub_cnoGreaterThanOrderByCbnoAsc(cbno, cno); // 다음글
+				model.addAttribute("prev", prev);
+				model.addAttribute("next", next);
+				map.put("status", 200);
+				map.put("result", model);
+			}
+			else
+			{
+				map.put("status", 0);
+				map.put("result", "토큰없음");
+			}
 			
-			ClubBoard cb = cbRep.findById(cbno).orElse(null);
-			cb.setCbimageurl("/ROOT/clubboard/image?cbno=" + cbno);
-			// 댓글 목록 저장할 배열 변수
-			List<CReply> replylist = crRep.findByClubboard_CbnoOrderByRenumberDesc(cbno);
-			
-			model.addAttribute("clubboard", cb); //글상세내용
-			model.addAttribute("replylist", replylist); // 댓글
-			
-//			CbImage image = cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(cbno); // 글에 첨부된 이미지 꺼내기
-//			System.out.println("image : " + image);
-//			if(image != null) // 글에 첨부된 이미지가 있으면
-//			{
-//			model.addAttribute("cbimage", image); //이미지
-//			}
-			
-			ClubBoard prev = cbRep.findTop1ByCbnoAndClub_cnoLessThanOrderByCbnoDesc(cbno, cno); // 이전글번호 찾기
-			ClubBoard next = cbRep.findTop1ByCbnoAndClub_cnoGreaterThanOrderByCbnoAsc(cbno, cno); // 다음글번호 찾기
-			model.addAttribute("prev", prev);
-			model.addAttribute("next", next);
-			map.put("status", 200);
-			map.put("result", model);
 		} 
 		catch (Exception e) 
 		{
@@ -329,14 +371,23 @@ public class ClubBoardRestController {
 	method={RequestMethod.DELETE}, 
 	consumes = {MediaType.ALL_VALUE},
 	produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> delete(@RequestBody ClubBoard cb)
+	public Map<String, Object> delete(@RequestBody ClubBoard cb, @RequestHeader(name="token") String token)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-			cbiRep.deleteByClubboard_cbno(cb.getCbno());
-			cbRep.deleteById(cb.getCbno());
-			map.put("status", 200);
+			if(token != null)
+			{
+				cbiRep.deleteByClubboard_cbno(cb.getCbno());
+				cbRep.deleteById(cb.getCbno());
+				map.put("status", 200);
+			}
+			else
+			{
+				map.put("status", 0);
+				map.put("result", "토큰없음");
+			}
+			
 		} 
 		catch (Exception e) 
 		{
@@ -352,15 +403,24 @@ public class ClubBoardRestController {
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertrepPOST(@RequestBody CReply cr, @RequestParam(name="cbno") long cbno)
+	public Map<String, Object> insertrepPOST(@RequestBody CReply cr, @RequestParam(name="cbno") long cbno, @RequestHeader(name="token") String token)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-			ClubBoard cb = cbRep.findById(cbno).orElse(null);
-			cr.setClubboard(cb); // 댓글 작성한 글의 번호 저장
-			crRep.save(cr);
-			map.put("status", 200);
+			if(token != null)
+			{
+				ClubBoard cb = cbRep.findById(cbno).orElse(null);
+				cr.setClubboard(cb); // 댓글 작성한 글의 번호 저장
+				crRep.save(cr);
+				map.put("status", 200);
+			}
+			else
+			{
+				map.put("status", 0);
+				map.put("result", "토큰없음");
+			}
+			
 		}
 		catch (Exception e)
 		{
@@ -399,13 +459,22 @@ public class ClubBoardRestController {
 			method={RequestMethod.DELETE}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> deletereplyDELETE(@RequestBody CReply cr)
+	public Map<String, Object> deletereplyDELETE(@RequestBody CReply cr, @RequestHeader(name="token") String token)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-			crRep.deleteById(cr.getRenumber());
-			map.put("status", 200);
+			if(token != null)
+			{
+				crRep.deleteById(cr.getRenumber());
+				map.put("status", 200);
+			}
+			else
+			{
+				map.put("status", 0);
+				map.put("result", "토큰없음");
+			}
+			
 		}
 		catch (Exception e)
 		{

@@ -104,7 +104,7 @@ public class ClubGalleryController {
 			List<ClubGallery> list = cgRep.findByCgnameAndClub_cnoContainingOrderByCgnoDesc(text, cno, pageRequest);
 			model.addAttribute("list", list);
 			
-			long total = cgRep.countByCgnameAndClub_cnoContaining(text, cno);
+			long total = list.toArray().length;
 			
 			// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20갤러리
 			model.addAttribute("pages", (total-1) / 20 + 1);

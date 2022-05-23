@@ -128,6 +128,7 @@ import UploadAdapter from '../../UploadAdapter.js';
 import CKEditor      from '@ckeditor/ckeditor5-vue'
 import { reactive }  from '@vue/reactivity';
 import { useRoute, useRouter } from 'vue-router';
+import { onMounted } from '@vue/runtime-core';
 
 
 export default {
@@ -145,7 +146,8 @@ export default {
             imageFile  : '',
             imageUrl   : '',
             valid      : '',
-            cno : route.query.cno
+            cno : route.query.cno,
+            token : sessionStorage.getItem("TOKEN")
         })
 
         const onReady = ( editor ) => {
@@ -167,8 +169,8 @@ export default {
         }
 
         const write = async() => {
-            const url = `/ROOT/api/clubboard/insert`;
-            const headers = {"Content-Type" : "multipart/form-data"};
+            const url = `/ROOT/api/clubboard/insert?cno=${state.cno}`;
+            const headers = {"Content-Type" : "multipart/form-data", "token" : state.token};
             const body = new FormData();
             body.append("cbtitle", state.title);
             body.append("cbcontent", state.editorData);
@@ -179,7 +181,7 @@ export default {
             if(response.data.status === 200)
             {
                 alert("작성되었습니다.");
-                router.push({name: "CBoardListVue", query : {cno : state.cno}});
+                router.push({name: "CBoardListVue", query : {page : 1, cno : state.cno}});
             }
         }
 
@@ -197,6 +199,18 @@ export default {
             }
         }
 
+        const handleToken = () =>
+        {
+            if(state.token === null)
+            {
+                router.push({name:'LoginVue'});
+            }
+        }
+
+        onMounted(()=>
+        {
+            handleToken();
+        })
         return { state, onReady, handleCancel, write, insertFile }
     },
 }
