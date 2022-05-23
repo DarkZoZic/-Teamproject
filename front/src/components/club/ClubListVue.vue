@@ -90,7 +90,7 @@
                                 <v-col>
                                     <v-row dense style="border-bottom: 1px solid #CCC;">
                                         <v-col sm="1" class="col_left" style="vertical-align: middle;" ><h4 class="club_list_h">지역</h4></v-col>
-                                        <v-col sm="11"><input type="text" id="" v-model="state.area" class="club_list_input" style="outline-width: 0;"></v-col>
+                                        <v-col sm="11"><input type="text" id="" @keyup.enter="Clicksearch(state.area)" v-model="state.area" class="club_list_input" style="outline-width: 0;"></v-col>
                                     </v-row>
 
                                     <v-row dense style="padding-top: 5px;">
@@ -146,8 +146,9 @@
 
                                     <v-row dense>
                                         <v-col class="col_center">
-                                            <v-btn class="club_list_btn" v-model="state.area" @click="Clicksearch(state.area)"><h4>검색</h4></v-btn>
-                                            <v-btn class="club_list_btn" @click="reset()"><h4>초기화</h4></v-btn>
+                                            
+                                            <v-btn class="club_list_btn"  v-model="state.area" @click="Clicksearch(state.area)"><h4>검색</h4></v-btn>
+                                            <v-btn class="club_list_btn"  @click="all()" ><h4>초기화</h4></v-btn>
                                         </v-col>
                                     </v-row>
                                 </v-col>
@@ -187,7 +188,7 @@
                                         </router-link>
                                     </v-col>
                                     <v-col sm="3" class="col_right">
-                                        <v-btn style="height: 100%; width: 10px;" id="like" @click="changeheart()">
+                                        <v-btn style="height: 100%; width: 10px;" id="like" @click="changeheart(item.obj.cno)">
                                             <img :src="require(`../../assets/img/${state.imgName}.png`)" style="width: 30px"/>
                                         </v-btn>
                                     </v-col>
@@ -303,6 +304,16 @@ export default {
                     state.items = response.data.result;
         }
         }
+         const changeheart = () => {
+            if (state.imgName === 'heart') {
+                state.imgName = 'heart1'
+                console.log(state.imgName);
+            }
+                else {
+                state.imgName = 'heart'
+                console.log(state.imgName);
+                }
+        };
        
 
         const input = (e) => {
@@ -327,7 +338,7 @@ export default {
 
         }
         
-        return { input, click, state, reset, search,Clicksearch,all }
+        return { input, click, state, reset, search,Clicksearch,all,changeheart }
     }
 }
 </script>

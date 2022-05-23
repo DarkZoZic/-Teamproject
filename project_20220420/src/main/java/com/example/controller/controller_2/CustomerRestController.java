@@ -369,13 +369,13 @@ public class CustomerRestController {
 			produces = { MediaType.APPLICATION_JSON_VALUE })
 	public Map<String, Object> psmyNickGet(
 		@RequestHeader(name = "TOKEN") String token){
+			System.out.println(token);
 		Map<String, Object> map = new HashMap<String, Object>();
 		String username = jwtUtil.extractUsername(token);
 		System.out.println(username);
 		
 		MemberPersonal memberPersonal = mpsRepository.findByMember_Mid(username);
 		MemberProjection mem = mpsRepository.findByMpno(memberPersonal.getMpno());
-		System.out.println(mem);
 
 		// Membe.out.println(memberPersonal);
 		// 토큰이 있어야 실행됨

@@ -205,11 +205,11 @@
                                                 <v-col sm="6">
                                                     <v-row dense>
                                                         <v-col v-if="state.cname" style="padding-top: 5px;">
-                                                            <h5>개인회원</h5>
+                                                            <h5>기업회원</h5>
                                                         </v-col>
                                                         
                                                         <v-col v-if="state.nick" style="padding-top: 5px;">
-                                                            <h5>기업회원</h5>
+                                                            <h5>개인회원</h5>
                                                         </v-col>
 
                                                         <v-col class="col_right">
@@ -232,7 +232,7 @@
                                                     </v-row>
                                                     <v-row v-if="state.nick">
                                                         <v-col class="col_left" >
-                                                                <h4>{{state.nick}}</h4>님 환영합니다!
+                                                                <h4>{{state.nick.mpnickname}}</h4>님 환영합니다!
                                                         </v-col>
                                                     </v-row>
 
@@ -266,17 +266,16 @@
 
                         <v-row>
                             <v-col
-                                v-for="n in 12"
-                                :key="n"
-                                cols="4"
+                             v-for="items in state.items1" :key="items"
+                            cols="4"   
                             >
                                 <v-card height="200px" class="club_card" style="padding: 20px; ">
                                     <v-row dense>
                                         <v-col sm="3"></v-col>
-
+                    
                                         <v-col sm="6" class="col_center">
                                             <router-link to="/cdetail" class="col_center">
-                                                <img :src="require(`../assets/img/${state.logo}.png`)" style="width: 100%"/>
+                                                <img :src="items.imgurl" style="width: 80%; height: 100px;"/>
                                             </router-link>
                                         </v-col>
 
@@ -289,19 +288,19 @@
                                     
                                     <v-row dense>
                                         <v-col>
-                                            <h4>{{state.card.clubname}}</h4>
+                                            <h4>{{items.obj.cname}}</h4>
                                         </v-col>
                                     </v-row>
 
-                                    <v-row dense style="height: 70px;">
+                                    <v-row dense style="height:60px;">
                                         <v-col>
-                                            <h5 style="display: flex">{{state.card.desc1}}</h5>
+                                            <h5 style="display: flex">{{items.obj.cdesc}}</h5>
                                         </v-col>
                                     </v-row>
 
                                     <v-row dense style="vertical-align: baseline;">
                                         <v-col>
-                                            <h5>{{state.card.area1}}&nbsp;{{state.card.area2}}</h5>
+                                            <h5>{{items.obj.carea}}</h5>
                                         </v-col>
                                     </v-row>
                                 </v-card>
@@ -336,12 +335,12 @@ export default {
         const store = useStore();
 
         onMounted (()=>{
-            handleData()
+            handleData();
             if(state.token != null){
-                role(),mypage();
+                role(),mypage(),nick();
                 // console.log(state.role);
                 // if(state.role3 === 'PERSONAL'){
-                //     handlenick();
+                    //     handlenick();
                 //     }
                 // if(state.role2 =='COMPANY'){
                 //     cname();
@@ -401,7 +400,8 @@ export default {
             const response = await axios.get(url,{headers:headers});
                 console.log(response.data);
                 if(response.data.status === 200){
-                    state.items = response.data.result;
+                    state.items1 = response.data.result;
+                    console.log(response.data.result);
         }
    
                 
@@ -436,6 +436,16 @@ export default {
                 console.log(response.data.result);
                 if(response.data.status === 200){
                     state.cname = response.data.result;
+                }
+            }
+            const nick = async() => {
+                const url = `/ROOT/member/psmynick`;
+                const headers = {"Content-Type":"application/json", 
+                token : state.token};
+                const response = await axios.get(url, {headers});
+                console.log(response.data.result);
+                if(response.data.status === 200){
+                    state.nick = response.data.result;
                 }
             }
             const role = async() => {

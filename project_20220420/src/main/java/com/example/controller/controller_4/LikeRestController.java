@@ -54,9 +54,10 @@ public class LikeRestController {
         System.out.println("------" + like.toString());
 
         // 0406 BuyRestController.java
-
+        
         Map<String, Object> map = new HashMap<>();
         try{
+            if(token != null){
             // 토큰에서 아이디 추출
             String userid = jwtUtil.extractUsername(token);
             System.out.println("USERNAME ==>" + userid);
@@ -75,12 +76,20 @@ public class LikeRestController {
 
             System.out.println("------" + like.toString());
 
-            if(token != null){
+            Like like2 = lRepository.findByMember_MidAndClub_Cno(userid, clubEntity.getCno());
+            System.out.println(like2);
+            if( like2 == null){
+
                 // 저장소를 이용해서 db에 추가
                 lRepository.save(like);
                 map.put("status", 200);
             }
-           map.put("status", 200);
+            else{
+                map.put("status", -1);
+                System.out.println("이미좋아요누름");
+
+            }
+            }
         }
         catch(Exception e){
             e.printStackTrace();
