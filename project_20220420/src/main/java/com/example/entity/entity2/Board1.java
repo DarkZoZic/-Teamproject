@@ -87,7 +87,7 @@ public class Board1 {
   // private List<BImage> bImageList = new ArrayList<>();
 
   // 댓글
-  // @OneToMany(mappedBy = "board1", cascade = CascadeType.REMOVE)
-  // @JsonManagedReference 
-  // private List<CReply> cReplyList = new ArrayList<>();
+  @OneToMany(mappedBy = "board1", cascade = CascadeType.REMOVE)
+  @JsonManagedReference 
+  private List<CReply> cReplyList = new ArrayList<>();
 }

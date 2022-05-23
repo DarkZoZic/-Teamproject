@@ -74,7 +74,7 @@ public class CReply {
   // 자유게시판 글번호
   @ManyToOne
   @JoinColumn(name = "bno")
-  // @JsonBackReference(value = "bno")
+  @JsonBackReference(value = "bno")
   private Board1 board1;
 
   // 클럽게시판 글번호
