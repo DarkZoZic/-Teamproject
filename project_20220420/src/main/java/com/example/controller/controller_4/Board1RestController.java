@@ -312,8 +312,34 @@ public class Board1RestController {
     //     return map;
     // }
 
-    // 글 삭제
-    // 127.0.0.1:9090/ROOT/api/board1/delete
+    // 글 1개 삭제
+    // 127.0.0.1:9090/ROOT/api/board1/delete1
+    // {"bno":3}
+    @RequestMapping(value = "/delete1", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
+                    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> boardDeletePost(@RequestParam(name = "bno") Long bno,
+                                            @RequestHeader (name = "token")String token){
+        // 키를 알고 보내야 함. 틀리면 안감. er다이어그램 보면 됨
+
+        Map<String ,Object> map = new HashMap<>();
+
+        try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
+
+            b1Repository.deleteByMember_midAndBno(userid, bno);
+            map.put("status", 200);
+           
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
+
+     // 127.0.0.1:9090/ROOT/api/board1/delete
     // {"bno":3}
     @RequestMapping(value = "/delete", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -674,27 +700,27 @@ public class Board1RestController {
     // 일괄삭제
     // 관리자만 가능하도록 해야하는데 아직 그건 구현 못함
     // 127.0.0.1:9090/ROOT/api/board1/deletebatch
-    @RequestMapping(value = "/deletebatch", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
-                    produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Map<String, Object> deleteBatch(
-        @RequestParam(name = "bno") Long[] bno,
-        @RequestHeader (name = "token")String token){
+    // @RequestMapping(value = "/deletebatch", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
+    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
+    // public Map<String, Object> deleteBatch(
+    //     @RequestParam(name = "bno") Long[] bno,
+    //     @RequestHeader (name = "token")String token){
 
-        Map<String ,Object> map = new HashMap<>();
-        try{
-            // 토큰 추출
-            String userid = jwtUtil.extractUsername(token);
-            System.out.println("USERNAME ==>" + userid);
+    //     Map<String ,Object> map = new HashMap<>();
+    //     try{
+    //         // 토큰 추출
+    //         String userid = jwtUtil.extractUsername(token);
+    //         System.out.println("USERNAME ==>" + userid);
 
-            b1Repository.deleteByMember_midAndBnoIn(userid, bno);
-            map.put("status", 200); // 성공
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            map.put("status", 0); // 실패
-        }
-        return map;
-    }
+    //         b1Repository.deleteByMember_midAndBnoIn(userid, bno);
+    //         map.put("status", 200); // 성공
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         map.put("status", 0); // 실패
+    //     }
+    //     return map;
+    // }
 
    
     // 게시글 작성자와 토큰의 아이디가 일치하는 글만 조회

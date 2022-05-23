@@ -170,6 +170,7 @@ export default {
             console.log(response.data);
             if(response.data.status === 200) {
                 sessionStorage.setItem("TOKEN", response.data.token);
+                sessionStorage.setItem("MID", state.id);
                 router.push({path : '/'})
                 // store.commit('moduleA/setMenu', "/");
             }

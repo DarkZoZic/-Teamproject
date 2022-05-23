@@ -25,7 +25,7 @@
                             <v-card style="width:100%; margin: 10px; margin-top: 20px; margin-bottom: 30px;">
                                 <v-expansion-panels style="width:100%">
                                     <v-form v-model="state.valid" style="width:100%">
-                                        {{state}}
+                                        {{state.valid}}
                                         <!-- 제목 -->
                                         <v-expansion-panel class="panel">
                                             <v-row dense style="padding:10px;">
@@ -34,7 +34,7 @@
                                                 </v-col>
 
                                                 <v-col sm="8" style="display: flex; align-items: center; width:100%;">
-                                                    <input type="text" v-model="state.btitle" style="outline-width: 0; padding-left: 3px; width: 100%; border-bottom: 1px solid #CCC;"/>
+                                                    <input type="text" v-model="state.valid.btitle" style="outline-width: 0; padding-left: 3px; width: 100%; border-bottom: 1px solid #CCC;"/>
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -49,7 +49,7 @@
                                                 </v-col>
 
                                                 <v-col sm="8" >
-                                                    <ckeditor :editor="state.editor" v-model="state.editorData" @ready="onReady"></ckeditor>
+                                                    <ckeditor :editor="state.editor" v-model="state.valid.bcontent" @ready="onReady"></ckeditor>
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -144,7 +144,7 @@ export default {
             console.log(response.data);
             if(response.data.status === 200){
                 console.log(response.data.result);
-                state.item = response.data.result;
+                state.valid = response.data.result;
                 // console.log(state.item);
                
             }
@@ -158,12 +158,13 @@ export default {
                 "token"        : state.token,
             };
             const body= new FormData();
-            // body.append("bno", state.bno);
-            body.append("btitle", state.btitle);
-            body.append("bcontent", state.editorData);
-            body.append("btype", state.btype);
+            body.append("member", state.valid.mid);
+            body.append("bno", state.valid.bno);
+            body.append("btitle", state.valid.btitle);
+            body.append("bcontent", state.valid.bcontent);
+            body.append("btype", state.valid.btype);
 
-            const response = await axios.post(url, body, {headers});
+            const response = await axios.put(url, body, {headers});
             console.log(response.data);
             if(response.data.status === 200){
                 alert('수정완료');
