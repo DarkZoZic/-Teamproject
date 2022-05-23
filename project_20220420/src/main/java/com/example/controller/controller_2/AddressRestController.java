@@ -32,65 +32,9 @@ public class AddressRestController {
 
 
 
-    //  대분류 검색으로 클럽찾기 ex) ~~시
-    // 127.0.0.1:9090/ROOT/address/searchclub
-    // @RequestMapping(value = "/searchclub", 
-    // method = { RequestMethod.GET },
-    // consumes = { MediaType.ALL_VALUE },
-    // produces = { MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> AddressClub1Get(
-    //     @RequestParam(value = "no") Long no){
-    //         System.out.println(no);
-    //     Map<String, Object> map = new HashMap<>();
-    //     map.put("status", 0);
-    //     try {
-    //         Address addr = addrepository.findByaCode(no);
-    //         System.out.println(addr);
-    //         System.out.println(addr.getA1());
-
-
-    //         List<Combineaddr> combine = cbRepository.addressesList2(addr.getA1());
-    //         System.out.println(combine);
-    //         map.put("status", 200);
-    //         map.put("result", combine);
-            
-    //     }
-    //      catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-
-    // return map;
-    // }   
-    // //  중분류 검색 ex) 진구
-    // // 127.0.0.1:9090/ROOT/address/searchclub2
-    // @RequestMapping(value = "/searchclub2", 
-    // method = { RequestMethod.GET },
-    // consumes = { MediaType.ALL_VALUE },
-    // produces = { MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> AddressClub2Get(
-    //     @RequestParam(value = "no") Long no){
-    //         System.out.println(no);
-    //     Map<String, Object> map = new HashMap<>();
-    //     map.put("status", 0);
-    //     try {
-    //         Address addr = addrepository.findByaCode(no);
-    //         System.out.println(addr);
-    //         System.out.println(addr.getA2());
-
-
-    //         List<Combineaddr> combine = cbRepository.addressesList3(addr.getA2());
-    //         System.out.println(combine);
-    //         map.put("status", 200);
-    //         map.put("result", combine);
-            
-    //     }
-    //      catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-
-    // return map;
-    // }   
    
+   
+    
     //  지역명 리스트
     // 127.0.0.1:9090/ROOT/address/addresslist
     @RequestMapping(value = "/addresslist", 
@@ -250,7 +194,64 @@ public class AddressRestController {
     return map;
     }
 }
+ //  대분류 검색으로 클럽찾기 ex) ~~시
+    // 127.0.0.1:9090/ROOT/address/searchclub
+    // @RequestMapping(value = "/searchclub", 
+    // method = { RequestMethod.GET },
+    // consumes = { MediaType.ALL_VALUE },
+    // produces = { MediaType.APPLICATION_JSON_VALUE })
+    // public Map<String, Object> AddressClub1Get(
+    //     @RequestParam(value = "no") Long no){
+    //         System.out.println(no);
+    //     Map<String, Object> map = new HashMap<>();
+    //     map.put("status", 0);
+    //     try {
+    //         Address addr = addrepository.findByaCode(no);
+    //         System.out.println(addr);
+    //         System.out.println(addr.getA1());
 
+
+    //         List<Combineaddr> combine = cbRepository.addressesList2(addr.getA1());
+    //         System.out.println(combine);
+    //         map.put("status", 200);
+    //         map.put("result", combine);
+            
+    //     }
+    //      catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+
+    // return map;
+    // }   
+    // //  중분류 검색 ex) 진구
+    // // 127.0.0.1:9090/ROOT/address/searchclub2
+    // @RequestMapping(value = "/searchclub2", 
+    // method = { RequestMethod.GET },
+    // consumes = { MediaType.ALL_VALUE },
+    // produces = { MediaType.APPLICATION_JSON_VALUE })
+    // public Map<String, Object> AddressClub2Get(
+    //     @RequestParam(value = "no") Long no){
+    //         System.out.println(no);
+    //     Map<String, Object> map = new HashMap<>();
+    //     map.put("status", 0);
+    //     try {
+    //         Address addr = addrepository.findByaCode(no);
+    //         System.out.println(addr);
+    //         System.out.println(addr.getA2());
+
+
+    //         List<Combineaddr> combine = cbRepository.addressesList3(addr.getA2());
+    //         System.out.println(combine);
+    //         map.put("status", 200);
+    //         map.put("result", combine);
+            
+    //     }
+    //      catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+
+    // return map;
+    // }   
 
 
 

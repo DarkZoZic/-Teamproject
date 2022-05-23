@@ -26,7 +26,12 @@ public interface ClubRepository
 
         Club findByCno(long cno);
 
+        List<ClubProjection> findByCprivateAndCaddressContaining(String cprivate, String caddress);
+
         List<ClubProjection> findByCprivate(String cprivate);
+        List<ClubProjection> findByCaddress(String address);
+
+        // List<ClubProjection> findByCprivateAndCaddress(String cprivate, String caddress);
 
         // List<Club> findByCno(Long cno);
 

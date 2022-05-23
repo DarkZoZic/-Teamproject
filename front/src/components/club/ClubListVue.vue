@@ -36,11 +36,11 @@
                         <v-col style="border: 5px solid gold;">
                             <v-row dense="" class="row_pad5" style="padding-top: 10px;">
                                 <v-col sm="1"></v-col>
-                                <v-col sm="2"><a><h4>전체</h4></a></v-col>
-                                <v-col sm="2"><a><h4>강서구</h4></a></v-col>
-                                <v-col sm="2"><a><h4>금정구</h4></a></v-col>
-                                <v-col sm="2"><a><h4>기장군</h4></a></v-col>
-                                <v-col sm="2"><a><h4>남구</h4></a></v-col>
+                                <v-col sm="2" @click="all()"><a><h4>전체</h4></a></v-col>
+                                <v-col sm="2" @click="Clicksearch('강서구')"><a><h4>강서구</h4></a></v-col>
+                                <v-col sm="2" @click="Clicksearch('금정구')"><a><h4>금정구</h4></a></v-col>
+                                <v-col sm="2" @click="Clicksearch('기장군')"><a><h4>기장군</h4></a></v-col>
+                                <v-col sm="2" @click="Clicksearch('남구')"><a><h4>남구</h4></a></v-col>
                                 <v-col sm="1"></v-col>
                             </v-row>
 
@@ -89,8 +89,8 @@
                             <v-row dense style="border: 1px solid #CCC">
                                 <v-col>
                                     <v-row dense style="border-bottom: 1px solid #CCC;">
-                                        <v-col sm="1" class="col_left" style="vertical-align: middle;"><h4 class="club_list_h">지역</h4></v-col>
-                                        <v-col sm="11"><input type="text" id="" class="club_list_input" style="outline-width: 0;"></v-col>
+                                        <v-col sm="1" class="col_left" style="vertical-align: middle;" ><h4 class="club_list_h">지역</h4></v-col>
+                                        <v-col sm="11"><input type="text" id="" v-model="state.area" class="club_list_input" style="outline-width: 0;"></v-col>
                                     </v-row>
 
                                     <v-row dense style="padding-top: 5px;">
@@ -146,7 +146,7 @@
 
                                     <v-row dense>
                                         <v-col class="col_center">
-                                            <v-btn class="club_list_btn" @click="search()"><h4>검색</h4></v-btn>
+                                            <v-btn class="club_list_btn" v-model="state.area" @click="Clicksearch(state.area)"><h4>검색</h4></v-btn>
                                             <v-btn class="club_list_btn" @click="reset()"><h4>초기화</h4></v-btn>
                                         </v-col>
                                     </v-row>
@@ -182,7 +182,7 @@
                                     <v-col sm="3"></v-col>
                                     <v-col sm="6" class="col_center">
                                         <router-link to="/cdetail" class="col_center">
-                                        <img  :src="state.imageUrl"  style="width: 100%;"/>
+                                        <img  :src="item.imgurl"  style="width: 70%;"/>
                                             <!-- <img :src="require(`../../assets/img/${state.logo}.png`)" style="width: 100%"/> -->
                                         </router-link>
                                     </v-col>
@@ -265,6 +265,17 @@ export default {
                 state.card.desc1 = state.card.desc.substring(0, 20) + '...'
             }
         })
+        const all = async() => {
+           const url = `/ROOT/club/selectlist`;
+            const headers = {"Content-Type":"application.json"};
+            const response = await axios.get(url,{headers:headers});
+                console.log(response.data);
+                 if(response.data.status === 200){
+                    state.items = response.data.result;
+        }
+   
+                
+        }
 
         const handleData = async() => {
             const url = `/ROOT/club/selectlist`;
@@ -273,25 +284,26 @@ export default {
                 console.log(response.data);
                 if(response.data.status === 200){
                     state.items = response.data.result;
-                    console.log(state.items.result);
+                    console.log(response.data.result[0].imgurl);
+                    console.log(response.data.result.length);
+                    // console.log(state.items.target);
                     // state.imageUrl = response.data.result.imgurl
                     // console.log(state.imageUrl);
         }
    
                 
         }
-        // const handleimage1 = async() => {
-        //     console.log(state.items1);
-        //     const url = `/ROOT/club/selectone?cno=135`;
-        //     const headers = {"Content-Type":"application.json"};
-        //     const response = await axios.get(url,{headers:headers});
-        //         console.log(response.data);
-        //         if(response.data.status === 200){
-        //             // state.items = response.data.result;
-        //             console.log(response.data.result);
-        // }
-
-        // }
+        const Clicksearch = async(area) => {
+            const url =`/ROOT/club/searchclub?address=${area}`
+            const headers = {"Content-Type":"application.json"};
+            const response = await axios.get(url,{headers:headers});
+                console.log(response.data);
+                if(response.data.status === 200){
+                    console.log(area);
+                    state.items = response.data.result;
+        }
+        }
+       
 
         const input = (e) => {
             return state.inputText = e.target.value
@@ -315,7 +327,7 @@ export default {
 
         }
         
-        return { input, click, state, reset, search }
+        return { input, click, state, reset, search,Clicksearch,all }
     }
 }
 </script>

@@ -12,6 +12,8 @@ public interface ClubProjection {
 
     String getCarea();
 
+    String getCaddress();
+
     String getCimageurl();
 
     // 닉네임

@@ -336,6 +336,7 @@ export default {
         const store = useStore();
 
         onMounted (()=>{
+            handleData()
             if(state.token != null){
                 role(),mypage();
                 // console.log(state.role);
@@ -360,6 +361,8 @@ export default {
             console.log(state.card.desc1);
             
         });
+
+
 
         const state = reactive({
             role1 : 'PERSONAL',
@@ -391,6 +394,18 @@ export default {
                 nickname: '탁구왕김제빵',
             },            
         });
+
+        const handleData = async() => {
+            const url = `/ROOT/club/selectlist`;
+            const headers = {"Content-Type":"application.json"};
+            const response = await axios.get(url,{headers:headers});
+                console.log(response.data);
+                if(response.data.status === 200){
+                    state.items = response.data.result;
+        }
+   
+                
+        }
 
         const mypage = async() => {
             const url = `/ROOT/member/mypage`;

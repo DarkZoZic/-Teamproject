@@ -16,6 +16,7 @@ import com.example.repository.repository_gibum.CimageRepository;
 import com.example.repository.repository_gibum.ClubRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -254,6 +255,81 @@ try {
 
 		return map;
 	}
+
+    //  클럽주소검색 ex부산
+    // 127.0.0.1:9090/ROOT/club/searchclub
+    @RequestMapping(value = "/searchclub", 
+    method = { RequestMethod.GET },
+    consumes = { MediaType.ALL_VALUE },
+    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> addressclubGet(
+        @Param(value = "address") String address
+        ){
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            String private1 = "공개";
+            // String address = "주소";
+
+            List<ClubProjection> club = cRepository.findByCprivateAndCaddressContaining(private1,address);
+            System.out.println(club);
+            List<Map <String, Object>> list = new ArrayList<>();
+            for(ClubProjection obj:club  ){
+                Map <String, Object> map1 = new HashMap<>();
+                map1.put("obj", obj);
+                map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                list.add(map1);
+            }
+
+
+            // System.out.println(club);
+            // club.set ("/ROOT/member/image?mid=" +username);
+            map.put("status", 200); 
+            map.put("result", list); 
+            map.put("개수", club.size()); 
+        }
+         catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    return map;
+    }   
+    //  클럽리스트(부산전체)
+    // 127.0.0.1:9090/ROOT/club/busanclublist
+    @RequestMapping(value = "/busanclublist", 
+    method = { RequestMethod.GET },
+    consumes = { MediaType.ALL_VALUE },
+    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> addressclublistGet(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            String private1 = "공개";
+            String address = "부산";
+
+            List<ClubProjection> club = cRepository.findByCprivateAndCaddressContaining(private1,address);
+            System.out.println(club);
+            List<Map <String, Object>> list = new ArrayList<>();
+            for(ClubProjection obj:club  ){
+                Map <String, Object> map1 = new HashMap<>();
+                map1.put("obj", obj);
+                map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                list.add(map1);
+            }
+
+
+            // System.out.println(club);
+            // club.set ("/ROOT/member/image?mid=" +username);
+            map.put("status", 200); 
+            map.put("result", list); 
+            map.put("개수", club.size()); 
+        }
+         catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    return map;
+    }   
     
 }
 

@@ -48,9 +48,9 @@
                                                     <v-col sm="6" style="border-right: 1px solid #CCC;">
                                                         <v-row dense style="padding-top: 10px;">
                                                             <v-col class="col_center" style="vertical-align: middle;">
-                                                                <input type="checkbox" v-model="state.gender" class="club_list_chk" value="성별무관"><h4>성별무관</h4>
-                                                                <input type="checkbox" v-model="state.gender" class="club_list_chk" value="남"><h4>남</h4>
-                                                                <input type="checkbox" v-model="state.gender" class="club_list_chk" value="여"><h4>여</h4>
+                                                                <input type="radio" v-model="state.gender" class="club_list_chk" value="성별무관"><h4>성별무관</h4>
+                                                                <input type="radio" v-model="state.gender" class="club_list_chk" value="남"><h4>남</h4>
+                                                                <input type="radio" v-model="state.gender" class="club_list_chk" value="여"><h4>여</h4>
                                                             </v-col>
                                                         </v-row>
                                                     </v-col>
@@ -70,6 +70,7 @@
                                                                 <input type="checkbox" v-model="state.age" class="club_list_chk" value="50대"><h4>50대</h4>
                                                                 <input type="checkbox" v-model="state.age" class="club_list_chk" value="60대 이상"><h4>60대 이상</h4>
                                                                 <input type="checkbox" v-model="state.age" class="club_list_chk" value="성인만"><h4>성인만</h4>
+                                                                {{state.age}}
                                                             </v-col>
                                                         </v-row>
                                                     </v-col>

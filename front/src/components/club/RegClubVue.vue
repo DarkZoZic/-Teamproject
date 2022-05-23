@@ -162,10 +162,12 @@
                                     <v-expansion-panel class="panel">
                                         <v-row>
                                             <v-col>
+                    <img :src="state.imageUrl"  style="width: 160px; border: 1px solid #CCC;"/>
                                                 <v-file-input
                                                 accept="image/*"
                                                 label="로고 사진을 넣어주세요"
                                                 multiple
+                                                @click="handleImage($event)"
                                                 name="file" @change="handleImage($event)" >
                                                 ></v-file-input>
                                             </v-col>
@@ -241,15 +243,16 @@ export default {
             valid: '',
         })
         const handleImage = (e) => {
-      if(e.target.files[0]){
-        state.imageUrl = URL.createObjectURL(e.target.files[0]);
-        state.imageFile = e.target.files[0];
-      }
-      else{
-        state.imageUrl = require('../../assets/img/profile_sample.png');
-        state.imageFile = null;
-      }
-    }
+            if(e.target.files[0]){
+                state.imageUrl = URL.createObjectURL(e.target.files[0]);
+                state.imageFile = e.target.files[0];
+
+        }
+        else{
+            state.imageUrl = require('../../assets/img/profile_sample.png');
+            state.imageFile = null;
+        }
+        }
 
         const online = () => {
 
@@ -271,7 +274,6 @@ export default {
                 body.append("cprivate",  state.private);
                 body.append("carea",  state.area);
                 body.append("cbirth",  state.birth);
-                body.append("file", state.imageFile)
                 body.append("caddress", state.address)
             const response = await axios.post(url,body,{headers});
                 console.log(response.data);
@@ -284,6 +286,7 @@ export default {
 
                 console.log(state.cno);
                 handleJoinclub();
+                Clubimage();
 
                 // router.push({path : 'login'});
             }
@@ -300,7 +303,22 @@ export default {
             const response = await axios.post(url,body,{headers});
                 console.log(response.data);
                 if(response.data.status === 200){
-            router.push({path : 'chome'})
+            router.push({path : 'clist'})
+
+        }
+
+        }
+        const Clubimage = async() => {
+            console.log(state.cno);
+            console.log(state.mid);
+            const url = `/ROOT/club/cbimage`;
+            const headers = {"Content-Type":"multipart/form-data"};
+            const body = new FormData;
+                body.append("file",  state.imageFile);
+                body.append("cno", state.cno);
+            const response = await axios.post(url,body,{headers});
+                console.log(response.data);
+                if(response.data.status === 200){
 
         }
 
