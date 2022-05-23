@@ -35,7 +35,7 @@
             </v-col>
           </v-row>
 
-          <img :src="state.board.imageurl" style="width:200px; margin: 10px; padding: 5px; border: 1px solid #CCC;" />
+          <img :src="state.board.cbimageurl" style="width:200px; margin: 10px; padding: 5px; border: 1px solid #CCC;" />
 
           <v-row dense>
             <v-col class="col_pad20">

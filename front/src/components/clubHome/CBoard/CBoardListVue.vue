@@ -160,10 +160,10 @@ export default {
         const search = async() => {
             if(state.token !== null)
             {
-                console.log(state.page);
-                console.log(state.search);
-                console.log(state.option);
-                console.log(state.cno);
+                // console.log(state.page);
+                // console.log(state.search);
+                // console.log(state.option);
+                // console.log(state.cno);
                 const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
                 const headers = {"Content-Type":"application/json", "token" : state.token};
                 const response = await axios.get(url, {headers});

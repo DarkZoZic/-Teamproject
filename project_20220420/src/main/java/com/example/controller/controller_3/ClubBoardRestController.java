@@ -203,26 +203,26 @@ public class ClubBoardRestController {
 				
 				List<ClubBoard> list = new ArrayList<>();
 				
-				if(option == "제목")
+				if(option.equals("제목"))
 				{
 					//검색어 포함, 1페이지 20글, 글번호 내림차순
-					list = cbRep.findByCbtitleAndClub_cnoContainingOrderByCbnoDesc(text, cno, pageRequest);
+					list.addAll(cbRep.findByCbtitleContainingAndClub_cnoOrderByCbnoDesc(text, cno, pageRequest));
 				}
-				else if(option == "내용")
+				else if(option.equals("내용"))
 				{
-					list = cbRep.findByCbcontentAndClub_cnoContainingOrderByCbnoDesc(text, cno, pageRequest);
+					list.addAll(cbRep.findByCbcontentContainingAndClub_cnoOrderByCbnoDesc(text, cno, pageRequest));
 				}
-				else if(option == "글쓴이")
+				else if(option.equals("글쓴이"))
 				{
-					list = cbRep.findByMember_midAndClub_cnoContainingOrderByCbnoDesc(text, cno, pageRequest);
+					list.addAll(cbRep.findByMember_midContainingAndClub_cnoOrderByCbnoDesc(text, cno, pageRequest));
 				}
-				else if(option == "전체")
+				else if(option.equals("전체"))
 				{
-					list = cbRep.findByAllOptions(text, pageRequest);
+					list.addAll(cbRep.findByAllOptions(text, cno, pageRequest));
 				}
 				else
 				{
-					list = cbRep.findByClub_cnoOrderByCbnoDesc(cno, pageRequest);
+					list.addAll(cbRep.findByClub_cnoOrderByCbnoDesc(cno, pageRequest));
 				}
 				//페이지 구현용 글 개수
 				long total = list.toArray().length;
