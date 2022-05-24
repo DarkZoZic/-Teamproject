@@ -73,7 +73,7 @@
               <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{}}</h5><h5>개</h5>
             </v-col>
 
-            <!-- 아이디가 일치할 때 -->
+            <!-- 글 수정, 삭제 : 아이디가 일치할 때 -->
             <v-col class="col_right">
               <div v-if="state.items.member.mid === state.mid1">
                 <h5 @click="handleUpdate()" style="padding-right: 10px; cursor: pointer;">수정</h5>
@@ -120,10 +120,23 @@
 
                   </v-row>
 
+                  <!-- 닉네임, 날짜 -->
+                  <v-row dense>
+                    <div v-if="tmp.reparentnumber !== 0" >
+                      <img :src="require('../../assets/img/reply.png')" style="margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
+                    </div>
+                    <v-col class="col_left">
+                      <!-- id가 아니라 닉네임이 나와야 함 -->
+                      
+                      <h5 style="padding-right: 10px; color: gray">{{tmp.member.mid}} &nbsp; | </h5> 
+                      <h5 style="color: gray;">{{tmp.reregdate}}</h5>
+                    </v-col>
+                  </v-row>
+
                   <!-- 댓글내용 -->
                   <v-row dense style="padding-right: 10px;">
                     <v-col>
-                      <h4 style="padding-left: 10px; padding-right: 10px;">{{tmp.recontent}}</h4>
+                      <div style="padding-left: 10px; padding-right: 10px;" >{{tmp.recontent}}</div>
                     </v-col>
                   </v-row>
 
@@ -133,15 +146,11 @@
                     <v-col>
                       <v-row dense>
                         <v-col style="display: flex">
-                          <div v-if="tmp.reparentnumber !== 0" >
-                          <img :src="require('../../assets/img/reply.png')" style="margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
-                          </div>
+                    
                           <!-- 댓글작성자 -->
                           <v-row dense>
                             <v-col class="col_left">
-                              <h5 style="padding-right: 10px;">{{tmp.mid}}</h5> 
-                              <h5 style="color: gray;">{{tmp.reregdate}}</h5>
-                              <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px; cursor: pointer;"/>
+                              <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px; cursor: pointer;"/>
                               <h5 style="color: gray;">{{state.blike}}</h5>
                               <h5 @click="handleReplyUpdate()" style="padding-left: 10px; color: gray; padding-right: 10px; cursor: pointer;">수정 </h5>
                               <h5 @click="handleReplyDelete()" style="padding-right: 10px; cursor: pointer; color: gray;">삭제</h5>
@@ -229,7 +238,7 @@ export default {
       await handleData(); 
       date();
       await handleReplyView();
-      await handleReplyAdd();
+
       
 
     
@@ -257,10 +266,12 @@ export default {
       mid1 : sessionStorage.getItem("MID"),
 
       reply1 : {
+        mid : '',
         renumber : route.query.renumber,
         recontent : '',
         reparentnumber : 0,
         reprivate : 'n',
+        reregdate : '',
 
       },
       
@@ -393,7 +404,53 @@ export default {
 
     }
 
+    // 댓글 수정
+    const handleReplyUpdate = async() => {
+      // const url = `/ROOT/api/creply/board_update`;
+      // const headers = {
+      //     "Content-Type" : "application/json",
+      //     "token"        : state.token,
+      // };
+      // const body= {
+      //   mid : state.reply1.mid,
+      //   recontent : state.reply1.recontent,
+      //   reprivate : state.reply1.reprivate,
+      // };
+      // const response = await axios.put(url, body, {headers});
+      // console.log(response.data);
+      // if(response.data.status === 200){
+      //     alert('수정완료');
+      //     // 원래 게시글로 돌아가야 함
+      //     router.push({name:'BoardListVue'});
+      // }
+
+    }
+
     // 댓글 삭제
+    const handleReplyDelete = async() => {
+
+      // 댓글번호를 보내야 함 아직 안보내짐
+      if(confirm('삭제하시겠습니까?')){
+        const url = `/ROOT/api/creply/board_delete`;
+        const headers = {
+          "Content-Type":"application/json",
+          "token" : state.token 
+        };
+        const body = {
+          renumber : state.reply1.reparentnumber,
+          bno : state.bno,
+        };
+        console.log("=======",body);
+        const response = await axios.delete(url, {headers:headers, data:{body}});
+        console.log(response.data);
+        if(response.data.status === 200){
+            alert('삭제되었습니다.');
+            router.push({name:"BoardListVue"})
+        }
+      }    
+    }
+
+
 
     // 이전글, 다음글 메소드 생성
     const handlePage = async(idx) => {
@@ -416,7 +473,7 @@ export default {
       }
     }
 
-    return { state, date, handleUpdate, handleDelete, replylike, handleReplyInsert, handlePage }
+    return { state, date, handleUpdate, handleDelete, replylike, handleReplyInsert, handlePage, handleReplyUpdate, handleReplyDelete }
   }
 }
 </script>

@@ -24,10 +24,13 @@ public class GreetingController {
     }
 
     
+    // 서버 돌리고 http://localhost:9090/ROOT/mychatt
+    // 원래 홈페이지에 보면 GreetingController는 그냥 controller에 19-24라인임. 이건 블로그에서 가져온 부분
+    // https://jobtc.tistory.com/59
 	@RequestMapping("/mychatt")
 	public ModelAndView chatt() {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("index");
+		mv.setViewName("4/index");
 		return mv;
 	}
    

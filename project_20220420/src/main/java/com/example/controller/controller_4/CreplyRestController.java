@@ -138,7 +138,7 @@ public class CreplyRestController {
     @RequestMapping(value = "/board_update", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> BUpdatePost(
-            @ModelAttribute CReply cReply, 
+            @RequestBody CReply cReply, 
             @RequestHeader (name = "TOKEN")String token ) {
 
         Map<String ,Object> map = new HashMap<>();
@@ -215,7 +215,7 @@ public class CreplyRestController {
     consumes = {MediaType.ALL_VALUE},
     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> QInsertPost(
-        @ModelAttribute CReply cReply,
+        @RequestBody CReply cReply,
         @RequestHeader (name = "token") String token ) {
 
         Map<String ,Object> map = new HashMap<>();
@@ -301,7 +301,7 @@ public class CreplyRestController {
     @RequestMapping(value = "/qna_update", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> QUpdatePost(
-            @ModelAttribute CReply cReply, 
+            @RequestBody CReply cReply, 
             @RequestHeader (name = "TOKEN")String token ) {
 
         Map<String ,Object> map = new HashMap<>();
