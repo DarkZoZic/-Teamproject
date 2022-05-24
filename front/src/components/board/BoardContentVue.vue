@@ -231,7 +231,7 @@ export default {
     })
 
     const date = () => {
-      state.bregdate1 = dayjs(state.items.bregdate).format('YY.MM.DD HH:MM');
+      state.bregdate1 = dayjs(state.items.bregdate).format('YY.MM.DD hh:mm:ss');
     }
 
     const route = useRoute();
