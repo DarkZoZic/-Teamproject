@@ -87,7 +87,7 @@
 
           <v-row dense>
             <v-col class="row_bwrite11">
-              <h2>{{state.items.recontent}}</h2>
+              <h2>{{state.recontent}}</h2>
             </v-col>
           </v-row>
 
@@ -97,18 +97,27 @@
             <v-col style="border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; padding-left: 20px; padding-right: 20px;">
 
               <!-- 댓글하나 -->
-              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="tmp in state.replylist" :key="tmp">
+              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="tmp in state.reply" :key="tmp">
                 <v-col>
                   <!-- 댓글작성자 -->
                   <v-row dense>
-                    <v-col class="col_left">
-                      <h5 style="padding-right: 10px;">{{tmp.mid}}</h5> 
-                      <h5 style="color: gray;">{{tmp.reregdate}}</h5>
-                      <img :src="require('../../assets/img/thumb.png')" @click="like()"
-                        style="width: 15px; margin-left: 10px; margin-right: 3px; cursor: pointer;"/>
-                      <h5 style="color: gray;">{{tmp.like}}</h5>
-                      <h5 style="color: gray; padding-left: 10px; cursor: pointer;">댓글</h5>
-                    </v-col>
+                    
+                    <!-- =========================================================================================== -->
+                    <!-- <v-col class="col_left">
+                      <div v-for="tmp in state.reply" :key="tmp">
+                        <h5 style="padding-right: 10px;">{{tmp.mid}}</h5> 
+                        <h5 style="padding-right: 10px;">{{tmp.recontent}}</h5> 
+                        <h5 style="color: gray;">{{tmp.reregdate}}</h5>
+                        <img :src="require('../../assets/img/thumb.png')" @click="like()"
+                          style="width: 15px; margin-left: 10px; margin-right: 3px; cursor: pointer;"/>
+                        <h5 style="color: gray;">{{tmp.like}}</h5>
+                        <h5 style="color: gray; padding-left: 10px; cursor: pointer;">댓글</h5>
+                      </div>
+                      {{state.reply1}}
+                      <textarea rows="6" v-model="state.reply1.recontent" placeholder="댓글내용"></textarea>
+                       <v-btn @click="handleReplyInsert1">댓글저장</v-btn>
+                    </v-col> -->
+
                   </v-row>
 
                   <!-- 댓글내용 -->
@@ -119,7 +128,8 @@
                   </v-row>
 
                   <!-- 대댓글. 대댓글이 있으면 테두리가 없게 하는게 가능한가? -->
-                  <v-row dense style="padding-left: 10px;" v-if="tmp.reparentnumber !== null">
+                  <v-row dense style="padding-left: 10px;">
+                    <!--  v-if="tmp.reparentnumber !== null" -->
                     <v-col>
                       <v-row dense>
                         <v-col style="display: flex">
@@ -132,7 +142,7 @@
                               <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px; cursor: pointer;"/>
                               <h5 style="color: gray;">{{state.blike}}</h5>
                               <h5 @click="handleUpdate()" style="padding-left: 10px; color: gray; padding-right: 10px; cursor: pointer;">수정</h5>
-                                <h5 @click="handleDelete()" style="cursor: pointer; color: gray;">삭제</h5>
+                              <h5 @click="handleDelete()" style="cursor: pointer; color: gray;">삭제</h5>
                     
                               
                             </v-col>
@@ -155,8 +165,8 @@
                 <v-col sm="9" style="padding-top: 10px;">
                   <textarea  
                     style="border: 1px solid #CCC; padding: 10px; background-color: white; width: 100%; height: 70px; outline-width: 0; resize: none;"
-                    v-model="state.items.recontent"
-                  ></textarea>
+                    v-model="state.reply1.recontent" placeholder="댓글내용">
+                  </textarea>
                 </v-col>
                 
                 <v-col sm="1" style="padding: 10px;" class="col_center">
@@ -214,7 +224,7 @@ export default {
     onMounted( async() => {
       await handleData(); 
       date();
-      await handleReplyView(state.bno);
+      await handleReplyView();
       
 
     
@@ -240,10 +250,13 @@ export default {
       token  : sessionStorage.getItem("TOKEN"),
       mid1 : sessionStorage.getItem("MID"),
 
-      recontent : '',
-      reparentnumber : 0,
-      reprivate : 'n',
+      reply1 : {
+        recontent : '',
+        reparentnumber : 0,
+        reprivate : 'n',
 
+      },
+      
       replylist: [],
       page: 1
     })
@@ -350,18 +363,18 @@ export default {
       const url = `/ROOT/api/creply/board_insert`;
       const headers = {"Content-Type":"application/json",
                       "token" : state.token };
-      const body = new FormData;
-      body.append("mid", state.mid);
-      body.append("board1",state.bno);
-      body.append("recontent",state.items.recontent);
-      body.append("reparentnumber",state.reparentnumber);
-      body.append("reprivate",state.reprivate);
-
+      const body = {
+        mid : state.mid,
+        bno : state.bno,
+        recontent : state.reply1.recontent,
+        reparentnumber : state.reply1.reparentnumber,
+        reprivate : state.reply1.reprivate,
+      };
       const response = await axios.post(url, body,{headers});
       console.log(response.data);
       if(response.data.status === 200){
         alert('댓글 등록 완료');
-        await handleReplyView(state.bno);
+        // await handleReplyView(state.bno);
         // this.router.go(this.router.currentRoute);
         //  router.push({name:'Board'});
 
