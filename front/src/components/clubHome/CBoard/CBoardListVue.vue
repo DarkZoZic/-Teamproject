@@ -129,7 +129,7 @@ export default {
                 '전체', '제목', '내용', '글쓴이'
             ],
             option : '전체',
-            cno : route.query.cno, //미구현
+            cno : route.query.cno, //미완성
             token : sessionStorage.getItem("TOKEN")
         })
 

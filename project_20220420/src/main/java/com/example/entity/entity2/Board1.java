@@ -88,6 +88,6 @@ public class Board1 {
 
   // 댓글
   @OneToMany(mappedBy = "board1", cascade = CascadeType.REMOVE)
-  @JsonManagedReference 
+  @JsonManagedReference(value="bno")
   private List<CReply> cReplyList = new ArrayList<>();
 }

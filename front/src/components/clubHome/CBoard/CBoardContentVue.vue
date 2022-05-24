@@ -181,7 +181,7 @@ export default {
 
     const content = async() =>
     {
-      const url = `/ROOT/api/clubboard/updatehit`;
+      const url = `/ROOT/api/clubboard/updatehit?cbno=${state.cbno}`;
       const headers = {"Content-Type" : "application/json", "token" : state.token};
       const body = {cbno : state.cbno};
       const response = await axios.post(url, body, {headers});
@@ -211,10 +211,11 @@ export default {
     }
 
     const insertreply = async() => {
-      const url = `/ROOT/api/clubboard/insertreply?cbno=${state.cbno}`;
+      const url = `/ROOT/api/clubboard/insertreply`;
       const headers = {"Content-Type":"application/json", "token" : state.token};
       const body = 
       {
+        cbno : state.cbno,
         recontent : state.replycontent
       };
       const response = await axios.post(url, body, {headers});
