@@ -7,9 +7,13 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.HtmlUtils;
 
-@Controller
+// @Controller
+@RestController
 public class GreetingController {
     
     @MessageMapping("/hello")
@@ -19,11 +23,13 @@ public class GreetingController {
         return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
     }
 
-    @GetMapping(value = "/")
-    public String MessageGET(){
-        return "/4/index";
-    }
-
+    
+	@RequestMapping("/mychatt")
+	public ModelAndView chatt() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("index");
+		return mv;
+	}
    
    
 }
