@@ -204,11 +204,11 @@
 
                                                 <v-col sm="6">
                                                     <v-row dense>
-                                                        <v-col v-if="state.cname" style="padding-top: 5px;">
+                                                        <v-col sm="8" v-if="state.cname" style="padding-top: 5px;">
                                                             <h5>기업회원</h5>
                                                         </v-col>
                                                         
-                                                        <v-col v-if="state.nick" style="padding-top: 5px;">
+                                                        <v-col sm="8" v-if="state.nick" style="padding-top: 5px;">
                                                             <h5>개인회원</h5>
                                                         </v-col>
 
