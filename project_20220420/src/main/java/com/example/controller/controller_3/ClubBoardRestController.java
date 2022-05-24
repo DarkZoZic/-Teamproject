@@ -69,7 +69,7 @@ public class ClubBoardRestController {
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertPOST(@ModelAttribute ClubBoard cb, @ModelAttribute MultipartFile file, @RequestParam(name="cno") long cno,
+	public Map<String, Object> insertPOST(@ModelAttribute ClubBoard cb, @ModelAttribute MultipartFile file,
 			@RequestHeader(name="token") String token) throws IOException
 	{
 		Map<String, Object> map = new HashMap<>();
@@ -77,11 +77,7 @@ public class ClubBoardRestController {
 		{
 			if(token != null)
 			{
-				System.out.println("cno : " + cno);
-				Club cnum = new Club();
-				cnum.setCno(cno);
-				cb.setClub(cnum);
-				
+				System.out.println("cno : " + cb.getClub().getCno());
 				Member mid = new Member(); 
 				mid.setMid(jwtUtil.extractUsername(token));
 				cb.setMember(mid);
@@ -114,7 +110,7 @@ public class ClubBoardRestController {
 		} 
 		catch (Exception e) 
 		{
-			map.put("status", 0);
+			map.put("status", -1);
 		}
 		return map;
 	}
@@ -177,7 +173,7 @@ public class ClubBoardRestController {
 	
 	
 	// 클럽게시판 글목록 (페이지, 검색 기능)
-	// /ROOT/api/clubboard/selectlist?page=&text=&option= // page = 페이지, text = 검색어, items = 검색기준(제목, 내용, 글쓴이, 전체)
+	// /ROOT/api/clubboard/selectlist?page=&text=&option=&cno= // page = 페이지, text = 검색어, items = 검색기준(제목, 내용, 글쓴이, 전체)
 	@RequestMapping(value="/selectlist", 
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
@@ -197,9 +193,9 @@ public class ClubBoardRestController {
 				//1페이지 당 20글 표시
 				PageRequest pageRequest = PageRequest.of(page-1, 20); 
 				System.out.println(pageRequest);
-				System.out.println("text : " + text);
-				System.out.println("option : " + option);
-				System.out.println("cno : " + cno);
+//				System.out.println("text : " + text);
+//				System.out.println("option : " + option);
+//				System.out.println("cno : " + cno);
 				
 				List<ClubBoard> list = new ArrayList<>();
 				
@@ -226,11 +222,11 @@ public class ClubBoardRestController {
 				}
 				//페이지 구현용 글 개수
 				long total = list.toArray().length;
-				System.out.println("total = " + total);
+//				System.out.println("total = " + total);
 				model.addAttribute("total", total);
 				
 				// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
-				System.out.println("pages : " + (total-1) / 20 + 1);
+//				System.out.println("pages : " + (total-1) / 20 + 1);
 				model.addAttribute("pages", (total-1) / 20 + 1);	
 				
 				for(int i=0; i<list.toArray().length; i++)
@@ -261,12 +257,12 @@ public class ClubBoardRestController {
 		} 
 		catch (Exception e) 
 		{
-			map.put("status", 0);
+			map.put("status", -1);
 		}
 		return map;
 	}
 	
-	// 조회수 증가 스크립트
+	// 게시글 조회수 증가
 	@RequestMapping(value="/updatehit", 
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
@@ -284,7 +280,7 @@ public class ClubBoardRestController {
 		} 
 		catch (Exception e) 
 		{
-			map.put("status", 0);
+			map.put("status", -1);
 		}
 		return map;
 	}
@@ -325,7 +321,7 @@ public class ClubBoardRestController {
 		} 
 		catch (Exception e) 
 		{
-			map.put("status", 0);
+			map.put("status", -1);
 		}
 		return map;
 	}
@@ -385,14 +381,14 @@ public class ClubBoardRestController {
 		} 
 		catch (Exception e) 
 		{
-			map.put("status", 0);
+			map.put("status", -1);
 		}
 		return map;
 	}
 	
 
 	// 클럽게시판 댓글작성
-	// /ROOT/api/clubboard/insertreply?cbno=
+	// /ROOT/api/clubboard/insertreply
 	@RequestMapping(value="/insertreply", 
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
@@ -404,20 +400,21 @@ public class ClubBoardRestController {
 		{
 			if(token != null)
 			{
-//				CReply creply = new CReply();
-				System.out.println(cr);
-//				creply.setRecontent(cr);
+				CReply creply = new CReply();
+				System.out.println(Long.valueOf(cr.get("cbno").toString()));
 				
-//				Member member = new Member();
-//				member.setMid(jwtUtil.extractUsername(token));
-//				
-//				creply.setMember(member);
-//				
-//				ClubBoard cb = cbRep.findById(cbno).orElse(null);
-//				creply.setClubboard(cb); // 댓글 작성한 글의 번호 저장
-//				System.out.println(creply.toString());
+				creply.setRecontent(cr.get("recontent").toString());
 				
-//				crRep.save(creply);
+				Member member = new Member();
+				member.setMid(jwtUtil.extractUsername(token));
+				
+				creply.setMember(member);
+				
+				ClubBoard cb = cbRep.findById(Long.valueOf(cr.get("cbno").toString())).orElse(null);
+				creply.setClubboard(cb); // 댓글 작성한 글의 번호 저장
+				System.out.println(creply);
+				
+				crRep.save(creply);
 				map.put("status", 200);
 			}
 			else
@@ -429,7 +426,7 @@ public class ClubBoardRestController {
 		}
 		catch (Exception e)
 		{
-			map.put("status", 0);
+			map.put("status", -1);
 		}
 		return map;
 	}
@@ -483,7 +480,7 @@ public class ClubBoardRestController {
 		}
 		catch (Exception e)
 		{
-			map.put("status", 0);
+			map.put("status", -1);
 		}
 		return map;
 	}

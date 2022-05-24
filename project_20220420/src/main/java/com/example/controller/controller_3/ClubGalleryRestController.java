@@ -28,8 +28,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.entity.entity1.ClubGallery;
 import com.example.entity.entity1.GImage;
+import com.example.entity.entity1.Member;
 import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.Club;
+import com.example.entity.entity2.ClubBoard;
+import com.example.jwt.JwtUtil;
 import com.example.repository.repository_3.CReplyRepository;
 import com.example.repository.repository_3.ClubGalleryImageRepository;
 import com.example.repository.repository_3.ClubGalleryRepository;
@@ -49,13 +52,16 @@ public class ClubGalleryRestController {
 	@Autowired
 	ResourceLoader resLoader;
 	
+	@Autowired
+	JwtUtil jwtUtil;
+	
 	// 클럽갤러리 생성
 	// /ROOT/api/clubgallery/insert
 	@RequestMapping(value="/insert", 
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertPOST(@ModelAttribute ClubGallery cg, @ModelAttribute MultipartFile[] file, @RequestParam(name="cno") Club cno,
+	public Map<String, Object> insertPOST(@ModelAttribute ClubGallery cg, @ModelAttribute MultipartFile[] file,
 			@RequestHeader(name="token") String token) throws IOException
 	{
 		Map<String, Object> map = new HashMap<>();
@@ -63,9 +69,12 @@ public class ClubGalleryRestController {
 		{
 			if(token != null)
 			{
-				cg.setClub(cno);
 				System.out.println("cg : " + cg);
 				System.out.println(file.length);
+				
+				Member mid = new Member(); 
+				mid.setMid(jwtUtil.extractUsername(token));
+				cg.setMember(mid);
 				
 				if(file != null) 
 				{
@@ -107,7 +116,7 @@ public class ClubGalleryRestController {
 	}
 	
 	// 클럽갤러리 목록
-	// /ROOT/api/clubgallery/selectlist?page=&text=&cno=
+	// /ROOT/api/clubgallery/selectlist?page=&text=&option=&cno=
 	@RequestMapping(value="/selectlist", 
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
@@ -130,52 +139,48 @@ public class ClubGalleryRestController {
 				
 				//검색어 포함, 1페이지 20글, 글번호 내림차순
 				List<ClubGallery> list = new ArrayList<>();
-				if(!text.equals(""))
+				if(option.equals("갤러리명"))
 				{
-					if(option.equals("갤러리명"))
-					{
-						list = cgRep.findByCgnameAndClub_cnoContainingOrderByCgnoDesc(text, cno, pageRequest);
-					}
-					else if(option.equals("갤러리설명"))
-					{
-						list = cgRep.findByCgdescAndClub_cnoContainingOrderByCgnoDesc(text, cno, pageRequest);
-					}
-					else if(option.equals("갤러리작성자"))
-					{
-						list = cgRep.findByMember_midAndClub_cnoContainingOrderByCgnoDesc(text, cno, pageRequest);
-					}
-					else
-					{
-						list = cgRep.findByAllOptions(text, pageRequest);
-					}
+					list = cgRep.findByCgnameContainingAndClub_cnoOrderByCgnoDesc(text, cno, pageRequest);
 				}
+				else if(option.equals("갤러리설명"))
+				{
+					list = cgRep.findByCgdescContainingAndClub_cnoOrderByCgnoDesc(text, cno, pageRequest);
+				}
+				else if(option.equals("갤러리작성자"))
+				{
+					list = cgRep.findByMember_midContainingAndClub_cnoOrderByCgnoDesc(text, cno, pageRequest);
+				}
+//				else if(option.equals("전체"))
+//				{
+//					list = cgRep.findByAllOptions(text, pageRequest);
+//				}
 				else
 				{
 					list = cgRep.findByClub_cnoOrderByCgnoDesc(cno, pageRequest);
 				}
 				
-				
-				model.addAttribute("list", list);
-				System.out.println("list : " + list);
+//				System.out.println("list : " + list);
 				
 				//페이지 구현용 글 개수
 				long total = list.toArray().length;
-				System.out.println("total = " + total);
+//				System.out.println("total = " + total);
 				model.addAttribute("total", total);
 				
 				// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
-				System.out.println("pages : " + (total-1) / 20 + 1);
+//				System.out.println("pages : " + (total-1) / 20 + 1);
 				model.addAttribute("pages", (total-1) / 20 + 1);	
 				
 				for(int i=0; i<list.toArray().length; i++)
 				{
 					ClubGallery cg = list.get(i);
-//					System.out.println("cg : " + cg.getCgno());
 					
 					ClubGallery clubGallery = cgRep.findById(cg.getCgno()).orElse(null);
 					
 					clubGallery.setGimageurl("/ROOT/clubgallery/image?cgno=" + cg.getCgno() + "&idx=0");
 				}
+				
+				model.addAttribute("list", list);
 				
 				map.put("status", 200);
 				map.put("result", model);
@@ -189,7 +194,7 @@ public class ClubGalleryRestController {
 		} 
 		catch (Exception e) 
 		{
-			map.put("status", 0);
+			map.put("status", -1);
 		}
 		return map;
 	}
@@ -199,66 +204,69 @@ public class ClubGalleryRestController {
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertPOST(Model model, @RequestParam(name="cgno") long cgno)
+	public Map<String, Object> insertPOST(Model model, @RequestParam(name="cgno") long cgno, @RequestParam(name="cno") long cno, @RequestHeader(name="token") String token)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try {
-			
-			ClubGallery clubGallery = cgRep.findById(cgno).orElse(null);
-			long imagecount = cgiRep.countByClubgallery_cgno(cgno);
-			
-			clubGallery.setGimageurl("/ROOT/clubgallery/image?cgno=" + cgno); // 이미지 url 보내기(idx값은 프론트에서 반복문으로 입력)
-			// 댓글 목록 저장할 배열 변수
-			List<CReply> replylist = crRep.findByClubgallery_cgnoOrderByRenumberDesc(cgno);
-			
-			model.addAttribute("clubgallery", clubGallery); //글상세내용(이미지 url 포함)		
-			model.addAttribute("replylist", replylist); // 댓글
-			model.addAttribute("imagecount", imagecount); // 이미지 개수(idx)
-			
-//				System.out.println("image : " + image);
-//				if(image != null) // 글에 첨부된 이미지가 있으면
-//				{
-//			model.addAttribute("cbimage", image); //이미지
-//				}
-			
-			map.put("status", 200);
-			map.put("result", model);
+			if(token != null)
+			{
+				ClubGallery clubGallery = cgRep.findById(cgno).orElse(null);
+				long imagecount = cgiRep.countByClubgallery_cgno(cgno); // idx값
+				clubGallery.setGimageurl("/ROOT/clubgallery/image?cgno=" + cgno); // 이미지 url 보내기(idx값은 프론트에서 반복문으로 입력)
+				
+				// 댓글 목록 저장할 배열 변수
+				List<CReply> replylist = crRep.findByClubgallery_cgnoOrderByRenumberDesc(cgno);
+				
+				System.out.println(cno);
+				
+				model.addAttribute("clubgallery", clubGallery); //글상세내용(이미지 url 포함)		
+				model.addAttribute("replylist", replylist); // 댓글
+				model.addAttribute("imagecount", imagecount); // 이미지 개수(idx)
+				
+//					System.out.println("image : " + image);
+//					if(image != null) // 글에 첨부된 이미지가 있으면
+//					{
+//				model.addAttribute("cbimage", image); //이미지
+//					}
+				
+				map.put("status", 200);
+				map.put("result", model);
+			}
+			else
+			{
+				map.put("status", 0);
+				map.put("result", "토큰없음");
+			}
 		} 
 		catch (Exception e) 
 		{
-			map.put("status", 0);
+			map.put("status", -1);
 		}
 		return map;
 	}
 	
-	// 갤러리 이미지 표시
-	// /ROOT/api/clubgallery/image/cgno=&idx=
-//	@RequestMapping(value="/image", 
-//			method={RequestMethod.GET}, 
-//			consumes = {MediaType.ALL_VALUE},
-//			produces= {MediaType.APPLICATION_JSON_VALUE})
-//	public Map<String, Object> imageGET(@RequestParam(name="cgno") long cgno, @RequestParam(name="idx") long idx) throws IOException
-//	{
-//		Map<String, Object> map = new HashMap<>();
-//		try 
-//		{
-//			// cgno(갤러리번호) 조회해서 gimgcode 찾기
-//			long imagecode = cgiRep.selectImageCode(cgno, idx);
-//			
-//			// 찾은 giImgcode와 일치하는(해당 갤러리에 등록한) 이미지 찾기
-//			GImage gImage = cgiRep.findById(imagecode).orElse(null);
-//			
-//			System.out.println("gimage : " + gImage.getGimagename());
-//			
-//			map.put("status", 200);
-//			map.put("result", gImage);
-//		}
-//		catch (Exception e) 
-//		{
-//			map.put("status", 0);
-//		}
-//		return map;
-//	}
+	// 갤러리 조회수 증가
+	@RequestMapping(value="/updatehit", 
+			method={RequestMethod.POST}, 
+			consumes = {MediaType.ALL_VALUE},
+			produces= {MediaType.APPLICATION_JSON_VALUE})
+	public Map<String, Object> clubgalleryUpdatehit1PUT(@RequestParam(name="cgno") long cgno)
+	{
+		Map<String, Object> map = new HashMap<>();
+		try 
+		{
+			ClubGallery gallery = cgRep.findById(cgno).orElse(null);
+			gallery.setCghit( gallery.getCghit() + 1L );
+			System.out.println(gallery.toString());
+			cgRep.save(gallery);
+			map.put("status", 200);
+		} 
+		catch (Exception e) 
+		{
+			map.put("status", -1);
+		}
+		return map;
+	}
 	
 	
 	

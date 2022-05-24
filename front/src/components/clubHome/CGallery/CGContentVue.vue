@@ -10,13 +10,13 @@
             <v-col sm="8">
             <v-row dense class="border-b_1_CCC">
                 <v-col>
-                <h5><router-link to="/chome">클럽홈</router-link> > <router-link to="/cblist">{{state.gallery.cgname}}</router-link> > 글읽기</h5>
+                <h5><router-link :to="{name : 'CHomeVue', query : {cno : state.cno}}">클럽홈</router-link> > <router-link :to="{name : 'CGalleryVue', query : {cno : state.cno}}">{{state.gallery.cgname}}</router-link> > 글읽기</h5>
                 </v-col>
             </v-row>
 
             <v-row dense>
                 <v-col class="row_bwrite1">
-                <h2>{{state.gallery.cgtitle}}</h2>
+                <h2>{{state.gallery.cgname}}</h2>
                 </v-col>
             </v-row>
 
@@ -132,13 +132,13 @@
             
             <v-row dense style="padding-top: 10px; padding-bottom: 20px;">
                 <v-col sm="3">
-                <router-link to="/cgallery">
+                <router-link :to="{name:'CGalleryVue', query :{cno : state.cno}}">
                     <v-btn class="col_center"><img :src="require('../../../assets/img/list.png')" style="width: 20px; margin-right: 3px;"/><h4>목록</h4></v-btn>
                 </router-link>
                 </v-col>
 
                 <v-col class="col_right">
-                <router-link to="/cgupload">
+                <router-link :to="{name:'CGUploadVue', query :{cno : state.cno}}">
                     <v-btn class="col_center"><img :src="require('../../../assets/img/pencil.png')" style="width: 20px; margin-right: 3px;"/><h4>글쓰기</h4></v-btn>
                 </router-link>
                 </v-col>
@@ -168,6 +168,8 @@ export default {
 
         const state = reactive({
         cgno : route.query.cgno,
+        cno : route.query.cno,
+        token : sessionStorage.getItem("TOKEN"),
         gallery :
         {
 
@@ -181,22 +183,30 @@ export default {
         replylist: []
     })
 
-        const gallery = async() => // 갤러리 상세내용(이미지 포함)
+        const gallery = async() => // 조회수 증가 -> 갤러리 상세내용 + 이미지 + 댓글목록
         {
-            const url = `/ROOT/api/clubgallery/select?cgno=${state.cgno}`;
-            const headers = {"Content-Type" : "application/json"};
-            const response = await axios.get(url, {headers});
-            console.log(response.data);
+            const url = `/ROOT/api/clubgallery/updatehit?cgno=${state.cgno}`;
+            const headers = {"Content-Type" : "application/json", "token" : state.token};
+            const body = {cgno : state.cgno};
+            const response = await axios.post(url, body, {headers});
             if(response.data.status === 200)
             {
-                state.gallery = response.data.result.clubgallery;
-                state.imagecount = response.data.result.imagecount; //idx
-                state.replylist = response.data.result.replylist;
+                const url = `/ROOT/api/clubgallery/select?cgno=${state.cgno}`;
+                const headers = {"Content-Type" : "application/json", "token" : state.token};
 
-                for(let i=0; i<state.imagecount; i++)
+                const response = await axios.get(url, {headers});
+                console.log(response.data);
+                if(response.data.status === 200)
                 {
-                    state.imageurl[i] = state.gallery.gimageurl + "&idx=" + i;
-                    // console.log(state.imageurl[i]);
+                    state.gallery = response.data.result.clubgallery;
+                    state.imagecount = response.data.result.imagecount; //idx
+                    state.replylist = response.data.result.replylist;
+
+                    for(let i=0; i<state.imagecount; i++)
+                    {
+                        state.imageurl[i] = state.gallery.gimageurl + "&idx=" + i;
+                        // console.log(state.imageurl[i]);
+                    }
                 }
             }
         }
@@ -221,7 +231,7 @@ export default {
             console.log(response.data);
             if(response.data.status === 200)
             {
-                router.push({name:'CGContentVue', query:{cgno:state.cgno}});
+                window.location.reload();
             }
         }
 
