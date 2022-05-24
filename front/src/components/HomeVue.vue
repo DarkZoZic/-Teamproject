@@ -175,6 +175,7 @@
                                         </router-link>
                                     </v-col>
                                 </v-row>
+
                                 <v-row>
                                     <v-col>
                                         <router-link to="/join">
@@ -401,13 +402,24 @@ export default {
             const url = `/ROOT/club/selectlist`;
             const headers = {"Content-Type":"application.json"};
             const response = await axios.get(url,{headers:headers});
-                console.log(response.data);
-                if(response.data.status === 200){
-                    state.items1 = response.data.result;
-                    console.log(response.data.result);
+            console.log(response.data);
+
+            if(response.data.status === 200){
+                state.items1 = response.data.result;
+                console.log(response.data.result);
+                console.log(state.items1[17].obj.cimageurl);
+
+                // handledata가 출력되고 나서 ..
+                for(var i = 0; i < state.items1.length; i++){
+                    profile(i);
+                }
+            }
         }
-   
-                
+
+        const profile = (i) => {
+            if(state.items1[i].obj.cimageurl == null) {
+                items.imgurl = require('../assets/img/profile_sample.png')
+            }
         }
 
         const mypage = async() => {
@@ -460,7 +472,7 @@ export default {
                 if(response.data.status === 200){
                     state.role = response.data.result;
                     if(state.role === 'PERSONAL'){
-                        handlenick();
+                        // handlenick();
                     }
                     if(state.role === 'COMPANY'){
                         cname();

@@ -129,11 +129,13 @@
 
                   <!-- 대댓글. 대댓글이 있으면 테두리가 없게 하는게 가능한가? -->
                   <v-row dense style="padding-left: 10px;">
-                    <!--  v-if="tmp.reparentnumber !== null" -->
+                    <!--  v-if="tmp.reparentnumber !== 0" -->
                     <v-col>
                       <v-row dense>
                         <v-col style="display: flex">
+                          <div v-if="tmp.reparentnumber !== 0" >
                           <img :src="require('../../assets/img/reply.png')" style="margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
+                          </div>
                           <!-- 댓글작성자 -->
                           <v-row dense>
                             <v-col class="col_left">
@@ -141,8 +143,10 @@
                               <h5 style="color: gray;">{{tmp.reregdate}}</h5>
                               <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px; cursor: pointer;"/>
                               <h5 style="color: gray;">{{state.blike}}</h5>
-                              <h5 @click="handleUpdate()" style="padding-left: 10px; color: gray; padding-right: 10px; cursor: pointer;">수정</h5>
-                              <h5 @click="handleDelete()" style="cursor: pointer; color: gray;">삭제</h5>
+                              <h5 @click="handleReplyUpdate()" style="padding-left: 10px; color: gray; padding-right: 10px; cursor: pointer;">수정 </h5>
+                              <h5 @click="handleReplyDelete()" style="padding-right: 10px; cursor: pointer; color: gray;">삭제</h5>
+                              <h5 @click="handleReplyAdd()" style="cursor: pointer; color: gray;">답댓글</h5>
+                              
                     
                               
                             </v-col>
@@ -225,6 +229,7 @@ export default {
       await handleData(); 
       date();
       await handleReplyView();
+      await handleReplyAdd();
       
 
     
@@ -232,6 +237,7 @@ export default {
 
     const date = () => {
       state.bregdate1 = dayjs(state.items.bregdate).format('YY.MM.DD hh:mm:ss');
+     
     }
 
     const route = useRoute();
@@ -251,6 +257,7 @@ export default {
       mid1 : sessionStorage.getItem("MID"),
 
       reply1 : {
+        renumber : route.query.renumber,
         recontent : '',
         reparentnumber : 0,
         reprivate : 'n',
