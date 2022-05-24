@@ -12,7 +12,7 @@
                             <h5><router-link to="/">홈</router-link> > 자유게시판</h5>
                         </v-col>
                     </v-row>
-
+                    
                     <v-row dense style="padding-top: 10px; padding-bottom: 5px; padding-left: 10px; ">
                         <v-col class="col_left"><h2>자유게시판</h2></v-col>
 
@@ -46,12 +46,13 @@
                                         <td>{{ item.bno }}</td>
                                         <td style="cursor: pointer;" @click="handlePage(item.bno)" >{{ item.btitle }}</td>
                                         <td>{{ item.member.mid }}</td>
-                                        <td>{{ item.bregdate }}</td>
+                                        <td>{{ state.bregdate1 }}</td>
                                         <td>{{ item.bhit }}</td>
                                         <td>{{ item.blike }}</td>
                                     </tr>
                                 </tbody>
-                            </v-table>       
+                            </v-table>   
+    
                         </v-col>
                     </v-row>
                 </v-col>
@@ -59,7 +60,6 @@
                 <v-col sm="2"></v-col>
             </v-row>
             <v-row dense>
-                {{state.items[0].bregdate}}
                 <v-col>
                      <v-pagination
                      v-model="state.page"
@@ -82,6 +82,7 @@ import HeaderVue from '../HeaderVue.vue';
 import { onMounted } from '@vue/runtime-core';
 import axios from 'axios';
 import {useRouter} from 'vue-router';
+import dayjs from 'dayjs';
 
 export default {
   components: { HeaderVue, FooterVue },
@@ -89,6 +90,7 @@ export default {
         
         onMounted(() => {
             handleData();
+            date();
         });
 
         const router = useRouter();
@@ -100,10 +102,15 @@ export default {
             text: '',  // 검색어
             page: 1,   // 현재페이지
             option: '전체',
+            items: '',
             items1: [
                 '전체', '제목', '내용', '글쓴이'
             ]
         });
+
+        const date = () => {
+        state.bregdate1 = dayjs(state.items.bregdate).format('YY.MM.DD HH:MM');
+        }
 
         // 조회수 1증가 시키기
         const handlePage = async(bno) => {
@@ -143,6 +150,7 @@ export default {
             else{
                 console.log("토큰없음");
             }
+            console.log(state);
 
             if(response.data.status === 200){
             state.items = response.data.result
