@@ -77,31 +77,23 @@
                                             </v-row>
 
                                             <v-row dense>
-                                                <v-col sm="1"></v-col>
-
-                                                <v-col sm="10" style="justify-content: center; display: flex;">
+                                                <v-col style="justify-content: center; display: flex;">
                                                     <a class="region">전국</a> <a class="region">서울</a> <a class="region">경기</a> <a class="region">인천</a>
                                                     <a class="region">부산</a> <a class="region">대전</a> <a class="region">대구</a> <a class="region">울산</a>
                                                 </v-col>
-
-                                                <v-col sm="1"></v-col>
                                             </v-row>
                                             
                                             <v-row dense>
-                                                <v-col sm="1"></v-col>
-
-                                                <v-col sm="10" style="justify-content: center; display: flex; border-bottom: 1px solid #CCC;">
+                                                <v-col style="justify-content: center; display: flex;">
                                                     <a class="region">강원</a> <a class="region">충북</a> <a class="region">충남</a> <a class="region">전북</a>
                                                     <a class="region">전남</a> <a class="region">경북</a> <a class="region">경남</a> <a class="region">제주</a> 
                                                 </v-col>
-
-                                                <v-col sm="1"></v-col>
                                             </v-row>
 
                                             <v-row dense>
                                                 <v-col sm="1"></v-col>
 
-                                                <v-col sm="10" style="margin-top: 5px; justify-content: center; display: flex;">
+                                                <v-col sm="10" style="margin-top: 5px; border-top: 1px solid #CCC; justify-content: center; display: flex;">
                                                     <v-row dense="">
                                                         <v-col sm="6" class="col_center"><a>온라인</a></v-col>
                                                         <v-col sm="6" class="col_center"><a>준비중</a></v-col>
@@ -360,9 +352,7 @@ export default {
 
             if (state.card.desc.length >= 40) {
                 state.card.desc1 = state.card.desc.substring(0, 40) + '...'
-            }
-            console.log(state.card.desc1);
-            
+            }            
         });
 
 
@@ -407,7 +397,6 @@ export default {
             if(response.data.status === 200){
                 state.items1 = response.data.result;
                 console.log(response.data.result);
-                console.log(state.items1[17].obj.cimageurl);
             }
         }
 

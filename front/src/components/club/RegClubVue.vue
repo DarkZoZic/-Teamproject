@@ -100,6 +100,7 @@
                                                 required
                                                 ></v-text-field>
                                             </v-col>
+
                                             <v-col class="col_right">
                                                 <h4 style="padding-right: 10px;">온라인</h4><input type="checkbox" @change="online()" style="width: 15px; height: 15px;">
                                             </v-col>
@@ -118,6 +119,7 @@
                                                 required
                                                 ></v-text-field>
                                             </v-col>
+
                                             <v-col sm="4" style="height: 65px;" class="col_left">
                                                 명
                                             </v-col>
@@ -126,9 +128,12 @@
 
                                     <v-expansion-panel class="panel" style="height: 70px;">
                                         <v-row>
-                                            <v-col sm="2">
-                                                <v-select variant="outlined" density="compact" :items="state.items1" v-model="state.cate" style="height: 40px; padding-right: 10px;"></v-select>
+                                            <v-col sm="3">
+                                                <v-select variant="outlined" density="compact" :items="state.cate.cate1" v-model="state.cate.title1" style="height: 40px; padding-right: 10px; width: 200px;"></v-select>
+                                            </v-col>
 
+                                            <v-col sm="3" v-if="state.cate.title1 !== '전체'">
+                                                <v-select variant="outlined" density="compact" :items="state.cate.cate2" v-model="state.cate.title2" style="height: 40px; padding-right: 10px; width: 200px;"></v-select>
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
@@ -168,6 +173,7 @@
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
+
                                     <v-expansion-panel class="panel">
                                         <v-row>
                                             <v-col>
@@ -178,7 +184,6 @@
                                                 @click="handleImage($event)"
                                                 name="file" @change="handleImage($event)">
                                                 ></v-file-input>
-                                                {{state.imageFile}}
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
@@ -251,6 +256,17 @@ export default {
             ],
             valid: '',
             imageFile: '',
+
+            cate: {
+                title1: '대분류',
+                title2: '상세분류',
+                cate1: [
+                    '전체', '서울', '부산'
+                ],
+                cate2: [
+                    '어디구', '어디군'
+                ],
+            }
         })
         const handleImage = (e) => {
             if(e.target.files[0]){
@@ -335,6 +351,7 @@ export default {
 
             }
         }
+
         const post = () => {
             new window.daum.Postcode({
                 oncomplete: (data) => {
