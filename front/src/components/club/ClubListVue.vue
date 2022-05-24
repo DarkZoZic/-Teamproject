@@ -299,7 +299,7 @@ export default {
                     state.items = response.data.result;
                     for(var i =0; i < state.items.length; i++){
                         state.imgcheck.push({cno:state.items[i].obj.cno,type:0})
-                        // state.imgcheck[i] = 0;
+                        // state.imgcheck[i] = 0;s
                     }
                     console.log(response.data.result[0].imgurl);
                     console.log(response.data.result.length);
