@@ -78,7 +78,7 @@
                                                 ></v-text-field>
                                             </v-col>
 
-                                            <!-- 우편번호찾기버튼 -->
+                                            <!-- 주소찾기버튼 -->
                                             <v-col sm="2">
                                                 <v-btn @click="post" style="width: 100%; height:40px;">
                                                 <h4>주소찾기</h4>
@@ -132,7 +132,7 @@
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
-                                    
+
                                     <!-- 설명글 -->
                                     <v-expansion-panel class="panel">
                                         <v-row>
@@ -176,8 +176,9 @@
                                                 accept="image/*"
                                                 label="로고 사진을 넣어주세요"
                                                 @click="handleImage($event)"
-                                                name="file" @change="handleImage($event)" >
+                                                name="file" @change="handleImage($event)">
                                                 ></v-file-input>
+                                                {{state.imageFile}}
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
@@ -249,6 +250,7 @@ export default {
                 v => !/[~!@#$%^&*()_+|<>?:{}]/.test(v) || '이름에는 특수문자를 사용할 수 없습니다'
             ],
             valid: '',
+            imageFile: '',
         })
         const handleImage = (e) => {
             if(e.target.files[0]){
@@ -308,28 +310,74 @@ export default {
                 body.append("steptbl",  101);
                 body.append("club", state.cno);
             const response = await axios.post(url,body,{headers});
-                console.log(response.data);
-                if(response.data.status === 200){
+            console.log(response.data);
+
+            if(response.data.status === 200){
             router.push({path : 'clist'})
-        }
+            }
 
         }
+
         const Clubimage = async() => {
             console.log(state.cno);
             console.log(state.mid);
             const url = `/ROOT/club/cbimage`;
             const headers = {"Content-Type":"multipart/form-data"};
             const body = new FormData;
+                console.log(state.imageFile); 
                 body.append("file", state.imageFile);
                 body.append("cno", state.cno);
+
+            console.log(state);
+
             const response = await axios.post(url,body,{headers});
                 console.log(response.data);
                 if(response.data.status === 200){
 
             }
         }
+        const post = () => {
+            new window.daum.Postcode({
+                oncomplete: (data) => {
+                if (state.extraAddress !== "") {
+                    state.extraAddress = "";
+                }
+                if (data.userSelectedType === "R") {
+                    // 사용자가 도로명 주소를 선택했을 경우
+                    state.address = data.roadAddress;
 
-        return { state, handleReg, online, reset,handleImage }
+                } else {
+                    // 사용자가 지번 주소를 선택했을 경우(J)
+                    state.address = data.jibunAddress;
+                }
+        
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if (data.userSelectedType === "R") {
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+                    state.extraAddress += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if (data.buildingName !== "" && data.apartment === "Y") {
+                    state.extraAddress +=
+                        state.extraAddress !== ""
+                        ? `, ${data.buildingName}`
+                        : data.buildingName;
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if (state.extraAddress !== "") {
+                    state.extraAddress = `(${state.extraAddress})`;
+                    }
+                } else {
+                    state.extraAddress = "";
+                }
+                // 우편번호를 입력한다.
+                state.postcode = data.zonecode;
+                },
+            }).open();
+        }
+        return { state, post, handleReg, online, reset,handleImage }
     }
 }
 </script>

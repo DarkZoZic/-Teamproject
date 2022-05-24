@@ -408,17 +408,6 @@ export default {
                 state.items1 = response.data.result;
                 console.log(response.data.result);
                 console.log(state.items1[17].obj.cimageurl);
-
-                // handledata가 출력되고 나서 ..
-                for(var i = 0; i < state.items1.length; i++){
-                    profile(i);
-                }
-            }
-        }
-
-        const profile = (i) => {
-            if(state.items1[i].obj.cimageurl == null) {
-                items.imgurl = require('../assets/img/profile_sample.png')
             }
         }
 
