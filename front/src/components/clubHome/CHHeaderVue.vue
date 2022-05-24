@@ -78,12 +78,13 @@
 
 <script>
 import { reactive } from '@vue/reactivity';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
     components: {  },
     setup () {
         const router = useRouter();
+        const route = useRoute();
         const state = reactive({
             clubname: '삥뽕탁구클럽',
             tab: 'Appp',
@@ -93,35 +94,35 @@ export default {
             text: 'Lorem ipsum',
             chk: 0,
             logo: 'club_logo',
-
+            cno : route.query.cno
         });
 
         const Home = () => {
-            router.push({ name: "CHomeVue"});
+            router.push({ name: "CHomeVue", query : {cno : state.cno}});
         };
 
         const boardList = () => {
-            router.push({ name: "CBoardListVue"});
+            router.push({ name: "CBoardListVue", query : {cno : state.cno}});
         };
 
         const gallery = () => {
-            router.push({ name: "CGalleryVue"});
+            router.push({ name: "CGalleryVue", query : {cno : state.cno}});
         };
 
         const schedule = () => {
-            router.push({ name: "CScheduleVue"});
+            router.push({ name: "CScheduleVue", query : {cno : state.cno}});
         };        
 
         const member = () => {
-            router.push({ name: "CMemberVue"});
+            router.push({ name: "CMemberVue", query : {cno : state.cno}});
         };
 
         const chat = () => {
-            router.push({ name: "CChatVue"});
+            router.push({ name: "CChatVue", query : {cno : state.cno}});
         };
 
         const setting = () => {
-            router.push({ name: "CSettingVue"});
+            router.push({ name: "CSettingVue", query : {cno : state.cno}});
         };
 
         return { state, Home, boardList, gallery, schedule, member, chat, setting }

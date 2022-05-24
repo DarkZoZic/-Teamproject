@@ -24,21 +24,9 @@
                     </v-col>
                   </v-row>
 
-                  <v-row dense style="padding-left: 10px;">
+                  <v-row dense style="padding-left: 10px;" v-for="tmp in state.B.slice(0, 5)" :key="tmp">
                     <v-col>
-                      <h4 @click="B()" style="cursor: pointer;">{{state.B.title}}</h4>
-                    </v-col>
-                  </v-row>
-
-                  <v-row dense style="padding-left: 10px;">
-                    <v-col>
-                      <h4 @click="B()" style="cursor: pointer;">{{state.B.title}}</h4>
-                    </v-col>
-                  </v-row>
-
-                  <v-row dense style="padding-left: 10px;">
-                    <v-col>
-                      <h4 @click="B()" style="cursor: pointer;">{{state.B.title}}</h4>
+                      <h4 @click="B(tmp.cbno)" style="cursor: pointer;">{{tmp.cbtitle}}</h4>
                     </v-col>
                   </v-row>
                 </v-col>
@@ -141,20 +129,6 @@
                     </v-col>
                   </v-row>
                 </v-col>
-
-                <v-col sm="6" style="padding-left: 10px;">
-                  <v-row dense style="height: 200px; border: 1px solid #CCC;">
-                    <v-col class="col_center">
-                      <img :src="require('../../assets/img/photo2.jpg')" @click="G()" style="cursor: pointer; max-width: auto; height: 190px;">
-                    </v-col>
-                  </v-row>
-
-                  <v-row dense style="padding-top: 10px;">
-                    <v-col>
-                      <h4 @click="G()" style="cursor: pointer;">{{state.G.title2}}</h4>
-                    </v-col>
-                  </v-row>
-                </v-col>
               </v-row>              
             </v-col>
 
@@ -172,42 +146,62 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { reactive } from '@vue/reactivity';
 import FooterVue    from '../FooterVue.vue';
 import CHHeaderVue  from './CHHeaderVue.vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { onMounted } from '@vue/runtime-core';
 
 export default {
   components: { CHHeaderVue, FooterVue },
   setup () {
     const router = useRouter();
+    const route = useRoute();
 
     const state = reactive({
-      B: {
-        title: '이렇게 탁구치면 진짜 웃길듯 ㅋㅋㅋㅋ',
-      },
+      B: [],
 
-      S: {
-        title1: '일정1',
-        title2: '일정2',
-        title3: '일정3',
-        title4: '일정4',
-      },
+      S: [],
 
-      G: {
-        title1: '이렇게 탁구치면 진짜 웃길듯 ㅋㅋㅋㅋ',
-        title2: '탁구왕 김제빵ㅋㅋㅋ'
-      }
+      G: [],
+
+      cno : route.query.cno,
+      token : sessionStorage.getItem("TOKEN"),
+      page : 1 //스크립트용 변수. 변경X
     })
 
-    const B = () => {
-      router.push({ name: "CBoardContentVue"});
+    const B = (cbno) => {
+      router.push({ name: "CBoardContentVue", query : {cbno : cbno, cno : state.cno}});
     };
 
     const G = () => {
-      router.push({ name: "CGContentVue"});
+      router.push({ name: "CGContentVue" , query : {cno : state.cno}});
     };
 
+    const blist = async() =>
+    {
+      if(state.token !== null)
+            {
+                const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&cno=${state.cno}`;
+                const headers = {"Content-Type":"application/json", "token" : state.token};
+                const response = await axios.get(url, {headers});
+                console.log(response.data.result);
+                if(response.data.status === 200)
+                {
+                    state.B = response.data.result.list;
+                }
+            }
+            else
+            {
+                router.push({name:'LoginVue'});
+            }
+    }
+
+    onMounted(async() =>
+    {
+      await blist();
+    })
 
     return { state, B, G }
   }
