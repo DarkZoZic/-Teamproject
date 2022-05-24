@@ -134,7 +134,7 @@ export default {
         })
 
         const content = async() => {
-            if(state.token !== null && state.token !== "" && state.token !== undefined)
+            if(state.token !== null)
             {
                 const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&cno=${state.cno}`;
                 const headers = {"Content-Type":"application/json", "token" : state.token};
@@ -154,6 +154,7 @@ export default {
 
         const selectContent = (cbno) =>
         {
+            console.log(state.cno);
             router.push({name:"CBoardContentVue", query:{cbno:cbno, cno:state.cno}});
         }
 

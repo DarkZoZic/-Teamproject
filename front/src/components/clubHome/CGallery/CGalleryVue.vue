@@ -116,7 +116,7 @@ export default {
 
     const selectlist = async() =>
     {
-      if(state.token !== null && state.token !== "" && state.token !== undefined)
+      if(state.token !== null)
       {
         const url = `/ROOT/api/clubgallery/selectlist?page=${state.page}&cno=${state.cno}`;
         const headers = {"Content-Type":"application/json", "token" : state.token};
@@ -136,6 +136,7 @@ export default {
     }
 
     const content = (cgno) => {
+      
       router.push({ name: "CGContentVue", query : {cgno:cgno, cno:state.cno} });
     }
 

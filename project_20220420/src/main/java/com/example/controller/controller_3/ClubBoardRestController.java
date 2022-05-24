@@ -267,16 +267,27 @@ public class ClubBoardRestController {
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> clubboardUpdatehit1PUT(@RequestParam(name="cbno") long cbno)
+	public Map<String, Object> clubboardUpdatehit1PUT(@RequestParam(name="cbno") long cbno, @RequestParam(name="cno") long cno, @RequestHeader(name="token") String token)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-			ClubBoard board = cbRep.findById(cbno).orElse(null);
-			board.setCbhit( board.getCbhit() + 1L );
-			System.out.println(board.toString());
-			cbRep.save(board);
-			map.put("status", 200);
+			if(token != null)
+			{
+				ClubBoard board = cbRep.findById(cbno).orElse(null);
+				Club cnum = new Club();
+				cnum.setCno(cno);
+				board.setClub(cnum);
+				board.setCbhit( board.getCbhit() + 1L );
+				System.out.println(board.toString());
+				cbRep.save(board);
+				map.put("status", 200);
+			}
+			else
+			{
+				map.put("status", 0);
+				map.put("result", "토큰없음");
+			}
 		} 
 		catch (Exception e) 
 		{
@@ -297,8 +308,10 @@ public class ClubBoardRestController {
 		try {
 			if(token != null)
 			{
+				System.out.println(cno);
 				ClubBoard cb = cbRep.findById(cbno).orElse(null);
 				cb.setCbimageurl("/ROOT/clubboard/image?cbno=" + cbno);
+				
 				// 댓글 목록 저장할 배열 변수
 				List<CReply> replylist = crRep.findByClubboard_CbnoOrderByRenumberDesc(cbno);
 				

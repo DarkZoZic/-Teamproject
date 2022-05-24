@@ -181,14 +181,15 @@ export default {
 
     const content = async() => // 조회수 증가 -> 게시글 상세내용 + 이미지 + 댓글목록
     {
-      const url = `/ROOT/api/clubboard/updatehit?cbno=${state.cbno}`;
+      console.log(state.cno);
+      const url = `/ROOT/api/clubboard/updatehit?cbno=${state.cbno}&cno=${state.cno}`;
       const headers = {"Content-Type" : "application/json", "token" : state.token};
       const body = {cbno : state.cbno};
       const response = await axios.post(url, body, {headers});
       // console.log(response.data);
       if(response.data.status === 200)
       {
-        const url = `/ROOT/api/clubboard/select?cbno=${state.cbno}`;
+        const url = `/ROOT/api/clubboard/select?cbno=${state.cbno}&cno=${state.cno}`;
         const headers = {"Content-Type":"application/json", "token" : state.token};
         
         const response = await axios.get(url, {headers});

@@ -185,13 +185,13 @@ export default {
 
         const gallery = async() => // 조회수 증가 -> 갤러리 상세내용 + 이미지 + 댓글목록
         {
-            const url = `/ROOT/api/clubgallery/updatehit?cgno=${state.cgno}`;
+            const url = `/ROOT/api/clubgallery/updatehit?cgno=${state.cgno}&cno=${state.cno}`;
             const headers = {"Content-Type" : "application/json", "token" : state.token};
             const body = {cgno : state.cgno};
             const response = await axios.post(url, body, {headers});
             if(response.data.status === 200)
             {
-                const url = `/ROOT/api/clubgallery/select?cgno=${state.cgno}`;
+                const url = `/ROOT/api/clubgallery/select?cgno=${state.cgno}&cno=${state.cno}`;
                 const headers = {"Content-Type" : "application/json", "token" : state.token};
 
                 const response = await axios.get(url, {headers});
