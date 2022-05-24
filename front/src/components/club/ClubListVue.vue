@@ -183,7 +183,7 @@
                                     <v-col sm="3"></v-col>
                                     <v-col sm="6" class="col_center">
                                         <router-link to="/cdetail" class="col_center">
-                                        <img  :src="item.imgurl"  style="width: 70%;"/>
+                                        <img :src="item.imgurl"  style="height: 50px;"/>
                                             <!-- <img :src="require(`../../assets/img/${state.logo}.png`)" style="width: 100%"/> -->
                                         </router-link>
                                     </v-col>
@@ -288,7 +288,6 @@ export default {
                 console.log(response.data);
                 if(response.data.status === 200){
                     state.items = response.data.result;
-                    console.log(response.data.result[0].imgurl);
                     console.log(response.data.result.length);
                     // console.log(state.items.target);
                     // state.imageUrl = response.data.result.imgurl

@@ -220,6 +220,7 @@ import FooterVue from '../../components/FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { onMounted } from '@vue/runtime-core';
 
 export default {
     components: { HeaderVue, FooterVue },
@@ -240,7 +241,6 @@ export default {
 
             name          : '',
             area          : '',
-            postcode      : '',
             detailAddress : '',
             address       : '',
             max           : '',
@@ -288,7 +288,6 @@ export default {
                 console.log(response.data);
             if(response.data.status === 200){
                 alert('클럽생성완료');
-                // console.log(response.data.result);
                 state.items = response.data.result;
                 state.cno = response.data.result.cno;
                 state.mid = response.data.mid;
