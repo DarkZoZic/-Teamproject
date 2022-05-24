@@ -4,7 +4,6 @@ import HomeVue           from '@/components/HomeVue.vue';
 import HeaderVue         from '@/components/HeaderVue.vue';
 import FooterVue         from '@/components/FooterVue.vue';
 import MapVue            from '@/components/MapVue.vue';
-import GridVue           from '@/components/GridVue.vue';
 
 // member
 import ChoiceJoinVue     from '@/components/member/ChoiceJoinVue.vue';
@@ -81,7 +80,6 @@ const routes = [
     { path: '/header',    name: "HeaderVue",         component: HeaderVue },
     { path: '/footer',    name: "FooterVue",         component: FooterVue },
     { path: '/map',       name: "MapVue",            component: MapVue },
-    { path: '/grid',      name: "GridVue",           component: GridVue },
 
     // member
     { path: '/join',      name: "ChoiceJoinVue",     component: ChoiceJoinVue },
