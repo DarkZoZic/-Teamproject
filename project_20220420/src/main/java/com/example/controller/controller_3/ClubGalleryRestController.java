@@ -250,16 +250,28 @@ public class ClubGalleryRestController {
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> clubgalleryUpdatehit1PUT(@RequestParam(name="cgno") long cgno)
+	public Map<String, Object> clubgalleryUpdatehit1PUT(@RequestParam(name="cgno") long cgno, @RequestParam(name="cno") long cno, @RequestHeader(name="token") String token)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-			ClubGallery gallery = cgRep.findById(cgno).orElse(null);
-			gallery.setCghit( gallery.getCghit() + 1L );
-			System.out.println(gallery.toString());
-			cgRep.save(gallery);
-			map.put("status", 200);
+			if(token != null)
+			{
+				ClubGallery gallery = cgRep.findById(cgno).orElse(null);
+				Club cnum = new Club();
+				cnum.setCno(cno);
+				gallery.setClub(cnum);
+				gallery.setCghit( gallery.getCghit() + 1L );
+				System.out.println(gallery.toString());
+				cgRep.save(gallery);
+				map.put("status", 200);
+			}
+			else
+			{
+				map.put("status", 0);
+				map.put("result", "토큰없음");
+			}
+			
 		} 
 		catch (Exception e) 
 		{
@@ -277,18 +289,27 @@ public class ClubGalleryRestController {
 	method={RequestMethod.DELETE}, 
 	consumes = {MediaType.ALL_VALUE},
 	produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> delete(@RequestBody ClubGallery cg)
+	public Map<String, Object> delete(@RequestBody ClubGallery cg, @RequestHeader(name="token") String token)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-			cgiRep.deleteByClubgallery_cgno(cg.getCgno());
-			cgRep.deleteById(cg.getCgno());
-			map.put("status", 200);
+			if(token != null)
+			{
+				cgiRep.deleteByClubgallery_cgno(cg.getCgno());
+				cgRep.deleteById(cg.getCgno());
+				map.put("status", 200);
+			}
+			else
+			{
+				map.put("status", 0);
+				map.put("result", "토큰없음");
+			}
+			
 		} 
 		catch (Exception e) 
 		{
-			map.put("status", 0);
+			map.put("status", -1);
 		}
 		return map;
 	}
@@ -299,19 +320,28 @@ public class ClubGalleryRestController {
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertreplyPOST(@RequestBody CReply cr, @RequestParam(name="cgno") long cgno)
+	public Map<String, Object> insertreplyPOST(@RequestBody CReply cr, @RequestParam(name="cgno") long cgno, @RequestHeader(name="token") String token)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-			ClubGallery cg = cgRep.findById(cgno).orElse(null);
-			cr.setClubgallery(cg); // 댓글 작성한 갤러리 번호 저장
-			crRep.save(cr);
-			map.put("status", 200);
+			if(token != null)
+			{
+				ClubGallery cg = cgRep.findById(cgno).orElse(null);
+				cr.setClubgallery(cg); // 댓글 작성한 갤러리 번호 저장
+				crRep.save(cr);
+				map.put("status", 200);
+			}
+			else
+			{
+				map.put("status", 0);
+				map.put("result", "토큰없음");
+			}
+			
 		} 
 		catch (Exception e) 
 		{
-			map.put("status", 0);
+			map.put("status", -1);
 		}
 		return map;
 	}
@@ -322,13 +352,21 @@ public class ClubGalleryRestController {
 			method={RequestMethod.DELETE}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> deletereplyDELETE(@RequestBody CReply cr)
+	public Map<String, Object> deletereplyDELETE(@RequestBody CReply cr, @RequestHeader(name="token") String token)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
-			crRep.deleteById(cr.getRenumber());
-			map.put("status", 200);
+			if(token != null)
+			{
+				crRep.deleteById(cr.getRenumber());
+				map.put("status", 200);
+			}
+			else
+			{
+				map.put("status", 0);
+				map.put("result", "토큰없음");
+			}
 		}
 		catch (Exception e)
 		{
