@@ -176,13 +176,17 @@
 
                                     <v-expansion-panel class="panel">
                                         <v-row>
-                                            <v-col>
+                                            <v-col sm="3">
                                                 <img :src="state.imageUrl"  style="width: 160px; border: 1px solid #CCC;"/>
+                                                <h5>170px X 60px</h5>
+                                            </v-col>
+                                            <v-col class="col_left">
                                                 <v-file-input
-                                                accept="image/*"
-                                                label="로고 사진을 넣어주세요"
-                                                @click="handleImage($event)"
-                                                name="file" @change="handleImage($event)">
+                                                    style="width: 200px;"
+                                                    accept="image/*"
+                                                    label="로고 사진을 넣어주세요"
+                                                    @click="handleImage($event)"
+                                                    name="file" @change="handleImage($event)">
                                                 ></v-file-input>
                                             </v-col>
                                         </v-row>
