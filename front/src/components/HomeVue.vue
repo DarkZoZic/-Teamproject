@@ -103,9 +103,8 @@
 
                                                 <v-col sm="10" style="margin-top: 5px; justify-content: center; display: flex;">
                                                     <v-row dense="">
-                                                        <v-col sm="4" class="col_center"><a>온라인</a></v-col>
-                                                        <v-col sm="4" class="col_center"><a>대대대</a></v-col>
-                                                        <v-col sm="4" class="col_center"><a>클럽맵</a></v-col>
+                                                        <v-col sm="6" class="col_center"><a>온라인</a></v-col>
+                                                        <v-col sm="6" class="col_center"><a>준비중</a></v-col>
                                                     </v-row>
                                                 </v-col>
 
@@ -218,7 +217,9 @@
                                                     </v-row>
 
                                                     <v-row dense>
-
+                                                        <router-link to="/regclub">
+                                                            <v-btn style="background-color: gold;"><h3>클럽생성</h3></v-btn>
+                                                        </router-link>
                                                     </v-row>
                                                 </v-col>
                                             </v-row>
@@ -237,7 +238,9 @@
                                                     </v-row>
 
                                                     <v-row>
-                                                        <v-col></v-col>
+                                                        <v-col>
+
+                                                        </v-col>
                                                     </v-row>
                                                 </v-col>
                                             </v-row>

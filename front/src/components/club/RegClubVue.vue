@@ -36,7 +36,7 @@
                                                 v-model="state.name"
                                                 variant="plain"
                                                 hint="10자 이하로 입력하세요"                      
-                                                :rules="numberRules"
+                                                :rules="state.numberRules"
                                                 :counter="10"                      
                                                 density="compact"
                                                 required
@@ -145,17 +145,17 @@
                                             <v-col>
                                                 <v-radio-group
                                                 label="클럽 공개 여부"
-                                    v-model="state.private"
-                                    inline style="height:70px; align-items: right;">
-                                    <v-radio
-                                        label="공개"
-                                        value="공개"
-                                    ></v-radio>
-                                    <v-radio
-                                        label="비공개"
-                                        value="비공개"
-                                    ></v-radio>
-                                    </v-radio-group>
+                                                v-model="state.private"
+                                                inline style="height:70px; align-items: right;">
+                                                <v-radio
+                                                    label="공개"
+                                                    value="공개"
+                                                ></v-radio>
+                                                <v-radio
+                                                    label="비공개"
+                                                    value="비공개"
+                                                ></v-radio>
+                                                </v-radio-group>
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
