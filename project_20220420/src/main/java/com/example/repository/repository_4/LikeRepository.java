@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import com.example.entity.entity1.Like;
+import com.example.entity.entity2.LikeProjection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
@@ -24,7 +25,9 @@ public interface LikeRepository extends JpaRepository<Like, Long>{
     Like findByClub_cno(@Param(value = "cno")long cno);
 
 
-    List<Like> findByMember_midOrderByLnoAsc(String mid);
+    List<Like> findByMember_mid(String mid);
+
+    List<LikeProjection> findByMember_midOrderByLnoAsc(String mid);
 
     Long findByLno(Long[] lno);
 
