@@ -11,12 +11,12 @@ import javax.persistence.EntityManagerFactory;
 import com.example.entity.entity1.Like;
 import com.example.entity.entity1.Member;
 import com.example.entity.entity2.Club;
+import com.example.entity.entity2.LikeProjection;
 import com.example.jwt.JwtUtil;
 import com.example.repository.repository_4.LikeRepository;
 import com.example.service.service_4.LikeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -140,18 +140,23 @@ public class LikeRestController {
     }
 
     // -- 찜 목록 --
+    //127.0.0.1:9090/ROOT/api/like/selectlist
     // 엔티티에 있는걸로 해야하나? 아니면 그냥 바로 mId로 해도 되나? 
-    @RequestMapping(value = "/selectlist", method = { RequestMethod.GET },
-                    consumes = { MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    @RequestMapping(value = "/selectlist",
+                method = { RequestMethod.GET },
+                consumes = { MediaType.ALL_VALUE },
+                produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> buySelectListGET( 
         Like like,
         @RequestHeader (name = "token") String token ){
-
         Map<String, Object> map = new HashMap<String, Object>();
         try{
             // 토큰 추출
             String userid = jwtUtil.extractUsername(token);
             System.out.println("USERNAME ==>" + userid);
+
+            // List<Like> like = lRepository.findByMember_mid(userid);
+            // System.out.println(like);
 
             Member memberEntity = new Member();
             memberEntity.setMid(userid);
@@ -161,7 +166,7 @@ public class LikeRestController {
             System.out.println(like.toString());
 
             if(token !=null) {
-                List<Like> like1 = lRepository.findByMember_midOrderByLnoAsc(userid);
+                List<LikeProjection> like1 = lRepository.findByMember_midOrderByLnoAsc(userid);
                 map.put("result",like1);
                 map.put("status",200);
                 
@@ -178,11 +183,11 @@ public class LikeRestController {
     // -- 찜 1개 삭제 -- 
     //127.0.0.1:9090/ROOT/like/deleteone
     @RequestMapping(value = "/deleteone", 
-        method = {RequestMethod.DELETE},
+        method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> deleteOnePOST(
-        @Param(value = "cno")long cno,
+        @ModelAttribute  Like like,
         @RequestHeader (name = "token") String token ) {
             // System.out.println(token);
             // System.out.println(like.getLNo());
@@ -190,7 +195,7 @@ public class LikeRestController {
         Map<String, Object> map = new HashMap<>();
         try{
 
-            long user = cno;
+            long user = like.getClub().getCno();
             if(token != null){
                 String userid = jwtUtil.extractUsername(token);
                 Like like1 = lRepository.findByMember_MidAndClub_Cno(userid, user);
