@@ -127,7 +127,6 @@ export default {
           state.page = response.data.result.pages;
           state.gallery = response.data.result.list;
         }
-        console.log(state.gallery);
       }
       else
       {

@@ -11,7 +11,7 @@
                 <v-col sm="8" style="border-bottom: 1px solid #CCC;">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
-                            <h5><router-link :to="{name : 'CHomeVue', query : {cno : state.cno}}">클럽홈</router-link> > <router-link :to="{name : 'CGalleryVue1', query : {cno : state.cno}}">{{state.galleryName}}</router-link> > 업로드</h5>
+                            <h5><router-link :to="{name : 'CHomeVue', query : {cno : state.cno}}">클럽홈</router-link> > <router-link :to="{name : 'CGalleryVue', query : {cno : state.cno}}">{{state.galleryName}}</router-link> > 업로드</h5>
                         </v-col>
                     </v-row>
                     

@@ -28,7 +28,7 @@
 
                 <v-col sm="6" class="col_right1">
                 <h5 style="color: #787878">
-                    조회 {{state.hit}} &nbsp; | &nbsp; 
+                    조회 {{state.gallery.cghit}} &nbsp; | &nbsp; 
                     <img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.like}}
                     &nbsp; | &nbsp; {{state.gallery.cgregdate}}
                 </h5>
