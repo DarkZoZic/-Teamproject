@@ -192,7 +192,6 @@
                                     </v-col>
                                 </v-row>
                             </v-col>
-
                             <v-col sm="3" style="align:center;" v-if="state.logged">
                                 <v-row dense>
                                     <v-col>
@@ -232,7 +231,7 @@
                                                     </v-row>
                                                     <v-row v-if="state.nick">
                                                         <v-col class="col_left" >
-                                                                <h4>{{state.nick.mpnickname}}</h4>님 환영합니다!
+                                                            <h4>{{state.nick}}</h4>님 환영합니다!
                                                         </v-col>
                                                     </v-row>
 
@@ -356,9 +355,7 @@ export default {
 
             if (state.card.desc.length >= 40) {
                 state.card.desc1 = state.card.desc.substring(0, 40) + '...'
-            }
-            console.log(state.card.desc1);
-            
+            }           
         });
 
 
@@ -391,7 +388,9 @@ export default {
 
             profile: {
                 nickname: '탁구왕김제빵',
-            },            
+            },
+            cname: '',
+            nick: { mpnickname: '' },
         });
 
         const handleData = async() => {
@@ -428,42 +427,45 @@ export default {
             }
         }
 
-            const cname = async() => {
-                const url = `/ROOT/member/cname`;
-                const headers = {"Content-Type":"application/json", 
-                token : state.token};
-                const response = await axios.get(url, {headers});
-                console.log(response.data.result);
-                if(response.data.status === 200){
-                    state.cname = response.data.result;
+        const cname = async() => {
+            const url = `/ROOT/member/cname`;
+            const headers = {"Content-Type":"application/json", 
+            token : state.token};
+            const response = await axios.get(url, {headers});
+            console.log(response.data.result);
+            if(response.data.status === 200){
+                state.cname = response.data.result;
+            }
+        }
+
+        const nick = async() => {
+            const url = `/ROOT/member/psmynick`;
+            const headers = {"Content-Type":"application/json", 
+            token : state.token};
+            const response = await axios.get(url, {headers});
+            console.log(response.data.result);
+            if(response.data.status === 200){
+                state.nick = response.data.result;
+            }
+        }
+
+        const role = async() => {
+            const url = `/ROOT/member/role`;
+            const headers = {"Content-Type":"application/json", 
+            token : state.token};
+            const response = await axios.get(url, {headers});
+            console.log(response.data.result);
+            if(response.data.status === 200){
+                state.role = response.data.result;
+                if(state.role === 'PERSONAL'){
+                    handlenick();
+                }
+                if(state.role === 'COMPANY'){
+                    cname();
                 }
             }
-            const nick = async() => {
-                const url = `/ROOT/member/psmynick`;
-                const headers = {"Content-Type":"application/json", 
-                token : state.token};
-                const response = await axios.get(url, {headers});
-                console.log(response.data.result);
-                if(response.data.status === 200){
-                    state.nick = response.data.result;
-                }
-            }
-            const role = async() => {
-                const url = `/ROOT/member/role`;
-                const headers = {"Content-Type":"application/json", 
-                token : state.token};
-                const response = await axios.get(url, {headers});
-                console.log(response.data.result);
-                if(response.data.status === 200){
-                    state.role = response.data.result;
-                    if(state.role === 'PERSONAL'){
-                        handlenick();
-                    }
-                    if(state.role === 'COMPANY'){
-                        cname();
-                    }
-                }
-            }
+        }
+
         const handlenick = async() => {
             const url = `/ROOT/member/psmynick`;
             const headers = {"Content-Type":"application/json", 
