@@ -279,7 +279,7 @@
                     
                                         <v-col sm="6" class="col_center">
                                             <router-link to="/cdetail" class="col_center">
-                                                <img :src="items.imgurl" style="width: 80%; height: 100px;"/>
+                                                <img :src="items.imgurl" style="height: 50px;"/>
                                             </router-link>
                                         </v-col>
 

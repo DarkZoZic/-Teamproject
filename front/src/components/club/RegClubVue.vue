@@ -124,6 +124,15 @@
                                         </v-row>
                                     </v-expansion-panel>
 
+                                    <v-expansion-panel class="panel" style="height: 70px;">
+                                        <v-row>
+                                            <v-col sm="2">
+                                                <v-select variant="outlined" density="compact" :items="state.items1" v-model="state.cate" style="height: 40px; padding-right: 10px;"></v-select>
+
+                                            </v-col>
+                                        </v-row>
+                                    </v-expansion-panel>
+                                    
                                     <!-- 설명글 -->
                                     <v-expansion-panel class="panel">
                                         <v-row>
