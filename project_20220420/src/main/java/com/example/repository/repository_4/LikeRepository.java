@@ -21,6 +21,8 @@ public interface LikeRepository extends JpaRepository<Like, Long>{
             @Param(value = "id") String member,
             @Param(value = "cno") Long cno);
 
+    Like findByClub_cno(@Param(value = "cno")long cno);
+
 
     List<Like> findByMember_midOrderByLnoAsc(String mid);
 

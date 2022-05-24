@@ -189,7 +189,7 @@
                                     </v-col>
                                     <v-col sm="3" class="col_right">
                                         <v-btn style="height: 100%; width: 10px;" id="like"  @click="changeheart(item.obj.cno)">
-                                            <img :src="require(`../../assets/img/heart.png`)" style="width: 30px"/>
+                                            <img  :src="state.imgName"  style="width: 30px"/>
                                         </v-btn>
                                     </v-col>
                                 </v-row>
@@ -246,7 +246,8 @@ export default {
             items1 : '',
             datechk: [],
             timechk: [],
-            imgName: 'heart',
+            imgName: require(`../../assets/img/heart.png`),
+            imgName1: require(`../../assets/img/heart1.png`),
             logo: 'club_logo',
 
             card: {
@@ -307,6 +308,7 @@ export default {
         }
         }
          const changeheart = async(cno) => {
+             console.log(cno);
             const url =`/ROOT/api/like/insert`
             const headers = {"Content-Type":"multipart/form-data",
                             token : state.token};
@@ -314,15 +316,41 @@ export default {
         body.append("club", cno);
             const response = await axios.post(url,body,{headers:headers});
                 console.log(response.data);
-            if (state.imgName === 'heart') {
-                state.imgName = 'heart1'
-                console.log(state.imgName);
-            }
-                else {
-                state.imgName = 'heart'
-                console.log(state.imgName);
+                if(response.data.status == 200){
+                    state.imgName = state.imgName1
                 }
+                // else {
+                //     console.log( state.imgName);
+                // }
+            // if (state.imgName === 'heart') {
+            //     state.imgName = 'heart1'
+            //     console.log(state.imgName);
+            // }
+            // if(response.data.status == -1){
+            //     // state.imgName = 'heart'
+            //     unlike(cno);
+            //     console.log(state.imgName);
+            // }
+                
         };
+        const unlike = async(cno) => {
+            if(state.imgName == 'heart1'){
+
+                console.log("unlike", cno);
+                const url = `/ROOT/api/like/deleteone?cno=${cno}`
+                const headers = {"Content-Type":"multipart/form-data",
+                                token : state.token};
+                const body = new FormData;
+                    body.append("club", cno);   
+                const response = await axios.delete(url,{headers:headers, data:{}});
+                console.log(response.data);
+                if(response.data.status == 200){
+                    console.log(response.data);
+                        state.imgName = 'heart'
+                    }
+            }
+
+        }
        
 
         const input = (e) => {

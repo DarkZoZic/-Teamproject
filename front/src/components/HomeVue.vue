@@ -464,17 +464,17 @@ export default {
                     }
                 }
             }
-        const handlenick = async() => {
-            const url = `/ROOT/member/psmynick`;
-            const headers = {"Content-Type":"application/json", 
-            token : state.token};
-            const response = await axios.get(url, {headers});
-            console.log(response.data.result);
-            if(response.data.status === 200){
-                state.nick = response.data.result.mpnickname;
-                console.log(state.nick);
-            }
-        }
+        // const handlenick = async() => {
+        //     const url = `/ROOT/member/psmynick`;
+        //     const headers = {"Content-Type":"application/json", 
+        //     token : state.token};
+        //     const response = await axios.get(url, {headers});
+        //     console.log(response.data.result);
+        //     if(response.data.status === 200){
+        //         state.nick = response.data.result.mpnickname;
+        //         console.log(state.nick);
+        //     }
+        // }
 
         const changeheart = () => {
             if (state.imgName === 'heart') {

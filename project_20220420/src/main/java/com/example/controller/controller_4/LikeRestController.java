@@ -16,6 +16,7 @@ import com.example.repository.repository_4.LikeRepository;
 import com.example.service.service_4.LikeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -177,11 +178,11 @@ public class LikeRestController {
     // -- 찜 1개 삭제 -- 
     //127.0.0.1:9090/ROOT/like/deleteone
     @RequestMapping(value = "/deleteone", 
-        method = {RequestMethod.POST},
+        method = {RequestMethod.DELETE},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> deleteOnePOST(
-        @RequestBody  Like like,
+        @Param(value = "cno")long cno,
         @RequestHeader (name = "token") String token ) {
             // System.out.println(token);
             // System.out.println(like.getLNo());
@@ -189,26 +190,32 @@ public class LikeRestController {
         Map<String, Object> map = new HashMap<>();
         try{
 
+            long user = cno;
+            if(token != null){
+                String userid = jwtUtil.extractUsername(token);
+                Like like1 = lRepository.findByMember_MidAndClub_Cno(userid, user);
+                lRepository.delete(like1);
+            }
+            map.put("status", 200);
             // 토큰 추출
-            String userid = jwtUtil.extractUsername(token);
             // System.out.println("USERNAME ==>" + userid);
 
-            Like like1 = lRepository.getById(like.getLno());
+            // Like like1 = lRepository.getById(like.getLno());
 
             // System.out.println("찜번호" + like.getLNo());
             // System.out.println("찜회원 아이디" + like1.getMember().getMId());
 
-           if( userid.equals( like1.getMember().getMid() )){
-                lRepository.deleteById(like.getLno());
-                map.put("status", 200); // 성공
-            }
-            else if( !userid.equals( like1.getMember().getMid() )){
-                map.put("status", 0);
-            } 
+        //    if( userid.equals( like1.getMember().getMid() )){
+        //         lRepository.deleteById(like.getLno());
+        //         map.put("status", 200); // 성공
+        //     }
+        //     else if( !userid.equals( like1.getMember().getMid() )){
+        //         map.put("status", 0);
+        //     } 
         }
         catch(Exception e){
             e.printStackTrace();
-            map.put("status",-1);
+            map.put("status",0);
         }
         return map;
     }
