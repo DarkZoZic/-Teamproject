@@ -186,33 +186,45 @@ public class ClubBoardController {
 		try 
 		{
 			CbImage cbImage = cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(cbno);
-			System.out.println("size : " + cbImage.getCbimagesize().toString());
-			System.out.println("length : " + cbImage.getCbimage().length);
+//			System.out.println("size : " + cbImage.getCbimagesize().toString());
+//			System.out.println("length : " + cbImage.getCbimage().length);
 			HttpHeaders headers = new HttpHeaders();
-			if(cbImage.getCbimagesize() > 0)
+			if(cbImage != null)
 			{
-				if(cbImage.getCbimagetype().equals("image/jpeg")) {
-					System.out.println(cbImage.getCbimagetype());
-					headers.setContentType(MediaType.IMAGE_JPEG);
+				if(cbImage.getCbimagesize() > 0)
+				{
+					if(cbImage.getCbimagetype().equals("image/jpeg")) {
+						System.out.println(cbImage.getCbimagetype());
+						headers.setContentType(MediaType.IMAGE_JPEG);
+					}
+					else if(cbImage.getCbimagetype().equals("image/png")) {
+						System.out.println(cbImage.getCbimagetype());
+						headers.setContentType(MediaType.IMAGE_PNG);
+					}
+					else if(cbImage.getCbimagetype().equals("image/gif")) {
+						System.out.println(cbImage.getCbimagetype());
+						headers.setContentType(MediaType.IMAGE_GIF);
+					}
+					
+					// 이미지 byte[], headers, HttpStatus.Ok
+					ResponseEntity<byte[]> response = new ResponseEntity<>(cbImage.getCbimage(), headers, HttpStatus.OK );	
+//					System.out.println("///////////////////////aaa///////////////////////");
+//					System.out.println(response.toString());
+					return response;
 				}
-				else if(cbImage.getCbimagetype().equals("image/png")) {
-					System.out.println(cbImage.getCbimagetype());
+				else // 이미지 미첨부시
+				{
+					InputStream is = resLoader.getResource("classpath:/static/images/default.png").getInputStream(); //적절한 이미지 삽입
 					headers.setContentType(MediaType.IMAGE_PNG);
+					
+					ResponseEntity<byte[]> response = new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK );
+					return response;
 				}
-				else if(cbImage.getCbimagetype().equals("image/gif")) {
-					System.out.println(cbImage.getCbimagetype());
-					headers.setContentType(MediaType.IMAGE_GIF);
-				}
-				
-				// 이미지 byte[], headers, HttpStatus.Ok
-				ResponseEntity<byte[]> response = new ResponseEntity<>(cbImage.getCbimage(), headers, HttpStatus.OK );	
-//				System.out.println("///////////////////////aaa///////////////////////");
-//				System.out.println(response.toString());
-				return response;
 			}
+			
 			else // 이미지 미첨부시
 			{
-				InputStream is = resLoader.getResource("classpath:/static/images/default.png").getInputStream();
+				InputStream is = resLoader.getResource("classpath:/static/images/default.png").getInputStream(); //적절한 이미지 삽입
 				headers.setContentType(MediaType.IMAGE_PNG);
 				
 				ResponseEntity<byte[]> response = new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK );
