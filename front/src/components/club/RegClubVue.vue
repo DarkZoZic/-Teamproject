@@ -171,11 +171,10 @@
                                     <v-expansion-panel class="panel">
                                         <v-row>
                                             <v-col>
-                    <img :src="state.imageUrl"  style="width: 160px; border: 1px solid #CCC;"/>
+                                                <img :src="state.imageUrl"  style="width: 160px; border: 1px solid #CCC;"/>
                                                 <v-file-input
                                                 accept="image/*"
                                                 label="로고 사진을 넣어주세요"
-                                                multiple
                                                 @click="handleImage($event)"
                                                 name="file" @change="handleImage($event)" >
                                                 ></v-file-input>
@@ -230,7 +229,7 @@ export default {
             items : [{}],
             birth : '2020년',
             token : sessionStorage.getItem("TOKEN"),
-            imageUrl : require('../../assets/img/profile_sample.png'),
+            imageUrl : require('../../assets/img/default-logo.jpg'),
             imageFile : null,
             // private : '공개',
             datechk: [],
@@ -255,12 +254,11 @@ export default {
             if(e.target.files[0]){
                 state.imageUrl = URL.createObjectURL(e.target.files[0]);
                 state.imageFile = e.target.files[0];
-
-        }
-        else{
-            state.imageUrl = require('../../assets/img/profile_sample.png');
-            state.imageFile = null;
-        }
+            }
+            else{
+                state.imageUrl = require('../../assets/img/default-logo.jpg');
+                state.imageFile = require('../../assets/img/default-logo.jpg');
+            }
         }
 
         const online = () => {
@@ -313,7 +311,6 @@ export default {
                 console.log(response.data);
                 if(response.data.status === 200){
             router.push({path : 'clist'})
-
         }
 
         }
@@ -323,15 +320,15 @@ export default {
             const url = `/ROOT/club/cbimage`;
             const headers = {"Content-Type":"multipart/form-data"};
             const body = new FormData;
-                body.append("file",  state.imageFile);
+                body.append("file", state.imageFile);
                 body.append("cno", state.cno);
             const response = await axios.post(url,body,{headers});
                 console.log(response.data);
                 if(response.data.status === 200){
 
+            }
         }
 
-        }
         return { state, handleReg, online, reset,handleImage }
     }
 }
