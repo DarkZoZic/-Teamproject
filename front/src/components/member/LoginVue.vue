@@ -31,7 +31,7 @@
                                         <v-col style="height: 80px;">
                                             <v-text-field
                                             label="아이디"
-                                            :rules="idRules"
+                                            :rules="state.idRules"
                                             :counter="6"
                                             v-model="state.id"
                                             density="compact"
