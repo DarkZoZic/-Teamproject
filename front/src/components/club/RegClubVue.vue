@@ -17,7 +17,7 @@
                     
                     <v-row dense class="row_bwrite2" style="padding-top: 20px; padding-bottom: 15px; padding-left: 10px;">
                         <v-col sm="6" class="col_left">
-                            <h2>클럽등록</h2>
+                            <h2>클럽생성</h2>
                         </v-col>
                     </v-row>
 
