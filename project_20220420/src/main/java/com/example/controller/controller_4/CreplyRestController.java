@@ -50,7 +50,7 @@ public class CreplyRestController {
     consumes = {MediaType.ALL_VALUE},
     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> BInsertPost(
-        @ModelAttribute CReply cReply,
+        @RequestBody CReply cReply,
         @RequestHeader (name = "token") String token ) {
 
         Map<String ,Object> map = new HashMap<>();
@@ -69,6 +69,7 @@ public class CreplyRestController {
             
             Board1 board1Entity = new Board1();
             board1Entity.setBno(cReply.getBoard1().getBno());
+            System.out.println("BNO==========>"+cReply.getBoard1().getBno());
 
             if(token !=null) {
                 cReply.setBoard1(board1Entity);
@@ -190,8 +191,10 @@ public class CreplyRestController {
             if(token != null){
 
                 List<CReply> cReply = cRepository.findByBoard1_bnoOrderByRenumberAsc(bno);
+                long total = cRepository.countByBoard1_bno(bno);
                 map.put("result",cReply);
                 map.put("status",200);
+                map.put("total",total);
 
             }
 

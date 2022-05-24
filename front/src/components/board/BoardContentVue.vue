@@ -137,8 +137,8 @@
                           <!-- 댓글작성자 -->
                           <v-row dense>
                             <v-col class="col_left">
-                              <h5 style="padding-right: 10px;">{{state.reply.writer1}}</h5> 
-                              <h5 style="color: gray;">{{state.reply.date1}}</h5>
+                              <h5 style="padding-right: 10px;">{{tmp.mid}}</h5> 
+                              <h5 style="color: gray;">{{tmp.reregdate}}</h5>
                               <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px; cursor: pointer;"/>
                               <h5 style="color: gray;">{{state.blike}}</h5>
                               <h5 @click="handleUpdate()" style="padding-left: 10px; color: gray; padding-right: 10px; cursor: pointer;">수정</h5>
@@ -336,25 +336,25 @@ export default {
     }
 
     // 댓글조회
-    const handleReplyView = async(bno) => {
+    const handleReplyView = async() => {
 
-      // const url = `/ROOT/api/creply/board_selectone=bno${bno}`;
-      // const headers = {"Content-Type":"application/json",
-      //                 "token" : state.token };
-      // const response = await axios.get(url, {headers});
-      // console.log(response.data);
-      // if(response.data.status === 200){
-      //   state.replylist = response.data.result.replylist;
-      //   state.page = response.data.result.page;
+      const url = `/ROOT/api/creply/board_selectone?bno=${state.bno}`;
+      const headers = {"Content-Type":"application/json",
+                      "token" : state.token };
+      const response = await axios.get(url, {headers});
+      console.log(response.data);
+      if(response.data.status === 200){
+        state.reply = response.data.result;
+        // state.page = response.data.result.page;
 
-      //   // for(let i=0; i<0; i++){
-      //   //   state.replylist[i] = state.
-      //   // }
+        // for(let i=0; i<0; i++){
+        //   state.replylist[i] = state.
+        // }
 
-      //   state.items = response.data.result;
-      //   // console.log(state.items);
-      //   // state.reply = response.data.result;
-      // }
+        // state.items = response.data.result;
+        // console.log(state.items);
+        // state.reply = response.data.result;
+      }
 
     }
 
@@ -365,7 +365,7 @@ export default {
                       "token" : state.token };
       const body = {
         mid : state.mid,
-        bno : state.bno,
+        board1 : {bno : state.bno },
         recontent : state.reply1.recontent,
         reparentnumber : state.reply1.reparentnumber,
         reprivate : state.reply1.reprivate,
@@ -374,6 +374,7 @@ export default {
       console.log(response.data);
       if(response.data.status === 200){
         alert('댓글 등록 완료');
+        await handleReplyView(state.bno);
         // await handleReplyView(state.bno);
         // this.router.go(this.router.currentRoute);
         //  router.push({name:'Board'});

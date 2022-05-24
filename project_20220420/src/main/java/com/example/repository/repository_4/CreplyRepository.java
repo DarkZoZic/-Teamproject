@@ -25,6 +25,9 @@ public interface CreplyRepository extends JpaRepository<CReply, Long>{
     // Board_no 가 하나의 변수처럼
     List<CReply> findByBoard1_bnoOrderByRenumberAsc(Long bno);
 
+    // 자유게시판 글번호로 개수 세기
+    long countByBoard1_bno(Long bno);
+
     // Qna 원본 글번호가 일치하는 댓글 
     List<CReply> findByQna_qnoOrderByRenumberAsc(long qno);
 

@@ -744,7 +744,7 @@ public class Board1RestController {
             // System.out.println(qList);
             map.put("status", 200); // 성공
             map.put("result", bList);
-            map.put("result1", total);
+            map.put("total", total);
 
         }
         catch(Exception e){
