@@ -179,7 +179,7 @@ export default {
       rereply : []
     })
 
-    const content = async() =>
+    const content = async() => // 조회수 증가 -> 게시글 상세내용 + 이미지 + 댓글목록
     {
       const url = `/ROOT/api/clubboard/updatehit?cbno=${state.cbno}`;
       const headers = {"Content-Type" : "application/json", "token" : state.token};
@@ -188,7 +188,7 @@ export default {
       // console.log(response.data);
       if(response.data.status === 200)
       {
-        const url = `/ROOT/api/clubboard/select?cbno=${state.cbno}&cno=${state.cno}`;
+        const url = `/ROOT/api/clubboard/select?cbno=${state.cbno}`;
         const headers = {"Content-Type":"application/json", "token" : state.token};
         
         const response = await axios.get(url, {headers});
@@ -222,7 +222,7 @@ export default {
       console.log(response.data);
       if(response.data.status === 200)
       {
-        router.push({name:'CBoardContentVue', query:{cbno:state.cbno, cno:state.cno}});
+        window.location.reload();
       }
     }
 

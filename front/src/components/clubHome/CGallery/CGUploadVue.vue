@@ -11,7 +11,7 @@
                 <v-col sm="8" style="border-bottom: 1px solid #CCC;">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
-                            <h5><router-link to="/chome">클럽홈</router-link> > <router-link to="/cblist">{{state.galleryName}}</router-link> > 업로드</h5>
+                            <h5><router-link :to="{name : 'CHomeVue', query : {cno : state.cno}}">클럽홈</router-link> > <router-link :to="{name : 'CGalleryVue1', query : {cno : state.cno}}">{{state.galleryName}}</router-link> > 업로드</h5>
                         </v-col>
                     </v-row>
                     
@@ -32,7 +32,7 @@
                     <v-row dense style="padding:10px; ">
 
                         <v-col class="col_right">
-                            <v-btn @click="upload()" style="width: 100px; height:40px; background-color: gold;">
+                            <v-btn @click="upload" style="width: 100px; height:40px; background-color: gold;">
                                 <h3>업로드</h3>
                             </v-btn>
 
@@ -57,18 +57,21 @@
 import { reactive } from '@vue/reactivity';
 import FooterVue from '../../FooterVue.vue';
 import HeaderVue from '../../HeaderVue.vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 
 export default {
     components: { HeaderVue, FooterVue },
     setup () {
         const router = useRouter();
+        const route = useRoute();
         
         const state = reactive({
             galleryName: '일상갤러리',
             imageFile : [],
-            imageUrl : []
+            imageUrl : [],
+            cno : route.query.cno,
+            token : sessionStorage.getItem("TOKEN")
         })
 
         const insertimage = (e) =>
@@ -90,25 +93,27 @@ export default {
 
         const upload = async() => {
             const url = `/ROOT/api/clubgallery/insert`;
-            const headers = {"Content-Type":"multipart/form-data"};
+            const headers = {"Content-Type":"multipart/form-data", "token" : state.token};
             const body = new FormData();
             for(let i=0; i<state.imageFile.length; i++)
             {
                 body.append("file", state.imageFile[i]);
             }
             body.append("cgname", state.galleryName);
-            console.log(body);
+            body.append("club", state.cno);
+
             const response = await axios.post(url, body, {headers});
             console.log(response.data);
             if(response.data.status === 200)
             {
-                router.push({name:'CGalleryVue'});
+                alert("갤러리를 생성하였습니다.");
+                router.push({name:'CGalleryVue', query : {page : 1, cno : state.cno}});
             }
         }
 
         const handleCancel = () =>
         {
-            router.push({name : 'CGalleryVue'});
+            router.push({name : 'CGalleryVue', query : {page : 1, cno : state.cno}});
         }
 
         return { state, upload, insertimage, handleCancel }

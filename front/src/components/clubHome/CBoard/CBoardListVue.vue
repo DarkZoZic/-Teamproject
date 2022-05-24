@@ -9,7 +9,7 @@
                 <v-col sm="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
-                            <h5><router-link to="/chome">클럽홈</router-link> > {{state.boardname}}</h5>
+                            <h5><router-link :to="{name : 'CHomeVue', query : {cno : state.cno}}">클럽홈</router-link> > {{state.boardname}}</h5>
                         </v-col>                                
                     </v-row>
 
@@ -59,7 +59,7 @@
                                     >
                                         <td>{{ item.cbno }}</td>
                                         <td @click="selectContent(item.cbno)" style="cursor:pointer;">{{ item.cbtitle }}</td>
-                                        <td>{{ item.cbwriter }}</td>
+                                        <td>{{ item.member.mid }}</td>
                                         <td>{{ item.cbregdate }}</td>
                                         <td>{{ item.cbhit }}</td>
                                         <td>{{ item.like }}</td>
@@ -124,7 +124,7 @@ export default {
             ],
             search: '',
             page: 1,
-            boardname: '자유게시판',
+            boardname: '클럽게시판',
             items: [
                 '전체', '제목', '내용', '글쓴이'
             ],
@@ -134,12 +134,12 @@ export default {
         })
 
         const content = async() => {
-            if(state.token !== null)
+            if(state.token !== null && state.token !== "" && state.token !== undefined)
             {
                 const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&cno=${state.cno}`;
                 const headers = {"Content-Type":"application/json", "token" : state.token};
                 const response = await axios.get(url, {headers});
-                console.log(response.data.result);
+                // console.log(response.data.result);
                 if(response.data.status === 200)
                 {
                     state.board = response.data.result.list;

@@ -11,7 +11,7 @@
         <v-col sm="8">
           <v-row dense="" style="border-bottom: 1px solid #CCC;">
             <v-col sm="6">
-              <h5><router-link to="/chome">클럽홈</router-link> > {{state.galleryName}}</h5>
+              <h5><router-link :to="{name : 'CHomeVue', query : {cno : state.cno}}">클럽홈</router-link> > {{state.galleryName}}</h5>
             </v-col>                                
           </v-row>
 
@@ -23,12 +23,10 @@
             <v-col sm="6" class="col_right">
               <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px;" ></v-select>
               <input type="text" class="board_search_box" style="outline-width: 0;" v-model="state.search">
-              <v-btn style="height: 40px;" @click="search()"><h4>검색</h4></v-btn>
-              <router-link to="/cgupload">
-                <v-btn style="margin-left: 10px; height: 40px; background-color: gold;">
+              <v-btn style="height: 40px;" @click="search"><h4>검색</h4></v-btn>
+                <v-btn style="margin-left: 10px; height: 40px; background-color: gold;" @click="handleUpload">
                   <h4>업로드</h4>
                 </v-btn>
-              </router-link>
             </v-col>
           </v-row>
 
@@ -60,7 +58,7 @@
 
                 <v-row dense>
                   <v-col style="padding-left: 10px;">
-                    <h5 style="color: gray">{{tmp.writer}}</h5>
+                    <h5 style="color: gray">{{tmp.member.mid}}</h5>
                   </v-col>
 
                   <v-col sm="6" class="col_right">
@@ -92,7 +90,7 @@
 
 <script>
 import { reactive }  from '@vue/reactivity';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import FooterVue     from '../../FooterVue.vue';
 import CHHeaderVue   from '../CHHeaderVue.vue';
 import {onMounted} from 'vue';
@@ -102,6 +100,7 @@ export default {
   components: { CHHeaderVue, FooterVue },
   setup () {
     const router = useRouter();
+    const route = useRoute();
 
     const state = reactive({
       gallery : [],
@@ -110,37 +109,51 @@ export default {
         '전체', '갤러리명', '갤러리설명', '갤러리작성자'
       ],
 
-      option: '전체'
+      option: '전체',
+      cno : route.query.cno,
+      token : sessionStorage.getItem("TOKEN")
     });
 
     const selectlist = async() =>
     {
-      const url = `/ROOT/api/clubgallery/selectlist`;
-      const headers = {"Content-Type":"application/json"};
-      const response = await axios.get(url, {headers});
-      // console.log(response.data);
-      if(response.data.status === 200)
+      if(state.token !== null && state.token !== "" && state.token !== undefined)
       {
-        state.page = response.data.result.pages;
-        state.gallery = response.data.result.list;
+        const url = `/ROOT/api/clubgallery/selectlist?page=${state.page}&cno=${state.cno}`;
+        const headers = {"Content-Type":"application/json", "token" : state.token};
+        const response = await axios.get(url, {headers});
+        // console.log(response.data);
+        if(response.data.status === 200)
+        {
+          state.page = response.data.result.pages;
+          state.gallery = response.data.result.list;
+        }
+        console.log(state.gallery);
       }
-      console.log(state.gallery);
+      else
+      {
+          router.push({name:'LoginVue'});
+      }
     }
 
     const content = (cgno) => {
-      router.push({ name: "CGContentVue", query : {cgno:cgno} });
+      router.push({ name: "CGContentVue", query : {cgno:cgno, cno:state.cno} });
     }
 
     const search = () => {
 
     }
 
+    const handleUpload = () =>
+    {
+      router.push({name:'CGUploadVue', query:{cno : state.cno}});
+    }
+
     onMounted(async() =>
     {
-      await selectlist();
+      selectlist();
     });
 
-    return { state, content, search }
+    return { state, content, search, handleUpload }
   }
 }
 </script>

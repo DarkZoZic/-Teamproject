@@ -9,7 +9,7 @@
                 <v-col sm="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
-                            <h5><router-link to="/chome">홈</router-link> > <router-link to="/cblist">{{state.boardname}}</router-link> > 글쓰기</h5>
+                            <h5><router-link :to="{name : 'CHomeVue', query : {cno : state.cno}}">홈</router-link> > <router-link :to="{name : 'CBoardListVue', query : {cno : state.cno}}">{{state.boardname}}</router-link> > 글쓰기</h5>
                         </v-col>                                
                     </v-row>
 
@@ -169,12 +169,13 @@ export default {
         }
 
         const write = async() => {
-            const url = `/ROOT/api/clubboard/insert?cno=${state.cno}`;
+            const url = `/ROOT/api/clubboard/insert`;
             const headers = {"Content-Type" : "multipart/form-data", "token" : state.token};
             const body = new FormData();
             body.append("cbtitle", state.title);
             body.append("cbcontent", state.editorData);
             body.append("file", state.imageFile);
+            body.append("club", state.cno);
 
             const response = await axios.post(url, body, {headers});
             console.log(response.data);
