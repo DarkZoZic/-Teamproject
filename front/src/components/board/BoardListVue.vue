@@ -2,7 +2,7 @@
 <div v-if="state.items">
 <HeaderVue style="height: 220px;"></HeaderVue>
     <v-app>
-        <v-main style="padding: 10px;">      
+        <v-main style="padding: 10px;">
             <v-row dense>
                 <v-col sm="2"></v-col>
 
@@ -12,7 +12,7 @@
                             <h5><router-link to="/">홈</router-link> > 자유게시판</h5>
                         </v-col>
                     </v-row>
-                    
+
                     <v-row dense style="padding-top: 10px; padding-bottom: 5px; padding-left: 10px; ">
                         <v-col class="col_left"><h2>자유게시판</h2></v-col>
 
@@ -28,7 +28,7 @@
                         </v-col>
                     </v-row>
 
-                    <v-row dense style="border: 1px solid #CCC; border-top: 1px solid #CCC; padding: 10px; padding-left: 20px;  ">
+                    <v-row dense style="border: 1px solid #CCC; border-top: 1px solid #CCC; padding: 10px; padding-left: 20px;">
                         <v-col>
                             <v-table height="800px">
                                 <thead>
@@ -46,13 +46,12 @@
                                         <td>{{ item.bno }}</td>
                                         <td style="cursor: pointer;" @click="handlePage(item.bno)" >{{ item.btitle }}</td>
                                         <td>{{ item.member.mid }}</td>
-                                        <td>{{ state.bregdate1 }}</td>
+                                        <td>{{ item.bregdate1 }}</td>
                                         <td>{{ item.bhit }}</td>
                                         <td>{{ item.blike }}</td>
                                     </tr>
                                 </tbody>
-                            </v-table>   
-    
+                            </v-table>
                         </v-col>
                     </v-row>
                 </v-col>
@@ -90,7 +89,6 @@ export default {
         
         onMounted(() => {
             handleData();
-            date();
         });
 
         const router = useRouter();
@@ -102,21 +100,23 @@ export default {
             text: '',  // 검색어
             page: 1,   // 현재페이지
             option: '전체',
-            items: '',
+            items: [],
             items1: [
                 '전체', '제목', '내용', '글쓴이'
-            ]
+            ],
+            bregdate1: '',
         });
 
-        const date = () => {
-        state.bregdate1 = dayjs(state.items.bregdate).format('YY.MM.DD HH:MM');
+        const date = (i) => {
+            console.log(state.items[i].bregdate);
+            state.items[i].bregdate1 = dayjs(state.items[i].bregdate).format('YY.MM.DD hh:mm:ss');
         }
 
         // 조회수 1증가 시키기
         const handlePage = async(bno) => {
             if(state.token !== null){
             const url = `/ROOT/api/board1/updatehit?bno=${bno}`;
-            const headers = { 
+            const headers = {
                 "Content-Type":"application/json",
                 "token" : state.token,
             };
@@ -154,6 +154,12 @@ export default {
 
             if(response.data.status === 200){
             state.items = response.data.result
+
+            // handledata가 출력되고 나서 ..
+            for(var i = 0; i<state.items.length; i++){
+                date(i);
+            }
+            
             //  테이블에 좋아요 넣기 (for문을 돌려서 넣으므로 느림) 
             // for(var i = 0; i<state.items.length; i++){
             //     const url1 = `ROOT/reaction/likelist.json?bno=${state.items[i].bno}`;
