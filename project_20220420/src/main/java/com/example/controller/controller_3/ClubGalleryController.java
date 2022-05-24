@@ -101,7 +101,7 @@ public class ClubGalleryController {
 			PageRequest pageRequest = PageRequest.of(page-1, 20); 
 			System.out.println(pageRequest);
 			
-			List<ClubGallery> list = cgRep.findByCgnameAndClub_cnoContainingOrderByCgnoDesc(text, cno, pageRequest);
+			List<ClubGallery> list = cgRep.findByCgnameContainingAndClub_cnoOrderByCgnoDesc(text, cno, pageRequest);
 			model.addAttribute("list", list);
 			
 			long total = list.toArray().length;
