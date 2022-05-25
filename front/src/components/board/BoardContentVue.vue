@@ -123,22 +123,28 @@
                   <!-- 닉네임, 날짜 -->
                   <v-row dense>
                     <div v-if="tmp.reparentnumber !== 0" >
-                      <img :src="require('../../assets/img/reply.png')" style="margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
+                      <img :src="require('../../assets/img/reply.png')" style="margin-top: 5px; margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
                     </div>
                     <v-col class="col_left">
                       <!-- id가 아니라 닉네임이 나와야 함 -->
                       
-                      <h5 style="padding-right: 10px; color: gray">{{tmp.member.mid}} &nbsp; | </h5> 
-                      <h5 style="color: gray;">{{tmp.reregdate}}</h5>
+                      <h5 style="padding-right: 10px;">{{tmp.member.mid}} &nbsp; | </h5> 
+                      <h5 style="color: gray;">{{tmp.reregdate1}}</h5>
                     </v-col>
                   </v-row>
 
                   <!-- 댓글내용 -->
-                  <v-row dense style="padding-right: 10px;">
-                    <v-col>
+                  <v-row dense>
+                    <v-col sm="11">
                       <!-- <div style="padding-left: 10px; padding-right: 10px;" >{{tmp.recontent}}</div> -->
-                      <p class="collapse multi-collapse-{{id}} show">{{tmp.recontent}}</p>
-
+                      <div v-if="state.reply1.reupdate" style="padding: 10px; border: 1px solid #CCC; border-radius: 5px; height: 70px; width: 930px;" class="collapse multi-collapse-{{id}} show">{{tmp.recontent}}</div>
+                      <div v-if="!state.reply1.reupdate" class="col_left">
+                        <textarea v-model="tmp.recontent" 
+                          style="background-color: white; resize: none; border: 1px solid #CCC; border-radius: 5px; padding: 10px; width: 930px;"></textarea>
+                      </div>
+                    </v-col>
+                    <v-col class="col_center">
+                      <v-btn style="height: 68px;"><h4 @click="handleReplyUpdate()">수정</h4></v-btn>
                     </v-col>
                   </v-row>
 
@@ -184,31 +190,27 @@
               </v-row>
 
               <v-row dense>
-                <v-col sm="9" style="padding-top: 10px;">
+                <v-col sm="11" style="padding-top: 10px;">
                   <textarea  
-                    style="border: 1px solid #CCC; padding: 10px; background-color: white; width: 100%; height: 70px; outline-width: 0; resize: none;"
+                    style="border: 1px solid #CCC; padding: 10px; background-color: white; border-radius: 5px; width: 930px; height: 70px; outline-width: 0; resize: none;"
                     v-model="state.reply1.recontent" placeholder="댓글내용">
                   </textarea>
                 </v-col>
                 
                 <v-col sm="1" style="padding: 10px;" class="col_center">
-                  <v-btn style="width: 100%; height:69px; border: 1px solid #CCC;" @click="handleReplyInsert"><h4>댓글작성</h4></v-btn>
+                  <v-btn style="width: 100%; height: 70px; border: 1px solid #CCC;" @click="handleReplyInsert"><h4>댓글작성</h4></v-btn>
                 </v-col>
               </v-row>
             </v-col>
           </v-row>
           
           <v-row dense style="padding-top: 10px; padding-bottom: 20px;">
-            <v-col sm="3">
+            <v-col sm="7" class="col_left">
               <router-link to="/blist">
                 <v-btn class="col_center"><img :src="require('../../assets/img/list.png')" style="width: 20px; margin-right: 3px;"/><h4>목록</h4></v-btn>
               </router-link>
-            </v-col>
-
-            <!-- 디자인 수정 필요  -->
-            <v-col sm="3">
-              <v-btn @click="handlePage(1)" v-if="state.items.prev > 0">이전글</v-btn>
-              <v-btn @click="handlePage(2)">다음글</v-btn>
+              <v-btn @click="handlePage(1)" v-if="state.items.prev > 0"><h4>이전글</h4></v-btn>
+              <v-btn @click="handlePage(2)"><h4>다음글</h4></v-btn>
             </v-col>
 
             <v-col class="col_right">
@@ -247,15 +249,16 @@ export default {
       await handleData(); 
       date();
       await handleReplyView();
-
-      
-
     
     })
 
     const date = () => {
       state.bregdate1 = dayjs(state.items.bregdate).format('YY.MM.DD hh:mm:ss');
-     
+    }
+
+    const date1 = (i) => {
+      console.log(state.reply[i].reregdate);
+      state.reply[i].reregdate1 = dayjs(state.reply[i].reregdate).format('YY.MM.DD hh:mm:ss');
     }
 
     const route = useRoute();
@@ -281,8 +284,9 @@ export default {
         reparentnumber : 0,
         reprivate : 'n',
         reregdate : '',
+        reregdate1 : '',
         reupdatedate : '',
-
+        reupdate: false,
       },
       
       replylist: [],
@@ -300,6 +304,7 @@ export default {
         console.log(state.items);
       }
     }
+
 
     // const handleDelete = async() => {
     //   if (confirm('정말 삭제하시겠습니까?')) {
@@ -383,7 +388,10 @@ export default {
         // console.log(state.items);
         // state.reply = response.data.result;
       }
-
+        // handledata가 출력되고 나서 ..
+        for(var i = 0; i<state.reply.length; i++){
+          date1(i);
+        }
     }
 
     // 댓글 등록하기
@@ -450,6 +458,14 @@ export default {
 
     // 댓글 수정
     const handleReplyUpdate = async() => {
+      console.log(state.reply1.reupdate);
+      if(state.reply1.reupdate == false) {
+        state.reply1.reupdate = true;
+        console.log(state.reply1.reupdate);
+      }
+      else if(state.reply1.reupdate == true) {
+        state.reply1.reupdate = false;
+      }
       // const url = `/ROOT/api/creply/board_update`;
       // const headers = {
       //     "Content-Type" : "application/json",
@@ -512,7 +528,7 @@ export default {
       }
     }
 
-    return { state, date, handleUpdate, handleDelete, replylike, handleReplyInsert, handleReplyAdd, handlePage, handleReplyUpdate, handleReplyDelete }
+    return { state, date1, date, handleUpdate, handleDelete, replylike, handleReplyInsert, handleReplyAdd, handlePage, handleReplyUpdate, handleReplyDelete }
   }
 }
 </script>
