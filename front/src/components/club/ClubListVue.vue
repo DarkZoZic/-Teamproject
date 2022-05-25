@@ -21,7 +21,7 @@
                             <h2>지역명</h2>
                         </v-col>
 
-                        <v-col sm="7" class="col_right">
+                        <v-col sm="7" class="col_right" v-if="state.logged">
                             <router-link to="/regclub">
                                  <v-btn style="background-color: gold; margin-right: 10px;"><h3>클럽생성</h3></v-btn>
                             </router-link>
@@ -58,38 +58,38 @@
 
                             <v-row dense="" class="row_pad5" style="padding-top: 10px;">
                                 <v-col sm="1"></v-col>
-                                <v-col sm="2" @click="all()"><h4 style="cursor: pointer;">전체</h4></v-col>
-                                <v-col sm="2" @click="Clicksearch('강서구')"><h4 style="cursor: pointer;">강서구</h4></v-col>
-                                <v-col sm="2" @click="Clicksearch('금정구')"><h4 style="cursor: pointer;">금정구</h4></v-col>
-                                <v-col sm="2" @click="Clicksearch('기장군')"><h4 style="cursor: pointer;">기장군</h4></v-col>
-                                <v-col sm="2" @click="Clicksearch('남구')"><h4 style="cursor: pointer;">남구</h4></v-col>
+                                <v-col sm="2"><h4 @click="all()" style="cursor: pointer;">전체</h4></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('강서구')" style="cursor: pointer;">강서구</h4></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('금정구')" style="cursor: pointer;">금정구</h4></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('기장군')" style="cursor: pointer;">기장군</h4></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('남구')" style="cursor: pointer;">남구</h4></v-col>
                                 <v-col sm="1"></v-col>
                             </v-row>
 
                             <v-row dense="" class="row_pad5">
                                 <v-col sm="1"></v-col>
-                                <v-col sm="2"><a><h4>동구</h4></a></v-col>
-                                <v-col sm="2"><a><h4>동래구</h4></a></v-col>
-                                <v-col sm="2"><a><h4>부산진구</h4></a></v-col>
-                                <v-col sm="2"><a><h4>북구</h4></a></v-col>
-                                <v-col sm="2"><a><h4>사상구</h4></a></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('동구')" style="cursor: pointer;">동구</h4></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('동래구')" style="cursor: pointer;">동래구</h4></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('부산진구')" style="cursor: pointer;">부산진구</h4></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('북구')" style="cursor: pointer;">북구</h4></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('사상구')" style="cursor: pointer;">사상구</h4></v-col>
                                 <v-col sm="1"></v-col>
                             </v-row>
 
                             <v-row dense="" class="row_pad5">
                                 <v-col sm="1"></v-col>
-                                <v-col sm="2"><a><h4>사하구</h4></a></v-col>
-                                <v-col sm="2"><a><h4>서구</h4></a></v-col>
-                                <v-col sm="2"><a><h4>수영구</h4></a></v-col>
-                                <v-col sm="2"><a><h4>연제구</h4></a></v-col>
-                                <v-col sm="2"><a><h4>영도구</h4></a></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('사하구')" style="cursor: pointer;">사하구</h4></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('서구')" style="cursor: pointer;">서구</h4></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('수영구')" style="cursor: pointer;">수영구</h4></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('연제구')" style="cursor: pointer;">연제구</h4></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('영도구')" style="cursor: pointer;">영도구</h4></v-col>
                                 <v-col sm="1"></v-col>
                             </v-row>
 
                             <v-row dense="" class="row_pad5" style="padding-bottom: 8px;">
                                 <v-col sm="1"></v-col>
-                                <v-col sm="2"><a><h4>중구</h4></a></v-col>
-                                <v-col sm="2"><a><h4>해운대구</h4></a></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('중구')" style="cursor: pointer;">중구</h4></v-col>
+                                <v-col sm="2"><h4 @click="Clicksearch('해운대구')" style="cursor: pointer;">해운대구</h4></v-col>
                                 <v-col sm="2"></v-col>
                                 <v-col sm="2"></v-col>
                                 <v-col sm="2"></v-col>
@@ -105,7 +105,14 @@
                                     <v-row dense style="border-bottom: 1px solid #CCC;">
                                         <v-col sm="1" class="col_left" style="vertical-align: middle;" ><h4 class="club_list_h">지역</h4></v-col>
                                         <v-col sm="11" class="col_left">
-                                            <input type="text" id="" @keyup.enter="Clicksearch(state.area)" v-model="state.area" class="club_list_input" style="outline-width: 0;">
+                                            <div class="club_list_input" style="justify-content: left; display: flex; align-items: center;outline-width: 0;"> 
+                                                <div class="col_center">
+                                                    <h5 v-for="(tmp, idx) in state.area" :key="tmp" class="h5" @click="del(idx)" style="cursor: pointer; margin-right: 10px;">
+                                                        {{tmp}}
+                                                        <div class="hov1"><img :src="require('../../assets/img/x.png')" style="width: 10px"></div>
+                                                    </h5>
+                                                </div>
+                                            </div>
                                             <v-btn class="club_list_btn" @click="all()" ><h4>초기화</h4></v-btn>
                                         </v-col>
                                     </v-row>
@@ -166,7 +173,6 @@
 
                                     <v-row dense>
                                         <v-col class="col_center">
-                                            
                                             <v-btn class="club_list_btn"  v-model="state.area" @click="Clicksearch(state.area)"><h4>검색</h4></v-btn>
                                             <v-btn class="club_list_btn"  @click="reset()" ><h4>초기화</h4></v-btn>
                                         </v-col>
@@ -253,14 +259,19 @@
 import { reactive } from '@vue/reactivity';
 import FooterVue from '../FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
-import { onMounted } from '@vue/runtime-core';
+import { onMounted, computed } from '@vue/runtime-core';
 import axios from 'axios';
+import { useStore } from 'vuex';
 
 export default {
     components: { HeaderVue, FooterVue },
     setup () {
+        const store = useStore();
         const state = reactive({
             token : sessionStorage.getItem("TOKEN"),
+            logged: computed(() => store.getters['moduleA/getLogged']),
+            area: [''],
+            
             items1 : '',
             datechk: [],
             timechk: [],
@@ -269,6 +280,7 @@ export default {
             imgName: require(`../../assets/img/heart.png`),
             imgName1: require(`../../assets/img/heart1.png`),
             logo: 'club_logo',
+            show: 'true',
 
             card: {
                 clubname: '삥뽕탁구클럽',
@@ -277,10 +289,6 @@ export default {
                 area1: '부산',
                 area2: '연제구',
             },
-
-            text: '',
-            inputText: '',
-
         });
 
         onMounted (async()=>{
@@ -288,22 +296,23 @@ export default {
             if (state.card.desc.length >= 20) {
                 state.card.desc1 = state.card.desc.substring(0, 20) + '...'
             }
-
-
         })
 
+        const array1 = () => [...new Set(state.area)];
+
+        const del = (idx) => {
+            console.log(idx);
+            state.area.splice(idx, 1)
+        }
 
         const all = async() => {
            const url = `/ROOT/club/selectlist`;
             const headers = {"Content-Type":"application.json"};
             const response = await axios.get(url,{headers:headers});
-                console.log(response.data);
-                 if(response.data.status === 200){
-                    state.items = response.data.result;
-        }
-        
-   
-                
+            console.log(response.data);
+                if(response.data.status === 200){
+                state.items = response.data.result;
+            }
         }
 
         const handleData = async() => {
@@ -349,6 +358,7 @@ export default {
         }
 
         const Clicksearch = async(area) => {
+            state.area.push(area)
             const url =`/ROOT/club/searchclub?address=${area}`
             const headers = {"Content-Type":"application.json"};
             const response = await axios.get(url,{headers:headers});
@@ -358,6 +368,7 @@ export default {
                     state.items = response.data.result;
 
             }
+            array1();
         }
 
          const changeheart = async(cno,idx) => {
@@ -416,11 +427,7 @@ export default {
                         }
 
         }
-       
 
-        const input = (e) => {
-            return state.inputText = e.target.value
-        };
     //     const like = async() => {
     //    const url =`/ROOT/like/insert`
     //         const headers = {"Content-Type":"application.json"};
@@ -441,22 +448,25 @@ export default {
             state.datechk = [];
             state.timechk = [];
         };
-
-        const searcharea = async() => {
-            
-        }
-
-        const area = async() => {
-
-        }
         
-        return { input,
+        return {
         // like,
-        state, reset, searcharea ,Clicksearch,all,changeheart, unlike }
+        state, array1, del, reset ,Clicksearch, all, changeheart, unlike }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.h5:hover {
+    background-color: gold;
+}
+.hov1 {
+    display: none;
+}
+.h5:hover .hov1 {
+    display: inline;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: red;
+}
 </style>
