@@ -107,7 +107,6 @@
                                         <v-col sm="11" class="col_left">
                                             <div class="club_list_input" style="justify-content: left; display: flex; align-items: center;outline-width: 0;"> 
                                                 <div class="col_center">
-                                                    {{state.area}}
                                                     <h5 v-for="(tmp, idx) in state.area" :key="tmp" class="h5" @click="del(idx)" style="cursor: pointer; margin-right: 10px;">
                                                         {{tmp}}
                                                         <div class="hov1"><img :src="require('../../assets/img/x.png')" style="width: 10px"></div>
@@ -367,6 +366,10 @@ export default {
                 console.log(area);
                 state.items = response.data.result;
             }
+            const arr = [...new Set(state.area)];
+            console.log(arr);
+            state.area = arr;
+            
         }
 
          const changeheart = async(cno,idx) => {
@@ -447,7 +450,7 @@ export default {
         
         return {
         // like,
-        state, array1, del, reset ,Clicksearch, all, changeheart, unlike }
+        state, del, reset ,Clicksearch, all, changeheart, unlike }
     }
 }
 </script>
