@@ -210,7 +210,7 @@
                 <v-btn class="col_center"><img :src="require('../../assets/img/list.png')" style="width: 20px; margin-right: 3px;"/><h4>목록</h4></v-btn>
               </router-link>
               <v-btn @click="handlePage(1)" v-if="state.items.prev > 0"><h4>이전글</h4></v-btn>
-              <v-btn @click="handlePage(2)"><h4>다음글</h4></v-btn>
+              <v-btn @click="handlePage(2)" v-if="state.items.next >0"><h4>다음글</h4></v-btn>
             </v-col>
 
             <v-col class="col_right">
@@ -301,6 +301,8 @@ export default {
       console.log(response.data);
       if(response.data.status === 200){
         state.items = response.data.result;
+        state.items.prev = response.data.prev;
+        state.items.next = response.data.next;
         console.log(state.items);
       }
     }
@@ -513,15 +515,14 @@ export default {
       if(idx === 1){ // 이전글
         const url = `/ROOT/api/board1/prev?bno=${state.bno}`;
         const headers = {"Content-Type":"application/json",
-                          "token" : state.token };
+                      "token" : state.token };
         const response = await axios.get(url, {headers});
         console.log(response.data);
         if(response.data.status === 200){
-          // router.push({name:"BoardContent", query:{no:state.items.bno}});
-          // await handleData(state.bno);
-          console.log("===이전글===", state.bno)
           alert('이전글');
+          // router.push({name:"BoardContent", query : {bno : state.items.prev}});
         }
+       
       }
       else if(idx === 2){ // 다음글
 

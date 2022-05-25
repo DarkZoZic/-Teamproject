@@ -107,7 +107,6 @@
                                         <v-col sm="11" class="col_left">
                                             <div class="club_list_input" style="justify-content: left; display: flex; align-items: center;outline-width: 0;"> 
                                                 <div class="col_center">
-                                                    {{state.area}}
                                                     <h5 v-for="(tmp, idx) in state.area" :key="tmp" class="h5" @click="del(idx)" style="cursor: pointer; margin-right: 10px;">
                                                         {{tmp}}
                                                         <div class="hov1"><img :src="require('../../assets/img/x.png')" style="width: 10px"></div>
@@ -196,6 +195,7 @@
                         <v-col sm="3" class="col_left">
                             <h3>클럽정보</h3>
                         </v-col>
+
                         <v-col class="col_right">
                             <router-link to="/likelist">
                             <v-btn style="background-color: gold;"><h4>찜목록</h4></v-btn>
@@ -209,26 +209,25 @@
                                 <v-card height="200px" class="club_card" style="padding: 20px;" >
                                     <v-row dense>
                                         <v-col sm="3"></v-col>
+
                                         <v-col sm="6" class="col_center">
                                             <router-link to="/cdetail" class="col_center">
                                             <img v-if="item.imgurl" :src="item.imgurl"  style="height: 50px;"/>
                                             <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)"  style="height: 50px;"/>
                                             </router-link>
                                         </v-col>
+
                                         <v-col sm="3" class="col_right">
                                             <v-btn style="height: 100%; width: 10px;" id="like"  @click="changeheart(item.obj.cno,idx)">
-                                                <img   v-if="state.imgcheck[idx].type === 0" :src="state.imgName"  style="width: 30px"/>
-                                                <img   v-if="state.imgcheck[idx].type === 1" :src="state.imgName1"  style="width: 30px"/>
+                                                <img v-if="state.imgcheck[idx].type === 0" :src="state.imgName" style="width: 30px"/>
+                                                <img v-if="state.imgcheck[idx].type === 1" :src="state.imgName1" style="width: 30px"/>
                                             </v-btn>
                                         </v-col>
                                     </v-row>
-
                                     
                                     <v-row dense>
                                         <v-col>
-                                            <h4>{{item.obj.cname}}</h4>
-                                                
-
+                                            <h3>{{item.obj.cname}}</h3>
                                         </v-col>
                                     </v-row>
 
@@ -243,7 +242,6 @@
                                     <v-row dense>
                                         <v-col>
                                             <h4>{{item.obj.carea}}</h4>
-
                                             <!-- <h5>{{state.card.area1}}&nbsp;{{state.card.area2}}</h5> -->
                                         </v-col>
                                     </v-row>
@@ -304,8 +302,6 @@ export default {
             }
         })
 
-        const array1 = () => [...new Set(state.area)];
-
         const del = (idx) => {
             console.log(idx);
             state.area.splice(idx, 1)
@@ -326,20 +322,18 @@ export default {
             const url = `/ROOT/club/selectlist`;
             const headers = {"Content-Type":"application.json"};
             const response = await axios.get(url,{headers:headers});
-                console.log(response.data);
-                if(response.data.status === 200){
-                    state.items = response.data.result;
-                    for(var i =0; i < state.items.length; i++){
-                        state.imgcheck.push({cno:state.items[i].obj.cno,type:0})
-                        // state.imgcheck[i] = 0;s
-                    }
-                    console.log(response.data.result[0].imgurl);
-                    console.log(response.data.result.length);
-                   
+            console.log(response.data);
+            if(response.data.status === 200){
+                state.items = response.data.result;
+                for(var i =0; i < state.items.length; i++){
+                    state.imgcheck.push({cno:state.items[i].obj.cno,type:0})
+                    // state.imgcheck[i] = 0;s
+                }
+                console.log(response.data.result[0].imgurl);
+                console.log(response.data.result.length);
+            }   
         }
-   
-                
-        }
+
         const Lkelist = async() => {
             const url = `/ROOT/api/like/selectlist`;
             const headers = {"Content-Type":"application.json",
@@ -366,16 +360,16 @@ export default {
             const url =`/ROOT/club/searchclub?address=${area}`
             const headers = {"Content-Type":"application.json"};
             const response = await axios.get(url,{headers:headers});
-                console.log(response.data);
-                if(response.data.status === 200){
-                    console.log(area);
-                    state.items = response.data.result;
+            console.log(response.data);
 
+            if(response.data.status === 200){
+                console.log(area);
+                state.items = response.data.result;
             }
-            array1();
-            var setObj = new Set(state.area);
-            var setArr = [...setObj];
-            console.log(setArr);
+            const arr = [...new Set(state.area)];
+            console.log(arr);
+            state.area = arr;
+            
         }
 
          const changeheart = async(cno,idx) => {
@@ -384,14 +378,13 @@ export default {
             if(state.imgcheck[idx].cno === cno ){
 
                 if(state.imgcheck[idx].type === 1){
-                    state.imgcheck[idx].type =0;
+                    state.imgcheck[idx].type = 0;
                 }
                 else{
                     state.imgcheck[idx].type = 1;
                 }
             }
              
-            
             const url =`/ROOT/api/like/insert`
             const headers = {"Content-Type":"multipart/form-data",
                             token : state.token};
@@ -420,19 +413,20 @@ export default {
             // }
                 
         };
-        const unlike = async(cno,idx) => {
-                    console.log("unlike", state.imgcheck[idx]);
-                    const url = `/ROOT/api/like/deleteone`
-                    const headers = {"Content-Type":"multipart/form-data",
-                                    token : state.token};
-                    const body = new FormData;
-                        body.append("club", cno);   
-                    const response = await axios.post(url, body, {headers:headers});
-                    console.log(response.data);
-                    if(response.data.status == 200){
-                            // state.imgName = state.imaName1
-                        }
 
+        const unlike = async(cno,idx) => {
+            console.log("unlike", state.imgcheck[idx]);
+            const url = `/ROOT/api/like/deleteone`
+            const headers = {"Content-Type":"multipart/form-data",
+                            token : state.token};
+            const body = new FormData;
+            body.append("club", cno);   
+            const response = await axios.post(url, body, {headers:headers});
+            console.log(response.data);
+
+            if(response.data.status == 200){
+                    // state.imgName = state.imaName1
+            }
         }
 
     //     const like = async() => {
@@ -449,8 +443,6 @@ export default {
     //     }
     //     }
 
-        
-
         const reset = async() => {
             state.datechk = [];
             state.timechk = [];
@@ -458,7 +450,7 @@ export default {
         
         return {
         // like,
-        state, array1, del, reset ,Clicksearch, all, changeheart, unlike }
+        state, del, reset ,Clicksearch, all, changeheart, unlike }
     }
 }
 </script>

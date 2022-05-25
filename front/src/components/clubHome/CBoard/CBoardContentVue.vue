@@ -70,7 +70,7 @@
                   <!-- 댓글작성자 -->
                   <v-row dense>
                     <v-col class="col_left">
-                      <h5 style="padding-right: 10px;">{{tmp.writer}}</h5> 
+                      <h5 style="padding-right: 10px;">{{tmp.member.mname}}</h5> 
                       <h5 style="color: #676767;">{{tmp.reregdate}}</h5>
                       <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
                       <h5 style="color: #676767;">{{tmp.like}}</h5>
@@ -137,12 +137,17 @@
               </router-link>
             </v-col>
 
+            
+
             <v-col class="col_right">
               <router-link :to="{name:'CBoardWriteVue', query :{cno : state.cno}}">
                 <v-btn class="col_center"><img :src="require('../../../assets/img/pencil.png')" style="width: 20px; margin-right: 3px;"/><h4>글쓰기</h4></v-btn>
               </router-link>
             </v-col>
           </v-row>
+
+          <v-btn @click="prevnext(1)" v-if="state.prev !== 0"><h4>이전글</h4></v-btn>
+          <v-btn @click="prevnext(2)" v-if="state.next !== 0"><h4>다음글</h4></v-btn>
         </v-col>
 
         <v-col sm="2"></v-col>
@@ -174,6 +179,8 @@ export default {
       boardname: '클럽게시판',
       replycontent: '',
       token : sessionStorage.getItem("TOKEN"),
+      prev : 0,
+      next : 0,
 
       reply: [],
       rereply : []
@@ -193,12 +200,20 @@ export default {
         const headers = {"Content-Type":"application/json", "token" : state.token};
         
         const response = await axios.get(url, {headers});
-        console.log(response.data.result);
+        console.log(response.data);
         if(response.data.status === 200)
         {
           state.board = response.data.result.clubboard;
           state.reply = response.data.result.replylist;
           state.imageurl = response.data.result.clubboard.cbimageurl;
+          state.prev = response.data.result.prev;
+          state.next = response.data.result.next;
+          
+        }
+        else if(response.data.status === -1)
+        {
+          alert('비정상적인 접근입니다.');
+          router.push({name:'CBoardListVue', query : {cno : state.cno}});
         }
       }
     }
@@ -223,7 +238,23 @@ export default {
       console.log(response.data);
       if(response.data.status === 200)
       {
-        window.location.reload();
+        content();
+      }
+    }
+
+    const prevnext = async(idx) =>
+    {
+      if(idx === 1)
+      {
+        router.push({name:'CBoardContentVue', query : {cbno : state.prev, cno : state.cno}});
+        await content();
+        location.reload();
+      }
+      if(idx === 2)
+      {
+        router.push({name:'CBoardContentVue', query : {cbno : state.next, cno : state.cno}});
+        await content();
+        location.reload();
       }
     }
 
@@ -232,7 +263,7 @@ export default {
       content();
     });
 
-    return { state, like, replylike, insertreply }
+    return { state, like, replylike, insertreply, prevnext }
   }
 }
 </script>

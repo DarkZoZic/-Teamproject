@@ -197,11 +197,11 @@
                                                 <v-col sm="6">
                                                     <v-row dense>
                                                         <v-col sm="8" v-if="state.cname" style="padding-top: 5px;">
-                                                            <h5>기업회원</h5>
+                                                            <div class="col_center" style="background-color: navy; width: 55px; border: 0px solid; border-radius: 6px;"><h5>기업회원</h5></div>
                                                         </v-col>
                                                         
                                                         <v-col sm="8" v-if="state.nick" style="padding-top: 5px;">
-                                                            <h5>개인회원</h5>
+                                                            <div class="col_center" style="background-color: gold; width: 55px; border: 0px solid; border-radius: 6px;"><h5>개인회원</h5></div>
                                                         </v-col>
 
                                                         <v-col class="col_right">
@@ -211,7 +211,7 @@
 
                                                     <v-row dense>
                                                         <router-link to="/regclub">
-                                                            <v-btn style="background-color: gold;"><h3>클럽생성</h3></v-btn>
+                                                            <v-btn><h3>클럽생성</h3></v-btn>
                                                         </router-link>
                                                     </v-row>
                                                 </v-col>
@@ -224,6 +224,7 @@
                                                             <h4>{{state.cname.mcname}}</h4>님 환영합니다!
                                                         </v-col>
                                                     </v-row>
+
                                                     <v-row v-if="state.nick">
                                                         <v-col class="col_left" >
                                                                 <h4>{{state.nick.mpnickname}}</h4>님 환영합니다!
@@ -271,7 +272,8 @@
                     
                                         <v-col sm="6" class="col_center">
                                             <router-link to="/cdetail" class="col_center">
-                                                <img :src="items.imgurl" style="height: 50px;"/>
+                                                <img v-if="items.imgurl" :src="items.imgurl" style="height: 50px; border: 1px solid #CCC;"/>
+                                                <img v-if="!items.imgurl" :src="require(`../assets/img/default-logo.jpg`)"  style="height: 50px; border: 1px solid #CCC;"/>
                                             </router-link>
                                         </v-col>
 
@@ -285,7 +287,9 @@
                                     
                                     <v-row dense>
                                         <v-col>
-                                            <h4>{{items.obj.cname}}</h4>
+                                            <router-link to="/cdetail">
+                                                <h3>{{items.obj.cname}}</h3>
+                                            </router-link>
                                         </v-col>
                                     </v-row>
 

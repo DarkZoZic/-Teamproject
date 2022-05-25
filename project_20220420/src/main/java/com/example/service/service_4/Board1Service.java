@@ -36,6 +36,12 @@ public interface Board1Service {
     // 일괄삭제
     public int deleteBoard1Batch(Long[] bno);
 
+    // 이전글
+    public long selectPrevBoard1(Long bno);
+
+    // 다음글
+    public long selectNextBoard1(Long bno);
+
    
 
     

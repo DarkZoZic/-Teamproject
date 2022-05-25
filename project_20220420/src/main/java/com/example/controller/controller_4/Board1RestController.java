@@ -438,23 +438,41 @@ public class Board1RestController {
         @RequestHeader (name = "token") String token ){
 
         Map<String ,Object> map = new HashMap<>();
+        map.put("status", 0);
         try{
             if(token != null){
+                // 1개 조회
                 Board1 board1 = b1Service.selectBoard1One(bno);
-              
-                // Bckeditor bckeditor = new Bckeditor();
-                // board1.setBimageurl("/ROOT/api/board1/image?biimgcode=" + bckeditor.getBcimgcode() ); // 이미지 url
                 
-                if(board1 != null){
-                    map.put("status", 200); // 성공 
-                    map.put("result", board1);
+                // 이전글
+                Board1 prev = b1Repository.findTop1ByBnoLessThanOrderByBnoDesc(bno);
+
+                // 다음글
+                Board1 next = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
+            
+                if (prev.getBno() > 0){
+                    map.put("prev", prev.getBno());
                 }
+                else {
+                    map.put("prev", 0L);
+                }
+                if ( next.getBno() > 0) {
+                    map.put("next", next.getBno());
+                }
+                else { 
+                    map.put("next", 0L);
+                }
+
+                map.put("status", 200); // 성공 
+                map.put("result", board1);
+                    
+                
             }
                
         }
         catch(Exception e){
             e.printStackTrace();
-            map.put("status", 0); // 실패
+            map.put("status", -1); // 실패
         }
         return map;
        
@@ -650,15 +668,14 @@ public class Board1RestController {
         Map<String ,Object> map = new HashMap<>();
         try{
             if(token != null){
-              
-                Board1 prev = b1Repository.findTop1ByBnoLessThanOrderByBnoDesc(bno);   
+
+                Board1 prev = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
                 if(prev.getBno()!=null){
                     Board1 board1 = b1Repository.findById(prev.getBno()).orElse(null);
-
-                    map.put("result",board1);
+                
+                    map.put("result", board1);
                     map.put("status", 200); // 성공
                 }
-                
             }
         }
         catch(Exception e){
@@ -670,32 +687,32 @@ public class Board1RestController {
 
     // 다음글
     // 127.0.0.1:9090/ROOT/api/board1/next
-    @RequestMapping(value = "/next", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
-                    produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Map<String, Object> nextGET(
-        @RequestParam(name = "bno") long bno,
-        @RequestHeader (name = "token")String token){
+    // @RequestMapping(value = "/next", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
+    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
+    // public Map<String, Object> nextGET(
+    //     @RequestParam(name = "bno") long bno,
+    //     @RequestHeader (name = "token")String token){
 
-        Map<String ,Object> map = new HashMap<>();
-        try{
-            if(token != null){
+    //     Map<String ,Object> map = new HashMap<>();
+    //     try{
+    //         if(token != null){
 
-                Board1 next = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
-                if(next.getBno()!=null){
-                    Board1 board1 = b1Repository.findById(next.getBno()).orElse(null);
+    //             Board1 next = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
+    //             if(next.getBno()!=null){
+    //                 Board1 board1 = b1Repository.findById(next.getBno()).orElse(null);
                 
-                    map.put("result", board1);
-                    map.put("status", 200); // 성공
+    //                 map.put("result", board1);
+    //                 map.put("status", 200); // 성공
 
-                }
-            }
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            map.put("status", 0); // 실패
-        }
-        return map;
-    }
+    //             }
+    //         }
+    //     }
+    //     catch(Exception e){
+    //         e.printStackTrace();
+    //         map.put("status", 0); // 실패
+    //     }
+    //     return map;
+    // }
 
     // 일괄삭제
     // 관리자만 가능하도록 해야하는데 아직 그건 구현 못함
