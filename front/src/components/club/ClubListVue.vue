@@ -23,8 +23,9 @@
 
                         <v-col sm="7" class="col_right">
                             <router-link to="/regclub">
-                                 <v-btn style="background-color: gold; padding-right: 10px;"><h3>클럽생성</h3></v-btn>
+                                 <v-btn style="background-color: gold; margin-right: 10px;"><h3>클럽생성</h3></v-btn>
                             </router-link>
+
                             <router-link to="/comeclub">
                                 <v-btn style="background-color: gold;"><h3>공고등록</h3></v-btn>
                             </router-link>                            
@@ -34,13 +35,34 @@
                     <v-row dense="">
                         <!-- 구 -->
                         <v-col style="border: 5px solid gold;">
+                            <v-row dense style="border-bottom: 1px solid #CCC; padding: 10px;">
+                                <v-col class="col_center">
+                                    <h3 style="cursor: pointer; margin-left: 10px;">전국</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">서울</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">경기</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">인천</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">부산</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">대전</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">대구</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">울산</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">강원</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">충북</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">충남</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">전북</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">전남</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">경북</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">경남</h3>
+                                    <h3 style="cursor: pointer; margin-left: 10px;">제주</h3>
+                                </v-col>
+                            </v-row>
+
                             <v-row dense="" class="row_pad5" style="padding-top: 10px;">
                                 <v-col sm="1"></v-col>
-                                <v-col sm="2" @click="all()"><a><h4>전체</h4></a></v-col>
-                                <v-col sm="2" @click="Clicksearch('강서구')"><a><h4>강서구</h4></a></v-col>
-                                <v-col sm="2" @click="Clicksearch('금정구')"><a><h4>금정구</h4></a></v-col>
-                                <v-col sm="2" @click="Clicksearch('기장군')"><a><h4>기장군</h4></a></v-col>
-                                <v-col sm="2" @click="Clicksearch('남구')"><a><h4>남구</h4></a></v-col>
+                                <v-col sm="2" @click="all()"><h4 style="cursor: pointer;">전체</h4></v-col>
+                                <v-col sm="2" @click="Clicksearch('강서구')"><h4 style="cursor: pointer;">강서구</h4></v-col>
+                                <v-col sm="2" @click="Clicksearch('금정구')"><h4 style="cursor: pointer;">금정구</h4></v-col>
+                                <v-col sm="2" @click="Clicksearch('기장군')"><h4 style="cursor: pointer;">기장군</h4></v-col>
+                                <v-col sm="2" @click="Clicksearch('남구')"><h4 style="cursor: pointer;">남구</h4></v-col>
                                 <v-col sm="1"></v-col>
                             </v-row>
 
@@ -64,7 +86,7 @@
                                 <v-col sm="1"></v-col>
                             </v-row>
 
-                            <v-row dense="" class="row_pad5" style="padding-bottom: 10px;">
+                            <v-row dense="" class="row_pad5" style="padding-bottom: 8px;">
                                 <v-col sm="1"></v-col>
                                 <v-col sm="2"><a><h4>중구</h4></a></v-col>
                                 <v-col sm="2"><a><h4>해운대구</h4></a></v-col>
@@ -75,27 +97,25 @@
                             </v-row>
                         </v-col>
                     </v-row>
-                    <div id="app">
-                        <div class="search">
-                            <p>
-                                <input type="text" style="border: 1px solid;" @change="input"/>
-                                <button @click="click">click</button>
-                            </p> 
-                            <p>{{state.text}}</p> 
-                        </div> 
-                    </div>
+
                     <v-row dense style="margin-top: 20px;">
                         <v-col>
                             <v-row dense style="border: 1px solid #CCC">
                                 <v-col>
                                     <v-row dense style="border-bottom: 1px solid #CCC;">
                                         <v-col sm="1" class="col_left" style="vertical-align: middle;" ><h4 class="club_list_h">지역</h4></v-col>
-                                        <v-col sm="11"><input type="text" id="" @keyup.enter="Clicksearch(state.area)" v-model="state.area" class="club_list_input" style="outline-width: 0;"></v-col>
+                                        <v-col sm="11" class="col_left">
+                                            <input type="text" id="" @keyup.enter="Clicksearch(state.area)" v-model="state.area" class="club_list_input" style="outline-width: 0;">
+                                            <v-btn class="club_list_btn" @click="all()" ><h4>초기화</h4></v-btn>
+                                        </v-col>
                                     </v-row>
 
                                     <v-row dense style="padding-top: 5px;">
                                         <v-col sm="1" class="col_left" style="vertical-align: middle;"><h4 class="club_list_h">테마</h4></v-col>
-                                        <v-col sm="11" style="vertical-align: middle; outline-width: 0;"><input type="text" class="club_list_input"></v-col>
+                                        <v-col sm="11" class="col_left" style="vertical-align: middle; outline-width: 0;">
+                                            <input type="text" class="club_list_input">
+                                            <v-btn class="club_list_btn"><h4>초기화</h4></v-btn>
+                                        </v-col>
                                     </v-row>
 
                                     <v-row dense style="margin-top: 5px; border-top: 1px solid #CCC;">
@@ -115,7 +135,7 @@
                                             </v-row>
 
                                             <v-row dense>
-                                                <v-col class="col_center" style="vertical-align: middle;">
+                                                <v-col class="col_center" style="vertical-align: middle; margin-bottom: 10px;">
                                                     <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="월"><h4>월</h4>
                                                     <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="화"><h4>화</h4>
                                                     <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="수"><h4>수</h4>
@@ -148,13 +168,11 @@
                                         <v-col class="col_center">
                                             
                                             <v-btn class="club_list_btn"  v-model="state.area" @click="Clicksearch(state.area)"><h4>검색</h4></v-btn>
-                                            <v-btn class="club_list_btn"  @click="all()" ><h4>초기화</h4></v-btn>
+                                            <v-btn class="club_list_btn"  @click="reset()" ><h4>초기화</h4></v-btn>
                                         </v-col>
                                     </v-row>
                                 </v-col>
                             </v-row>
-
-
                         </v-col>
                     </v-row>
                 </v-col>
@@ -163,65 +181,63 @@
             </v-row>
 
             <!-- 클럽정보 -->
-            <v-row>
+            <v-row dense>
                 <v-col sm="2"></v-col>
                 
                 <v-col sm="8">
-                    <v-row dense="">
+                    <v-row dense="" style="padding: 10px;">
                         <v-col>
                             <h3>클럽정보</h3>
-
                         </v-col>
-                        
                     </v-row>
+
                     <div v-if="state.items">
-                    <v-row >
-                        <v-col v-for="(item,idx) in state.items" :key="item"
-                            cols="4">
-                            <v-card height="200px" class="club_card" style="padding: 20px;" >
-                                <v-row dense>
-                                    <v-col sm="3"></v-col>
-                                    <v-col sm="6" class="col_center">
-                                        <router-link to="/cdetail" class="col_center">
-                                        <img  :src="item.imgurl"  style="height: 50px;"/>
-                                            <!-- <img :src="require(`../../assets/img/${state.logo}.png`)" style="width: 100%"/> -->
-                                        </router-link>
-                                    </v-col>
-                                    <v-col sm="3" class="col_right">
-                                        <v-btn style="height: 100%; width: 10px;" id="like"  @click="changeheart(item.obj.cno,idx)">
-                                            <img   v-if="state.imgcheck[idx].type === 0" :src="state.imgName"  style="width: 30px"/>
-                                            <img   v-if="state.imgcheck[idx].type === 1" :src="state.imgName1"  style="width: 30px"/>
-                                        </v-btn>
-                                    </v-col>
-                                </v-row>
+                        <v-row>
+                            <v-col v-for="(item,idx) in state.items" :key="item" cols="4">
+                                <v-card height="200px" class="club_card" style="padding: 20px;" >
+                                    <v-row dense>
+                                        <v-col sm="3"></v-col>
+                                        <v-col sm="6" class="col_center">
+                                            <router-link to="/cdetail" class="col_center">
+                                            <img  :src="item.imgurl"  style="height: 50px;"/>
+                                                <!-- <img :src="require(`../../assets/img/${state.logo}.png`)" style="width: 100%"/> -->
+                                            </router-link>
+                                        </v-col>
+                                        <v-col sm="3" class="col_right">
+                                            <v-btn style="height: 100%; width: 10px;" id="like"  @click="changeheart(item.obj.cno,idx)">
+                                                <img   v-if="state.imgcheck[idx].type === 0" :src="state.imgName"  style="width: 30px"/>
+                                                <img   v-if="state.imgcheck[idx].type === 1" :src="state.imgName1"  style="width: 30px"/>
+                                            </v-btn>
+                                        </v-col>
+                                    </v-row>
 
-                                
-                                <v-row dense>
-                                    <v-col>
-                                        <h4>{{item.obj.cname}}</h4>
-                                            
+                                    
+                                    <v-row dense>
+                                        <v-col>
+                                            <h4>{{item.obj.cname}}</h4>
+                                                
 
-                                    </v-col>
-                                </v-row>
+                                        </v-col>
+                                    </v-row>
 
-                                <v-row dense style="height: 70px;" >
-                                    <v-col sm="12">
-                                        <h4>{{item.obj.cdesc}}</h4>
-                                        <!-- {{items.cdesc}} -->
-                                        <!-- {{state.card.desc1}} -->
-                                    </v-col>
-                                </v-row>
+                                    <v-row dense style="height: 60px;" >
+                                        <v-col sm="12">
+                                            <h4>{{item.obj.cdesc}}</h4>
+                                            <!-- {{items.cdesc}} -->
+                                            <!-- {{state.card.desc1}} -->
+                                        </v-col>
+                                    </v-row>
 
-                                <v-row dense>
-                                    <v-col>
-                                        <h4>{{item.obj.carea}}</h4>
+                                    <v-row dense>
+                                        <v-col>
+                                            <h4>{{item.obj.carea}}</h4>
 
-                                        <!-- <h5>{{state.card.area1}}&nbsp;{{state.card.area2}}</h5> -->
-                                    </v-col>
-                                </v-row>
-                            </v-card>                        
-                        </v-col>
-                    </v-row>
+                                            <!-- <h5>{{state.card.area1}}&nbsp;{{state.card.area2}}</h5> -->
+                                        </v-col>
+                                    </v-row>
+                                </v-card>                        
+                            </v-col>
+                        </v-row>
                     </div>
                 </v-col>
 
@@ -329,10 +345,9 @@ export default {
                         }
                     }
                     console.log(state.likelist);
+            }                
         }
-   
-                
-        }
+
         const Clicksearch = async(area) => {
             const url =`/ROOT/club/searchclub?address=${area}`
             const headers = {"Content-Type":"application.json"};
@@ -341,21 +356,21 @@ export default {
                 if(response.data.status === 200){
                     console.log(area);
                     state.items = response.data.result;
+
+            }
         }
-        }
+
          const changeheart = async(cno,idx) => {
-             console.log(state.likelist.clubCno);
-             console.log(cno);
-              if(state.imgcheck[idx].cno === cno ){
+            console.log(state.likelist.clubCno);
+            console.log(cno);
+            if(state.imgcheck[idx].cno === cno ){
 
-
-                  if(state.imgcheck[idx].type === 1){
-                      state.imgcheck[idx].type =0;
-                  }
-             else{
-                 state.imgcheck[idx].type = 1;
-             }
-                  
+                if(state.imgcheck[idx].type === 1){
+                    state.imgcheck[idx].type =0;
+                }
+                else{
+                    state.imgcheck[idx].type = 1;
+                }
             }
              
             
@@ -427,7 +442,7 @@ export default {
             state.timechk = [];
         };
 
-        const search = async() => {
+        const searcharea = async() => {
             
         }
 
@@ -437,7 +452,7 @@ export default {
         
         return { input,
         // like,
-        state, reset, search,Clicksearch,all,changeheart, unlike }
+        state, reset, searcharea ,Clicksearch,all,changeheart, unlike }
     }
 }
 </script>
