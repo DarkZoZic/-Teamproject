@@ -319,16 +319,22 @@ public class ClubBoardRestController {
 				model.addAttribute("replylist", replylist); // 댓글
 				
 				ClubBoard prev = cbRep.findTop1ByClub_cnoAndCbnoLessThanOrderByCbnoDesc(cno, cbno); // 이전글
-				System.out.println("prev = "+ prev);
 				ClubBoard next = cbRep.findTop1ByClub_cnoAndCbnoGreaterThanOrderByCbnoAsc(cno, cbno); // 다음글
-				System.out.println("next = "+ next);
 				if(prev != null)
 				{
-					model.addAttribute("prev", prev);
+					model.addAttribute("prev", prev.getCbno());
+				}
+				else
+				{
+					model.addAttribute("prev", 0);
 				}
 				if(next != null)
 				{
-					model.addAttribute("next", next);
+					model.addAttribute("next", next.getCbno());
+				}
+				else
+				{
+					model.addAttribute("next", 0);
 				}
 				
 				map.put("status", 200);

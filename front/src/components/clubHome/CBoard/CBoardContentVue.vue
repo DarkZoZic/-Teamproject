@@ -206,8 +206,9 @@ export default {
           state.board = response.data.result.clubboard;
           state.reply = response.data.result.replylist;
           state.imageurl = response.data.result.clubboard.cbimageurl;
-          state.prev = response.data.result.prev.cbno;
-          state.next = response.data.result.next.cbno;
+          state.prev = response.data.result.prev;
+          state.next = response.data.result.next;
+          
         }
         else if(response.data.status === -1)
         {
@@ -241,15 +242,19 @@ export default {
       }
     }
 
-    const prevnext = (idx) =>
+    const prevnext = async(idx) =>
     {
       if(idx === 1)
       {
         router.push({name:'CBoardContentVue', query : {cbno : state.prev, cno : state.cno}});
+        await content();
+        location.reload();
       }
       if(idx === 2)
       {
         router.push({name:'CBoardContentVue', query : {cbno : state.next, cno : state.cno}});
+        await content();
+        location.reload();
       }
     }
 
