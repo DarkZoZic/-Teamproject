@@ -6,12 +6,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.entity.entity1.Like;
+import com.example.entity.entity1.Member;
 import com.example.entity.entity2.Address;
 import com.example.entity.entity2.Category;
 import com.example.entity.entity2.Cimage;
 import com.example.entity.entity2.Club;
 import com.example.entity.entity2.ClubProjection;
+import com.example.entity.entity2.Membermid;
 import com.example.jwt.JwtUtil;
+import com.example.repository.MemberRepository;
+import com.example.repository.repository_4.LikeRepository;
 import com.example.repository.repository_gibum.CimageRepository;
 import com.example.repository.repository_gibum.ClubRepository;
 
@@ -38,6 +43,10 @@ public class ClubRestController {
     @Autowired JwtUtil jwtUtil;
 
     @Autowired CimageRepository ciRepository;
+
+    @Autowired
+    LikeRepository lRepository;
+
 
     // 127.0.0.1:9090/ROOT/club/image?cno=179
 	@GetMapping(value ="/cimage")
@@ -254,6 +263,47 @@ try {
             }
 
 		return map;
+	}
+    // 나의 찜한 클럽리스트 조회()
+	// 127.0.0.1:9090/ROOT/club/likelist
+	@RequestMapping(value = "/likelist", 
+			method = { RequestMethod.GET },
+			consumes = { MediaType.ALL_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> likelist(
+        Like like,
+        @RequestHeader (name = "token") String token){
+            Map<String, Object> map = new HashMap<>();
+            try {
+
+                String userid = jwtUtil.extractUsername(token);
+                System.out.println("USERNAME ==>" + userid);
+
+                Member memberEntity = new Member();
+                memberEntity.setMid(userid);
+                System.out.println(memberEntity);
+                
+                like.setMember(memberEntity);
+                System.out.println(like.toString());
+                List<Like> like1 = lRepository.findByMember_mid(userid);
+                List<Map <String, Object>> list = new ArrayList<>();
+                for(Like obj:like1  ){
+                    Map <String, Object> map1 = new HashMap<>();
+                    map1.put("obj", obj);
+                    map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getClub().getCno());
+                    list.add(map1);
+                }
+                map.put("status", 200); 
+                map.put("result", list); 
+                map.put("개수", like1.size()); 
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                map.put("status", 0);
+            }
+            
+            return map;
+            
 	}
 
     //  클럽주소검색 ex부산

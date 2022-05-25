@@ -29,6 +29,7 @@ public interface LikeRepository extends JpaRepository<Like, Long>{
 
     List<LikeProjection> findByMember_midOrderByLnoAsc(String mid);
 
+
     Long findByLno(Long[] lno);
 
     // 일괄삭제

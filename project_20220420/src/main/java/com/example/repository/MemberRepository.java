@@ -5,6 +5,7 @@ package com.example.repository;
 
 import com.example.entity.entity1.Member;
 import com.example.entity.entity2.MemberProjection;
+import com.example.entity.entity2.Membermid;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -29,6 +30,8 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 
     Member findByMid(String email);
     Member findByMemail(String email);
+
+    // Membermid findByMid(String mid);
 
 
 }

@@ -141,7 +141,6 @@ public class LikeRestController {
 
     // -- 찜 목록 --
     //127.0.0.1:9090/ROOT/api/like/selectlist
-    // 엔티티에 있는걸로 해야하나? 아니면 그냥 바로 mId로 해도 되나? 
     @RequestMapping(value = "/selectlist",
                 method = { RequestMethod.GET },
                 consumes = { MediaType.ALL_VALUE },
@@ -167,6 +166,44 @@ public class LikeRestController {
 
             if(token !=null) {
                 List<LikeProjection> like1 = lRepository.findByMember_midOrderByLnoAsc(userid);
+                map.put("result",like1);
+                map.put("status",200);
+                
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
+    // -- 찜 목록 --
+    //127.0.0.1:9090/ROOT/api/like/likelist
+    @RequestMapping(value = "/likelist",
+                method = { RequestMethod.GET },
+                consumes = { MediaType.ALL_VALUE },
+                produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> likelistGET( 
+        Like like,
+        @RequestHeader (name = "token") String token ){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
+
+            // List<Like> like = lRepository.findByMember_mid(userid);
+            // System.out.println(like);
+
+            Member memberEntity = new Member();
+            memberEntity.setMid(userid);
+            System.out.println(memberEntity);
+
+            like.setMember(memberEntity);
+            System.out.println(like.toString());
+
+            if(token !=null) {
+                List<Like> like1 = lRepository.findByMember_mid(userid);
                 map.put("result",like1);
                 map.put("status",200);
                 
