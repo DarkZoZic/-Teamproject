@@ -244,7 +244,7 @@
                                                 </v-col>
 
                                                 <v-col sm="4" class="col_center">
-                                                    <router-link to="/mypage"><h4>찜목록</h4></router-link>
+                                                    <router-link to="/likelist"><h4>찜목록</h4></router-link>
                                                 </v-col>
 
                                                 <v-col sm="4" class="col_center">
@@ -439,6 +439,10 @@ export default {
                 console.log(response.data.result);
                 if(response.data.status === 200){
                     state.nick = response.data.result;
+                }
+                else{
+                    role();
+                    console.log("기업회원입니다");
                 }
             }
             const role = async() => {

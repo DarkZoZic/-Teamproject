@@ -239,7 +239,7 @@ try {
             try {
                 String private12 = "공개";
 
-                List<ClubProjection> club = cRepository.findByCprivate(private12);
+                List<ClubProjection> club = cRepository.findByCprivateOrderByCnoDesc(private12);
                 // club.setCimageurl("/ROOT/club/cimage?cno=" +club.getCno());
                 // List<ClubProjection> cp = cRepository.find
                 List<Map <String, Object>> list = new ArrayList<>();
@@ -282,7 +282,7 @@ try {
                 Member memberEntity = new Member();
                 memberEntity.setMid(userid);
                 System.out.println(memberEntity);
-                
+
                 like.setMember(memberEntity);
                 System.out.println(like.toString());
                 List<Like> like1 = lRepository.findByMember_mid(userid);

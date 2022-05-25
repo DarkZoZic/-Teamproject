@@ -35,10 +35,7 @@
                         >
                             <v-card height="200px" class="club_card" style="padding: 20px;">
                                 <v-row dense>
-                                    <v-col sm="3">
-                                        <input type="checkbox" style="width: 15px; height: 15px;">
-                                    </v-col>
-                                    <v-col sm="6" class="col_center">
+                                    <v-col sm="8" class="col_center">
                                         <router-link to="/cdetail" class="col_center">
                                             <img  :src="item.imgurl"  style="height: 50px;"/>
                                         </router-link>
@@ -77,7 +74,6 @@
                     </v-row>
                     <v-row>
                         <v-col class="col_center" style="margin-top: 15px;">
-                            <v-btn style="margin-right: 15px;"><h3>선택삭제</h3></v-btn>
                             <v-btn style="margin-left: 15px;"><h3>전체삭제</h3></v-btn>
                         </v-col>
                     </v-row>
@@ -242,6 +238,9 @@ export default {
                             // state.imgName = state.imaName1
                         }
 
+        }
+        const deleteall = async() => {
+            
         }
 
         const clubDetail = () => {

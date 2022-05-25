@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.entity.entity2.Club;
 import com.example.entity.entity2.ClubProjection;
+import com.example.entity.entity2.Membermid;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,8 +29,10 @@ public interface ClubRepository
 
         List<ClubProjection> findByCprivateAndCaddressContaining(String cprivate, String caddress);
 
-        List<ClubProjection> findByCprivate(String cprivate);
+        List<ClubProjection> findByCprivateOrderByCnoDesc(String cprivate);
         List<ClubProjection> findByCaddress(String address);
+
+        // Membermid findByMid(String mid);
 
         // List<ClubProjection> findByCprivateAndCaddress(String cprivate, String caddress);
 

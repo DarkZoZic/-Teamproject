@@ -265,11 +265,10 @@ public class LikeRestController {
     // -- 찜 일괄 삭제 --
     //127.0.0.1:9090/ROOT/api/like/deletebatch
         @RequestMapping(value = "/deletebatch", 
-        method = {RequestMethod.POST},
+        method = {RequestMethod.DELETE},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> deleteBatch2POST(
-        @RequestParam(name = "lno") Long[] lno,
         @RequestHeader (name = "token") String token ) {
 
         Map<String, Object> map = new HashMap<>();
@@ -279,7 +278,8 @@ public class LikeRestController {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("USERNAME ==>" + userid);
             
-            lRepository.deleteByMember_midAndLnoIn(userid, lno);
+            List<Like> like = lRepository.findByMember_mid(userid);
+            lRepository.deleteAll(like);
             map.put("status", 200); // 성공
 
         }
