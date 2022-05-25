@@ -246,7 +246,16 @@ try {
                 for(ClubProjection obj:club  ){
                     Map <String, Object> map1 = new HashMap<>();
                     map1.put("obj", obj);
-                    map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                    Cimage cimage = ciRepository.findByClub_Cno(obj.getCno());
+                    // System.out.println(cimage.getCimagesize());
+                    if(cimage != null){
+
+                        map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                    }
+                    else{
+                        map1.put("imgurl",null);
+
+                    }
                     list.add(map1);
                 }
 

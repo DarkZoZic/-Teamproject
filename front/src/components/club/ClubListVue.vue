@@ -107,6 +107,7 @@
                                         <v-col sm="11" class="col_left">
                                             <div class="club_list_input" style="justify-content: left; display: flex; align-items: center;outline-width: 0;"> 
                                                 <div class="col_center">
+                                                    {{state.area}}
                                                     <h5 v-for="(tmp, idx) in state.area" :key="tmp" class="h5" @click="del(idx)" style="cursor: pointer; margin-right: 10px;">
                                                         {{tmp}}
                                                         <div class="hov1"><img :src="require('../../assets/img/x.png')" style="width: 10px"></div>
@@ -210,8 +211,8 @@
                                         <v-col sm="3"></v-col>
                                         <v-col sm="6" class="col_center">
                                             <router-link to="/cdetail" class="col_center">
-                                            <img  :src="item.imgurl"  style="height: 50px;"/>
-                                                <!-- <img :src="require(`../../assets/img/${state.logo}.png`)" style="width: 100%"/> -->
+                                            <img v-if="item.imgurl" :src="item.imgurl"  style="height: 50px;"/>
+                                            <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)"  style="height: 50px;"/>
                                             </router-link>
                                         </v-col>
                                         <v-col sm="3" class="col_right">
@@ -275,7 +276,7 @@ export default {
         const state = reactive({
             token : sessionStorage.getItem("TOKEN"),
             logged: computed(() => store.getters['moduleA/getLogged']),
-            area: [''],
+            area: [],
             
             items1 : '',
             datechk: [],
