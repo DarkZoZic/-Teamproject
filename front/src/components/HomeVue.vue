@@ -224,6 +224,7 @@
                                                             <h4>{{state.cname.mcname}}</h4>님 환영합니다!
                                                         </v-col>
                                                     </v-row>
+
                                                     <v-row v-if="state.nick">
                                                         <v-col class="col_left" >
                                                                 <h4>{{state.nick.mpnickname}}</h4>님 환영합니다!
@@ -286,7 +287,9 @@
                                     
                                     <v-row dense>
                                         <v-col>
-                                            <h3>{{items.obj.cname}}</h3>
+                                            <router-link to="/cdetail">
+                                                <h3>{{items.obj.cname}}</h3>
+                                            </router-link>
                                         </v-col>
                                     </v-row>
 
