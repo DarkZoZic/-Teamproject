@@ -32,13 +32,11 @@ public interface Board1Repository extends JpaRepository<Board1, Long> {
     // 회원 목록 + 검색
     // Page<Board1> findAll(Pageable pageable);
 
-
-
     // 이전글 : 작은것 중에서 가장 큰값 1개
     Board1 findTop1ByBnoLessThanOrderByBnoDesc(Long bno);
 
     // 다음글 : 큰것 중에서 가장 작은값 1개
-    Board1 findTop1ByBnoGreaterThanOrderByBnoAsc(long bno);
+    Board1 findTop1ByBnoGreaterThanOrderByBnoAsc(Long bno);
 
     // 검색(글제목 기준) + 글번호 내림차순 페이지네이션
     List<Board1> findByBtitleContainingOrderByBnoDesc(String btitle, Pageable pageable);

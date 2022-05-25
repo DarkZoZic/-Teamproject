@@ -191,7 +191,7 @@ public class ClubBoardRestController {
 			if(token != null)
 			{
 				//1페이지 당 20글 표시
-				PageRequest pageRequest = PageRequest.of(page-1, 20); 
+				PageRequest pageRequest = PageRequest.of(page-1, 10); 
 				System.out.println(pageRequest);
 //				System.out.println("text : " + text);
 //				System.out.println("option : " + option);
@@ -225,9 +225,9 @@ public class ClubBoardRestController {
 //				System.out.println("total = " + total);
 				model.addAttribute("total", total);
 				
-				// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
-//				System.out.println("pages : " + (total-1) / 20 + 1);
-				model.addAttribute("pages", (total-1) / 20 + 1);	
+				// pages = 1~10 = 1, 11~20 = 2, 21~30 = 3, ...... // 한 페이지에 10글
+//				System.out.println("pages : " + (total-1) / 10 + 1);
+				model.addAttribute("pages", (total-1) / 10 + 1);	
 				
 				for(int i=0; i<list.toArray().length; i++)
 				{
@@ -308,20 +308,35 @@ public class ClubBoardRestController {
 		try {
 			if(token != null)
 			{
-				System.out.println(cno);
+				System.out.println("cno : " + cno);
 				ClubBoard cb = cbRep.findById(cbno).orElse(null);
 				cb.setCbimageurl("/ROOT/clubboard/image?cbno=" + cbno);
 				
 				// 댓글 목록 저장할 배열 변수
 				List<CReply> replylist = crRep.findByClubboard_CbnoOrderByRenumberDesc(cbno);
-				
+
 				model.addAttribute("clubboard", cb); //글상세내용
 				model.addAttribute("replylist", replylist); // 댓글
 				
-				ClubBoard prev = cbRep.findTop1ByCbnoAndClub_cnoLessThanOrderByCbnoDesc(cbno, cno); // 이전글
-				ClubBoard next = cbRep.findTop1ByCbnoAndClub_cnoGreaterThanOrderByCbnoAsc(cbno, cno); // 다음글
-				model.addAttribute("prev", prev);
-				model.addAttribute("next", next);
+				ClubBoard prev = cbRep.findTop1ByClub_cnoAndCbnoLessThanOrderByCbnoDesc(cno, cbno); // 이전글
+				ClubBoard next = cbRep.findTop1ByClub_cnoAndCbnoGreaterThanOrderByCbnoAsc(cno, cbno); // 다음글
+				if(prev != null)
+				{
+					model.addAttribute("prev", prev.getCbno());
+				}
+				else
+				{
+					model.addAttribute("prev", 0);
+				}
+				if(next != null)
+				{
+					model.addAttribute("next", next.getCbno());
+				}
+				else
+				{
+					model.addAttribute("next", 0);
+				}
+				
 				map.put("status", 200);
 				map.put("result", model);
 			}
