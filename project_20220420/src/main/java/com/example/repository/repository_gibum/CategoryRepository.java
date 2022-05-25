@@ -20,5 +20,7 @@ public interface CategoryRepository
         " CATEGORYTBL WHERE CGCATE1=:cate", nativeQuery = true)
         public List<Category> cate1lList(
                 @Param(value="cate") String cate);
+
+        Category findByCgcate1(String cgcate1);
     
 }
