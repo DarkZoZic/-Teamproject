@@ -192,8 +192,13 @@
                 
                 <v-col sm="8">
                     <v-row dense="" style="padding: 10px;">
-                        <v-col>
+                        <v-col sm="3" class="col_left">
                             <h3>클럽정보</h3>
+                        </v-col>
+                        <v-col class="col_right">
+                            <router-link to="/likelist">
+                            <v-btn style="background-color: gold;"><h4>찜목록</h4></v-btn>
+                            </router-link>
                         </v-col>
                     </v-row>
 
@@ -306,7 +311,8 @@ export default {
         }
 
         const all = async() => {
-           const url = `/ROOT/club/selectlist`;
+            state.area= [];
+            const url = `/ROOT/club/selectlist`;
             const headers = {"Content-Type":"application.json"};
             const response = await axios.get(url,{headers:headers});
             console.log(response.data);
@@ -338,23 +344,20 @@ export default {
             const headers = {"Content-Type":"application.json",
             token : state.token};
             const response = await axios.get(url,{headers:headers});
-                console.log(response.data);
-                if(response.data.status === 200){
-                    state.likelist = response.data.result;
+            console.log(response.data);
+            if(response.data.status === 200){
+                state.likelist = response.data.result;
 
-                    for(var j =0; j<state.imgcheck.length; j++){
+                for(var j =0; j<state.imgcheck.length; j++){
 
-                        for(var i =0; i < state.likelist.length; i++){
-                            if(state.imgcheck[j].cno === Number(state.likelist[i].clubCno) ){
-                                state.imgcheck[j].type = 1;
-    
-                                
-                            }
-    
+                    for(var i =0; i < state.likelist.length; i++){
+                        if(state.imgcheck[j].cno === Number(state.likelist[i].clubCno) ){
+                            state.imgcheck[j].type = 1;
                         }
                     }
-                    console.log(state.likelist);
-            }                
+                }
+            console.log(state.likelist);
+            }
         }
 
         const Clicksearch = async(area) => {
@@ -369,6 +372,9 @@ export default {
 
             }
             array1();
+            var setObj = new Set(state.area);
+            var setArr = [...setObj];
+            console.log(setArr);
         }
 
          const changeheart = async(cno,idx) => {
