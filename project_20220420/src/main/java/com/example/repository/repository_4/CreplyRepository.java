@@ -40,4 +40,8 @@ public interface CreplyRepository extends JpaRepository<CReply, Long>{
     // 일괄삭제
     @Transactional
     int deleteByMember_midAndRenumberIn(String mid, Long[] renumber);
+
+    // 1개 삭제
+    @Transactional
+    int deleteByMember_midAndRenumber(String mid, Long renumber);
 }
