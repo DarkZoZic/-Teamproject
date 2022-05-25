@@ -271,7 +271,8 @@
                     
                                         <v-col sm="6" class="col_center">
                                             <router-link to="/cdetail" class="col_center">
-                                                <img :src="items.imgurl" style="height: 50px;"/>
+                                                <img v-if="items.imgurl" :src="items.imgurl" style="height: 50px;"/>
+                                                <img v-if="!items.imgurl" :src="require(`../assets/img/default-logo.jpg`)"  style="height: 50px;"/>
                                             </router-link>
                                         </v-col>
 
@@ -285,7 +286,7 @@
                                     
                                     <v-row dense>
                                         <v-col>
-                                            <h4>{{items.obj.cname}}</h4>
+                                            <h3>{{items.obj.cname}}</h3>
                                         </v-col>
                                     </v-row>
 
