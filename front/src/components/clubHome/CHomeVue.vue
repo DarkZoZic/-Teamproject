@@ -67,24 +67,24 @@
                 </v-col>
               </v-row>
 
-              <v-row dense style="padding-left: 10px; padding-right: 10px; float: left;" v-for="tmp in state.G.slice(0,2)" :key="tmp">
+              <v-row dense style="padding-left: 10px; padding-right: 10px; float: left; margin: 10px;" v-for="tmp in state.G.slice(0,2)" :key="tmp">
                 <v-col sm="6" style="padding-right: 10px;">
-                  <v-row dense style="height: 200px; border: 1px solid #CCC;">
+                  <v-row dense style="height: 200px; border: 1px solid #CCC;" >
                     <v-col class="col_center">
-                      <img :src="tmp.gimageurl" @click="G(tmp.cgno)" style="cursor: pointer; max-width: auto; height: 190px;">
+                      <img :src="tmp.gimageurl" @click="G(tmp.cgno)" style="cursor: pointer; max-width: auto; height: 190px;" />
                     </v-col>
                   </v-row>
 
                   <v-row dense style="padding-top: 10px;">
                     <v-col>
-                      <h4 @click="G()" style="cursor: pointer;">{{tmp.cgname}}</h4>
+                      <h4 @click="G(tmp.cgno)" style="cursor: pointer;">{{tmp.cgname}}</h4>
                     </v-col>
                   </v-row>
                 </v-col>
               </v-row>
               
               <!-- 한줄 -->
-              <v-row dense style="padding-left: 10px; padding-right: 10px;" v-for="tmp in state.G.slice(2,4)" :key="tmp">
+              <v-row dense style="padding-left: 10px; padding-right: 10px; " v-for="tmp in state.G.slice(2,4)" :key="tmp">
                 <v-col sm="6" style="padding-right: 10px;">
                   <v-row dense style="height: 200px; border: 1px solid #CCC;">
                     <v-col class="col_center">
@@ -185,6 +185,26 @@ export default {
     const G = (cgno) => {
       router.push({ name: "CGContentVue" , query : {cgno : cgno, cno : state.cno}});
     };
+
+    // const slist = async() =>
+    // {
+    //   if(state.token !== null)
+    //   {
+    //     const url = `/ROOT/api/schedule/selectlist?page=${state.page}&cno=${state.cno}`;
+    //     const headers = {"Content-Type":"application/json", "token" : state.token};
+    //     const response = await axios.get(url, {headers});
+    //     // console.log(response.data.result);
+    //     if(response.data.status === 200)
+    //     {
+    //       state.S = response.data.result.list;
+    //     }
+    //   }
+    //   else
+    //   {
+    //       router.push({name:'LoginVue'});
+    //   }
+    // }
+
 
     
 

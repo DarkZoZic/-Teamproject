@@ -110,7 +110,7 @@ public class ClubGalleryRestController {
 		} 
 		catch (Exception e) 
 		{
-			map.put("status", 0);
+			map.put("status", -1);
 		}
 		return map;
 	}
@@ -171,7 +171,7 @@ public class ClubGalleryRestController {
 //				System.out.println("pages : " + (total-1) / 20 + 1);
 				model.addAttribute("pages", (total-1) / 20 + 1);	
 				
-				for(int i=0; i<list.toArray().length; i++)
+				for(int i=0; i<list.toArray().length; i++) //list 내 모든 갤러리에 각각의 썸네일 주소를 부여 
 				{
 					ClubGallery cg = list.get(i);
 					

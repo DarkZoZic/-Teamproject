@@ -9,7 +9,7 @@
                 <v-col sm="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
-                            <h5><router-link to="/chome">홈</router-link> > <router-link to="/cschedule">일정</router-link> > 일정생성</h5>
+                            <h5><router-link :to="{name : 'CBoardListVue', query : {cno : state.cno}}">홈</router-link> > <router-link :to="{name : 'CScheduleVue', query : {cno : state.cno}}">일정</router-link> > 일정생성</h5>
                         </v-col>                                
                     </v-row>
 
@@ -147,7 +147,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import UploadAdapter from '../../UploadAdapter.js';
 import CKEditor      from '@ckeditor/ckeditor5-vue'
 import { reactive }  from '@vue/reactivity';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 
 
@@ -155,6 +155,7 @@ export default {
     components: { CHHeaderVue, FooterVue, ckeditor: CKEditor.component },
     setup () {
         const router = useRouter();
+        const route = useRoute();
 
         const state = reactive({
             schedule : {},
@@ -167,7 +168,9 @@ export default {
             // endDate    : '',
             // valid      : '',
             thumbnail  : '',
-            thumbnailUrl : ''
+            thumbnailUrl : '',
+            cno : route.query.cno,
+            token : sessionStorage.getItem("TOKEN")
         })
 
         const onReady = ( editor ) => {
@@ -229,7 +232,7 @@ export default {
             // console.log(enddate);
 
             const url = `/ROOT/api/schedule/insert`;
-            const headers = {"Content-Type":"multipart/form-data"};
+            const headers = {"Content-Type":"multipart/form-data", "token" : state.token};
             const body = new FormData();
             // body.append("swriter", state.schedule.swriter); //미구현
             body.append("sname", state.schedule.sname);
@@ -237,6 +240,7 @@ export default {
             body.append("startdate", startdate); //localdatetime으로 변환
             body.append("enddate", enddate); //localdatetime으로 변환
             body.append("file", state.thumbnail);
+            body.append("club", state.cno);
 
             const response = await axios.post(url, body, {headers});
             console.log(response.data);

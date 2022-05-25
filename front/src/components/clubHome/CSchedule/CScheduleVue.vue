@@ -11,7 +11,7 @@
         <v-col sm="8">
           <v-row dense="" style="border-bottom: 1px solid #CCC;">
             <v-col sm="6">
-              <h5><router-link to="/chome">클럽홈</router-link> > 일정</h5>
+              <h5><router-link :to="{name : 'CBoardListVue', query : {cno : state.cno}}">클럽홈</router-link> > 일정</h5>
             </v-col>                                
           </v-row>
 
@@ -24,7 +24,7 @@
               <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px;" ></v-select>
               <input type="text" class="board_search_box" style="outline-width: 0;" v-model="state.search">
               <v-btn style="height: 40px;" @click="search()"><h4>검색</h4></v-btn>
-              <router-link to="/csupload">
+              <router-link :to="{name : 'CSUploadVue', query : {cno : state.cno}}">
                 <v-btn style="margin-left: 10px; height: 40px; background-color: gold;">
                   <h4>일정생성</h4>
                 </v-btn>
@@ -73,22 +73,27 @@ import FooterVue    from '../../FooterVue.vue';
 import CHHeaderVue  from '../CHHeaderVue.vue';
 import { onMounted } from '@vue/runtime-core';
 import axios from 'axios';
+import { useRoute } from 'vue-router';
 
 export default {
   components: { CHHeaderVue, FooterVue },
   setup () {
+    const route = useRoute();
+
     const state = reactive({
       schedule : [],
       option: '전체',
       items: [
         '전체', '제목', '생성자', '내용'
       ],
+      cno : route.query.cno,
+      token : sessionStorage.getItem("TOKEN")
     });
 
     const selectlist = async() =>
     {
-      const url = `/ROOT/api/schedule/selectlist`;
-      const headers = {"Content-Type":"application/json"};
+      const url = `/ROOT/api/schedule/selectlist?&cno=${state.cno}`;
+      const headers = {"Content-Type":"application/json", "token" : state.token};
       const response = await axios.get(url, {headers});
       // console.log(response.data);
       if(response.data.status === 200)
@@ -97,9 +102,35 @@ export default {
       }
     }
 
-    onMounted(()=>
+    const deleteSchedule = async() => // 종료일시가 지난 일정을 자동으로 삭제
     {
-      selectlist();
+      for(let i=0; i<state.schedule.length; i++)
+      {
+        // console.log("enddate : ", Date.parse(state.schedule[i].enddate));
+        // console.log("now : ", new Date().getTime());
+        if(Date.parse(state.schedule[i].enddate) < new Date().getTime())
+        {
+          const url = `/ROOT/api/schedule/delete`;
+          const headers = {"Content-Type":"application/json"};
+          const body = 
+          {
+            sno : state.schedule[i].sno
+          }
+
+          const response = await axios.post(url, body, {headers});
+          console.log(response.data);
+          if(response.data.status === 200)
+          {
+            window.location.reload();
+          }
+        }
+      }
+    }
+
+    onMounted(async()=>
+    {
+      await selectlist();
+      deleteSchedule();
     });
 
     return { state}
