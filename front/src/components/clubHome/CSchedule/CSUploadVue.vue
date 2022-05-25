@@ -25,19 +25,19 @@
                                 <v-expansion-panels style="width:100%">
                                     <v-form v-model="state.valid" style="width:100%">
                                         <!-- 작성자 -->
-                                        <v-expansion-panel class="panel">
+                                        <!-- <v-expansion-panel class="panel">
                                             <v-row dense style="padding:10px;">
                                                 <v-col sm="2" style="justify-content: right; display: flex; align-items: center;">
                                                     작성자:
                                                 </v-col>
 
                                                 <v-col sm="8" style="display: flex; align-items: center;">
-                                                    {{state.schedule.swriter}}
+                                                    {{state.schedule.member.mid}}
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
                                             </v-row>
-                                        </v-expansion-panel>
+                                        </v-expansion-panel> -->
 
                                         <!-- 제목 -->
                                         <v-expansion-panel class="panel">

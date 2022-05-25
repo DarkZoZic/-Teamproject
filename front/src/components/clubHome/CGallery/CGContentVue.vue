@@ -212,7 +212,10 @@ export default {
         }
 
         const like = async() => {
-
+            // const url = `/reaction/gallerylike.json`;
+            // const headers = {"Content-Type":"application/json", "token" : state.token};
+            // const body = new FormData();
+            // body.append();
         }
 
         const insertreply = async() =>

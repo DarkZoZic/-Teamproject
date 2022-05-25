@@ -1,6 +1,6 @@
 <template>
 <div>
-<CHHeaderVue style="height: 150px;"></CHHeaderVue>
+<HeaderVue style="height: 220px;"></HeaderVue>
     <v-app>
         <v-main style="padding: 10px;">
             <v-row dense>
@@ -9,13 +9,14 @@
                 <v-col sm="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
-                            <h5><router-link :to="{name : 'CHomeVue', query : {cno : state.cno}}">홈</router-link> > <router-link :to="{name : 'CBoardListVue', query : {cno : state.cno}}">{{state.boardname}}</router-link> > 글쓰기</h5>
+                            <h5><router-link to="/">홈</router-link> > <router-link to="/blist">자유게시판</router-link> > 글수정</h5>
                         </v-col>                                
                     </v-row>
 
                     <v-row dense style="padding-top: 15px; padding-bottom: 10px; padding-left:10px; border-bottom: 1px solid #CCC;">
                         <v-col>
-                            <h2>글쓰기</h2>
+                            <h2>글수정</h2> 
+                           
                         </v-col>
                     </v-row>
 
@@ -24,21 +25,7 @@
                             <v-card style="width:100%; margin: 10px; margin-top: 20px; margin-bottom: 30px;">
                                 <v-expansion-panels style="width:100%">
                                     <v-form v-model="state.valid" style="width:100%">
-                                        <!-- 작성자 -->
-                                        <!-- <v-expansion-panel class="panel">
-                                            <v-row dense style="padding:10px;">
-                                                <v-col sm="2" style="justify-content: right; display: flex; align-items: center;">
-                                                    작성자:
-                                                </v-col>
-
-                                                <v-col sm="8" style="display: flex; align-items: center;">
-                                                    {{state.writer}}
-                                                </v-col>
-
-                                                <v-col sm="2"></v-col>
-                                            </v-row>
-                                        </v-expansion-panel> -->
-
+                                        {{state.valid}}
                                         <!-- 제목 -->
                                         <v-expansion-panel class="panel">
                                             <v-row dense style="padding:10px;">
@@ -47,7 +34,7 @@
                                                 </v-col>
 
                                                 <v-col sm="8" style="display: flex; align-items: center; width:100%;">
-                                                    <input type="text" v-model="state.title" style="outline-width: 0; padding-left: 3px; width: 100%; border-bottom: 1px solid #CCC;"/>
+                                                    <input type="text" v-model="state.valid.btitle" style="outline-width: 0; padding-left: 3px; width: 100%; border-bottom: 1px solid #CCC;"/>
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -62,7 +49,7 @@
                                                 </v-col>
 
                                                 <v-col sm="8" >
-                                                    <ckeditor :editor="state.editor" v-model="state.editorData" @ready="onReady"></ckeditor>
+                                                    <ckeditor :editor="state.editor" v-model="state.valid.bcontent" @ready="onReady"></ckeditor>
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -77,8 +64,7 @@
                                                 </v-col>
 
                                                 <v-col sm="8" style="display: flex; align-items: center;">
-                                                    <img :src="state.imageUrl" style="width:200px;" />
-                                                    <input type="file" @change="insertFile($event)">
+                                                    <input type="file">
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -92,8 +78,8 @@
                                                 <v-col sm="4"></v-col>
 
                                                 <v-col sm="4" style="justify-content: center; display: flex; align-items: center;">
-                                                    <v-btn @click="write" style="width: 100px; height:40px; background-color: gold;">
-                                                        <h3>글쓰기</h3>
+                                                    <v-btn @click="handleUpdate" style="width: 100px; height:40px; background-color: gold;">
+                                                        <h3>수정</h3>
                                                     </v-btn>
 
                                                     <v-btn @click="handleCancel" style="width: 100px; height:40px; margin-left:20px; background-color: white;">
@@ -115,45 +101,89 @@
             </v-row>
         </v-main>
     </v-app>
-<FooterVue></FooterVue>
+    <FooterVue></FooterVue>
 </div>
 </template>
 
 <script>
-import axios from 'axios';
-import FooterVue     from '../../FooterVue.vue';
-import CHHeaderVue  from '../CHHeaderVue.vue';
+import FooterVue     from '../FooterVue.vue';
+import HeaderVue     from '../HeaderVue.vue';
+import { onMounted } from '@vue/runtime-core';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import UploadAdapter from '../../UploadAdapter.js';
+import UploadAdapter from '../UploadAdapter.js';
 import CKEditor      from '@ckeditor/ckeditor5-vue'
 import { reactive }  from '@vue/reactivity';
 import { useRoute, useRouter } from 'vue-router';
-import { onMounted } from '@vue/runtime-core';
+import axios from 'axios';
 
 
 export default {
-    components: { CHHeaderVue, FooterVue, ckeditor: CKEditor.component },
+    components: { HeaderVue, FooterVue, ckeditor: CKEditor.component },
     setup () {
-        const router = useRouter();
+
         const route = useRoute();
+        const router = useRouter();
 
         const state = reactive({
-            writer     : '작성자입니다',
-            title      : 'asdf',
+            bno : route.query.bno,
+            mid        : '',
+            btitle     : '',
+            bcontent   : '',
+            btype      : 1,
             editor     : ClassicEditor, // ckeditor종류
             editorData : '',
-            boardname  : '자유게시판',
-            imageFile  : '',
-            imageUrl   : '',
+            token      : sessionStorage.getItem("TOKEN"),
             valid      : '',
-            cno : route.query.cno,
-            token : sessionStorage.getItem("TOKEN")
         })
+
+        const handleData = async() => {
+            const url = `/ROOT/api/board1/selectone?bno=${state.bno}`;
+            const headers = {"Content-Type":"application/json",
+                            "token" : state.token };
+            const response = await axios.get(url, {headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+                console.log(response.data.result);
+                state.valid = response.data.result;
+                // console.log(state.item);
+               
+            }
+        }
+        
+
+        const handleUpdate = async() => {
+            const url = `/ROOT/api/board1/update`;
+            const headers = {
+                "Content-Type" : "application/json",
+                "token"        : state.token,
+            };
+            const body= new FormData();
+            body.append("member", state.valid.mid);
+            body.append("bno", state.valid.bno);
+            body.append("btitle", state.valid.btitle);
+            body.append("bcontent", state.valid.bcontent);
+            body.append("btype", state.valid.btype);
+
+            const response = await axios.put(url, body, {headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+                alert('수정완료');
+                // 원래 게시글로 돌아가야 함
+               router.push({name:'BoardListVue'});
+            }
+
+        }
+
+        const handleCancel = async() => {
+            if (confirm('정말 취소하시겠습니까?') == true) {
+                router.push({ name: "BoardListVue"});
+            }
+        }
 
         const onReady = ( editor ) => {
             console.log(editor);
             editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-                    return new UploadAdapter( loader );
+                return new UploadAdapter( loader );
             };
             
             editor.editing.view.change( writer => {
@@ -161,58 +191,14 @@ export default {
             });
             console.log(editor.editing.view);
         }
+
+
+        onMounted( async() => {
+            await handleData();
         
-        const handleCancel = async() => {
-            if (confirm('정말 취소하시겠습니까?') == true) {
-                router.push({ name: "CBoardListVue", query : {page : 1, cno : state.cno}});
-            }
-        }
-
-        const write = async() => {
-            const url = `/ROOT/api/clubboard/insert`;
-            const headers = {"Content-Type" : "multipart/form-data", "token" : state.token};
-            const body = new FormData();
-            body.append("cbtitle", state.title);
-            body.append("cbcontent", state.editorData);
-            body.append("file", state.imageFile);
-            body.append("club", state.cno);
-
-            const response = await axios.post(url, body, {headers});
-            console.log(response.data);
-            if(response.data.status === 200)
-            {
-                alert("작성되었습니다.");
-                router.push({name: "CBoardListVue", query : {page : 1, cno : state.cno}});
-            }
-        }
-
-        const insertFile = (e) =>
-        {
-            if(e.target.files[0])
-            {
-                state.imageUrl = URL.createObjectURL(e.target.files[0]);
-                state.imageFile = e.target.files[0];
-            }
-            else
-            {
-                state.imageUrl = null;
-                state.imageFile = null;
-            }
-        }
-
-        const handleToken = () =>
-        {
-            if(state.token === null)
-            {
-                router.push({name:'LoginVue'});
-            }
-        }
-
-        onMounted(()=>
-        {
-            handleToken();
         })
-        return { state, onReady, handleCancel, write, insertFile }
+
+        return { state, onReady, handleCancel, handleUpdate }
     },
 }
 </script>

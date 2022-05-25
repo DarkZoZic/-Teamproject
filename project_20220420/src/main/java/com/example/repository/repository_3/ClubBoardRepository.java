@@ -35,8 +35,8 @@ public interface ClubBoardRepository extends JpaRepository<ClubBoard, Long>{
 //	ClubBoard updateOne(ClubBoard clubboard, long cbno);
 	
 	// 이전글
-	ClubBoard findTop1ByCbnoAndClub_cnoLessThanOrderByCbnoDesc(long cbno, long cno);
+	ClubBoard findTop1ByClub_cnoAndCbnoLessThanOrderByCbnoDesc(long cno, long cbno);
 	
 	//다음글
-	ClubBoard findTop1ByCbnoAndClub_cnoGreaterThanOrderByCbnoAsc(long cbno, long cno);
+	ClubBoard findTop1ByClub_cnoAndCbnoGreaterThanOrderByCbnoAsc(long cno, long cbno);
 }

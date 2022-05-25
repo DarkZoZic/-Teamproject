@@ -133,11 +133,11 @@ public class ClubGalleryRestController {
 		{
 			if(token != null)
 			{
-				//1페이지 당 20글 표시
-				PageRequest pageRequest = PageRequest.of(page-1, 20); 
+				//1페이지 당 10글 표시
+				PageRequest pageRequest = PageRequest.of(page-1, 10); 
 				System.out.println(pageRequest);
 				
-				//검색어 포함, 1페이지 20글, 글번호 내림차순
+				//검색어 포함, 1페이지 10글, 글번호 내림차순
 				List<ClubGallery> list = new ArrayList<>();
 				if(option.equals("갤러리명"))
 				{
@@ -167,9 +167,9 @@ public class ClubGalleryRestController {
 //				System.out.println("total = " + total);
 				model.addAttribute("total", total);
 				
-				// pages = 1~20 = 1, 21~40 = 2, 41~60 = 3, ...... // 한 페이지에 20글
-//				System.out.println("pages : " + (total-1) / 20 + 1);
-				model.addAttribute("pages", (total-1) / 20 + 1);	
+				// pages = 1~10 = 1, 11~20 = 2, 21~30 = 3, ...... // 한 페이지에 10글
+//				System.out.println("pages : " + (total-1) / 10 + 1);
+				model.addAttribute("pages", (total-1) / 10 + 1);	
 				
 				for(int i=0; i<list.toArray().length; i++) //list 내 모든 갤러리에 각각의 썸네일 주소를 부여 
 				{
