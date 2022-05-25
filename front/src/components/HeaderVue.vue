@@ -75,10 +75,10 @@
             <v-col>
               <v-card>
                 <v-tabs v-model="state.tab" fixed-tabs>
-                  <v-tab value=""      @click="handleClick('/')"><h3>홈</h3></v-tab>
-                  <v-tab value="clist" @click="handleClick('clist')"><h3>클럽목록</h3></v-tab>
-                  <v-tab value="blist" @click="handleClick('blist')"><h3>게시판</h3></v-tab>
-                  <v-tab value="h"     @click="handleClick('h')"><h3>고객센터</h3></v-tab>
+                  <v-tab value=""      @click="handleClick('/')"><h2>홈</h2></v-tab>
+                  <v-tab value="clist" @click="handleClick('clist')"><h2>클럽목록</h2></v-tab>
+                  <v-tab value="blist" @click="handleClick('blist')"><h2>게시판</h2></v-tab>
+                  <v-tab value="h"     @click="handleClick('h')"><h2>고객센터</h2></v-tab>
                 </v-tabs>
               </v-card>
             </v-col>
