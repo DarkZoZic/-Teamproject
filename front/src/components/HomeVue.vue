@@ -262,7 +262,7 @@
 
                         <v-row>
                             <v-col
-                             v-for="items in state.items1" :key="items"
+                             v-for="(items,idx) in state.items1" :key="items"
                             cols="4"   
                             >
                                 <v-card height="200px" class="club_card" style="padding: 20px; ">
@@ -276,8 +276,9 @@
                                         </v-col>
 
                                         <v-col sm="3" class="col_right">
-                                            <v-btn style="height: 100%; width: 10px;" id="like" @click="changeheart()">
-                                                <img :src="require(`../assets/img/${state.imgName}.png`)" style="width: 30px"/>
+                                            <v-btn style="height: 100%; width: 10px;" id="like"  @click="changeheart(items.obj.cno,idx)">
+                                                <img   v-if="state.imgcheck[idx].type === 0" :src="state.imgName"  style="width: 30px"/>
+                                                <img   v-if="state.imgcheck[idx].type === 1" :src="state.imgName1"  style="width: 30px"/>
                                             </v-btn>
                                         </v-col>
                                     </v-row>
@@ -330,34 +331,14 @@ export default {
         const router = useRouter();
         const store = useStore();
 
-        onMounted (()=>{
-            handleData();
-            if(state.token != null){
-                role(),mypage(),nick();
-                // console.log(state.role);
-                // if(state.role3 === 'PERSONAL'){
-                    //     handlenick();
-                //     }
-                // if(state.role2 =='COMPANY'){
-                //     cname();
-                // }
-            }
-
-            if(state.token === null){
-                store.commit('moduleA/setLogged', false)
-            } 
-            else{
-                store.commit('moduleA/setLogged', true)
-            }
-
-            if (state.card.desc.length >= 40) {
-                state.card.desc1 = state.card.desc.substring(0, 40) + '...'
-            }            
-        });
 
 
 
         const state = reactive({
+            likecheck : [],
+            imgcheck : [],
+            imgName:  require(`../assets/img/heart.png`),
+            imgName1: require(`../assets/img/heart1.png`),
             role1 : 'PERSONAL',
             role2 : 'COMPANY',
             role3 : '',
@@ -371,7 +352,7 @@ export default {
                 { title: '', image: require('../assets/img/ad2.jpg') },
                 { title: '', image: require('../assets/img/ad3.jpg') }
             ],
-            imgName: 'heart',
+            // imgName: 'heart',
             logo: 'club_logo',
 
             card: {
@@ -387,17 +368,48 @@ export default {
                 nickname: '탁구왕김제빵',
             },            
         });
+                onMounted (()=>{
+                    handleData(),Lkelist();
+                    if(state.token != null){
+                        role(),mypage(),nick();
+                        // console.log(state.role);
+                        // if(state.role3 === 'PERSONAL'){
+                            //     handlenick();
+                        //     }
+                        // if(state.role2 =='COMPANY'){
+                        //     cname();
+                        // }
+                    }
+        
+                    if(state.token === null){
+                        store.commit('moduleA/setLogged', false)
+                    } 
+                    else{
+                        store.commit('moduleA/setLogged', true)
+                    }
+        
+                    if (state.card.desc.length >= 40) {
+                        state.card.desc1 = state.card.desc.substring(0, 40) + '...'
+                    }            
+                });
 
         const handleData = async() => {
             const url = `/ROOT/club/selectlist`;
             const headers = {"Content-Type":"application.json"};
             const response = await axios.get(url,{headers:headers});
-            console.log(response.data);
-
-            if(response.data.status === 200){
-                state.items1 = response.data.result;
-                console.log(response.data.result);
-            }
+                console.log(response.data);
+                if(response.data.status === 200){
+                    state.items1 = response.data.result;
+                    for(var i =0; i < state.items1.length; i++){
+                        state.imgcheck.push({cno:state.items1[i].obj.cno,type:0})
+                        // state.imgcheck[i] = 0;s
+                    }
+                    console.log(response.data.result[0].imgurl);
+                    console.log(response.data.result.length);
+                   
+        }
+   
+                
         }
 
         const mypage = async() => {
@@ -418,6 +430,26 @@ export default {
                 else{
                     state.imageUrl = '';
                 }
+            }
+        }
+        const Lkelist = async() => {
+            const url = `/ROOT/api/like/selectlist`;
+            const headers = {"Content-Type":"application.json",
+            token : state.token};
+            const response = await axios.get(url,{headers:headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+                state.likelist = response.data.result;
+
+                for(var j =0; j<state.imgcheck.length; j++){
+
+                    for(var i =0; i < state.likelist.length; i++){
+                        if(state.imgcheck[j].cno === Number(state.likelist[i].clubCno) ){
+                            state.imgcheck[j].type = 1;
+                        }
+                    }
+                }
+            console.log(state.likelist);
             }
         }
 
@@ -461,25 +493,51 @@ export default {
                     }
                 }
             }
-        // const handlenick = async() => {
-        //     const url = `/ROOT/member/psmynick`;
-        //     const headers = {"Content-Type":"application/json", 
-        //     token : state.token};
-        //     const response = await axios.get(url, {headers});
-        //     console.log(response.data.result);
-        //     if(response.data.status === 200){
-        //         state.nick = response.data.result.mpnickname;
-        //         console.log(state.nick);
-        //     }
-        // }
 
-        const changeheart = () => {
-            if (state.imgName === 'heart') {
-                state.imgName = 'heart1'
-            } else {
-                state.imgName = 'heart'
+        const changeheart = async(cno,idx) => {
+            console.log(state.likelist.clubCno);
+            console.log(cno);
+            if(state.imgcheck[idx].cno === cno ){
+
+                if(state.imgcheck[idx].type === 1){
+                    state.imgcheck[idx].type =0;
+                }
+                else{
+                    state.imgcheck[idx].type = 1;
+                }
             }
+             
+            
+            const url =`/ROOT/api/like/insert`
+            const headers = {"Content-Type":"multipart/form-data",
+                            token : state.token};
+            const body = new FormData;
+            body.append("club", cno);
+            const response = await axios.post(url,body,{headers:headers});
+            console.log(response.data);
+                if(response.data.status == 200){
+                    console.log("찜하기성공");
+                }
+                if(response.data.status == -1 ){
+                    console.log("찜하기 취소");
+                    unlike(cno, idx);
+                }
+                
         };
+        const unlike = async(cno,idx) => {
+                    console.log("unlike", state.imgcheck[idx]);
+                    const url = `/ROOT/api/like/deleteone`
+                    const headers = {"Content-Type":"multipart/form-data",
+                                    token : state.token};
+                    const body = new FormData;
+                        body.append("club", cno);   
+                    const response = await axios.post(url, body, {headers:headers});
+                    console.log(response.data);
+                    if(response.data.status == 200){
+                            // state.imgName = state.imaName1
+                        }
+
+        }
 
         
 
@@ -497,7 +555,7 @@ export default {
         }
 
 
-        return { state, changeheart, handlelogout, notice, clubDetail }
+        return { state, changeheart, handlelogout, notice, clubDetail, unlike }
     },
     data: () => ({
         autoPlaying: true,
