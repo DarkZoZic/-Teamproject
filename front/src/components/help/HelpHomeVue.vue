@@ -37,7 +37,7 @@
               <!-- 공지글 -->
               <v-row dense style="padding-top: 10px;">
                 <v-col>
-                  <router-link to="/" style="display: flex;">
+                  <router-link to="/hqna" style="display: flex;">
                     <h4 style="color: purple;">공지</h4>
                     <h4 style="padding-left: 10px;">{{state.title}}</h4>
                   </router-link>
@@ -45,7 +45,7 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <router-link to="/" style="display: flex;">
+                  <router-link to="/hqna" style="display: flex;">
                     <h4 style="color: purple;">공지</h4>
                     <h4 style="padding-left: 10px;">{{state.title1}}</h4>
                   </router-link>

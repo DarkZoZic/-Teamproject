@@ -70,7 +70,6 @@
                                                                 <input type="checkbox" v-model="state.age" class="club_list_chk" value="50대"><h4>50대</h4>
                                                                 <input type="checkbox" v-model="state.age" class="club_list_chk" value="60대 이상"><h4>60대 이상</h4>
                                                                 <input type="checkbox" v-model="state.age" class="club_list_chk" value="성인만"><h4>성인만</h4>
-                                                                {{state.age}}
                                                             </v-col>
                                                         </v-row>
                                                     </v-col>
