@@ -67,10 +67,13 @@
 import { reactive } from '@vue/reactivity';
 import FooterVue    from '../../FooterVue.vue';
 import CHHeaderVue  from '../CHHeaderVue.vue';
+import { useRoute } from 'vue-router';
 
 export default {
   components: { CHHeaderVue, FooterVue },
   setup () {
+    const route = useRoute();
+
     const state = reactive({
       member: [
         {
@@ -89,7 +92,8 @@ export default {
       items: [
         '등급', '닉네임', '가입일'
       ],
-      option: '전체'
+      option: '닉네임',
+      cno : route.query.cno
     })
 
     return { state }

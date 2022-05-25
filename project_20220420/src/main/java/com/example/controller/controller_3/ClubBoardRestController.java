@@ -371,7 +371,7 @@ public class ClubBoardRestController {
 	// /ROOT/api/clubboard/delete
 	@Transactional
 	@RequestMapping(value="/delete", 
-	method={RequestMethod.DELETE}, 
+	method={RequestMethod.POST}, 
 	consumes = {MediaType.ALL_VALUE},
 	produces= {MediaType.APPLICATION_JSON_VALUE})
 	public Map<String, Object> delete(@RequestBody ClubBoard cb, @RequestHeader(name="token") String token)
@@ -471,7 +471,7 @@ public class ClubBoardRestController {
 	// 클럽게시판 댓글삭제
 	// /ROOT/api/clubboard/deletereply
 	@RequestMapping(value="/deletereply", 
-			method={RequestMethod.DELETE}, 
+			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
 	public Map<String, Object> deletereplyDELETE(@RequestBody CReply cr, @RequestHeader(name="token") String token)

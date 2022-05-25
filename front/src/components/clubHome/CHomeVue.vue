@@ -32,12 +32,12 @@
                 </v-col>
               </v-row>
 
-              <!-- 게시판 -->
+              <!-- 일정 -->
               <v-row dense style="height: 300px;">
                 <v-col>
                   <v-row dense style="border-bottom: 1px solid #CCC; margin-bottom: 10px;">
                     <v-col sm="5">
-                      <h3>일정</h3>
+                      <router-link :to="{name : 'CScheduleVue', query : {cno : state.cno}}"><h3>일정</h3></router-link>
                     </v-col>
                     
                     <v-col sm="7" class="col_right" style="padding-right: 20px;">
@@ -45,9 +45,9 @@
                     </v-col>
                   </v-row>
 
-                  <v-row dense style="padding-left: 10px;">
+                  <v-row dense style="padding-left: 10px;" v-for="tmp in state.S.slice(0, 5)" :key="tmp">
                     <v-col>
-                      <h4 @click="S()" style="cursor: pointer;">{{state.S.title}}</h4>
+                      <h4 @click="S()" style="cursor: pointer;">{{tmp.sname}}</h4>
                     </v-col>
                   </v-row>            
                 </v-col>
@@ -94,7 +94,7 @@
 
                   <v-row dense style="padding-top: 10px;">
                     <v-col>
-                      <h4 @click="G()" style="cursor: pointer;">{{tmp.cgname}}</h4>
+                      <h4 @click="G(tmp.cgno)" style="cursor: pointer;">{{tmp.cgname}}</h4>
                     </v-col>
                   </v-row>
                 </v-col>
@@ -186,25 +186,28 @@ export default {
       router.push({ name: "CGContentVue" , query : {cgno : cgno, cno : state.cno}});
     };
 
-    // const slist = async() =>
-    // {
-    //   if(state.token !== null)
-    //   {
-    //     const url = `/ROOT/api/schedule/selectlist?page=${state.page}&cno=${state.cno}`;
-    //     const headers = {"Content-Type":"application/json", "token" : state.token};
-    //     const response = await axios.get(url, {headers});
-    //     // console.log(response.data.result);
-    //     if(response.data.status === 200)
-    //     {
-    //       state.S = response.data.result.list;
-    //     }
-    //   }
-    //   else
-    //   {
-    //       router.push({name:'LoginVue'});
-    //   }
-    // }
+    const slist = async() =>
+    {
+      if(state.token !== null)
+      {
+        const url = `/ROOT/api/schedule/selectlist?page=${state.page}&cno=${state.cno}`;
+        const headers = {"Content-Type":"application/json", "token" : state.token};
+        const response = await axios.get(url, {headers});
+        console.log(response.data.result);
+        if(response.data.status === 200)
+        {
+          state.S = response.data.result.list;
+        }
+      }
+      else
+      {
+          router.push({name:'LoginVue'});
+      }
+    }
 
+    const S = () => {
+      router.push({ name: "CScheduleVue", query : {cno : state.cno}});
+    };
 
     
 
@@ -212,9 +215,10 @@ export default {
     {
       await blist();
       await glist();
+      await slist();
     })
 
-    return { state, B, G }
+    return { state, B, G, S }
   }
 }
 </script>

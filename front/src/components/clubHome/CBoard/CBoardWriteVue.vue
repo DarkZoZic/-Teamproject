@@ -164,7 +164,7 @@ export default {
         
         const handleCancel = async() => {
             if (confirm('정말 취소하시겠습니까?') == true) {
-                router.push({ name: "CBoardListVue"});
+                router.push({ name: "CBoardListVue", query : {page : 1, cno : state.cno}});
             }
         }
 

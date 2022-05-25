@@ -187,7 +187,7 @@ export default {
         
         const handleCancel = async() => {
             if (confirm('정말 취소하시겠습니까?') == true) {
-                router.push({ name: "CScheduleVue"});
+                router.push({ name: "CScheduleVue", query : {cno : state.cno}});
             }
         }
 
@@ -247,7 +247,7 @@ export default {
             if(response.data.status === 200)
             {
                 alert('일정이 등록되었습니다.');
-                router.push({name:'CScheduleVue'});
+                router.push({name:'CScheduleVue', query : {cno : state.cno}});
             }
         }
 

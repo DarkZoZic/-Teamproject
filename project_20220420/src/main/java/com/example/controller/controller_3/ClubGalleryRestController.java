@@ -286,7 +286,7 @@ public class ClubGalleryRestController {
 	// /ROOT/api/clubgallery/delete
 	@Transactional
 	@RequestMapping(value="/delete", 
-	method={RequestMethod.DELETE}, 
+	method={RequestMethod.POST}, 
 	consumes = {MediaType.ALL_VALUE},
 	produces= {MediaType.APPLICATION_JSON_VALUE})
 	public Map<String, Object> delete(@RequestBody ClubGallery cg, @RequestHeader(name="token") String token)
@@ -349,7 +349,7 @@ public class ClubGalleryRestController {
 	// 클럽갤러리 댓글삭제
 	// /ROOT/api/clubgallery/deletereply
 	@RequestMapping(value="/deletereply", 
-			method={RequestMethod.DELETE}, 
+			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
 	public Map<String, Object> deletereplyDELETE(@RequestBody CReply cr, @RequestHeader(name="token") String token)
