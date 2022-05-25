@@ -95,7 +95,7 @@ public class CreplyRestController {
     @RequestMapping(value = "/board_delete", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> BDeletePost(
-        @RequestBody CReply cReply,
+        @RequestParam(name = "renumber") Long renumber,
         @RequestHeader (name = "token")String token ){
         // 키를 알고 보내야 함. 틀리면 안감. er다이어그램 보면 됨
 
@@ -106,28 +106,13 @@ public class CreplyRestController {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("USERNAME ==>" + userid);
 
-            CReply cReply1 = cRepository.getById(cReply.getRenumber());
-            System.out.println(cReply1.toString());
+            cRepository.deleteByMember_midAndRenumber(userid, renumber);
+            map.put("status", 200); // 성공
 
-            System.out.println("번호"+cReply.getRenumber());
-
-            if(userid.equals( cReply1.getMember().getMid() )){
-                // Board1 result = b1Service.selectBoard1One(board.getBNo());
-
-                // 삭제
-                cRepository.deleteById(cReply1.getRenumber());
-                map.put("status", 200); // 성공
-
-                
-            }
-            else if (!userid.equals( cReply1.getMember().getMid() )){
-                map.put("status", 0); 
-            }
-           
         }
         catch(Exception e){
             e.printStackTrace();
-            map.put("status", -1); // 실패
+            map.put("status", 0); // 실패
         }
         return map;
     }
@@ -160,6 +145,7 @@ public class CreplyRestController {
                 // 수정
                 result.setRecontent(cReply.getRecontent());
                 result.setReprivate(cReply.getReprivate());
+                result.setReupdatedate(cReply.getReupdatedate());
 
                 cRepository.save(result);
                 

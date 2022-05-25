@@ -136,7 +136,9 @@
                   <!-- 댓글내용 -->
                   <v-row dense style="padding-right: 10px;">
                     <v-col>
-                      <div style="padding-left: 10px; padding-right: 10px;" >{{tmp.recontent}}</div>
+                      <!-- <div style="padding-left: 10px; padding-right: 10px;" >{{tmp.recontent}}</div> -->
+                      <p class="collapse multi-collapse-{{id}} show">{{tmp.recontent}}</p>
+
                     </v-col>
                   </v-row>
 
@@ -152,9 +154,16 @@
                             <v-col class="col_left">
                               <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px; cursor: pointer;"/>
                               <h5 style="color: gray;">{{state.blike}}</h5>
-                              <h5 @click="handleReplyUpdate()" style="padding-left: 10px; color: gray; padding-right: 10px; cursor: pointer;">수정 </h5>
-                              <h5 @click="handleReplyDelete()" style="padding-right: 10px; cursor: pointer; color: gray;">삭제</h5>
-                              <h5 @click="handleReplyAdd()" style="cursor: pointer; color: gray;">답댓글</h5>
+                              <!-- 댓글 수정, 삭제 : 아이디가 일치할 때 -->
+                              <div v-if="tmp.member.mid === state.mid1">
+                                <h5><a @click="handleReplyUpdate(tmp.renumber)" style="padding-left: 10px; color: gray; padding-right: 10px; cursor: pointer;">수정</a></h5>
+                              </div>
+
+                              <div v-if="tmp.member.mid === state.mid1">
+                                <h5><a @click="handleReplyDelete(tmp.renumber)" style="color: gray; cursor: pointer;">삭제</a></h5>
+                              </div>
+
+                              <h5><a @click="handleReplyAdd(tmp.renumber)" style="padding-left: 10px; cursor: pointer; color: gray;">답댓글</a></h5>
                               
                     
                               
@@ -198,7 +207,7 @@
 
             <!-- 디자인 수정 필요  -->
             <v-col sm="3">
-              <v-btn @click="handlePage(1)">이전글</v-btn>
+              <v-btn @click="handlePage(1)" v-if="state.items.prev > 0">이전글</v-btn>
               <v-btn @click="handlePage(2)">다음글</v-btn>
             </v-col>
 
@@ -267,11 +276,12 @@ export default {
 
       reply1 : {
         mid : '',
-        renumber : route.query.renumber,
+        renumber : 0,
         recontent : '',
         reparentnumber : 0,
         reprivate : 'n',
         reregdate : '',
+        reupdatedate : '',
 
       },
       
@@ -392,10 +402,44 @@ export default {
       console.log(response.data);
       if(response.data.status === 200){
         alert('댓글 등록 완료');
+        // 댓글 그대로 남아있음. 다시 새로고침 해야 함!!!!
+
+        // await handleData(state.bno);
         await handleReplyView(state.bno);
+
         // await handleReplyView(state.bno);
         // this.router.go(this.router.currentRoute);
-        //  router.push({name:'Board'});
+
+        // this.router.push(this.router.currentRoute);
+        // state.items = response.data.result;
+        // console.log(state.items);
+      }
+
+    }
+
+    // 답댓글 등록 
+    const handleReplyAdd = async(no) => {
+      const url = `/ROOT/api/creply/board_insert`;
+      const headers = {"Content-Type":"application/json",
+                      "token" : state.token };
+      const body = {
+        mid : state.mid,
+        board1 : {bno : state.bno },
+        recontent : state.reply1.recontent,
+        reparentnumber : no,
+        reprivate : state.reply1.reprivate,
+      };
+      const response = await axios.post(url, body,{headers});
+      console.log(response.data);
+      if(response.data.status === 200){
+        alert('댓글 등록 완료');
+        // 댓글 그대로 남아있음. 다시 새로고침 해야 함!!!!
+
+        // await handleData(state.bno);
+        await handleReplyView(state.bno);
+
+        // await handleReplyView(state.bno);
+        // this.router.go(this.router.currentRoute);
 
         // this.router.push(this.router.currentRoute);
         // state.items = response.data.result;
@@ -415,6 +459,8 @@ export default {
       //   mid : state.reply1.mid,
       //   recontent : state.reply1.recontent,
       //   reprivate : state.reply1.reprivate,
+      //   reupdatedate : state.reply1.reupdatedate,
+      //    수정시에는 수정날짜 옆에 (수정됨) 보이도록
       // };
       // const response = await axios.put(url, body, {headers});
       // console.log(response.data);
@@ -427,25 +473,19 @@ export default {
     }
 
     // 댓글 삭제
-    const handleReplyDelete = async() => {
-
-      // 댓글번호를 보내야 함 아직 안보내짐
+    const handleReplyDelete = async(no) => {
       if(confirm('삭제하시겠습니까?')){
-        const url = `/ROOT/api/creply/board_delete`;
+        const url = `/ROOT/api/creply/board_delete?renumber=${no}`;
         const headers = {
           "Content-Type":"application/json",
           "token" : state.token 
         };
-        const body = {
-          renumber : state.reply1.reparentnumber,
-          bno : state.bno,
-        };
-        console.log("=======",body);
-        const response = await axios.delete(url, {headers:headers, data:{body}});
+        const response = await axios.delete(url, {headers:headers, data:{}});
         console.log(response.data);
         if(response.data.status === 200){
             alert('삭제되었습니다.');
-            router.push({name:"BoardListVue"})
+            // 새로고침!!!!!
+            router.push({name:"BoardContentVue", query : {bno : state.bno}})
         }
       }    
     }
@@ -455,25 +495,24 @@ export default {
     // 이전글, 다음글 메소드 생성
     const handlePage = async(idx) => {
       if(idx === 1){ // 이전글
-        // const url = `/ROOT/api/board1/prev?bno=${state.bno}`;
-        // const headers = {"Content-Type":"application/json",
-        //                   "token" : state.token };
-        // const response = await axios.get(url, {headers});
-        // console.log(response.data);
-        // if(response.data.status === 200){
-        //   router.push({name: "BoardContentVue", query : {bno : state.items.prev }});
-        //   state.bno = state.items.prev;
-        //   await handleData(state.bno);
-
-        // }
-
+        const url = `/ROOT/api/board1/prev?bno=${state.bno}`;
+        const headers = {"Content-Type":"application/json",
+                          "token" : state.token };
+        const response = await axios.get(url, {headers});
+        console.log(response.data);
+        if(response.data.status === 200){
+          // router.push({name:"BoardContent", query:{no:state.items.bno}});
+          // await handleData(state.bno);
+          console.log("===이전글===", state.bno)
+          alert('이전글');
+        }
       }
       else if(idx === 2){ // 다음글
 
       }
     }
 
-    return { state, date, handleUpdate, handleDelete, replylike, handleReplyInsert, handlePage, handleReplyUpdate, handleReplyDelete }
+    return { state, date, handleUpdate, handleDelete, replylike, handleReplyInsert, handleReplyAdd, handlePage, handleReplyUpdate, handleReplyDelete }
   }
 }
 </script>
