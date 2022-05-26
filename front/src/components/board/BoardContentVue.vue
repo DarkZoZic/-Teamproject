@@ -149,7 +149,7 @@
                     </v-col>
                     <v-col class="col_center" v-if="state.reply1.reupdate[idx]">
                       <!-- 댓글수정버튼 -->
-                      <v-btn style="height: 68px; margin-right: 10px;" @click="handleReplyUpdate()"><h4>취소</h4></v-btn>
+                      <v-btn style="height: 68px; margin-right: 10px;" @click="handleReplyUpdate(idx)"><h4>취소</h4></v-btn>
                       <v-btn style="height: 68px;" @click="handleReUpdate(idx)"><h4 >수정</h4></v-btn>
                     </v-col>
                   </v-row>
@@ -173,12 +173,12 @@
                             <v-col sm="11" style="padding-top: 10px;">
                               <textarea  
                                 style="border: 1px solid #CCC; padding: 10px; background-color: white; border-radius: 5px; width: 930px; height: 70px; outline-width: 0; resize: none;"
-                                v-model="state.reply1.recontent" placeholder="댓글내용">
+                                v-model="state.reply1.rerecontent" placeholder="댓글내용">
                               </textarea>
                             </v-col>
 
                             <v-col sm="1" style="padding: 10px;" class="col_center">
-                              <v-btn style="width: 100%; height: 70px; border: 1px solid #CCC;" @click="handleReplyAdd(tmp.renumber)"><h4>댓글작성</h4></v-btn>
+                              <v-btn style="width: 100%; height: 70px; border: 1px solid #CCC;" @click="handleReplyAdd(tmp.renumber, idx)"><h4>댓글작성</h4></v-btn>
                             </v-col>
                           </v-row>
 
