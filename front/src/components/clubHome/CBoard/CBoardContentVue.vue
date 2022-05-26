@@ -127,14 +127,14 @@
                   </v-row>
 
                   <v-col class="col_right">
-                            <div>
-                              <h5 @click="handleReplyUpdate(tmp.renumber)" style="padding-right: 10px; cursor: pointer;">수정</h5>
-                            </div>
+                    <div>
+                      <h5 @click="handleReplyUpdate(tmp.renumber)" style="padding-right: 10px; cursor: pointer;">수정</h5>
+                    </div>
 
-                            <div>
-                              <h5 @click="handleReplyDelete(tmp.renumber)" style="cursor: pointer;" >삭제</h5>
-                            </div>
-                          </v-col>
+                    <div>
+                      <h5 @click="handleReplyDelete(tmp.renumber)" style="cursor: pointer;" >삭제</h5>
+                    </div>
+                  </v-col>
                 </v-col>
               </v-row>
 
@@ -309,7 +309,7 @@ export default {
     {
       const url = `/ROOT/api/clubboard/deletereply`;
       const headers = {"Content-Type":"application/json", "token" : state.token};
-      const body = {renumber : idx}
+      const body = {renumber : idx};
       const response = await axios.post(url, body, {headers});
       console.log(response.data);
     }
