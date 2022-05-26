@@ -456,7 +456,7 @@ export default {
       console.log(response.data);
       if(response.data.status === 200){
         alert('댓글 등록 완료');
-        // 댓글 그대로 남아있음. 다시 새로고침 해야 함!!!!
+        
 
         // await handleData(state.bno);
         await handleReplyView(state.bno);
@@ -516,6 +516,13 @@ export default {
       else if(state.reply1.reupdate == true) {
         state.reply1.reupdate = false;
       }
+
+
+
+
+
+
+      
       // const url = `/ROOT/api/creply/board_update`;
       // const headers = {
       //     "Content-Type" : "application/json",
