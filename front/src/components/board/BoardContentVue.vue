@@ -130,59 +130,56 @@
                       
                       <h5 style="padding-right: 10px;">{{tmp.member.mid}} &nbsp; | </h5> 
                       <h5 style="color: gray;">{{tmp.reregdate1}}</h5>
+                      <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; cursor: pointer; " />
+                      <h5 style="color: gray; padding-left: 5px;">{{state.blike}}</h5>
                     </v-col>
                   </v-row>
 
                   <!-- 댓글내용 -->
                   <v-row dense>
-                    <v-col sm="11">
+                    <v-col sm="10">
                       <!-- <div style="padding-left: 10px; padding-right: 10px;" >{{tmp.recontent}}</div> -->
-                      <div v-if="!state.reply1.reupdate" style="padding: 10px; border: 1px solid #CCC; border-radius: 5px; height: 70px; width: 930px;" class="collapse multi-collapse-{{id}} show">{{tmp.recontent}}</div>
+                      <div v-if="!state.reply1.reupdate" style="padding: 10px; border: 1px solid #CCC; border-radius: 5px; height: 70px; width: 900px;" class="collapse multi-collapse-{{id}} show">{{tmp.recontent}}</div>
                       <div v-if="state.reply1.reupdate" class="col_left">
                         <textarea v-model="tmp.recontent" 
-                          style="background-color: white; resize: none; border: 1px solid #CCC; border-radius: 5px; padding: 10px; width: 930px;"></textarea>
+                          style="background-color: white; resize: none; border: 1px solid #CCC; border-radius: 5px; padding: 10px; width: 900px;"></textarea>
                       </div>
                     </v-col>
-                    <v-col class="col_center">
+                    <v-col class="col_center" v-if="state.reply1.reupdate">
                       <!-- 댓글수정버튼 -->
-                      <div v-if="state.reply1.reupdate">
-                        <v-btn style="height: 68px;"><h4 @click="handleReUpdate()">수정</h4></v-btn>
-                      </div>
+                      <v-btn style="height: 68px; margin-right: 10px;" @click="handleReplyUpdate()"><h4>취소</h4></v-btn>
+                      <v-btn style="height: 68px;" @click="handleReUpdate()"><h4 >수정</h4></v-btn>
                     </v-col>
                   </v-row>
 
-                  <!-- 대댓글. 대댓글이 있으면 테두리가 없게 하는게 가능한가? -->
                   <v-row dense style="padding-left: 10px;">
-                    <!--  v-if="tmp.reparentnumber !== 0" -->
+                    <!-- v-if="tmp.reparentnumber !== 0" -->
                     <v-col>
                       <v-row dense>
-                        <v-col style="display: flex">
-                    
-                          <!-- 댓글작성자 -->
-                          <v-row dense>
+                        <v-col>
+                          <!-- 댓글 수정, 삭제 : 아이디가 일치할 때 -->
+                          <v-row dense v-if="tmp.member.mid === state.mid1">
                             <v-col class="col_left">
-                              <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px; cursor: pointer; " />
-                              <h5 style="color: gray; padding-right: 10px;">{{state.blike}}</h5>
-                              
-                              <!-- 댓글 수정, 삭제 : 아이디가 일치할 때 -->
-                              <v-row v-if="tmp.member.mid === state.mid1">
-                                <div  v-if="!state.reply1.reupdate">
-                                  <h5><a @click="handleReplyUpdate()" style="padding-left: 10px; color: gray;  cursor: pointer;">수정</a></h5>
-                                </div>
-
-                                <h5><a @click="handleReplyDelete(tmp.renumber)" style="padding-left: 10px; color: gray; cursor: pointer;">삭제</a></h5>
-
-                              </v-row>
-                              <h5><a @click="handleReplyAdd(tmp.renumber)" style="padding-left: 10px; cursor: pointer; color: gray;">답댓글</a></h5>
-
-                              <!-- <div v-if="tmp.member.mid === state.mid1">
-                                <h5><a @click="handleReplyDelete(tmp.renumber)" style="color: gray; cursor: pointer;">삭제</a></h5>
-                              </div> -->
-                              <!-- <h5><a @click="handleReplyAdd(tmp.renumber)" style="padding-left: 10px; cursor: pointer; color: gray;">답댓글</a></h5> -->
-                                                 
-                              
+                              <h5 v-if="!state.reply1.reupdate" @click="handleReplyUpdate()" style="padding-left: 10px; color: gray; cursor: pointer;">수정</h5>
+                              <h5 @click="handleReplyDelete(tmp.renumber)" style="padding-left: 10px; color: gray; cursor: pointer;">삭제</h5>
+                              <h5 @click="clickReply()" style="padding-left: 10px; color: gray; cursor: pointer;">댓글</h5>
                             </v-col>
                           </v-row>
+
+                          <!-- 대댓글 -->
+                          <v-row dense v-if="state.reply1.clickReply">
+                            <v-col sm="11" style="padding-top: 10px;">
+                              <textarea  
+                                style="border: 1px solid #CCC; padding: 10px; background-color: white; border-radius: 5px; width: 930px; height: 70px; outline-width: 0; resize: none;"
+                                v-model="state.reply1.recontent" placeholder="댓글내용">
+                              </textarea>
+                            </v-col>
+
+                            <v-col sm="1" style="padding: 10px;" class="col_center">
+                              <v-btn style="width: 100%; height: 70px; border: 1px solid #CCC;" @click="handleReplyAdd(tmp.renumber)"><h4>댓글작성</h4></v-btn>
+                            </v-col>
+                          </v-row>
+
                         </v-col>
                       </v-row>
 
@@ -201,7 +198,7 @@
                 <v-col sm="11" style="padding-top: 10px;">
                   <textarea  
                     style="border: 1px solid #CCC; padding: 10px; background-color: white; border-radius: 5px; width: 930px; height: 70px; outline-width: 0; resize: none;"
-                    v-model="state.reply1.recontent" placeholder="댓글내용">
+                    v-model="state.reply1.rerecontent" placeholder="댓글내용">
                   </textarea>
                 </v-col>
                 
@@ -295,6 +292,8 @@ export default {
         reregdate1 : '',
         reupdatedate : '',
         reupdate: false,
+        clickReply: false,
+        rerecontent: '',
       },
       
       replylist: [],
@@ -433,7 +432,14 @@ export default {
         // state.items = response.data.result;
         // console.log(state.items);
       }
+    }
 
+    const clickReply = () => {
+      if(state.reply1.clickReply == false) {
+        state.reply1.clickReply = true;
+      } else {
+        state.reply1.clickReply = false;
+      }
     }
 
     // 답댓글 등록 
@@ -456,6 +462,9 @@ export default {
 
         // await handleData(state.bno);
         await handleReplyView(state.bno);
+        handleReplyView();
+        router.push({name:"BoardContentVue", query : {bno : state.bno}})
+
 
         // await handleReplyView(state.bno);
         // this.router.go(this.router.currentRoute);
@@ -583,7 +592,7 @@ export default {
     }
 
     return { state, date1, date, handleUpdate, handleDelete, replylike, handleReplyInsert, 
-    handleReplyAdd, handlePage, handleReplyUpdate, handleReplyDelete, handleReUpdate }
+    handleReplyAdd, handlePage, handleReplyUpdate, handleReplyDelete, handleReUpdate, clickReply }
   }
 }
 </script>
