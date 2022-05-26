@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.lettuce.core.dynamic.annotation.Param;
+
 @RestController
 @RequestMapping(value = "/address")
 public class AddressRestController {
@@ -34,6 +36,7 @@ public class AddressRestController {
 
    
    
+    
     //  주소검색 ex부산
     // 127.0.0.1:9090/ROOT/address/searchclub10
     @RequestMapping(value = "/searchclub10", 
@@ -161,62 +164,62 @@ public class AddressRestController {
     }   
     //  대분류로 클럽검색 ex) 부산광역시
     // 127.0.0.1:9090/ROOT/address/searchclub3
-    @RequestMapping(value = "/searchclub3", 
-    method = { RequestMethod.GET },
-    consumes = { MediaType.ALL_VALUE },
-    produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> AddressClub3Get(
-        @RequestParam(value = "add") String add){
-            System.out.println(add);
-        Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
-        try {
-            List<Combineaddr> addr = cbRepository.addrlist(add);
-            System.out.println(addr);
-            // System.out.println(addr.getA2());
+    // @RequestMapping(value = "/searchclub3", 
+    // method = { RequestMethod.GET },
+    // consumes = { MediaType.ALL_VALUE },
+    // produces = { MediaType.APPLICATION_JSON_VALUE })
+    // public Map<String, Object> AddressClub3Get(
+    //     @RequestParam(value = "add") String add){
+    //         System.out.println(add);
+    //     Map<String, Object> map = new HashMap<>();
+    //     map.put("status", 0);
+    //     try {
+    //         List<Combineaddr> addr = cbRepository.addrlist(add);
+    //         System.out.println(addr);
+    //         // System.out.println(addr.getA2());
 
 
-            // List<Combineaddr> combine = cbRepository.addressesList2(addr.getA1());
-            // System.out.println(combine);
-            map.put("status", 200);
-            map.put("result", addr);
+    //         // List<Combineaddr> combine = cbRepository.addressesList2(addr.getA1());
+    //         // System.out.println(combine);
+    //         map.put("status", 200);
+    //         map.put("result", addr);
             
-        }
-         catch (Exception e) {
-            e.printStackTrace();
-        }
+    //     }
+    //      catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
 
-    return map;
-    }
+    // return map;
+    // }
      //  중분류로 클럽검색 ex) 진구
     // 127.0.0.1:9090/ROOT/address/searchclub4
-    @RequestMapping(value = "/searchclub4", 
-    method = { RequestMethod.GET },
-    consumes = { MediaType.ALL_VALUE },
-    produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> AddressClub4Get(
-        @RequestParam(value = "add") String add){
-            System.out.println(add);
-        Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
-        try {
-            List<Combineaddr> addr = cbRepository.addrlist2(add);
-            System.out.println(addr);
-            // System.out.println(addr.getA2());
+    // @RequestMapping(value = "/searchclub4", 
+    // method = { RequestMethod.GET },
+    // consumes = { MediaType.ALL_VALUE },
+    // produces = { MediaType.APPLICATION_JSON_VALUE })
+    // public Map<String, Object> AddressClub4Get(
+    //     @RequestParam(value = "add") String add){
+    //         System.out.println(add);
+    //     Map<String, Object> map = new HashMap<>();
+    //     map.put("status", 0);
+    //     try {
+    //         List<Combineaddr> addr = cbRepository.addrlist2(add);
+    //         System.out.println(addr);
+    //         // System.out.println(addr.getA2());
 
 
-            // List<Combineaddr> combine = cbRepository.addressesList2(addr.getA1());
-            // System.out.println(combine);
-            map.put("status", 200);
-            map.put("result", addr);
+    //         // List<Combineaddr> combine = cbRepository.addressesList2(addr.getA1());
+    //         // System.out.println(combine);
+    //         map.put("status", 200);
+    //         map.put("result", addr);
             
-        }
-         catch (Exception e) {
-            e.printStackTrace();
-        }
+    //     }
+    //      catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
 
-    return map;
-    }
+    // return map;
+    // }
 }
  //  대분류 검색으로 클럽찾기 ex) ~~시
     // 127.0.0.1:9090/ROOT/address/searchclub

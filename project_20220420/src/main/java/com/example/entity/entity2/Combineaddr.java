@@ -28,18 +28,10 @@ public class Combineaddr {
     private Long cno;
     
 
-    // 아이디(설명)
-    @Column(name = "ACODE")
-    private Long acode;
-    // 시, 도
-    @Column(name = "A1")
-    private String a1;
-    // 구, 군
-    @Column(name = "A2")
-    private String a2;
+    
     // 주소상세
-    @Column(name = "ADETAIL")
-    private String adetail;
+    @Column(name = "CADDRESS")
+    private String caddress;
 
     // 카테고리 코드
     @Column(name = "CGCODE")
