@@ -9,7 +9,6 @@ import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 // import vueCookies from "vue-cookies";
 
-window.Kakao.init('afa488b2271f080fe570472f12288216');
 
 loadFonts()
 

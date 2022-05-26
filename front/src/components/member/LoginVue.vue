@@ -91,11 +91,17 @@
                             </v-col>
                         </v-row>
                         <v-row dense>
-                            <v-btn @click="submit" style="width:100%; height:80px; background-color: gold;">
-                                <h2>로그인</h2>
-                            </v-btn>
-                            <img :src="require('../../assets/img/kakao.png')" @click="loginWithKakao()" class="kakao_btn" style="cursor: pointer;">
-                            
+                            <v-col>
+                                <v-btn @click="submit" style="width:100%; height:80px; background-color: gold;">
+                                    <h2>로그인</h2>
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+
+                        <v-row dense style="margin-top: 20px;">
+                            <v-col class="col_center">
+                                <img :src="require('../../assets/img/kakao.png')" @click="loginWithKakao()" class="kakao_btn" style="cursor: pointer;">
+                            </v-col>
                         </v-row>
                     </v-col>
 
@@ -181,11 +187,44 @@ export default {
         }
 
         const loginWithKakao = () => {
-            const params = {
-                redirectUri: "http://localhost:8080/",
-            };
-            window.Kakao.Auth.authorize(params);
-        }
+
+      window.Kakao.init('afa488b2271f080fe570472f12288216');
+// Kakao Developers에서 요약 정보 -> JavaScript 키
+
+      if (window.Kakao.Auth.getAccessToken()) {
+        window.Kakao.API.request({
+          url: '/v1/user/unlink',
+          success: function (response) {
+            console.log(response)
+          },
+          fail: function (error) {
+            console.log(error)
+          },
+        })
+        window.Kakao.Auth.setAccessToken(undefined)
+      }
+
+
+      window.Kakao.Auth.login({
+        success: function () {
+          window.Kakao.API.request({
+            url: '/v2/user/me',
+            data: {
+              property_keys: ["kakao_account.email"]
+            },
+            success: async function (response) {
+              console.log(response);
+            },
+            fail: function (error) {
+              console.log(error)
+            },
+          })
+        },
+        fail: function (error) {
+          console.log(error)
+        },
+      })
+    }
 
         return {state, submit, loginWithKakao}
     }
