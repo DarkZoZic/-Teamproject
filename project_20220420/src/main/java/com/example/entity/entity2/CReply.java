@@ -51,6 +51,11 @@ public class CReply {
   @Lob
   private String recontent;
 
+  // 대댓글 내용
+  @Column(name = "rerecontent")
+  @Lob
+  private String rerecontent;
+
   // 댓글 작성일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @CreationTimestamp // CURRENT_DATE
@@ -60,6 +65,7 @@ public class CReply {
   // 부모댓글번호
   @Column(name = "reparentnumber")
   private Long reparentnumber;
+
 
   // 수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
@@ -101,4 +107,9 @@ public class CReply {
   @ManyToOne
   @JoinColumn(name = "cgno")
   private ClubGallery clubgallery;
+
+  // 댓글 수정 내용
+  @Column(name = "recontentupt")
+  @Lob
+  private String recontentupt;
 }

@@ -93,11 +93,13 @@
 
           <!-- 댓글창 -->
           <!-- 자기가 남긴 댓글에만 수정 삭제 버튼이 뜨게 -->
+          {{state.reply1.reupdate}}
+          {{state.reply1.clickReply}}
           <v-row dense style="background-color: #504ea31d;">
             <v-col style="border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; padding-left: 20px; padding-right: 20px;">
 
               <!-- 댓글하나 -->
-              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="tmp in state.reply" :key="tmp">
+              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="(tmp,idx) in state.reply" :key="tmp">
                 <v-col>
                   <!-- 댓글작성자 -->
                   <v-row dense>
@@ -139,16 +141,16 @@
                   <v-row dense>
                     <v-col sm="10">
                       <!-- <div style="padding-left: 10px; padding-right: 10px;" >{{tmp.recontent}}</div> -->
-                      <div v-if="!state.reply1.reupdate" style="padding: 10px; border: 1px solid #CCC; border-radius: 5px; height: 70px; width: 900px;" class="collapse multi-collapse-{{id}} show">{{tmp.recontent}}</div>
-                      <div v-if="state.reply1.reupdate" class="col_left">
+                      <div v-if="!state.reply1.reupdate[idx]" style="padding: 10px; border: 1px solid #CCC; border-radius: 5px; height: 70px; width: 900px;" class="collapse multi-collapse-{{id}} show">{{tmp.recontent}}</div>
+                      <div v-if="state.reply1.reupdate[idx]" class="col_left">
                         <textarea v-model="tmp.recontent" 
                           style="background-color: white; resize: none; border: 1px solid #CCC; border-radius: 5px; padding: 10px; width: 900px;"></textarea>
                       </div>
                     </v-col>
-                    <v-col class="col_center" v-if="state.reply1.reupdate">
+                    <v-col class="col_center" v-if="state.reply1.reupdate[idx]">
                       <!-- 댓글수정버튼 -->
                       <v-btn style="height: 68px; margin-right: 10px;" @click="handleReplyUpdate()"><h4>취소</h4></v-btn>
-                      <v-btn style="height: 68px;" @click="handleReUpdate()"><h4 >수정</h4></v-btn>
+                      <v-btn style="height: 68px;" @click="handleReUpdate(idx)"><h4 >수정</h4></v-btn>
                     </v-col>
                   </v-row>
 
@@ -160,9 +162,9 @@
                           <!-- 댓글 수정, 삭제 : 아이디가 일치할 때 -->
                           <v-row dense v-if="tmp.member.mid === state.mid1">
                             <v-col class="col_left">
-                              <h5 v-if="!state.reply1.reupdate" @click="handleReplyUpdate()" style="padding-left: 10px; color: gray; cursor: pointer;">수정</h5>
-                              <h5 @click="handleReplyDelete(tmp.renumber)" style="padding-left: 10px; color: gray; cursor: pointer;">삭제</h5>
-                              <h5 @click="clickReply()" style="padding-left: 10px; color: gray; cursor: pointer;">댓글</h5>
+                              <h5 v-if="!state.reply1.reupdate[idx]" @click="handleReplyUpdate(idx)" style="padding-left: 10px; color: gray; cursor: pointer;">수정</h5>
+                              <h5 @click="handleReplyDelete(tmp.renumber, idx)" style="padding-left: 10px; color: gray; cursor: pointer;">삭제</h5>
+                              <h5 @click="clickReply(idx)" style="padding-left: 10px; color: gray; cursor: pointer;">답댓글</h5>
                             </v-col>
                           </v-row>
 
@@ -291,8 +293,8 @@ export default {
         reregdate : '',
         reregdate1 : '',
         reupdatedate : '',
-        reupdate: false,
-        clickReply: false,
+        reupdate: [],
+        clickReply: [],
         rerecontent: '',
       },
       
@@ -387,6 +389,10 @@ export default {
       console.log(response.data);
       if(response.data.status === 200){
         state.reply = response.data.result;
+        for(i=0; i<state.reply.length; i++){
+          state.reply1.reupdate.push(false);
+        }
+        console.log(state.reply);
         // state.page = response.data.result.page;
 
         // for(let i=0; i<0; i++){
@@ -432,11 +438,14 @@ export default {
       }
     }
 
-    const clickReply = () => {
-      if(state.reply1.clickReply == false) {
-        state.reply1.clickReply = true;
-      } else {
-        state.reply1.clickReply = false;
+    // 답댓글 버튼 클릭
+    const clickReply = (idx) => {
+
+      if(state.reply1.clickReply[idx] == false) {
+        state.reply1.clickReply[idx] = true;
+      } 
+      else if(state.reply1.clickReply[idx] == true){
+        state.reply1.clickReply[idx] = false;
       }
     }
 
@@ -507,14 +516,14 @@ export default {
 
 
     // 댓글 수정 버튼 (태그)
-    const handleReplyUpdate = async(no) => {
-      console.log(state.reply1.reupdate);
-      if(state.reply1.reupdate == false) {
-        state.reply1.reupdate = true;
-        console.log(state.reply1.reupdate);
+    const handleReplyUpdate = async(idx) => {
+      console.log(state.reply1.reupdate[idx]);
+      if(state.reply1.reupdate[idx] == false) {
+        state.reply1.reupdate[idx] = true;
+        
       }
-      else if(state.reply1.reupdate == true) {
-        state.reply1.reupdate = false;
+      else if(state.reply1.reupdate[idx] == true) {
+        state.reply1.reupdate[idx] = false;
       }
 
 
@@ -522,7 +531,7 @@ export default {
 
 
 
-      
+
       // const url = `/ROOT/api/creply/board_update`;
       // const headers = {
       //     "Content-Type" : "application/json",
