@@ -137,14 +137,17 @@
                   <v-row dense>
                     <v-col sm="11">
                       <!-- <div style="padding-left: 10px; padding-right: 10px;" >{{tmp.recontent}}</div> -->
-                      <div v-if="state.reply1.reupdate" style="padding: 10px; border: 1px solid #CCC; border-radius: 5px; height: 70px; width: 930px;" class="collapse multi-collapse-{{id}} show">{{tmp.recontent}}</div>
-                      <div v-if="!state.reply1.reupdate" class="col_left">
+                      <div v-if="!state.reply1.reupdate" style="padding: 10px; border: 1px solid #CCC; border-radius: 5px; height: 70px; width: 930px;" class="collapse multi-collapse-{{id}} show">{{tmp.recontent}}</div>
+                      <div v-if="state.reply1.reupdate" class="col_left">
                         <textarea v-model="tmp.recontent" 
                           style="background-color: white; resize: none; border: 1px solid #CCC; border-radius: 5px; padding: 10px; width: 930px;"></textarea>
                       </div>
                     </v-col>
                     <v-col class="col_center">
-                      <v-btn style="height: 68px;"><h4 @click="handleReplyUpdate()">수정</h4></v-btn>
+                      <!-- 댓글수정버튼 -->
+                      <div v-if="state.reply1.reupdate">
+                        <v-btn style="height: 68px;"><h4 @click="handleReUpdate()">수정</h4></v-btn>
+                      </div>
                     </v-col>
                   </v-row>
 
@@ -158,20 +161,25 @@
                           <!-- 댓글작성자 -->
                           <v-row dense>
                             <v-col class="col_left">
-                              <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px; cursor: pointer;"/>
-                              <h5 style="color: gray;">{{state.blike}}</h5>
-                              <!-- 댓글 수정, 삭제 : 아이디가 일치할 때 -->
-                              <div v-if="tmp.member.mid === state.mid1">
-                                <h5><a @click="handleReplyUpdate(tmp.renumber)" style="padding-left: 10px; color: gray; padding-right: 10px; cursor: pointer;">수정</a></h5>
-                              </div>
-
-                              <div v-if="tmp.member.mid === state.mid1">
-                                <h5><a @click="handleReplyDelete(tmp.renumber)" style="color: gray; cursor: pointer;">삭제</a></h5>
-                              </div>
-
-                              <h5><a @click="handleReplyAdd(tmp.renumber)" style="padding-left: 10px; cursor: pointer; color: gray;">답댓글</a></h5>
+                              <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px; cursor: pointer; " />
+                              <h5 style="color: gray; padding-right: 10px;">{{state.blike}}</h5>
                               
-                    
+                              <!-- 댓글 수정, 삭제 : 아이디가 일치할 때 -->
+                              <v-row v-if="tmp.member.mid === state.mid1">
+                                <div  v-if="!state.reply1.reupdate">
+                                  <h5><a @click="handleReplyUpdate()" style="padding-left: 10px; color: gray;  cursor: pointer;">수정</a></h5>
+                                </div>
+
+                                <h5><a @click="handleReplyDelete(tmp.renumber)" style="padding-left: 10px; color: gray; cursor: pointer;">삭제</a></h5>
+
+                              </v-row>
+                              <h5><a @click="handleReplyAdd(tmp.renumber)" style="padding-left: 10px; cursor: pointer; color: gray;">답댓글</a></h5>
+
+                              <!-- <div v-if="tmp.member.mid === state.mid1">
+                                <h5><a @click="handleReplyDelete(tmp.renumber)" style="color: gray; cursor: pointer;">삭제</a></h5>
+                              </div> -->
+                              <!-- <h5><a @click="handleReplyAdd(tmp.renumber)" style="padding-left: 10px; cursor: pointer; color: gray;">답댓글</a></h5> -->
+                                                 
                               
                             </v-col>
                           </v-row>
@@ -458,8 +466,40 @@ export default {
 
     }
 
-    // 댓글 수정
-    const handleReplyUpdate = async() => {
+    // 댓글 찐 수정 handleReUpdate
+    const handleReUpdate = async(no) => {
+      // const url = `/ROOT/api/creply/board_update`;
+      // const headers = {"Content-Type":"application/json",
+      //                 "token" : state.token };
+      // const body = {
+      //   mid : state.mid,
+      //   board1 : {bno : state.bno },
+      //   recontent : state.reply1.recontent,
+      //   reparentnumber : no,
+      //   reprivate : state.reply1.reprivate,
+      // };
+      // const response = await axios.post(url, body,{headers});
+      // console.log(response.data);
+      // if(response.data.status === 200){
+      //   alert('댓글 등록 완료');
+        // 댓글 그대로 남아있음. 다시 새로고침 해야 함!!!!
+
+        // await handleData(state.bno);
+        // await handleReplyView(state.bno);
+
+        // await handleReplyView(state.bno);
+        // this.router.go(this.router.currentRoute);
+
+        // this.router.push(this.router.currentRoute);
+        // state.items = response.data.result;
+        // console.log(state.items);
+      // }
+
+    }
+
+
+    // 댓글 수정 버튼 (a태그)
+    const handleReplyUpdate = async(no) => {
       console.log(state.reply1.reupdate);
       if(state.reply1.reupdate == false) {
         state.reply1.reupdate = true;
@@ -541,7 +581,7 @@ export default {
     }
 
     return { state, date1, date, handleUpdate, handleDelete, replylike, handleReplyInsert, 
-    handleReplyAdd, handlePage, handleReplyUpdate, handleReplyDelete }
+    handleReplyAdd, handlePage, handleReplyUpdate, handleReplyDelete, handleReUpdate }
   }
 }
 </script>
