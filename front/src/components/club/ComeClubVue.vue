@@ -21,6 +21,19 @@
                         </v-col>
                     </v-row>
 
+                    <v-row dense>
+                        <v-col sm="1"></v-col>
+
+                        <v-col sm="10">
+                            <input type="radio" v-model="state.club" value="1">클럽1
+                            <input type="radio" v-model="state.club" value="2">클럽2
+                            <input type="radio" v-model="state.club" value="3">클럽3
+                            <input type="radio" v-model="state.club" value="4">클럽4
+                        </v-col>
+
+                        <v-col sm="1"></v-col>
+                    </v-row>
+
                     <v-row dense style="padding-top: 20px;">
                         <v-col sm="1" ></v-col>
 
@@ -31,7 +44,7 @@
                                     <v-expansion-panel class="panel">
                                         <v-row>
                                             <v-col style="height: 80px;" class="col_left">
-                                                <h2>{{state.name}}</h2>
+                                                <h2>{{state.club}}</h2>
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
@@ -237,7 +250,7 @@ export default {
             editorData : "미리 추가되는 내용",
             token      : sessionStorage.getItem("TOKEN"),
 
-
+            club: [ '축구클럽', '롤', '운동'],
             nameRules: [
                 v => !!v || '필수 입력 사항입니다',
                 v => !/[~!@#$%^&*()_+|<>?:{}]/.test(v) || '이름에는 특수문자를 사용할 수 없습니다'
