@@ -35,7 +35,7 @@ public interface CombineViewRepository
                 @Param(value="no") long no,
                 @Param(value="id") String id);
 
-        // ComBine findTop1ByNoGreaterThanOrderByNoDesc(long no);
+        List<ComBine> findByMid(String mid);
 
 
 

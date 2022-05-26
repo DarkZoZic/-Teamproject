@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.entity.entity2.ComBine;
+import com.example.jwt.JwtUtil;
 import com.example.repository.repository_gibum.CombineViewRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class CombineRestController {
 
     @Autowired CombineViewRepository cVrepository;
+
+	@Autowired JwtUtil jwtUtil;
+
 
     // 자신의 클럽중 신청내역 조회 (클럽 번호필요) 
     // 마스터, 관리자권한 있어야함 101 or 102
@@ -104,6 +109,30 @@ public class CombineRestController {
         try {
             List<ComBine> combine  = cVrepository.chageauth(no,id);
             // System.out.println(total);
+            map.put("status", 200);
+            map.put("results", combine);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", 0);
+        }
+        return map;
+    }
+    // 클럽공고 등록을 위해 아이디로 클럽가져오기
+    // 127.0.0.1:9090/ROOT/combineview/comclub
+    @GetMapping(value = "/comclub",
+    consumes = {MediaType.ALL_VALUE},
+    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> comclubGet(
+        @RequestHeader(name = "TOKEN") String token ){
+        Map<String, Object> map = new HashMap<>();
+        try {
+
+            String username = jwtUtil.extractUsername(token);
+			System.out.println(username);
+
+            List<ComBine> combine  = cVrepository.findByMid(username);
+            System.out.println(combine);
             map.put("status", 200);
             map.put("results", combine);
         }

@@ -22,15 +22,21 @@
                     </v-row>
 
                     <v-row dense>
-                        <v-col sm="1"></v-col>
-
-                        <v-col sm="10">
-                            <input type="radio" v-model="state.club" value="1">클럽1
-                            <input type="radio" v-model="state.club" value="2">클럽2
+                        <v-col sm="1" ></v-col>
+                        <div v-if="state.items">
+                        <v-col sm="10" >
+                            <v-select  
+                                variant="outlined" density="compact" :items= state.clublist  label="클럽선택"
+                                v-model="state.club"  style="height: 40px; padding-right: 10px; width: 200px;">
+                            </v-select>
+                           <!-- <input type="radio" v-for="(item,idx) in state.items"
+                             :key="item"    :value="item.cname[idx]"  name="drone"> -->
+                            <!-- <input type="radio" v-model="state.club" value="2">클럽2
                             <input type="radio" v-model="state.club" value="3">클럽3
-                            <input type="radio" v-model="state.club" value="4">클럽4
+                            <input type="radio" v-model="state.club" value="4">클럽4  -->
                         </v-col>
 
+                        </div>
                         <v-col sm="1"></v-col>
                     </v-row>
 
@@ -48,6 +54,22 @@
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
+                                    <!-- 클럽명 -->
+                                    <v-expansion-panel class="panel">
+                                        <v-row>
+                                            <v-col style="height: 80px;">
+                                                <v-text-field
+                                                label="공고 제목"
+                                                v-model="state.cname"
+                                                variant="plain"
+                                                :rules="state.numberRules"
+                                                density="compact"
+                                                required
+                                                ></v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                    </v-expansion-panel>   
+                                    
 
                                     <v-expansion-panel>
                                         <v-row dense>
@@ -231,14 +253,22 @@ import UploadAdapter from '../UploadAdapter.js';
 import CKEditor      from '@ckeditor/ckeditor5-vue'
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { onMounted } from '@vue/runtime-core';
 
 
 export default {
     components: { HeaderVue, FooterVue, ckeditor: CKEditor.component },
     setup () {
+
+        onMounted(() => {
+                handleData();
+        })
+
         const router = useRouter();
 
         const state = reactive({
+            cname : '',
+            clublist : [],
             datechk: [],
             timechk: [],
             gender : [],
@@ -250,13 +280,36 @@ export default {
             editorData : "미리 추가되는 내용",
             token      : sessionStorage.getItem("TOKEN"),
 
-            club: [ '축구클럽', '롤', '운동'],
+            club: '',
             nameRules: [
                 v => !!v || '필수 입력 사항입니다',
                 v => !/[~!@#$%^&*()_+|<>?:{}]/.test(v) || '이름에는 특수문자를 사용할 수 없습니다'
             ],
             valid: '',
         })
+
+        const handleData = async() => {
+            const url = `/ROOT/combineview/comclub`;
+            const headers = {
+                "Content-Type" : "application/json",
+                "token"        : state.token,
+            };
+            const response = await axios.get(url,{headers:headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+                state.items = response.data.results;
+                console.log(response.data.results[2].cname);
+                // state.club = response.data.results.length;
+            }
+                for(var i=0; i < state.items.length; i++){
+                    state.clublist[i] = state.items[i].cname;
+                    console.log(state.clublist);
+                }
+                console.log("sad",response.data.results.length);
+
+        }
+
+
         const handleReg = async() => {
             const url = `/ROOT/club/noticeinsert`;
             const headers = {
@@ -265,7 +318,14 @@ export default {
             };
             
             const body= new FormData();
+            body.append("cdtitle",   state.cname);
             body.append("cdcontent", state.editorData);
+            body.append("enddate",   state.enddate);
+            body.append("gender",    state.gender);
+            body.append("age",       state.age);
+            body.append("date",      state.datechk);
+            body.append("time",      state.timechk);
+            body.append("club",      state.club);
                 
             const response = await axios.post(url, body, {headers});
             console.log(response.data);
