@@ -456,8 +456,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.h5 {
+}
 .h5:hover {
-    background-color: gold;
+    border: 3px solid gold;
+    border-radius: 3px;
+
 }
 .hov1 {
     display: none;
