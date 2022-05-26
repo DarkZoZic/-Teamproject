@@ -192,7 +192,6 @@ public class Board1RestController {
 
         Bckeditor bckeditor = bcRepository.getById(biimgcode);
 
-
         // 이미지명, 이미지크기, 이미지종류, 이미지데이터
         // BImage bImage = b1IRepository.getById(biimgcode);
         // System.out.println(bImage.getBiimagetype());
@@ -218,99 +217,6 @@ public class Board1RestController {
 			return response;
 		}
     }
-
-
-   
-    //     @RequestMapping(value = "/insert", 
-    //     method = {RequestMethod.POST},
-    //     consumes = {MediaType.ALL_VALUE},
-    //     produces = {MediaType.APPLICATION_JSON_VALUE})
-    // public Map<String, Object> InsertPost(
-    //     @ModelAttribute Board1 board1,
-    //     @ModelAttribute BImage bImage,
-    //     @RequestHeader (name = "token") String token,
-    //     @RequestParam(name="file", required = false) MultipartFile file ) throws IOException {
-
-    //     Map<String ,Object> map = new HashMap<>();
-
-    //     try{
-    //         System.out.println(file);
-
-    //         if(file != null){
-    //             if(!file.isEmpty()){
-    //                 bImage.setBiImagetype(file.getContentType());
-    //                 bImage.setBiImagename(file.getOriginalFilename());
-    //                 bImage.setBiImagesize(file.getSize());
-    //                 bImage.setBiImage(file.getBytes()); 
-    //             }
-    //         }
-    //         b1IRepository.save(bImage);
-
-    //         // 토큰 추출
-    //         String userid = jwtUtil.extractUsername(token);
-    //         System.out.println("USERNAME ==>" + userid);
-
-    //         Member memberEntity = new Member();
-    //         memberEntity.setMId(userid);
-    //         System.out.println(memberEntity);
-
-    //         board1.setMember(memberEntity);
-    //         System.out.println(board1.toString());
-
-    //         int ret = b1Service.insertBoard1One(board1);
-    //         System.out.println(board1.toString());
-    //         if(ret == 1){
-    //             map.put("status", 200); // 성공
-    //             map.put("result", "등록완료");
-    //         }
-            
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         map.put("status", 0); // 실패
-    //     }
-    //     return map;
-    // }
-
- // Bimage에 이미지를 넣고 나중에 board1의 번호와 연결시키는 방식?
-    // @RequestMapping(value = "/image", 
-    //     method = {RequestMethod.POST},
-    //     consumes = {MediaType.ALL_VALUE},
-    //     produces = {MediaType.APPLICATION_JSON_VALUE})
-    // public Map<String, Object> ImagePost(
-    //     @ModelAttribute BImage bImage,
-    //     @RequestParam(name = "bNo") long bNo,
-    //     @RequestHeader (name = "token") String token ) {
-
-    //     Map<String ,Object> map = new HashMap<>();
-
-    //     try{
-    //         // 토큰 추출
-    //         String userid = jwtUtil.extractUsername(token);
-    //         System.out.println("USERNAME ==>" + userid);
-
-    //         Member memberEntity = new Member();
-    //         memberEntity.setMId(userid);
-    //         System.out.println(memberEntity);
-
-    //         board1.setMember(memberEntity);
-    //         System.out.println(board1.toString());
-
-    //         if(token !=null) {
-    //             int ret = b1Service.insertBoard1One(board1);
-    //             System.out.println(board1.toString());
-    //             if(ret == 1){
-    //                 map.put("status", 200); // 성공
-    //                 map.put("result", "등록완료");
-    //             }
-    //         }
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         map.put("status", 0); // 실패
-    //     }
-    //     return map;
-    // }
 
     // 글 1개 삭제
     // 127.0.0.1:9090/ROOT/api/board1/delete1
@@ -612,51 +518,6 @@ public class Board1RestController {
         return map;
     }
 
-   
-    // @PostMapping(value = "/prev")
-    // public String prevPOST( @RequestParam(name = "no") long no){
-
-    //     BoardEntity prev = bRepository.findTop1ByNoLessThanOrderByNoDesc(no);
-    //     return "redirect:/board/selectone?no=" + prev.getNo();
-    // }
-
-
-    // 이전글, 다음글
-    // @RequestMapping(value = "/prevnext", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
-    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
-    // public Map<String, Object> prevnextPOST(
-    //     @RequestParam(name = "bno") long bno,
-    //     @RequestParam(name = "btn") String btn,
-    //     @RequestHeader (name = "token")String token){
-
-    //     Map<String ,Object> map = new HashMap<>();
-    //     try{
-    //         if(token != null){
-    //             if(btn.equals("이전글")){
-    //                 Board1 prev = b1Repository.findTop1ByBnoLessThanOrderByBnoDesc(bno);
-    //                 // return "redirect:/board1/selectone?bno=" + prev.getBno();
-    //                 map.put("result", prev);
-                    
-    //             }
-    //             else if(btn.equals("다음글")){
-    //                 Board1 next = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
-    //                 // return "redirect:/board1/selectone?bno=" + next.getBno();
-    //                 map.put("result", next);
-    //             }
-    //             // return "redirect:/board1/selectlist";
-
-    //             map.put("status", 200);
-                
-    //         }
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         map.put("status", 0); // 실패
-    //         // return "redirect:/board1/selectlist";
-    //     }
-    //     return map;
-    // }
-
     // 이전글
     // 127.0.0.1:9090/ROOT/api/board1/prev
     @RequestMapping(value = "/prev", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
@@ -669,7 +530,7 @@ public class Board1RestController {
         try{
             if(token != null){
 
-                Board1 prev = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
+                Board1 prev = b1Repository.findTop1ByBnoLessThanOrderByBnoDesc(bno);
                 if(prev.getBno()!=null){
                     Board1 board1 = b1Repository.findById(prev.getBno()).orElse(null);
                 
@@ -687,57 +548,57 @@ public class Board1RestController {
 
     // 다음글
     // 127.0.0.1:9090/ROOT/api/board1/next
-    // @RequestMapping(value = "/next", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
-    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
-    // public Map<String, Object> nextGET(
-    //     @RequestParam(name = "bno") long bno,
-    //     @RequestHeader (name = "token")String token){
+    @RequestMapping(value = "/next", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
+                    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> nextGET(
+        @RequestParam(name = "bno") long bno,
+        @RequestHeader (name = "token")String token){
 
-    //     Map<String ,Object> map = new HashMap<>();
-    //     try{
-    //         if(token != null){
+        Map<String ,Object> map = new HashMap<>();
+        try{
+            if(token != null){
 
-    //             Board1 next = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
-    //             if(next.getBno()!=null){
-    //                 Board1 board1 = b1Repository.findById(next.getBno()).orElse(null);
+                Board1 next = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
+                if(next.getBno()!=null){
+                    Board1 board1 = b1Repository.findById(next.getBno()).orElse(null);
                 
-    //                 map.put("result", board1);
-    //                 map.put("status", 200); // 성공
+                    map.put("result", board1);
+                    map.put("status", 200); // 성공
 
-    //             }
-    //         }
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         map.put("status", 0); // 실패
-    //     }
-    //     return map;
-    // }
+                }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
 
     // 일괄삭제
     // 관리자만 가능하도록 해야하는데 아직 그건 구현 못함
     // 127.0.0.1:9090/ROOT/api/board1/deletebatch
-    // @RequestMapping(value = "/deletebatch", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
-    //                 produces = {MediaType.APPLICATION_JSON_VALUE})
-    // public Map<String, Object> deleteBatch(
-    //     @RequestParam(name = "bno") Long[] bno,
-    //     @RequestHeader (name = "token")String token){
+    @RequestMapping(value = "/deletebatch", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
+                    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> deleteBatch(
+        @RequestParam(name = "bno") Long[] bno,
+        @RequestHeader (name = "token")String token){
 
-    //     Map<String ,Object> map = new HashMap<>();
-    //     try{
-    //         // 토큰 추출
-    //         String userid = jwtUtil.extractUsername(token);
-    //         System.out.println("USERNAME ==>" + userid);
+        Map<String ,Object> map = new HashMap<>();
+        try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
 
-    //         b1Repository.deleteByMember_midAndBnoIn(userid, bno);
-    //         map.put("status", 200); // 성공
-    //     }
-    //     catch(Exception e){
-    //         e.printStackTrace();
-    //         map.put("status", 0); // 실패
-    //     }
-    //     return map;
-    // }
+            b1Repository.deleteByMember_midAndBnoIn(userid, bno);
+            map.put("status", 200); // 성공
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
 
    
     // 게시글 작성자와 토큰의 아이디가 일치하는 글만 조회

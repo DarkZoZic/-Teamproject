@@ -209,8 +209,8 @@
               <router-link to="/blist">
                 <v-btn class="col_center"><img :src="require('../../assets/img/list.png')" style="width: 20px; margin-right: 3px;"/><h4>목록</h4></v-btn>
               </router-link>
-              <v-btn @click="handlePage(1)" v-if="state.items.prev > 0"><h4>이전글</h4></v-btn>
-              <v-btn @click="handlePage(2)" v-if="state.items.next >0"><h4>다음글</h4></v-btn>
+              <v-btn @click="handlePage(1)" v-if="state.items.prev>0"><h4>이전글</h4></v-btn>
+              <v-btn @click="handlePage(2)" v-if="state.items.next>0"><h4>다음글</h4></v-btn>
             </v-col>
 
             <v-col class="col_right">
@@ -247,7 +247,7 @@ export default {
 
     onMounted( async() => {
       await handleData(); 
-      date();
+      await date();
       await handleReplyView();
     
     })
@@ -508,8 +508,6 @@ export default {
       }    
     }
 
-
-
     // 이전글, 다음글 메소드 생성
     const handlePage = async(idx) => {
       if(idx === 1){ // 이전글
@@ -519,17 +517,31 @@ export default {
         const response = await axios.get(url, {headers});
         console.log(response.data);
         if(response.data.status === 200){
-          alert('이전글');
-          // router.push({name:"BoardContent", query : {bno : state.items.prev}});
+          router.push({name:"BoardContentVue", query : {bno : state.items.prev}});
+          state.bno = state.items.prev;
+          await handleData();
+          await handleReplyView();
         }
        
       }
       else if(idx === 2){ // 다음글
+        const url = `/ROOT/api/board1/next?bno=${state.bno}`;
+        const headers = {"Content-Type":"application/json",
+                      "token" : state.token };
+        const response = await axios.get(url, {headers});
+        console.log(response.data);
+        if(response.data.status === 200){
+          router.push({name:"BoardContentVue", query : {bno : state.items.next}});
+          state.bno = state.items.next;
+          await handleData();
+          await handleReplyView();
+        }
 
       }
     }
 
-    return { state, date1, date, handleUpdate, handleDelete, replylike, handleReplyInsert, handleReplyAdd, handlePage, handleReplyUpdate, handleReplyDelete }
+    return { state, date1, date, handleUpdate, handleDelete, replylike, handleReplyInsert, 
+    handleReplyAdd, handlePage, handleReplyUpdate, handleReplyDelete }
   }
 }
 </script>
