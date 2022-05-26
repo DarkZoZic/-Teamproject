@@ -26,14 +26,13 @@
       </v-card-text>
 
       <v-card-text class="white--text pt-0">
-        부산광역시 어쩌고 저쩌고 <br />
-        사랑합니다
+        부산광역시 부산진구 중앙대로 668 (A1프라자6층) <br />
       </v-card-text>
 
       <v-divider></v-divider>
 
       <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <strong>Company</strong>
+        {{ new Date().getFullYear() }} — <strong>Cluver</strong>
       </v-card-text>
     </v-card>
   </v-footer>
