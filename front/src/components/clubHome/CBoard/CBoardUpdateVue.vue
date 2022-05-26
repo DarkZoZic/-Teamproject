@@ -1,6 +1,6 @@
 <template>
 <div>
-<HeaderVue style="height: 220px;"></HeaderVue>
+<CHHeaderVue style="height: 150px;"></CHHeaderVue>
     <v-app>
         <v-main style="padding: 10px;">
             <v-row dense>
@@ -9,7 +9,7 @@
                 <v-col sm="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
-                            <h5><router-link to="/">홈</router-link> > <router-link to="/blist">자유게시판</router-link> > 글수정</h5>
+                            <h5><router-link :to="{name:'CHomeVue', query :{cno : state.cno}}">클럽홈</router-link> > <router-link :to="{name:'CBoardListVue', query :{cno : state.cno}}">{{state.boardname}}</router-link> > 글수정</h5>
                         </v-col>                                
                     </v-row>
 
@@ -25,7 +25,7 @@
                             <v-card style="width:100%; margin: 10px; margin-top: 20px; margin-bottom: 30px;">
                                 <v-expansion-panels style="width:100%">
                                     <v-form v-model="state.valid" style="width:100%">
-                                        {{state.valid}}
+                                        <!-- {{state.valid}} -->
                                         <!-- 제목 -->
                                         <v-expansion-panel class="panel">
                                             <v-row dense style="padding:10px;">
@@ -34,7 +34,7 @@
                                                 </v-col>
 
                                                 <v-col sm="8" style="display: flex; align-items: center; width:100%;">
-                                                    <input type="text" v-model="state.valid.btitle" style="outline-width: 0; padding-left: 3px; width: 100%; border-bottom: 1px solid #CCC;"/>
+                                                    <input type="text" v-model="state.cbtitle" style="outline-width: 0; padding-left: 3px; width: 100%; border-bottom: 1px solid #CCC;"/>
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -49,7 +49,7 @@
                                                 </v-col>
 
                                                 <v-col sm="8" >
-                                                    <ckeditor :editor="state.editor" v-model="state.valid.bcontent" @ready="onReady"></ckeditor>
+                                                    <ckeditor :editor="state.editor" v-model="state.cbcontent" @ready="onReady"></ckeditor>
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -64,7 +64,8 @@
                                                 </v-col>
 
                                                 <v-col sm="8" style="display: flex; align-items: center;">
-                                                    <input type="file">
+                                                    <img :src="state.imageUrl" style="width:200px;" v-if="state.imageUrl !== null"/>
+                                                    <input type="file" @change="updateFile($event)">
                                                 </v-col>
 
                                                 <v-col sm="2"></v-col>
@@ -101,16 +102,13 @@
             </v-row>
         </v-main>
     </v-app>
-    <FooterVue></FooterVue>
 </div>
 </template>
 
 <script>
-import FooterVue     from '../FooterVue.vue';
-import HeaderVue     from '../HeaderVue.vue';
 import { onMounted } from '@vue/runtime-core';
+import CHHeaderVue  from '../CHHeaderVue.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import UploadAdapter from '../UploadAdapter.js';
 import CKEditor      from '@ckeditor/ckeditor5-vue'
 import { reactive }  from '@vue/reactivity';
 import { useRoute, useRouter } from 'vue-router';
@@ -118,87 +116,107 @@ import axios from 'axios';
 
 
 export default {
-    components: { HeaderVue, FooterVue, ckeditor: CKEditor.component },
+    components: { CHHeaderVue, ckeditor: CKEditor.component },
     setup () {
 
-        const route = useRoute();
-        const router = useRouter();
+    const route = useRoute();
+    const router = useRouter();
 
-        const state = reactive({
-            bno : route.query.bno,
-            mid        : '',
-            btitle     : '',
-            bcontent   : '',
-            btype      : 1,
-            editor     : ClassicEditor, // ckeditor종류
-            editorData : '',
-            token      : sessionStorage.getItem("TOKEN"),
-            valid      : '',
-        })
+    const state = reactive({
+        cbno : route.query.cbno,
+        cno : route.query.cno,
+        cbtitle : '',
+        cbcontent : '',
+        imageFile : '',
+        imageUrl : '',
+        editor     : ClassicEditor, // ckeditor종류
+        editorData : '',
+        token      : sessionStorage.getItem("TOKEN"),
+        cbhit : 0,
+        cbregdate : '',
+        mid : ''
+    })
 
-        const handleData = async() => {
-            const url = `/ROOT/api/board1/selectone?bno=${state.bno}`;
-            const headers = {"Content-Type":"application/json",
-                            "token" : state.token };
-            const response = await axios.get(url, {headers});
-            console.log(response.data);
-            if(response.data.status === 200){
-                console.log(response.data.result);
-                state.valid = response.data.result;
-                // console.log(state.item);
-               
-            }
+    const handleData = async() => {
+        const url = `/ROOT/api/clubboard/select?cbno=${state.cbno}&cno=${state.cno}`;
+        const headers = {"Content-Type":"application/json",
+                        "token" : state.token };
+        const response = await axios.get(url, {headers});
+        // console.log(response.data);
+        if(response.data.status === 200){
+            console.log(response.data.result);
+            const clubboard = response.data.result.clubboard;
+            state.cbtitle = clubboard.cbtitle;
+            state.cbcontent = clubboard.cbcontent;
+            state.imageFile = response.data.result.file;
+            state.imageUrl = clubboard.cbimageurl;
+            state.cbhit = clubboard.cbhit;
         }
+    }
+    
+
+    const handleUpdate = async() => { //미완성
+        if(state.imageFile === null)
+        {
+            state.imageFile = require('../../../assets/img/default-logo.jpg');
+        }
+        const url = `/ROOT/api/clubboard/update`;
+        const headers = {
+            "Content-Type" : "multipart/form-data",
+            "token"        : state.token,
+        };
+        const body= new FormData();
+        body.append("cbno", state.cbno);
+        body.append("cno", state.cno);
+        body.append("cbtitle", state.cbtitle);
+        body.append("cbcontent", state.cbcontent);
+        body.append("file", state.imageFile);
+        body.append("cbhit", state.cbhit);
+
+        const response = await axios.put(url, body, {headers});
+        console.log(response.data);
+        if(response.data.status === 200){
+            alert('수정되었습니다.');
+            router.push({name:'CBoardContentVue', query : {cbno : state.cbno, cno : state.cno}});
+        }
+
+    }
+
+    const handleCancel = async() => {
+        if (confirm('취소하시겠습니까?') == true) {
+            router.push({name:'CBoardContentVue', query : {cbno : state.cbno, cno : state.cno}});
+        }
+    }
+
+    const onReady = ( editor ) => {
+        // console.log(editor);
+        editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+            return new UploadAdapter( loader );
+        };
         
+        editor.editing.view.change( writer => {
+            writer.setStyle( 'height', '600px', editor.editing.view.document.getRoot() );
+        });
+        // console.log(editor.editing.view);
+    }
 
-        const handleUpdate = async() => {
-            const url = `/ROOT/api/board1/update`;
-            const headers = {
-                "Content-Type" : "application/json",
-                "token"        : state.token,
-            };
-            const body= new FormData();
-            body.append("member", state.valid.mid);
-            body.append("bno", state.valid.bno);
-            body.append("btitle", state.valid.btitle);
-            body.append("bcontent", state.valid.bcontent);
-            body.append("btype", state.valid.btype);
-
-            const response = await axios.put(url, body, {headers});
-            console.log(response.data);
-            if(response.data.status === 200){
-                alert('수정완료');
-                // 원래 게시글로 돌아가야 함
-               router.push({name:'BoardListVue'});
-            }
-
+    const updateFile = (e) =>
+    {
+        if(e.target.files[0])
+        {
+            state.imageUrl = URL.createObjectURL(e.target.files[0]);
+            state.imageFile = e.target.files[0];
+            console.log("updatedFile = ", state.imageFile);
         }
-
-        const handleCancel = async() => {
-            if (confirm('정말 취소하시겠습니까?') == true) {
-                router.push({ name: "BoardListVue"});
-            }
-        }
-
-        const onReady = ( editor ) => {
-            console.log(editor);
-            editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-                return new UploadAdapter( loader );
-            };
-            
-            editor.editing.view.change( writer => {
-                writer.setStyle( 'height', '600px', editor.editing.view.document.getRoot() );
-            });
-            console.log(editor.editing.view);
-        }
+    }
 
 
-        onMounted( async() => {
-            await handleData();
-        
-        })
+    onMounted( async() => {
+        await handleData();
+    
+    })
 
-        return { state, onReady, handleCancel, handleUpdate }
+    return { state, onReady, handleCancel, handleUpdate, updateFile }
     },
 }
 </script>

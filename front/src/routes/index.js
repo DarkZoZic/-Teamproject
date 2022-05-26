@@ -53,6 +53,7 @@ import CHomeVue          from '@/components/clubHome/CHomeVue.vue';
 import CBoardListVue     from '@/components/clubHome/CBoard/CBoardListVue.vue';
 import CBoardContentVue  from '@/components/clubHome/CBoard/CBoardContentVue.vue';
 import CBoardWriteVue    from '@/components/clubHome/CBoard/CBoardWriteVue.vue';
+import CBoardUpdateVue   from '@/components/clubHome/CBoard/CBoardUpdateVue.vue';
 
 // clubGallery
 import CGalleryVue       from '@/components/clubHome/CGallery/CGalleryVue.vue';
@@ -129,6 +130,7 @@ const routes = [
     { path: '/cblist',    name: "CBoardListVue",     component: CBoardListVue },
     { path: '/cbcontent', name: "CBoardContentVue",  component: CBoardContentVue },
     { path: '/cbwrite',   name: "CBoardWriteVue",    component: CBoardWriteVue },
+    { path: '/cbupdate',  name: "CBoardUpdateVue",  component: CBoardUpdateVue },
 
     // clubGallery
     { path: '/cgallery',  name: "CGalleryVue",       component: CGalleryVue },

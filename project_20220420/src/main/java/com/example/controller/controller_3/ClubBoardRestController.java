@@ -3,6 +3,7 @@ package com.example.controller.controller_3;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,7 +90,7 @@ public class ClubBoardRestController {
 				cbRep.save(cb);
 				if(file != null)
 				{
-					if(!file.isEmpty())
+					if(!file.isEmpty()) // 이미지 첨부시
 					{
 						CbImage cbImage = new CbImage(); // 첨부한 이미지파일 받을 변수
 						cbImage.setCbimage(file.getBytes()); 
@@ -99,6 +100,16 @@ public class ClubBoardRestController {
 						cbImage.setClubboard(cb);
 						cbiRep.save(cbImage); // 이미지파일 변수에 이미지 데이터 넣고 CbImage 테이블에 저장
 					}
+				}
+				else //이미지 미첨부시
+				{
+					CbImage noImage = new CbImage();
+					noImage.setCbimage(null); 
+					noImage.setCbimagename(null);
+					noImage.setCbimagesize(0L);
+					noImage.setCbimagetype(null);
+					noImage.setClubboard(cb);
+					cbiRep.save(noImage); // 이미지파일 변수에 빈 데이터 넣고 CbImage 테이블에 저장(글 수정기능이 정상 작동되게 하기 위한 임시데이터)
 				}
 				map.put("status", 200);
 			}
@@ -337,6 +348,8 @@ public class ClubBoardRestController {
 					model.addAttribute("next", 0);
 				}
 				
+				model.addAttribute("file", cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(cbno));
+				
 				map.put("status", 200);
 				map.put("result", model);
 			}
@@ -396,7 +409,7 @@ public class ClubBoardRestController {
 		{
 			if(token != null)
 			{
-				cbiRep.deleteByClubboard_cbno(cb.getCbno());
+				crRep.deleteByClubboard_cbno(cb.getCbno());		cbiRep.deleteByClubboard_cbno(cb.getCbno());
 				cbRep.deleteById(cb.getCbno());
 				map.put("status", 200);
 			}
@@ -406,6 +419,63 @@ public class ClubBoardRestController {
 				map.put("result", "토큰없음");
 			}
 			
+		} 
+		catch (Exception e) 
+		{
+			map.put("status", -1);
+		}
+		return map;
+	}
+	
+	// 글수정
+	@RequestMapping(value="/update", 
+			method={RequestMethod.PUT}, 
+			consumes = {MediaType.ALL_VALUE},
+			produces= {MediaType.APPLICATION_JSON_VALUE})
+	public Map<String, Object> updatePOST(@ModelAttribute ClubBoard cb, @ModelAttribute MultipartFile file,
+			@RequestHeader(name="token") String token) throws IOException
+	{
+		Map<String, Object> map = new HashMap<>();
+		try 
+		{
+			if(token != null)
+			{
+				System.out.println("cb : " + cb);
+				ClubBoard clubboard = cbRep.findById(cb.getCbno()).orElse(null);
+				Date date = clubboard.getCbregdate();
+				Member mid = clubboard.getMember();
+				
+				cb.setCbregdate(date);
+				cb.setMember(mid);
+				
+				cbRep.save(cb);
+				if(file != null)
+				{
+					if(!file.isEmpty())
+					{
+						CbImage cbImage = new CbImage(); // 첨부한 이미지파일 받을 변수
+						cbImage.setCbimage(file.getBytes()); 
+						cbImage.setCbimagename(file.getOriginalFilename());
+						cbImage.setCbimagesize(file.getSize());
+						cbImage.setCbimagetype(file.getContentType());
+						cbImage.setClubboard(cb);
+						cbImage.setCbimgcode(cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(cb.getCbno()).getCbimgcode());
+						cbiRep.save(cbImage); // 이미지파일 변수에 이미지 데이터 넣고 CbImage 테이블에 저장
+					}
+				}
+				else
+				{
+					CbImage cbImage = cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(cb.getCbno());
+					cbImage.setCbimgcode(cbiRep.findByClubboard_CbnoOrderByCbimgcodeAsc(cb.getCbno()).getCbimgcode());
+					cbiRep.save(cbImage);
+				}
+				map.put("status", 200);
+			}
+			else
+			{
+				map.put("status", 0);
+				map.put("result", "토큰없음");
+			}
 		} 
 		catch (Exception e) 
 		{
@@ -496,8 +566,21 @@ public class ClubBoardRestController {
 		{
 			if(token != null)
 			{
-				crRep.deleteById(cr.getRenumber());
-				map.put("status", 200);
+				String mid = jwtUtil.extractUsername(token);
+				System.out.println("token mid : " + mid);
+				CReply member = crRep.findById(cr.getRenumber()).orElse(null);
+				System.out.println("CReply mid : " + member.getMember().getMid());
+				if(mid.equals(member.getMember().getMid()))
+				{
+					crRep.deleteById(cr.getRenumber());
+					map.put("status", 200);
+				}
+				else
+				{
+					map.put("status", 0);
+					map.put("result", "일치하지 않는 아이디");
+				}
+				
 			}
 			else
 			{

@@ -25,6 +25,7 @@
             <v-col sm="6" class="col_pad-l25">
               <h4 style="color: #787878">{{state.board.mid}}</h4>
             </v-col>
+            
 
             <v-col sm="6" class="col_right1">
               <h5 style="color: #787878">
@@ -51,6 +52,18 @@
               </v-btn>
             </v-col>
           </v-row>
+
+          <!-- 글 수정, 삭제 : 아이디가 일치할 때 -->
+            <v-col class="col_right">
+              <div>
+                <!--  -->
+                <h5 @click="handleUpdate()" style="padding-right: 10px; cursor: pointer;" v-if="state.tokenid === state.mid">수정</h5>
+              </div>
+
+              <div>
+                <h5 @click="handleDelete()" style="cursor: pointer;" v-if="state.tokenid === state.mid">삭제</h5>
+              </div>
+            </v-col>
 
           <v-row dense>
             <v-col style="display: flex; padding-top: 10px; padding-left: 10px;" class="col_left">
@@ -112,6 +125,16 @@
                       </v-row>
                     </v-col>
                   </v-row>
+
+                  <v-col class="col_right">
+                            <div>
+                              <h5 @click="handleReplyUpdate(tmp.renumber)" style="padding-right: 10px; cursor: pointer;">수정</h5>
+                            </div>
+
+                            <div>
+                              <h5 @click="handleReplyDelete(tmp.renumber)" style="cursor: pointer;" >삭제</h5>
+                            </div>
+                          </v-col>
                 </v-col>
               </v-row>
 
@@ -174,13 +197,15 @@ export default {
     const state = reactive({
       cbno : route.query.cbno,
       cno : route.query.cno,
-      board : '',
+      board : {},
       imageurl : '',
       boardname: '클럽게시판',
       replycontent: '',
       token : sessionStorage.getItem("TOKEN"),
       prev : 0,
       next : 0,
+      mid : '',
+      tokenid : sessionStorage.getItem("MID"), // 글수정/삭제 비교용. 토큰에서 id 추출
 
       reply: [],
       rereply : []
@@ -208,7 +233,7 @@ export default {
           state.imageurl = response.data.result.clubboard.cbimageurl;
           state.prev = response.data.result.prev;
           state.next = response.data.result.next;
-          
+          state.mid = response.data.result.clubboard.member.mid;
         }
         else if(response.data.status === -1)
         {
@@ -258,12 +283,45 @@ export default {
       }
     }
 
+    const handleDelete = async() =>
+    {
+      const url = `/ROOT/api/clubboard/delete`;
+      const headers = {"Content-Type" : "application/json", "token" : state.token};
+      const body = 
+      {
+        cbno : state.cbno
+      };
+      const response = await axios.post(url, body, {headers});
+      console.log(response.data);
+      if(response.data.status === 200)
+      {
+        alert('삭제되었습니다.');
+        router.push({name:"CBoardListVue", query : {cbno : state.cbno, cno : state.cno}});
+      }
+    }
+
+    const handleUpdate = () =>
+    {
+      router.push({name:'CBoardUpdateVue', query : {cbno : state.cbno, cno : state.cno}});
+    }
+
+    const handleReplyDelete = async(idx) =>
+    {
+      const url = `/ROOT/api/clubboard/deletereply`;
+      const headers = {"Content-Type":"application/json", "token" : state.token};
+      const body = {renumber : idx}
+      const response = await axios.post(url, body, {headers});
+      console.log(response.data);
+    }
+
     onMounted(() =>
     {
       content();
     });
 
-    return { state, like, replylike, insertreply, prevnext }
+    
+
+    return { state, like, replylike, insertreply, prevnext, handleDelete, handleUpdate, handleReplyDelete }
   }
 }
 </script>
