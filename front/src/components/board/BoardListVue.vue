@@ -17,7 +17,7 @@
                         <v-col class="col_left"><h2>자유게시판</h2></v-col>
 
                         <v-col sm="8" class="col_right">
-                            <v-select variant="outlined" density="compact" :items="state.items1" v-model="state.option" style="height: 40px; padding-right: 10px;"></v-select>
+                            <v-select variant="outlined" density="compact" :change="searchOpt()" :items="state.items1" v-model="state.option" style="height: 40px; padding-right: 10px;"></v-select>
                             <input type="text" class="board_search_box" @keyup.enter="search()" style="outline-width: 0;" v-model="state.text">
                             <v-btn style="height: 40px;" @click="search()"><h4>검색</h4></v-btn>
                             <router-link to="/bwrite">
@@ -100,12 +100,13 @@ export default {
             pa: 1,
             text: '',  // 검색어
             page: 1,   // 현재페이지
-            option: '전체',
+            option: '',
             items: [],
             items1: [
                 '전체', '제목', '내용', '글쓴이'
             ],
             bregdate1: '',
+            searchOpt: [],
         });
 
         const date = (i) => {
@@ -136,6 +137,17 @@ export default {
             console.log(state.page);
             handleData();
         }
+
+        const searchOpt = async() => {
+            const url = `/ROOT/api/board1/search?page=${state.page}&btitle=${state.btitle}`
+            const headers = {"Content-Type":"application.json"};
+            const response = await axios.get(url,{headers:headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+                state.searchOpt = response.data.result;
+            }
+        }
+
 
         const handleData = async() => {
             const url = `/ROOT/api/board1/selectlist?page=${state.page}`
@@ -185,7 +197,7 @@ export default {
             }
         }
 
-        return { state, search, handlePagenation, handlePage }
+        return { state, search, handlePagenation, handlePage, searchOpt }
     },
 }
 </script>
