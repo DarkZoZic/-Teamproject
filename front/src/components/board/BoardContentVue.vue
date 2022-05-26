@@ -543,9 +543,10 @@ export default {
         if(response.data.status === 200){
             alert('삭제되었습니다.');
             // 새로고침!!!!!
+            handleReplyView();
             router.push({name:"BoardContentVue", query : {bno : state.bno}})
         }
-      }    
+      }
     }
 
     // 이전글, 다음글 메소드 생성
