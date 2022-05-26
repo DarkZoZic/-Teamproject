@@ -424,6 +424,7 @@ export default {
 
         // await handleData(state.bno);
         await handleReplyView(state.bno);
+        state.reply1.recontent="";
 
         // await handleReplyView(state.bno);
         // this.router.go(this.router.currentRoute);
