@@ -94,7 +94,7 @@
                             <v-btn @click="submit" style="width:100%; height:80px; background-color: gold;">
                                 <h2>로그인</h2>
                             </v-btn>
-                            <img :src="require('../../assets/img/kakao.png')" @click="loginWithKakao()" style="cursor: pointer;">
+                            <img :src="require('../../assets/img/kakao.png')" @click="loginWithKakao()" class="kakao_btn" style="cursor: pointer;">
                             
                         </v-row>
                     </v-col>
@@ -181,9 +181,8 @@ export default {
         }
 
         const loginWithKakao = () => {
-
             const params = {
-                redirectUri: "http://localhost:8080/login",
+                redirectUri: "http://localhost:8080/",
             };
             window.Kakao.Auth.authorize(params);
         }
