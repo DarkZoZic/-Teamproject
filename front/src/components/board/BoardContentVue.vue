@@ -52,11 +52,11 @@
               <img :src="tmp" style="height: 600px;  padding: 5px; border: 1px solid #CCC;"/>
             </v-col> -->
 
-            <v-row dense>
+            <!-- <v-row dense>
               <v-col style="width: 100%; height: 165px;" class="col_center">
                   <img :src="state.bimageurl"  style="width: 160px; border: 1px solid #CCC;"/>
               </v-col>
-            </v-row>
+            </v-row> -->
           </v-row>
 
           <v-row dense class="border-b_1_CCC">
@@ -198,7 +198,7 @@
                 <v-col sm="11" style="padding-top: 10px;">
                   <textarea  
                     style="border: 1px solid #CCC; padding: 10px; background-color: white; border-radius: 5px; width: 930px; height: 70px; outline-width: 0; resize: none;"
-                    v-model="state.reply1.rerecontent" placeholder="댓글내용">
+                    v-model="state.reply1.recontent" placeholder="댓글내용">
                   </textarea>
                 </v-col>
                 
@@ -419,8 +419,6 @@ export default {
       console.log(response.data);
       if(response.data.status === 200){
         alert('댓글 등록 완료');
-        // 댓글 그대로 남아있음. 다시 새로고침 해야 함!!!!
-
         // await handleData(state.bno);
         await handleReplyView(state.bno);
         state.reply1.recontent="";
@@ -476,7 +474,7 @@ export default {
 
     }
 
-    // 댓글 찐 수정 handleReUpdate
+    // 댓글 수정 handleReUpdate
     const handleReUpdate = async(no) => {
       // const url = `/ROOT/api/creply/board_update`;
       // const headers = {"Content-Type":"application/json",
@@ -508,7 +506,7 @@ export default {
     }
 
 
-    // 댓글 수정 버튼 (a태그)
+    // 댓글 수정 버튼 (태그)
     const handleReplyUpdate = async(no) => {
       console.log(state.reply1.reupdate);
       if(state.reply1.reupdate == false) {
