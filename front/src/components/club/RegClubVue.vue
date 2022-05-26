@@ -6,7 +6,6 @@
             <v-row dense>
                 <!-- 사이드 -->
                 <v-col sm="2"></v-col>
-                
                 <!-- 메인 -->
                 <v-col sm="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
@@ -127,9 +126,14 @@
                                     </v-expansion-panel>
 
                                     <v-expansion-panel class="panel" style="height: 70px;">
+                                                    
                                         <v-row>
-                                            <v-col sm="3">
-                                                <v-select variant="outlined" density="compact" :items="state.cate.cate1" v-model="state.cate.title1" style="height: 40px; padding-right: 10px; width: 200px;"></v-select>
+                                            <v-col
+                                             sm="3"  >
+                                                <v-select
+                                                 variant="outlined" density="compact"  :items="state.cate.cate1"
+                                                  v-model="state.cate.title1" style="height: 40px; padding-right: 10px; width: 200px;">
+                                                  <option value="sd"></option></v-select>
                                             </v-col>
 
                                             <v-col sm="3" v-if="state.cate.title1 !== '전체'">
@@ -235,6 +239,11 @@ export default {
     components: { HeaderVue, FooterVue },
     setup () {
         const router = useRouter();
+
+        onMounted(() => {
+            category1();
+            console.log(state.cate.cate1);
+        })
 
         const state = reactive({
             items : [{}],
@@ -355,6 +364,21 @@ export default {
 
             }
         }
+
+        const category1 = async() => {
+            const url = `/ROOT/cate/catelist1`;
+            const headers = {"Content-Type":"application.json",
+            token : state.token};
+            const response = await axios.get(url,{headers:headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+                state.category = response.data.result;
+                console.log(state.category);
+                // for(var i=0; i <state.category[i].cgcate1.length;i++){
+                //     console.log(state.category[i]);
+                // }
+            }
+        } 
 
         const post = () => {
             new window.daum.Postcode({

@@ -134,4 +134,27 @@ public class CateRestController {
 
     return map;
     }   
+    //  대분류 조회
+    // 127.0.0.1:9090/ROOT/cate/catelist1
+    @RequestMapping(value = "/catelist1", 
+    method = { RequestMethod.GET },
+    consumes = { MediaType.ALL_VALUE },
+    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> Cate1listGet(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            
+            List<Category> category = ctRepository.findAll();
+            System.out.println(category);
+            // ctRepository.save(category);
+            map.put("status", 200);
+            map.put("result",  category);
+        }
+         catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    return map;
+    }   
 }
