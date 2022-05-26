@@ -73,7 +73,7 @@ public class Club {
 	@Column(name = "CREGDATE",nullable = false)
   private Date cregdate;
   // 동호회 창립일
-  @Column(name = "CBIRTH",nullable = true)
+  @Column(name = "CBIRTH")
   private String cbirth;
   // 동호회 활동지역
   @Column(name = "CAREA", nullable = false)

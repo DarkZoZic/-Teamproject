@@ -21,6 +21,8 @@ public interface CategoryRepository
         public List<Category> cate1lList(
                 @Param(value="cate") String cate);
 
-        Category findByCgcate1(String cgcate1);
+        List<Category> findByCgcate1(String cgcate1);
+
+        Category findByCgcate1AndCgcate2(String cate1, String cate2);
     
 }

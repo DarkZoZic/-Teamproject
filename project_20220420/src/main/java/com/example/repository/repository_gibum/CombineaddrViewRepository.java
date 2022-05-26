@@ -19,6 +19,8 @@ public interface CombineaddrViewRepository
         // public List<Combineaddr> addressesList1(
         // );
 
+        List<Combineaddr> findByCgcate1(String cate);
+
         @Query(value = "SELECT * FROM"+
         " ADDRESSTABLEVIEW WHERE A1=:add", nativeQuery = true)
         public List<Combineaddr> addressesList2(
@@ -34,15 +36,15 @@ public interface CombineaddrViewRepository
 
 
         
-        @Query(value = "SELECT * FROM"+
-        " ADDRESSTABLEVIEW WHERE A1=:address", nativeQuery = true)
-        public List<Combineaddr> addrlist(
-                @Param(value="address") String address);
+        // @Query(value = "SELECT * FROM"+
+        // " ADDRESSTABLEVIEW WHERE A1=:address", nativeQuery = true)
+        // public List<Combineaddr> addrlist(
+        //         @Param(value="address") String address);
 
-        @Query(value = "SELECT * FROM"+
-        " ADDRESSTABLEVIEW WHERE A2=:address", nativeQuery = true)
-        public List<Combineaddr> addrlist2(
-                @Param(value="address") String address);
+        // @Query(value = "SELECT * FROM"+
+        // " ADDRESSTABLEVIEW WHERE A2=:address", nativeQuery = true)
+        // public List<Combineaddr> addrlist2(
+        //         @Param(value="address") String address);
 
         @Query(value = "SELECT * FROM"+
         " ADDRESSTABLEVIEW WHERE CGCATE1=:cate", nativeQuery = true)

@@ -124,24 +124,23 @@
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
-
                                     <v-expansion-panel class="panel" style="height: 70px;">
-                                                    
-                                        <v-row>
-                                            <v-col
+                                        <v-row >
+                                    
+                                            <v-col  
                                              sm="3"  >
-                                                <v-select
-                                                 variant="outlined" density="compact"  :items="state.cate.cate1"
-                                                  v-model="state.cate.title1" style="height: 40px; padding-right: 10px; width: 200px;">
-                                                  <option value="sd"></option></v-select>
+                                                <v-select  :change="clickchange()"
+                                                  variant="outlined" density="compact" :items= state.catemax1  label="카테고리 선택"
+                                                  v-model="state.selectcate1"  style="height: 40px; padding-right: 10px; width: 200px;">
+                                                </v-select>
                                             </v-col>
-
-                                            <v-col sm="3" v-if="state.cate.title1 !== '전체'">
-                                                <v-select variant="outlined" density="compact" :items="state.cate.cate2" v-model="state.cate.title2" style="height: 40px; padding-right: 10px; width: 200px;"></v-select>
+                                            <v-col  sm="3" :change="clickchange1()" v-if="state.selectcate1 !== ''">
+                                                <v-select variant="outlined" density="compact" :items="state.catemax12" label="소분류 선택"
+                                                 v-model="state.selectcate2" style="height: 40px; padding-right: 10px; width: 200px;"></v-select>
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
-
+                                        
                                     <!-- 설명글 -->
                                     <v-expansion-panel class="panel">
                                         <v-row>
@@ -246,7 +245,16 @@ export default {
         })
 
         const state = reactive({
-            items : [{}],
+            number : '',
+            a1 : '',
+            a2 : '',
+            catemax : [],
+            catemax1 : [],
+            catemax11 : [],
+            catemax12 : [],
+            category : [],
+            selectcate1 : '',
+            selectcate2 : '',
             birth : '2020년',
             token : sessionStorage.getItem("TOKEN"),
             imageUrl : require('../../assets/img/default-logo.jpg'),
@@ -269,17 +277,20 @@ export default {
             ],
             valid: '',
             imageFile: '',
+            content : '',
 
-            cate: {
-                title1: '대분류',
-                title2: '상세분류',
-                cate1: [
-                    '전체', '서울', '부산'
-                ],
-                cate2: [
-                    '어디구', '어디군'
-                ],
-            }
+            cate: [],
+            cate1: [],
+            // cate: {
+            //     title1: '대분류',
+            //     title2: '상세분류',
+            //     cate1: [
+            //         '전체', '서울', '부산'
+            //     ],
+            //     cate2: [
+            //         '어디구', '어디군'
+            //     ],
+            // }
         })
         const handleImage = (e) => {
             if(e.target.files[0]){
@@ -292,16 +303,27 @@ export default {
             }
         }
 
-        const online = () => {
-
+        const check = async() => {
+            console.log(state.selectcate1); 
+            console.log(state.selectcate2);
+            const url = `/ROOT/cate/catetwo?cate1=${state.selectcate1}&cate2=${state.selectcate2}`;
+            const headers = {"Content-Type":"application/json"};
+            const response = await axios.get(url,{headers:headers});
+            if(response.data.status === 200){
+                console.log(response.data);
+                state.number = response.data.result.cgcode;
+                console.log(state.number);
+                // router.push({path : 'login'});
+            }
         }
 
-        const reset = async() => {
-            state.datechk = [];
-            state.timechk = [];
-        };
+        // const reset = async() => {
+        //     state.datechk = [];
+        //     state.timechk = [];
+        // };
                 
         const handleReg = async() => {
+            
             const url = `/ROOT/club/insert.json`;
             const headers = {"Content-Type":"multipart/form-data",
             token : state.token};
@@ -312,6 +334,7 @@ export default {
                 body.append("cprivate",  state.private);
                 body.append("carea",  state.area);
                 body.append("cbirth",  state.birth);
+                body.append("category",  state.number);
                 body.append("caddress", state.address)
             const response = await axios.post(url,body,{headers});
                 console.log(response.data);
@@ -364,6 +387,7 @@ export default {
 
             }
         }
+        
 
         const category1 = async() => {
             const url = `/ROOT/cate/catelist1`;
@@ -373,12 +397,97 @@ export default {
             console.log(response.data);
             if(response.data.status === 200){
                 state.category = response.data.result;
-                console.log(state.category);
-                // for(var i=0; i <state.category[i].cgcate1.length;i++){
-                //     console.log(state.category[i]);
-                // }
+                console.log("1231432",state.category);
             }
+                // for(var i=0; i < response.data.result.length;i++){
+                //     console.log(state.category[i]);
+                //     state.cate[i] = state.category[i];
+                // //     // state.cate2[i] = state.category[i].cgcate2;
+                // //     // state.cate1[i] = state.category[i].cgcate1;
+                //     console.log("state.cate======",state.cate);
+                //     const rrr = new Set(state.category.cgcate1);
+                //     state.cate2 = [...rrr]
+                //     console.log("========",state.cate2);
+                // }
+                console.log(state.category);
+            // 검색  : [   { name: 'Max', age: 33 }, { name: 'Max', age: 23 }   ]
+            // const max = '운동';
+            // const a1 = state.category.filter((arr, index, cb) => {
+            //     return arr.cgcate1 === max
+            // });
+            // console.log(a1);
+            // for(var i=0; i < a1.length; i++){
+            //     state.catemax[i] = a1[i].cgcate2;
+            //     console.log(state.catemax);
+            // }
+
+            // // 중복제거 : [ { name: 'Max', age: 33 }, { name: 'John', age: 20 }, { name: 'Caley', age: 18 }  ]
+            // const a2= state.category.filter( (arr, index, cb) => { 
+            //     return index === cb.findIndex(t => t.cgcate1 === arr.cgcate1)
+            // });
+            // console.log(a2);
+            // for(var i=0; i < a2.length; i++){
+            //     state.catemax1[i] = a2[i].cgcate1;
+            //     console.log(state.catemax1);
+            // }
+            
+        click();
+
         } 
+
+        const clickchange = () =>{
+            if(state.selectcate1 === '운동'){
+                state.catemax12 = state.catemax;
+                console.log('운동');
+            }
+            if(state.selectcate1 === '공부'){
+                state.catemax12 = state.catemax11;
+                console.log('공부');
+            }
+        
+
+        }
+        const clickchange1 = () =>{
+            console.log(state.selectcate2);
+            check();
+
+        }
+        
+        const click = () => {
+            // 운동일때
+            const max = '운동';
+            const a1 = state.category.filter((arr, index, cb) => {
+                return arr.cgcate1 === max
+            });
+            // 공부일때
+            const max1 = '공부';
+            const a11 = state.category.filter((arr, index, cb) => {
+                return arr.cgcate1 === max1
+            });
+            console.log("213123131",a1);
+            console.log(a11);
+            for(var i=0; i < a1.length; i++){
+                state.catemax[i] = a1[i].cgcate2;
+                console.log(state.catemax);
+            }
+            for(var i=0; i < a11.length; i++){
+                state.catemax11[i] = a11[i].cgcate2;
+                console.log(state.catemax11);
+            }
+
+            
+
+            const a2= state.category.filter( (arr, index, cb) => { 
+                return index === cb.findIndex(t => t.cgcate1 === arr.cgcate1)
+            });
+            console.log(a2);
+            for(var i=0; i < a2.length; i++){
+                state.catemax1[i] = a2[i].cgcate1;
+                console.log(state.catemax1);
+            }
+                
+                    
+        }
 
         const post = () => {
             new window.daum.Postcode({
@@ -421,7 +530,7 @@ export default {
                 },
             }).open();
         }
-        return { state, post, handleReg, online, reset,handleImage }
+        return { state, post, handleReg, handleImage,clickchange,clickchange1 }
     }
 }
 </script>
