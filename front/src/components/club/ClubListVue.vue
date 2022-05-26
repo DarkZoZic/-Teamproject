@@ -302,11 +302,13 @@ export default {
             }
         })
 
+        // 장소 등록해논거 삭제
         const del = (idx) => {
             console.log(idx);
             state.area.splice(idx, 1)
         }
 
+        // 장소 전체선택
         const all = async() => {
             state.area= [];
             const url = `/ROOT/club/selectlist`;
@@ -368,8 +370,7 @@ export default {
             }
             const arr = [...new Set(state.area)];
             console.log(arr);
-            state.area = arr;
-            
+            state.area = arr;            
         }
 
          const changeheart = async(cno,idx) => {

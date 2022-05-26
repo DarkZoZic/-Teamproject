@@ -94,6 +94,8 @@
                             <v-btn @click="submit" style="width:100%; height:80px; background-color: gold;">
                                 <h2>로그인</h2>
                             </v-btn>
+                            <img :src="require('../../assets/img/kakao.png')" @click="kakaoLogin()" style="cursor: pointer;">
+                            
                         </v-row>
                     </v-col>
 
@@ -132,6 +134,8 @@
 </template>
 
 <script>
+Kakao.init('c2c01f4e7c77fea502d65eb4681127ce'); //발급받은 키 중 javascript키를 사용해준다.
+
 import FooterVue from '../../components/FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
 import axios  from 'axios';
@@ -165,7 +169,7 @@ export default {
             const headers = {"Content-Type":"multipart/form-data"};
             const body = new FormData;
             body.append("mid", state.id);
-            body.append("mpw",state.pw);
+            body.append("mpw", state.pw);
             const response = await axios.post(url, body,{headers});
             console.log(response.data);
             if(response.data.status === 200) {
@@ -175,7 +179,29 @@ export default {
                 // store.commit('moduleA/setMenu', "/");
             }
         }
-        return {state,submit}
+
+        const kakaoLogin = () => {
+            Kakao.Auth.login({
+                success: function (response) {
+                    Kakao.API.request({
+                        url: '/v2/user/me',
+                        success: function (response) {
+                            console.log(response)
+                            router.push({ path : '/' })
+
+                        },
+                        fail: function (error) {
+                            console.log(error)
+                        },
+                    })
+                },
+                fail: function (error) {
+                    console.log(error)
+                },
+            })
+        }
+
+        return {state, submit, kakaoLogin}
     }
 }
 </script>
