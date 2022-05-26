@@ -13,7 +13,6 @@
                         <v-col sm="5">
                             <h5><router-link to="/">홈 > </router-link><router-link to="/clist">클럽목록</router-link></h5>
                         </v-col>
-
                     </v-row>
 
                     <v-row dense style="padding-top: 22px; padding-bottom: 10px; padding-left: 10px;">
@@ -457,8 +456,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.h5 {
-}
 .h5:hover {
     border: 3px solid gold;
     border-radius: 3px;
