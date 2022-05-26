@@ -27,6 +27,7 @@ export default class UploadAdapter {
 
         xhr.open( 'POST', '/ROOT/api/board1/ckimage', true );
         xhr.open( 'POST', '/ROOT/api/qna/ckimage', true );
+        xhr.open( 'POST', '/ROOT/club/ckimage', true );
         xhr.responseType = 'json';
     }
 

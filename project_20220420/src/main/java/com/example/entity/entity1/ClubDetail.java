@@ -29,6 +29,9 @@ public class ClubDetail {
   // 제목
   @Column(name = "CDTITLE")
   private String cdtitle;
+  // 내용
+  @Column(name = "CDCONTENT")
+  private String cdcontent;
   // 등록일
   @Column(name = "REGDATE")
   private Date regdate;

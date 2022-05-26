@@ -216,10 +216,15 @@ import HeaderVue from '../HeaderVue.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import UploadAdapter from '../UploadAdapter.js';
 import CKEditor      from '@ckeditor/ckeditor5-vue'
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+
 
 export default {
     components: { HeaderVue, FooterVue, ckeditor: CKEditor.component },
     setup () {
+        const router = useRouter();
+
         const state = reactive({
             datechk: [],
             timechk: [],
@@ -230,6 +235,7 @@ export default {
             area          : '',
             editor     : ClassicEditor, // ckeditor종류
             editorData : "미리 추가되는 내용",
+            token      : sessionStorage.getItem("TOKEN"),
 
 
             nameRules: [
@@ -238,7 +244,22 @@ export default {
             ],
             valid: '',
         })
-        const handleReg = () => {
+        const handleReg = async() => {
+            const url = `/ROOT/club/noticeinsert`;
+            const headers = {
+                "Content-Type" : "application/json",
+                "token"        : state.token,
+            };
+            
+            const body= new FormData();
+            body.append("cdcontent", state.editorData);
+                
+            const response = await axios.post(url, body, {headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+                alert('등록완료');
+                router.push({name: 'ClubListVue'});
+            }
 
         };
 
