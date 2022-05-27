@@ -219,9 +219,9 @@ export default {
             router.push({name:'CBoardWriteVue', query:{cno : state.cno}});
         }
 
-        const nick = async() =>
+        const nick = async() => //mid(아이디)값으로 닉네임 받아오기 // 페이지 초기 로딩시, 검색기능, 페이지기능에 사용
         {
-            state.nicklist.splice(0);
+            state.nicklist.splice(0); // state.nicklist 초기화 //페이지 이동 시 닉네임 목록 갱신
             
             for(let i=0; i<state.board.length; i++)
             {

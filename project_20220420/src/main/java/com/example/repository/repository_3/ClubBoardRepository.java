@@ -34,7 +34,7 @@ public interface ClubBoardRepository extends JpaRepository<ClubBoard, Long>{
 	
 	List<ClubBoard> findByClub_cnoOrderByCbnoDesc(long cno, Pageable pageable);
 	
-	long countByClub_cno(long cno);
+	long countByClub_cno(long cno); // 페이지네이션 total값
 	
 //	List<ClubBoard> findByCbtitleAndCbcontentAndMember_mnameContainingOrderByCbnoDesc(String text, Pageable pageable);
 	

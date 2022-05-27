@@ -78,7 +78,8 @@
         <v-col>
           <v-pagination
           v-model="state.page"
-          :length="state.page"
+          :length="state.pages"
+          @click="handlePage(state.page, state.option, state.search)"
           ></v-pagination>
         </v-col>
       </v-row>
@@ -107,9 +108,9 @@ export default {
       page: 1,   // 현재 페이지
       pages : 1, // 총 페이지 수
       items: [
-        '전체', '갤러리명', '갤러리설명', '갤러리작성자'
+        '전체', '갤러리명', '갤러리설명', '갤러리생성자'
       ],
-
+      search : '',
       option: '전체',
       cno : route.query.cno,
       token : sessionStorage.getItem("TOKEN"),
@@ -142,27 +143,71 @@ export default {
       }
     }
 
-    const nick = async() =>
-    {
-        for(let i=0; i<state.gallery.length; i++)
+     const handlePage = async(idx, option, search) =>
         {
-            const url = `/ROOT/api/clubmember/selectnick?mid=${state.gallery[i].member.mid}`;
-            const headers = {"Content-Type":"application/json"};
-            const response = await axios.get(url, {headers});
-            // console.log(response.data);
-            if(response.data.status === 200)
+            if(state.token !== null)
             {
-                state.nicklist.push(response.data.result.mpnickname);
+                const url = `/ROOT/api/clubgallery/selectlist?page=${idx}&text=${search}&option=${option}&cno=${state.cno}`;
+                const headers = {"Content-Type":"application/json", "token" : state.token};
+                const response = await axios.get(url, {headers});
+                // console.log(response.data);
+                if(response.data.status === 200)
+                {
+                    state.gallery = response.data.result.list;
+                    nick();
+                }
+            }
+            else if(response.data.status === 0)
+            {
+                alert("로그인이 필요한 페이지입니다.");
+                router.push({name:'LoginVue'});
+            }
+            else
+            {
+                alert('비정상적인 접근입니다.');
+                router.push({name:'HomeVue'});
             }
         }
+
+    const nick = async() =>
+    {
+      state.nicklist.splice(0); // state.nicklist 초기화 //페이지 이동 시 닉네임 목록 갱신
+
+      for(let i=0; i<state.gallery.length; i++)
+      {
+          const url = `/ROOT/api/clubmember/selectnick?mid=${state.gallery[i].member.mid}`;
+          const headers = {"Content-Type":"application/json"};
+          const response = await axios.get(url, {headers});
+          // console.log(response.data);
+          if(response.data.status === 200)
+          {
+              state.nicklist.push(response.data.result.mpnickname);
+          }
+      }
     }
 
     const content = (cgno) => {
       router.push({ name: "CGContentVue", query : {cgno:cgno, cno:state.cno} });
     }
 
-    const search = () => {
-
+    const search = async() => {
+      if(state.token !== null)
+        {
+            const url = `/ROOT/api/clubgallery/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
+            const headers = {"Content-Type":"application/json", "token" : state.token};
+            const response = await axios.get(url, {headers});
+            // console.log(response.data);
+            if(response.data.status === 200)
+            {
+                state.gallery = response.data.result.list;
+                state.pages = response.data.result.pages;
+                nick();
+            }
+        }
+        else
+        {
+            router.push({name:'LoginVue'});
+        }
     }
 
     const handleUpload = () =>
@@ -176,7 +221,7 @@ export default {
       nick();
     });
 
-    return { state, content, search, handleUpload }
+    return { state, content, search, handleUpload, handlePage }
   }
 }
 </script>

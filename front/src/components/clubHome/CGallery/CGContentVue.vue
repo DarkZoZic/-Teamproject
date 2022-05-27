@@ -23,7 +23,7 @@
             <!-- 상단메뉴 -->
             <v-row dense class="row_bwrite2">
                 <v-col sm="6" class="col_pad-l25">
-                <h4 style="color: #787878">{{state.gallery.cgwriter}}</h4>
+                <h4 style="color: #787878">{{state.nick}}</h4>
                 </v-col>
 
                 <v-col sm="6" class="col_right1">
@@ -54,7 +54,7 @@
 
             <v-row dense>
                 <v-col style="display: flex; padding-top: 10px; padding-left: 10px;" class="col_left">
-                <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{}}</h5><h5>개</h5>
+                <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{state.reply.length}}</h5><h5>개</h5>
                 </v-col>
             </v-row>
 
@@ -64,12 +64,12 @@
                 <v-col style="border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; padding-left: 20px; padding-right: 20px;">
 
                 <!-- 댓글하나 -->
-                <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="tmp in state.replylist" :key="tmp">
+                <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="(tmp, idx) in state.reply" :key="tmp">
                     <v-col>
                     <!-- 댓글작성자 -->
                     <v-row dense>
                         <v-col class="col_left">
-                        <h5 style="padding-right: 10px;">{{tmp.rewriter}}</h5> 
+                        <h5 style="padding-right: 10px;">{{state.replynicklist[idx]}}</h5> 
                         <h5 style="color: #676767;">{{tmp.reregdate}}</h5>
                         <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
                         <h5 style="color: #676767;">{{state.like}}</h5>
@@ -174,13 +174,16 @@ export default {
         {
 
         },
+        mid : '',
+        nick : '',
 
         imagecount : 0,
         imageurl : [],
         
         replycontent: '',
 
-        replylist: []
+        reply: [],
+        replynicklist : []
     })
 
         const gallery = async() => // 조회수 증가 -> 갤러리 상세내용 + 이미지 + 댓글목록
@@ -199,8 +202,9 @@ export default {
                 if(response.data.status === 200)
                 {
                     state.gallery = response.data.result.clubgallery;
+                    state.mid = response.data.result.clubgallery.member.mid;
                     state.imagecount = response.data.result.imagecount; //idx
-                    state.replylist = response.data.result.replylist;
+                    state.reply = response.data.result.replylist;
 
                     for(let i=0; i<state.imagecount; i++)
                     {
@@ -221,6 +225,18 @@ export default {
             }
         }
 
+        const nick = async() => // 글 작성자 닉네임
+        {
+        const url = `/ROOT/api/clubmember/selectnick?mid=${state.mid}`;
+        const headers = {"Content-Type":"application/json"};
+        const response = await axios.get(url, {headers});
+        // console.log(response.data);
+        if(response.data.status === 200)
+        {
+            state.nick = response.data.result.mpnickname;
+        };
+        }
+
         const like = async() => {
             // const url = `/reaction/gallerylike.json`;
             // const headers = {"Content-Type":"application/json", "token" : state.token};
@@ -230,38 +246,49 @@ export default {
 
         const insertreply = async() =>
         {
-            const url = `/ROOT/api/clubgallery/insertreply?cgno=${state.cgno}`;
-            const headers = {"Content-Type":"application/json"};
+            const url = `/ROOT/api/clubgallery/insertreply`;
+            const headers = {"Content-Type":"application/json", "token" : state.token};
             const body = 
             {
                 recontent : state.replycontent,
-                clubgallery : 
-                {
-                    cgno : state.cgno
-                }
+                cgno : state.cgno
             }
             const response = await axios.post(url, body, {headers});
             console.log(response.data);
             if(response.data.status === 200)
             {
-                window.location.reload();
+                location.reload();
             }
         }
+
+        // 댓글작성자 닉네임 목록
+    const replynick = async() =>
+    {
+      for(let i=0; i<state.reply.length; i++)
+      {
+        const url = `/ROOT/api/clubmember/selectnick?mid=${state.reply[i].member.mid}`;
+        const headers = {"Content-Type":"application/json"};
+        const response = await axios.get(url, {headers});
+        // console.log(response.data);
+        if(response.data.status === 200)
+        {
+          state.replynicklist.push(response.data.result.mpnickname);
+        }
+      }
+    }
 
         const replylike = async() => {
 
         }
 
-        const reply = async() => {
-
-        }
-
-        onMounted(()=>
+        onMounted(async()=>
         {
-            gallery();
+            await gallery();
+            nick();
+            replynick();
         });
 
-        return { state, like, insertreply, replylike, reply }
+        return { state, like, insertreply, replylike }
     }
 }
 </script>

@@ -134,7 +134,7 @@ public class ClubGalleryRestController {
 			if(token != null)
 			{
 				//1페이지 당 10글 표시
-				PageRequest pageRequest = PageRequest.of(page-1, 10); 
+				PageRequest pageRequest = PageRequest.of(page-1, 9); 
 				System.out.println(pageRequest);
 				
 				//검색어 포함, 1페이지 10글, 글번호 내림차순
@@ -147,7 +147,7 @@ public class ClubGalleryRestController {
 				{
 					list = cgRep.findByCgdescContainingAndClub_cnoOrderByCgnoDesc(text, cno, pageRequest);
 				}
-				else if(option.equals("갤러리작성자"))
+				else if(option.equals("갤러리생성자"))
 				{
 					list = cgRep.findByMember_midContainingAndClub_cnoOrderByCgnoDesc(text, cno, pageRequest);
 				}
@@ -163,13 +163,13 @@ public class ClubGalleryRestController {
 //				System.out.println("list : " + list);
 				
 				//페이지 구현용 글 개수
-				long total = list.toArray().length;
+				long total = cgRep.countByClub_cno(cno);
 //				System.out.println("total = " + total);
 				model.addAttribute("total", total);
 				
-				// pages = 1~10 = 1, 11~20 = 2, 21~30 = 3, ...... // 한 페이지에 10글
+				// pages = 1~9 = 1, 10~18 = 2, 19~27 = 3, ...... // 한 페이지에 9개 갤러리
 //				System.out.println("pages : " + (total-1) / 10 + 1);
-				model.addAttribute("pages", (total-1) / 10 + 1);	
+				model.addAttribute("pages", (total-1) / 9 + 1);	
 				
 				for(int i=0; i<list.toArray().length; i++) //list 내 모든 갤러리에 각각의 썸네일 주소를 부여 
 				{
@@ -313,21 +313,30 @@ public class ClubGalleryRestController {
 	}
 	
 	// 클럽갤러리 댓글쓰기
-	// /ROOT/api/clubgallery/insertreply?cgno=
+	// /ROOT/api/clubgallery/insertreply
 	@RequestMapping(value="/insertreply", 
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> insertreplyPOST(@RequestBody CReply cr, @RequestParam(name="cgno") long cgno, @RequestHeader(name="token") String token)
+	public Map<String, Object> insertreplyPOST(@RequestBody Map<String, Object> cr, @RequestHeader(name="token") String token)
 	{
 		Map<String, Object> map = new HashMap<>();
 		try 
 		{
 			if(token != null)
 			{
-				ClubGallery cg = cgRep.findById(cgno).orElse(null);
-				cr.setClubgallery(cg); // 댓글 작성한 갤러리 번호 저장
-				crRep.save(cr);
+				CReply creply = new CReply();
+				
+				creply.setRecontent(cr.get("recontent").toString());
+				
+				Member member = new Member();
+				member.setMid(jwtUtil.extractUsername(token));
+				
+				creply.setMember(member);
+				
+				ClubGallery cg = cgRep.findById(Long.valueOf(cr.get("cgno").toString())).orElse(null);
+				creply.setClubgallery(cg); // 댓글 작성한 갤러리 번호 저장
+				crRep.save(creply);
 				map.put("status", 200);
 			}
 			else
@@ -357,8 +366,20 @@ public class ClubGalleryRestController {
 		{
 			if(token != null)
 			{
-				crRep.deleteById(cr.getRenumber());
-				map.put("status", 200);
+				String mid = jwtUtil.extractUsername(token);
+				System.out.println("token mid : " + mid);
+				CReply member = crRep.findById(cr.getRenumber()).orElse(null);
+				System.out.println("CReply mid : " + member.getMember().getMid());
+				if(mid.equals(member.getMember().getMid()))
+				{
+					crRep.deleteById(cr.getRenumber());
+					map.put("status", 200);
+				}
+				else
+				{
+					map.put("status", 1);
+					map.put("result", "일치하지 않는 아이디");
+				}
 			}
 			else
 			{
