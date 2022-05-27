@@ -14,6 +14,9 @@ import javax.persistence.Table;
 
 import com.example.entity.entity2.Club;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 // 클럽공고
@@ -34,6 +37,8 @@ public class ClubDetail {
   private String cdcontent;
   // 등록일
   @Column(name = "REGDATE")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+	@CreationTimestamp // CURRENT_DATE
   private Date regdate;
   // 마감일
   @Column(name = "ENDDATE")

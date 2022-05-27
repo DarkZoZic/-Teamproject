@@ -25,15 +25,11 @@
                         <v-col sm="1" ></v-col>
                         <div v-if="state.items">
                         <v-col sm="10" >
-                            <v-select  
-                                variant="outlined" density="compact" :items= state.clublist  label="클럽선택"
+                            <v-select  :change="handleCno()"
+                                variant="outlined" density="compact" :items= state.cnolist state.clublist label="클럽 번호선택"
                                 v-model="state.club"  style="height: 40px; padding-right: 10px; width: 200px;">
                             </v-select>
-                           <!-- <input type="radio" v-for="(item,idx) in state.items"
-                             :key="item"    :value="item.cname[idx]"  name="drone"> -->
-                            <!-- <input type="radio" v-model="state.club" value="2">클럽2
-                            <input type="radio" v-model="state.club" value="3">클럽3
-                            <input type="radio" v-model="state.club" value="4">클럽4  -->
+                            
                         </v-col>
 
                         </div>
@@ -51,6 +47,9 @@
                                         <v-row>
                                             <v-col style="height: 80px;" class="col_left">
                                                 <h2>{{state.club}}</h2>
+                                            </v-col>
+                                            <v-col style="height: 80px;" class="col_left" v-if="state.club !== ''">
+                                                <h2>{{state.cno}}</h2>
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
@@ -208,6 +207,7 @@
                                                 accept="image/*"
                                                 label="사진을 넣어주세요"
                                                 multiple
+                                                @change="handleImage($event)"
                                                 ></v-file-input>
                                             </v-col>
                                         </v-row>
@@ -267,6 +267,10 @@ export default {
         const router = useRouter();
 
         const state = reactive({
+            imageUrl : require('../../assets/img/profile_sample.png'),
+            imageFile : null,
+            cno : '',
+            cnolist : [],
             cname : '',
             clublist : [],
             datechk: [],
@@ -288,6 +292,18 @@ export default {
             valid: '',
         })
 
+        const handleImage = (e) => {
+            console.log('sdsfds');
+      if(e.target.files[0]){
+        state.imageUrl = URL.createObjectURL(e.target.files[0]);
+        state.imageFile = e.target.files[0];
+      }
+      else{
+        state.imageUrl = null;
+        state.imageFile = null;
+      }
+    }
+
         const handleData = async() => {
             const url = `/ROOT/combineview/comclub`;
             const headers = {
@@ -303,10 +319,28 @@ export default {
             }
                 for(var i=0; i < state.items.length; i++){
                     state.clublist[i] = state.items[i].cname;
+                    state.cnolist[i] = state.items[i].cno;
+                    console.log(state.cnolist);
                     console.log(state.clublist);
                 }
                 console.log("sad",response.data.results.length);
 
+        }
+        const handleCno = async() => {
+            if(state.club !== ''){
+
+                const url = `/ROOT/club/cnosearch?cno=${state.club}`;
+            const headers = {
+                "Content-Type" : "application/json"
+            };
+            const response = await axios.get(url,{headers:headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+                state.cno = response.data.result.cname;
+              console.log(response.data.result);
+            }
+
+                }
         }
 
 
@@ -352,7 +386,7 @@ export default {
             });
             console.log(editor.editing.view);
         }
-        return { state, onReady, handleReg, reset }
+        return { state, onReady, handleReg, reset,handleCno,handleImage }
     }
 }
 </script>

@@ -227,6 +227,29 @@ try {
 
 		return map;
 	}
+    // 클럽 cno로 cname 조회
+	// 127.0.0.1:9090/ROOT/club/cnosearch
+	@RequestMapping(value = "/cnosearch", 
+			method = { RequestMethod.GET },
+			consumes = { MediaType.ALL_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> CnoSearchGet(
+		@RequestParam(value = "cno")long cno){
+            Map<String, Object> map = new HashMap<>();
+            try {
+                
+                Club club = cRepository.findByCno(cno);
+                System.out.println(club);
+                map.put("status", 200); 
+                map.put("result", club); 
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                map.put("status", 0);
+            }
+
+		return map;
+	}
     // 이미지 리스트받아오기
 	// 127.0.0.1:9090/ROOT/club/selectlist1
 	@RequestMapping(value = "/selectlist1", 
