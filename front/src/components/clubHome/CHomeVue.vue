@@ -71,7 +71,7 @@
                 <v-col sm="6" style="padding-right: 10px;">
                   <v-row dense style="height: 200px; border: 1px solid #CCC;" >
                     <v-col class="col_center">
-                      <img :src="tmp.gimageurl" @click="G(tmp.cgno)" style="cursor: pointer; max-width: auto; height: 190px;" />
+                      <img :src="tmp.gimageurl" @click="G(tmp.cgno)" style="cursor: pointer; width: 200px; height: 140px;" />
                     </v-col>
                   </v-row>
 
@@ -88,7 +88,7 @@
                 <v-col sm="6" style="padding-right: 10px;">
                   <v-row dense style="height: 200px; border: 1px solid #CCC;">
                     <v-col class="col_center">
-                      <img :src="tmp.gimageurl" @click="G(tmp.cgno)" style="cursor: pointer; max-width: auto; height: 190px;">
+                      <img :src="tmp.gimageurl" @click="G(tmp.cgno)" style="cursor: pointer; width: 200px; max-height: 140px;">
                     </v-col>
                   </v-row>
 
