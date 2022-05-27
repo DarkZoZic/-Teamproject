@@ -236,10 +236,8 @@
                                         <v-col sm="3"></v-col>
 
                                         <v-col sm="6" class="col_center">
-                                            <router-link to="/cdetail" class="col_center">
-                                            <img v-if="item.imgurl" :src="item.imgurl"  style="height: 50px;"/>
-                                            <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)"  style="height: 50px;"/>
-                                            </router-link>
+                                            <img v-if="item.imgurl" :src="item.imgurl" @click="handlePage(item.obj.cno,idx)" style="height: 50px;"/>
+                                            <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.cno,idx)" style="height: 50px;"/>
                                         </v-col>
 
                                         <v-col sm="3" class="col_right">
@@ -290,11 +288,13 @@ import FooterVue from '../FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
 import { onMounted, computed } from '@vue/runtime-core';
 import axios from 'axios';
+import {useRouter} from 'vue-router';
 import { useStore } from 'vuex';
 
 export default {
     components: { HeaderVue, FooterVue },
     setup () {
+        const router = useRouter();
         const store = useStore();
         const state = reactive({
             token : sessionStorage.getItem("TOKEN"),
@@ -440,6 +440,22 @@ export default {
                 
         };
 
+        const handlePage = async(cno) => {
+
+             router.push({name:"ClubDetailVue", query:{ cno: cno }})
+            console.log(cno);
+            // const url = `/ROOT/api/like/deleteone`
+            // const headers = {"Content-Type":"multipart/form-data",
+            //                 token : state.token};
+            // const body = new FormData;
+            // body.append("club", cno);   
+            // const response = await axios.post(url, body, {headers:headers});
+            // console.log(response.data);
+
+            // if(response.data.status == 200){
+            //         // state.imgName = state.imaName1
+            // }
+        }
         const unlike = async(cno,idx) => {
             console.log("unlike", state.imgcheck[idx]);
             const url = `/ROOT/api/like/deleteone`
@@ -476,7 +492,7 @@ export default {
         
         return {
         // like,
-        state, del, reset ,Clicksearch, all, changeheart, unlike }
+        state, del, reset ,Clicksearch, all, changeheart, unlike, handlePage }
     }
 }
 </script>

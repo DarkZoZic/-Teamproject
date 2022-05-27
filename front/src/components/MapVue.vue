@@ -1,17 +1,23 @@
 <template>
     <div> 
         <div id="map" ></div>
+        {{addr}}
     </div>
 </template>
 
 <script>
-import { reactive } from '@vue/reactivity'
+import { toRefs,reactive } from '@vue/reactivity'
+import { useRouter } from 'vue-router'
 import { onMounted } from '@vue/runtime-core';
 export default {
+     props : {
+            addr1: String
+        },
+    
     setup () {
         
         const state = reactive({
-            addr:'부산광역시 부산진구 동평로 221',
+            addr:'서울 노원구 덕릉로 849',
             markers: [],
             infowindow: null,
         });
@@ -102,6 +108,9 @@ export default {
                 // state.latNow = position.coords.latitude 
                 // state.lngNow = position.coords.longitude
             });            
+        }
+        const address = () => {
+
         }
 
         onMounted( ()=> {

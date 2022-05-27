@@ -132,18 +132,18 @@
                                                             <v-col class="col_center" style="vertical-align: middle;">
                                                                 <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="평일전체"><h4>평일전체</h4>
                                                                 <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="주말"><h4>주말</h4>
-                                                                <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="토"><h4>토</h4>
-                                                                <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="일"><h4>일</h4>
+                                                                <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="토요일"><h4>토</h4>
+                                                                <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="일요일"><h4>일</h4>
                                                             </v-col>
                                                         </v-row>
 
                                                         <v-row dense>
                                                             <v-col class="col_center" style="vertical-align: middle;">
-                                                                <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="월"><h4>월</h4>
-                                                                <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="화"><h4>화</h4>
-                                                                <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="수"><h4>수</h4>
-                                                                <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="목"><h4>목</h4>
-                                                                <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="금"><h4>금</h4>
+                                                                <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="월요일"><h4>월</h4>
+                                                                <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="화요일"><h4>화</h4>
+                                                                <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="수요일"><h4>수</h4>
+                                                                <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="목요일"><h4>목</h4>
+                                                                <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="금요일"><h4>금</h4>
                                                             </v-col>
                                                         </v-row>
                                                     </v-col>

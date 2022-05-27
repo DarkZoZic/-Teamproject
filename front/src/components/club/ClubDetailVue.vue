@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="state.items">
 <HeaderVue style="height: 220px;"></HeaderVue>
     <v-app>
         <v-main style="padding: 10px;">      
@@ -12,7 +12,7 @@
                             <h5><router-link to="/">홈</router-link> > <router-link to="/cdetail">클럽목록</router-link> > 상세정보</h5>
                         </v-col>                      
                         <v-col class="col_right">
-                            <h5>등록일: {{state.writeDate}}, 수정일: {{state.updateDate}}</h5>
+                            <h5>등록일: {{state.items.regdate}}, 수정일: {{state.updateDate}}</h5>
                         </v-col>
                     </v-row>
 
@@ -20,7 +20,7 @@
                         <v-col sm="7">
                             <v-row dense="">
                                 <v-col sm="6">
-                                    <h4>{{state.clubname}}</h4>
+                                    <h4>{{state.items.club.cname}}</h4>
                                 </v-col>
                                 <v-col sm="6" class="col_right">
                                     <h4>({{state.now}}/{{state.limit}})</h4>
@@ -28,7 +28,7 @@
                             </v-row>
                             <v-row dense="">
                                 <v-col>
-                                    <h2>{{state.title}}</h2>
+                                    <h2>{{state.items.cdtitle}}</h2>
                                 </v-col>
                             </v-row>
                         </v-col>
@@ -76,7 +76,7 @@
                                         </v-row>
                                         <v-row dense>
                                             <v-col class="col_center" style="padding-left: 10px;">
-                                                <h4>{{state.date}}</h4>
+                                                <h4>{{state.items.date}}</h4>
                                             </v-col>
                                         </v-row>
                                     </v-col>
@@ -89,7 +89,7 @@
                                         </v-row>
                                         <v-row dense>
                                             <v-col class="col_center" style="padding-right: 10px;">
-                                                <h4>{{state.time}}</h4>
+                                                <h4>{{state.items.time}}</h4>
                                             </v-col>
                                         </v-row>
                                     </v-col>
@@ -109,8 +109,8 @@
                                     </v-col>
 
                                     <v-col sm="10">
-                                        <h4>{{state.gender}}</h4>
-                                        <h4 style="margin-top: 10px;">{{state.age}}</h4>
+                                        <h4>{{state.items.gender}}</h4>
+                                        <h4 style="margin-top: 10px;">{{state.items.age}}</h4>
                                         <h4 style="margin-top: 10px;">{{state.howmany}}명</h4>
                                     </v-col>
                                 </v-row>
@@ -124,7 +124,7 @@
                                             <v-btn style="width: 100%; height: 120px;"><h2>지원하기</h2></v-btn>
                                         </router-link>
                                         <h3 style="padding-top: 10px; padding-left: 10px;">모집마감일</h3>
-                                        <h4 style="padding-left: 15px;">{{state.writeDate}} ~ {{state.endDate}}</h4>
+                                        <h4 style="padding-left: 15px;">{{state.items.regdate}} ~ {{state.items.enddate}}</h4>
                                     </v-col>
                                 </v-row>
                                 <v-row dense style="padding: 10px;" >
@@ -171,8 +171,8 @@
                                 </v-col>
 
                                 <v-col sm="11">
-                                    <h4>{{state.addrname}}</h4>
-                                    <h4 style="margin-top: 10px;">{{state.addr}}</h4>
+                                    <h4>{{state.items.club.carea}}</h4>
+                                    <h4 style="margin-top: 10px;">{{state.items.club.caddress}}</h4>
                                     <MapVue style="margin-top: 10px; width: 800px; border: 1px solid #CCC;"></MapVue>
                                 </v-col>
                             </v-row>
@@ -188,7 +188,8 @@
 
                             <v-row dense style="padding-left: 20px; margin-top: 10px; padding-right: 32px;">
                                 <v-col>
-                                    <img :src="require('../../assets/img/mozip.jpg')" style="width: 100%;"/>
+                                    <h4>{{state.items.cdcontent}}</h4>
+                                    <!-- <img :src="require('../../assets/img/mozip.jpg')" style="width: 100%;"/> -->
                                 </v-col>
                             </v-row>
                         </v-col>
@@ -208,11 +209,17 @@ import { reactive } from '@vue/reactivity';
 import FooterVue    from '../FooterVue.vue';
 import MapVue       from '../MapVue.vue';
 import HeaderVue    from '../HeaderVue.vue';
+import { useRouter, useRoute } from 'vue-router';
+import axios from 'axios';
+import { onMounted } from '@vue/runtime-core';
 
 export default {
     components: { HeaderVue, FooterVue, MapVue },
     setup () {
+        const route = useRoute();
+        const router = useRouter();
         const state = reactive({
+            cno : route.query.cno,
             writeDate: '2022년 5월 2일',
             updateDate: '2022년 5월 5일',
             endDate: '2022년 5월 27일',
@@ -226,7 +233,7 @@ export default {
             age: '20세 이상(2003년생 ~)',
             howmany: '0',
             addrname: '성찬미탁구클럽',
-            addr: '부산광역시 부산진구 동평로 221',
+            addr1: '',
             imgName: 'heart',
 
             manager: {
@@ -236,6 +243,27 @@ export default {
             }
         });
 
+        onMounted( () => {
+        handleData();
+    
+    })
+
+        const handleData = async() => {
+            const url = `/ROOT/clubdetail/selectcno?cno=${state.cno}`;
+            const headers = {"Content-Type":"application/json"};
+            const response = await axios.get(url, {headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+            state.items = response.data.result;
+            state.addr1 = state.items.club.caddress;
+            console.log("====",state.items.club.caddress);
+            }
+        }
+        const handleData2 = (a) => {
+                console.log(a);
+                state.addr1 = a.address1;
+        }
+
         const changeheart = async() => {
             if (state.imgName === 'heart') {
                 state.imgName = 'heart1'
@@ -244,7 +272,7 @@ export default {
             }
         };
         
-        return { state, changeheart }
+        return { state, changeheart,handleData2 }
     },
     data () {
         return {
