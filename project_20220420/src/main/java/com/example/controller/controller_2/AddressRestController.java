@@ -34,55 +34,7 @@ public class AddressRestController {
 
 
 
-
-    // 주소 전체 리스트
-    // 127.0.0.1:9090/ROOT/address/addr1
-    @RequestMapping(value = "/addr1", 
-    method = { RequestMethod.GET },
-    consumes = { MediaType.ALL_VALUE },
-    produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> addrlist(){
-        Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
-        try {
-            List<Address> list = addrepository.findAll();
-            System.out.println(list);
-            
-            if(list != null) {
-                map.put("status", 200);
-                map.put("result", list);
-            }
-        }
-         catch (Exception e) {
-            e.printStackTrace();
-        }
-    return map;
-    }   
    
-        // 주소 전체 리스트
-    // 127.0.0.1:9090/ROOT/address/addr1
-    @RequestMapping(value = "/addrbusan", 
-    method = { RequestMethod.GET },
-    consumes = { MediaType.ALL_VALUE },
-    produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> addrlistbusan(){
-        Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
-        try {
-            String a1 = ("부산");
-            List<Address> list = addrepository.findDistinctByA1(a1);
-            System.out.println(list);
-            
-            if(list != null) {
-                map.put("status", 200);
-                map.put("result", list);
-            }
-        }
-         catch (Exception e) {
-            e.printStackTrace();
-        }
-    return map;
-    } 
    
     
     //  주소검색 ex부산
@@ -110,7 +62,6 @@ public class AddressRestController {
 
     return map;
     }   
-
     //  지역명 리스트
     // 127.0.0.1:9090/ROOT/address/addresslist
     @RequestMapping(value = "/addresslist", 
