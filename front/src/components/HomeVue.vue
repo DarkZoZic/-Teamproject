@@ -211,7 +211,10 @@
 
                                                     <v-row dense>
                                                         <router-link to="/regclub">
-                                                            <v-btn><h3>클럽생성</h3></v-btn>
+                                                            <v-btn style="width: 100px; height: 30px; margin-bottom: 10px;"><h4>클럽생성</h4></v-btn>
+                                                        </router-link>
+                                                        <router-link to="/mypage">
+                                                            <v-btn style="width: 100px; height: 30px;"><h4>마이페이지</h4></v-btn>
                                                         </router-link>
                                                     </v-row>
                                                 </v-col>
