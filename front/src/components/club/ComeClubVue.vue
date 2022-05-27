@@ -267,8 +267,10 @@ export default {
         const router = useRouter();
 
         const state = reactive({
-            imageUrl : require('../../assets/img/profile_sample.png'),
-            imageFile : null,
+            zero : 0,
+            cdno  : '',
+            imageUrl : [],
+            imageFile : [],
             cno : '',
             cnolist : [],
             cname : '',
@@ -293,15 +295,20 @@ export default {
         })
 
         const handleImage = (e) => {
-            console.log('sdsfds');
-      if(e.target.files[0]){
-        state.imageUrl = URL.createObjectURL(e.target.files[0]);
-        state.imageFile = e.target.files[0];
-      }
-      else{
-        state.imageUrl = null;
-        state.imageFile = null;
-      }
+            console.log(e.target.files.length);
+            if(e.target.files.length > 0)
+            {
+                for(let i=0; i<e.target.files.length; i++)
+                {
+                    state.imageUrl[i] = URL.createObjectURL(e.target.files[i]);
+                    state.imageFile[i] = e.target.files[i];
+                }
+            }
+            else
+            {
+                state.imageUrl = null;
+                state.imageFile = null;
+            }
     }
 
         const handleData = async() => {
@@ -361,6 +368,43 @@ export default {
             body.append("time",      state.timechk);
             body.append("club",      state.club);
                 
+            const response = await axios.post(url, body, {headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+            console.log(response.data.result);
+            hanldcdno();
+
+                // alert('등록완료');
+                // router.push({name: 'ClubListVue'});
+            }
+
+        };
+
+        
+
+        const hanldcdno = async() => {
+            const url = `/ROOT/clubdetail/selectcno?cno=${state.club}`;
+            const headers = {"Content-Type" : "application/json"};
+            const response = await axios.get(url,{headers:headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+                console.log("hanldcdnohanldcdno",response.data.result.cdno);
+                state.cdno = response.data.result.cdno;
+                handlecdimage();
+            }
+
+        };
+
+        const handlecdimage = async() => {
+            console.log("ssssssss",state.cdno);
+            const url = `/ROOT/clubdetail/cdimage`;
+            const headers = {"Content-Type" : "multipart/form-data"};
+            const body= new FormData();
+            body.append("clubDetail",  state.cdno);
+            for(let i=0; i<state.imageFile.length; i++)
+            {
+                body.append("file", state.imageFile[i]);
+            }
             const response = await axios.post(url, body, {headers});
             console.log(response.data);
             if(response.data.status === 200){

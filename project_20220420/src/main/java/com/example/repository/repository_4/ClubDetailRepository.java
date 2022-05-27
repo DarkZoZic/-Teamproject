@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClubDetailRepository extends JpaRepository<ClubDetail, Long> {
 
+    ClubDetail findByClub_Cno(long cno);
 
 }

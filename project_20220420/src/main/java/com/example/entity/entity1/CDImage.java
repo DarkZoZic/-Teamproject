@@ -56,8 +56,8 @@ public class CDImage {
   @Column(name = "cdimagename")
   private String cdimagename;
 
-  // 게시판
+  // 공고
   @ManyToOne
-  @JoinColumn(name = "clubdetail")
+  @JoinColumn(name = "cdno")
   private ClubDetail clubDetail;
 }

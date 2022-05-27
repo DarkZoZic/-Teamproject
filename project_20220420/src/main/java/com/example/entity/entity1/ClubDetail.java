@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 import javax.persistence.Table;
 
 import com.example.entity.entity2.Club;
@@ -58,6 +59,9 @@ public class ClubDetail {
   // 상세내용
   @Column(name = "DESC")
   private String desc;
+
+  @Transient
+  private String cdimageurl;
   // 동호회
   @ManyToOne
   @JoinColumn(name = "c_no")
