@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.entity.entity1.Member;
+import com.example.entity.entity1.MemberPersonal;
 import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.CbImage;
 import com.example.entity.entity2.Cbckeditor;
@@ -38,6 +39,7 @@ import com.example.repository.repository_3.CReplyRepository;
 import com.example.repository.repository_3.CbckeditorRepository;
 import com.example.repository.repository_3.ClubBoardImageRepository;
 import com.example.repository.repository_3.ClubBoardRepository;
+import com.example.repository.repository_3.PersonalMemberRepository;
 import com.example.repository.repository_gibum.ClubRepository;
 
 @RestController
@@ -60,6 +62,9 @@ public class ClubBoardRestController {
 	
 	@Autowired
 	ClubRepository cRep;
+	
+	@Autowired
+	PersonalMemberRepository pmRep;
 	
 	@Autowired
 	JwtUtil jwtUtil;
@@ -588,6 +593,27 @@ public class ClubBoardRestController {
 				map.put("result", "토큰없음");
 			}
 			
+		}
+		catch (Exception e)
+		{
+			map.put("status", -1);
+		}
+		return map;
+	}
+	
+	// mid 받아서 닉네임 반환
+	@RequestMapping(value="/selectnick", 
+			method={RequestMethod.GET}, 
+			consumes = {MediaType.ALL_VALUE},
+			produces= {MediaType.APPLICATION_JSON_VALUE})
+	public Map<String, Object> selectnickGET(@RequestBody Member member)
+	{
+		Map<String, Object> map = new HashMap<>();
+		try 
+		{
+			MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
+			map.put("status", 200);
+			map.put("result", mp);
 		}
 		catch (Exception e)
 		{

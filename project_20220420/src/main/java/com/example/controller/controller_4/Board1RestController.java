@@ -356,13 +356,13 @@ public class Board1RestController {
                 // 다음글
                 Board1 next = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
             
-                if (prev.getBno() > 0){
+                if (prev.getBno()>0){
                     map.put("prev", prev.getBno());
                 }
                 else {
                     map.put("prev", 0L);
                 }
-                if ( next.getBno() > 0) {
+                if ( next.getBno()>0) {
                     map.put("next", next.getBno());
                 }
                 else { 

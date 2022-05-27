@@ -64,10 +64,13 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { reactive } from '@vue/reactivity';
 import FooterVue    from '../../FooterVue.vue';
 import CHHeaderVue  from '../CHHeaderVue.vue';
 import { useRoute } from 'vue-router';
+import { onMounted } from '@vue/runtime-core';
+
 
 export default {
   components: { CHHeaderVue, FooterVue },
@@ -93,8 +96,26 @@ export default {
         '등급', '닉네임', '가입일'
       ],
       option: '닉네임',
-      cno : route.query.cno
-    })
+      cno : route.query.cno,
+      token : sessionStorage.getItem("TOKEN")
+    });
+
+    const memberList = async() =>
+    {
+      const url = `/ROOT/api/clubmember/selectmemberlist?cno=${state.cno}`;
+      const headers = {"Content-Type" : "application/json", "token" : state.token};
+      const response = await axios.get(url, {headers});
+      console.log(response.data);
+      if(response.data.status === 200)
+      {
+        state.member = response.data.result.list;
+      }
+    }
+
+    onMounted(() =>
+    {
+      memberList();
+    });
 
     return { state }
   }
