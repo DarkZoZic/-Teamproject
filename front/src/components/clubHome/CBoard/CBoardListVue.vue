@@ -54,12 +54,12 @@
                                         <td style="background-color: gold;">{{ item.like }}</td>
                                     </tr>
                                     <tr
-                                        v-for="item in state.board"
+                                        v-for="(item, idx) in state.board"
                                         :key="item.no"
                                     >
                                         <td>{{ item.cbno }}</td>
                                         <td @click="selectContent(item.cbno)" style="cursor:pointer;">{{ item.cbtitle }}</td>
-                                        <td>{{ item.member.mid }}</td>
+                                        <td>{{ state.nicklist[idx]}}</td>
                                         <td>{{ item.cbregdate }}</td>
                                         <td>{{ item.cbhit }}</td>
                                         <td>{{ item.like }}</td>
@@ -75,8 +75,8 @@
             <v-row dense>
                 <v-col>
                     <v-pagination
-                    v-model="state.page"
-                    :length="state.page"
+                    v-model="state.page" 
+                    :length="state.pages"
                     ></v-pagination>
                 </v-col>
             </v-row>
@@ -123,32 +123,41 @@ export default {
               },
             ],
             search: '',
-            page: 1,
+            page: 1,   // 현재 페이지
+            pages : 1, // 총 페이지 수
             boardname: '클럽게시판',
             items: [
                 '전체', '제목', '내용', '글쓴이'
             ],
             option : '전체',
             cno : route.query.cno, //미완성
-            token : sessionStorage.getItem("TOKEN")
+            token : sessionStorage.getItem("TOKEN"),
+            nicklist : []
         })
 
-        const content = async() => {
+        const content = async() => 
+        {
             if(state.token !== null)
             {
                 const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&cno=${state.cno}`;
                 const headers = {"Content-Type":"application/json", "token" : state.token};
                 const response = await axios.get(url, {headers});
-                // console.log(response.data.result);
+                console.log(response.data);
                 if(response.data.status === 200)
                 {
                     state.board = response.data.result.list;
-                    state.page = response.data.result.pages;
+                    state.pages = response.data.result.pages;
                 }
+            }
+            else if(response.data.status === 0)
+            {
+                alert("로그인이 필요한 페이지입니다.");
+                router.push({name:'LoginVue'});
             }
             else
             {
-                router.push({name:'LoginVue'});
+                alert('비정상적인 접근입니다.');
+                router.push({name:'HomeVue'});
             }
         }   
 
@@ -172,7 +181,7 @@ export default {
                 if(response.data.status === 200)
                 {
                     state.board = response.data.result.list;
-                    state.page = response.data.result.pages;
+                    state.pages = response.data.result.pages;
                 }
             }
             else
@@ -186,9 +195,32 @@ export default {
             router.push({name:'CBoardWriteVue', query:{cno : state.cno}});
         }
 
-        onMounted(() =>
+        const nick = async() =>
         {
-            content();
+            // const idlist = [];
+            // for(let i=0; i<state.board.length; i++)
+            // {
+            //     idlist.push(state.board[i].member.mid);
+            // }
+            // console.log(idlist);
+
+            for(let i=0; i<state.board.length; i++)
+            {
+                const url = `/ROOT/api/clubmember/selectnick?mid=${state.board[i].member.mid}`;
+                const headers = {"Content-Type":"application/json"};
+                const response = await axios.get(url, {headers});
+                // console.log(response.data);
+                if(response.data.status === 200)
+                {
+                    state.nicklist.push(response.data.result.mpnickname);
+                }
+            }
+        }
+
+        onMounted(async() =>
+        {
+            await content();
+            nick();
         });
 
         return { state, search, selectContent, handleWrite}

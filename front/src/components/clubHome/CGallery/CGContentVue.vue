@@ -209,6 +209,16 @@ export default {
                     }
                 }
             }
+            else if(response.data.status === 0)
+            {
+                alert("로그인이 필요한 페이지입니다.");
+                router.push({name:'LoginVue'});
+            }
+            else
+            {
+                alert('비정상적인 접근입니다.');
+                router.push({name:'HomeVue'});
+            }
         }
 
         const like = async() => {

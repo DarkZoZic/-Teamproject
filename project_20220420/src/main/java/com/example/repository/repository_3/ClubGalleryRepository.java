@@ -22,4 +22,7 @@ public interface ClubGalleryRepository extends JpaRepository<ClubGallery, Long>{
 	List<ClubGallery> findByAllOptions(String text, Pageable pageable);
 	
 	List<ClubGallery> findByClub_cnoOrderByCgnoDesc(long cno, Pageable pageable);
+	
+	// 갤러리 상세내용 화면 데이터
+	ClubGallery findByCgnoAndClub_cno(long Cgno, long cno);
 }

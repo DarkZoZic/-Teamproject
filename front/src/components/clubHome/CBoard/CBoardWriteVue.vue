@@ -204,6 +204,7 @@ export default {
         {
             if(state.token === null)
             {
+                alert("로그인이 필요한 페이지입니다.");
                 router.push({name:'LoginVue'});
             }
         }

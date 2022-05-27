@@ -32,7 +32,7 @@
 
           <v-row dense style="border: 1px solid #CCC; border-top: 1px solid #CCC; padding: 10px; padding-left: 20px;  ">
             <v-col
-              v-for="tmp in state.gallery"
+              v-for="(tmp, idx) in state.gallery"
               :key="tmp"
               cols="4"
             >
@@ -58,7 +58,7 @@
 
                 <v-row dense>
                   <v-col style="padding-left: 10px;">
-                    <h5 style="color: gray">{{tmp.member.mid}}</h5>
+                    <h5 style="color: gray">{{state.nicklist[idx]}}</h5>
                   </v-col>
 
                   <v-col sm="6" class="col_right">
@@ -111,7 +111,8 @@ export default {
 
       option: '전체',
       cno : route.query.cno,
-      token : sessionStorage.getItem("TOKEN")
+      token : sessionStorage.getItem("TOKEN"),
+      nicklist : []
     });
 
     const selectlist = async() =>
@@ -128,14 +129,34 @@ export default {
           state.gallery = response.data.result.list;
         }
       }
+      else if(response.data.status === 0)
+      {
+          alert("로그인이 필요한 페이지입니다.");
+          router.push({name:'LoginVue'});
+      }
       else
       {
-          router.push({name:'LoginVue'});
+          alert('비정상적인 접근입니다.');
+          router.push({name:'HomeVue'});
       }
     }
 
+    const nick = async() =>
+    {
+        for(let i=0; i<state.gallery.length; i++)
+        {
+            const url = `/ROOT/api/clubmember/selectnick?mid=${state.gallery[i].member.mid}`;
+            const headers = {"Content-Type":"application/json"};
+            const response = await axios.get(url, {headers});
+            // console.log(response.data);
+            if(response.data.status === 200)
+            {
+                state.nicklist.push(response.data.result.mpnickname);
+            }
+        }
+    }
+
     const content = (cgno) => {
-      
       router.push({ name: "CGContentVue", query : {cgno:cgno, cno:state.cno} });
     }
 
@@ -150,7 +171,8 @@ export default {
 
     onMounted(async() =>
     {
-      selectlist();
+      await selectlist();
+      nick();
     });
 
     return { state, content, search, handleUpload }

@@ -206,8 +206,10 @@ export default {
       next : 0,
       mid : '',
       tokenid : sessionStorage.getItem("MID"), // 글수정/삭제 비교용. 토큰에서 id 추출
+      nick : '',
 
       reply: [],
+      replynicklist : [],
       rereply : []
     })
 
@@ -235,12 +237,29 @@ export default {
           state.next = response.data.result.next;
           state.mid = response.data.result.clubboard.member.mid;
         }
-        else if(response.data.status === -1)
-        {
-          alert('비정상적인 접근입니다.');
-          router.push({name:'CBoardListVue', query : {cno : state.cno}});
-        }
+        else if(response.data.status === 0)
+            {
+                alert("로그인이 필요한 페이지입니다.");
+                router.push({name:'LoginVue'});
+            }
+            else
+            {
+                alert('비정상적인 접근입니다.');
+                router.push({name:'HomeVue'});
+            }
       }
+    }
+
+    const nick = async() => // 글 작성자 닉네임
+    {
+      const url = `/ROOT/api/clubmember/selectnick?mid=${state.mid}`;
+      const headers = {"Content-Type":"application/json"};
+      const response = await axios.get(url, {headers});
+      // console.log(response.data);
+      if(response.data.status === 200)
+      {
+        state.nick = response.data.result.mpnickname;
+      };
     }
 
     const like = async() => {
@@ -314,9 +333,10 @@ export default {
       console.log(response.data);
     }
 
-    onMounted(() =>
+    onMounted(async() =>
     {
-      content();
+      await content();
+      nick();
     });
 
     

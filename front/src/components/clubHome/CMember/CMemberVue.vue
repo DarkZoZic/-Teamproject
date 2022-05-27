@@ -46,7 +46,7 @@
                     <td>{{ item.no }}</td>
                     <td><router-link to="/cbcontent">{{ item.grade }}</router-link></td>
                     <td>{{ item.nickname }}</td>
-                    <td>{{ item.date }}</td>
+                    <td>{{ item.jcdate }}</td>
                   </tr>
                 </tbody>
               </v-table>
@@ -79,18 +79,18 @@ export default {
 
     const state = reactive({
       member: [
-        {
-          no: '1',
-          grade: '클럽장',
-          nickname: '흔들리는샴푸속',
-          date: '2022-05-13',
-        },
-        {
-          no: '2',
-          grade: '관리자',
-          nickname: '탁구왕김제빵',
-          date: '2022-05-15',
-        },
+        // {
+        //   no: '1',
+        //   grade: '클럽장',
+        //   nickname: '흔들리는샴푸속',
+        //   date: '2022-05-13',
+        // },
+        // {
+        //   no: '2',
+        //   grade: '관리자',
+        //   nickname: '탁구왕김제빵',
+        //   date: '2022-05-15',
+        // },
       ],
       items: [
         '등급', '닉네임', '가입일'

@@ -63,8 +63,6 @@ public class ClubBoardRestController {
 	@Autowired
 	ClubRepository cRep;
 	
-	@Autowired
-	PersonalMemberRepository pmRep;
 	
 	@Autowired
 	JwtUtil jwtUtil;
@@ -206,12 +204,9 @@ public class ClubBoardRestController {
 		{
 			if(token != null)
 			{
-				//1페이지 당 20글 표시
+				//1페이지 당 10글 표시
 				PageRequest pageRequest = PageRequest.of(page-1, 10); 
 				System.out.println(pageRequest);
-//				System.out.println("text : " + text);
-//				System.out.println("option : " + option);
-//				System.out.println("cno : " + cno);
 				
 				List<ClubBoard> list = new ArrayList<>();
 				
@@ -219,14 +214,24 @@ public class ClubBoardRestController {
 				{
 					//검색어 포함, 1페이지 20글, 글번호 내림차순
 					list.addAll(cbRep.findByCbtitleContainingAndClub_cnoOrderByCbnoDesc(text, cno, pageRequest));
+					//페이지 구현용 글 개수
+					long total = cbRep.countByCbtitleContainingAndClub_cno(text, cno);
+					model.addAttribute("total", total);
+					model.addAttribute("pages", (total-1) / 10 + 1);
 				}
 				else if(option.equals("내용"))
 				{
 					list.addAll(cbRep.findByCbcontentContainingAndClub_cnoOrderByCbnoDesc(text, cno, pageRequest));
+					long total = cbRep.countByCbcontentContainingAndClub_cno(text, cno);
+					model.addAttribute("total", total);
+					model.addAttribute("pages", (total-1) / 10 + 1);
 				}
 				else if(option.equals("글쓴이"))
 				{
 					list.addAll(cbRep.findByMember_midContainingAndClub_cnoOrderByCbnoDesc(text, cno, pageRequest));
+					long total = cbRep.countByMember_midContainingAndClub_cno(text, cno);
+					model.addAttribute("total", total);
+					model.addAttribute("pages", (total-1) / 10 + 1);
 				}
 //				else if(option.equals("전체"))
 //				{
@@ -235,15 +240,11 @@ public class ClubBoardRestController {
 				else
 				{
 					list.addAll(cbRep.findByClub_cnoOrderByCbnoDesc(cno, pageRequest));
+					long total = cbRep.countByClub_cno(cno);
+					model.addAttribute("total", total);
+					model.addAttribute("pages", (total-1) / 10 + 1);
 				}
-				//페이지 구현용 글 개수
-				long total = list.toArray().length;
-//				System.out.println("total = " + total);
-				model.addAttribute("total", total);
-				
-				// pages = 1~10 = 1, 11~20 = 2, 21~30 = 3, ...... // 한 페이지에 10글
-//				System.out.println("pages : " + (total-1) / 10 + 1);
-				model.addAttribute("pages", (total-1) / 10 + 1);	
+					
 				
 				for(int i=0; i<list.toArray().length; i++)
 				{
@@ -290,13 +291,13 @@ public class ClubBoardRestController {
 		{
 			if(token != null)
 			{
-				ClubBoard board = cbRep.findById(cbno).orElse(null);
-				Club cnum = new Club();
-				cnum.setCno(cno);
-				board.setClub(cnum);
-				board.setCbhit( board.getCbhit() + 1L );
-				System.out.println(board.toString());
-				cbRep.save(board);
+				ClubBoard board = cbRep.findByCbnoAndClub_cno(cbno, cno);
+				System.out.println(board);
+				if(board != null)
+				{
+					board.setCbhit( board.getCbhit() + 1L );
+					cbRep.save(board);
+				}
 				map.put("status", 200);
 			}
 			else
@@ -325,7 +326,7 @@ public class ClubBoardRestController {
 			if(token != null)
 			{
 				System.out.println("cno : " + cno);
-				ClubBoard cb = cbRep.findById(cbno).orElse(null);
+				ClubBoard cb = cbRep.findByCbnoAndClub_cno(cbno, cno);
 				cb.setCbimageurl("/ROOT/clubboard/image?cbno=" + cbno);
 				
 				// 댓글 목록 저장할 배열 변수
@@ -414,7 +415,8 @@ public class ClubBoardRestController {
 		{
 			if(token != null)
 			{
-				crRep.deleteByClubboard_cbno(cb.getCbno());		cbiRep.deleteByClubboard_cbno(cb.getCbno());
+				crRep.deleteByClubboard_cbno(cb.getCbno());		
+				cbiRep.deleteByClubboard_cbno(cb.getCbno());
 				cbRep.deleteById(cb.getCbno());
 				map.put("status", 200);
 			}
@@ -582,7 +584,7 @@ public class ClubBoardRestController {
 				}
 				else
 				{
-					map.put("status", 0);
+					map.put("status", 1);
 					map.put("result", "일치하지 않는 아이디");
 				}
 				
@@ -601,24 +603,5 @@ public class ClubBoardRestController {
 		return map;
 	}
 	
-	// mid 받아서 닉네임 반환
-	@RequestMapping(value="/selectnick", 
-			method={RequestMethod.GET}, 
-			consumes = {MediaType.ALL_VALUE},
-			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Map<String, Object> selectnickGET(@RequestBody Member member)
-	{
-		Map<String, Object> map = new HashMap<>();
-		try 
-		{
-			MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
-			map.put("status", 200);
-			map.put("result", mp);
-		}
-		catch (Exception e)
-		{
-			map.put("status", -1);
-		}
-		return map;
-	}
+	
 }

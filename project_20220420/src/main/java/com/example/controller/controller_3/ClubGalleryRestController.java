@@ -97,7 +97,7 @@ public class ClubGalleryRestController {
 					}
 					else
 					{
-						map.put("status", 0);
+						map.put("status", 1);
 						map.put("result", "이미지없음");
 					}
 				}
@@ -210,7 +210,9 @@ public class ClubGalleryRestController {
 		try {
 			if(token != null)
 			{
-				ClubGallery clubGallery = cgRep.findById(cgno).orElse(null);
+				System.out.println(cgno);
+				System.out.println(cno);
+				ClubGallery clubGallery = cgRep.findByCgnoAndClub_cno(cgno, cno);
 				long imagecount = cgiRep.countByClubgallery_cgno(cgno); // idx값
 				clubGallery.setGimageurl("/ROOT/clubgallery/image?cgno=" + cgno); // 이미지 url 보내기(idx값은 프론트에서 반복문으로 입력)
 				
@@ -235,7 +237,6 @@ public class ClubGalleryRestController {
 			else
 			{
 				map.put("status", 0);
-				map.put("result", "토큰없음");
 			}
 		} 
 		catch (Exception e) 
@@ -257,10 +258,7 @@ public class ClubGalleryRestController {
 		{
 			if(token != null)
 			{
-				ClubGallery gallery = cgRep.findById(cgno).orElse(null);
-				Club cnum = new Club();
-				cnum.setCno(cno);
-				gallery.setClub(cnum);
+				ClubGallery gallery = cgRep.findByCgnoAndClub_cno(cgno, cno);
 				gallery.setCghit( gallery.getCghit() + 1L );
 				System.out.println(gallery.toString());
 				cgRep.save(gallery);
