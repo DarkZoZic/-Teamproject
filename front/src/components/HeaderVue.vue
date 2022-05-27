@@ -36,7 +36,7 @@
 
             <!-- 로고 -->
             <v-col sm="3" class="col_center">
-              <img :src="require('../assets/img/cluver_logo.png')" class="img_header" @click="handleClick('/')"/>
+              <img :src="require('../assets/img/cluver_logo.png')" style="width: 270px;" class="img_header" @click="handleClick('/')"/>
             </v-col>
 
             <!-- 중앙 -->
