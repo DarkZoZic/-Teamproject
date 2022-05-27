@@ -76,7 +76,7 @@
 
                             <v-row dense>
                                 <v-col>
-                                    <!-- 전체 포함한 배열로 변수 만들고 v-row반복문 만들고, v-col 반복문 만들고.
+                                    <!-- 전체 포함한 배열로 변수 만들고 v-row 반복문 만들고, v-col 반복문 만들고.
                                     ex) 12개 => 1일 때 1, 2, 3, 4 / 2일 때 1, 2, 3, 4 / 
                                     (1*4+1)-5, (1*4+2)-5, (1*4+3)-5, (1*4+4)-5 / 2*4+1, 2*4+2-->
                                     <v-row dense="" class="row_pad5" style="padding-top: 10px;">
@@ -300,7 +300,7 @@ export default {
             token : sessionStorage.getItem("TOKEN"),
             logged: computed(() => store.getters['moduleA/getLogged']),
             area: [],
-            tab: ['전국', '서울', '부산', '어쩌구'],
+            tab: [],
             items1 : '',
             datechk: [],
             timechk: [],
