@@ -15,6 +15,7 @@ import com.example.entity.entity2.BImage;
 import com.example.entity.entity2.Bckeditor;
 import com.example.entity.entity2.Board1;
 import com.example.entity.entity2.CReply;
+import com.example.entity.entity2.MemberNicknameview;
 import com.example.jwt.JwtUtil;
 import com.example.repository.repository_4.BckeditorRepository;
 import com.example.repository.repository_4.Board1ImageRepository;
@@ -44,6 +45,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -87,7 +89,7 @@ public class Board1RestController {
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> InsertPost(
-        @ModelAttribute Board1 board1,
+        @ModelAttribute Board1 board1, 
         @RequestHeader (name = "token") String token ) {
 
         Map<String ,Object> map = new HashMap<>();
@@ -104,6 +106,7 @@ public class Board1RestController {
             board1.setMember(memberEntity);
             System.out.println(board1.toString());
 
+           
             if(token !=null) {
                 int ret = b1Service.insertBoard1One(board1);
                 System.out.println(board1.toString());
@@ -371,7 +374,7 @@ public class Board1RestController {
                 else { 
                     map.put("next", 0L);
                 }
-                
+
                 map.put("status", 200); // 성공 
                 map.put("result", board1);
                     

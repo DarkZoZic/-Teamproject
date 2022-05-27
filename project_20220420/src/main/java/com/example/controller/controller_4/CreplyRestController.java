@@ -44,6 +44,7 @@ public class CreplyRestController {
     // global.properties 사용하기. 나중에 숫자 바꾸고 싶은대로 바꾸면 됨
     @Value("${board.page.count}") int PAGECNT;
 
+    // 댓글 작성
     //127.0.0.1:9090/ROOT/api/creply/board_insert
     @RequestMapping(value = "/board_insert", 
     method = {RequestMethod.POST},
@@ -89,6 +90,9 @@ public class CreplyRestController {
         }
         return map;
     }
+
+    // 답댓글 작성 ?
+
 
     // 127.0.0.1:9090/ROOT/api/creply/board_delete
     // {"bno":3}

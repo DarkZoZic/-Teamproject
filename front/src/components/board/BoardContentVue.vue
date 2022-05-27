@@ -31,7 +31,7 @@
                 <!-- 닉네임으로 바꿔야 함 -->
                 {{state.items.member.mid}} &nbsp; | &nbsp; 
                 조회 {{state.items.bhit}} &nbsp; | &nbsp; 
-                <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.items.blike}}
+                <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> 좋아요개수{{state.items.blike}}
                 &nbsp; | &nbsp; {{state.bregdate1}}
               </h5>
             </v-col>
@@ -63,7 +63,7 @@
             <v-col style="padding: 20px;" class="col_center">
               <v-btn style="height: 50px;" @click="like()">
                 <img :src="state.likeimage" style="width: 40px; margin-right: 3px;"/>
-                <h3 style="margin-left: 10px;">{{state.items.blike}}</h3>
+                <h3 style="margin-left: 10px;">좋아요개수{{state.items.blike}}</h3>
               </v-btn>
             </v-col>
           </v-row>
@@ -160,13 +160,17 @@
                       <v-row dense>
                         <v-col>
                           <!-- 댓글 수정, 삭제 : 아이디가 일치할 때 -->
-                          <v-row dense v-if="tmp.member.mid === state.mid1">
-                            <v-col class="col_left">
+                          <v-row dense >
+                            <v-col class="col_left" v-show="tmp.member.mid === state.mid1">
                               <h5 v-if="!state.reply1.reupdate[idx]" @click="handleReplyUpdate(idx)" style="padding-left: 10px; color: gray; cursor: pointer;">수정</h5>
                               <h5 @click="handleReplyDelete(tmp.renumber, idx)" style="padding-left: 10px; color: gray; cursor: pointer;">삭제</h5>
-                              <h5 @click="clickReply(idx)" style="padding-left: 10px; color: gray; cursor: pointer;">답댓글</h5>
+                            </v-col>
+                            <v-col class="col_left" >
+                            <h5 @click="clickReply(idx)" style="color: gray; cursor: pointer;">답댓글</h5>
                             </v-col>
                           </v-row>
+                          
+                               
 
                           <!-- 답댓글 -->
                           <v-row dense v-if="state.reply1.clickReply[idx]">
@@ -249,20 +253,14 @@ import dayjs from 'dayjs';
 
 export default {
   components: { HeaderVue, FooterVue },
-
-  methods : {
-    refreshAll() {
-        // 새로고침
-        this.$router.go();
-    }
-  },
-
+  
   setup () {
 
     onMounted( async() => {
       await handleData(); 
       await date();
       await handleReplyView();
+      await likecount();
     
     })
 
@@ -366,20 +364,32 @@ export default {
       }
     }
 
+    // 게시글 좋아요 
     const like = async() => {
-      // const url = `ROOT/reaction/like.json`;
-      // const headers = {"Content-Type":"multipart/form-data"};
-      //       const body = new FormData;
-      //       body.append("token", state.token);
-      //       body.append("mpw",state.pw);
-      //       const response = await axios.post(url, body,{headers});
-      //       console.log(response.data);
-      //       if(response.data.status === 200){
-      //           sessionStorage.setItem("TOKEN", response.data.token);
-      //           alert('로그인성공');
-      //           router.push({path : '/'})
+      const url = `/ROOT/reaction/like.json`;
+      const headers = {
+        "Content-Type":"multipart/form-data",
+        "token" : state.token };
+      const body = new FormData;
+      body.append("board",state.bno);
+      body.append("member",state.mid1);
+      const response = await axios.post(url, body,{headers});
+      console.log(response.data);
+      if(response.data.status === 200){
+        alert('좋아요성공');
+        await handleData(state.bno);
+      }
+    }
 
-      //       }
+    // 게시글 좋아요 개수 조회
+    const likecount = async() => {
+      const url = `/ROOT/reaction/likelist.json`;
+      const headers = {"Content-Type":"application/json"};
+      const response = await axios.get(url, {headers});
+      console.log(response.data);
+      if(response.data.status === 200){
+        state.items = response.data.result;
+      }
     }
 
     const replylike = async() => {
@@ -613,7 +623,7 @@ export default {
       }
     }
 
-    return { state, date1, date, handleUpdate, handleDelete, replylike, handleReplyInsert, 
+    return { state, date1, date, like, handleUpdate, handleDelete, replylike, handleReplyInsert, 
     handleReplyAdd, handlePage, handleReplyUpdate, handleReplyDelete, handleReUpdate, clickReply }
   }
 }

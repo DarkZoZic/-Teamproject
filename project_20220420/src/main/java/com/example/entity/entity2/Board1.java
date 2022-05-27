@@ -84,6 +84,8 @@ public class Board1 {
   @JoinColumn(name = "mid")
   private Member member;
 
+  // 개인회원 닉네임
+
   // 게시판이미지
   // @OneToMany(mappedBy = "board1")
   // private List<BImage> bImageList = new ArrayList<>();
@@ -92,4 +94,5 @@ public class Board1 {
   @OneToMany(mappedBy = "board1", cascade = CascadeType.REMOVE)
   @JsonManagedReference(value="bno")
   private List<CReply> cReplyList = new ArrayList<>();
+
 }

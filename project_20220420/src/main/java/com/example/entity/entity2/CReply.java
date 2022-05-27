@@ -93,6 +93,8 @@ public class CReply {
   // 큐엔에이 게시판 글번호
   @ManyToOne
   @JoinColumn(name = "qno")
+  @ToString.Exclude //syso
+  @JsonBackReference(value = "qno")
   private Qna qna;
 
   // 반응

@@ -45,6 +45,7 @@
                                     <tr v-for="item in state.items" :key="item">
                                         <td>{{ item.bno }}</td>
                                         <td style="cursor: pointer;" @click="handlePage(item.bno)" >{{ item.btitle }}</td>
+                                        <!-- 닉네임이 나와야 함 -->
                                         <td>{{ item.member.mid }}</td>
                                         <td>{{ item.bregdate1 }}</td>
                                         <td>{{ item.bhit }}</td>
@@ -90,6 +91,7 @@ export default {
         
         onMounted(() => {
             handleData();
+            nick();
         });
 
         const router = useRouter();
@@ -194,6 +196,21 @@ export default {
             if(response.data.status === 200){
                 state.items = response.data.result;
                 console.log(response.data.result.length);
+            }
+        }
+
+         const nick = async() => {
+            const url = `/ROOT/member/psmynick`;
+            const headers = {"Content-Type":"application/json", 
+            token : state.token};
+            const response = await axios.get(url, {headers});
+            console.log(response.data.result);
+            if(response.data.status === 200){
+                state.nick = response.data.result;
+            }
+            else{
+                role();
+                console.log("기업회원입니다");
             }
         }
 

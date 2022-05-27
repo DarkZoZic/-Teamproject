@@ -48,7 +48,7 @@
                 <tbody>
                   <tr
                     v-for="item in state.notice"
-                    :key="item.no"
+                    :key="item"
                   >
                     <td style="background-color: gold;"><h4>{{ item.qno }}</h4></td>
                     <td style="background-color: gold;"><router-link to="/hqcontent">{{ item.qtitle }}</router-link></td>
@@ -58,7 +58,7 @@
                   </tr>
                   <tr
                       v-for="item in state.board"
-                      :key="item.no"
+                      :key="item"
                   >
                     <td>{{ item.qno }}</td>
                     <td style="cursor: pointer;" @click="handlePage(item.qno)" >{{ item.qtitle }}</td>
@@ -126,6 +126,7 @@ export default {
 
         search: '검색내용', // 검색어
         page: 1,
+        mid : sessionStorage.getItem("TOKEN"),
     });
 
     // 조회수 1증가 시키기
