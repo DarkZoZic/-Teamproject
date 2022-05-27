@@ -54,45 +54,71 @@
                                     <h3 style="cursor: pointer; margin-left: 10px;">제주</h3>
                                 </v-col>
                             </v-row>
+                            <v-row dense>
+                                <v-col>
+                                    <v-tabs
+                                        v-model="state.tab"
+                                        grow
+                                        style="height: 40px;"
+                                        >
+                                        <v-tab v-for="tmp in state.tab" :key="tmp" :value="tmp"><h4>{{ tmp }}</h4></v-tab>
+                                    </v-tabs>
 
-                            <v-row dense="" class="row_pad5" style="padding-top: 10px;">
-                                <v-col sm="1"></v-col>
-                                <v-col sm="2"><h4 @click="all()" style="cursor: pointer;">전체</h4></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('강서구')" style="cursor: pointer;">강서구</h4></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('금정구')" style="cursor: pointer;">금정구</h4></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('기장군')" style="cursor: pointer;">기장군</h4></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('남구')" style="cursor: pointer;">남구</h4></v-col>
-                                <v-col sm="1"></v-col>
+                                    <v-card-text>
+                                        <v-window v-model="state.tab2">
+                                            <v-window-item v-for="tmp in state.tab" :key="tmp" :value="tmp">
+                                                {{ tmp }}
+                                            </v-window-item>
+                                        </v-window>
+                                    </v-card-text>
+                                </v-col>
                             </v-row>
 
-                            <v-row dense="" class="row_pad5">
-                                <v-col sm="1"></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('동구')" style="cursor: pointer;">동구</h4></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('동래구')" style="cursor: pointer;">동래구</h4></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('부산진구')" style="cursor: pointer;">부산진구</h4></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('북구')" style="cursor: pointer;">북구</h4></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('사상구')" style="cursor: pointer;">사상구</h4></v-col>
-                                <v-col sm="1"></v-col>
-                            </v-row>
+                            <v-row dense>
+                                <v-col>
+                                    <!-- 전체 포함한 배열로 변수 만들고 v-row반복문 만들고, v-col 반복문 만들고.
+                                    ex) 12개 => 1일 때 1, 2, 3, 4 / 2일 때 1, 2, 3, 4 / 
+                                    (1*4+1)-5, (1*4+2)-5, (1*4+3)-5, (1*4+4)-5 / 2*4+1, 2*4+2-->
+                                    <v-row dense="" class="row_pad5" style="padding-top: 10px;">
+                                        <v-col sm="1"></v-col>
+                                        <v-col sm="2"><h4 @click="all()" style="cursor: pointer;">전체</h4></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('강서구')" style="cursor: pointer;">강서구</h4></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('금정구')" style="cursor: pointer;">금정구</h4></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('기장군')" style="cursor: pointer;">기장군</h4></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('남구')" style="cursor: pointer;">남구</h4></v-col>
+                                        <v-col sm="1"></v-col>
+                                    </v-row>
 
-                            <v-row dense="" class="row_pad5">
-                                <v-col sm="1"></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('사하구')" style="cursor: pointer;">사하구</h4></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('서구')" style="cursor: pointer;">서구</h4></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('수영구')" style="cursor: pointer;">수영구</h4></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('연제구')" style="cursor: pointer;">연제구</h4></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('영도구')" style="cursor: pointer;">영도구</h4></v-col>
-                                <v-col sm="1"></v-col>
-                            </v-row>
+                                    <v-row dense="" class="row_pad5">
+                                        <v-col sm="1"></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('동구')" style="cursor: pointer;">동구</h4></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('동래구')" style="cursor: pointer;">동래구</h4></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('부산진구')" style="cursor: pointer;">부산진구</h4></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('북구')" style="cursor: pointer;">북구</h4></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('사상구')" style="cursor: pointer;">사상구</h4></v-col>
+                                        <v-col sm="1"></v-col>
+                                    </v-row>
 
-                            <v-row dense="" class="row_pad5" style="padding-bottom: 8px;">
-                                <v-col sm="1"></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('중구')" style="cursor: pointer;">중구</h4></v-col>
-                                <v-col sm="2"><h4 @click="Clicksearch('해운대구')" style="cursor: pointer;">해운대구</h4></v-col>
-                                <v-col sm="2"></v-col>
-                                <v-col sm="2"></v-col>
-                                <v-col sm="2"></v-col>
-                                <v-col sm="1"></v-col>
+                                    <v-row dense="" class="row_pad5">
+                                        <v-col sm="1"></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('사하구')" style="cursor: pointer;">사하구</h4></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('서구')" style="cursor: pointer;">서구</h4></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('수영구')" style="cursor: pointer;">수영구</h4></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('연제구')" style="cursor: pointer;">연제구</h4></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('영도구')" style="cursor: pointer;">영도구</h4></v-col>
+                                        <v-col sm="1"></v-col>
+                                    </v-row>
+
+                                    <v-row dense="" class="row_pad5" style="padding-bottom: 8px;">
+                                        <v-col sm="1"></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('중구')" style="cursor: pointer;">중구</h4></v-col>
+                                        <v-col sm="2"><h4 @click="Clicksearch('해운대구')" style="cursor: pointer;">해운대구</h4></v-col>
+                                        <v-col sm="2"></v-col>
+                                        <v-col sm="2"></v-col>
+                                        <v-col sm="2"></v-col>
+                                        <v-col sm="1"></v-col>
+                                    </v-row>
+                                </v-col>
                             </v-row>
                         </v-col>
                     </v-row>
@@ -274,7 +300,7 @@ export default {
             token : sessionStorage.getItem("TOKEN"),
             logged: computed(() => store.getters['moduleA/getLogged']),
             area: [],
-            
+            tab: ['전국', '서울', '부산', '어쩌구'],
             items1 : '',
             datechk: [],
             timechk: [],
