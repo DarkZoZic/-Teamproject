@@ -112,7 +112,7 @@ export default {
                 /* global kakao */                
                 script.type = "text/javascript"
                 script.src =
-                    "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=c2c01f4e7c77fea502d65eb4681127ce&libraries=services&autoload=false";
+                    "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=afa488b2271f080fe570472f12288216&libraries=services&autoload=false";
                 script.addEventListener("load", () => {
                     // console.log("loaded", kakao);
                     kakao.maps.load(initMap);
