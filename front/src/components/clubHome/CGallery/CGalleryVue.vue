@@ -104,7 +104,8 @@ export default {
 
     const state = reactive({
       gallery : [],
-      page: 1,
+      page: 1,   // 현재 페이지
+      pages : 1, // 총 페이지 수
       items: [
         '전체', '갤러리명', '갤러리설명', '갤러리작성자'
       ],
@@ -125,7 +126,7 @@ export default {
         // console.log(response.data);
         if(response.data.status === 200)
         {
-          state.page = response.data.result.pages;
+          state.pages = response.data.result.pages;
           state.gallery = response.data.result.list;
         }
       }

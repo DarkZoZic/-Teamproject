@@ -12,5 +12,7 @@ public interface PersonalMemberRepository extends JpaRepository<MemberPersonal, 
 	MemberPersonal findByMember_mid(String mid); 
 	
 	List<MemberPersonal> findByMember_midOrderByMpnicknameAsc(String[] mid);
+	
+	MemberPersonal findByMpnicknameContaining(String mpnickname);
 
 }

@@ -23,7 +23,7 @@
           <!-- 상단메뉴 -->
           <v-row dense class="row_bwrite2">
             <v-col sm="6" class="col_pad-l25">
-              <h4 style="color: #787878">{{state.board.mid}}</h4>
+              <h4 style="color: #787878">{{state.nick}}</h4>
             </v-col>
             
 

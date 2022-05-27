@@ -77,6 +77,7 @@
                     <v-pagination
                     v-model="state.page" 
                     :length="state.pages"
+                    @click="handlePage(state.page, state.option, state.search)"
                     ></v-pagination>
                 </v-col>
             </v-row>
@@ -142,7 +143,7 @@ export default {
                 const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&cno=${state.cno}`;
                 const headers = {"Content-Type":"application/json", "token" : state.token};
                 const response = await axios.get(url, {headers});
-                console.log(response.data);
+                // console.log(response.data);
                 if(response.data.status === 200)
                 {
                     state.board = response.data.result.list;
@@ -161,6 +162,32 @@ export default {
             }
         }   
 
+        const handlePage = async(idx, option, search) =>
+        {
+            if(state.token !== null)
+            {
+                const url = `/ROOT/api/clubboard/selectlist?page=${idx}&text=${search}&option=${option}&cno=${state.cno}`;
+                const headers = {"Content-Type":"application/json", "token" : state.token};
+                const response = await axios.get(url, {headers});
+                // console.log(response.data);
+                if(response.data.status === 200)
+                {
+                    state.board = response.data.result.list;
+                    nick();
+                }
+            }
+            else if(response.data.status === 0)
+            {
+                alert("로그인이 필요한 페이지입니다.");
+                router.push({name:'LoginVue'});
+            }
+            else
+            {
+                alert('비정상적인 접근입니다.');
+                router.push({name:'HomeVue'});
+            }
+        }
+
         const selectContent = (cbno) =>
         {
             console.log(state.cno);
@@ -170,10 +197,6 @@ export default {
         const search = async() => {
             if(state.token !== null)
             {
-                // console.log(state.page);
-                // console.log(state.search);
-                // console.log(state.option);
-                // console.log(state.cno);
                 const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
                 const headers = {"Content-Type":"application/json", "token" : state.token};
                 const response = await axios.get(url, {headers});
@@ -182,6 +205,7 @@ export default {
                 {
                     state.board = response.data.result.list;
                     state.pages = response.data.result.pages;
+                    nick();
                 }
             }
             else
@@ -197,13 +221,8 @@ export default {
 
         const nick = async() =>
         {
-            // const idlist = [];
-            // for(let i=0; i<state.board.length; i++)
-            // {
-            //     idlist.push(state.board[i].member.mid);
-            // }
-            // console.log(idlist);
-
+            state.nicklist.splice(0);
+            
             for(let i=0; i<state.board.length; i++)
             {
                 const url = `/ROOT/api/clubmember/selectnick?mid=${state.board[i].member.mid}`;
@@ -223,7 +242,7 @@ export default {
             nick();
         });
 
-        return { state, search, selectContent, handleWrite}
+        return { state, search, selectContent, handleWrite, handlePage}
     },
 }
 </script>

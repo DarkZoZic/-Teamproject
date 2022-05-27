@@ -63,6 +63,9 @@ public class ClubBoardRestController {
 	@Autowired
 	ClubRepository cRep;
 	
+	@Autowired
+	PersonalMemberRepository pmRep;
+	
 	
 	@Autowired
 	JwtUtil jwtUtil;
@@ -228,8 +231,9 @@ public class ClubBoardRestController {
 				}
 				else if(option.equals("글쓴이"))
 				{
-					list.addAll(cbRep.findByMember_midContainingAndClub_cnoOrderByCbnoDesc(text, cno, pageRequest));
-					long total = cbRep.countByMember_midContainingAndClub_cno(text, cno);
+					MemberPersonal mp = pmRep.findByMpnicknameContaining(text);
+					list.addAll(cbRep.findByMember_midAndClub_cnoOrderByCbnoDesc(mp.getMember().getMid(), cno, pageRequest));
+					long total = cbRep.countByMember_midContainingAndClub_cno(mp.getMember().getMid(), cno);
 					model.addAttribute("total", total);
 					model.addAttribute("pages", (total-1) / 10 + 1);
 				}

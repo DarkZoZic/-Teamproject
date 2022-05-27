@@ -24,7 +24,7 @@ public interface ClubBoardRepository extends JpaRepository<ClubBoard, Long>{
 	long countByCbcontentContainingAndClub_cno(String cbcontent, long cno);
 	
 	//클럽게시판 글목록(페이지, 작성자명기준 검색기능)
-	List<ClubBoard> findByMember_midContainingAndClub_cnoOrderByCbnoDesc(String mid, long cno, Pageable pageable);
+	List<ClubBoard> findByMember_midAndClub_cnoOrderByCbnoDesc(String mid, long cno, Pageable pageable);
 	
 	long countByMember_midContainingAndClub_cno(String mid, long cno);
 	
