@@ -443,6 +443,31 @@ public class Board1RestController {
         return map;
     }
 
+    // 127.0.0.1:9090/ROOT/api/board1/search1
+    @RequestMapping(value = "/search1", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+        public Map<String, Object> search1GET(
+        @RequestParam(name = "page") int page,
+        @RequestParam(name = "bcontent", defaultValue = "") String bcontent ){
+
+        System.out.println(bcontent);
+
+        Map<String ,Object> map = new HashMap<>();
+        try{
+        PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
+        List<Board1> bList = b1Repository.findByBcontentContainingOrderByBnoDesc(bcontent, pageRequest);
+        // System.out.println(bList);
+        map.put("status", 200); // 성공
+        map.put("result", bList);
+
+        }
+        catch(Exception e){
+        e.printStackTrace();
+        map.put("status", 0); // 실패
+        }
+        return map;
+    }
+
     ////////////////////////////////////////////////////////////////////
 
     // 127.0.0.1:9090/ROOT/api/board1/selectlist1?page=1&btitle=y
