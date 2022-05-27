@@ -168,8 +168,8 @@
                             </v-col>
                           </v-row>
 
-                          <!-- 대댓글 -->
-                          <v-row dense v-if="state.reply1.clickReply">
+                          <!-- 답댓글 -->
+                          <v-row dense v-if="state.reply1.clickReply[idx]">
                             <v-col sm="11" style="padding-top: 10px;">
                               <textarea  
                                 style="border: 1px solid #CCC; padding: 10px; background-color: white; border-radius: 5px; width: 930px; height: 70px; outline-width: 0; resize: none;"
@@ -249,6 +249,13 @@ import dayjs from 'dayjs';
 
 export default {
   components: { HeaderVue, FooterVue },
+
+  methods : {
+    refreshAll() {
+        // 새로고침
+        this.$router.go();
+    }
+  },
 
   setup () {
 
@@ -391,6 +398,7 @@ export default {
         state.reply = response.data.result;
         for(i=0; i<state.reply.length; i++){
           state.reply1.reupdate.push(false);
+          state.reply1.clickReply.push(false);
         }
         console.log(state.reply);
         // state.page = response.data.result.page;
@@ -450,14 +458,14 @@ export default {
     }
 
     // 답댓글 등록 
-    const handleReplyAdd = async(no) => {
+    const handleReplyAdd = async(no, idx) => {
       const url = `/ROOT/api/creply/board_insert`;
       const headers = {"Content-Type":"application/json",
                       "token" : state.token };
       const body = {
         mid : state.mid,
         board1 : {bno : state.bno },
-        recontent : state.reply1.recontent,
+        recontent : state.reply1.rerecontent,
         reparentnumber : no,
         reprivate : state.reply1.reprivate,
       };
@@ -465,12 +473,12 @@ export default {
       console.log(response.data);
       if(response.data.status === 200){
         alert('댓글 등록 완료');
-        
-
-        // await handleData(state.bno);
+      
+        await handleData(state.bno);
         await handleReplyView(state.bno);
-        handleReplyView();
-        router.push({name:"BoardContentVue", query : {bno : state.bno}})
+        state.reply1.rerecontent="";
+        state.reply1.clickReply[idx] = false;
+
 
 
         // await handleReplyView(state.bno);

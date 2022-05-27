@@ -162,53 +162,5 @@ public class Board1ServiceImpl implements Board1Service{
         return null;
     }
 
-    @Override
-    public long selectPrevBoard1(Long bno) {
-        try{
-            Board1 board1 = b1Repository.findTop1ByBnoLessThanOrderByBnoDesc(bno);
-            // System.out.println("이전글====" + board1); 
-            if(board1 != null){
-                return board1.getBno();
-            }
-            else{
-                return 0L;
-            }
-        
-            
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
-    @Override
-    public long selectNextBoard1(Long bno) {
-        try{
-            Board1 board1 = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
-            System.out.println("다음글====" + board1);
-            if(board1 != null){
-                return board1.getBno();
-            }
-            else{
-                return 0L;
-            }
-            
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-    
+     
 }

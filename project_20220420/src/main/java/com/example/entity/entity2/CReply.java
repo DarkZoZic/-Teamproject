@@ -30,6 +30,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -78,6 +79,7 @@ public class CReply {
   private String reprivate;
   
   // 자유게시판 글번호
+  @ToString.Exclude //syso
   @ManyToOne
   @JoinColumn(name = "bno")
   @JsonBackReference(value = "bno")

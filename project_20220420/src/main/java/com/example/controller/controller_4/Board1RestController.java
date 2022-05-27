@@ -349,26 +349,29 @@ public class Board1RestController {
             if(token != null){
                 // 1개 조회
                 Board1 board1 = b1Service.selectBoard1One(bno);
-                
+
                 // 이전글
                 Board1 prev = b1Repository.findTop1ByBnoLessThanOrderByBnoDesc(bno);
+                // System.out.println(prev);
 
                 // 다음글
                 Board1 next = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
+                // System.out.println(next);
             
-                if (prev.getBno()>0){
+            
+                if (prev != null){
                     map.put("prev", prev.getBno());
                 }
                 else {
                     map.put("prev", 0L);
                 }
-                if ( next.getBno()>0) {
+                if ( next != null) {
                     map.put("next", next.getBno());
                 }
                 else { 
                     map.put("next", 0L);
                 }
-
+                
                 map.put("status", 200); // 성공 
                 map.put("result", board1);
                     
