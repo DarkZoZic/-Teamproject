@@ -39,6 +39,7 @@ import ClubDetailVue     from '@/components/club/ClubDetailVue.vue';
 import ClubRequestVue    from '@/components/club/ClubRequestVue.vue';
 import RegClubVue        from '@/components/club/RegClubVue.vue';
 import ComeClubVue       from '@/components/club/ComeClubVue.vue';
+import CCUpdateVue       from '@/components/club/CCUpdateVue.vue';
 
 // help
 import HelpHomeVue       from '@/components/help/HelpHomeVue.vue';
@@ -116,6 +117,7 @@ const routes = [
     { path: '/crequest',  name: "ClubRequestVue",    component: ClubRequestVue },
     { path: '/regclub',   name: "RegClubVue",        component: RegClubVue },
     { path: '/comeclub',  name: "ComeClubVue",       component: ComeClubVue },
+    { path: '/ccupdate',  name: "CCUpdateVue",       component: CCUpdateVue },
 
     // help
     { path: '/h',         name: "HelpHomeVue",       component: HelpHomeVue },

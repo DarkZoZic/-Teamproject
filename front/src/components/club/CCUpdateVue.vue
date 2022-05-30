@@ -11,13 +11,13 @@
                 <v-col sm="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
-                            <h5><router-link to="/">홈</router-link> > <router-link to="/clist">클럽</router-link> > 공고등록</h5>
+                            <h5><router-link to="/">홈</router-link> > <router-link to="/cdetail">상세페이지</router-link> > 공고수정</h5>
                         </v-col>
                     </v-row>
                     
                     <v-row dense class="row_bwrite2" style="padding-top: 20px; padding-bottom: 15px; padding-left: 10px;">
                         <v-col sm="6" class="col_left">
-                            <h2>공고등록</h2>
+                            <h2>공고수정</h2>
                         </v-col>
                     </v-row>
 
@@ -26,7 +26,7 @@
                         <div v-if="state.items">
                             <v-col sm="10" >
                                 <v-select :change="handleCno()"
-                                    variant="outlined" density="compact" label="클럽선택" :items=state.cnamelist 
+                                    variant="outlined" density="compact" :items= state.cnolist state.clublist label="클럽 번호선택"
                                     v-model="state.club"  style="height: 40px; padding-right: 10px; width: 200px;">
                                 </v-select>
                             </v-col>
@@ -46,7 +46,9 @@
                                             <v-col style="height: 80px;" class="col_left">
                                                 <h2>{{state.club}}</h2>
                                             </v-col>
-                                            
+                                            <v-col style="height: 80px;" class="col_left" v-if="state.club !== ''">
+                                                <h2>{{state.cno}}</h2>
+                                            </v-col>
                                         </v-row>
                                     </v-expansion-panel>
                                     <!-- 클럽명 -->
@@ -268,7 +270,7 @@ export default {
             imageUrl : [],
             imageFile : [],
             cno : '',
-            cnamelist : [],
+            cnolist : [],
             cname : '',
             clublist : [],
             datechk: [],
@@ -322,8 +324,8 @@ export default {
             }
                 for(var i=0; i < state.items.length; i++){
                     state.clublist[i] = state.items[i].cname;
-                    state.cnamelist[i] = state.items[i].cname;
-                    console.log(state.cnamelist);
+                    state.cnolist[i] = state.items[i].cno;
+                    console.log(state.cnolist);
                     console.log(state.clublist);
                 }
                 console.log("sad",response.data.results.length);
@@ -332,7 +334,7 @@ export default {
         const handleCno = async() => {
             if(state.club !== ''){
 
-            const url = `/ROOT/club/cnamesearch?cname=${state.club}`;
+                const url = `/ROOT/club/cnosearch?cno=${state.club}`;
             const headers = {
                 "Content-Type" : "application/json"
             };

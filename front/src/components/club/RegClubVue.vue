@@ -381,11 +381,11 @@ export default {
             console.log(response.data);
             if(response.data.status === 200){
                 alert('사용할 수 있는 클럽명')
-                state.name = response.data.status
+                state.namecheck = response.data.status;
             }
             else{
                 alert('중복된 클럽명')
-                state.name = '';
+                state.namecheck = '';
             }
         }
 

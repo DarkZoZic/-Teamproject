@@ -169,7 +169,7 @@
                                         <v-col sm="3"></v-col>
 
                                         <v-col sm="6" class="col_center">
-                                            <img v-if="item.imgurl" :src="item.imgurl" @click="handlePage(item.obj.cno,idx)" style="height: 50px;"/>
+                                            <img v-if="item.imgurl" :src="item.imgurl" @click="handlePage(item.obj.cno,idx)" style="height: 50px; cursor: pointer;"/>
                                             <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.cno,idx)" style="height: 50px;"/>
                                         </v-col>
 
@@ -183,7 +183,7 @@
                                     
                                     <v-row dense>
                                         <v-col>
-                                            <h3>{{item.obj.cname}}</h3>
+                                            <h3 style="cursor: pointer;">{{item.obj.cname}}</h3>
                                         </v-col>
                                     </v-row>
 
