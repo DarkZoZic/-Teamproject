@@ -215,6 +215,53 @@ public class LikeRestController {
         }
         return map;
     }
+    // -- 찜하나 가져오기(클럽디테일) --
+    //127.0.0.1:9090/ROOT/api/like/likeone
+    @RequestMapping(value = "/likeone",
+                method = { RequestMethod.GET },
+                consumes = { MediaType.ALL_VALUE },
+                produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> likeoneGET(
+        @RequestParam (name = "cno")long cno, 
+        @RequestHeader (name = "token") String token ){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
+
+            // List<Like> like = lRepository.findByMember_mid(userid);
+            // System.out.println(like);
+
+            Member memberEntity = new Member();
+            memberEntity.setMid(userid);
+            System.out.println(memberEntity);
+            Like like = new Like();
+
+            like.setMember(memberEntity);
+            System.out.println(like.toString());
+
+            if(token !=null) {
+                LikeProjection like1 = lRepository.findByMember_midAndClub_CnoOrderByLnoDesc(userid,cno);
+                if(like1 == null){
+                map.put("status",0);
+                    
+                }
+                else{
+
+                    map.put("result",like1);
+                    map.put("status",200);
+                }
+
+                
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
 
 
     // -- 찜 1개 삭제 -- 

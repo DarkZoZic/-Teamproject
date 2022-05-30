@@ -44,12 +44,13 @@
                                 </v-btn>
                             </router-link>
                         </v-col>
-
-                        <v-col sm="1" style="vertical-align: middle;">
-                            <v-btn style="height: 100%; width: 100%;" id="like" @click="changeheart()">
-                                <img :src="require(`../../assets/img/${state.imgName}.png`)" style="width: 40px"/>
-                            </v-btn>
-                        </v-col>
+                        
+                         <v-col sm="1" class="col_right">
+                                            <v-btn style="height: 100%; width: 10px;" id="like"  @click="changeheart(state.items.club.cno)">
+                                                <img v-if="state.imgcheck === 0" :src="state.imgName" style="width: 40px"/>
+                                                <img v-if="state.imgcheck === 1" :src="state.imgName1" style="width: 40px"/>
+                                            </v-btn>
+                                        </v-col>
                     </v-row>
 
                     <v-row dense class="club_detail_box1" style="border: 3px solid;">
@@ -212,6 +213,7 @@ import HeaderVue    from '../HeaderVue.vue';
 import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import { onMounted } from '@vue/runtime-core';
+import { useStore } from "vuex";
 
 export default {
     components: { HeaderVue, FooterVue, MapVue },
@@ -219,6 +221,7 @@ export default {
         const route = useRoute();
         const router = useRouter();
         const state = reactive({
+            token : sessionStorage.getItem("TOKEN"),
             cno : route.query.cno,
             writeDate: '2022년 5월 2일',
             updateDate: '2022년 5월 5일',
@@ -234,7 +237,11 @@ export default {
             howmany: '0',
             addrname: '성찬미탁구클럽',
             addr1: '',
-            imgName: 'heart',
+            likecheck : [],
+            imgcheck : 0,
+            imgcheck1 : 1,
+            imgName: require(`../../assets/img/heart.png`),
+            imgName1: require(`../../assets/img/heart1.png`),
 
             manager: {
                 name: '김이박',
@@ -244,7 +251,7 @@ export default {
         });
 
         onMounted( () => {
-        handleData();
+        handleData(),Lkelist();
     
     })
 
@@ -254,25 +261,97 @@ export default {
             const response = await axios.get(url, {headers});
             console.log(response.data);
             if(response.data.status === 200){
-            state.items = response.data.result;
+                state.items = response.data.result;
             state.addr1 = state.items.club.caddress;
             console.log("====",state.items.club.caddress);
             }
-        }
-        const handleData2 = (a) => {
-                console.log(a);
-                state.addr1 = a.address1;
-        }
+            handleSend();
 
-        const changeheart = async() => {
-            if (state.imgName === 'heart') {
-                state.imgName = 'heart1'
-            } else {
-                state.imgName = 'heart'
+        }
+        const store = useStore();
+
+        const handleSend = () => {
+            console.log("--------------",state.addr1);
+            store.commit("setCounter", state.addr1);
+            console.log(state.addr1);
+        }
+        // const handleData2 = (a) => {
+        //         console.log(a);
+        //         state.addr1 = a.address1;
+        // }
+
+        const Lkelist = async() => {
+            const url = `/ROOT/api/like/likeone?cno=${state.cno}`;
+            const headers = {"Content-Type":"application.json",
+            token : state.token};
+            const response = await axios.get(url,{headers:headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+                console.log("이미 찜함");
+                state.items1 = response.data.result;
+                console.log(state.items1.clubCno);
+                state.imgcheck = 1;
+                console.log(state.imgcheck);
             }
+            else{
+                console.log("찜x");
+                state.imgcheck1 === 0;
+                console.log(state.imgcheck1);
+            }
+            // Lkelist1();
+              
+        }
+        // const Lkelist1 = async() => {
+        //     const url = `/ROOT/api/like/likeone?cno=${state.cno}`;
+        //     const headers = {"Content-Type":"application.json",
+        //     token : state.token};
+        //     const response = await axios.get(url,{headers:headers});
+        //     console.log(state.items1);
+        //     if(state.items1 === null){
+        //         state.
+        //     }
+           
+              
+        // }
+
+        const changeheart = async(cno) => {
+            console.log(state.items.club.cno);
+            console.log(cno);
+            const url =`/ROOT/api/like/insert`
+            const headers = {"Content-Type":"multipart/form-data",
+                            token : state.token};
+            const body = new FormData;
+            body.append("club", cno);
+            const response = await axios.post(url,body,{headers:headers});
+            console.log(response.data);
+                if(response.data.status === 200){
+                    console.log("찜하기성공");
+                    state.imgcheck = 1;
+                }
+                if(response.data.status === -1 ){
+                    console.log("찜하기 취소");
+                    state.imgcheck = 0;
+                    unlike(cno);
+                }
         };
+
+        const unlike = async(cno) => {
+            console.log("unlike", state.imgcheck);
+            const url = `/ROOT/api/like/deleteone`
+            const headers = {"Content-Type":"multipart/form-data",
+                            token : state.token};
+            const body = new FormData;
+            body.append("club", cno);   
+            const response = await axios.post(url, body, {headers:headers});
+            console.log(response.data);
+
+            if(response.data.status == 200){
+                // state.imgcheck === 0;
+                    // state.imgName = state.imaName1
+            }
+        }
         
-        return { state, changeheart,handleData2 }
+        return { state, changeheart,unlike }
     },
     data () {
         return {

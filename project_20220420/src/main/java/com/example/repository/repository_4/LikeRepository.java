@@ -29,6 +29,8 @@ public interface LikeRepository extends JpaRepository<Like, Long>{
 
     List<LikeProjection> findByMember_midOrderByLnoAsc(String mid);
 
+    LikeProjection findByMember_midAndClub_CnoOrderByLnoDesc(String mid, long cno);
+
 
     Long findByLno(Long[] lno);
 
