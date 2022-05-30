@@ -50,6 +50,7 @@
                                             
                                         </v-row>
                                     </v-expansion-panel>
+
                                     <!-- 클럽명 -->
                                     <v-expansion-panel class="panel">
                                         <v-row>
@@ -66,12 +67,12 @@
                                         </v-row>
                                     </v-expansion-panel>   
                                     
-
                                     <v-expansion-panel>
                                         <v-row dense>
                                             <v-col style="padding: 20px;">
                                                 <v-row dense>
                                                     <v-col sm="6" style="border-right: 1px solid #ccc;" class="col_center"><h4>성별</h4></v-col>
+
                                                     <v-col sm="6" class="col_center"><h4>연령</h4></v-col>
                                                 </v-row>
 
@@ -105,6 +106,7 @@
                                                         </v-row>
                                                     </v-col>
                                                 </v-row>
+
                                                 <v-row dense>
                                                     <v-col class="col_center">
                                                         <v-btn class="club_list_btn" @click="reset()"><h4>초기화</h4></v-btn>
@@ -120,6 +122,7 @@
                                             <v-col style="padding: 20px;">
                                                 <v-row dense>
                                                     <v-col sm="6" style="border-right: 1px solid #ccc;" class="col_center"><h4>요일</h4></v-col>
+
                                                     <v-col sm="6" class="col_center"><h4>시간</h4></v-col>
                                                 </v-row>
 
@@ -162,6 +165,7 @@
                                                             </v-col>
                                                         </v-row>
                                                     </v-col>
+
                                                     <v-row dense>
                                                         <v-col class="col_center">
                                                             <v-btn class="club_list_btn" @click="reset()"><h4>초기화</h4></v-btn>
@@ -229,7 +233,6 @@
 
                         <v-col sm="4"></v-col>
                     </v-row>
-
                 </v-col>
 
                 <!-- 사이드 -->
@@ -258,43 +261,41 @@ export default {
     setup () {
 
         onMounted(() => {
-                handleData();
+            handleData();
         })
 
         const router = useRouter();
 
         const state = reactive({
-            zero : 0,
-            cdno  : '',
-            imageUrl : [],
+            zero      : 0,
+            cdno      : '',
+            imageUrl  : [],
             imageFile : [],
-            cno : '',
+            cno       : '',
             cnamelist : [],
-            cname : '',
-            clublist : [],
-            datechk: [],
-            timechk: [],
-            gender : [],
-            age    : [],
-            enddate: '',
-            name          : '클럽이름',
-            area          : '',
-            editor     : ClassicEditor, // ckeditor종류
-            editorData : "미리 추가되는 내용",
-            token      : sessionStorage.getItem("TOKEN"),
+            cname     : '',
+            clublist  : [],
+            datechk   : [],
+            timechk   : [],
+            gender    : [],
+            age       : [],
+            enddate   : '',
+            name      : '클럽이름',
+            area      : '',
+            editor    : ClassicEditor, // ckeditor종류
+            editorData: "미리 추가되는 내용",
+            token     : sessionStorage.getItem("TOKEN"),
+            club      : '',
 
-            club: '',
             nameRules: [
                 v => !!v || '필수 입력 사항입니다',
                 v => !/[~!@#$%^&*()_+|<>?:{}]/.test(v) || '이름에는 특수문자를 사용할 수 없습니다'
             ],
-            valid: '',
         })
 
         const handleImage = (e) => {
             console.log(e.target.files.length);
-            if(e.target.files.length > 0)
-            {
+            if(e.target.files.length > 0){
                 for(let i=0; i<e.target.files.length; i++)
                 {
                     state.imageUrl[i] = URL.createObjectURL(e.target.files[i]);
@@ -306,14 +307,11 @@ export default {
                 state.imageUrl = null;
                 state.imageFile = null;
             }
-    }
+        }
 
         const handleData = async() => {
-            const url = `/ROOT/combineview/comclub`;
-            const headers = {
-                "Content-Type" : "application/json",
-                "token"        : state.token,
-            };
+            const url      = `/ROOT/combineview/comclub`;
+            const headers  = { "Content-Type" : "application/json", token: state.token };
             const response = await axios.get(url,{headers:headers});
             console.log(response.data);
             if(response.data.status === 200){
@@ -321,41 +319,34 @@ export default {
                 console.log(response.data.results[2].cname);
                 // state.club = response.data.results.length;
             }
-                for(var i=0; i < state.items.length; i++){
-                    state.clublist[i] = state.items[i].cname;
-                    state.cnamelist[i] = state.items[i].cname;
-                    console.log(state.cnamelist);
-                    console.log(state.clublist);
-                }
-                console.log("sad",response.data.results.length);
+
+            for(var i=0; i < state.items.length; i++){
+                state.clublist[i]  = state.items[i].cname;
+                state.cnamelist[i] = state.items[i].cname;
+                console.log(state.cnamelist);
+                console.log(state.clublist);
+            }
+            console.log("sad",response.data.results.length);
 
         }
         const handleCno = async() => {
             if(state.club !== ''){
-
-            const url = `/ROOT/club/cnamesearch?cname=${state.club}`;
-            const headers = {
-                "Content-Type" : "application/json"
-            };
-            const response = await axios.get(url,{headers:headers});
-            console.log(response.data);
-            if(response.data.status === 200){
-                state.cno = response.data.result.cno;
-              console.log(state.cno);
-            }
-
+                const url      = `/ROOT/club/cnamesearch?cname=${state.club}`;
+                const headers  = { "Content-Type": "application/json" };
+                const response = await axios.get(url, { headers: headers });
+                console.log(response.data);
+                if(response.data.status === 200){
+                    state.cno = response.data.result.cno;
+                    console.log(state.cno);
                 }
+            }
         }
 
 
         const handleReg = async() => {
-            const url = `/ROOT/club/noticeinsert`;
-            const headers = {
-                "Content-Type" : "application/json",
-                "token"        : state.token,
-            };
-            
-            const body= new FormData();
+            const url      = `/ROOT/club/noticeinsert`;
+            const headers  = { "Content-Type": "application/json", token: state.token };
+            const body     = new FormData();
             body.append("cdtitle",   state.cname);
             body.append("cdcontent", state.editorData);
             body.append("enddate",   state.enddate);
@@ -364,28 +355,25 @@ export default {
             body.append("date",      state.datechk);
             body.append("time",      state.timechk);
             body.append("club",      state.cno);
-                
             const response = await axios.post(url, body, {headers});
             console.log(response.data);
+
             if(response.data.status === 200){
-            console.log(response.data.result);
-            hanldcdno();
-
-                // alert('등록완료');as
-                // router.push({name: 'ClubListVue'});
+                console.log(response.data.result);
+                hanldcdno();
             }
-
         };
 
         
 
         const hanldcdno = async() => {
-            const url = `/ROOT/clubdetail/selectcno?cno=${state.cno}`;
-            const headers = {"Content-Type" : "application/json"};
-            const response = await axios.get(url,{headers:headers});
+            const url      = `/ROOT/clubdetail/selectcno?cno=${state.cno}`;
+            const headers  = { "Content-Type": "application/json" };
+            const response = await axios.get(url, { headers: headers });
             console.log(response.data);
+
             if(response.data.status === 200){
-                console.log("hanldcdnohanldcdno",response.data.result.cdno);
+                console.log("hanldcdnohanldcdno", response.data.result.cdno);
                 state.cdno = response.data.result.cdno;
                 handlecdimage();
             }
@@ -393,22 +381,19 @@ export default {
         };
 
         const handlecdimage = async() => {
-            console.log("ssssssss",state.cdno);
-            const url = `/ROOT/clubdetail/cdimage`;
-            const headers = {"Content-Type" : "multipart/form-data"};
-            const body= new FormData();
-            body.append("clubDetail",  state.cdno);
-            for(let i=0; i<state.imageFile.length; i++)
-            {
+            const url     = `/ROOT/clubdetail/cdimage`;
+            const headers = { "Content-Type": "multipart/form-data" };
+            const body    = new FormData();
+            body.append("clubDetail", state.cdno);
+            for(let i = 0; i < state.imageFile.length; i++) {
                 body.append("file", state.imageFile[i]);
             }
-            const response = await axios.post(url, body, {headers});
+            const response = await axios.post(url, body, { headers });
             console.log(response.data);
             if(response.data.status !== null){
                 alert('등록완료');
-                router.push({name: 'ClubListVue'});
+                router.push({ name: 'ClubListVue' });
             }
-
         };
 
         const reset = async() => {
@@ -418,12 +403,12 @@ export default {
 
         const onReady = ( editor ) => {
             console.log(editor);
-            editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-                return new UploadAdapter( loader );
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                return new UploadAdapter(loader);
             };
             
-            editor.editing.view.change( writer => {
-                writer.setStyle( 'height', '600px', editor.editing.view.document.getRoot() );
+            editor.editing.view.change(writer => {
+                writer.setStyle('height', '600px', editor.editing.view.document.getRoot());
             });
             console.log(editor.editing.view);
         }

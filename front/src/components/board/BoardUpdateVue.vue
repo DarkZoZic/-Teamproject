@@ -73,7 +73,6 @@
 
                                         <!-- 글쓰기버튼 -->
                                         <v-expansion-panel class="panel">
-
                                             <v-row dense style="padding:10px; ">
                                                 <v-col sm="4"></v-col>
 
@@ -125,7 +124,7 @@ export default {
         const router = useRouter();
 
         const state = reactive({
-            bno : route.query.bno,
+            bno        : route.query.bno,
             mid        : '',
             btitle     : '',
             bcontent   : '',
@@ -137,57 +136,53 @@ export default {
         })
 
         const handleData = async() => {
-            const url = `/ROOT/api/board1/selectone?bno=${state.bno}`;
-            const headers = {"Content-Type":"application/json",
-                            "token" : state.token };
+            const url      = `/ROOT/api/board1/selectone?bno=${state.bno}`;
+            const headers  = { "Content-Type": "application/json", "token": state.token };
             const response = await axios.get(url, {headers});
             console.log(response.data);
+
             if(response.data.status === 200){
                 console.log(response.data.result);
                 state.valid = response.data.result;
                 // console.log(state.item);
-               
             }
         }
         
 
         const handleUpdate = async() => {
-            const url = `/ROOT/api/board1/update`;
-            const headers = {
-                "Content-Type" : "application/json",
-                "token"        : state.token,
-            };
-            const body= new FormData();
-            body.append("member", state.valid.mid);
-            body.append("bno", state.valid.bno);
-            body.append("btitle", state.valid.btitle);
+            const url      = `/ROOT/api/board1/update`;
+            const headers  = { "Content-Type" :"application/json", "token": state.token };
+            const body     = new FormData();
+            body.append("member"  , state.valid.mid);
+            body.append("bno"     , state.valid.bno);
+            body.append("btitle"  , state.valid.btitle);
             body.append("bcontent", state.valid.bcontent);
-            body.append("btype", state.valid.btype);
+            body.append("btype"   , state.valid.btype);
 
             const response = await axios.put(url, body, {headers});
             console.log(response.data);
             if(response.data.status === 200){
                 alert('수정완료');
                 // 원래 게시글로 돌아가야 함
-               router.push({name:'BoardListVue'});
+                router.push({ name: 'BoardListVue' });
             }
 
         }
 
         const handleCancel = async() => {
-            if (confirm('정말 취소하시겠습니까?') == true) {
+            if(confirm('정말 취소하시겠습니까?') == true) {
                 router.push({ name: "BoardListVue"});
             }
         }
 
-        const onReady = ( editor ) => {
-            console.log(editor);
-            editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-                return new UploadAdapter( loader );
+        const onReady = (editor) => {
+            console.log("ckeditor ==> ", editor);
+            editor.plugins.get( 'FileRepository' ).createUploadAdapter = (loader) => {
+                return new UploadAdapter(loader);
             };
             
             editor.editing.view.change( writer => {
-                writer.setStyle( 'height', '600px', editor.editing.view.document.getRoot() );
+                writer.setStyle('height', '600px', editor.editing.view.document.getRoot());
             });
             console.log(editor.editing.view);
         }
@@ -195,7 +190,6 @@ export default {
 
         onMounted( async() => {
             await handleData();
-        
         })
 
         return { state, onReady, handleCancel, handleUpdate }

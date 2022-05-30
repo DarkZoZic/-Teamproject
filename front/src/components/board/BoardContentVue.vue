@@ -39,24 +39,8 @@
 
           <v-row dense>
             <v-col class="col_pad20">
-            
-              <div v-html="state.items.bcontent">
-              </div>
+              <div v-html="state.items.bcontent"></div>
             </v-col>
-
-            <!-- <v-col style="width: 100%; height: 165px;" class="col_center">
-              <img  :src="state.items.bimageurl"  style="width: 160px; border: 1px solid #CCC;"/>
-            </v-col> -->
-<!-- 
-            <v-col class="col_center" style="padding: 20px;" v-for="tmp in state.imageurl" :key="tmp">   
-              <img :src="tmp" style="height: 600px;  padding: 5px; border: 1px solid #CCC;"/>
-            </v-col> -->
-
-            <!-- <v-row dense>
-              <v-col style="width: 100%; height: 165px;" class="col_center">
-                  <img :src="state.bimageurl"  style="width: 160px; border: 1px solid #CCC;"/>
-              </v-col>
-            </v-row> -->
           </v-row>
 
           <v-row dense class="border-b_1_CCC">
@@ -85,6 +69,7 @@
             </v-col>
           </v-row>
 
+          <!-- 내용 -->
           <v-row dense>
             <v-col class="row_bwrite11">
               <h2>{{state.recontent}}</h2>
@@ -127,9 +112,7 @@
                     <div v-if="tmp.reparentnumber !== 0" >
                       <img :src="require('../../assets/img/reply.png')" style="margin-top: 5px; margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
                     </div>
-                    <v-col class="col_left">
-                      <!-- id가 아니라 닉네임이 나와야 함 <= 바꿈 -->
-                      
+                    <v-col class="col_left">                      
                       <h5 style="padding-right: 10px;">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5> 
                       <h5 style="color: gray;">{{tmp.reregdate1}}</h5>
                       <img :src="require('../../assets/img/thumb.png')" @click="replylike()" style="width: 15px; margin-left: 10px; cursor: pointer; " />
@@ -147,6 +130,7 @@
                           style="background-color: white; resize: none; border: 1px solid #CCC; border-radius: 5px; padding: 10px; width: 900px;"></textarea>
                       </div>
                     </v-col>
+
                     <v-col class="col_center" v-if="state.reply1.reupdate[idx]">
                       <!-- 댓글수정버튼 -->
                       <v-btn style="height: 68px; margin-right: 10px;" @click="handleReplyUpdate(idx)"><h4>취소</h4></v-btn>
@@ -165,13 +149,12 @@
                               <h5 v-if="!state.reply1.reupdate[idx]" @click="handleReplyUpdate(idx)" style="padding-left: 10px; color: gray; cursor: pointer;">수정</h5>
                               <h5 @click="handleReplyDelete(tmp.renumber, idx)" style="padding-left: 10px; color: gray; cursor: pointer;">삭제</h5>
                             </v-col>
+
                             <v-col class="col_left" >
                             <h5 @click="clickReply(idx)" style="color: gray; cursor: pointer;">답댓글</h5>
                             </v-col>
                           </v-row>
                           
-                               
-
                           <!-- 답댓글 -->
                           <v-row dense v-if="state.reply1.clickReply[idx]">
                             <v-col sm="11" style="padding-top: 10px;">
@@ -185,7 +168,6 @@
                               <v-btn style="width: 100%; height: 70px; border: 1px solid #CCC;" @click="handleReplyAdd(tmp.renumber, idx)"><h4>댓글작성</h4></v-btn>
                             </v-col>
                           </v-row>
-
                         </v-col>
                       </v-row>
 
@@ -229,7 +211,6 @@
                 <v-btn class="col_center"><img :src="require('../../assets/img/pencil.png')" style="width: 20px; margin-right: 3px;"/><h4>글쓰기</h4></v-btn>
               </router-link>
             </v-col>
-
           </v-row>
         </v-col>
 
@@ -261,7 +242,6 @@ export default {
       await handleReplyView();
       await date();
       await likecount();
-    
     })
 
     const date = () => {
@@ -277,53 +257,52 @@ export default {
     const router = useRouter();
 
     const state = reactive({
-      bno : route.query.bno,
-      btitle: '',
-      mid: '',
-      bhit: 0,
-      blike: 0,
-      bcontent: '',
-      bregdate: '',
-      likeimage : require('../../assets/img/thumb.png'),
-      bimageurl : '',
-      token  : sessionStorage.getItem("TOKEN"),
-      mid1 : sessionStorage.getItem("MID"),
-      liked : true,
-      items : '',
-      item : '',
-      rno : [],
-
-      reply1 : {
-        mid : '',
-        renumber : 0,
-        recontent : '',
-        reparentnumber : 0,
-        reprivate : 'n',
-        reregdate : '',
-        reregdate1 : '',
-        reupdatedate : '',
-        reupdate: [],
-        clickReply: [],
-        rerecontent: '',
-      },
-      
+      bno      : route.query.bno,
+      btitle   : '',
+      mid      : '',
+      bhit     : 0,
+      blike    : 0,
+      bcontent : '',
+      bregdate : '',
+      likeimage: require('../../assets/img/thumb.png'),
+      bimageurl: '',
+      token    : sessionStorage.getItem("TOKEN"),
+      mid1     : sessionStorage.getItem("MID"),
+      liked    : true,
+      items    : '',
+      item     : '',
+      rno      : [],
       replylist: [],
       page: 1,
       nick : '',
-      replynicklist : []
+      replynicklist : [],
+
+      reply1   : {
+        mid           : '',
+        renumber      : 0,
+        recontent     : '',
+        reparentnumber: 0,
+        reprivate     : 'n',
+        reregdate     : '',
+        reregdate1    : '',
+        reupdatedate  : '',
+        reupdate      : [],
+        clickReply    : [],
+        rerecontent   : '',
+      },
     })
 
     const handleData = async() => {
-      const url = `/ROOT/api/board1/selectone?bno=${state.bno}`;
-      const headers = {"Content-Type":"application/json",
-                      "token" : state.token };
+      const url      = `/ROOT/api/board1/selectone?bno=${state.bno}`;
+      const headers  = {"Content-Type": "application/json", "token": state.token };
       const response = await axios.get(url, {headers});
       // console.log(response.data);
+
       if(response.data.status === 200){
-        state.items = response.data.result;
+        state.items      = response.data.result;
         state.items.prev = response.data.prev;
         state.items.next = response.data.next;
-        state.nick = response.data.nick.mpnickname;
+        state.nick       = response.data.nick.mpnickname;
         console.log(state.items);
       }
     }
@@ -350,64 +329,56 @@ export default {
 
     //글 삭제
     const handleDelete = async() => {
-      if(confirm('삭제?')){
-        const url = `/ROOT/api/board1/delete1?bno=${state.bno}`;
-        const headers = {
-          "Content-Type":"application/json",
-          "token" : state.token 
-        };
-        const response = await axios.delete(url, {headers:headers, data:{}});
+      if(confirm('삭제하시겠습니까?')){
+        const url      = `/ROOT/api/board1/delete1?bno=${state.bno}`;
+        const headers  = { "Content-Type": "application/json", "token": state.token };
+        const response = await axios.delete(url, { headers: headers, data: {} });
         console.log(response.data);
+
         if(response.data.status === 200){
-            alert('삭제되었습니다.');
-            router.push({name:"BoardListVue"})
+          alert('삭제되었습니다.');
+          router.push({ name: "BoardListVue" })
         }
       }    
     }
 
     const handleUpdate = async() => {
       if (confirm('수정하시겠습니까?')) {
-        router.push({name:"BoardUpdateVue", query : {bno : state.bno }})
+        router.push({ name: "BoardUpdateVue", query: { bno: state.bno } })
       }
     }
 
     // 게시글 좋아요 
     const like = async() => {
-      const url = `/ROOT/reaction/like.json`;
-      const headers = {
-        "Content-Type":"application/json",
-        "token" : state.token };
-      const body = new FormData;
-      body.append("board",state.bno);
-      body.append("member",state.mid1);
+      const url      = `/ROOT/reaction/like.json`;
+      const headers  = { "Content-Type": "application/json", "token": state.token };
+      const body     = new FormData;
+      body.append("board", state.bno);
+      body.append("member", state.mid1);
       const response = await axios.post(url, body,{headers});
       // console.log(response.data);
       if(response.data.status === 200){ // 좋아요 성공
-        alert('좋아요 성공');
         await like();
         // await handleData(state.bno);
       }
+
       else if(response.data.status === -1){ // 좋아요 취소
-        const url = `/ROOT/reaction/unlike.json?bno=${state.bno}`;
-        const headers = {
-          "Content-Type" : "application/json",
-          "token" : state.token };
-        const response = await axios.delete(url, {headers:headers, data:{}});
+        const url      = `/ROOT/reaction/unlike.json?bno=${state.bno}`;
+        const headers  = { "Content-Type": "application/json", "token": state.token };
+        const response = await axios.delete(url, { headers: headers, data: {} });
         // console.log(response.data);
         if(response.data.status === 200){
           alert('좋아요 취소');
           // await like();
           await handleData(state.bno);
         }
-
       }
-      
     }
 
     // 게시글 좋아요 개수 조회
     const likecount = async() => {
-      const url = `/ROOT/reaction/likelist.json?bno=${state.bno}`;
-      const headers = {"Content-Type":"application/json"};
+      const url      = `/ROOT/reaction/likelist.json?bno=${state.bno}`;
+      const headers  = { "Content-Type": "application/json" };
       const response = await axios.get(url, {headers});
       console.log(response.data);
       if(response.data.status === 200){
@@ -418,17 +389,15 @@ export default {
 
     // 댓글 좋아요 등록
     const replylike = async() => {
-      const url = `/ROOT/reaction/relike.json`;
-      const headers = {
-        "Content-Type":"application/json",
-        "token" : state.token };
-      const body = new FormData;
-      body.append("creply",state.reply1.renumber);
-      body.append("member",state.mid1);
+      const url     = `/ROOT/reaction/relike.json`;
+      const headers = { "Content-Type": "application/json", "token": state.token };
+      const body    = new FormData;
+      body.append("creply", state.reply1.renumber);
+      body.append("member", state.mid1);
       const response = await axios.post(url, body,{headers});
       // console.log(response.data);
+
       if(response.data.status === 200){ // 좋아요 성공
-        alert('좋아요 성공');
         await like();
         // await handleData(state.bno);
       }
@@ -437,17 +406,17 @@ export default {
 
     // 댓글조회
     const handleReplyView = async() => {
-
-      const url = `/ROOT/api/creply/board_selectone?bno=${state.bno}`;
-      const headers = {"Content-Type":"application/json",
-                      "token" : state.token };
-      const response = await axios.get(url, {headers});
+      const url      = `/ROOT/api/creply/board_selectone?bno=${state.bno}`;
+      const headers  = { "Content-Type": "application/json", "token": state.token };
+      const response = await axios.get(url, { headers });
       console.log(response.data);
+
       if(response.data.status === 200){
-        state.replylist = response.data.result;
+        state.replylist     = response.data.result;
         state.replynicklist = response.data.replynicklist;
         console.log(state.replylist)
-        for(i=0; i<state.replylist.length; i++){
+
+        for(i = 0; i < state.replylist.length; i++){
           state.reply1.reupdate.push(false);
           state.reply1.clickReply.push(false);
         }
@@ -461,31 +430,32 @@ export default {
         // console.log(state.items);
         // state.reply = response.data.result;
       }
-        // handledata가 출력되고 나서 ..
-        for(var i = 0; i<state.replylist.length; i++){
-          date1(i);
-        }
+
+      // handledata가 출력되고 나서 날짜
+      for(var i = 0; i<state.replylist.length; i++){
+        date1(i);
+      }
     }
 
     // 댓글 등록하기
     const handleReplyInsert = async() => {
-      const url = `/ROOT/api/creply/board_insert`;
-      const headers = {"Content-Type":"application/json",
-                      "token" : state.token };
-      const body = {
-        mid : state.mid,
-        board1 : {bno : state.bno },
-        recontent : state.reply1.recontent,
-        reparentnumber : state.reply1.reparentnumber,
-        reprivate : state.reply1.reprivate,
+      const url     = `/ROOT/api/creply/board_insert`;
+      const headers = { "Content-Type": "application/json", "token": state.token };
+      const body    = {
+        mid           : state.mid,
+        board1        : { bno: state.bno },
+        recontent     : state.reply1.recontent,
+        reparentnumber: state.reply1.reparentnumber,
+        reprivate     : state.reply1.reprivate,
       };
       const response = await axios.post(url, body,{headers});
       console.log(response.data);
+
       if(response.data.status === 200){
         alert('댓글 등록 완료');
         // await handleData(state.bno);
         await handleReplyView(state.bno);
-        state.reply1.recontent="";
+        state.reply1.recontent = "";
 
         // await handleReplyView(state.bno);
         // this.router.go(this.router.currentRoute);
@@ -498,7 +468,6 @@ export default {
 
     // 답댓글 버튼 클릭
     const clickReply = (idx) => {
-
       if(state.reply1.clickReply[idx] == false) {
         state.reply1.clickReply[idx] = true;
       } 
@@ -509,15 +478,14 @@ export default {
 
     // 답댓글 등록 
     const handleReplyAdd = async(no, idx) => {
-      const url = `/ROOT/api/creply/board_insert`;
-      const headers = {"Content-Type":"application/json",
-                      "token" : state.token };
+      const url     = `/ROOT/api/creply/board_insert`;
+      const headers = { "Content-Type": "application/json", "token" : state.token };
       const body = {
         mid : state.mid,
-        board1 : {bno : state.bno },
-        recontent : state.reply1.rerecontent,
-        reparentnumber : no,
-        reprivate : state.reply1.reprivate,
+        board1        : { bno :state.bno },
+        recontent     : state.reply1.rerecontent,
+        reparentnumber: no,
+        reprivate     : state.reply1.reprivate,
       };
       const response = await axios.post(url, body,{headers});
       console.log(response.data);
@@ -526,19 +494,9 @@ export default {
       
         await handleData(state.bno);
         await handleReplyView(state.bno);
-        state.reply1.rerecontent="";
+        state.reply1.rerecontent     = "";
         state.reply1.clickReply[idx] = false;
-
-
-
-        // await handleReplyView(state.bno);
-        // this.router.go(this.router.currentRoute);
-
-        // this.router.push(this.router.currentRoute);
-        // state.items = response.data.result;
-        // console.log(state.items);
       }
-
     }
 
     // 댓글 수정 handleReUpdate
@@ -569,7 +527,6 @@ export default {
         // state.items = response.data.result;
         // console.log(state.items);
       // }
-
     }
 
 
@@ -578,17 +535,10 @@ export default {
       console.log(state.reply1.reupdate[idx]);
       if(state.reply1.reupdate[idx] == false) {
         state.reply1.reupdate[idx] = true;
-        
       }
       else if(state.reply1.reupdate[idx] == true) {
         state.reply1.reupdate[idx] = false;
       }
-
-
-
-
-
-
 
       // const url = `/ROOT/api/creply/board_update`;
       // const headers = {
@@ -609,24 +559,20 @@ export default {
       //     // 원래 게시글로 돌아가야 함
       //     router.push({name:'BoardListVue'});
       // }
-
     }
 
     // 댓글 삭제
     const handleReplyDelete = async(no) => {
       if(confirm('삭제하시겠습니까?')){
-        const url = `/ROOT/api/creply/board_delete?renumber=${no}`;
-        const headers = {
-          "Content-Type":"application/json",
-          "token" : state.token 
-        };
-        const response = await axios.delete(url, {headers:headers, data:{}});
+        const url      = `/ROOT/api/creply/board_delete?renumber=${no}`;
+        const headers  = { "Content-Type": "application/json", "token": state.token };
+        const response = await axios.delete(url, { headers: headers, data: {} });
         console.log(response.data);
+
         if(response.data.status === 200){
             alert('삭제되었습니다.');
-            // 새로고침!!!!!
             handleReplyView();
-            router.push({name:"BoardContentVue", query : {bno : state.bno}})
+            router.push({ name: "BoardContentVue", query: { bno: state.bno } })
         }
       }
     }
@@ -634,37 +580,50 @@ export default {
     // 이전글, 다음글 메소드 생성
     const handlePage = async(idx) => {
       if(idx === 1){ // 이전글
-        const url = `/ROOT/api/board1/prev?bno=${state.bno}`;
-        const headers = {"Content-Type":"application/json",
-                      "token" : state.token };
+        const url      = `/ROOT/api/board1/prev?bno=${state.bno}`;
+        const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.get(url, {headers});
         console.log(response.data);
+        
         if(response.data.status === 200){
-          router.push({name:"BoardContentVue", query : {bno : state.items.prev}});
+          router.push({ name: "BoardContentVue", query: { bno: state.items.prev } });
           state.bno = state.items.prev;
           await handleData();
           await handleReplyView();
         }
-       
       }
+
       else if(idx === 2){ // 다음글
-        const url = `/ROOT/api/board1/next?bno=${state.bno}`;
-        const headers = {"Content-Type":"application/json",
-                      "token" : state.token };
+        const url      = `/ROOT/api/board1/next?bno=${state.bno}`;
+        const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.get(url, {headers});
         console.log(response.data);
+
         if(response.data.status === 200){
-          router.push({name:"BoardContentVue", query : {bno : state.items.next}});
+          router.push({ name: "BoardContentVue", query: { bno: state.items.next } });
           state.bno = state.items.next;
           await handleData();
           await handleReplyView();
         }
-
       }
     }
 
-    return { state, date1, date, like, handleUpdate, handleDelete, replylike, handleReplyInsert, 
-    handleReplyAdd, handlePage, handleReplyUpdate, handleReplyDelete, handleReUpdate, clickReply }
+    return { 
+      state, 
+      date1, 
+      date, 
+      like, 
+      handleUpdate, 
+      handleDelete, 
+      handleReplyInsert, 
+      handleReplyAdd, 
+      handlePage, 
+      handleReplyUpdate, 
+      handleReplyDelete,
+      handleReUpdate, 
+      clickReply,
+      replylike, 
+    }
   }
 }
 </script>

@@ -10,7 +10,8 @@
                     <v-row dense="" style="padding-bottom: 4px;">
                         <v-col sm="6">
                             <h5><router-link to="/">홈</router-link> > <router-link to="/cdetail">클럽목록</router-link> > 상세정보</h5>
-                        </v-col>                      
+                        </v-col>
+
                         <v-col class="col_right">
                             <h5>등록일: {{state.items.regdate}}, 수정일: {{state.updateDate}}</h5>
                         </v-col>
@@ -18,15 +19,17 @@
 
                     <v-row dense class="club_detail_box2" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="7">
-                            <v-row dense="">
+                            <v-row dense>
                                 <v-col sm="6">
                                     <h4>{{state.items.club.cname}}</h4>
                                 </v-col>
+
                                 <v-col sm="6" class="col_right">
                                     <h4>({{state.now}}/{{state.limit}})</h4>
-                                </v-col>                                
+                                </v-col>
                             </v-row>
-                            <v-row dense="">
+
+                            <v-row dense>
                                 <v-col>
                                     <h2>{{state.items.cdtitle}}</h2>
                                 </v-col>
@@ -60,12 +63,8 @@
                                 <v-row dense style="padding-bottom: 10px; border-bottom: 1px solid #CCC;">
                                     <v-col sm="6">
                                         <v-carousel cycle hide-delimiters show-arrows="hover" style="height:120px;"> 
-                                            <v-carousel-item
-                                            v-for="(item,i) in items"
-                                            :key="i"
-                                            :src="item.src"
-                                            cover                                            
-                                            ></v-carousel-item>
+                                            <v-carousel-item v-for="(item,i) in items" 
+                                            :key="i" :src="item.src" cover></v-carousel-item>
                                         </v-carousel>
                                     </v-col>
 
@@ -75,6 +74,7 @@
                                                 <img :src="require('../../assets/img/calendar_icon.png')" style="width: 50px;"/>
                                             </v-col>
                                         </v-row>
+
                                         <v-row dense>
                                             <v-col class="col_center" style="padding-left: 10px;">
                                                 <h4>{{state.items.date}}</h4>
@@ -88,6 +88,7 @@
                                                 <img :src="require('../../assets/img/clock_icon.png')" style="width: 50px;"/>
                                             </v-col>
                                         </v-row>
+
                                         <v-row dense>
                                             <v-col class="col_center" style="padding-right: 10px;">
                                                 <h4>{{state.items.time}}</h4>
@@ -128,11 +129,13 @@
                                         <h4 style="padding-left: 15px;">{{state.items.regdate}} ~ {{state.items.enddate}}</h4>
                                     </v-col>
                                 </v-row>
+                                
                                 <v-row dense style="padding: 10px;" >
                                     <v-col>
                                         <h3>클럽담당자정보</h3>
                                     </v-col>
                                 </v-row>
+
                                 <v-row dense>
                                     <v-col sm="3" style="padding-left: 15px;"> 
                                         <v-row dense>
@@ -143,6 +146,7 @@
                                             </v-col>
                                         </v-row>
                                     </v-col>
+
                                     <v-col sm="9">
                                         <v-row dense>
                                             <v-col>
@@ -221,55 +225,54 @@ export default {
         const route = useRoute();
         const router = useRouter();
         const state = reactive({
-            cdno : '',
+            cdno     : '',
             token : sessionStorage.getItem("TOKEN"),
-            cno : route.query.cno,
-            writeDate: '2022년 5월 2일',
+            cno       : route.query.cno,
+            writeDate : '2022년 5월 2일',
             updateDate: '2022년 5월 5일',
-            endDate: '2022년 5월 27일',
-            clubname: '삥뽕탁구클럽',
-            title: '함께 탁구 칠 삥뽕러 모두 모여랏! XD',
-            now: 10,
-            limit: 50,
-            date: '주말',
-            time: '종일',
-            gender: '성별무관',
-            age: '20세 이상(2003년생 ~)',
-            howmany: '0',
-            addrname: '성찬미탁구클럽',
-            addr1: '',
+            endDate   : '2022년 5월 27일',
+            clubname  : '삥뽕탁구클럽',
+            title     : '함께 탁구 칠 삥뽕러 모두 모여랏! XD',
+            now       : 10,
+            limit     : 50,
+            date      : '주말',
+            time      : '종일',
+            gender    : '성별무관',
+            age       : '20세 이상(2003년생 ~)',
+            howmany   : '0',
+            addrname  : '성찬미탁구클럽',
+            addr1     : '',
             likecheck : [],
-            imgcheck : 0,
+            imgcheck  : 0,
             imgcheck1 : 1,
-            imgName: require(`../../assets/img/heart.png`),
-            imgName1: require(`../../assets/img/heart1.png`),
+            imgName   : require(`../../assets/img/heart.png`),
+            imgName1  : require(`../../assets/img/heart1.png`),
 
             manager: {
-                name: '김이박',
+                name  : '김이박',
                 number: '010-4444-78941',
-                email: 'a@c.com'
+                email : 'a@c.com'
             }
         });
 
         onMounted( () => {
-        handleData(),Lkelist();
-    
-    })
+            handleData(), Likelist();
+        })
 
         const handleData = async() => {
-            const url = `/ROOT/clubdetail/selectcno?cno=${state.cno}`;
-            const headers = {"Content-Type":"application/json"};
+            const url      = `/ROOT/clubdetail/selectcno?cno=${state.cno}`;
+            const headers  = { "Content-Type": "application/json" };
             const response = await axios.get(url, {headers});
             console.log(response.data);
+
             if(response.data.status === 200){
                 state.items = response.data.result;
-                state.cdno = response.data.result.cdno;
-            state.addr1 = state.items.club.caddress;
-            console.log("====",state.items.club.caddress);
-            console.log(state.cdno);
+                state.cdno  = response.data.result.cdno;
+                state.addr1 = state.items.club.caddress;
+                console.log("====",state.items.club.caddress);
+                console.log(state.cdno);
             }
             handleSend();
-
         }
         // const Cdimage = async() => {
         //     const url = `/ROOT/clubdetail/selectcno?cno=${state.cdno}`;
@@ -295,14 +298,14 @@ export default {
         //         state.addr1 = a.address1;
         // }
 
-        const Lkelist = async() => {
-            const url = `/ROOT/api/like/likeone?cno=${state.cno}`;
-            const headers = {"Content-Type":"application.json",
-            token : state.token};
+        const Likelist = async() => {
+            const url     = `/ROOT/api/like/likeone?cno=${state.cno}`;
+            const headers = { "Content-Type": "application.json", "token": state.token };
             const response = await axios.get(url,{headers:headers});
             console.log(response.data);
+
             if(response.data.status === 200){
-                console.log("이미 찜함");
+                console.log("찜");
                 state.items1 = response.data.result;
                 console.log(state.items1.clubCno);
                 state.imgcheck = 1;
@@ -313,10 +316,8 @@ export default {
                 state.imgcheck1 === 0;
                 console.log(state.imgcheck1);
             }
-            // Lkelist1();
-              
         }
-        // const Lkelist1 = async() => {
+        // const Likelist1 = async() => {
         //     const url = `/ROOT/api/like/likeone?cno=${state.cno}`;
         //     const headers = {"Content-Type":"application.json",
         //     token : state.token};
@@ -325,37 +326,34 @@ export default {
         //     if(state.items1 === null){
         //         state.
         //     }
-           
-              
         // }
 
         const changeheart = async(cno) => {
             console.log(state.items.club.cno);
             console.log(cno);
-            const url =`/ROOT/api/like/insert`
-            const headers = {"Content-Type":"multipart/form-data",
-                            token : state.token};
-            const body = new FormData;
+            const url     =`/ROOT/api/like/insert`
+            const headers = { "Content-Type": "multipart/form-data", "token": state.token };
+            const body    = new FormData;
             body.append("club", cno);
             const response = await axios.post(url,body,{headers:headers});
             console.log(response.data);
-                if(response.data.status === 200){
-                    console.log("찜하기성공");
-                    state.imgcheck = 1;
-                }
-                if(response.data.status === -1 ){
-                    console.log("찜하기 취소");
-                    state.imgcheck = 0;
-                    unlike(cno);
-                }
+
+            if(response.data.status === 200){
+                console.log("찜하기 성공");
+                state.imgcheck = 1;
+            }
+            if(response.data.status === -1 ){
+                console.log("찜하기 취소");
+                state.imgcheck = 0;
+                unlike(cno);
+            }
         };
 
         const unlike = async(cno) => {
             console.log("unlike", state.imgcheck);
-            const url = `/ROOT/api/like/deleteone`
-            const headers = {"Content-Type":"multipart/form-data",
-                            token : state.token};
-            const body = new FormData;
+            const url     = `/ROOT/api/like/deleteone`
+            const headers = { "Content-Type": "multipart/form-data", "token" :state.token};
+            const body    = new FormData;
             body.append("club", cno);   
             const response = await axios.post(url, body, {headers:headers});
             console.log(response.data);
@@ -368,15 +366,16 @@ export default {
         
         return { state, changeheart,unlike }
     },
+    
     data () {
         return {
             items: [
-            {
-                src: 'http://news.samsungdisplay.com/wp-content/uploads/2017/09/%EB%8F%84%EB%B9%84%EB%9D%BC-11.png',
-            },
-            {
-                src: 'https://www.sonohotelsresorts.com/upload/image/faci/dmFaci_201607131119187730',
-            },
+                {
+                    src: 'http://news.samsungdisplay.com/wp-content/uploads/2017/09/%EB%8F%84%EB%B9%84%EB%9D%BC-11.png',
+                },
+                {
+                    src: 'https://www.sonohotelsresorts.com/upload/image/faci/dmFaci_201607131119187730',
+                },
             ],
         }
     },

@@ -6,6 +6,7 @@
             <v-row dense>
                 <!-- 사이드 -->
                 <v-col sm="2"></v-col>
+
                 <!-- 메인 -->
                 <v-col sm="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
@@ -41,6 +42,7 @@
                                                 required
                                                 ></v-text-field>
                                             </v-col>
+
                                             <v-col sm="2">
                                                 <v-btn style="width: 100%; height:40px;" @click="cnamecheck()">
                                                     <h4>클럽명 중복확인</h4>
@@ -129,17 +131,17 @@
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
+
                                     <v-expansion-panel class="panel" style="height: 70px;">
-                                        <v-row >
-                                    
-                                            <v-col  
-                                             sm="3"  >
-                                                <v-select  :change="clickchange()"
+                                        <v-row dense>
+                                            <v-col sm="3">
+                                                <v-select :change="clickchange()"
                                                   variant="outlined" density="compact" :items= state.catemax1  label="카테고리 선택"
                                                   v-model="state.selectcate1"  style="height: 40px; padding-right: 10px; width: 200px;">
                                                 </v-select>
                                             </v-col>
-                                            <v-col  sm="3" :change="clickchange1()" v-if="state.selectcate1 !== ''">
+
+                                            <v-col sm="3" :change="clickchange1()" v-if="state.selectcate1 !== ''">
                                                 <v-select variant="outlined" density="compact" :items="state.catemax12" label="소분류 선택"
                                                  v-model="state.selectcate2" style="height: 40px; padding-right: 10px; width: 200px;"></v-select>
                                             </v-col>
@@ -169,14 +171,15 @@
                                                 label="클럽 공개 여부"
                                                 v-model="state.private"
                                                 inline style="height:70px; align-items: right;">
-                                                <v-radio
-                                                    label="공개"
-                                                    value="공개"
-                                                ></v-radio>
-                                                <v-radio
-                                                    label="비공개"
-                                                    value="비공개"
-                                                ></v-radio>
+                                                    <v-radio
+                                                        label="공개"
+                                                        value="공개"
+                                                    ></v-radio>
+                                                    
+                                                    <v-radio
+                                                        label="비공개"
+                                                        value="비공개"
+                                                    ></v-radio>
                                                 </v-radio-group>
                                             </v-col>
                                         </v-row>
@@ -188,6 +191,7 @@
                                                 <img :src="state.imageUrl"  style="width: 160px; border: 1px solid #CCC;"/>
                                                 <h5>170px X 60px</h5>
                                             </v-col>
+
                                             <v-col class="col_left">
                                                 <v-file-input
                                                     style="width: 200px;"
@@ -250,61 +254,49 @@ export default {
         })
 
         const state = reactive({
-            number : '',
-            a1 : '',
-            a2 : '',
-            catemax : [],
-            catemax1 : [],
-            catemax11 : [],
-            catemax12 : [],
-            category : [],
-            selectcate1 : '',
-            selectcate2 : '',
-            birth : '2020년',
-            token : sessionStorage.getItem("TOKEN"),
-            imageUrl : require('../../assets/img/default-logo.jpg'),
-            imageFile : null,
+            number       : '',
+            a1           : '',
+            a2           : '',
+            catemax      : [],
+            catemax1     : [],
+            catemax11    : [],
+            catemax12    : [],
+            category     : [],
+            selectcate1  : '',
+            selectcate2  : '',
+            birth        : '2020년',
+            token        : sessionStorage.getItem("TOKEN"),
+            imageUrl     : require('../../assets/img/default-logo.jpg'),
+            imageFile    : null,
             // private : '공개',
-            datechk: [],
-            timechk: [],
-            gender : [],
-            age    : [],
-
-            name          : '',
-            area          : '',
-            detailAddress : '',
-            address       : '',
-            max           : '',
-            cnamecheck: '',
-            desc: '',
+            datechk      : [],
+            timechk      : [],
+            gender       : [],
+            age          : [],
+            name         : '',
+            area         : '',
+            detailAddress: '',
+            address      : '',
+            max          : '',
+            cnamecheck   : '',
+            desc         : '',
+            imageFile    : '',
+            content      : '',
+            cate         : [],
+            cate1        : [],
             nameRules: [
                 v => !!v || '필수 입력 사항입니다',
                 v => !/[~!@#$%^&*()_+|<>?:{}]/.test(v) || '이름에는 특수문자를 사용할 수 없습니다'
             ],
-            valid: '',
-            imageFile: '',
-            content : '',
-
-            cate: [],
-            cate1: [],
-            // cate: {
-            //     title1: '대분류',
-            //     title2: '상세분류',
-            //     cate1: [
-            //         '전체', '서울', '부산'
-            //     ],
-            //     cate2: [
-            //         '어디구', '어디군'
-            //     ],
-            // }
         })
+
         const handleImage = (e) => {
             if(e.target.files[0]){
-                state.imageUrl = URL.createObjectURL(e.target.files[0]);
+                state.imageUrl  = URL.createObjectURL(e.target.files[0]);
                 state.imageFile = e.target.files[0];
             }
             else{
-                state.imageUrl = require('../../assets/img/default-logo.jpg');
+                state.imageUrl  = require('../../assets/img/default-logo.jpg');
                 state.imageFile = require('../../assets/img/default-logo.jpg');
             }
         }
@@ -312,14 +304,14 @@ export default {
         const check = async() => {
             console.log(state.selectcate1); 
             console.log(state.selectcate2);
-            const url = `/ROOT/cate/catetwo?cate1=${state.selectcate1}&cate2=${state.selectcate2}`;
-            const headers = {"Content-Type":"application/json"};
-            const response = await axios.get(url,{headers:headers});
+            const url      = `/ROOT/cate/catetwo?cate1=${state.selectcate1}&cate2=${state.selectcate2}`;
+            const headers  = { "Content-Type": "application/json" };
+            const response = await axios.get(url, { headers: headers });
+            console.log(response.data);
+
             if(response.data.status === 200){
-                console.log(response.data);
                 state.number = response.data.result.cgcode;
                 console.log(state.number);
-                // router.push({path : 'login'});
             }
         }
 
@@ -329,26 +321,25 @@ export default {
         // };
                 
         const handleReg = async() => {
-            
-            const url = `/ROOT/club/insert.json`;
-            const headers = {"Content-Type":"multipart/form-data",
-            token : state.token};
+            const url      = `/ROOT/club/insert.json`;
+            const headers = { "Content-Type": "multipart/form-data", token: state.token };
             const body = new FormData;
-                body.append("cname",  state.name);
-                body.append("cdesc",  state.desc);
-                body.append("cmax", state.max);
-                body.append("cprivate",  state.private);
-                body.append("carea",  state.area);
-                body.append("cbirth",  state.birth);
-                body.append("category",  state.number);
-                body.append("caddress", state.address)
+            body.append("cname",  state.name);
+            body.append("cdesc",  state.desc);
+            body.append("cmax", state.max);
+            body.append("cprivate",  state.private);
+            body.append("carea",  state.area);
+            body.append("cbirth",  state.birth);
+            body.append("category",  state.number);
+            body.append("caddress", state.address)
             const response = await axios.post(url,body,{headers});
-                console.log(response.data);
+            console.log(response.data);
+
             if(response.data.status === 200){
                 alert('클럽생성완료');
                 state.items = response.data.result;
-                state.cno = response.data.result.cno;
-                state.mid = response.data.mid;
+                state.cno   = response.data.result.cno;
+                state.mid   = response.data.mid;
 
                 console.log(state.cno);
                 handleJoinclub();
@@ -370,14 +361,14 @@ export default {
             console.log(response.data);
 
             if(response.data.status === 200){
-            router.push({path : 'clist'})
+                router.push({path : 'clist'})
             }
         }
 
         const cnamecheck = async() => {
-            const url = `/ROOT/club/cnamecheck?cname=${state.name}`;
-            const headers = {"Content-Type":"application/json"};
-            const response = await axios.post(url,[],{headers});
+            const url      = `/ROOT/club/cnamecheck?cname=${state.name}`;
+            const headers  = { "Content-Type": "application/json" };
+            const response = await axios.post(url, [], { headers });
             console.log(response.data);
             if(response.data.status === 200){
                 alert('사용할 수 있는 클럽명')
@@ -392,29 +383,26 @@ export default {
         const Clubimage = async() => {
             console.log(state.cno);
             console.log(state.mid);
-            const url = `/ROOT/club/cbimage`;
+            const url     = `/ROOT/club/cbimage`;
             const headers = {"Content-Type":"multipart/form-data"};
-            const body = new FormData;
-                console.log(state.imageFile); 
-                body.append("file", state.imageFile);
-                body.append("cno", state.cno);
-
+            const body    = new FormData;
+            console.log(state.imageFile); 
+            body.append("file", state.imageFile);
+            body.append("cno", state.cno);
             console.log(state);
 
             const response = await axios.post(url,body,{headers});
                 console.log(response.data);
                 if(response.data.status === 200){
-
             }
         }
-        
 
         const category1 = async() => {
-            const url = `/ROOT/cate/catelist1`;
-            const headers = {"Content-Type":"application.json",
-            token : state.token};
+            const url      = `/ROOT/cate/catelist1`;
+            const headers  = { "Content-Type":"application.json", token: state.token };
             const response = await axios.get(url,{headers:headers});
             console.log(response.data);
+
             if(response.data.status === 200){
                 state.category = response.data.result;
                 console.log("1231432",state.category);
@@ -451,8 +439,7 @@ export default {
             //     console.log(state.catemax1);
             // }
             
-        click();
-
+            click();
         } 
 
         const clickchange = () =>{
@@ -460,17 +447,16 @@ export default {
                 state.catemax12 = state.catemax;
                 console.log('운동');
             }
+
             if(state.selectcate1 === '공부'){
                 state.catemax12 = state.catemax11;
                 console.log('공부');
             }
-        
-
         }
+
         const clickchange1 = () =>{
             console.log(state.selectcate2);
             check();
-
         }
         
         const click = () => {
@@ -479,34 +465,34 @@ export default {
             const a1 = state.category.filter((arr, index, cb) => {
                 return arr.cgcate1 === max
             });
+
             // 공부일때
             const max1 = '공부';
             const a11 = state.category.filter((arr, index, cb) => {
                 return arr.cgcate1 === max1
             });
+
             console.log("213123131",a1);
             console.log(a11);
-            for(var i=0; i < a1.length; i++){
+            for(var i = 0; i < a1.length; i++){
                 state.catemax[i] = a1[i].cgcate2;
                 console.log(state.catemax);
             }
-            for(var i=0; i < a11.length; i++){
+
+            for(var i = 0; i < a11.length; i++){
                 state.catemax11[i] = a11[i].cgcate2;
                 console.log(state.catemax11);
             }
 
-            
-
-            const a2= state.category.filter( (arr, index, cb) => { 
+            const a2 = state.category.filter( (arr, index, cb) => { 
                 return index === cb.findIndex(t => t.cgcate1 === arr.cgcate1)
             });
+
             console.log(a2);
             for(var i=0; i < a2.length; i++){
                 state.catemax1[i] = a2[i].cgcate1;
                 console.log(state.catemax1);
             }
-                
-                    
         }
 
         const post = () => {
@@ -550,7 +536,8 @@ export default {
                 },
             }).open();
         }
-        return { state, cnamecheck, post, handleReg, handleImage,clickchange,clickchange1 }
+
+        return { state, cnamecheck, post, handleReg, handleImage, clickchange, clickchange1 }
     }
 }
 </script>

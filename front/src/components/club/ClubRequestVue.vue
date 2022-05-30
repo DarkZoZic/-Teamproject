@@ -12,6 +12,7 @@
                             <h5><router-link to="/">홈</router-link> > <router-link to="/cdetail">클럽상세</router-link> > 가입신청</h5>
                         </v-col>
                     </v-row>
+
                     <v-card style="width:100%; margin: 10px; margin-top: 30px; margin-bottom: 30px;">
                         <v-expansion-panels style="width:100%">
                             <v-form v-model="state.valid" style="width:100%">
@@ -136,29 +137,29 @@ export default {
         const router = useRouter();
 
         const state = reactive({
-            editor     : ClassicEditor, // ckeditor종류
-            editorData : '',
-            clubname   : '삥뽕탁구클럽',
-            id         : 'aaa',
-            title      : '제목입니다',
-            valid      : '',
+            editor    : ClassicEditor, // ckeditor종류
+            editorData: '',
+            clubname  : '삥뽕탁구클럽',
+            id        : 'aaa',
+            title     : '제목입니다',
+            valid     : '',
         })
 
         const onReady = ( editor ) => {
             console.log(editor);
-            editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-                    return new UploadAdapter( loader );
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                    return new UploadAdapter(loader);
             };
             
-            editor.editing.view.change( writer => {
-                writer.setStyle( 'height', '600px', editor.editing.view.document.getRoot() );
+            editor.editing.view.change(writer => {
+                writer.setStyle( 'height', '600px', editor.editing.view.document.getRoot());
             });
             console.log(editor.editing.view);
         }
         
         const handleCancel = async() => {
             if (confirm('정말 취소하시겠습니까?') == true) {
-                router.push({ name: "BoardListVue"});
+                router.push({ name: "BoardListVue" });
             }
         }
 

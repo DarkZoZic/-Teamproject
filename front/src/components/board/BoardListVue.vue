@@ -62,11 +62,7 @@
 
             <v-row dense>
                 <v-col>
-                     <v-pagination
-                     v-model="state.page"
-                    :length="state.total" 
-                    @click="handlePagenation()"
-                    >
+                    <v-pagination v-model="state.page" :length="state.total" @click="handlePagenation()">
                     </v-pagination>
                 </v-col>
             </v-row>
@@ -97,19 +93,19 @@ export default {
         const router = useRouter();
 
         const state = reactive({
-            data : '',
-            token : sessionStorage.getItem("TOKEN"),
-            pa: 1,
-            text: '',  // 검색어
-            page: 1,   // 현재페이지
-            option: '',
-            items: [],
+            data     : '',
+            token    : sessionStorage.getItem("TOKEN"),
+            pa       : 1,
+            text     : '',  // 검색어
+            page     : 1,   // 현재페이지
+            option   : '',
+            items    : [],
+            bregdate1: '',
+            searchOpt: [],
+            nicklist : [],
             items1: [
                 '전체', '제목', '내용', '글쓴이'
             ],
-            bregdate1: '',
-            searchOpt: [],
-            nicklist : []
         });
 
         const date = (i) => {
@@ -117,19 +113,16 @@ export default {
             state.items[i].bregdate1 = dayjs(state.items[i].bregdate).format('YY.MM.DD hh:mm:ss');
         }
 
-        // 조회수 1증가 시키기
+        // 조회수 1 증가
         const handlePage = async(bno) => {
-            if(state.token !== null){
-            const url = `/ROOT/api/board1/updatehit?bno=${bno}`;
-            const headers = { 
-                "Content-Type":"application/json",
-                "token" : state.token,
-            };
+            if(state.token !== null) {
+            const url      = `/ROOT/api/board1/updatehit?bno=${bno}`;
+            const headers  = { "Content-Type": "application/json", "token": state.token };
             const response = await axios.put(url, {}, { headers });
-            console.log(response.data);
-                router.push({name:"BoardContentVue", query:{ bno: bno }})
+            console.log("handlePage ==> ", response.data);
 
-            console.log(bno);
+            router.push({ name: "BoardContentVue", query: { bno: bno } })
+            console.log("handlePage - bno ==> ", bno);
             }  
         }
 
@@ -137,15 +130,15 @@ export default {
             state.page = state.page;
             // state.total = Number(tmp);
             
-            console.log(state.page);
+            console.log("handlePagenation ==> ", state.page);
             handleData();
         }
 
         const searchOpt = async() => {
-            const url = `/ROOT/api/board1/search?page=${state.page}&btitle=${state.btitle}`
-            const headers = {"Content-Type":"application.json"};
+            const url      = `/ROOT/api/board1/search?page=${state.page}&btitle=${state.btitle}`
+            const headers  = {"Content-Type":"application.json"};
             const response = await axios.get(url,{headers:headers});
-            console.log(response.data);
+            console.log("searchOpt ==> ", response.data);
             if(response.data.status === 200){
                 state.searchOpt = response.data.result;
             }
@@ -153,13 +146,11 @@ export default {
 
 
         const handleData = async() => {
-            const url = `/ROOT/api/board1/selectlist?page=${state.page}`
-            const headers = { 
-                "Content-Type": "application/json", 
-                "token" : state.token,
-            };
+            const url      = `/ROOT/api/board1/selectlist?page=${state.page}`
+            const headers  = { "Content-Type": "application/json", "token" : state.token };
             const response = await axios.get(url, { headers });
-            console.log(response.data);
+            console.log("handleData ==> ", response.data);
+            
             if(state.token !== null){
                 console.log("토큰있음");
             }
@@ -168,32 +159,32 @@ export default {
             }
             console.log(state);
 
-            if(response.data.status === 200){
-            state.items = response.data.result;
-            state.nicklist = response.data.mplist;
-            console.log(state.nicklist);
-            // handledata가 출력되고 나서 ..
-            for(var i = 0; i<state.items.length; i++){
-                date(i);
-            }
+            if(response.data.status === 200) {
+                state.items = response.data.result;
+                state.nicklist = response.data.mplist;
+                console.log(state.nicklist);
+                // handledata가 출력되고 나서 날짜
+                for(var i = 0; i<state.items.length; i++) {
+                    date(i);
+                }
 
-            //  테이블에 좋아요 넣기 (for문을 돌려서 넣으므로 느림) 
-            // for(var i = 0; i<state.items.length; i++){
-            //     const url1 = `ROOT/reaction/likelist.json?bno=${state.items[i].bno}`;
-            //     const headers1 = {"Content-Type":"application/json"};
-            //     const response1 = await axios.get(url1, {headers1}); 
-            //     state.items[i].blike = response1.data.result
-            // }
-            state.total = Math.floor(((response.data.result1)-1)/10+1);
-            console.log(state.total);
+                //  테이블에 좋아요 넣기 (for문을 돌려서 넣으므로 느림) 
+                // for(var i = 0; i<state.items.length; i++){
+                //     const url1 = `ROOT/reaction/likelist.json?bno=${state.items[i].bno}`;
+                //     const headers1 = {"Content-Type":"application/json"};
+                //     const response1 = await axios.get(url1, {headers1}); 
+                //     state.items[i].blike = response1.data.result
+                // }
+                state.total = Math.floor(((response.data.result1)-1)/10+1);
+                console.log(state.total);
             }
         };
 
         const search = async() => {
-            const url = `/ROOT/api/board1/search?btitle=${state.text}&page=${state.page}`
-            const headers = {"Content-Type":"application/json"};
+            const url      = `/ROOT/api/board1/search?btitle=${state.text}&page=${state.page}`
+            const headers  = { "Content-Type": "application/json" };
             const response = await axios.get(url, { headers });
-            console.log('ExBoard.vue =>',response.data);
+            console.log('search =>', response.data);
 
             if(response.data.status === 200){
                 state.items = response.data.result;
@@ -202,11 +193,11 @@ export default {
         }
 
          const nick = async() => {
-            const url = `/ROOT/member/psmynick`;
-            const headers = {"Content-Type":"application/json", 
-            token : state.token};
+            const url      = `/ROOT/member/psmynick`;
+            const headers  = { "Content-Type": "application/json", "token": state.token };
             const response = await axios.get(url, {headers});
-            console.log(response.data.result);
+            console.log("nick ==> ", response.data.result);
+
             if(response.data.status === 200){
                 state.nick = response.data.result;
             }

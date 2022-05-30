@@ -66,7 +66,6 @@
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>   
-                                    
 
                                     <v-expansion-panel>
                                         <v-row dense>
@@ -106,6 +105,7 @@
                                                         </v-row>
                                                     </v-col>
                                                 </v-row>
+
                                                 <v-row dense>
                                                     <v-col class="col_center">
                                                         <v-btn class="club_list_btn" @click="reset()"><h4>초기화</h4></v-btn>
@@ -115,7 +115,6 @@
                                         </v-row>
                                     </v-expansion-panel>
 
-                                    <!--  -->
                                     <v-expansion-panel>
                                         <v-row dense>
                                             <v-col style="padding: 20px;">
@@ -163,6 +162,7 @@
                                                             </v-col>
                                                         </v-row>
                                                     </v-col>
+
                                                     <v-row dense>
                                                         <v-col class="col_center">
                                                             <v-btn class="club_list_btn" @click="reset()"><h4>초기화</h4></v-btn>
@@ -172,8 +172,6 @@
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
-
-                                    
 
                                     <v-expansion-panel class="panel">
                                         <v-row dense style="padding:10px;">
@@ -191,7 +189,7 @@
 
                                     <!-- 설명글 -->
                                     <v-expansion-panel class="panel">
-                                        <v-row>
+                                        <v-row dense>
                                             <v-col style="height: 670px;" >
                                                 <ckeditor :editor="state.editor" v-model="state.editorData" @ready="onReady"></ckeditor>                                          
                                             </v-col>
@@ -199,7 +197,7 @@
                                     </v-expansion-panel>
 
                                     <v-expansion-panel class="panel">
-                                        <v-row>
+                                        <v-row dense>
                                             <v-col>
                                                 <v-file-input
                                                 accept="image/*"
@@ -230,7 +228,6 @@
 
                         <v-col sm="4"></v-col>
                     </v-row>
-
                 </v-col>
 
                 <!-- 사이드 -->
@@ -259,157 +256,134 @@ export default {
     setup () {
 
         onMounted(() => {
-                handleData();
+            handleData();
         })
 
         const router = useRouter();
 
         const state = reactive({
-            zero : 0,
-            cdno  : '',
-            imageUrl : [],
+            zero      : 0,
+            cdno      : '',
+            imageUrl  : [],
             imageFile : [],
-            cno : '',
-            cnolist : [],
-            cname : '',
-            clublist : [],
-            datechk: [],
-            timechk: [],
-            gender : [],
-            age    : [],
-            enddate: '',
-            name          : '클럽이름',
-            area          : '',
-            editor     : ClassicEditor, // ckeditor종류
-            editorData : "미리 추가되는 내용",
-            token      : sessionStorage.getItem("TOKEN"),
-
-            club: '',
-            nameRules: [
+            cno       : '',
+            cnolist   : [],
+            cname     : '',
+            clublist  : [],
+            datechk   : [],
+            timechk   : [],
+            gender    : [],
+            age       : [],
+            enddate   : '',
+            name      : '클럽이름',
+            area      : '',
+            editor    : ClassicEditor, // ckeditor종류
+            editorData: "미리 추가되는 내용",
+            token     : sessionStorage.getItem("TOKEN"),
+            club      : '',
+            valid     : '',
+            nameRules : [
                 v => !!v || '필수 입력 사항입니다',
                 v => !/[~!@#$%^&*()_+|<>?:{}]/.test(v) || '이름에는 특수문자를 사용할 수 없습니다'
             ],
-            valid: '',
         })
 
         const handleImage = (e) => {
             console.log(e.target.files.length);
-            if(e.target.files.length > 0)
-            {
-                for(let i=0; i<e.target.files.length; i++)
-                {
+            if(e.target.files.length > 0) {
+                for(let i=0; i<e.target.files.length; i++) {
                     state.imageUrl[i] = URL.createObjectURL(e.target.files[i]);
                     state.imageFile[i] = e.target.files[i];
                 }
             }
-            else
-            {
+            else {
                 state.imageUrl = null;
                 state.imageFile = null;
             }
-    }
+        }
 
         const handleData = async() => {
-            const url = `/ROOT/combineview/comclub`;
-            const headers = {
-                "Content-Type" : "application/json",
-                "token"        : state.token,
-            };
+            const url      = `/ROOT/combineview/comclub`;
+            const headers  = { "Content-Type": "application/json", "token": state.token };
             const response = await axios.get(url,{headers:headers});
             console.log(response.data);
+
             if(response.data.status === 200){
                 state.items = response.data.results;
-                console.log(response.data.results[2].cname);
                 // state.club = response.data.results.length;
             }
-                for(var i=0; i < state.items.length; i++){
+                for(var i=0; i < state.items.length; i++) {
                     state.clublist[i] = state.items[i].cname;
-                    state.cnolist[i] = state.items[i].cno;
+                    state.cnolist[i]  = state.items[i].cno;
                     console.log(state.cnolist);
                     console.log(state.clublist);
                 }
                 console.log("sad",response.data.results.length);
-
         }
+
         const handleCno = async() => {
-            if(state.club !== ''){
+            if(state.club !== '') {
+                const url      = `/ROOT/club/cnosearch?cno=${state.club}`;
+                const headers  = { "Content-Type": "application/json" };
+                const response = await axios.get(url,{headers:headers});
+                console.log(response.data);
 
-                const url = `/ROOT/club/cnosearch?cno=${state.club}`;
-            const headers = {
-                "Content-Type" : "application/json"
-            };
-            const response = await axios.get(url,{headers:headers});
-            console.log(response.data);
-            if(response.data.status === 200){
-                state.cno = response.data.result.cname;
-              console.log(response.data.result);
-            }
-
+                if(response.data.status === 200){
+                    state.cno = response.data.result.cname;
+                    console.log(response.data.result);
                 }
+            }
         }
 
 
         const handleReg = async() => {
-            const url = `/ROOT/club/noticeinsert`;
-            const headers = {
-                "Content-Type" : "application/json",
-                "token"        : state.token,
-            };
-            
-            const body= new FormData();
-            body.append("cdtitle",   state.cname);
+            const url     = `/ROOT/club/noticeinsert`;
+            const headers = { "Content-Type": "application/json", "token": state.token };
+            const body    = new FormData();
+            body.append("cdtitle"  , state.cname);
             body.append("cdcontent", state.editorData);
-            body.append("enddate",   state.enddate);
-            body.append("gender",    state.gender);
-            body.append("age",       state.age);
-            body.append("date",      state.datechk);
-            body.append("time",      state.timechk);
-            body.append("club",      state.club);
-                
+            body.append("enddate"  , state.enddate);
+            body.append("gender"   , state.gender);
+            body.append("age"      , state.age);
+            body.append("date"     , state.datechk);
+            body.append("time"     , state.timechk);
+            body.append("club"     , state.club);
             const response = await axios.post(url, body, {headers});
             console.log(response.data);
+
             if(response.data.status === 200){
-            console.log(response.data.result);
-            hanldcdno();
-
-                // alert('등록완료');as
-                // router.push({name: 'ClubListVue'});
+                console.log(response.data.result);
+                hanldcdno();
             }
-
         };
 
-        
-
         const hanldcdno = async() => {
-            const url = `/ROOT/clubdetail/selectcno?cno=${state.club}`;
-            const headers = {"Content-Type" : "application/json"};
-            const response = await axios.get(url,{headers:headers});
+            const url      = `/ROOT/clubdetail/selectcno?cno=${state.club}`;
+            const headers  = { "Content-Type": "application/json" };
+            const response = await axios.get(url, { headers: headers} );
             console.log(response.data);
+
             if(response.data.status === 200){
-                console.log("hanldcdnohanldcdno",response.data.result.cdno);
+                console.log("hanldcdnohanldcdno", response.data.result.cdno);
                 state.cdno = response.data.result.cdno;
                 handlecdimage();
             }
-
         };
 
         const handlecdimage = async() => {
-            console.log("ssssssss",state.cdno);
-            const url = `/ROOT/clubdetail/cdimage`;
-            const headers = {"Content-Type" : "multipart/form-data"};
-            const body= new FormData();
-            body.append("clubDetail",  state.cdno);
-            for(let i=0; i<state.imageFile.length; i++)
-            {
+            const url     = `/ROOT/clubdetail/cdimage`;
+            const headers = { "Content-Type": "multipart/form-data" };
+            const body    = new FormData();
+            body.append("clubDetail", state.cdno);
+            for(let i=0; i<state.imageFile.length; i++) {
                 body.append("file", state.imageFile[i]);
             }
-            const response = await axios.post(url, body, {headers});
+            const response = await axios.post(url, body, { headers });
             console.log(response.data);
             if(response.data.status === 200){
                 alert('등록완료');
-                router.push({name: 'ClubListVue'});
+                router.push({ name: 'ClubListVue' });
             }
-
         };
 
         const reset = async() => {
@@ -417,18 +391,18 @@ export default {
             state.timechk = [];
         };
 
-        const onReady = ( editor ) => {
+        const onReady = (editor) => {
             console.log(editor);
-            editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-                return new UploadAdapter( loader );
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                return new UploadAdapter(loader);
             };
             
-            editor.editing.view.change( writer => {
-                writer.setStyle( 'height', '600px', editor.editing.view.document.getRoot() );
+            editor.editing.view.change(writer => {
+                writer.setStyle('height', '600px', editor.editing.view.document.getRoot());
             });
             console.log(editor.editing.view);
         }
-        return { state, onReady, handleReg, reset,handleCno,handleImage }
+        return { state, onReady, handleReg, reset, handleCno, handleImage }
     }
 }
 </script>

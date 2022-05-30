@@ -24,20 +24,6 @@
                             <v-card style="width:100%; margin: 10px; margin-top: 20px; margin-bottom: 30px;">
                                 <v-expansion-panels style="width:100%">
                                     <v-form v-model="state.valid" style="width:100%">
-                                        <!-- 작성자 -->
-                                        <!-- <v-expansion-panel class="panel">
-                                            <v-row dense style="padding:10px;">
-                                                <v-col sm="2" style="justify-content: right; display: flex; align-items: center;">
-                                                    작성자: {{state.mid}}
-                                                </v-col>
-
-                                                <v-col sm="8" style="display: flex; align-items: center;">
-                                                    {{state.mid}}
-                                                </v-col>
-
-                                                <v-col sm="2"></v-col>
-                                            </v-row>
-                                        </v-expansion-panel> -->
 
                                         <!-- 제목 -->
                                         <v-expansion-panel class="panel">
@@ -147,41 +133,37 @@ export default {
         
 
         const handleInsert = async() => {
-            const url = `/ROOT/api/board1/insert`;
-            const headers = {
-                "Content-Type" : "application/json",
-                "token"        : state.token,
-            };
-            
-            const body= new FormData();
-            body.append("mid", state.mid);
-            body.append("btitle", state.btitle);
+            const url      = `/ROOT/api/board1/insert`;
+            const headers  = { "Content-Type": "application/json", "token": state.token };
+            const body     = new FormData();
+            body.append("mid"     , state.mid);
+            body.append("btitle"  , state.btitle);
             body.append("bcontent", state.editorData);
-            body.append("btype", state.btype);
+            body.append("btype"   , state.btype);
                 
             const response = await axios.post(url, body, {headers});
-            console.log(response.data);
+            console.log("handleInsert ==> ", response.data);
             if(response.data.status === 200){
                 alert('등록완료');
-                router.push({name: 'BoardListVue'});
+                router.push({ name: 'BoardListVue' });
             }
 
         }
 
         const handleCancel = async() => {
-            if (confirm('정말 취소하시겠습니까?') == true) {
-                router.push({ name: "BoardListVue"});
+            if(confirm('정말 취소하시겠습니까?') == true) {
+                router.push( { name: "BoardListVue" });
             }
         }
 
-        const onReady = ( editor ) => {
+        const onReady = (editor) => {
             console.log(editor);
-            editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-                return new UploadAdapter( loader );
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                return new UploadAdapter(loader);
             };
             
-            editor.editing.view.change( writer => {
-                writer.setStyle( 'height', '600px', editor.editing.view.document.getRoot() );
+            editor.editing.view.change(writer => {
+                writer.setStyle('height', '600px', editor.editing.view.document.getRoot());
             });
             console.log(editor.editing.view);
         }
