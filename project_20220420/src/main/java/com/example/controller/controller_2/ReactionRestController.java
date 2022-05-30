@@ -10,6 +10,7 @@ import com.example.entity.entity1.Reaction;
 import com.example.entity.entity2.Board1;
 import com.example.entity.entity2.ClubBoard;
 import com.example.jwt.JwtUtil;
+import com.example.repository.repository_4.Board1Repository;
 import com.example.repository.repository_gibum.ReactionRepository;
 import com.example.service.service_2.ReactionService;
 
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -32,6 +34,9 @@ public class ReactionRestController {
     @Autowired JwtUtil jwtUtil;
 
     @Autowired ReactionService rService;
+
+    @Autowired 
+    Board1Repository b1Repository;
 
 
     // 클럽 갤러리 좋아요기능
@@ -235,34 +240,63 @@ try {
 }
     // 좋아요 취소 기능
 	// 127.0.0.1:9090/ROOT/reaction/unlike.json
-	@RequestMapping(value = "/unlike.json", 
-    method = { RequestMethod.DELETE },
-    consumes = { MediaType.ALL_VALUE },
-    produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> UnlikePost(
-    @ModelAttribute Reaction reaction,
-    @RequestHeader (name = "token")String token){
-        Map<String, Object> map = new HashMap<>();
-    try {
-        long user = reaction.getBoard().getBno();
-    if(token != null){
-        String username = jwtUtil.extractUsername(token);
-                Reaction read = rRepository.findByMember_MidAndBoard_Bno(username, user);
-                rRepository.delete(read);
+// 	@RequestMapping(value = "/unlike.json", 
+//     method = { RequestMethod.DELETE },
+//     consumes = { MediaType.ALL_VALUE },
+//     produces = { MediaType.APPLICATION_JSON_VALUE })
+//     public Map<String, Object> UnlikePost(
+//     @ModelAttribute Reaction reaction,
+//     @RequestHeader (name = "token")String token){
+//         Map<String, Object> map = new HashMap<>();
+//     try {
+//         System.out.println(reaction.toString());
+//         long user = reaction.getBoard().getBno();
+//     if(token != null){
+//         String username = jwtUtil.extractUsername(token);
+//                 Reaction read = rRepository.findByMember_MidAndBoard_Bno(username, user);
+//                 rRepository.delete(read);
         
         
         
-    }
-    map.put("status", 200); 
+//     }
+//     map.put("status", 200); 
    
-    }
-    catch (Exception e) {
-        e.printStackTrace();
-        map.put("status", 0);
-    }
+//     }
+//     catch (Exception e) {
+//         e.printStackTrace();
+//         map.put("status", 0);
+//     }
     
+//     return map;
+// }
+
+    // 자유게시판 좋아요 삭제
+    @RequestMapping(value = "/unlike.json", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
+    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> boardDeletePost(@RequestParam(name = "bno") Long bno,
+                            @RequestHeader (name = "token")String token){
+    // 키를 알고 보내야 함. 틀리면 안감. er다이어그램 보면 됨
+
+    Map<String ,Object> map = new HashMap<>();
+
+    try{
+        // 토큰 추출
+        String userid = jwtUtil.extractUsername(token);
+        System.out.println("USERNAME ==>" + userid);
+
+        Reaction result= rRepository.findByMember_midAndBoard_bno(userid, bno);
+        rRepository.deleteById(result.getRcode());
+        map.put("status", 200);
+
+    }
+    catch(Exception e){
+        e.printStackTrace();
+        map.put("status", 0); // 실패
+    }
     return map;
-}
+    }
+
+
     // 자유게시판 좋아요 개수 조회
 	// 127.0.0.1:9090/ROOT/reaction/likelist.json
 	@RequestMapping(value = "/likelist.json", 

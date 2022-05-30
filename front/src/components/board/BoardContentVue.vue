@@ -288,6 +288,9 @@ export default {
       bimageurl : '',
       token  : sessionStorage.getItem("TOKEN"),
       mid1 : sessionStorage.getItem("MID"),
+      liked : true,
+      items : '',
+      item : '',
 
       reply1 : {
         mid : '',
@@ -371,27 +374,40 @@ export default {
     const like = async() => {
       const url = `/ROOT/reaction/like.json`;
       const headers = {
-        "Content-Type":"multipart/form-data",
+        "Content-Type":"application/json",
         "token" : state.token };
       const body = new FormData;
       body.append("board",state.bno);
       body.append("member",state.mid1);
       const response = await axios.post(url, body,{headers});
       // console.log(response.data);
-      if(response.data.status === 200){
-        alert('좋아요성공');
+      if(response.data.status === 200){ // 좋아요 성공
         await handleData(state.bno);
       }
+      if(response.data.status === -1){ // 좋아요 취소
+        const url = `/ROOT/reaction/unlike.json?bno=${state.bno}`;
+        const headers = {
+          "Content-Type" : "application/json",
+          "token" : state.token };
+        const response = await axios.delete(url, {headers:headers, data:{}});
+        // console.log(response.data);
+        if(response.data.status === 200){
+          await handleData(state.bno);
+        }
+
+      }
+      
     }
 
     // 게시글 좋아요 개수 조회
     const likecount = async() => {
-      const url = `/ROOT/reaction/likelist.json`;
+      const url = `/ROOT/reaction/likelist.json?bno=${state.bno}`;
       const headers = {"Content-Type":"application/json"};
       const response = await axios.get(url, {headers});
-      // console.log(response.data);
+      console.log(response.data);
       if(response.data.status === 200){
         state.items = response.data.result;
+        await handleData(state.bno);
       }
     }
 

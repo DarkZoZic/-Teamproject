@@ -50,11 +50,11 @@
                     v-for="item in state.notice"
                     :key="item"
                   >
-                    <td style="background-color: gold;"><h4>{{ item.qno }}</h4></td>
-                    <td style="background-color: gold;"><router-link to="/hqcontent">{{ item.qtitle }}</router-link></td>
-                    <td style="background-color: gold;">{{ item.mid }}</td>
-                    <td style="background-color: gold;">{{ item.qregdate }}</td>
-                    <td style="background-color: gold;">{{ item.qhit }}</td>
+                    <td style="background-color: gold;"><h4>{{ item.no }}</h4></td>
+                    <td style="background-color: gold;"><router-link to="/hqcontent">{{ item.title }}</router-link></td>
+                    <td style="background-color: gold;">{{ item.writer }}</td>
+                    <td style="background-color: gold;">{{ item.date }}</td>
+                    <td style="background-color: gold;">{{ item.hit }}</td>
                   </tr>
                   <tr
                       v-for="item in state.board"
@@ -108,6 +108,8 @@ export default {
     const router = useRouter();
 
     const state = reactive({
+        item : [],
+        board: [],
  
         notice: [
           {
@@ -161,7 +163,7 @@ export default {
       }
 
       if(response.data.status === 200){
-      state.items = response.data.result
+      state.board = response.data.result
       //  테이블에 좋아요 넣기 (for문을 돌려서 넣으므로 느림) 
       // for(var i = 0; i<state.items.length; i++){
       //     const url1 = `ROOT/reaction/likelist.json?bno=${state.items[i].bno}`;

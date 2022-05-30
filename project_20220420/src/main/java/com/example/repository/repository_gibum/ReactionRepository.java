@@ -60,4 +60,7 @@ public interface ReactionRepository
         );
 
         // Reaction findByCount
+
+        Reaction findByMember_midAndBoard_bno(String mid, Long bno);
+
 }
