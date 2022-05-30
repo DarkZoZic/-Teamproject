@@ -297,6 +297,7 @@ export default {
 
         // 대분류 검색
         const search1 = async(e) => {
+            state.area = [];
             const url = `/ROOT/address/search1?address=${e}`;
             const headers = {"Content-Type":"application.json"};
             const response = await axios.get(url,{headers:headers});
