@@ -99,7 +99,7 @@ export default {
         const clubname = async() =>
         {
             const url = `/ROOT/club/selectone?cno=${state.cno}`;
-            const headers = {"Content-Type":"application.json"};
+            const headers = {"Content-Type":"application/json"};
             const response = await axios.get(url, {headers});
             // console.log(response.data);
             if(response.data.status === 200)

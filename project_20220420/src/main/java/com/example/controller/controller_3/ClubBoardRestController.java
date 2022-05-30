@@ -249,7 +249,7 @@ public class ClubBoardRestController {
 					model.addAttribute("pages", (total-1) / 10 + 1);
 				}
 					
-				
+				List<MemberPersonal> mplist = new ArrayList<>(); // 닉네임 리스트
 				for(int i=0; i<list.toArray().length; i++)
 				{
 					ClubBoard cb = list.get(i);
@@ -257,10 +257,13 @@ public class ClubBoardRestController {
 					ClubBoard clubBoard = cbRep.findById(cb.getCbno()).orElse(null);
 					
 					clubBoard.setCbimageurl("/ROOT/clubboard/image/cbno=" + cb.getCbno());
+					
+					Member member = list.get(i).getMember();
+					MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
+					mplist.add(mp);
 				}
-				
 //				System.out.println("list : " + list);
-				
+				model.addAttribute("mplist", mplist);
 				model.addAttribute("list", list);
 				
 //				System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvv");
@@ -335,9 +338,18 @@ public class ClubBoardRestController {
 				
 				// 댓글 목록 저장할 배열 변수
 				List<CReply> replylist = crRep.findByClubboard_CbnoOrderByRenumberDesc(cbno);
+				
+				List<MemberPersonal> mplist = new ArrayList<>(); // 댓글 작성자 닉네임 리스트
+				for(int i=0; i<replylist.toArray().length; i++)
+				{
+					Member member = replylist.get(i).getMember();
+					MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
+					mplist.add(mp);
+				}
 
 				model.addAttribute("clubboard", cb); //글상세내용
-				model.addAttribute("replylist", replylist); // 댓글
+				model.addAttribute("replylist", replylist); // 댓글목록
+				model.addAttribute("replynicklist", mplist); // 댓글작성자 닉네임 목록
 				
 				ClubBoard prev = cbRep.findTop1ByClub_cnoAndCbnoLessThanOrderByCbnoDesc(cno, cbno); // 이전글
 				ClubBoard next = cbRep.findTop1ByClub_cnoAndCbnoGreaterThanOrderByCbnoAsc(cno, cbno); // 다음글

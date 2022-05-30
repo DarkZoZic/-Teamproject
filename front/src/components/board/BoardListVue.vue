@@ -42,11 +42,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="item in state.items" :key="item">
+                                    <tr v-for="(item, idx) in state.items" :key="item">
                                         <td>{{ item.bno }}</td>
                                         <td style="cursor: pointer;" @click="handlePage(item.bno)" >{{ item.btitle }}</td>
                                         <!-- 닉네임이 나와야 함 -->
-                                        <td>{{ item.member.mid }}</td>
+                                        <td>{{ state.nicklist[idx].mpnickname }}</td>
                                         <td>{{ item.bregdate1 }}</td>
                                         <td>{{ item.bhit }}</td>
                                         <td>{{ item.blike }}</td>
@@ -109,6 +109,7 @@ export default {
             ],
             bregdate1: '',
             searchOpt: [],
+            nicklist : []
         });
 
         const date = (i) => {
@@ -168,8 +169,9 @@ export default {
             console.log(state);
 
             if(response.data.status === 200){
-            state.items = response.data.result
-
+            state.items = response.data.result;
+            state.nicklist = response.data.mplist;
+            console.log(state.nicklist);
             // handledata가 출력되고 나서 ..
             for(var i = 0; i<state.items.length; i++){
                 date(i);

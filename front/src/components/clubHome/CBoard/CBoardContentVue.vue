@@ -83,7 +83,7 @@
                   <!-- 댓글작성자 -->
                   <v-row dense>
                     <v-col class="col_left">
-                      <h5 style="padding-right: 10px;">{{state.replynicklist[idx]}}</h5> 
+                      <h5 style="padding-right: 10px;">{{state.replynicklist[idx].mpnickname}}</h5> 
                       <h5 style="color: #676767;">{{tmp.reregdate}}</h5>
                       <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
                       <h5 style="color: #676767;">{{tmp.like}}</h5>
@@ -236,6 +236,7 @@ export default {
           state.prev = response.data.result.prev;
           state.next = response.data.result.next;
           state.mid = response.data.result.clubboard.member.mid;
+          state.replynicklist = response.data.result.replynicklist;
         }
         else if(response.data.status === 0)
             {
@@ -285,22 +286,6 @@ export default {
         location.reload();
       }
     }
-    
-    // 댓글작성자 닉네임 목록
-    const replynick = async() =>
-    {
-      for(let i=0; i<state.reply.length; i++)
-      {
-        const url = `/ROOT/api/clubmember/selectnick?mid=${state.reply[i].member.mid}`;
-        const headers = {"Content-Type":"application/json"};
-        const response = await axios.get(url, {headers});
-        // console.log(response.data);
-        if(response.data.status === 200)
-        {
-          state.replynicklist.push(response.data.result.mpnickname);
-        }
-      }
-    }
 
     const prevnext = async(idx) =>
     {
@@ -347,14 +332,16 @@ export default {
       const body = {renumber : idx};
       const response = await axios.post(url, body, {headers});
       console.log(response.data);
-      replynick();
+      if(response.data.status === 200)
+      {
+        location.reload();
+      }
     }
 
     onMounted(async() =>
     {
       await content();
       nick();
-      replynick();
     });
 
     

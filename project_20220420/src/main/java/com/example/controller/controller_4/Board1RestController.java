@@ -3,6 +3,7 @@ package com.example.controller.controller_4;
 import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import com.example.entity.entity1.Member;
+import com.example.entity.entity1.MemberPersonal;
 import com.example.entity.entity1.Reaction;
 import com.example.entity.entity2.BImage;
 import com.example.entity.entity2.Bckeditor;
@@ -17,6 +19,7 @@ import com.example.entity.entity2.Board1;
 import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.MemberNicknameview;
 import com.example.jwt.JwtUtil;
+import com.example.repository.repository_3.PersonalMemberRepository;
 import com.example.repository.repository_4.BckeditorRepository;
 import com.example.repository.repository_4.Board1ImageRepository;
 import com.example.repository.repository_4.Board1Repository;
@@ -66,6 +69,9 @@ public class Board1RestController {
   
     @Autowired 
     Board1Service b1Service;
+    
+    @Autowired
+    PersonalMemberRepository pmRep;
     
     @Autowired 
     JwtUtil jwtUtil;
@@ -408,6 +414,16 @@ public class Board1RestController {
                 List<Reaction> reaction = rRepository.findByReaction_B_no(bList.get(i).getBno());
                 bList.get(i).setBlike(reaction.size());
             }
+            
+            List<MemberPersonal> mplist = new ArrayList<>(); // 닉네임 리스트
+            for(int i=0; i<bList.toArray().length; i++)
+			{
+            	Member member = bList.get(i).getMember();
+				MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
+				mplist.add(mp);
+			}
+
+			map.put("mplist", mplist);
             // System.out.println(bList);
             map.put("status", 200); // 성공
             map.put("result", bList);

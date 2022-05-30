@@ -69,7 +69,7 @@
                     <!-- 댓글작성자 -->
                     <v-row dense>
                         <v-col class="col_left">
-                        <h5 style="padding-right: 10px;">{{state.replynicklist[idx]}}</h5> 
+                        <h5 style="padding-right: 10px;">{{state.replynicklist[idx].mpnickname}}</h5> 
                         <h5 style="color: #676767;">{{tmp.reregdate}}</h5>
                         <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
                         <h5 style="color: #676767;">{{state.like}}</h5>
@@ -205,6 +205,7 @@ export default {
                     state.mid = response.data.result.clubgallery.member.mid;
                     state.imagecount = response.data.result.imagecount; //idx
                     state.reply = response.data.result.replylist;
+                    state.replynicklist = response.data.result.replynicklist;
 
                     for(let i=0; i<state.imagecount; i++)
                     {
@@ -261,22 +262,6 @@ export default {
             }
         }
 
-        // 댓글작성자 닉네임 목록
-    const replynick = async() =>
-    {
-      for(let i=0; i<state.reply.length; i++)
-      {
-        const url = `/ROOT/api/clubmember/selectnick?mid=${state.reply[i].member.mid}`;
-        const headers = {"Content-Type":"application/json"};
-        const response = await axios.get(url, {headers});
-        // console.log(response.data);
-        if(response.data.status === 200)
-        {
-          state.replynicklist.push(response.data.result.mpnickname);
-        }
-      }
-    }
-
         const replylike = async() => {
 
         }
@@ -285,7 +270,6 @@ export default {
         {
             await gallery();
             nick();
-            replynick();
         });
 
         return { state, like, insertreply, replylike }

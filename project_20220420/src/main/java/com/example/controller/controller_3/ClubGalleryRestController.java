@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.entity.entity1.ClubGallery;
 import com.example.entity.entity1.GImage;
 import com.example.entity.entity1.Member;
+import com.example.entity.entity1.MemberPersonal;
 import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.Club;
 import com.example.entity.entity2.ClubBoard;
@@ -36,6 +37,7 @@ import com.example.jwt.JwtUtil;
 import com.example.repository.repository_3.CReplyRepository;
 import com.example.repository.repository_3.ClubGalleryImageRepository;
 import com.example.repository.repository_3.ClubGalleryRepository;
+import com.example.repository.repository_3.PersonalMemberRepository;
 
 @RestController
 @RequestMapping(value="/api/clubgallery")
@@ -48,6 +50,9 @@ public class ClubGalleryRestController {
 	
 	@Autowired
 	CReplyRepository crRep;
+	
+	@Autowired
+	PersonalMemberRepository pmRep;
 	
 	@Autowired
 	ResourceLoader resLoader;
@@ -171,6 +176,7 @@ public class ClubGalleryRestController {
 //				System.out.println("pages : " + (total-1) / 10 + 1);
 				model.addAttribute("pages", (total-1) / 9 + 1);	
 				
+				List<MemberPersonal> mplist = new ArrayList<>(); // 닉네임 리스트
 				for(int i=0; i<list.toArray().length; i++) //list 내 모든 갤러리에 각각의 썸네일 주소를 부여 
 				{
 					ClubGallery cg = list.get(i);
@@ -178,9 +184,14 @@ public class ClubGalleryRestController {
 					ClubGallery clubGallery = cgRep.findById(cg.getCgno()).orElse(null);
 					
 					clubGallery.setGimageurl("/ROOT/clubgallery/image?cgno=" + cg.getCgno() + "&idx=0");
+					
+					Member member = list.get(i).getMember();
+					MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
+					mplist.add(mp);
 				}
 				
 				model.addAttribute("list", list);
+				model.addAttribute("mplist", mplist);
 				
 				map.put("status", 200);
 				map.put("result", model);
@@ -219,17 +230,20 @@ public class ClubGalleryRestController {
 				// 댓글 목록 저장할 배열 변수
 				List<CReply> replylist = crRep.findByClubgallery_cgnoOrderByRenumberDesc(cgno);
 				
+				List<MemberPersonal> mplist = new ArrayList<>(); // 댓글 작성자 닉네임 리스트
+				for(int i=0; i<replylist.toArray().length; i++)
+				{
+					Member member = replylist.get(i).getMember();
+					MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
+					mplist.add(mp);
+				}
+				
 				System.out.println(cno);
 				
 				model.addAttribute("clubgallery", clubGallery); //글상세내용(이미지 url 포함)		
 				model.addAttribute("replylist", replylist); // 댓글
 				model.addAttribute("imagecount", imagecount); // 이미지 개수(idx)
-				
-//					System.out.println("image : " + image);
-//					if(image != null) // 글에 첨부된 이미지가 있으면
-//					{
-//				model.addAttribute("cbimage", image); //이미지
-//					}
+				model.addAttribute("replynicklist", mplist); // 댓글작성자 닉네임 목록
 				
 				map.put("status", 200);
 				map.put("result", model);

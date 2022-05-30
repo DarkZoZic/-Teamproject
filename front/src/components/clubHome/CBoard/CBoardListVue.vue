@@ -59,7 +59,7 @@
                                     >
                                         <td>{{ item.cbno }}</td>
                                         <td @click="selectContent(item.cbno)" style="cursor:pointer;">{{ item.cbtitle }}</td>
-                                        <td>{{ state.nicklist[idx]}}</td>
+                                        <td>{{ state.nicklist[idx].mpnickname}}</td>
                                         <td>{{ item.cbregdate }}</td>
                                         <td>{{ item.cbhit }}</td>
                                         <td>{{ item.like }}</td>
@@ -143,11 +143,12 @@ export default {
                 const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&cno=${state.cno}`;
                 const headers = {"Content-Type":"application/json", "token" : state.token};
                 const response = await axios.get(url, {headers});
-                // console.log(response.data);
+                console.log(response.data);
                 if(response.data.status === 200)
                 {
                     state.board = response.data.result.list;
                     state.pages = response.data.result.pages;
+                    state.nicklist = response.data.result.mplist;
                 }
             }
             else if(response.data.status === 0)
@@ -166,6 +167,8 @@ export default {
         {
             if(state.token !== null)
             {
+                
+
                 const url = `/ROOT/api/clubboard/selectlist?page=${idx}&text=${search}&option=${option}&cno=${state.cno}`;
                 const headers = {"Content-Type":"application/json", "token" : state.token};
                 const response = await axios.get(url, {headers});
@@ -173,7 +176,8 @@ export default {
                 if(response.data.status === 200)
                 {
                     state.board = response.data.result.list;
-                    nick();
+                    state.nicklist.splice(0); // state.nicklist 초기화 //페이지 이동 시 닉네임 목록 갱신
+                    state.nicklist = response.data.result.mplist;
                 }
             }
             else if(response.data.status === 0)
@@ -197,15 +201,18 @@ export default {
         const search = async() => {
             if(state.token !== null)
             {
+                
+
                 const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
                 const headers = {"Content-Type":"application/json", "token" : state.token};
                 const response = await axios.get(url, {headers});
-                console.log(response.data);
+                // console.log(response.data);
                 if(response.data.status === 200)
                 {
                     state.board = response.data.result.list;
                     state.pages = response.data.result.pages;
-                    nick();
+                    state.nicklist.splice(0); // state.nicklist 초기화 //검색 및 페이지 이동 시 닉네임 목록 갱신
+                    state.nicklist = response.data.result.mplist;
                 }
             }
             else
@@ -219,27 +226,9 @@ export default {
             router.push({name:'CBoardWriteVue', query:{cno : state.cno}});
         }
 
-        const nick = async() => //mid(아이디)값으로 닉네임 받아오기 // 페이지 초기 로딩시, 검색기능, 페이지기능에 사용
+        onMounted(() =>
         {
-            state.nicklist.splice(0); // state.nicklist 초기화 //페이지 이동 시 닉네임 목록 갱신
-            
-            for(let i=0; i<state.board.length; i++)
-            {
-                const url = `/ROOT/api/clubmember/selectnick?mid=${state.board[i].member.mid}`;
-                const headers = {"Content-Type":"application/json"};
-                const response = await axios.get(url, {headers});
-                // console.log(response.data);
-                if(response.data.status === 200)
-                {
-                    state.nicklist.push(response.data.result.mpnickname);
-                }
-            }
-        }
-
-        onMounted(async() =>
-        {
-            await content();
-            nick();
+            content();
         });
 
         return { state, search, selectContent, handleWrite, handlePage}
