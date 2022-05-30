@@ -28,7 +28,8 @@
                             <router-link to="/dontgo"><v-btn><h3>회원탈퇴</h3></v-btn></router-link>
                         </v-col>
                     </v-row>
-                    <v-row>
+
+                    <v-row dense style="padding-top: 20px;">
                         <v-col
                             v-for="(item, idx) in state.items12" :key="item" cols="4">
                             <v-card height="200px" class="club_card" style="padding: 20px;">
@@ -37,7 +38,7 @@
 
                                     <v-col sm="6" class="col_center">
                                         <router-link to="/cdetail" class="col_center">
-                                            <img v-if="item.imgurl" :src="item.imgurl" @click="handlePage(item.obj.cno,idx)" style="height: 50px;"/>
+                                            <img v-if="item.imgurl" :src="item.imgurl" @click="handlePage(item.obj.cno, idx)" style="height: 50px;"/>
                                             <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.cno,idx)" style="height: 50px;"/>
                                         </router-link>
 
@@ -52,7 +53,7 @@
                                 
                                 <v-row dense>
                                     <v-col>
-                                    <h4>{{item.obj.club.cname}}</h4>
+                                        <h3 @click="handlePage(items.obj.cno, idx)" style="cursor: pointer;">{{item.obj.club.cname}}</h3>
                                     </v-col>
                                 </v-row>
 
@@ -243,6 +244,7 @@ export default {
         const deleteall = async() => {
             
         }
+
         const handlePage = async(cno) => {
 
              router.push({name:"ClubDetailVue", query:{ cno: cno }})

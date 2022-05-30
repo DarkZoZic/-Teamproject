@@ -196,31 +196,24 @@
 
                                                 <v-col sm="6">
                                                     <v-row dense>
-                                                        <v-col sm="8" v-if="state.cname" style="padding-top: 5px;">
-                                                            <div class="col_center" style="background-color: navy; width: 55px; border: 0px solid; border-radius: 6px;"><h5>기업회원</h5></div>
-                                                        </v-col>
-                                                        
-                                                        <v-col sm="8" v-if="state.nick" style="padding-top: 5px;">
-                                                            <div class="col_center" style="background-color: gold; width: 55px; border: 0px solid; border-radius: 6px;"><h5>개인회원</h5></div>
-                                                        </v-col>
-
                                                         <v-col class="col_right">
                                                             <router-link to="/activity"><img :src="require(`../assets/img/bell.png`)" style="width: 20px"/></router-link>
                                                         </v-col>
                                                     </v-row>
 
                                                     <v-row dense>
-                                                        <router-link to="/regclub">
-                                                            <v-btn style="width: 100px; height: 30px; margin-bottom: 10px;"><h4>클럽생성</h4></v-btn>
-                                                        </router-link>
-                                                        <router-link to="/mypage">
-                                                            <v-btn style="width: 100px; height: 30px;"><h4>마이페이지</h4></v-btn>
-                                                        </router-link>
+                                                        <v-col sm="8" v-if="state.cname" style="padding-top: 5px;">
+                                                            <div class="col_center" style="background-color: navy; width: 100px; border: 0px solid; border-radius: 6px; height: 60px;"><h3>기업회원</h3></div>
+                                                        </v-col>
+                                                        
+                                                        <v-col sm="8" v-if="state.nick" style="padding-top: 5px;">
+                                                            <div class="col_center" style="background-color: gold; width: 100px; border: 0px solid; border-radius: 6px; height: 67px;"><h3>개인회원</h3></div>
+                                                        </v-col>
                                                     </v-row>
                                                 </v-col>
                                             </v-row>
 
-                                            <v-row dense style="padding-left: 10px; height: 155px;">
+                                            <v-row dense style="padding-left: 10px; padding-right: 10px; height: 155px;">
                                                 <v-col>
                                                     <v-row v-if="state.cname">
                                                         <v-col class="col_left" >
@@ -234,11 +227,28 @@
                                                         </v-col>
                                                     </v-row>
 
-                                                    <v-row>
-                                                        <v-col>
-
+                                                    <v-row dense v-if="state.cname">
+                                                        <v-col class="col_center">
+                                                            <router-link to="/regclub">
+                                                                <v-btn style="width: 100px; height: 100px; margin-right: 5px;"><h3>클럽생성</h3></v-btn>
+                                                            </router-link>
+                                                            <router-link to="/mypage">
+                                                                <v-btn style="width: 100px; height: 100px; margin-left: 5px;"><h3>마이페이지</h3></v-btn>
+                                                            </router-link>
                                                         </v-col>
                                                     </v-row>
+
+                                                    <v-row dense v-if="state.nick">
+                                                        <v-col class="col_center">
+                                                            <router-link to="/regclub">
+                                                                <v-btn style="width: 100px; height: 100px; margin-right: 5px;"><h3>클럽생성</h3></v-btn>
+                                                            </router-link>
+                                                            <router-link to="/mypage">
+                                                                <v-btn style="width: 100px; height: 100px; margin-left: 5px;"><h3>마이페이지</h3></v-btn>
+                                                            </router-link>
+                                                        </v-col>
+                                                    </v-row>
+
                                                 </v-col>
                                             </v-row>
 
@@ -274,8 +284,8 @@
                                         <v-col sm="3"></v-col>
                     
                                         <v-col sm="6" class="col_center">
-                                            <img v-if="items.imgurl" :src="items.imgurl" @click="handlePage(items.obj.cno,idx)" style="height: 50px; cursor: pointer;"/>
-                                            <img v-if="!items.imgurl" :src="require(`../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.cno,idx)" style="height: 50px;"/>
+                                            <img v-if="items.imgurl" :src="items.imgurl" @click="handlePage(items.obj.cno, idx)" style="height: 50px; cursor: pointer;"/>
+                                            <img v-if="!items.imgurl" :src="require(`../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.cno, idx)" style="height: 50px; cursor: pointer;"/>
                                         </v-col>
 
                                         <v-col sm="3" class="col_right">
@@ -288,7 +298,7 @@
                                     
                                     <v-row dense>
                                         <v-col>
-                                                <h3 @click="handlePage(items.obj.cno,idx)" style="cursor: pointer;">{{items.obj.cname}}</h3>
+                                            <h3 @click="handlePage(items.obj.cno, idx)" style="cursor: pointer;">{{items.obj.cname}}</h3>
                                         </v-col>
                                     </v-row>
 
@@ -371,36 +381,35 @@ export default {
                 nickname: '탁구왕김제빵',
             },            
         });
-                onMounted (()=>{
-                    handleData(),Lkelist();
-                    if(state.token != null){
-                        role(),mypage(),nick();
-                        // console.log(state.role);
-                        // if(state.role3 === 'PERSONAL'){
-                            //     handlenick();
-                        //     }
-                        // if(state.role2 =='COMPANY'){
-                        //     cname();
-                        // }
-                    }
-        
-                    if(state.token === null){
-                        store.commit('moduleA/setLogged', false)
-                    } 
-                    else{
-                        store.commit('moduleA/setLogged', true)
-                    }
-        
-                    if (state.card.desc.length >= 40) {
-                        state.card.desc1 = state.card.desc.substring(0, 40) + '...'
-                    }            
-                });
 
-                const handlePage = async(cno) => {
+        onMounted (()=>{
+            handleData(),Lkelist();
+            if(state.token != null){
+                role(),mypage(),nick();
+                // console.log(state.role);
+                // if(state.role3 === 'PERSONAL'){
+                    //     handlenick();
+                //     }
+                // if(state.role2 =='COMPANY'){
+                //     cname();
+                // }
+            }
 
-             router.push({name:"ClubDetailVue", query:{ cno: cno }})
+            if(state.token === null){
+                store.commit('moduleA/setLogged', false)
+            } 
+            else{
+                store.commit('moduleA/setLogged', true)
+            }
+
+            if (state.card.desc.length >= 40) {
+                state.card.desc1 = state.card.desc.substring(0, 40) + '...'
+            }            
+        });
+
+        const handlePage = async(cno) => {
+            router.push({name:"ClubDetailVue", query:{ cno: cno }})
             console.log(cno);
-           
         }
 
         const handleData = async() => {

@@ -35,7 +35,7 @@
                         <!-- 구 -->
                         <v-col style="border: 5px solid gold;" >
                             <v-row dense style="border-bottom: 1px solid #CCC; height: 60px;">
-                                <v-col v-for="tmp in state.tab" :key="tmp" :value="tmp" @click="search1(tmp)" class="col_center">
+                                <v-col v-for="tmp in state.tab" :key="tmp" :value="tmp" @click="search1(tmp)" @change="Clicksearch(tmp.a1)" class="col_center">
                                     <v-btn style="width: 20px; margin: -5px;"><h3>{{tmp}}</h3></v-btn>
                                 </v-col>
                             </v-row>                                
@@ -185,8 +185,8 @@
                                         <v-col sm="3"></v-col>
 
                                         <v-col sm="6" class="col_center">
-                                            <img v-if="item.imgurl" :src="item.imgurl" @click="handlePage(item.obj.cno,idx)" style="height: 50px; cursor: pointer;"/>
-                                            <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.cno,idx)" style="height: 50px;"/>
+                                            <img v-if="item.imgurl" :src="item.imgurl" @click="handlePage(item.obj.cno, idx)" style="height: 50px; cursor: pointer;"/>
+                                            <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.cno, idx)" style="height: 50px; cursor: pointer;"/>
                                         </v-col>
 
                                         <v-col sm="3" class="col_right">
@@ -199,7 +199,7 @@
                                     
                                     <v-row dense>
                                         <v-col>
-                                            <h3 style="cursor: pointer;">{{item.obj.cname}}</h3>
+                                            <h3 @click="handlePage(items.obj.cno, idx)" style="cursor: pointer;">{{item.obj.cname}}</h3>
                                         </v-col>
                                     </v-row>
 
@@ -305,6 +305,7 @@ export default {
                 state.addr1 = response.data.result;
                 console.log(state.addr1);
             }
+            Clicksearch(e);
         }
 
         // 중분류 검색
