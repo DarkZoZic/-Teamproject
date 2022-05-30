@@ -6,7 +6,7 @@
         <v-main>
             <div style="padding: 20px;">
                 <v-row>
-                    <v-col sm="2"><img :src="require('../assets/img/banner_left.jpg')" style="width: 100%; cursor: pointer;" @click="clubDetail()"/></v-col>
+                    <v-col sm="2"><img :src="require('../assets/img/banner_left.jpg')" style="width: 100%;"/></v-col>
 
                     <v-col>
                         <v-row>
@@ -139,8 +139,8 @@
                                                 <v-col sm="10" style="margin-top: 5px; justify-content: center; display: flex;">
                                                     <v-row dense="">
                                                         <v-col sm="4" class="col_center"><a>연령별</a></v-col>
-                                                        <v-col sm="4" class="col_center"><a>고민된다</a></v-col>
-                                                        <v-col sm="4" class="col_center"><a>잠온다</a></v-col>
+                                                        <v-col sm="4" class="col_center"><a>준비중</a></v-col>
+                                                        <v-col sm="4" class="col_center"><a>준비중</a></v-col>
                                                     </v-row>
                                                 </v-col>
 
@@ -317,7 +317,7 @@
                         </v-row>
                     </v-col>
 
-                    <v-col sm="2"><img :src="require('../assets/img/banner_right.jpg')" style="width:100%; cursor: pointer;" @click="clubDetail()"/></v-col>
+                    <v-col sm="2"><img :src="require('../assets/img/banner_right.jpg')" style="width:100%;" /></v-col>
                 </v-row>
             </div>
         </v-main>
