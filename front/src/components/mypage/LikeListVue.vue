@@ -28,6 +28,11 @@
                             <router-link to="/dontgo"><v-btn><h3>회원탈퇴</h3></v-btn></router-link>
                         </v-col>
                     </v-row>
+                    <v-row>
+                        <v-col class="col_right" style="margin-top: 15px;">
+                            <v-btn style="margin-left: 15px;" @click="clear()"><h3>전체삭제</h3></v-btn>
+                        </v-col>
+                    </v-row>
 
                     <v-row dense style="padding-top: 20px;">
                         <v-col
@@ -72,11 +77,6 @@
                                     </v-col>
                                 </v-row>
                             </v-card>                        
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col class="col_center" style="margin-top: 15px;">
-                            <v-btn style="margin-left: 15px;"><h3>전체삭제</h3></v-btn>
                         </v-col>
                     </v-row>
                 </v-col>
@@ -158,7 +158,6 @@ export default {
                 if(response.data.status === 200){
                     state.items12 = response.data.result;
                     console.log("=============",state.items12);
-                    console.log(state.items12[1]);
                     for(var i =0; i < state.items12.length; i++){
                         state.imgcheck.push({cno:state.items12[i].obj.club.cno,type:0})
                         // state.imgcheck[i] = 0;s
@@ -241,8 +240,11 @@ export default {
                         }
 
         }
-        const deleteall = async() => {
-            
+        const clear = async() => {
+            if(confirm('전체 삭제하시겠습니까?') === true) {
+                state.items12 = [];
+            }
+            handleData1();
         }
 
         const handlePage = async(cno) => {
@@ -265,7 +267,7 @@ export default {
             router.push({ name: "ClubDetailVue" });
         }
 
-        return { state, handlePage, changeheart, clubDetail }
+        return { state, handlePage, changeheart, clubDetail, clear }
     }
 }
 </script>
