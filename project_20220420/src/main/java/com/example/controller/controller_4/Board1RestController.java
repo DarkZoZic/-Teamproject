@@ -366,7 +366,9 @@ public class Board1RestController {
                 // 다음글
                 Board1 next = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
                 // System.out.println(next);
-            
+                
+                MemberPersonal mp = pmRep.findByMember_mid(board1.getMember().getMid());
+                
             
                 if (prev != null){
                     map.put("prev", prev.getBno());
@@ -383,6 +385,7 @@ public class Board1RestController {
 
                 map.put("status", 200); // 성공 
                 map.put("result", board1);
+                map.put("nick", mp);
                     
                 
             }

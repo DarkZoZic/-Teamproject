@@ -1,14 +1,17 @@
 package com.example.controller.controller_4;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.example.entity.entity1.Member;
+import com.example.entity.entity1.MemberPersonal;
 import com.example.entity.entity1.Qna;
 import com.example.entity.entity2.Board1;
 import com.example.entity.entity2.CReply;
 import com.example.jwt.JwtUtil;
+import com.example.repository.repository_3.PersonalMemberRepository;
 import com.example.repository.repository_4.CreplyRepository;
 import com.example.service.service_4.CreplyService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,6 +39,9 @@ public class CreplyRestController {
 
     @Autowired
     CreplyService cService;
+    
+    @Autowired
+    PersonalMemberRepository pmRep;
 
     @Autowired
     JwtUtil jwtUtil;
@@ -181,11 +187,20 @@ public class CreplyRestController {
             if(token != null){
 
                 List<CReply> cReply = cRepository.findByBoard1_bnoOrderByRenumberAsc(bno);
+                
+                List<MemberPersonal> mplist = new ArrayList<>(); // 댓글 작성자 닉네임 리스트
+				for(int i=0; i<cReply.toArray().length; i++)
+				{
+					Member member = cReply.get(i).getMember();
+					MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
+					mplist.add(mp);
+				}
+				
                 long total = cRepository.countByBoard1_bno(bno);
                 map.put("result",cReply);
+                map.put("replynicklist", mplist);
                 map.put("status",200);
                 map.put("total",total);
-
             }
 
         }

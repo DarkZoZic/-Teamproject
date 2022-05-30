@@ -45,7 +45,7 @@
                                     <tr v-for="(item, idx) in state.items" :key="item">
                                         <td>{{ item.bno }}</td>
                                         <td style="cursor: pointer;" @click="handlePage(item.bno)" >{{ item.btitle }}</td>
-                                        <!-- 닉네임이 나와야 함 -->
+                                        <!-- 닉네임이 나와야 함 <= 나옴 -->
                                         <td>{{ state.nicklist[idx].mpnickname }}</td>
                                         <td>{{ item.bregdate1 }}</td>
                                         <td>{{ item.bhit }}</td>

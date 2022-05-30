@@ -28,8 +28,8 @@
 
             <v-col sm="6" class="col_right1">
               <h5 style="color: #787878">
-                <!-- 닉네임으로 바꿔야 함 -->
-                {{state.items.member.mid}} &nbsp; | &nbsp; 
+                <!-- 닉네임으로 바꿔야 함 <= 바꿈 --> 
+                {{state.nick}} &nbsp; | &nbsp; 
                 조회 {{state.items.bhit}} &nbsp; | &nbsp; 
                 <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> 좋아요개수{{state.items.blike}}
                 &nbsp; | &nbsp; {{state.bregdate1}}
@@ -70,7 +70,7 @@
 
           <v-row dense>
             <v-col sm="5" style="padding: 10px;" class="col_left">
-              <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{}}</h5><h5>개</h5>
+              <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{state.replylist.length}}</h5><h5>개</h5>
             </v-col>
 
             <!-- 글 수정, 삭제 : 아이디가 일치할 때 -->
@@ -99,7 +99,7 @@
             <v-col style="border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; padding-left: 20px; padding-right: 20px;">
 
               <!-- 댓글하나 -->
-              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="(tmp,idx) in state.reply" :key="tmp">
+              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="(tmp,idx) in state.replylist" :key="tmp">
                 <v-col>
                   <!-- 댓글작성자 -->
                   <v-row dense>
@@ -128,9 +128,9 @@
                       <img :src="require('../../assets/img/reply.png')" style="margin-top: 5px; margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
                     </div>
                     <v-col class="col_left">
-                      <!-- id가 아니라 닉네임이 나와야 함 -->
+                      <!-- id가 아니라 닉네임이 나와야 함 <= 바꿈 -->
                       
-                      <h5 style="padding-right: 10px;">{{tmp.member.mid}} &nbsp; | </h5> 
+                      <h5 style="padding-right: 10px;">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5> 
                       <h5 style="color: gray;">{{tmp.reregdate1}}</h5>
                       <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; cursor: pointer; " />
                       <h5 style="color: gray; padding-left: 5px;">{{state.blike}}</h5>
@@ -190,11 +190,11 @@
                       </v-row>
 
                       <!-- 댓글내용 -->
-                      <v-row dense style="padding-right: 10px;">
+                      <!-- <v-row dense style="padding-right: 10px;">
                         <v-col>
-                          <h4 style="padding-left: 30px;">{{state.items.recontent}}</h4>
+                          <h4 style="padding-left: 30px;">{{tmp.recontent}}</h4>
                         </v-col>
-                      </v-row>
+                      </v-row> -->
                     </v-col>
                   </v-row>
                 </v-col>
@@ -258,8 +258,8 @@ export default {
 
     onMounted( async() => {
       await handleData(); 
-      await date();
       await handleReplyView();
+      await date();
       await likecount();
     
     })
@@ -269,8 +269,8 @@ export default {
     }
 
     const date1 = (i) => {
-      console.log(state.reply[i].reregdate);
-      state.reply[i].reregdate1 = dayjs(state.reply[i].reregdate).format('YY.MM.DD hh:mm:ss');
+      console.log(state.replylist[i].reregdate);
+      state.replylist[i].reregdate1 = dayjs(state.replylist[i].reregdate).format('YY.MM.DD hh:mm:ss');
     }
 
     const route = useRoute();
@@ -304,7 +304,9 @@ export default {
       },
       
       replylist: [],
-      page: 1
+      page: 1,
+      nick : '',
+      replynicklist : []
     })
 
     const handleData = async() => {
@@ -312,11 +314,12 @@ export default {
       const headers = {"Content-Type":"application/json",
                       "token" : state.token };
       const response = await axios.get(url, {headers});
-      console.log(response.data);
+      // console.log(response.data);
       if(response.data.status === 200){
         state.items = response.data.result;
         state.items.prev = response.data.prev;
         state.items.next = response.data.next;
+        state.nick = response.data.nick.mpnickname;
         console.log(state.items);
       }
     }
@@ -374,7 +377,7 @@ export default {
       body.append("board",state.bno);
       body.append("member",state.mid1);
       const response = await axios.post(url, body,{headers});
-      console.log(response.data);
+      // console.log(response.data);
       if(response.data.status === 200){
         alert('좋아요성공');
         await handleData(state.bno);
@@ -386,7 +389,7 @@ export default {
       const url = `/ROOT/reaction/likelist.json`;
       const headers = {"Content-Type":"application/json"};
       const response = await axios.get(url, {headers});
-      console.log(response.data);
+      // console.log(response.data);
       if(response.data.status === 200){
         state.items = response.data.result;
       }
@@ -405,12 +408,13 @@ export default {
       const response = await axios.get(url, {headers});
       console.log(response.data);
       if(response.data.status === 200){
-        state.reply = response.data.result;
-        for(i=0; i<state.reply.length; i++){
+        state.replylist = response.data.result;
+        state.replynicklist = response.data.replynicklist;
+        console.log(state.replylist)
+        for(i=0; i<state.replylist.length; i++){
           state.reply1.reupdate.push(false);
           state.reply1.clickReply.push(false);
         }
-        console.log(state.reply);
         // state.page = response.data.result.page;
 
         // for(let i=0; i<0; i++){
@@ -422,7 +426,7 @@ export default {
         // state.reply = response.data.result;
       }
         // handledata가 출력되고 나서 ..
-        for(var i = 0; i<state.reply.length; i++){
+        for(var i = 0; i<state.replylist.length; i++){
           date1(i);
         }
     }
