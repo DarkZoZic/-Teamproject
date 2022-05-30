@@ -269,12 +269,12 @@
                              v-for="(items,idx) in state.items1" :key="items"
                             cols="4"   
                             >
-                                <v-card height="200px" class="club_card" style="padding: 20px; ">
+                                <v-card height="200px" class="club_card" style="padding: 20px;">
                                     <v-row dense>
                                         <v-col sm="3"></v-col>
                     
                                         <v-col sm="6" class="col_center">
-                                            <img v-if="items.imgurl" :src="items.imgurl" @click="handlePage(items.obj.cno,idx)" style="height: 50px;"/>
+                                            <img v-if="items.imgurl" :src="items.imgurl" @click="handlePage(items.obj.cno,idx)" style="height: 50px; cursor: pointer;"/>
                                             <img v-if="!items.imgurl" :src="require(`../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.cno,idx)" style="height: 50px;"/>
                                         </v-col>
 
@@ -288,7 +288,7 @@
                                     
                                     <v-row dense>
                                         <v-col>
-                                                <h3>{{items.obj.cname}}</h3>
+                                                <h3 @click="handlePage(items.obj.cno,idx)" style="cursor: pointer;">{{items.obj.cname}}</h3>
                                         </v-col>
                                     </v-row>
 
