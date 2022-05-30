@@ -2,6 +2,7 @@ package com.example.controller.controller_2;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.example.entity.entity1.CDImage;
@@ -31,6 +32,8 @@ public class ClubDetailRestController {
 
     @Autowired ClubDetailRepository cdRepository;
 
+
+    
     // 클럽번호로 클럽디테일 가져오기
 	// 127.0.0.1:9090/ROOT/clubdetail/selectcno
 	@RequestMapping(value = "/selectcno", 
@@ -56,7 +59,7 @@ public Map<String, Object> selectcnoGet(
 
 return map;
 }
-
+   
     // 클럽공고 이미지 등록
 	// 127.0.0.1:9090/ROOT/clubdetail/cdimage
 	@RequestMapping(value="/cdimage", 

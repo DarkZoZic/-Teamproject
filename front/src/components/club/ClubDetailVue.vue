@@ -189,7 +189,7 @@
 
                             <v-row dense style="padding-left: 20px; margin-top: 10px; padding-right: 32px;">
                                 <v-col>
-                                    <h4>{{state.items.cdcontent}}</h4>
+                                    <h4><div v-html="state.items.cdcontent"></div></h4>
                                     <!-- <img :src="require('../../assets/img/mozip.jpg')" style="width: 100%;"/> -->
                                 </v-col>
                             </v-row>
