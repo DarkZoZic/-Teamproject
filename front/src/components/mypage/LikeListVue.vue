@@ -34,22 +34,23 @@
                         </v-col>
                     </v-row>
 
-                    <v-row dense style="padding-top: 20px;">
+                    <v-row dense style="padding-top: 20px;" v-if="state.items12">
                         <v-col
                             v-for="(item, idx) in state.items12" :key="item" cols="4">
                             <v-card height="200px" class="club_card" style="padding: 20px;">
+                                {{item.imgurl}}
                                 <v-row dense>
                                     <v-col sm="3"></v-col>
 
                                     <v-col sm="6" class="col_center">
                                         <router-link to="/cdetail" class="col_center">
                                             <img v-if="item.imgurl" :src="item.imgurl" @click="handlePage(item.obj.cno, idx)" style="height: 50px;"/>
-                                            <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.cno,idx)" style="height: 50px;"/>
+                                            <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.cno, idx)" style="height: 50px;"/>
                                         </router-link>
 
                                     </v-col>
                                     <v-col sm="3" class="col_right">
-                                        <v-btn style="height: 100%; width: 10px;" id="like"  @click="changeheart(item.obj.club.cno,idx)">
+                                        <v-btn style="height: 100%; width: 10px;" id="like"  @click="changeheart(item.obj.club.cno, idx)">
                                             <img   v-if="state.imgcheck[idx].type === 0" :src="state.imgName"  style="width: 30px"/>
                                             <img   v-if="state.imgcheck[idx].type === 1" :src="state.imgName1"  style="width: 30px"/>
                                         </v-btn>
