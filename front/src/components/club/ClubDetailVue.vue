@@ -45,12 +45,12 @@
                             </router-link>
                         </v-col>
                         
-                         <v-col sm="1" class="col_right">
-                                            <v-btn style="height: 100%; width: 10px;" id="like"  @click="changeheart(state.items.club.cno)">
-                                                <img v-if="state.imgcheck === 0" :src="state.imgName" style="width: 40px"/>
-                                                <img v-if="state.imgcheck === 1" :src="state.imgName1" style="width: 40px"/>
-                                            </v-btn>
-                                        </v-col>
+                        <v-col sm="1" class="col_right">
+                            <v-btn style="height: 100%; width: 100%;" id="like"  @click="changeheart(state.items.club.cno)">
+                                <img v-if="state.imgcheck === 0" :src="state.imgName" style="width: 40px"/>
+                                <img v-if="state.imgcheck === 1" :src="state.imgName1" style="width: 40px"/>
+                            </v-btn>
+                        </v-col>
                     </v-row>
 
                     <v-row dense class="club_detail_box1" style="border: 3px solid;">
