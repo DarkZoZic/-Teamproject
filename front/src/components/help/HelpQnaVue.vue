@@ -46,7 +46,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
+                  <!-- <tr
                     v-for="item in state.notice"
                     :key="item"
                   >
@@ -55,7 +55,7 @@
                     <td style="background-color: gold;">{{ item.writer }}</td>
                     <td style="background-color: gold;">{{ item.date }}</td>
                     <td style="background-color: gold;">{{ item.hit }}</td>
-                  </tr>
+                  </tr> -->
                   <tr
                       v-for="item in state.board"
                       :key="item"

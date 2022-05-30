@@ -31,7 +31,7 @@
                 <!-- 닉네임으로 바꿔야 함 <= 바꿈 --> 
                 {{state.nick}} &nbsp; | &nbsp; 
                 조회 {{state.items.bhit}} &nbsp; | &nbsp; 
-                <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> 좋아요개수{{state.items.blike}}
+                <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.rno}}
                 &nbsp; | &nbsp; {{state.bregdate1}}
               </h5>
             </v-col>
@@ -63,7 +63,7 @@
             <v-col style="padding: 20px;" class="col_center">
               <v-btn style="height: 50px;" @click="like()">
                 <img :src="state.likeimage" style="width: 40px; margin-right: 3px;"/>
-                <h3 style="margin-left: 10px;">좋아요개수{{state.items.blike}}</h3>
+                <h3 style="margin-left: 10px;">{{state.rno}}</h3>
               </v-btn>
             </v-col>
           </v-row>
@@ -132,7 +132,7 @@
                       
                       <h5 style="padding-right: 10px;">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5> 
                       <h5 style="color: gray;">{{tmp.reregdate1}}</h5>
-                      <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; cursor: pointer; " />
+                      <img :src="require('../../assets/img/thumb.png')" @click="replylike()" style="width: 15px; margin-left: 10px; cursor: pointer; " />
                       <h5 style="color: gray; padding-left: 5px;">{{state.blike}}</h5>
                     </v-col>
                   </v-row>
@@ -291,6 +291,7 @@ export default {
       liked : true,
       items : '',
       item : '',
+      rno : [],
 
       reply1 : {
         mid : '',
@@ -382,9 +383,11 @@ export default {
       const response = await axios.post(url, body,{headers});
       // console.log(response.data);
       if(response.data.status === 200){ // 좋아요 성공
-        await handleData(state.bno);
+        alert('좋아요 성공');
+        await like();
+        // await handleData(state.bno);
       }
-      if(response.data.status === -1){ // 좋아요 취소
+      else if(response.data.status === -1){ // 좋아요 취소
         const url = `/ROOT/reaction/unlike.json?bno=${state.bno}`;
         const headers = {
           "Content-Type" : "application/json",
@@ -392,6 +395,8 @@ export default {
         const response = await axios.delete(url, {headers:headers, data:{}});
         // console.log(response.data);
         if(response.data.status === 200){
+          alert('좋아요 취소');
+          // await like();
           await handleData(state.bno);
         }
 
@@ -406,12 +411,27 @@ export default {
       const response = await axios.get(url, {headers});
       console.log(response.data);
       if(response.data.status === 200){
-        state.items = response.data.result;
+        state.rno = response.data.result;
         await handleData(state.bno);
       }
     }
 
+    // 댓글 좋아요 등록
     const replylike = async() => {
+      const url = `/ROOT/reaction/relike.json`;
+      const headers = {
+        "Content-Type":"application/json",
+        "token" : state.token };
+      const body = new FormData;
+      body.append("creply",state.reply1.renumber);
+      body.append("member",state.mid1);
+      const response = await axios.post(url, body,{headers});
+      // console.log(response.data);
+      if(response.data.status === 200){ // 좋아요 성공
+        alert('좋아요 성공');
+        await like();
+        // await handleData(state.bno);
+      }
 
     }
 
