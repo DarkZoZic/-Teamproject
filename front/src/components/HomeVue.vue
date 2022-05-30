@@ -276,8 +276,7 @@
 
                         <v-row v-if="state.items1">
                             <v-col
-                             v-for="(items,idx) in state.items1" :key="items"
-                            cols="4"   
+                             v-for="(items,idx) in state.items1" :key="items" cols="4"   
                             >
                                 <v-card height="200px" class="club_card" style="padding: 20px;">
                                     <v-row dense>
@@ -304,13 +303,13 @@
 
                                     <v-row dense style="height:60px;">
                                         <v-col>
-                                            <h5 style="display: flex">{{items.obj.cdesc}}</h5>
+                                            <h4 style="display: flex">{{items.obj.cdesc}}</h4>
                                         </v-col>
                                     </v-row>
 
                                     <v-row dense style="vertical-align: baseline;">
                                         <v-col>
-                                            <h5>{{items.obj.carea}}</h5>
+                                            <h4>{{items.obj.carea}}</h4>
                                         </v-col>
                                     </v-row>
                                 </v-card>

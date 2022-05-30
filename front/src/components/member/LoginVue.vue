@@ -77,7 +77,7 @@
                         <v-row dense style="padding: 10px;">
                             <v-col sm="4" class="col_center">
                                 <h4>아이디 저장</h4>
-                                <input type="checkbox" style="margin-left:10px; width: 20px; height: 20px;">
+                                <input type="checkbox" v-model="state.saveId" @change="saveId()" style="margin-left:10px; width: 20px; height: 20px;">
                             </v-col>
 
                             <v-col sm="4" class="col_center">
@@ -156,8 +156,8 @@ export default {
         const state = reactive({
             id   : '',
             pw   : '',
-            valid: false,
             show1: false,
+            saveId: false,
 
             pwRules: [
                 v => !!v || '필수 입력 사항입니다',
@@ -185,6 +185,14 @@ export default {
                 // store.commit('moduleA/setMenu', "/");
             }
         }
+
+        // const saveId = async() => {
+        //     state.email = this.$cookies.get("emailCookie");
+        //     if(state.saveId) {
+        //         this.$cookies.set("emailcookie", state.email);
+        //     }
+        //     console.log(state.saveId);
+        // }
 
         const loginWithKakao = () => {
 
