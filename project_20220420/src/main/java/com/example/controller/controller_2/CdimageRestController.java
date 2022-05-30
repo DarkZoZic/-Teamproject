@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.entity.entity1.CDImage;
+import com.example.entity.entity1.ClubDetail;
 import com.example.repository.repository_gibum.CdimageRepository;
 import com.example.repository.repository_gibum.CimageRepository;
 
@@ -39,7 +40,7 @@ public Map<String, Object> selectcno1Get(
 @RequestParam(value = "cdno")long cdno){
     Map<String, Object> map = new HashMap<>();
     try {
-
+        ClubDetail clubDetail = new ClubDetail();
         List<CDImage> cdimage = cdimageRepository.findByClubDetail_cdno(cdno);
         System.out.println(cdimage);
 

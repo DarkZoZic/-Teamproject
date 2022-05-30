@@ -221,6 +221,7 @@ export default {
         const route = useRoute();
         const router = useRouter();
         const state = reactive({
+            cdno : '',
             token : sessionStorage.getItem("TOKEN"),
             cno : route.query.cno,
             writeDate: '2022년 5월 2일',
@@ -262,12 +263,26 @@ export default {
             console.log(response.data);
             if(response.data.status === 200){
                 state.items = response.data.result;
+                state.cdno = response.data.result.cdno;
             state.addr1 = state.items.club.caddress;
             console.log("====",state.items.club.caddress);
+            console.log(state.cdno);
             }
             handleSend();
 
         }
+        // const Cdimage = async() => {
+        //     const url = `/ROOT/clubdetail/selectcno?cno=${state.cdno}`;
+        //     const headers = {"Content-Type":"application/json"};
+        //     const response = await axios.get(url, {headers});
+        //     console.log(response.data);
+        //     if(response.data.status === 200){
+        //         state.items = response.data.result;
+        //     state.addr1 = state.items.club.caddress;
+        //     console.log("====",state.items.club.caddress);
+        //     }
+
+        // }
         const store = useStore();
 
         const handleSend = () => {
