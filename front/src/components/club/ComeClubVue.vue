@@ -21,22 +21,20 @@
                         </v-col>
                     </v-row>
 
-                    <v-row dense>
+                    <v-row dense style="padding-top: 10px;">
                         <v-col sm="1" ></v-col>
                         <div v-if="state.items">
-                        <v-col sm="10" >
-                            <v-select  :change="handleCno()"
-                                variant="outlined" density="compact" :items= state.cnolist state.clublist label="클럽 번호선택"
-                                v-model="state.club"  style="height: 40px; padding-right: 10px; width: 200px;">
-                            </v-select>
-                            
-                        </v-col>
-
+                            <v-col sm="10" >
+                                <v-select :change="handleCno()"
+                                    variant="outlined" density="compact" :items= state.cnolist state.clublist label="클럽 번호선택"
+                                    v-model="state.club"  style="height: 40px; padding-right: 10px; width: 200px;">
+                                </v-select>
+                            </v-col>
                         </div>
                         <v-col sm="1"></v-col>
                     </v-row>
 
-                    <v-row dense style="padding-top: 20px;">
+                    <v-row dense style="padding-top: 10px;">
                         <v-col sm="1" ></v-col>
 
                         <v-col style="display: flex; align-items: center;">
