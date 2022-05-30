@@ -33,14 +33,19 @@
                     
                     <v-row dense>
                         <!-- 구 -->
-                        <v-col style="border: 5px solid gold;">
-                            <v-tabs
+                        <v-col style="border: 5px solid gold;" >
+                            <v-row dense style="border-bottom: 1px solid #CCC; height: 60px;">
+                                <v-col v-for="tmp in state.tab" :key="tmp" :value="tmp" @click="search1(tmp)" class="col_center">
+                                    <v-btn style="width: 20px; margin: -5px;"><h3>{{tmp}}</h3></v-btn>
+                                </v-col>
+                            </v-row>                                
+                            <!-- <v-tabs
                                 v-model="state.tab"
                                 grow
                                 style="height: 40px;"
                                 >
-                                <v-tab v-for="tmp in state.tab" :key="tmp" :value="tmp" @click="search1(tmp)" style="width: 40px;"><h3>{{ tmp }}</h3></v-tab>
-                            </v-tabs>
+                                <v-tab v-for="tmp in state.tab" :key="tmp" :value="tmp" @click="search1(tmp)" style="width: 20px;"><h4>{{tmp}}</h4></v-tab>
+                            </v-tabs> -->
 
                             <v-card-text>
                                 <v-window v-model="state.tab2">
@@ -100,12 +105,18 @@
                                             </v-row>
 
                                             <v-row dense>
-                                                <v-col class="col_center" style="vertical-align: middle; margin-bottom: 10px;">
+                                                <v-col class="col_center" style="vertical-align: middle;">
                                                     <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="월"><h4>월</h4>
                                                     <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="화"><h4>화</h4>
                                                     <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="수"><h4>수</h4>
                                                     <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="목"><h4>목</h4>
                                                     <input type="checkbox" v-model="state.datechk" class="club_list_chk" value="금"><h4>금</h4>
+                                                </v-col>
+                                            </v-row>
+
+                                            <v-row dense>
+                                                <v-col class="col_center">
+                                                    <v-btn class="club_list_btn" @click="resetdate()" ><h4>초기화</h4></v-btn>
                                                 </v-col>
                                             </v-row>
                                         </v-col>
@@ -126,13 +137,18 @@
                                                     <input type="checkbox" v-model="state.timechk" class="club_list_chk" value="상관없음"><h4>상관없음</h4>
                                                 </v-col>
                                             </v-row>
+                                            <v-row dense>
+                                                <v-col class="col_center">
+                                                    <v-btn class="club_list_btn" @click="resettime()" ><h4>초기화</h4></v-btn>
+                                                </v-col>
+                                            </v-row>
                                         </v-col>             
                                     </v-row>
 
                                     <v-row dense>
                                         <v-col class="col_center">
-                                            <v-btn class="club_list_btn"  v-model="state.area" @click="Clicksearch(state.area)"><h4>검색</h4></v-btn>
-                                            <v-btn class="club_list_btn"  @click="reset()" ><h4>초기화</h4></v-btn>
+                                            <v-btn class="club_list_btn" v-model="state.area" @click="Clicksearch(state.area)"><h4>검색</h4></v-btn>
+                                            <v-btn class="club_list_btn" @click="reset()" ><h4>초기화</h4></v-btn>
                                         </v-col>
                                     </v-row>
                                 </v-col>
@@ -233,7 +249,7 @@ export default {
             token : sessionStorage.getItem("TOKEN"),
             logged: computed(() => store.getters['moduleA/getLogged']),
             area: [],
-            tab: ['전국', '서울', '경기', '인천', '부산', '대전', '대구', '울산', 
+            tab: ['서울', '경기', '인천', '부산', '대전', '대구', '울산', 
                 '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'],
             items1 : '',
             datechk: [],
@@ -458,11 +474,20 @@ export default {
         const reset = async() => {
             state.datechk = [];
             state.timechk = [];
+            all();
         };
+
+        const resetdate = async() => {
+            state.datechk = [];
+        };
+
+        const resettime = async() => {
+            state.timechk = [];
+        }
         
         return {
         // like,
-        state, addr1, search1, search2, del, reset ,Clicksearch, all, changeheart, unlike, handlePage }
+        state, addr1, search1, search2, del, reset, resetdate, resettime, Clicksearch, all, changeheart, unlike, handlePage }
     }
 }
 </script>
