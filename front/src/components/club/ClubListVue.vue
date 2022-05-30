@@ -46,7 +46,7 @@
                                 <v-window v-model="state.tab2">
                                     <v-window-item v-for="tmp in state.tab" :key="tmp" :value="tmp">
                                         <v-row dense class="addr2">
-                                            <v-col sm="2" v-for="(tmp, idx) in state.addr1" :key="tmp" @click="Clicksearch(tmp.a1 +'  '+ tmp.a2)">
+                                            <v-col sm="2" v-for="(tmp, idx) in state.addr1" :key="tmp" @click="Clicksearch(tmp.a1 +' '+ tmp.a2)">
                                                 <h3 class="addr1">{{state.addr1[idx].a2}}</h3>
                                             </v-col>
                                         </v-row>
