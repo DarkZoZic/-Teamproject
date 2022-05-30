@@ -4,7 +4,7 @@
     <v-app>
         <v-main style="padding: 10px;">
 
-            <!-- 상단 표 -->
+            <!-- 상단 표zzz -->
             <v-row dense>
                 <v-col sm="2"></v-col>
                 

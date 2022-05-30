@@ -21,14 +21,80 @@
                         </v-col>
                     </v-row>
 
-                    <v-row dense>
+                    <v-row dense style="padding-top: 20px;">
                         <v-col class="col_center" style="padding: 10px;">
-                            <router-link to="/pupdate"><v-btn><h3>회원정보수정</h3></v-btn></router-link>
-                            <router-link to="/nupdate"><v-btn><h3>닉네임변경</h3></v-btn></router-link>
-                            <router-link to="/pwupdate"><v-btn><h3>비밀번호변경</h3></v-btn></router-link>
-                            <router-link to="/likelist"><v-btn><h3>찜목록</h3></v-btn></router-link>
-                            <router-link to="/activity"><v-btn><h3>내활동</h3></v-btn></router-link>
-                            <router-link to="/dontgo"><v-btn><h3>회원탈퇴</h3></v-btn></router-link>
+                            <router-link to="/pupdate">
+                                <v-card style="width: 170px; height: 170px; padding: 30px;">
+                                    <v-row dense>
+                                        <v-col class="col_center">
+                                            <img :src="require(`../../assets/img/update.png`)" style="width: 80px"/>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row dense>
+                                        <v-col class="col_center">
+                                            <h3>회원정보수정</h3>
+                                        </v-col>
+                                    </v-row>
+                                </v-card>
+                            </router-link>
+                            <router-link to="/pwupdate">
+                                <v-card style="width: 170px; height: 170px; padding: 30px;">
+                                    <v-row dense>
+                                        <v-col class="col_center">
+                                            <img :src="require(`../../assets/img/pw change.png`)" style="width: 80px"/>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row dense>
+                                        <v-col class="col_center">
+                                            <h3>비밀번호변경</h3>
+                                        </v-col>
+                                    </v-row>
+                                </v-card>
+                            </router-link>
+                            <router-link to="/nupdate">
+                                <v-card style="width: 170px; height: 170px; padding: 30px;">
+                                    <v-row dense>
+                                        <v-col class="col_center">
+                                            <img :src="require(`../../assets/img/nick_change.png`)" style="width: 80px"/>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row dense>
+                                        <v-col class="col_center">
+                                            <h3>닉네임변경</h3>
+                                        </v-col>
+                                    </v-row>
+                                </v-card>
+                            </router-link>
+                            <router-link to="/likelist">
+                                <v-card style="width: 170px; height: 170px; padding: 30px;">
+                                    <v-row dense>
+                                        <v-col class="col_center">
+                                            <img :src="require(`../../assets/img/heart1.png`)" style="width: 80px"/>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row dense>
+                                        <v-col class="col_center">
+                                            <h3>찜목록</h3>
+                                        </v-col>
+                                    </v-row>
+                                </v-card>
+                            </router-link>
+                            
+                            <router-link to="/activity"><v-btn style="margin: 10px;"><h3>내활동</h3></v-btn></router-link>
+                            <router-link to="/dontgo">
+                                <v-card style="width: 170px; height: 170px; padding: 30px;">
+                                    <v-row dense>
+                                        <v-col class="col_center">
+                                            <img :src="require(`../../assets/img/exit.png`)" style="width: 80px"/>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row dense>
+                                        <v-col class="col_center">
+                                            <h3>회원탈퇴</h3>
+                                        </v-col>
+                                    </v-row>
+                                </v-card>
+                            </router-link>
                         </v-col>
                     </v-row>
                 </v-col>
