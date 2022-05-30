@@ -35,6 +35,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -200,8 +201,29 @@ try {
     
     return map;
 }
-// // 
-
+	// 클럽이름 중복확인
+	// 127.0.0.1:9090/ROOT/club/cnamecheck
+	@PostMapping(value = "/cnamecheck", 
+	consumes = MediaType.ALL_VALUE, 
+	produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> CnameCheckPost(
+		@RequestParam(value = "cname") String cname){
+		Map<String, Object> map = new HashMap<>();
+		try {
+			System.out.println(cname);
+			Club club = cRepository.findByCname(cname);
+			if(club == null){
+				System.out.println("사용가능 클럽명");	
+				map.put("status", 200);
+			}
+		}
+            catch (Exception e) {
+                e.printStackTrace();
+                map.put("status", 0);
+            }
+            
+            return map;
+        }
 
     // 클럽 이미지1개조회(클럽생성시 바로 받아오기)
 	// 127.0.0.1:9090/ROOT/club/selectone?cno=139

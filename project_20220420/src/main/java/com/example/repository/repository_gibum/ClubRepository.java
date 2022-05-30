@@ -32,6 +32,7 @@ public interface ClubRepository
         List<ClubProjection> findByCprivateOrderByCnoDesc(String cprivate);
         List<ClubProjection> findByCaddress(String address);
 
+        Club findByCname(String cname);
         // Membermid findByMid(String mid);
 
         // List<ClubProjection> findByCprivateAndCaddress(String cprivate, String caddress);

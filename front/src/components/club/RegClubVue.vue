@@ -41,6 +41,11 @@
                                                 required
                                                 ></v-text-field>
                                             </v-col>
+                                            <v-col sm="2">
+                                                <v-btn style="width: 100%; height:40px;" @click="cnamecheck()">
+                                                    <h4>클럽명 중복확인</h4>
+                                                </v-btn>
+                                            </v-col>
                                         </v-row>
                                     </v-expansion-panel>                                  
 
@@ -270,6 +275,7 @@ export default {
             detailAddress : '',
             address       : '',
             max           : '',
+            cnamecheck: '',
             desc: '',
             nameRules: [
                 v => !!v || '필수 입력 사항입니다',
@@ -366,7 +372,21 @@ export default {
             if(response.data.status === 200){
             router.push({path : 'clist'})
             }
+        }
 
+        const cnamecheck = async() => {
+            const url = `/ROOT/club/cnamecheck?cname=${state.name}`;
+            const headers = {"Content-Type":"application/json"};
+            const response = await axios.post(url,[],{headers});
+            console.log(response.data);
+            if(response.data.status === 200){
+                alert('사용할 수 있는 클럽명')
+                state.name = response.data.status
+            }
+            else{
+                alert('중복된 클럽명')
+                state.name = '';
+            }
         }
 
         const Clubimage = async() => {
@@ -530,7 +550,7 @@ export default {
                 },
             }).open();
         }
-        return { state, post, handleReg, handleImage,clickchange,clickchange1 }
+        return { state, cnamecheck, post, handleReg, handleImage,clickchange,clickchange1 }
     }
 }
 </script>
