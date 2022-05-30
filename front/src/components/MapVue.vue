@@ -2,22 +2,22 @@
     <div> 
         <div id="map" ></div>
         {{addr}}
+        {{counter}}
     </div>
 </template>
 
 <script>
 import { toRefs,reactive } from '@vue/reactivity'
 import { useRouter } from 'vue-router'
-import { onMounted } from '@vue/runtime-core';
+import { computed, onMounted } from '@vue/runtime-core';
+import { useStore } from "vuex";
 export default {
-     props : {
-            addr1: String
-        },
-    
     setup () {
-        
+        const store = useStore();
+
+        const counter = computed(() => store.getters.getCounter);
         const state = reactive({
-            addr:'서울 노원구 덕릉로 849',
+            addr: counter,
             markers: [],
             infowindow: null,
         });
@@ -129,6 +129,7 @@ export default {
                 document.head.appendChild(script);
             }
             console.log(window);
+
         })
 
         return {
@@ -136,7 +137,9 @@ export default {
             map,
             changeSize,
             displayMarker,
-            geoMap
+            geoMap,
+            counter
+            
         }
     }
 }
