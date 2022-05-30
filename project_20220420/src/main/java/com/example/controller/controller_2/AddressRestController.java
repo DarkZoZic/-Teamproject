@@ -59,7 +59,7 @@ public class AddressRestController {
     return map;
     }   
    
-        // 주소 전체 리스트
+        // 부산 전체 리스트
     // 127.0.0.1:9090/ROOT/address/addrbusan
     @RequestMapping(value = "/addrbusan", 
     method = { RequestMethod.GET },
@@ -162,7 +162,8 @@ public class AddressRestController {
         }
 
     return map;
-    }   
+    }
+    
     //  중분류 검색 ex) 동래구
     // 127.0.0.1:9090/ROOT/address/search1
     @RequestMapping(value = "/search2", 
@@ -187,9 +188,9 @@ public class AddressRestController {
          catch (Exception e) {
             e.printStackTrace();
         }
-
     return map;
-    }   
+    }
+
     //  주소 추가
     // 127.0.0.1:9090/ROOT/address/insert
     @RequestMapping(value = "/insert", 

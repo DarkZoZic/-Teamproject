@@ -222,6 +222,11 @@ body {
   padding: 5px;
 }
 
+.addr2 {
+  padding-left: 60px;
+  padding-right: 60px;
+}
+
 /* border */
 .border-b_1_CCC {
   border-bottom: 1px solid #CCC;
@@ -290,20 +295,29 @@ header > nav {
   font-weight: bold;
   border-top: 1px solid #0066ff;
 }
+
 .keyword {
   width: 200px;
 }
+
 .nav_items ul > li {
   display: inline-block;
   margin-left: 8px;
 }
+
 .nav_items ul > li:nth-child(-n + 7) > a {
   /* <ul>하위 7번째 <li>까지 각각 내부의 <a> 태그 접근 */
   color: #ff0000;
 }
+
 .nav_items ul > li > a {
   text-decoration: none;
   cursor: pointer;
+}
+
+.addr1 {
+  cursor: pointer;
+  margin-left: 10px;
 }
 
 a {

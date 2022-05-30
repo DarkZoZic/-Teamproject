@@ -31,98 +31,31 @@
                         </v-col>
                     </v-row>
                     
-                    <v-row dense="">
+                    <v-row dense>
                         <!-- 구 -->
                         <v-col style="border: 5px solid gold;">
-                            <v-row dense style="border-bottom: 1px solid #CCC; padding: 10px;">
-                                <v-col class="col_center">
-                                    <h3 style="cursor: pointer; margin-left: 10px;">전국</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">서울</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">경기</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">인천</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">부산</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">대전</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">대구</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">울산</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">강원</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">충북</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">충남</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">전북</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">전남</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">경북</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">경남</h3>
-                                    <h3 style="cursor: pointer; margin-left: 10px;">제주</h3>
-                                </v-col>
-                            </v-row>
-                            <v-row dense>
-                                <v-col>
-                                    <v-tabs
-                                        v-model="state.tab"
-                                        grow
-                                        style="height: 40px;"
-                                        >
-                                        <v-tab v-for="tmp in state.tab" :key="tmp" :value="tmp"><h4>{{ tmp }}</h4></v-tab>
-                                    </v-tabs>
+                            <v-tabs
+                                v-model="state.tab"
+                                grow
+                                style="height: 40px;"
+                                >
+                                <v-tab v-for="tmp in state.tab" :key="tmp" :value="tmp" @click="search1(tmp)" style="width: 40px;"><h3>{{ tmp }}</h3></v-tab>
+                            </v-tabs>
 
-                                    <v-card-text>
-                                        <v-window v-model="state.tab2">
-                                            <v-window-item v-for="tmp in state.tab" :key="tmp" :value="tmp">
-                                                {{ tmp }}
-                                            </v-window-item>
-                                        </v-window>
-                                    </v-card-text>
-                                </v-col>
-                            </v-row>
-
-                            <v-row dense>
-                                <v-col>
-                                    <!-- 전체 포함한 배열로 변수 만들고 v-row반복문 만들고, v-col 반복문 만들고.
-                                    ex) 12개 => 1일 때 1, 2, 3, 4 / 2일 때 1, 2, 3, 4 / 
-                                    (1*4+1)-5, (1*4+2)-5, (1*4+3)-5, (1*4+4)-5 / 2*4+1, 2*4+2-->
-                                    <v-row dense="" class="row_pad5" style="padding-top: 10px;">
-                                        <v-col sm="1"></v-col>
-                                        <v-col sm="2"><h4 @click="all()" style="cursor: pointer;">전체</h4></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('강서구')" style="cursor: pointer;">강서구</h4></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('금정구')" style="cursor: pointer;">금정구</h4></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('기장군')" style="cursor: pointer;">기장군</h4></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('남구')" style="cursor: pointer;">남구</h4></v-col>
-                                        <v-col sm="1"></v-col>
-                                    </v-row>
-
-                                    <v-row dense="" class="row_pad5">
-                                        <v-col sm="1"></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('동구')" style="cursor: pointer;">동구</h4></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('동래구')" style="cursor: pointer;">동래구</h4></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('부산진구')" style="cursor: pointer;">부산진구</h4></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('북구')" style="cursor: pointer;">북구</h4></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('사상구')" style="cursor: pointer;">사상구</h4></v-col>
-                                        <v-col sm="1"></v-col>
-                                    </v-row>
-
-                                    <v-row dense="" class="row_pad5">
-                                        <v-col sm="1"></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('사하구')" style="cursor: pointer;">사하구</h4></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('서구')" style="cursor: pointer;">서구</h4></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('수영구')" style="cursor: pointer;">수영구</h4></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('연제구')" style="cursor: pointer;">연제구</h4></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('영도구')" style="cursor: pointer;">영도구</h4></v-col>
-                                        <v-col sm="1"></v-col>
-                                    </v-row>
-
-                                    <v-row dense="" class="row_pad5" style="padding-bottom: 8px;">
-                                        <v-col sm="1"></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('중구')" style="cursor: pointer;">중구</h4></v-col>
-                                        <v-col sm="2"><h4 @click="Clicksearch('해운대구')" style="cursor: pointer;">해운대구</h4></v-col>
-                                        <v-col sm="2"></v-col>
-                                        <v-col sm="2"></v-col>
-                                        <v-col sm="2"></v-col>
-                                        <v-col sm="1"></v-col>
-                                    </v-row>
-                                </v-col>
-                            </v-row>
+                            <v-card-text>
+                                <v-window v-model="state.tab2">
+                                    <v-window-item v-for="tmp in state.tab" :key="tmp" :value="tmp">
+                                        <v-row dense class="addr2">
+                                            <v-col sm="2" v-for="(tmp, idx) in state.addr1" :key="tmp" @click="Clicksearch(tmp.a1 +'  '+ tmp.a2)">
+                                                <h3 class="addr1">{{state.addr1[idx].a2}}</h3>
+                                            </v-col>
+                                        </v-row>
+                                    </v-window-item>
+                                </v-window>
+                            </v-card-text>
                         </v-col>
                     </v-row>
-
+                                    
                     <v-row dense style="margin-top: 20px;">
                         <v-col>
                             <v-row dense style="border: 1px solid #CCC">
@@ -300,7 +233,8 @@ export default {
             token : sessionStorage.getItem("TOKEN"),
             logged: computed(() => store.getters['moduleA/getLogged']),
             area: [],
-            tab: ['전국', '서울', '부산', '어쩌구'],
+            tab: ['전국', '서울', '경기', '인천', '부산', '대전', '대구', '울산', 
+                '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'],
             items1 : '',
             datechk: [],
             timechk: [],
@@ -342,6 +276,42 @@ export default {
             console.log(response.data);
                 if(response.data.status === 200){
                 state.items = response.data.result;
+            }
+        }
+
+        // 대분류 검색
+        const search1 = async(e) => {
+            const url = `/ROOT/address/search1?address=${e}`;
+            const headers = {"Content-Type":"application.json"};
+            const response = await axios.get(url,{headers:headers});
+            console.log(response.data);
+                if(response.data.status === 200){
+                state.addr1 = response.data.result;
+                console.log(state.addr1);
+            }
+        }
+
+        // 중분류 검색
+        const search2 = async() => {
+            const url = `/ROOT/address/search2?address=${state.search2}`;
+            const headers = {"Content-Type":"application.json"};
+            const response = await axios.get(url,{headers:headers});
+            console.log(response.data);
+                if(response.data.status === 200){
+                state.addr2 = response.data.result;
+                console.log(state.addr2);
+            }
+        }
+
+        // 전체불러오기
+        const addr1 = async() => {
+            const url = `/ROOT/address/addr1`;
+            const headers = {"Content-Type":"application.json"};
+            const response = await axios.get(url,{headers:headers});
+            console.log(response.data);
+                if(response.data.status === 200){
+                state.addr = response.data.result;
+                console.log(state.addr);
             }
         }
 
@@ -492,7 +462,7 @@ export default {
         
         return {
         // like,
-        state, del, reset ,Clicksearch, all, changeheart, unlike, handlePage }
+        state, addr1, search1, search2, del, reset ,Clicksearch, all, changeheart, unlike, handlePage }
     }
 }
 </script>
