@@ -30,14 +30,15 @@
                     </v-row>
                     <v-row>
                         <v-col
-                            v-for="(item,idx) in state.items12" :key="item"
-                            cols="4"
-                        >
+                            v-for="(item, idx) in state.items12" :key="item" cols="4">
                             <v-card height="200px" class="club_card" style="padding: 20px;">
                                 <v-row dense>
-                                    <v-col sm="8" class="col_center">
+                                    <v-col sm="3"></v-col>
+
+                                    <v-col sm="6" class="col_center">
                                         <router-link to="/cdetail" class="col_center">
-                                            <img  :src="item.imgurl"  style="height: 50px;"/>
+                                            <img v-if="item.imgurl" :src="item.imgurl" @click="handlePage(item.obj.cno,idx)" style="height: 50px;"/>
+                                            <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.cno,idx)" style="height: 50px;"/>
                                         </router-link>
 
                                     </v-col>
@@ -192,7 +193,7 @@ export default {
         }
 
         
-                 const changeheart = async(cno,idx) => {
+        const changeheart = async(cno,idx) => {
              console.log(state.likelist.clubCno);
              console.log(cno);
               if(state.imgcheck[idx].cno === cno ){
@@ -242,12 +243,27 @@ export default {
         const deleteall = async() => {
             
         }
+        const handlePage = async(cno) => {
 
+             router.push({name:"ClubDetailVue", query:{ cno: cno }})
+            console.log(cno);
+            // const url = `/ROOT/api/like/deleteone`
+            // const headers = {"Content-Type":"multipart/form-data",
+            //                 token : state.token};
+            // const body = new FormData;
+            // body.append("club", cno);   
+            // const response = await axios.post(url, body, {headers:headers});
+            // console.log(response.data);
+
+            // if(response.data.status == 200){
+            //         // state.imgName = state.imaName1
+            // }
+        }
         const clubDetail = () => {
             router.push({ name: "ClubDetailVue" });
         }
 
-        return { state, changeheart, clubDetail }
+        return { state, handlePage, changeheart, clubDetail }
     }
 }
 </script>
