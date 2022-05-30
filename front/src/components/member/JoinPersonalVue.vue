@@ -632,6 +632,7 @@ export default {
           router.push({path : 'login'});
       }
     }
+    
     const handlenick = async() => {
       const url = `/ROOT/member/nickcheck?nick=${state.nickname}`;
       const headers = {"Content-Type":"application/json"};
