@@ -87,7 +87,7 @@
                       <h5 style="color: #676767;">{{tmp.reregdate}}</h5>
                       <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
                       <h5 style="color: #676767;">{{tmp.like}}</h5>
-                      <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
+                      <a><h5 style="color: #676767; padding-left: 10px;" @click="rereplytoggle(tmp.renumber)">댓글</h5></a>
                     </v-col>
                   </v-row>
 
@@ -107,8 +107,8 @@
                           
                           <v-row dense>
                             <v-col class="col_left">
-                              <h5 style="padding-right: 10px;">{{state.reply.writer1}}</h5> 
-                              <h5 style="color: #676767;">{{state.reply.date1}}</h5>
+                              <h5 style="padding-right: 10px;">{{state.rereply.rewriter}}</h5> 
+                              <h5 style="color: #676767;">{{state.rereply.reregdate}}</h5>
                               <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
                               <h5 style="color: #676767;">{{state.like}}</h5>
 
@@ -126,11 +126,11 @@
                     </v-col>
                   </v-row>
 
-                  <v-col class="col_right">
+                  <v-col class="col_right" v-if="state.tokenid === tmp.member.mid">
                     <div>
                       <h5 @click="handleReplyUpdate(tmp.renumber)" style="padding-right: 10px; cursor: pointer;">수정</h5>
                     </div>
-
+                    
                     <div>
                       <h5 @click="handleReplyDelete(tmp.renumber)" style="cursor: pointer;" >삭제</h5>
                     </div>

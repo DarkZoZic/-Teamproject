@@ -193,7 +193,7 @@ export default {
         const url = `/ROOT/api/schedule/selectlist?page=${state.page}&cno=${state.cno}`;
         const headers = {"Content-Type":"application/json", "token" : state.token};
         const response = await axios.get(url, {headers});
-        console.log(response.data.result);
+        // console.log(response.data.result);
         if(response.data.status === 200)
         {
           state.S = response.data.result.list;

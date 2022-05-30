@@ -21,8 +21,7 @@
                             </v-col>
                             
                             <v-col sm="2" class="col_center" style="padding-right: 20px;">
-                                <img :src="require(`../../assets/img/${state.logo}.png`)" style="width: 100%; cursor: pointer;" @click="Home()"/>
-
+                                <img :src="state.logo" style="width: 100%; cursor: pointer;" @click="Home()" v-if="state.logo !== null"/>
                             </v-col>
                             </v-row>
                         </v-card>
@@ -79,23 +78,36 @@
 <script>
 import { reactive } from '@vue/reactivity';
 import { useRoute, useRouter } from 'vue-router';
-
+import { onMounted } from '@vue/runtime-core';
+import axios from 'axios';
 export default {
     components: {  },
     setup () {
         const router = useRouter();
         const route = useRoute();
         const state = reactive({
-            clubname: '삥뽕탁구클럽',
+            clubname: '',
             tab: 'Appp',
             items: [
                 '홈', '게시판', '갤러리', '일정', '클럽원', '채팅', '설정'
             ],
             text: 'Lorem ipsum',
             chk: 0,
-            logo: 'club_logo',
+            logo: '',
             cno : route.query.cno
         });
+        const clubname = async() =>
+        {
+            const url = `/ROOT/club/selectone?cno=${state.cno}`;
+            const headers = {"Content-Type":"application.json"};
+            const response = await axios.get(url, {headers});
+            // console.log(response.data);
+            if(response.data.status === 200)
+            {
+                state.clubname = response.data.result.cname;
+                state.logo = response.data.result.cimageurl;
+            }
+        }
 
         const Home = () => {
             router.push({ name: "CHomeVue", query : {cno : state.cno}});
@@ -124,6 +136,11 @@ export default {
         const setting = () => {
             router.push({ name: "CSettingVue", query : {cno : state.cno}});
         };
+
+        onMounted(() =>
+        {
+            clubname();
+        });
 
         return { state, Home, boardList, gallery, schedule, member, chat, setting }
     }

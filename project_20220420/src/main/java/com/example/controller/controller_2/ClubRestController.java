@@ -215,7 +215,12 @@ try {
             try {
                 
                 Club club = cRepository.findByCno(cno);
-                club.setCimageurl("/ROOT/club/cimage?cno=" +club.getCno());
+                Cimage cimage = ciRepository.findByClub_Cno(cno);
+                System.out.println(cimage);
+                if(cimage != null)
+                {
+                	club.setCimageurl("/ROOT/club/cimage?cno=" +club.getCno());
+                }
                 System.out.println(club);
                 map.put("status", 200); 
                 map.put("result", club); 
