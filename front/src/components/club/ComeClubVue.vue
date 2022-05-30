@@ -374,7 +374,7 @@ export default {
             console.log(response.data.result);
             hanldcdno();
 
-                // alert('등록완료');
+                // alert('등록완료');as
                 // router.push({name: 'ClubListVue'});
             }
 
