@@ -199,7 +199,7 @@
                                     
                                     <v-row dense>
                                         <v-col>
-                                            <h3 style="cursor: pointer;">{{item.obj.cname}}</h3>
+                                            <h3 @click="handlePage(items.obj.cno, idx)" style="cursor: pointer;">{{item.obj.cname}}</h3>
                                         </v-col>
                                     </v-row>
 

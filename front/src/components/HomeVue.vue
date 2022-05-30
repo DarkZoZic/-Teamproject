@@ -298,7 +298,7 @@
                                     
                                     <v-row dense>
                                         <v-col>
-                                                <h3 @click="handlePage(items.obj.cno,idx)" style="cursor: pointer;">{{items.obj.cname}}</h3>
+                                            <h3 @click="handlePage(items.obj.cno, idx)" style="cursor: pointer;">{{items.obj.cname}}</h3>
                                         </v-col>
                                     </v-row>
 
@@ -381,36 +381,35 @@ export default {
                 nickname: '탁구왕김제빵',
             },            
         });
-                onMounted (()=>{
-                    handleData(),Lkelist();
-                    if(state.token != null){
-                        role(),mypage(),nick();
-                        // console.log(state.role);
-                        // if(state.role3 === 'PERSONAL'){
-                            //     handlenick();
-                        //     }
-                        // if(state.role2 =='COMPANY'){
-                        //     cname();
-                        // }
-                    }
-        
-                    if(state.token === null){
-                        store.commit('moduleA/setLogged', false)
-                    } 
-                    else{
-                        store.commit('moduleA/setLogged', true)
-                    }
-        
-                    if (state.card.desc.length >= 40) {
-                        state.card.desc1 = state.card.desc.substring(0, 40) + '...'
-                    }            
-                });
 
-                const handlePage = async(cno) => {
+        onMounted (()=>{
+            handleData(),Lkelist();
+            if(state.token != null){
+                role(),mypage(),nick();
+                // console.log(state.role);
+                // if(state.role3 === 'PERSONAL'){
+                    //     handlenick();
+                //     }
+                // if(state.role2 =='COMPANY'){
+                //     cname();
+                // }
+            }
 
-             router.push({name:"ClubDetailVue", query:{ cno: cno }})
+            if(state.token === null){
+                store.commit('moduleA/setLogged', false)
+            } 
+            else{
+                store.commit('moduleA/setLogged', true)
+            }
+
+            if (state.card.desc.length >= 40) {
+                state.card.desc1 = state.card.desc.substring(0, 40) + '...'
+            }            
+        });
+
+        const handlePage = async(cno) => {
+            router.push({name:"ClubDetailVue", query:{ cno: cno }})
             console.log(cno);
-           
         }
 
         const handleData = async() => {
