@@ -264,7 +264,7 @@
 
                         <v-row style="border-top: 1px solid #CCC; margin-top: 20px;"><h4 style="padding: 10px;">슈퍼 클럽</h4></v-row>
 
-                        <v-row>
+                        <v-row v-if="state.items1">
                             <v-col
                              v-for="(items,idx) in state.items1" :key="items"
                             cols="4"   
@@ -274,10 +274,8 @@
                                         <v-col sm="3"></v-col>
                     
                                         <v-col sm="6" class="col_center">
-                                            <router-link to="/cdetail" class="col_center">
-                                                <img v-if="items.imgurl" :src="items.imgurl" style="height: 50px; border: 1px solid #CCC;"/>
-                                                <img v-if="!items.imgurl" :src="require(`../assets/img/default-logo.jpg`)"  style="height: 50px; border: 1px solid #CCC;"/>
-                                            </router-link>
+                                            <img v-if="items.imgurl" :src="items.imgurl" @click="handlePage(items.obj.cno,idx)" style="height: 50px;"/>
+                                            <img v-if="!items.imgurl" :src="require(`../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.cno,idx)" style="height: 50px;"/>
                                         </v-col>
 
                                         <v-col sm="3" class="col_right">
@@ -290,9 +288,7 @@
                                     
                                     <v-row dense>
                                         <v-col>
-                                            <router-link to="/cdetail">
                                                 <h3>{{items.obj.cname}}</h3>
-                                            </router-link>
                                         </v-col>
                                     </v-row>
 
@@ -400,11 +396,18 @@ export default {
                     }            
                 });
 
+                const handlePage = async(cno) => {
+
+             router.push({name:"ClubDetailVue", query:{ cno: cno }})
+            console.log(cno);
+           
+        }
+
         const handleData = async() => {
             const url = `/ROOT/club/selectlist`;
             const headers = {"Content-Type":"application.json"};
             const response = await axios.get(url,{headers:headers});
-                console.log(response.data);
+                console.log(response.data.result);
                 if(response.data.status === 200){
                     state.items1 = response.data.result;
                     for(var i =0; i < state.items1.length; i++){
@@ -562,7 +565,7 @@ export default {
         }
 
 
-        return { state, changeheart, handlelogout, notice, clubDetail, unlike }
+        return { state, changeheart, handlelogout,handlePage, notice, clubDetail, unlike }
     },
     data: () => ({
         autoPlaying: true,

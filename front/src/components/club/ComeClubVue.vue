@@ -26,7 +26,7 @@
                         <div v-if="state.items">
                             <v-col sm="10" >
                                 <v-select :change="handleCno()"
-                                    variant="outlined" density="compact" :items= state.cnolist state.clublist label="클럽 번호선택"
+                                    variant="outlined" density="compact" :items= state.cnamelist label="클럽 번호선택"
                                     v-model="state.club"  style="height: 40px; padding-right: 10px; width: 200px;">
                                 </v-select>
                             </v-col>
@@ -46,9 +46,7 @@
                                             <v-col style="height: 80px;" class="col_left">
                                                 <h2>{{state.club}}</h2>
                                             </v-col>
-                                            <v-col style="height: 80px;" class="col_left" v-if="state.club !== ''">
-                                                <h2>{{state.cno}}</h2>
-                                            </v-col>
+                                            
                                         </v-row>
                                     </v-expansion-panel>
                                     <!-- 클럽명 -->
@@ -270,7 +268,7 @@ export default {
             imageUrl : [],
             imageFile : [],
             cno : '',
-            cnolist : [],
+            cnamelist : [],
             cname : '',
             clublist : [],
             datechk: [],
@@ -324,8 +322,8 @@ export default {
             }
                 for(var i=0; i < state.items.length; i++){
                     state.clublist[i] = state.items[i].cname;
-                    state.cnolist[i] = state.items[i].cno;
-                    console.log(state.cnolist);
+                    state.cnamelist[i] = state.items[i].cname;
+                    console.log(state.cnamelist);
                     console.log(state.clublist);
                 }
                 console.log("sad",response.data.results.length);
@@ -334,7 +332,7 @@ export default {
         const handleCno = async() => {
             if(state.club !== ''){
 
-                const url = `/ROOT/club/cnosearch?cno=${state.club}`;
+            const url = `/ROOT/club/cnamesearch?cname=${state.club}`;
             const headers = {
                 "Content-Type" : "application/json"
             };

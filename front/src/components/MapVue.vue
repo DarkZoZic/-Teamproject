@@ -2,7 +2,6 @@
     <div> 
         <div id="map" ></div>
         {{addr}}
-        {{counter}}
     </div>
 </template>
 
