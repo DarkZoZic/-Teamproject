@@ -184,7 +184,7 @@ export default {
 
         reply: [],
         replynicklist : []
-    })
+    });
 
         const gallery = async() => // 조회수 증가 -> 갤러리 상세내용 + 이미지 + 댓글목록
         {

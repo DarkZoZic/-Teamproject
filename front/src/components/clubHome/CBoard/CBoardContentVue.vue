@@ -92,10 +92,16 @@
                   </v-row>
 
                   <!-- 댓글내용 -->
-                  <v-row dense style="padding-right: 10px;">
+                  <v-row dense style="padding-right: 10px;" >
                     <v-col>
-                      <h4 style="padding-left: 10px; padding-right: 10px;">{{tmp.recontent}}</h4>
+                      <h4 style="padding-left: 10px; padding-right: 10px;" v-if="!state.replyupdate.update[idx]">{{tmp.recontent}}</h4>
+                      <div v-if="state.replyupdate.update[idx]" class="col_left">
+                        <textarea v-model="tmp.recontent" 
+                          style="background-color: white; resize: none; border: 1px solid #CCC; border-radius: 5px; padding: 10px; width: 900px;">
+                        </textarea>
+                      </div>
                     </v-col>
+                    
                   </v-row>
 
                   <!-- 대댓글. 대댓글이 있으면 테두리가 없게 하는게 가능한가? -->
@@ -127,12 +133,17 @@
                   </v-row>
 
                   <v-col class="col_right" v-if="state.tokenid === tmp.member.mid">
-                    <div>
-                      <h5 @click="handleReplyUpdate(tmp.renumber)" style="padding-right: 10px; cursor: pointer;">수정</h5>
+                    <div v-if="!state.replyupdate.update[idx]">
+                      
+                      <h5 @click="handleReplyUpdate(idx)" style="padding-right: 10px; cursor: pointer;">수정</h5>
+                    
+                      <h5 @click="handleReplyDelete(tmp.renumber)" style="cursor: pointer; display: inline-block;" >삭제</h5>
+                     
                     </div>
                     
-                    <div>
-                      <h5 @click="handleReplyDelete(tmp.renumber)" style="cursor: pointer;" >삭제</h5>
+                    <div v-if="state.replyupdate.update[idx]">
+                      <v-btn style="height: 68px; margin-right: 10px;" @click="handleReplyUpdate(tmp.renumber, idx)"><h4>취소</h4></v-btn>
+                      <v-btn style="height: 68px;" @click="handleReplyUpdateAct(tmp.renumber, idx)"><h4 >수정</h4></v-btn>
                     </div>
                   </v-col>
                 </v-col>
@@ -209,6 +220,10 @@ export default {
       nick : '',
 
       reply: [],
+      replyupdate : 
+      {
+        update : []
+      },
       replynicklist : [],
       rereply : []
     })
@@ -237,6 +252,11 @@ export default {
           state.next = response.data.result.next;
           state.mid = response.data.result.clubboard.member.mid;
           state.replynicklist = response.data.result.replynicklist;
+          for(let i=0; i<state.reply.length; i++)
+          {
+            state.replyupdate.update.push(false);
+            console.log(state.replyupdate.update[i]);
+          }
         }
         else if(response.data.status === 0)
             {
@@ -338,6 +358,40 @@ export default {
       }
     }
 
+    const handleReplyUpdate = (idx) =>
+    {
+      // console.log(idx);
+      // console.log(state.replyupdate.update[idx]);
+      if(!state.replyupdate.update[idx])
+      {
+        state.replyupdate.update[idx] = true;
+      }
+      else
+      {
+        state.replyupdate.update[idx] = false;
+      }
+    }
+
+    const handleReplyUpdateAct = async(tmp, idx) =>
+    {
+      // console.log(tmp);
+      // console.log(state.reply[idx].renumber);
+      const url = `/ROOT/api/clubboard/updatereply`;
+      const headers = {"Content-Type":"application/json", "token" : state.token};
+      const body = 
+      {
+        cbno : tmp,
+        renumber : state.reply[idx].renumber,
+        recontent : state.reply[idx].recontent
+      };
+      const response = await axios.put(url, body, {headers});
+      console.log(response.data);
+      if(response.data.status === 200)
+      {
+        state.replyupdate.update[idx] = false;
+      }
+    }
+
     onMounted(async() =>
     {
       await content();
@@ -346,7 +400,7 @@ export default {
 
     
 
-    return { state, like, replylike, insertreply, prevnext, handleDelete, handleUpdate, handleReplyDelete }
+    return { state, like, replylike, insertreply, prevnext, handleDelete, handleUpdate, handleReplyDelete, handleReplyUpdate, handleReplyUpdateAct }
   }
 }
 </script>

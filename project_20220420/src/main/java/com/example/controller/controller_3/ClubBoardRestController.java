@@ -535,6 +535,7 @@ public class ClubBoardRestController {
 				creply.setClubboard(cb); // 댓글 작성한 글의 번호 저장
 				System.out.println(creply);
 				
+				
 				crRep.save(creply);
 				map.put("status", 200);
 			}
@@ -611,6 +612,27 @@ public class ClubBoardRestController {
 				map.put("result", "토큰없음");
 			}
 			
+		}
+		catch (Exception e)
+		{
+			map.put("status", -1);
+		}
+		return map;
+	}
+	
+	@RequestMapping(value="/updatereply", 
+			method={RequestMethod.PUT}, 
+			consumes = {MediaType.ALL_VALUE},
+			produces= {MediaType.APPLICATION_JSON_VALUE})
+	public Map<String, Object> updaterepPUT(@RequestBody CReply cr, @RequestHeader(name="token") String token)
+	{
+		Map<String, Object> map = new HashMap<>();
+		try
+		{
+			CReply crep = crRep.findById(cr.getRenumber()).orElse(null);
+			crep.setRecontent(cr.getRecontent());
+			crRep.save(crep);
+			map.put("status", 200);
 		}
 		catch (Exception e)
 		{
