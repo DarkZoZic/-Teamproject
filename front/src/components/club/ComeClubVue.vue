@@ -26,7 +26,7 @@
                         <div v-if="state.items">
                             <v-col sm="10" >
                                 <v-select :change="handleCno()"
-                                    variant="outlined" density="compact" label="클럽선택" :items=state.cnamelist 
+                                    variant="outlined" density="compact" label="클럽선택" :items="state.cnamelist"
                                     v-model="state.club"  style="height: 40px; padding-right: 10px; width: 200px;">
                                 </v-select>
                             </v-col>
@@ -339,8 +339,8 @@ export default {
             const response = await axios.get(url,{headers:headers});
             console.log(response.data);
             if(response.data.status === 200){
-                state.cno = response.data.result.cname;
-              console.log(response.data.result);
+                state.cno = response.data.result.cno;
+              console.log(state.cno);
             }
 
                 }
@@ -362,7 +362,7 @@ export default {
             body.append("age",       state.age);
             body.append("date",      state.datechk);
             body.append("time",      state.timechk);
-            body.append("club",      state.club);
+            body.append("club",      state.cno);
                 
             const response = await axios.post(url, body, {headers});
             console.log(response.data);
@@ -379,7 +379,7 @@ export default {
         
 
         const hanldcdno = async() => {
-            const url = `/ROOT/clubdetail/selectcno?cno=${state.club}`;
+            const url = `/ROOT/clubdetail/selectcno?cno=${state.cno}`;
             const headers = {"Content-Type" : "application/json"};
             const response = await axios.get(url,{headers:headers});
             console.log(response.data);
