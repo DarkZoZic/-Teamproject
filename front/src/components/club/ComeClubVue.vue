@@ -9,7 +9,7 @@
                 
                 <!-- 메인 -->
                 <v-col sm="8">
-                    <v-row dense="" style="border-bottom: 1px solid #CCC;">
+                    <v-row dense style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
                             <h5><router-link to="/">홈</router-link> > <router-link to="/clist">클럽</router-link> > 공고등록</h5>
                         </v-col>
@@ -25,9 +25,8 @@
                         <v-col sm="1" ></v-col>
                         <div v-if="state.items">
                             <v-col sm="10" >
-                                <v-select :change="handleCno()"
-                                    variant="outlined" density="compact" label="클럽선택" :items=state.cnamelist 
-                                    v-model="state.club"  style="height: 40px; padding-right: 10px; width: 200px;">
+                                <v-select :change="handleCno()" :items=state.cnamelist variant="outlined" density="compact" label="클럽선택" 
+                                    v-model="state.club" style="height: 40px; padding-right: 10px; width: 200px;">
                                 </v-select>
                             </v-col>
                         </div>
