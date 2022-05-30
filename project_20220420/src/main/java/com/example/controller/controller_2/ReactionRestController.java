@@ -8,6 +8,7 @@ import com.example.entity.entity1.ClubGallery;
 import com.example.entity.entity1.Member;
 import com.example.entity.entity1.Reaction;
 import com.example.entity.entity2.Board1;
+import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.ClubBoard;
 import com.example.jwt.JwtUtil;
 import com.example.repository.repository_4.Board1Repository;
@@ -210,12 +211,12 @@ try {
         Member member = new Member();
         member.setMid((String) username );
         reaction.setMember(member);
-        System.out.println(reaction.getMember().getMid());
+        // System.out.println(reaction.getMember().getMid());
         
         Board1 board1 = new Board1();
         board1.setBno((Long) reaction.getBoard().getBno());
         reaction.setBoard(board1);
-        System.out.println(reaction.getBoard().getBno());
+        // System.out.println(reaction.getBoard().getBno());
         Reaction reaction2 = rRepository.findByMember_MidAndBoard_Bno(username, bno);
         if( reaction2 == null ){
             reaction.setRcount(1L);
@@ -376,5 +377,62 @@ try {
     
     return map;
 }
+
+
+    // 댓글 좋아요기능
+	// 127.0.0.1:9090/ROOT/reaction/relike.json
+	@RequestMapping(value = "/relike.json", 
+    method = { RequestMethod.POST },
+    consumes = { MediaType.ALL_VALUE },
+    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> reLikepost(
+    @ModelAttribute Reaction reaction,
+    @RequestHeader (name = "token")String token){
+    Map<String, Object> map = new HashMap<>();
+    try {
+        if(token != null){
+            System.out.println("----------"+reaction.toString());
+
+            String username = jwtUtil.extractUsername(token);
+            Member member = new Member();
+            member.setMid((String) username );
+            reaction.setMember(member);
+            // System.out.println(reaction.getMember().getMid());
+            
+            CReply cReply = new CReply();
+            cReply.setRenumber(reaction.getCreply().getRenumber());
+            reaction.setCreply(cReply);
+            System.out.println("댓글번호======="+reaction.getCreply().getRenumber());
+
+            // Board1 board1 = new Board1();
+            // board1.setBno((Long) reaction.getBoard().getBno());
+            // reaction.setBoard(board1);
+            // System.out.println(reaction.getBoard().getBno());
+
+            // Reaction reaction2 = rRepository.findByMember_MidAndBoard_Bno(username, bno);
+            Reaction reaction2 = rRepository.findByMember_midAndCreply_renumber(username, reaction.getCreply().getRenumber());
+            System.out.println(reaction2.toString());
+            // if( reaction2 == null ){
+            //     reaction.setRcount(1L);
+            //     rRepository.save(reaction);
+            //     map.put("status", 200); // 성공
+            // }
+            // else{
+                
+            //     map.put("status", -1); // 실패
+            //     System.out.println("이미좋아요 누름");
+            // }
+            map.put("status", 200);
+            
+        }
+    
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", 0);
+        }
+        
+        return map;
+    }
     
 }

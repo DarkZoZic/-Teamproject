@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.example.entity.entity1.Member;
+import com.example.entity.entity1.Reaction;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -91,8 +92,9 @@ public class Board1 {
   // private List<BImage> bImageList = new ArrayList<>();
 
   // 댓글
-  @OneToMany(mappedBy = "board1", cascade = CascadeType.REMOVE)
-  @JsonManagedReference(value="bno")
-  private List<CReply> cReplyList = new ArrayList<>();
+  // @OneToMany(mappedBy = "board1", cascade = CascadeType.REMOVE)
+  // @JsonManagedReference(value="bno")
+  // private List<CReply> cReplyList = new ArrayList<>();
+
 
 }

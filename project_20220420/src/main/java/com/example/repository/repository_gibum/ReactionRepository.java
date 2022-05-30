@@ -61,6 +61,10 @@ public interface ReactionRepository
 
         // Reaction findByCount
 
+        // 자유게시판
         Reaction findByMember_midAndBoard_bno(String mid, Long bno);
+
+        // 댓글
+        Reaction findByMember_midAndCreply_renumber(String mid, Long renumber);
 
 }
