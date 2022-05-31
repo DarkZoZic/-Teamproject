@@ -47,7 +47,8 @@
             <v-col style="padding: 20px;" class="col_center">
               <v-btn style="height: 50px;" @click="like()">
                 <img :src="state.likeimage" style="width: 40px; margin-right: 3px;"/>
-                <h3 style="margin-left: 10px;">{{state.rno}}</h3>
+                <h3 v-if="state.likestatus === false" style="margin-left: 10px;">{{state.rno}}!!!</h3>
+                <h3 v-if="state.likestatus === true" style="margin-left: 10px;">{{state.rno}}@@@</h3>
               </v-btn>
             </v-col>
           </v-row>
@@ -258,24 +259,25 @@ export default {
     const router = useRouter();
 
     const state = reactive({
-      bno      : route.query.bno,
-      btitle   : '',
-      mid      : '',
-      bhit     : 0,
-      blike    : 0,
-      bcontent : '',
-      bregdate : '',
-      likeimage: require('../../assets/img/thumb.png'),
-      bimageurl: '',
-      token    : sessionStorage.getItem("TOKEN"),
-      mid1     : sessionStorage.getItem("MID"),
-      liked    : true,
-      items    : '',
-      item     : '',
-      rno      : [],
-      replylist: [],
-      page: 1,
-      nick : '',
+      bno       : route.query.bno,
+      btitle    : '',
+      mid       : '',
+      bhit      : 0,
+      blike     : 0,
+      bcontent  : '',
+      bregdate  : '',
+      likeimage : require('../../assets/img/thumb.png'),
+      bimageurl : '',
+      token     : sessionStorage.getItem("TOKEN"),
+      mid1      : sessionStorage.getItem("MID"),
+      liked     : true,
+      items     : '',
+      item      : '',
+      likestatus: false,
+      rno       : [],
+      replylist : [],
+      page      : 1,
+      nick      : '',
       replynicklist : [],
 
       reply1   : {
@@ -356,12 +358,13 @@ export default {
       const response = await axios.get(url, {headers});
       console.log(response.data);
       if(response.data.status === 1){ // 좋아요 누른상태
-
+        console.log(state.likestatus);
+        state.likestatus = true;
       }
       else if(response.data.status === 0){ // 좋아요 없음
-
+        console.log(state.likestatus);
+        state.likestatus = false;
       }
-
     }
 
     // 게시글 좋아요 
