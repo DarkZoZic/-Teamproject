@@ -363,12 +363,12 @@ export default {
       if(response.data.status === 1){ // 좋아요 누른상태
         console.log(state.likestatus);
         state.likestatus = true;
-        await handleData();
+        handledata();
       }
       else if(response.data.status === 0){ // 좋아요 없음
         console.log(state.likestatus);
         state.likestatus = false;
-        await handleData();
+        handledata();
       }
     }
 
@@ -387,7 +387,7 @@ export default {
         // await handleData(state.bno);
       }
 
-      
+      else if(response.data.status === -1){ // 좋아요 취소
         const url      = `/ROOT/reaction/unlike.json?bno=${state.bno}`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.delete(url, { headers: headers, data: {} });
@@ -396,7 +396,7 @@ export default {
           // await like();
           // await handleData(state.bno);
         }
-      
+      }
     }
 
     // 게시글 좋아요 개수 조회
