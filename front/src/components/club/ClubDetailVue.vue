@@ -41,11 +41,9 @@
                         </v-col>
 
                         <v-col sm="1" style="vertical-align: middle;">
-                            <router-link target="_blank" to="/chome" >
-                                <v-btn style="height: 100%; width: 100%;">
-                                    <img :src="require(`../../assets/img/home_icon.png`)" style="width: 40px"/>
-                                </v-btn>
-                            </router-link>
+                            <v-btn style="height: 100%; width: 100%;" @click="chome(cno)">
+                                <img :src="require(`../../assets/img/home_icon.png`)" style="width: 40px"/>
+                            </v-btn>
                         </v-col>
                         
                         <v-col sm="1" class="col_right">
@@ -386,8 +384,12 @@ export default {
                     // state.imgName = state.imaName1
             }
         }
+
+        const chome = (cno) => {
+            router.push({ name: "CHomeVue", query: { cno: state.cno } })
+        }
         
-        return { state, changeheart, unlike }
+        return { state, changeheart, unlike, chome }
     },
 }
 </script>
