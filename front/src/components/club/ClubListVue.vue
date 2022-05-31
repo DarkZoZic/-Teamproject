@@ -262,7 +262,7 @@ export default {
             imgName1 : require(`../../assets/img/heart1.png`),
             logo     : 'club_logo',
             show     : 'true',
-
+            
             tab: ['서울', '경기', '인천', '부산', '대전', '대구', '울산', 
                 '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'],
 
@@ -275,38 +275,32 @@ export default {
             },
         });
 
-
         onMounted (async()=>{
             handleData(), Likelist();
             console.log(state.search);
             if (state.card.desc.length >= 20) {
                 state.card.desc1 = state.card.desc.substring(0, 20) + '...'
             }
-            // console.log("adasdaasd",keyword);
         })
-         // 카테고리 검색
-         
+
+        // 카테고리 검색 
         const catesearch = async() => {
             console.log(state.search);
             if(state.search !== undefined){
                 if(state.search !== ''){
+                    const url      = `/ROOT/club/searchcateclub?cate=${state.search}`;
+                    const headers  = { "Content-Type": "application.json" };
+                    const response = await axios.get(url,{ headers: headers });
+                    console.log(response.data);
 
-                const url      = `/ROOT/club/searchcateclub?cate=${state.search}`;
-                const headers  = { "Content-Type": "application.json" };
-                const response = await axios.get(url,{ headers: headers });
-    
-                console.log(response.data);
                     if(response.data.status === 200){
-                state.items = response.data.result;
-                for(var i = 0; i < state.items.length; i++){
-                    state.imgcheck.push({ cno: state.items[i].obj.cno, type: 0 })
-                    // state.imgcheck[i] = 0;s
-                }
-                console.log(response.data.result[0].imgurl);
-                console.log(response.data.result.length);
-            }   
-                }
+                        state.items = response.data.result;
 
+                        for(var i = 0; i < state.items.length; i++){
+                            state.imgcheck.push({ cno: state.items[i].obj.cno, type: 0 })
+                        }
+                    }   
+                }
             }
         }
 
@@ -314,6 +308,7 @@ export default {
         const del = (idx) => {
             console.log(idx);
             state.area.splice(idx, 1)
+            state.area
         }
 
         // 장소 전체선택
@@ -335,9 +330,9 @@ export default {
             const url      = `/ROOT/address/search1?address=${e}`;
             const headers  = { "Content-Type": "application.json" };
             const response = await axios.get(url,{ headers: headers });
-
             console.log(response.data);
-                if(response.data.status === 200){
+
+            if(response.data.status === 200){
                 state.addr1 = response.data.result;
                 console.log(state.addr1);
             }
@@ -346,14 +341,18 @@ export default {
 
         // 중분류 검색
         const search2 = async() => {
+            부산 기장군|부산 강서구|부산 연제구
             const url      = `/ROOT/address/search2?address=${state.search2}`;
             const headers  = { "Content-Type": "application.json" };
             const response = await axios.get(url,{ headers: headers });
             console.log(response.data);
-                if(response.data.status === 200){
+
+            if(response.data.status === 200){
                 state.addr2 = response.data.result;
                 console.log(state.addr2);
-            }
+            };
+            String[] state.area
+            String state.joinSearch = String.join("|", state.area);
         }
 
         // 전체불러오기
@@ -379,10 +378,7 @@ export default {
                 state.items = response.data.result;
                 for(var i = 0; i < state.items.length; i++){
                     state.imgcheck.push({ cno: state.items[i].obj.cno, type: 0 })
-                    // state.imgcheck[i] = 0;s
                 }
-                console.log(response.data.result[0].imgurl);
-                console.log(response.data.result.length);
             }   
         }
 
@@ -433,48 +429,25 @@ export default {
                     state.imgcheck[idx].type = 1;
                 }
             }
-             
             const url      = `/ROOT/api/like/insert`
             const headers  = { "Content-Type": "multipart/form-data", "token": state.token };
             const body     = new FormData;
             body.append("club", cno);
             const response = await axios.post(url,body,{headers:headers});
             console.log(response.data);
-                if(response.data.status == 200){
-                    console.log("찜하기성공");
-                }
-                if(response.data.status == -1 ){
-                    console.log("찜하기 취소");
-                    unlike(cno, idx);
-                }
-                // else {
-                //     console.log( state.imgName);
-                // }
-            // if (state.imgName === 'heart') {
-            //     state.imgName = 'heart1'
-            //     console.log(state.imgName);
-            // }
-            // if(response.data.status == -1){
-            //     // state.imgName = 'heart'
-            //     unlike(cno);
-            //     console.log(state.imgName);
-            // }
+
+            if(response.data.status == 200){
+                console.log("찜하기성공");
+            }
+            if(response.data.status == -1 ){
+                console.log("찜하기 취소");
+                unlike(cno, idx);
+            }
         };
 
         const handlePage = async(cno) => {
             router.push({ name: "ClubDetailVue", query: { cno: cno } })
             console.log(cno);
-            // const url = `/ROOT/api/like/deleteone`
-            // const headers = {"Content-Type":"multipart/form-data",
-            //                 token : state.token};
-            // const body = new FormData;
-            // body.append("club", cno);   
-            // const response = await axios.post(url, body, {headers:headers});
-            // console.log(response.data);
-
-            // if(response.data.status == 200){
-            //         // state.imgName = state.imaName1
-            // }
         }
 
         const unlike = async(cno,idx) => {
