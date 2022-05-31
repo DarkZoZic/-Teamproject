@@ -26,7 +26,8 @@
           <!-- 상단메뉴 -->
           <v-row dense class="row_bwrite2">
             <v-col sm="6" class="col_pad-l25">
-              <h4 style="color: #787878">{{state.nick}}</h4>
+              <h4 style="color: #787878" v-if="state.nick.mcname === null">{{state.nick.mpnickname}}</h4>
+              <h4 style="color: #787878" v-if="state.nick.mpnickname === null">{{state.nick.mcname}}</h4>
             </v-col>
             
 
@@ -84,7 +85,8 @@
                   <!-- 댓글작성자 -->
                   <v-row dense>
                     <v-col class="col_left">
-                      <h5 style="padding-right: 10px;">{{state.replynicklist[idx].mpnickname}}</h5> 
+                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mcname === null">{{state.replynicklist[idx].mpnickname}}</h5> 
+                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mpnickname === null">{{state.replynicklist[idx].mcname}}</h5>
                       <h5 style="color: #676767;">{{tmp.reregdate}}</h5>
                       <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
                       <h5 style="color: #676767;">{{tmp.like}}</h5>
@@ -251,6 +253,7 @@ export default {
           state.prev          = response.data.result.prev;
           state.next          = response.data.result.next;
           state.mid           = response.data.result.clubboard.member.mid;
+          state.nick          = response.data.result.nick;
           state.replynicklist = response.data.result.replynicklist;
           for(let i=0; i<state.reply.length; i++)
           {
@@ -269,17 +272,17 @@ export default {
     }
 
     // 글 작성자 닉네임
-    const nick = async() => {
-      const url      = `/ROOT/api/clubmember/selectnick?mid=${state.mid}`;
-      const headers  = {"Content-Type":"application/json"};
-      const response = await axios.get(url, {headers});
-      // console.log(response.data);
+    // const nick = async() => {
+    //   const url      = `/ROOT/api/clubmember/selectnick?mid=${state.mid}`;
+    //   const headers  = {"Content-Type":"application/json"};
+    //   const response = await axios.get(url, {headers});
+    //   // console.log(response.data);
 
-      if(response.data.status === 200)
-      {
-        state.nick = response.data.result.mpnickname;
-      };
-    }
+    //   if(response.data.status === 200)
+    //   {
+    //     state.nick = response.data.result.mpnickname;
+    //   };
+    // }
 
     const like = async() => {
 
@@ -391,7 +394,7 @@ export default {
     onMounted(async() =>
     {
       await content();
-      nick();
+      // nick();
     });
 
     return { state, like, replylike, insertreply, prevnext, handleDelete, handleUpdate, handleReplyDelete, handleReplyUpdate, handleReplyUpdateAct }
