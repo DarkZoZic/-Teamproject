@@ -10,7 +10,10 @@
         <v-col sm="8">
           <v-row dense class="border-b_1_CCC">
             <v-col>
-              <h5><router-link :to="{ name: 'CHomeVue', query: { cno: state.cno}}">클럽홈</router-link> > <router-link :to="{ name: 'CBoardListVue', query: { cno: state.cno } }">{{state.boardname}}</router-link> > 글읽기</h5>
+              <h5>
+                <router-link :to="{ name: 'CHomeVue', query: { cno: state.cno } }">클럽홈</router-link> > 
+                <router-link :to="{ name: 'CBoardListVue', query: { cno: state.cno } }">{{state.boardname}}</router-link> > 글읽기
+              </h5>
             </v-col>
           </v-row>
 
@@ -30,8 +33,8 @@
             <v-col sm="6" class="col_right1">
               <h5 style="color: #787878">
                 조회 {{state.board.cbhit}} &nbsp; | &nbsp; 
-                <img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.like}}
-                &nbsp; | &nbsp; {{state.board.like}}
+                <img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> 
+                {{state.like}} &nbsp; | &nbsp; {{state.board.like}}
               </h5>
             </v-col>
           </v-row>
@@ -56,7 +59,6 @@
           <!-- 글 수정, 삭제 : 아이디가 일치할 때 -->
             <v-col class="col_right">
               <div>
-                <!--  -->
                 <h5 @click="handleUpdate()" style="padding-right: 10px; cursor: pointer;" v-if="state.tokenid === state.mid">수정</h5>
               </div>
 
