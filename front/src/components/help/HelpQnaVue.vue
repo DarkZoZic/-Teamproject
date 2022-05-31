@@ -56,14 +56,11 @@
                     <td style="background-color: gold;">{{ item.date }}</td>
                     <td style="background-color: gold;">{{ item.hit }}</td>
                   </tr> -->
-                  <tr
-                      v-for="(item, idx) in state.board"
-                      :key="item"
-                  >
+                  <tr v-for="(item, idx) in state.board" :key="item" >
                     <td>{{ item.qno }}</td>
                     <td style="cursor: pointer;" @click="handlePage(item.qno)" >{{ item.qtitle }}</td>
                     <td>{{ state.nicklist[idx].mpnickname }}</td>
-                    <td>{{ item.qregdate }}</td>
+                    <td>{{ item.qregdate1 }}</td>
                     <td>{{ item.qhit }}</td>
                   </tr>
                 </tbody>
@@ -75,12 +72,11 @@
         <!-- 사이드 -->
         <v-col sm="2"></v-col>
       </v-row>
+      
       <v-row dense>
         <v-col>
-          <v-pagination
-          v-model="state.page"
-          :length="6"
-          ></v-pagination>
+          <v-pagination v-model="state.page" :length="state.total" @click="handlePagenation()">
+          </v-pagination>
         </v-col>
       </v-row>
     </v-main>
@@ -96,6 +92,7 @@ import HeaderVue    from '../HeaderVue.vue';
 import { onMounted } from '@vue/runtime-core';
 import axios from 'axios';
 import {useRouter} from 'vue-router';
+import dayjs from 'dayjs';
 
 export default {
   components: { HeaderVue, FooterVue },
@@ -110,16 +107,8 @@ export default {
     const state = reactive({
         item : [],
         board: [],
- 
-        notice: [
-          {
-            no: '[공지]',
-            title: '회원 탈퇴하고 싶어요? 싫어요!',
-            writer: '운영자',
-            date: '2022-05-13',
-            hit: 452,
-          },
-        ],
+        qregdate1: '',
+        
         items: [
           '전체', '제목', '내용', '글쓴이'
         ],
@@ -131,6 +120,10 @@ export default {
         mid : sessionStorage.getItem("TOKEN"),
         nicklist : []
     });
+
+    const date = (i) => {
+      state.board[i].qregdate1 = dayjs(state.board[i].qregdate).format('YYYY.MM.DD hh:mm:ss');
+    }
 
     // 조회수 1증가 시키기
     const handlePage = async(qno) => {
@@ -164,17 +157,20 @@ export default {
       }
 
       if(response.data.status === 200){
-      state.board = response.data.result;
-      state.nicklist = response.data.nicklist;
-      //  테이블에 좋아요 넣기 (for문을 돌려서 넣으므로 느림) 
-      // for(var i = 0; i<state.items.length; i++){
-      //     const url1 = `ROOT/reaction/likelist.json?bno=${state.items[i].bno}`;
-      //     const headers1 = {"Content-Type":"application/json"};
-      //     const response1 = await axios.get(url1, {headers1}); 
-      //     state.items[i].blike = response1.data.result
-      // }
-      state.total = Math.floor(((response.data.result1)-1)/10+1);
-      console.log(state.total);
+        state.board = response.data.result;
+        state.nicklist = response.data.nicklist;
+        for(var i = 0; i<state.items.length; i++) {
+                  date(i);
+        }
+        //  테이블에 좋아요 넣기 (for문을 돌려서 넣으므로 느림) 
+        // for(var i = 0; i<state.items.length; i++){
+        //     const url1 = `ROOT/reaction/likelist.json?bno=${state.items[i].bno}`;
+        //     const headers1 = {"Content-Type":"application/json"};
+        //     const response1 = await axios.get(url1, {headers1}); 
+        //     state.items[i].blike = response1.data.result
+        // }
+        state.total = Math.floor(((response.data.result1)-1)/10+1);
+        console.log(state.total);
       }
 
     }

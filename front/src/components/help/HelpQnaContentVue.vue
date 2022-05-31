@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="state.items">
 <HeaderVue style="height: 220px;"></HeaderVue>
   <v-app>
     <v-main style="padding: 10px;" >      
@@ -16,48 +16,79 @@
 
           <v-row dense>
             <v-col sm="6" style="padding-top: 23px; padding-left: 15px;">
-              <h2>{{state.title}}</h2>
+              <h2>{{state.items.title}}</h2>
             </v-col>
           </v-row>
 
           <!-- 상단메뉴 -->
           <v-row dense style="padding-bottom: 10px; border-bottom: 1px solid #CCC;">
             <v-col sm="6" style="padding-left: 25px; ">
-              <h4 style="color: #787878">{{state.writer}}</h4>
+              <!-- 닉네임 -->
+              <h4 style="color: #787878">{{state.nick.mpnickname}}</h4>
             </v-col>
 
             <v-col sm="6" class="col_right" style="padding-right: 25px;">
               <h5 style="color: #787878">
-                조회 {{state.hit}} | {{state.date}}
+                조회 {{state.items.qhit}} | {{state.qregdate1}}
+              </h5>
+
+              <h5 style="color: #787878" v-if="state.nick.mpnickname === null">
+                <!-- 기업이름 --> 
+                {{state.nick.mcname}} &nbsp; | &nbsp; 
+                조회 {{state.items.qhit}} &nbsp; | &nbsp; 
+                <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.rno}}
+                &nbsp; | &nbsp; {{state.qregdate1}}
               </h5>
             </v-col>
           </v-row>
 
           <v-row dense style="border-bottom: 1px solid #CCC;">
             <v-col style="padding: 20px;">
-              {{state.content}}
+              <div v-html="state.items.qcontent"></div>
             </v-col>
           </v-row>
 
           <v-row dense>
             <v-col style="display: flex; padding-top: 10px; padding-left: 10px;" class="col_left">
-              <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{state.reply.count}}</h5><h5>개</h5>
+              <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{state.replylist.length}}</h5><h5>개</h5>
+            </v-col>
+
+            <!-- 글 수정, 삭제 : 아이디가 일치할 때 -->
+            <v-col class="col_right">
+              <div v-if="state.items.member.mid === state.mid1">
+                <h5 @click="handleUpdate()" style="padding-right: 10px; cursor: pointer;">수정</h5>
+              </div>
+
+              <div v-if="state.items.member.mid === state.mid1">
+                <h5 @click="handleDelete()" style="cursor: pointer;">삭제</h5>
+              </div>
+            </v-col>
+          </v-row>
+
+          <!-- 내용 -->
+          <v-row dense>
+            <v-col class="row_bwrite11">
+              <h2>{{state.recontent}}</h2>
             </v-col>
           </v-row>
 
           <!-- 댓글창 -->
-          <!-- 자기가 남긴 댓글에만 수정 삭제 버튼이 뜨게 -->
+          <!-- 자기가 남긴 댓글에만 수정 삭제 버튼이 뜨게 -->          
+          {{state.reply1.reupdate}}
+          {{state.reply1.clickReply}}
           <v-row dense style="background-color: #504ea31d;">
             <v-col style="border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; padding-left: 20px; padding-right: 20px;">
 
               <!-- 댓글하나 -->
-              <v-row dense style="padding-top: 10px;">
+              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="(tmp,idx) in state.replylist" :key="tmp">
                 <v-col>
                   <!-- 댓글작성자 -->
                   <v-row dense>
                     <v-col class="col_left">
-                      <h5 style="padding-right: 10px;">{{state.reply.writer}}</h5> 
-                      <h5 style="color: #676767;">{{state.reply.date}}</h5>
+                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mcname === null">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5>
+                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mpnickname === null">{{state.replynicklist[idx].mcname}} &nbsp; | </h5> 
+                      <h5 style="color: gray;">{{tmp.reregdate1}}</h5>
+                      <h5 style="color: #676767;">{{state.reply.reupdate[idx]}}</h5>
                       <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
                     </v-col>
                   </v-row>
@@ -99,7 +130,7 @@
                           <!-- 댓글작성자 -->
                           <v-row dense>
                             <v-col class="col_left">
-                              <h5 style="padding-right: 10px;">{{state.reply.writer1}}</h5> 
+                              <h5 style="padding-right: 10px;">{{state.replynicklist[idx].writer1}}</h5> 
                               <h5 style="color: #676767;">{{state.reply.date1}}</h5>
                               <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
                             </v-col>
@@ -131,11 +162,11 @@
                   </v-row>
 
                   <!-- 댓글내용 -->
-                  <v-row dense style="padding-right: 10px;">
+                  <!-- <v-row dense style="padding-right: 10px;">
                     <v-col>
                       <h4 style="padding-left: 10px;">{{state.reply.content}}</h4>
                     </v-col>
-                  </v-row>
+                  </v-row> -->
                 </v-col>
               </v-row>
 
@@ -143,12 +174,12 @@
                 <v-col sm="9" style="padding-top: 10px;">
                   <textarea 
                     style="border: 1px solid #CCC; padding: 10px; background-color: white; width: 100%; height: 70px; outline-width: 0; resize: none;"
-                    v-model="replycontent"
-                  ></textarea>
+                    v-model="state.reply1.recontent" placeholder="댓글내용">
+                  </textarea>
                 </v-col>
                 
                 <v-col sm="1" style="padding: 10px;" class="col_center">
-                  <v-btn style="width: 100%; height:69px; border: 1px solid #CCC;"><h4>댓글작성</h4></v-btn>
+                  <v-btn style="width: 100%; height:69px; border: 1px solid #CCC;"  @click="handleReplyInsert"><h4>댓글작성</h4></v-btn>
                 </v-col>
               </v-row>
             </v-col>
@@ -182,29 +213,73 @@
 import { reactive } from '@vue/reactivity';
 import FooterVue    from '../FooterVue.vue';
 import HeaderVue    from '../HeaderVue.vue';
+import { onMounted } from '@vue/runtime-core';
+import axios from 'axios';
+import { useRoute, useRouter } from 'vue-router';
+import dayjs from 'dayjs';
 
 export default {
   components: { HeaderVue, FooterVue },
   setup () {
-    const state = reactive({
-      title: '글제목입니다',
-      writer: '작성자입니다',
-      hit: 11,
-      like: 7,
-      date: '2022-04-30 16:44',
-      content: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
 
-      reply: {
-        count: 3,
-        writer: '핑키프라미쑤',
-        date: '2022-05-04 15:44',
-        content: 'ㄹㅇㅋㅋ',
-
-        writer1: '어썰트기어',
-        date1: '2022-05-05 15:44',
-        content1: '222',  
-      }
+    onMounted( async() => {
+      await handleData(); 
     })
+
+    const date = () => {
+      state.bregdate1 = dayjs(state.items.bregdate).format('YY.MM.DD hh:mm:ss');
+    }
+
+    const date1 = (i) => {
+      console.log(state.replylist[i].reregdate);
+      state.replylist[i].reregdate1 = dayjs(state.replylist[i].reregdate).format('YY.MM.DD hh:mm:ss');
+    }
+
+    const route = useRoute();
+    const router = useRouter();
+
+    const state = reactive({
+      qno : route.query.qno,
+      token     : sessionStorage.getItem("TOKEN"),
+      mid1      : sessionStorage.getItem("MID"),
+      items     : '',
+      item      : '',
+      likestatus: false,
+      rno       : [],
+      replylist : [],
+      page      : 1,
+      nick      : '',
+      replynicklist : [],
+
+      reply1   : {
+        mid           : '',
+        renumber      : 0,
+        recontent     : '',
+        reparentnumber: 0,
+        reprivate     : 'n',
+        reregdate     : '',
+        reregdate1    : '',
+        reupdatedate  : '',
+        reupdate      : [],
+        clickReply    : [],
+        rerecontent   : '',
+      },
+    })
+
+    
+
+    const handleData = async() => {
+      const url      = `/ROOT/api/qna/selectone?qno=${state.qno}`;
+      const headers  = {"Content-Type": "application/json", "token": state.token };
+      const response = await axios.get(url, {headers});
+      // console.log(response.data);
+
+      if(response.data.status === 200){
+        state.items      = response.data.result;
+        state.nick       = response.data.nick;
+        console.log(state.items);
+      }
+    }
 
     return { state }
   }
