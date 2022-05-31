@@ -19,7 +19,7 @@
                         </v-col>
 
                         <v-col sm="8" class="col_right">
-                            <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px;" ></v-select>
+                            <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px; padding-right: 10px;" ></v-select>
                             <input type="text" class="board_search_box" style="outline-width: 0;" v-model="state.search">
                             <v-btn style="height: 40px;" @click="search"><h4>검색</h4></v-btn>
                                 <v-btn style="margin-left: 10px; height: 40px; background-color: gold;" @click="handleWrite">
@@ -60,7 +60,7 @@
                                         <td>{{ item.cbno }}</td>
                                         <td @click="selectContent(item.cbno)" style="cursor:pointer;">{{ item.cbtitle }}</td>
                                         <td>{{ state.nicklist[idx].mpnickname}}</td>
-                                        <td>{{ item.cbregdate }}</td>
+                                        <td>{{ item.cbregdate1 }}</td>
                                         <td>{{ item.cbhit }}</td>
                                         <td>{{ item.like }}</td>
                                     </tr>
@@ -95,6 +95,7 @@ import CHHeaderVue  from '../CHHeaderVue.vue';
 import FooterVue    from '../../FooterVue.vue';
 import { onMounted } from '@vue/runtime-core';
 import { useRoute, useRouter } from 'vue-router';
+import dayjs from 'dayjs';
 
 export default {
   components: { CHHeaderVue, FooterVue },
@@ -103,24 +104,36 @@ export default {
         const route = useRoute();
 
         const state = reactive({
-            board: [],
+            board    : [],           
+            option   : '전체',
+            cno      : route.query.cno, //미완성
+            token    : sessionStorage.getItem("TOKEN"),
+            nicklist : [],
+            search   : '',
+            page     : 1,   // 현재 페이지
+            pages    : 1, // 총 페이지 수
+            boardname: '클럽게시판',
+
+            items: [
+                '전체', '제목', '내용', '글쓴이'
+            ], 
 
             notice: [
               {
-                no: '[공지]',
-                title: '삥뽕탁구클럽 규칙',
+                no    : '[공지]',
+                title : '삥뽕탁구클럽 규칙',
                 writer: '운영자',
-                date: '2022-05-13',
-                hit: 452,
-                like: 5
+                date  : '2022-05-13',
+                hit   : 452,
+                like  : 5
               },
               {
-                no: '[공지]',
-                title: '삥뽕탁구클럽에 오신 여러분들 진심으로 환영합니다 :-)',
+                no    : '[공지]',
+                title : '삥뽕탁구클럽에 오신 여러분들 진심으로 환영합니다 :-)',
                 writer: '운영자',
-                date: '2022-05-13',
-                hit: 452,
-                like: 5
+                date  : '2022-05-13',
+                hit   : 452,
+                like  : 5
               },
             ],
             search: '',
@@ -136,45 +149,39 @@ export default {
             nicklist : []
         })
 
-        const content = async() => 
-        {
-            if(state.token !== null)
-            {
+        const content = async() => {
+            if(state.token !== null) {
                 const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&cno=${state.cno}`;
                 const headers = {"Content-Type":"application/json", "token" : state.token};
                 const response = await axios.get(url, {headers});
                 console.log(response.data);
-                if(response.data.status === 200)
-                {
+
+                if(response.data.status === 200) {
                     state.board = response.data.result.list;
                     state.pages = response.data.result.pages;
                     state.nicklist = response.data.result.mplist;
+
+                    for(var i = 0; i < state.board.length; i++) {
+                        date(i);
+                    }
                 }
             }
-            else if(response.data.status === 0)
-            {
+            else if(response.data.status === 0) {
                 alert("로그인이 필요한 페이지입니다.");
                 router.push({name:'LoginVue'});
-            }
-            else
-            {
+            }else{
                 alert('비정상적인 접근입니다.');
                 router.push({name:'HomeVue'});
             }
         }   
 
-        const handlePage = async(idx, option, search) =>
-        {
-            if(state.token !== null)
-            {
-                
-
+        const handlePage = async(idx, option, search) => {
+            if(state.token !== null) {
                 const url = `/ROOT/api/clubboard/selectlist?page=${idx}&text=${search}&option=${option}&cno=${state.cno}`;
                 const headers = {"Content-Type":"application/json", "token" : state.token};
                 const response = await axios.get(url, {headers});
                 // console.log(response.data);
-                if(response.data.status === 200)
-                {
+                if(response.data.status === 200) {
                     state.board = response.data.result.list;
                     state.nicklist.splice(0); // state.nicklist 초기화 //페이지 이동 시 닉네임 목록 갱신
                     state.nicklist = response.data.result.mplist;
@@ -192,31 +199,29 @@ export default {
             }
         }
 
-        const selectContent = (cbno) =>
-        {
+        const selectContent = (cbno) => {
             console.log(state.cno);
             router.push({name:"CBoardContentVue", query:{cbno:cbno, cno:state.cno}});
         }
 
-        const search = async() => {
-            if(state.token !== null)
-            {
-                
+        const date = (i) => {
+            console.log(state.board[i].cbregdate);
+            state.board[i].cbregdate1 = dayjs(state.board[i].cbregdate).format('YY.MM.DD hh:mm:ss');
+        }
 
+        const search = async() => {
+            if(state.token !== null) {
                 const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
                 const headers = {"Content-Type":"application/json", "token" : state.token};
                 const response = await axios.get(url, {headers});
                 // console.log(response.data);
-                if(response.data.status === 200)
-                {
+                if(response.data.status === 200) {
                     state.board = response.data.result.list;
                     state.pages = response.data.result.pages;
                     state.nicklist.splice(0); // state.nicklist 초기화 //검색 및 페이지 이동 시 닉네임 목록 갱신
                     state.nicklist = response.data.result.mplist;
                 }
-            }
-            else
-            {
+            }else{
                 router.push({name:'LoginVue'});
             }
         }
@@ -226,8 +231,7 @@ export default {
             router.push({name:'CBoardWriteVue', query:{cno : state.cno}});
         }
 
-        onMounted(() =>
-        {
+        onMounted(() => {
             content();
         });
 
