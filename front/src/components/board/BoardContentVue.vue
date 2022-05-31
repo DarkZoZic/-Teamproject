@@ -45,10 +45,13 @@
 
           <v-row dense class="border-b_1_CCC">
             <v-col style="padding: 20px;" class="col_center">
-              <v-btn style="height: 50px;" @click="like()">
+              <v-btn v-if="state.likestatus === false" style="height: 50px;" @click="like()">
                 <img :src="state.likeimage" style="width: 40px; margin-right: 3px;"/>
-                <h3 v-if="state.likestatus === false" style="margin-left: 10px;">{{state.rno}}!!!</h3>
-                <h3 v-if="state.likestatus === true" style="margin-left: 10px;">{{state.rno}}@@@</h3>
+                <h3  style="margin-left: 10px;">{{state.rno}}</h3>
+              </v-btn>
+              <v-btn v-if="state.likestatus === true" style="background-color: gold; height: 50px;" @click="like()">
+                <img :src="state.likeimage" style="width: 40px; margin-right: 3px;"/>
+                <h3 style="margin-left: 10px;">{{state.rno}}</h3>
               </v-btn>
             </v-col>
           </v-row>
