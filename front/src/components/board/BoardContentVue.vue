@@ -350,21 +350,23 @@ export default {
     // 게시글 좋아요 
     // 1이면 unlike로 0이면 like로
     const like = async() => {
-      const url      = `/ROOT/reaction/like.json`;
-      const headers  = { "Content-Type": "application/json", "token": state.token };
-      const body     = new FormData();
-      body.append("board1", state.bno);
-      body.append("member", state.mid1);
-      const response = await axios.post(url, body,{headers});
-      // console.log(response.data);
-      if(response.data.status === 200){ // 좋아요 성공
-        // await like();
-        await handleData(state.bno);
-        await likestatus();
-        await likecount();
+      if( state.likestatus === false){
+        const url      = `/ROOT/reaction/like.json`;
+        const headers  = { "Content-Type": "application/json", "token": state.token };
+        const body     = new FormData();
+        body.append("board1", state.bno);
+        body.append("member", state.mid1);
+        const response = await axios.post(url, body,{headers});
+        // console.log(response.data);
+        if(response.data.status === 200){ // 좋아요 성공
+          // await like();
+          await handleData(state.bno);
+          await likestatus();
+          await likecount();
+        }
       }
-
-      else if(response.data.status === -1){ // 좋아요 취소
+      else if(state.likestatus === true){
+        // 좋아요 취소
         const url      = `/ROOT/reaction/unlike.json?bno=${state.bno}`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.delete(url, { headers: headers, data: {} });
