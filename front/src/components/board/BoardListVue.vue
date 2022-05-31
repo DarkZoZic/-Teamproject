@@ -161,6 +161,7 @@ export default {
 
             if(response.data.status === 200) {
                 state.items = response.data.result;
+                state.nicklist.splice(0);
                 state.nicklist = response.data.mlist;
                 console.log(state.nicklist);
                 // handledata가 출력되고 나서 날짜
@@ -188,6 +189,8 @@ export default {
 
             if(response.data.status === 200){
                 state.items = response.data.result;
+                state.nicklist.splice(0);
+                state.nicklist = response.data.mlist;
                 console.log(response.data.result.length);
             }
         }

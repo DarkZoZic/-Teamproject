@@ -29,12 +29,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.entity.entity1.Member;
 import com.example.entity.entity1.MemberPersonal;
+import com.example.entity.entity2.CBMemView;
 import com.example.entity.entity2.CReply;
+import com.example.entity.entity2.CReplyMemberView;
 import com.example.entity.entity2.CbImage;
 import com.example.entity.entity2.Cbckeditor;
 import com.example.entity.entity2.Club;
 import com.example.entity.entity2.ClubBoard;
 import com.example.jwt.JwtUtil;
+import com.example.repository.repository_3.CBMemViewRepository;
+import com.example.repository.repository_3.CReplyMemberViewRepository;
 import com.example.repository.repository_3.CReplyRepository;
 import com.example.repository.repository_3.CbckeditorRepository;
 import com.example.repository.repository_3.ClubBoardImageRepository;
@@ -65,6 +69,12 @@ public class ClubBoardRestController {
 	
 	@Autowired
 	PersonalMemberRepository pmRep;
+	
+	@Autowired
+	CReplyMemberViewRepository crmvRep;
+	
+	@Autowired
+	CBMemViewRepository cbmvRep;
 	
 	
 	@Autowired
@@ -249,8 +259,8 @@ public class ClubBoardRestController {
 					model.addAttribute("pages", (total-1) / 10 + 1);
 				}
 					
-				List<MemberPersonal> mplist = new ArrayList<>(); // 닉네임 리스트
-				for(int i=0; i<list.toArray().length; i++)
+				List<CBMemView> mlist = new ArrayList<>(); // 닉네임 리스트
+				for(int i=0; i<list.size(); i++)
 				{
 					ClubBoard cb = list.get(i);
 					
@@ -258,12 +268,12 @@ public class ClubBoardRestController {
 					
 					clubBoard.setCbimageurl("/ROOT/clubboard/image/cbno=" + cb.getCbno());
 					
-					Member member = list.get(i).getMember();
-					MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
-					mplist.add(mp);
+					CBMemView cbmv = cbmvRep.findById(cb.getCbno()).orElse(null);
+					
+					mlist.add(cbmv);
 				}
 //				System.out.println("list : " + list);
-				model.addAttribute("mplist", mplist);
+				model.addAttribute("mlist", mlist);
 				model.addAttribute("list", list);
 				
 //				System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvv");
@@ -339,17 +349,16 @@ public class ClubBoardRestController {
 				// 댓글 목록 저장할 배열 변수
 				List<CReply> replylist = crRep.findByClubboard_CbnoOrderByRenumberDesc(cbno);
 				
-				List<MemberPersonal> mplist = new ArrayList<>(); // 댓글 작성자 닉네임 리스트
-				for(int i=0; i<replylist.toArray().length; i++)
+				List<CReplyMemberView> mlist = new ArrayList<>(); // 댓글 작성자 닉네임 리스트
+				for(int i=0; i<replylist.size(); i++)
 				{
-					Member member = replylist.get(i).getMember();
-					MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
-					mplist.add(mp);
+					CReplyMemberView crmv = crmvRep.findByRenumber(replylist.get(i).getRenumber());
+					mlist.add(crmv);
 				}
 
 				model.addAttribute("clubboard", cb); //글상세내용
 				model.addAttribute("replylist", replylist); // 댓글목록
-				model.addAttribute("replynicklist", mplist); // 댓글작성자 닉네임 목록
+				model.addAttribute("replynicklist", mlist); // 댓글작성자 닉네임 목록
 				
 				ClubBoard prev = cbRep.findTop1ByClub_cnoAndCbnoLessThanOrderByCbnoDesc(cno, cbno); // 이전글
 				ClubBoard next = cbRep.findTop1ByClub_cnoAndCbnoGreaterThanOrderByCbnoAsc(cno, cbno); // 다음글
