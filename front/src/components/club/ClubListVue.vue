@@ -341,7 +341,7 @@ export default {
 
         // 중분류 검색
         const search2 = async() => {
-            부산 기장군|부산 강서구|부산 연제구
+            // 부산 기장군|부산 강서구|부산 연제구
             const url      = `/ROOT/address/search2?address=${state.search2}`;
             const headers  = { "Content-Type": "application.json" };
             const response = await axios.get(url,{ headers: headers });
@@ -351,8 +351,8 @@ export default {
                 state.addr2 = response.data.result;
                 console.log(state.addr2);
             };
-            String[] state.area
-            String state.joinSearch = String.join("|", state.area);
+            // String[] state.area
+            // String state.joinSearch = String.join("|", state.area);
         }
 
         // 전체불러오기
@@ -380,6 +380,7 @@ export default {
                     state.imgcheck.push({ cno: state.items[i].obj.cno, type: 0 })
                 }
             }   
+            catesearch();
         }
 
         const Likelist = async() => {
@@ -493,7 +494,6 @@ export default {
         }
         
         return {
-        keyword,catesearch,
         state, addr1, search1, search2, del, reset, resetdate, resettime, Clicksearch, all, changeheart, unlike, handlePage }
     }
 }

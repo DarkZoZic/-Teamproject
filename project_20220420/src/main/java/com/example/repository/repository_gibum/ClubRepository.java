@@ -29,6 +29,12 @@ public interface ClubRepository
 
         List<ClubProjection> findByCprivateAndCaddressContaining(String cprivate, String caddress);
 
+        List<ClubProjection> findByCprivateAndCategory_Cgcate1Containing(String cprivate, String cate);
+
+        List<ClubProjection> findByCprivateAndCategory_Cgcate2Containing(String cprivate, String cate);
+
+        List<ClubProjection> findByCprivateAndCategory_Cgcate1OrCategory_Cgcate2(String ad, String cprivate, String cate);
+
         List<ClubProjection> findByCprivateOrderByCnoDesc(String cprivate);
         List<ClubProjection> findByCaddress(String address);
 

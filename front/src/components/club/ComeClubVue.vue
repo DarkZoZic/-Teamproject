@@ -316,7 +316,7 @@ export default {
             console.log(response.data);
             if(response.data.status === 200){
                 state.items = response.data.results;
-                console.log(response.data.results[2].cname);
+                // console.log(response.data.results[2].cname);
                 // state.club = response.data.results.length;
             }
 
