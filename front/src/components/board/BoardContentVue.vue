@@ -363,12 +363,12 @@ export default {
       if(response.data.status === 1){ // 좋아요 누른상태
         console.log(state.likestatus);
         state.likestatus = true;
-        handledata();
+        likecount();
       }
       else if(response.data.status === 0){ // 좋아요 없음
         console.log(state.likestatus);
         state.likestatus = false;
-        handledata();
+        likecount();
       }
     }
 
