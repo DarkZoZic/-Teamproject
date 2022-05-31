@@ -10,7 +10,7 @@
         <v-col sm="8">
           <v-row dense class="border-b_1_CCC">
             <v-col>
-              <h5><router-link :to="{name:'CHomeVue', query :{cno : state.cno}}">클럽홈</router-link> > <router-link :to="{name:'CBoardListVue', query :{cno : state.cno}}">{{state.boardname}}</router-link> > 글읽기</h5>
+              <h5><router-link :to="{ name: 'CHomeVue', query: { cno: state.cno}}">클럽홈</router-link> > <router-link :to="{ name: 'CBoardListVue', query: { cno: state.cno } }">{{state.boardname}}</router-link> > 글읽기</h5>
             </v-col>
           </v-row>
 
@@ -36,7 +36,7 @@
             </v-col>
           </v-row>
 
-          <img :src="state.board.cbimageurl" style="width:200px; margin: 10px; padding: 5px; border: 1px solid #CCC;" />
+          <img :src="state.board.cbimageurl" style="width: 200px; margin: 10px; padding: 5px; border: 1px solid #CCC;" />
 
           <v-row dense>
             <v-col class="col_pad20">
@@ -77,7 +77,6 @@
             <v-col style="border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; padding-left: 20px; padding-right: 20px;">
 
               <!-- 댓글하나 -->
-
               <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="(tmp, idx) in state.reply" :key="tmp">
                 <v-col>
                   <!-- 댓글작성자 -->
@@ -166,7 +165,7 @@
           
           <v-row dense style="padding-top: 10px; padding-bottom: 20px;">
             <v-col sm="3">
-              <router-link :to="{name:'CBoardListVue', query :{cno : state.cno}}">
+              <router-link :to="{ name: 'CBoardListVue', query: { cno: state.cno } }">
                 <v-btn class="col_center"><img :src="require('../../../assets/img/list.png')" style="width: 20px; margin-right: 3px;"/><h4>목록</h4></v-btn>
               </router-link>
             </v-col>
@@ -174,7 +173,7 @@
             
 
             <v-col class="col_right">
-              <router-link :to="{name:'CBoardWriteVue', query :{cno : state.cno}}">
+              <router-link :to="{ name: 'CBoardWriteVue', query: { cno: state.cno } }">
                 <v-btn class="col_center"><img :src="require('../../../assets/img/pencil.png')" style="width: 20px; margin-right: 3px;"/><h4>글쓰기</h4></v-btn>
               </router-link>
             </v-col>
@@ -201,56 +200,56 @@ import { onMounted } from '@vue/runtime-core';
 
 export default {
   components: { CHHeaderVue, FooterVue },
+  
   setup () {
     const route = useRoute();
     const router = useRouter(); 
 
     const state = reactive({
-      cbno : route.query.cbno,
-      cno : route.query.cno,
-      board : {},
-      imageurl : '',
-      boardname: '클럽게시판',
-      replycontent: '',
-      token : sessionStorage.getItem("TOKEN"),
-      prev : 0,
-      next : 0,
-      mid : '',
-      tokenid : sessionStorage.getItem("MID"), // 글수정/삭제 비교용. 토큰에서 id 추출
-      nick : '',
-
-      reply: [],
-      replyupdate : 
-      {
+      cbno         : route.query.cbno,
+      cno          : route.query.cno,
+      board        : {},
+      imageurl     : '',
+      boardname    : '클럽게시판',
+      replycontent : '',
+      token        : sessionStorage.getItem("TOKEN"),
+      prev         : 0,
+      next         : 0,
+      mid          : '',
+      tokenid      : sessionStorage.getItem("MID"), // 글수정/삭제 비교용. 토큰에서 id 추출
+      nick         : '',
+      replynicklist: [],
+      rereply      : [],
+      reply        : [],
+      replyupdate : {
         update : []
       },
-      replynicklist : [],
-      rereply : []
     })
 
-    const content = async() => // 조회수 증가 -> 게시글 상세내용 + 이미지 + 댓글목록
-    {
+    // 조회수 증가 -> 게시글 상세내용 + 이미지 + 댓글목록
+    const content = async() => {
       console.log(state.cno);
-      const url = `/ROOT/api/clubboard/updatehit?cbno=${state.cbno}&cno=${state.cno}`;
-      const headers = {"Content-Type" : "application/json", "token" : state.token};
-      const body = {cbno : state.cbno};
-      const response = await axios.post(url, body, {headers});
+      const url      = `/ROOT/api/clubboard/updatehit?cbno=${state.cbno}&cno=${state.cno}`;
+      const headers  = { "Content-Type": "application/json", token: state.token };
+      const body     = { cbno: state.cbno };
+      const response = await axios.post(url, body, { headers });
       // console.log(response.data);
+
       if(response.data.status === 200)
       {
-        const url = `/ROOT/api/clubboard/select?cbno=${state.cbno}&cno=${state.cno}`;
-        const headers = {"Content-Type":"application/json", "token" : state.token};
+        const url      = `/ROOT/api/clubboard/select?cbno=${state.cbno}&cno=${state.cno}`;
+        const headers  = { "Content-Type": "application/json", token: state.token };
         
         const response = await axios.get(url, {headers});
         console.log(response.data);
         if(response.data.status === 200)
         {
-          state.board = response.data.result.clubboard;
-          state.reply = response.data.result.replylist;
-          state.imageurl = response.data.result.clubboard.cbimageurl;
-          state.prev = response.data.result.prev;
-          state.next = response.data.result.next;
-          state.mid = response.data.result.clubboard.member.mid;
+          state.board         = response.data.result.clubboard;
+          state.reply         = response.data.result.replylist;
+          state.imageurl      = response.data.result.clubboard.cbimageurl;
+          state.prev          = response.data.result.prev;
+          state.next          = response.data.result.next;
+          state.mid           = response.data.result.clubboard.member.mid;
           state.replynicklist = response.data.result.replynicklist;
           for(let i=0; i<state.reply.length; i++)
           {
@@ -258,25 +257,23 @@ export default {
             console.log(state.replyupdate.update[i]);
           }
         }
-        else if(response.data.status === 0)
-            {
-                alert("로그인이 필요한 페이지입니다.");
-                router.push({name:'LoginVue'});
-            }
-            else
-            {
-                alert('비정상적인 접근입니다.');
-                router.push({name:'HomeVue'});
-            }
+        else if(response.data.status === 0) {
+          alert("로그인이 필요한 페이지입니다.");
+          router.push({name:'LoginVue'});
+        } else{
+          alert('비정상적인 접근입니다.');
+          router.push({name:'HomeVue'});
+        }
       }
     }
 
-    const nick = async() => // 글 작성자 닉네임
-    {
-      const url = `/ROOT/api/clubmember/selectnick?mid=${state.mid}`;
-      const headers = {"Content-Type":"application/json"};
+    // 글 작성자 닉네임
+    const nick = async() => {
+      const url      = `/ROOT/api/clubmember/selectnick?mid=${state.mid}`;
+      const headers  = {"Content-Type":"application/json"};
       const response = await axios.get(url, {headers});
       // console.log(response.data);
+
       if(response.data.status === 200)
       {
         state.nick = response.data.result.mpnickname;
@@ -292,64 +289,60 @@ export default {
     }
 
     const insertreply = async() => {
-      const url = `/ROOT/api/clubboard/insertreply`;
+      const url     = `/ROOT/api/clubboard/insertreply`;
       const headers = {"Content-Type":"application/json", "token" : state.token};
-      const body = 
+      const body    = 
       {
         cbno : state.cbno,
         recontent : state.replycontent
       };
       const response = await axios.post(url, body, {headers});
       console.log(response.data);
+
       if(response.data.status === 200)
       {
         location.reload();
       }
     }
 
-    const prevnext = async(idx) =>
-    {
+    const prevnext = async(idx) => {
       if(idx === 1)
       {
-        router.push({name:'CBoardContentVue', query : {cbno : state.prev, cno : state.cno}});
+        router.push({ name: 'CBoardContentVue', query: { cbno: state.prev, cno: state.cno } });
         await content();
         location.reload();
       }
       if(idx === 2)
       {
-        router.push({name:'CBoardContentVue', query : {cbno : state.next, cno : state.cno}});
+        router.push({ name: 'CBoardContentVue', query: { cbno: state.next, cno: state.cno } });
         await content();
         location.reload();
       }
     }
 
-    const handleDelete = async() =>
-    {
-      const url = `/ROOT/api/clubboard/delete`;
-      const headers = {"Content-Type" : "application/json", "token" : state.token};
-      const body = 
-      {
-        cbno : state.cbno
-      };
+    const handleDelete = async() => {
+      const url     = `/ROOT/api/clubboard/delete`;
+      const headers = { "Content-Type" :"application/json", token: state.token };
+      const body    = { cbno: state.cbno };
       const response = await axios.post(url, body, {headers});
       console.log(response.data);
+
       if(response.data.status === 200)
       {
         alert('삭제되었습니다.');
-        router.push({name:"CBoardListVue", query : {cbno : state.cbno, cno : state.cno}});
+        router.push({ name: "CBoardListVue", query: { cbno: state.cbno, cno: state.cno } });
       }
     }
 
     const handleUpdate = () =>
     {
-      router.push({name:'CBoardUpdateVue', query : {cbno : state.cbno, cno : state.cno}});
+      router.push({ name: 'CBoardUpdateVue', query: { cbno: state.cbno, cno: state.cno } });
     }
 
-    const handleReplyDelete = async(idx) =>
-    {
-      const url = `/ROOT/api/clubboard/deletereply`;
-      const headers = {"Content-Type":"application/json", "token" : state.token};
-      const body = {renumber : idx};
+    const handleReplyDelete = async(idx) => {
+      const url      = `/ROOT/api/clubboard/deletereply`;
+      const headers  = { "Content-Type": "application/json", token: state.token };
+      const body     = { renumber: idx };
       const response = await axios.post(url, body, {headers});
       console.log(response.data);
       if(response.data.status === 200)
@@ -358,8 +351,7 @@ export default {
       }
     }
 
-    const handleReplyUpdate = (idx) =>
-    {
+    const handleReplyUpdate = (idx) => {
       // console.log(idx);
       // console.log(state.replyupdate.update[idx]);
       if(!state.replyupdate.update[idx])
@@ -372,13 +364,12 @@ export default {
       }
     }
 
-    const handleReplyUpdateAct = async(tmp, idx) =>
-    {
+    const handleReplyUpdateAct = async(tmp, idx) => {
       // console.log(tmp);
       // console.log(state.reply[idx].renumber);
-      const url = `/ROOT/api/clubboard/updatereply`;
+      const url     = `/ROOT/api/clubboard/updatereply`;
       const headers = {"Content-Type":"application/json", "token" : state.token};
-      const body = 
+      const body    = 
       {
         cbno : tmp,
         renumber : state.reply[idx].renumber,
@@ -386,6 +377,7 @@ export default {
       };
       const response = await axios.put(url, body, {headers});
       console.log(response.data);
+
       if(response.data.status === 200)
       {
         state.replyupdate.update[idx] = false;
@@ -397,8 +389,6 @@ export default {
       await content();
       nick();
     });
-
-    
 
     return { state, like, replylike, insertreply, prevnext, handleDelete, handleUpdate, handleReplyDelete, handleReplyUpdate, handleReplyUpdateAct }
   }

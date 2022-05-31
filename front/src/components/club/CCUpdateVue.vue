@@ -23,6 +23,7 @@
 
                     <v-row dense style="padding-top: 10px;">
                         <v-col sm="1" ></v-col>
+
                         <div v-if="state.items">
                             <v-col sm="10" >
                                 <v-select :change="handleCno()"
@@ -31,6 +32,7 @@
                                 </v-select>
                             </v-col>
                         </div>
+
                         <v-col sm="1"></v-col>
                     </v-row>
 
@@ -46,11 +48,13 @@
                                             <v-col style="height: 80px;" class="col_left">
                                                 <h2>{{state.club}}</h2>
                                             </v-col>
+
                                             <v-col style="height: 80px;" class="col_left" v-if="state.club !== ''">
                                                 <h2>{{state.cno}}</h2>
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel>
+
                                     <!-- 클럽명 -->
                                     <v-expansion-panel class="panel">
                                         <v-row>
@@ -72,6 +76,7 @@
                                             <v-col style="padding: 20px;">
                                                 <v-row dense>
                                                     <v-col sm="6" style="border-right: 1px solid #ccc;" class="col_center"><h4>성별</h4></v-col>
+
                                                     <v-col sm="6" class="col_center"><h4>연령</h4></v-col>
                                                 </v-row>
 
@@ -120,6 +125,7 @@
                                             <v-col style="padding: 20px;">
                                                 <v-row dense>
                                                     <v-col sm="6" style="border-right: 1px solid #ccc;" class="col_center"><h4>요일</h4></v-col>
+
                                                     <v-col sm="6" class="col_center"><h4>시간</h4></v-col>
                                                 </v-row>
 
@@ -295,8 +301,7 @@ export default {
                     state.imageUrl[i] = URL.createObjectURL(e.target.files[i]);
                     state.imageFile[i] = e.target.files[i];
                 }
-            }
-            else {
+            }else {
                 state.imageUrl = null;
                 state.imageFile = null;
             }
@@ -318,7 +323,7 @@ export default {
                     console.log(state.cnolist);
                     console.log(state.clublist);
                 }
-                console.log("sad",response.data.results.length);
+            console.log("sad",response.data.results.length);
         }
 
         const handleCno = async() => {
@@ -380,6 +385,7 @@ export default {
             }
             const response = await axios.post(url, body, { headers });
             console.log(response.data);
+            
             if(response.data.status === 200){
                 alert('등록완료');
                 router.push({ name: 'ClubListVue' });

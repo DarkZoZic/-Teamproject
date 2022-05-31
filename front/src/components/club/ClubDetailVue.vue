@@ -224,9 +224,10 @@ export default {
     setup () {
         const route = useRoute();
         const router = useRouter();
+
         const state = reactive({
-            cdno     : '',
-            token : sessionStorage.getItem("TOKEN"),
+            cdno      : '',
+            token     : sessionStorage.getItem("TOKEN"),
             cno       : route.query.cno,
             writeDate : '2022년 5월 2일',
             updateDate: '2022년 5월 5일',
@@ -310,8 +311,7 @@ export default {
                 console.log(state.items1.clubCno);
                 state.imgcheck = 1;
                 console.log(state.imgcheck);
-            }
-            else{
+            }else {
                 console.log("찜x");
                 state.imgcheck1 === 0;
                 console.log(state.imgcheck1);
