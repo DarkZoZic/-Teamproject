@@ -27,9 +27,17 @@
             </v-col>
 
             <v-col sm="6" class="col_right1">
-              <h5 style="color: #787878">
-                <!-- 닉네임으로 바꿔야 함 <= 바꿈 --> 
-                {{state.nick}} &nbsp; | &nbsp; 
+              <h5 style="color: #787878" v-if="state.nick.mcname === null">
+                <!-- 닉네임 --> 
+                {{state.nick.mpnickname}} &nbsp; | &nbsp; 
+                조회 {{state.items.bhit}} &nbsp; | &nbsp; 
+                <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.rno}}
+                &nbsp; | &nbsp; {{state.bregdate1}}
+              </h5>
+
+              <h5 style="color: #787878" v-if="state.nick.mpnickname === null">
+                <!-- 기업이름 --> 
+                {{state.nick.mcname}} &nbsp; | &nbsp; 
                 조회 {{state.items.bhit}} &nbsp; | &nbsp; 
                 <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.rno}}
                 &nbsp; | &nbsp; {{state.bregdate1}}
@@ -117,7 +125,8 @@
                       <img :src="require('../../assets/img/reply.png')" style="margin-top: 5px; margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
                     </div>
                     <v-col class="col_left">                      
-                      <h5 style="padding-right: 10px;">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5> 
+                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mcname === null">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5>
+                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mpnickname === null">{{state.replynicklist[idx].mcname}} &nbsp; | </h5> 
                       <h5 style="color: gray;">{{tmp.reregdate1}}</h5>
                       <img :src="require('../../assets/img/thumb.png')" @click="replylike()" style="width: 15px; margin-left: 10px; cursor: pointer; " />
                       <h5 style="color: gray; padding-left: 5px;">{{state.blike}}</h5>
@@ -307,7 +316,7 @@ export default {
         state.items      = response.data.result;
         state.items.prev = response.data.prev;
         state.items.next = response.data.next;
-        state.nick       = response.data.nick.mpnickname;
+        state.nick       = response.data.nick;
         console.log(state.items);
       }
     }

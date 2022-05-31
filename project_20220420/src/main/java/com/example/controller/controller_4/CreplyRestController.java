@@ -10,7 +10,9 @@ import com.example.entity.entity1.MemberPersonal;
 import com.example.entity.entity1.Qna;
 import com.example.entity.entity2.Board1;
 import com.example.entity.entity2.CReply;
+import com.example.entity.entity2.CReplyMemberView;
 import com.example.jwt.JwtUtil;
+import com.example.repository.repository_3.CReplyMemberViewRepository;
 import com.example.repository.repository_3.PersonalMemberRepository;
 import com.example.repository.repository_4.CreplyRepository;
 import com.example.service.service_4.CreplyService;
@@ -42,6 +44,9 @@ public class CreplyRestController {
     
     @Autowired
     PersonalMemberRepository pmRep;
+    
+    @Autowired
+    CReplyMemberViewRepository crmvRep;
 
     @Autowired
     JwtUtil jwtUtil;
@@ -188,17 +193,16 @@ public class CreplyRestController {
 
                 List<CReply> cReply = cRepository.findByBoard1_bnoOrderByRenumberAsc(bno);
                 
-                List<MemberPersonal> mplist = new ArrayList<>(); // 댓글 작성자 닉네임 리스트
-				for(int i=0; i<cReply.toArray().length; i++)
+                List<CReplyMemberView> mlist = new ArrayList<>(); // 댓글 작성자 닉네임 리스트
+				for(int i=0; i<cReply.size(); i++)
 				{
-					Member member = cReply.get(i).getMember();
-					MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
-					mplist.add(mp);
+					CReplyMemberView mp = crmvRep.findByRenumber(cReply.get(i).getRenumber());
+					mlist.add(mp);
 				}
-				
+				System.out.println(mlist);
                 long total = cRepository.countByBoard1_bno(bno);
                 map.put("result",cReply);
-                map.put("replynicklist", mplist);
+                map.put("replynicklist", mlist);
                 map.put("status",200);
                 map.put("total",total);
             }
