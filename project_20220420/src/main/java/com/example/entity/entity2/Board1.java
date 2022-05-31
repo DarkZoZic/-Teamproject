@@ -20,7 +20,7 @@ import javax.persistence.Transient;
 
 import com.example.entity.entity1.Member;
 import com.example.entity.entity1.Reaction;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.example.entity.entity2.CReply;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -59,15 +59,15 @@ public class Board1 {
 
   // 글작성일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@CreationTimestamp // CURRENT_DATE
-	@Column(name = "bregdate")
+  @CreationTimestamp // CURRENT_DATE
+  @Column(name = "bregdate")
   private Date bregdate;
 
   // 글수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-	@UpdateTimestamp // 데이터를 첨부할 때 말고 update 할 때도 시간이 찍힘
+  @UpdateTimestamp // 데이터를 첨부할 때 말고 update 할 때도 시간이 찍힘
   @Column(name = "buptdate")
-	Date buptdate;
+  Date buptdate;
   
   // 글종류
   @Column(name = "btype")
@@ -85,16 +85,19 @@ public class Board1 {
   @JoinColumn(name = "mid")
   private Member member;
 
-  // 개인회원 닉네임
-
   // 게시판이미지
   // @OneToMany(mappedBy = "board1")
   // private List<BImage> bImageList = new ArrayList<>();
+  
+  // 반응
+  @OneToMany(mappedBy = "board1")
+  @JsonManagedReference(value="reno")
+  private List<Reaction> reactionList = new ArrayList<>();
 
   // 댓글
-  // @OneToMany(mappedBy = "board1", cascade = CascadeType.REMOVE)
-  // @JsonManagedReference(value="bno")
+  @OneToMany(mappedBy = "board1", cascade = CascadeType.REMOVE)
+  @JsonManagedReference(value="crno1")
   // private List<CReply> cReplyList = new ArrayList<>();
-
+  private List<CReply> cReplyList = new ArrayList<>();
 
 }
