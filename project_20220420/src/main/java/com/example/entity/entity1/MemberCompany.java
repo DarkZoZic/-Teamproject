@@ -18,7 +18,7 @@ public class MemberCompany {
   // 기업 사업자번호
   @Id
   @Column(name = "MCNO")
-  private String mcno;
+  private long mcno;
 
   // 기업설명
   @Column(name = "MCDESC", nullable = false)
