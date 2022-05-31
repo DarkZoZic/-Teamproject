@@ -249,10 +249,11 @@ export default {
         const keyword = computed(() => store1.getters.getKeyword);
 
         const state  = reactive({
+            joinSearch : [],
             search : route.query.title,
             token    : sessionStorage.getItem("TOKEN"),
             logged   : computed(() => store.getters['moduleA/getLogged']),
-            area     : [],
+            area     : '',
             items1   : '',
             datechk  : [],
             timechk  : [],
@@ -281,7 +282,7 @@ export default {
             if (state.card.desc.length >= 20) {
                 state.card.desc1 = state.card.desc.substring(0, 20) + '...'
             }
-        })
+        });
 
         // 카테고리 검색 
         const catesearch = async() => {
@@ -340,23 +341,17 @@ export default {
         }
 
         // 중분류 검색
-        const search2 = async() => {
-            // 부산 기장군|부산 강서구|부산 연제구
-            const url      = `/ROOT/address/search2?address=${state.search2}`;
-            const headers  = { "Content-Type": "application.json" };
-            const response = await axios.get(url,{ headers: headers });
-            console.log(response.data);
+        // const search2 = async() => {
+        //     const url      = `/ROOT/address/search2?address=${state.search2}`;
+        //     const headers  = { "Content-Type": "application.json" };
+        //     const response = await axios.get(url,{ headers: headers });
+        //     console.log(response.data);
 
-            if(response.data.status === 200){
-                state.addr2 = response.data.result;
-                console.log(state.addr2);
-            };
-            // String[] state.area
-        }
-
-        const join = () => {
-            // String state.joinSearch = String.join("|", state.area);
-        }
+        //     if(response.data.status === 200){
+        //         state.addr2 = response.data.result;
+        //         console.log(state.addr2);
+        //     };
+        // }
 
         // 전체불러오기
         const addr1 = async() => {
@@ -408,18 +403,21 @@ export default {
 
         const Clicksearch = async(area) => {
             state.area.push(area)
+
+            state.joinSearch = state.area.join("|", state.area);
+            
+            console.log(state.joinSearch);
+            
             const url      =`/ROOT/club/searchclub?address=${area}`
             const headers  = { "Content-Type": "application.json" };
             const response = await axios.get(url, { headers: headers });
-            console.log(response.data);
 
             if(response.data.status === 200){
-                console.log(area);
                 state.items = response.data.result;
             }
             const arr = [...new Set(state.area)];
             console.log(arr);
-            state.area = arr;            
+            state.area = arr;
         }
 
          const changeheart = async(cno,idx) => {
@@ -497,7 +495,8 @@ export default {
         }
         
         return {
-        state, addr1, search1, search2, del, reset, resetdate, resettime, Clicksearch, all, changeheart, unlike, handlePage }
+        state, addr1, search1, del, reset, resetdate, 
+        resettime, Clicksearch, all, changeheart, unlike, handlePage }
     }
 }
 </script>
