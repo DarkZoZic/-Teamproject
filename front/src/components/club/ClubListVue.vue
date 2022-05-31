@@ -262,7 +262,7 @@ export default {
             imgName1 : require(`../../assets/img/heart1.png`),
             logo     : 'club_logo',
             show     : 'true',
-            
+
             tab: ['서울', '경기', '인천', '부산', '대전', '대구', '울산', 
                 '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'],
 
@@ -341,7 +341,7 @@ export default {
 
         // 중분류 검색
         const search2 = async() => {
-            부산 기장군|부산 강서구|부산 연제구
+            // 부산 기장군|부산 강서구|부산 연제구
             const url      = `/ROOT/address/search2?address=${state.search2}`;
             const headers  = { "Content-Type": "application.json" };
             const response = await axios.get(url,{ headers: headers });
@@ -351,8 +351,10 @@ export default {
                 state.addr2 = response.data.result;
                 console.log(state.addr2);
             };
-            String[] state.area
-            String state.joinSearch = String.join("|", state.area);
+        }
+
+        const join = () => {
+            // String state.joinSearch = String.join("|", state.area);
         }
 
         // 전체불러오기
