@@ -494,35 +494,6 @@ try {
     return map;
     }   
 
-    // //  카테고리로 클럽검색 ex 대분류)운동
-    // // 127.0.0.1:9090/ROOT/club/searchcateclub
-    // @RequestMapping(value = "/searchcateclub", 
-    // method = { RequestMethod.GET },
-    // consumes = { MediaType.ALL_VALUE },
-    // produces = { MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> CateSearchGet(
-    //     @Param(value = "cate") String cate
-    //     ){
-    //     Map<String, Object> map = new HashMap<>();
-    //     map.put("status", 0);
-    //     try {
-    //         String private1 = "공개";
-    //         List<Combineaddr> combineaddr = addrRepository.findByCprivateAndCgcate1Containing(private1,cate);
-    //         System.out.println("======1"+ combineaddr);
-
-            
-
-    //         map.put("status", 200); 
-    //         // map.put("result", combineaddr); 
-    //         // map.put("club2", combineaddr1); 
-    //     }
-    //      catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-
-    // return map;
-    // }   
-
     //  클럽카테고리 검색 ex)운동
     // 127.0.0.1:9090/ROOT/club/searchcateclub
     @RequestMapping(value = "/searchcateclub", 
@@ -538,10 +509,10 @@ try {
             
             String private1 = "공개";
 
-            List<ClubProjection> club = cRepository.findByCprivateAndCategory_Cgcate1OrCategory_Cgcate2(private1,cate,cate);
+            List<Clublistview> club = clubListViewRepository.findByCprivateAndCgcate1OrCgcate2(private1,cate,cate);
             System.out.println(club);
             List<Map <String, Object>> list = new ArrayList<>();
-            for(ClubProjection obj:club  ){
+            for(Clublistview obj:club  ){
                 Map <String, Object> map1 = new HashMap<>();
                 map1.put("obj", obj);
                 map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
@@ -614,10 +585,10 @@ try {
             String private1 = "공개";
             // String address = "주소";
 
-            List<ClubProjection> club = cRepository.findByCprivateAndCaddressContaining(private1,address);
+            List<Clublistview> club = clubListViewRepository.findByCprivateAndCaddressContaining(private1,address);
             System.out.println(club);
             List<Map <String, Object>> list = new ArrayList<>();
-            for(ClubProjection obj:club  ){
+            for(Clublistview obj:club  ){
                 Map <String, Object> map1 = new HashMap<>();
                 map1.put("obj", obj);
                 map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
