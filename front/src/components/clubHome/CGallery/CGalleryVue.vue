@@ -20,8 +20,8 @@
               <h2>갤러리</h2>
             </v-col>
 
-            <v-col sm="6" class="col_right">
-              <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px;" ></v-select>
+            <v-col sm="8" class="col_right">
+              <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px; padding-right: 10px;" ></v-select>
               <input type="text" class="board_search_box" style="outline-width: 0;" v-model="state.search">
               <v-btn style="height: 40px;" @click="search"><h4>검색</h4></v-btn>
                 <v-btn style="margin-left: 10px; height: 40px; background-color: gold;" @click="handleUpload">

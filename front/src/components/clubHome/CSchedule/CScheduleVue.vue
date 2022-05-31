@@ -20,8 +20,8 @@
               <h2>일정</h2>
             </v-col>
 
-            <v-col sm="6" class="col_right">
-              <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px;" ></v-select>
+            <v-col sm="8" class="col_right">
+              <v-select variant="outlined" density="compact" :items="state.items" v-model="state.option" style="height: 40px; padding-right: 10px;" ></v-select>
               <input type="text" class="board_search_box" style="outline-width: 0;" v-model="state.search">
               <v-btn style="height: 40px;" @click="search()"><h4>검색</h4></v-btn>
               <router-link :to="{name : 'CSUploadVue', query : {cno : state.cno}}">

@@ -1,6 +1,6 @@
 <template>
 <div>
-<HeaderVue style="height: 220px;"></HeaderVue>
+<CHHeaderVue style="height: 150px;"></CHHeaderVue>
     <v-app>
         <v-main style="padding: 10px;">      
             <v-row dense>
@@ -56,12 +56,12 @@
 <script>
 import { reactive } from '@vue/reactivity';
 import FooterVue from '../../FooterVue.vue';
-import HeaderVue from '../../HeaderVue.vue';
+import CHHeaderVue  from '../CHHeaderVue.vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 
 export default {
-    components: { HeaderVue, FooterVue },
+    components: { CHHeaderVue, FooterVue },
     setup () {
         const router = useRouter();
         const route = useRoute();
