@@ -377,7 +377,7 @@ export default {
                 for(var i = 0; i < state.items.length; i++){
                     state.imgcheck.push({ cno: state.items[i].obj.cno, type: 0 })
                 }
-            }
+            }   
             catesearch();
         }
 
@@ -418,7 +418,6 @@ export default {
             const arr = [...new Set(state.area)];
             console.log(arr);
             state.area = arr;
-            handleData();
         }
 
          const changeheart = async(cno,idx) => {
