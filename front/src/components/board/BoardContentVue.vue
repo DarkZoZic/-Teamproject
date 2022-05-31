@@ -152,10 +152,7 @@
                             <v-col class="col_left" v-show="tmp.member.mid === state.mid1">
                               <h5 v-if="!state.reply1.reupdate[idx]" @click="handleReplyUpdate(idx)" style="padding-left: 10px; color: gray; cursor: pointer;">수정</h5>
                               <h5 @click="handleReplyDelete(tmp.renumber, idx)" style="padding-left: 10px; color: gray; cursor: pointer;">삭제</h5>
-                            </v-col>
-
-                            <v-col class="col_left" >
-                            <h5 @click="clickReply(idx)" style="color: gray; cursor: pointer;">답댓글</h5>
+                              <h5 @click="clickReply(idx)" style="color: gray; padding-left: 10px; cursor: pointer;">답댓글</h5>
                             </v-col>
                           </v-row>
                           
@@ -313,26 +310,6 @@ export default {
       }
     }
 
-
-    // const handleDelete = async() => {
-    //   if (confirm('정말 삭제하시겠습니까?')) {
-    //     const url = `/ROOT/api/board1/delete`;
-    //     const headers = {"Content-Type":"application/json",
-    //                       "token" : state.token };
-    //     const response = await axios.delete(url, {headers}, { data : {mid : "state.mid", bno : "state.bno"}} );
-    //     // const body = {
-    //     //   mid : state.mid, 
-    //     //   bno : state.bno,
-    //     // }
-    //     console.log(response.data);
-    //     if(response.data.status === 200){
-    //       alert('삭제되었습니다.');
-    //       router.push({name:"BoardListVue"})
-    //       // router.push({name:"BoardListVue",query:{page:1, text:''}})
-    //     }
-    //   }
-    // }
-
     //글 삭제
     const handleDelete = async() => {
       if(confirm('삭제하시겠습니까?')){
@@ -359,16 +336,14 @@ export default {
       const url      = `/ROOT/reaction/likeone?bno=${state.bno}`;
       const headers  = { "Content-Type": "application/json", "token": state.token };
       const response = await axios.get(url, {headers});
-      console.log(response.data);
+      console.log("좋아요상태", response.data);
       if(response.data.status === 1){ // 좋아요 누른상태
         console.log(state.likestatus);
         state.likestatus = true;
-        likecount();
       }
       else if(response.data.status === 0){ // 좋아요 없음
         console.log(state.likestatus);
         state.likestatus = false;
-        likecount();
       }
     }
 
@@ -384,7 +359,9 @@ export default {
       // console.log(response.data);
       if(response.data.status === 200){ // 좋아요 성공
         // await like();
-        // await handleData(state.bno);
+        await handleData(state.bno);
+        await likestatus();
+        await likecount();
       }
 
       else if(response.data.status === -1){ // 좋아요 취소
@@ -394,7 +371,9 @@ export default {
         // console.log(response.data);
         if(response.data.status === 200){
           // await like();
-          // await handleData(state.bno);
+          await handleData(state.bno);
+          await likestatus();
+          await likecount();
         }
       }
     }
