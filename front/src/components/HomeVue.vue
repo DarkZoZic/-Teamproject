@@ -71,38 +71,40 @@
 
                                 <v-row>
                                     <v-col sm="6" class="home_box">
-                                        <v-card height="150" style="border-width: 4px; border-color: gold;">
-                                            <v-row dense>
-                                                <v-col class="col_center"><h3 style="margin-top: 10px;">지역별 클럽</h3></v-col>
-                                            </v-row>
+                                        <router-link to="/clist">
+                                            <v-card height="150" style="border-width: 4px; border-color: gold;">
+                                                <v-row dense>
+                                                    <v-col class="col_center"><h3 style="margin-top: 10px;">지역별 클럽</h3></v-col>
+                                                </v-row>
 
-                                            <v-row dense>
-                                                <v-col style="justify-content: center; display: flex;">
-                                                    <a class="region">전국</a> <a class="region">서울</a> <a class="region">경기</a> <a class="region">인천</a>
-                                                    <a class="region">부산</a> <a class="region">대전</a> <a class="region">대구</a> <a class="region">울산</a>
-                                                </v-col>
-                                            </v-row>
-                                            
-                                            <v-row dense>
-                                                <v-col style="justify-content: center; display: flex;">
-                                                    <a class="region">강원</a> <a class="region">충북</a> <a class="region">충남</a> <a class="region">전북</a>
-                                                    <a class="region">전남</a> <a class="region">경북</a> <a class="region">경남</a> <a class="region">제주</a> 
-                                                </v-col>
-                                            </v-row>
+                                                <v-row dense>
+                                                    <v-col style="justify-content: center; display: flex;">
+                                                        <a class="region">전국</a> <a class="region">서울</a> <a class="region">경기</a> <a class="region">인천</a>
+                                                        <a class="region">부산</a> <a class="region">대전</a> <a class="region">대구</a> <a class="region">울산</a>
+                                                    </v-col>
+                                                </v-row>
+                                                
+                                                <v-row dense>
+                                                    <v-col style="justify-content: center; display: flex;">
+                                                        <a class="region">강원</a> <a class="region">충북</a> <a class="region">충남</a> <a class="region">전북</a>
+                                                        <a class="region">전남</a> <a class="region">경북</a> <a class="region">경남</a> <a class="region">제주</a> 
+                                                    </v-col>
+                                                </v-row>
 
-                                            <v-row dense>
-                                                <v-col sm="1"></v-col>
+                                                <v-row dense>
+                                                    <v-col sm="1"></v-col>
 
-                                                <v-col sm="10" style="margin-top: 5px; border-top: 1px solid #CCC; justify-content: center; display: flex;">
-                                                    <v-row dense="">
-                                                        <v-col sm="6" class="col_center"><a>온라인</a></v-col>
-                                                        <v-col sm="6" class="col_center"><a>준비중</a></v-col>
-                                                    </v-row>
-                                                </v-col>
+                                                    <v-col sm="10" style="margin-top: 5px; border-top: 1px solid #CCC; justify-content: center; display: flex;">
+                                                        <v-row dense="">
+                                                            <v-col sm="6" class="col_center"><a>온라인</a></v-col>
+                                                            <v-col sm="6" class="col_center"><a>준비중</a></v-col>
+                                                        </v-row>
+                                                    </v-col>
 
-                                                <v-col sm="1"></v-col>
-                                            </v-row>
-                                        </v-card>
+                                                    <v-col sm="1"></v-col>
+                                                </v-row>
+                                            </v-card>
+                                        </router-link>
                                     </v-col>
 
                                     <v-col sm="6">
@@ -276,9 +278,7 @@
                         <v-row style="border-top: 1px solid #CCC; margin-top: 20px;"><h4 style="padding: 10px;">슈퍼 클럽</h4></v-row>
 
                         <v-row v-if="state.items1">
-                            <v-col
-                             v-for="(items,idx) in state.items1" :key="items" cols="4"   
-                            >
+                            <v-col v-for="(items, idx) in state.items1" :key="items" cols="4">
                                 <v-card height="200px" class="club_card" style="padding: 20px;">
                                     <v-row dense>
                                         <v-col sm="3"></v-col>

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { toRefs,reactive } from '@vue/reactivity'
+import { toRefs, reactive } from '@vue/reactivity'
 import { useRouter } from 'vue-router'
 import { computed, onMounted } from '@vue/runtime-core';
 import { useStore } from "vuex";
@@ -108,9 +108,6 @@ export default {
                 // state.lngNow = position.coords.longitude
             });            
         }
-        const address = () => {
-
-        }
 
         onMounted( ()=> {
             if (window.kakao && window.kakao.maps) {
@@ -128,7 +125,6 @@ export default {
                 document.head.appendChild(script);
             }
             console.log(window);
-
         })
 
         return {
@@ -138,7 +134,6 @@ export default {
             displayMarker,
             geoMap,
             counter
-            
         }
     }
 }
