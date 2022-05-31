@@ -262,7 +262,7 @@ export default {
             imgName1 : require(`../../assets/img/heart1.png`),
             logo     : 'club_logo',
             show     : 'true',
-            
+
             tab: ['서울', '경기', '인천', '부산', '대전', '대구', '울산', 
                 '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'],
 
@@ -352,6 +352,9 @@ export default {
                 console.log(state.addr2);
             };
             // String[] state.area
+        }
+
+        const join = () => {
             // String state.joinSearch = String.join("|", state.area);
         }
 
