@@ -34,6 +34,30 @@ public class ClubDetailRestController {
 
 
     
+    // 클럽디테일 리스트 받아오기
+	// 127.0.0.1:9090/ROOT/clubdetail/selectlist
+	@RequestMapping(value = "/selectlist", 
+    method = { RequestMethod.GET },
+    consumes = { MediaType.ALL_VALUE },
+    produces = { MediaType.APPLICATION_JSON_VALUE })
+public Map<String, Object> selectselectlistGet(){
+    Map<String, Object> map = new HashMap<>();
+    try {
+
+        List<ClubDetail> clubDetail = cdRepository.findAll();
+        System.out.println(clubDetail);
+        
+        map.put("status", 200); 
+        map.put("result", clubDetail); 
+
+    }
+    catch (Exception e) {
+        e.printStackTrace();
+        map.put("status", 0);
+    }
+
+return map;
+}
     // 클럽번호로 클럽디테일 가져오기
 	// 127.0.0.1:9090/ROOT/clubdetail/selectcno
 	@RequestMapping(value = "/selectcno", 

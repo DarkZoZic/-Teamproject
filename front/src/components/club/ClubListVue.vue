@@ -372,7 +372,7 @@ export default {
         }
 
         const handleData = async() => {
-            const url      = `/ROOT/club/selectlist`;
+            const url      = `/ROOT/club/selectlist2`;
             const headers  = { "Content-Type": "application.json" };
             const response = await axios.get(url, { headers: headers });
             console.log(response.data);
