@@ -346,6 +346,8 @@ public class ClubBoardRestController {
 				ClubBoard cb = cbRep.findByCbnoAndClub_cno(cbno, cno);
 				cb.setCbimageurl("/ROOT/clubboard/image?cbno=" + cbno);
 				
+				CBMemView cbmv = cbmvRep.findById(cbno).orElse(null);
+				
 				// 댓글 목록 저장할 배열 변수
 				List<CReply> replylist = crRep.findByClubboard_CbnoOrderByRenumberDesc(cbno);
 				
@@ -357,6 +359,7 @@ public class ClubBoardRestController {
 				}
 
 				model.addAttribute("clubboard", cb); //글상세내용
+				model.addAttribute("nick", cbmv); // 글 작성자 닉네임
 				model.addAttribute("replylist", replylist); // 댓글목록
 				model.addAttribute("replynicklist", mlist); // 댓글작성자 닉네임 목록
 				
