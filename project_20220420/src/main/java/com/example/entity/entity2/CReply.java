@@ -67,6 +67,7 @@ public class CReply {
   @Column(name = "reparentnumber")
   private Long reparentnumber;
 
+
   // 수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@UpdateTimestamp // CURRENT_DATE
@@ -76,6 +77,13 @@ public class CReply {
   // 댓글 공개여부
   @Column(name = "reprivate")
   private String reprivate;
+  
+  // 자유게시판 글번호
+  @ToString.Exclude //syso
+  @ManyToOne
+  @JoinColumn(name = "bno")
+  @JsonBackReference(value = "bno")
+  private Board1 board1;
 
   // 클럽게시판 글번호
   @ManyToOne
@@ -89,6 +97,11 @@ public class CReply {
   @JsonBackReference(value = "qno")
   private Qna qna;
 
+  // 반응
+  @ManyToOne
+  @JoinColumn(name = "rid")
+  private Reaction reaction;
+
   // 회원 아이디
   @ManyToOne
   @JoinColumn(name = "mid")
@@ -99,16 +112,8 @@ public class CReply {
   @JoinColumn(name = "cgno")
   private ClubGallery clubgallery;
 
-  // 반응
-  @OneToMany(mappedBy = "reaction")
-  @JoinColumn(name = "rid")
-  @JsonManagedReference(value="rid")
-  private List<Reaction> reactionList = new ArrayList<>();
-
-  // 자유게시판 글번호
-  @ToString.Exclude //syso
-  @ManyToOne
-  @JoinColumn(name = "bno")
-  @JsonBackReference(value = "bno")
-  private Board1 board1;
+  // 댓글 수정 내용
+  @Column(name = "recontentupt")
+  @Lob
+  private String recontentupt;
 }
