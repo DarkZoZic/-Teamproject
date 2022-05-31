@@ -240,7 +240,7 @@ try {
     return map;
 }
     // -- 좋아요 가져오기(자유게시판디테일) --
-    //127.0.0.1:9090/ROOT/api/reaction/likeone
+    //127.0.0.1:9090/ROOT/reaction/likeone
     @RequestMapping(value = "/likeone",
             method = { RequestMethod.GET },
             consumes = { MediaType.ALL_VALUE },
@@ -271,7 +271,7 @@ try {
                     else{
     
                         map.put("result",reaction1);
-                        map.put("status",200);
+                        map.put("status",1);
                     }
                 
 
@@ -280,7 +280,7 @@ try {
         }
         catch(Exception e){
             e.printStackTrace();
-            map.put("status", 0); // 실패
+            map.put("status", -1); // 실패
         }
         return map;
     }

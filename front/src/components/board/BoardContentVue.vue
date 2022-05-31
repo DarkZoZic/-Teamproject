@@ -242,6 +242,7 @@ export default {
       await handleReplyView();
       await date();
       await likecount();
+      await likestatus();
     })
 
     const date = () => {
@@ -348,17 +349,34 @@ export default {
       }
     }
 
+    // 게시글 좋아요 상태 가져오기
+    const likestatus = async() => {
+      const url      = `/ROOT/reaction/likeone?bno=${state.bno}`;
+      const headers  = { "Content-Type": "application/json", "token": state.token };
+      const response = await axios.get(url, {headers});
+      console.log(response.data);
+      if(response.data.status === 1){ // 좋아요 누른상태
+
+      }
+      else if(response.data.status === 0){ // 좋아요 없음
+
+      }
+
+    }
+
     // 게시글 좋아요 
+    // 1이면 unlike로 0이면 like로
     const like = async() => {
       const url      = `/ROOT/reaction/like.json`;
       const headers  = { "Content-Type": "application/json", "token": state.token };
-      const body     = new FormData;
-      body.append("board", state.bno);
+      const body     = new FormData();
+      body.append("board1", state.bno);
       body.append("member", state.mid1);
       const response = await axios.post(url, body,{headers});
       // console.log(response.data);
       if(response.data.status === 200){ // 좋아요 성공
-        await like();
+        alert('좋아요 성공');
+        // await like();
         // await handleData(state.bno);
       }
 
@@ -370,7 +388,7 @@ export default {
         if(response.data.status === 200){
           alert('좋아요 취소');
           // await like();
-          await handleData(state.bno);
+          // await handleData(state.bno);
         }
       }
     }
@@ -440,7 +458,7 @@ export default {
     // 댓글 등록하기
     const handleReplyInsert = async() => {
       const url     = `/ROOT/api/creply/board_insert`;
-      const headers = { "Content-Type": "application/json", "token": state.token };
+      const headers = { "Content-Type":"application/json", "token": state.token };
       const body    = {
         mid           : state.mid,
         board1        : { bno: state.bno },
