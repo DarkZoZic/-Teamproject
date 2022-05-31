@@ -13,7 +13,7 @@
                         </v-col>
 
                         <v-col class="col_right">
-                            <h5>등록일: {{state.items.regdate}}, 수정일: {{state.updateDate}}</h5>
+                            <h5>등록일: {{state.regdate1}}, 수정일: {{state.updateDate}}</h5>
                         </v-col>
                     </v-row>
 
@@ -63,7 +63,7 @@
                                 <v-row dense style="padding-bottom: 10px; border-bottom: 1px solid #CCC;">
                                     <v-col sm="6">
                                         <v-carousel cycle hide-delimiters show-arrows="hover" style="height:120px;"> 
-                                            <v-carousel-item v-for="(item,i) in items" 
+                                            <v-carousel-item v-for="(item, i) in state.img" 
                                             :key="i" :src="item.src" cover></v-carousel-item>
                                         </v-carousel>
                                     </v-col>
@@ -125,8 +125,8 @@
                                         <router-link to="/crequest">
                                             <v-btn style="width: 100%; height: 120px;"><h2>지원하기</h2></v-btn>
                                         </router-link>
-                                        <h3 style="padding-top: 10px; padding-left: 10px;">모집마감일</h3>
-                                        <h4 style="padding-left: 15px;">{{state.items.regdate}} ~ {{state.items.enddate}}</h4>
+                                        <h3 style="padding-top: 10px; padding-left: 10px;">모집기간</h3>
+                                        <h4 style="padding-left: 15px;">{{state.regdate1}} ~ {{state.enddate1}}</h4>
                                     </v-col>
                                 </v-row>
                                 
@@ -218,12 +218,14 @@ import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import { onMounted } from '@vue/runtime-core';
 import { useStore } from "vuex";
+import dayjs from 'dayjs';
 
 export default {
     components: { HeaderVue, FooterVue, MapVue },
     setup () {
         const route = useRoute();
         const router = useRouter();
+        const store = useStore();
 
         const state = reactive({
             cdno      : '',
@@ -248,12 +250,21 @@ export default {
             imgcheck1 : 1,
             imgName   : require(`../../assets/img/heart.png`),
             imgName1  : require(`../../assets/img/heart1.png`),
+            regdate   : '',
 
             manager: {
                 name  : '김이박',
                 number: '010-4444-78941',
                 email : 'a@c.com'
-            }
+            },
+            img: [
+                {
+                    src: 'http://news.samsungdisplay.com/wp-content/uploads/2017/09/%EB%8F%84%EB%B9%84%EB%9D%BC-11.png',
+                },
+                {
+                    src: 'https://www.sonohotelsresorts.com/upload/image/faci/dmFaci_201607131119187730',
+                },
+            ]
         });
 
         onMounted( () => {
@@ -272,9 +283,12 @@ export default {
                 state.addr1 = state.items.club.caddress;
                 console.log("====",state.items.club.caddress);
                 console.log(state.cdno);
+                date(); date1();
             }
+
             handleSend();
         }
+
         // const Cdimage = async() => {
         //     const url = `/ROOT/clubdetail/selectcno?cno=${state.cdno}`;
         //     const headers = {"Content-Type":"application/json"};
@@ -287,12 +301,10 @@ export default {
         //     }
 
         // }
-        const store = useStore();
+        
 
         const handleSend = () => {
-            console.log("--------------",state.addr1);
             store.commit("setCounter", state.addr1);
-            console.log(state.addr1);
         }
         // const handleData2 = (a) => {
         //         console.log(a);
@@ -303,7 +315,7 @@ export default {
             const url     = `/ROOT/api/like/likeone?cno=${state.cno}`;
             const headers = { "Content-Type": "application.json", "token": state.token };
             const response = await axios.get(url,{headers:headers});
-            console.log(response.data);
+            console.log("찜 ==> ", response.data);
 
             if(response.data.status === 200){
                 console.log("찜");
@@ -317,6 +329,7 @@ export default {
                 console.log(state.imgcheck1);
             }
         }
+
         // const Likelist1 = async() => {
         //     const url = `/ROOT/api/like/likeone?cno=${state.cno}`;
         //     const headers = {"Content-Type":"application.json",
@@ -327,6 +340,16 @@ export default {
         //         state.
         //     }
         // }
+
+        const date = () => {
+            console.log(state.items.regdate);
+            state.regdate1 = dayjs(state.items.regdate).format('YY.MM.DD hh:mm:ss');
+        }
+
+        const date1 = () => {
+            console.log(state.items.enddate);
+            state.enddate1 = dayjs(state.items.enddate).format('YY.MM.DD hh:mm:ss');
+        }
 
         const changeheart = async(cno) => {
             console.log(state.items.club.cno);
@@ -364,20 +387,7 @@ export default {
             }
         }
         
-        return { state, changeheart,unlike }
-    },
-    
-    data () {
-        return {
-            items: [
-                {
-                    src: 'http://news.samsungdisplay.com/wp-content/uploads/2017/09/%EB%8F%84%EB%B9%84%EB%9D%BC-11.png',
-                },
-                {
-                    src: 'https://www.sonohotelsresorts.com/upload/image/faci/dmFaci_201607131119187730',
-                },
-            ],
-        }
+        return { state, changeheart, unlike }
     },
 }
 </script>

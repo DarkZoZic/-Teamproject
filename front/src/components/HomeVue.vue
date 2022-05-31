@@ -343,9 +343,6 @@ export default {
         const router = useRouter();
         const store = useStore();
 
-
-
-
         const state = reactive({
             likecheck : [],
             imgcheck : [],
@@ -450,6 +447,7 @@ export default {
                 }
             }
         }
+        
         const Lkelist = async() => {
             const url = `/ROOT/api/like/selectlist`;
             const headers = {"Content-Type":"application.json",
