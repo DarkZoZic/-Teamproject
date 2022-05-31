@@ -16,14 +16,19 @@ import com.example.entity.entity2.Category;
 import com.example.entity.entity2.Cimage;
 import com.example.entity.entity2.Club;
 import com.example.entity.entity2.ClubProjection;
+import com.example.entity.entity2.Clublistview;
+import com.example.entity.entity2.Combineaddr;
 import com.example.entity.entity2.Membermid;
 import com.example.jwt.JwtUtil;
 import com.example.repository.MemberRepository;
 import com.example.repository.repository_4.CDCkeditorRepository;
 import com.example.repository.repository_4.ClubDetailRepository;
 import com.example.repository.repository_4.LikeRepository;
+import com.example.repository.repository_gibum.CategoryRepository;
 import com.example.repository.repository_gibum.CimageRepository;
+import com.example.repository.repository_gibum.ClubListViewRepository;
 import com.example.repository.repository_gibum.ClubRepository;
+import com.example.repository.repository_gibum.CombineaddrViewRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,6 +68,13 @@ public class ClubRestController {
 
     @Autowired 
     ResourceLoader resLoader;
+
+    @Autowired
+    CombineaddrViewRepository addrRepository;
+
+    @Autowired CategoryRepository cgRepository;
+
+    @Autowired ClubListViewRepository clubListViewRepository;
 
     @Value("${default.image}") String DEFAULT_IMAGE;
 
@@ -320,6 +332,51 @@ try {
 		return map;
 	}
     // 클럽리스트 조회()
+	// 127.0.0.1:9090/ROOT/club/selectlist2
+	@RequestMapping(value = "/selectlist2", 
+			method = { RequestMethod.GET },
+			consumes = { MediaType.ALL_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> ssGet1(){
+            Map<String, Object> map = new HashMap<>();
+            try {
+                String private12 = "공개";
+
+                List<Clublistview> club = clubListViewRepository.findByCprivateOrderByCnoDesc(private12);
+                // club.setCimageurl("/ROOT/club/cimage?cno=" +club.getCno());
+                // List<ClubProjection> cp = cRepository.find
+                List<Map <String, Object>> list = new ArrayList<>();
+                for(Clublistview obj:club  ){
+                    Map <String, Object> map1 = new HashMap<>();
+                    map1.put("obj", obj);
+                    Cimage cimage = ciRepository.findByClub_Cno(obj.getCno());
+
+                    if(cimage != null){
+
+                        map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                    }
+                    else{
+                        map1.put("imgurl",null);
+
+                    }
+                    list.add(map1);
+                }
+
+
+                // System.out.println(club);
+		        // club.set ("/ROOT/member/image?mid=" +username);
+                map.put("status", 200); 
+                map.put("result", list); 
+                map.put("개수", club.size()); 
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                map.put("status", 0);
+            }
+
+		return map;
+	}
+    // 클럽리스트 조회()
 	// 127.0.0.1:9090/ROOT/club/selectlist
 	@RequestMapping(value = "/selectlist", 
 			method = { RequestMethod.GET },
@@ -338,7 +395,7 @@ try {
                     Map <String, Object> map1 = new HashMap<>();
                     map1.put("obj", obj);
                     Cimage cimage = ciRepository.findByClub_Cno(obj.getCno());
-                    // System.out.println(cimage.getCimagesize());
+
                     if(cimage != null){
 
                         map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
@@ -406,6 +463,142 @@ try {
             
 	}
 
+    
+    //  카테고리로 클럽검색 ex 대분류)야구
+    // 127.0.0.1:9090/ROOT/club/searchcateclub1
+    @RequestMapping(value = "/searchcateclub1", 
+    method = { RequestMethod.GET },
+    consumes = { MediaType.ALL_VALUE },
+    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> CateSearch1Get(
+        @Param(value = "cate") String cate
+        ){
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            String private1 = "공개";
+            // List<Combineaddr> combineaddr = addrRepository.findByCprivateAndCgcate1Containing(private1,cate);
+            List<Combineaddr> combineaddr1 = addrRepository.findByCprivateAndCgcate2Containing(private1,cate);
+            // System.out.println("======1"+ combineaddr);
+            System.out.println("======2"+ combineaddr1);
+            
+
+            map.put("status", 200); 
+            // map.put("result", combineaddr); 
+            map.put("result", combineaddr1); 
+        }
+         catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    return map;
+    }   
+
+    // //  카테고리로 클럽검색 ex 대분류)운동
+    // // 127.0.0.1:9090/ROOT/club/searchcateclub
+    // @RequestMapping(value = "/searchcateclub", 
+    // method = { RequestMethod.GET },
+    // consumes = { MediaType.ALL_VALUE },
+    // produces = { MediaType.APPLICATION_JSON_VALUE })
+    // public Map<String, Object> CateSearchGet(
+    //     @Param(value = "cate") String cate
+    //     ){
+    //     Map<String, Object> map = new HashMap<>();
+    //     map.put("status", 0);
+    //     try {
+    //         String private1 = "공개";
+    //         List<Combineaddr> combineaddr = addrRepository.findByCprivateAndCgcate1Containing(private1,cate);
+    //         System.out.println("======1"+ combineaddr);
+
+            
+
+    //         map.put("status", 200); 
+    //         // map.put("result", combineaddr); 
+    //         // map.put("club2", combineaddr1); 
+    //     }
+    //      catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+
+    // return map;
+    // }   
+
+    //  클럽카테고리 검색 ex)운동
+    // 127.0.0.1:9090/ROOT/club/searchcateclub
+    @RequestMapping(value = "/searchcateclub", 
+    method = { RequestMethod.GET },
+    consumes = { MediaType.ALL_VALUE },
+    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> CateclubGet(
+        @Param(value = "cate") String cate
+        ){
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            
+            String private1 = "공개";
+
+            List<ClubProjection> club = cRepository.findByCprivateAndCategory_Cgcate1OrCategory_Cgcate2(private1,cate,cate);
+            System.out.println(club);
+            List<Map <String, Object>> list = new ArrayList<>();
+            for(ClubProjection obj:club  ){
+                Map <String, Object> map1 = new HashMap<>();
+                map1.put("obj", obj);
+                map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                list.add(map1);
+            }
+
+
+            // System.out.println(club);
+            // club.set ("/ROOT/member/image?mid=" +username);
+            map.put("status", 200); 
+            map.put("result", list); 
+            map.put("개수", club.size()); 
+        }
+         catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    return map;
+    }    
+    //  클럽카테고리 검색 ex)탁구
+    // 127.0.0.1:9090/ROOT/club/searchcateclub2
+    @RequestMapping(value = "/searchcateclub2", 
+    method = { RequestMethod.GET },
+    consumes = { MediaType.ALL_VALUE },
+    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> Cateclub2Get(
+        @Param(value = "cate") String cate
+        ){
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            
+            String private1 = "공개";
+
+            List<ClubProjection> club = cRepository.findByCprivateAndCategory_Cgcate2Containing(private1,cate);
+            System.out.println(club);
+            List<Map <String, Object>> list = new ArrayList<>();
+            for(ClubProjection obj:club  ){
+                Map <String, Object> map1 = new HashMap<>();
+                map1.put("obj", obj);
+                map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                list.add(map1);
+            }
+
+
+            // System.out.println(club);
+            // club.set ("/ROOT/member/image?mid=" +username);
+            map.put("status", 200); 
+            map.put("result", list); 
+            map.put("개수", club.size()); 
+        }
+         catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    return map;
+    }    
     //  클럽주소검색 ex부산
     // 127.0.0.1:9090/ROOT/club/searchclub
     @RequestMapping(value = "/searchclub", 

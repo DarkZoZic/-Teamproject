@@ -1,5 +1,6 @@
 package com.example.entity.entity2;
 
+import org.springframework.beans.factory.annotation.Value;
 
 public interface ClubProjection {
 
@@ -16,8 +17,15 @@ public interface ClubProjection {
 
     String getCimageurl();
 
-    // 닉네임
-    // @Value("#{target.member.mid")
-    // String getMemberMid();
+
+    // 카테고리
+    @Value("#{target.category.cgcode}")
+    String getCategoryCgcode();
+    
+    @Value("#{target.category.cgcate1}")
+    String getCategoryCgcate1();
+    
+    @Value("#{target.category.cgcate2}")
+    String getCategoryCgcate2();
     
 }
