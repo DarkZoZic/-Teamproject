@@ -16,9 +16,11 @@ import com.example.entity.entity1.Reaction;
 import com.example.entity.entity2.BImage;
 import com.example.entity.entity2.Bckeditor;
 import com.example.entity.entity2.Board1;
+import com.example.entity.entity2.Board1MemberView;
 import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.MemberNicknameview;
 import com.example.jwt.JwtUtil;
+import com.example.repository.repository_3.Board1MemberViewRepository;
 import com.example.repository.repository_3.PersonalMemberRepository;
 import com.example.repository.repository_4.BckeditorRepository;
 import com.example.repository.repository_4.Board1ImageRepository;
@@ -72,6 +74,9 @@ public class Board1RestController {
     
     @Autowired
     PersonalMemberRepository pmRep;
+    
+    @Autowired
+    Board1MemberViewRepository bmvRep;
     
     @Autowired 
     JwtUtil jwtUtil;
@@ -367,9 +372,8 @@ public class Board1RestController {
                 Board1 next = b1Repository.findTop1ByBnoGreaterThanOrderByBnoAsc(bno);
                 // System.out.println(next);
                 
-                MemberPersonal mp = pmRep.findByMember_mid(board1.getMember().getMid());
+                Board1MemberView bmv = bmvRep.findById(bno).orElse(null);
                 
-            
                 if (prev != null){
                     map.put("prev", prev.getBno());
                 }
@@ -385,7 +389,7 @@ public class Board1RestController {
 
                 map.put("status", 200); // 성공 
                 map.put("result", board1);
-                map.put("nick", mp);
+                map.put("nick", bmv);
                     
                 
             }
@@ -413,20 +417,18 @@ public class Board1RestController {
             long total = b1Repository.count();
             // System.out.println(total);
             List<Board1> bList = b1Repository.findAllByOrderByBnoDesc(pageRequest);
+            List<Board1MemberView> bmvlist = new ArrayList<>();
             for(int i =0;i<bList.size();i++){
                 List<Reaction> reaction = rRepository.findByReaction_B_no(bList.get(i).getBno());
                 bList.get(i).setBlike(reaction.size());
+                
+                
+            	Board1MemberView bmv = bmvRep.findById(bList.get(i).getBno()).orElse(null);
+                System.out.println(bmv);
+                bmvlist.add(bmv);
             }
             
-            List<MemberPersonal> mplist = new ArrayList<>(); // 닉네임 리스트
-            for(int i=0; i<bList.toArray().length; i++)
-			{
-            	Member member = bList.get(i).getMember();
-				MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
-				mplist.add(mp);
-			}
-
-			map.put("mplist", mplist);
+			map.put("mlist", bmvlist);
             // System.out.println(bList);
             map.put("status", 200); // 성공
             map.put("result", bList);

@@ -46,7 +46,8 @@
                                         <td>{{ item.bno }}</td>
                                         <td style="cursor: pointer;" @click="handlePage(item.bno)" >{{ item.btitle }}</td>
                                         <!-- 닉네임이 나와야 함 <= 나옴 -->
-                                        <td>{{ state.nicklist[idx].mpnickname }}</td>
+                                        <td v-if="state.nicklist[idx].mpnickname !== null">{{ state.nicklist[idx].mpnickname }}</td>
+                                        <td v-if="state.nicklist[idx].mcname !== null">{{ state.nicklist[idx].mcname }}</td>
                                         <td>{{ item.bregdate1 }}</td>
                                         <td>{{ item.bhit }}</td>
                                         <td>{{ item.blike }}</td>
@@ -87,7 +88,7 @@ export default {
         
         onMounted(() => {
             handleData();
-            nick();
+            // nick();
         });
 
         const router = useRouter();
@@ -160,7 +161,7 @@ export default {
 
             if(response.data.status === 200) {
                 state.items = response.data.result;
-                state.nicklist = response.data.mplist;
+                state.nicklist = response.data.mlist;
                 console.log(state.nicklist);
                 // handledata가 출력되고 나서 날짜
                 for(var i = 0; i<state.items.length; i++) {
@@ -191,20 +192,20 @@ export default {
             }
         }
 
-         const nick = async() => {
-            const url      = `/ROOT/member/psmynick`;
-            const headers  = { "Content-Type": "application/json", "token": state.token };
-            const response = await axios.get(url, {headers});
-            console.log("nick ==> ", response.data.result);
+        //  const nick = async() => {
+        //     const url      = `/ROOT/member/psmynick`;
+        //     const headers  = { "Content-Type": "application/json", "token": state.token };
+        //     const response = await axios.get(url, {headers});
+        //     console.log("nick ==> ", response.data.result);
 
-            if(response.data.status === 200){
-                state.nick = response.data.result;
-            }
-            else{
-                role();
-                console.log("기업회원입니다");
-            }
-        }
+        //     if(response.data.status === 200){
+        //         state.nick = response.data.result;
+        //     }
+        //     else{
+        //         role();
+        //         console.log("기업회원입니다");
+        //     }
+        // }
 
         return { state, search, handlePagenation, handlePage, searchOpt }
     },
