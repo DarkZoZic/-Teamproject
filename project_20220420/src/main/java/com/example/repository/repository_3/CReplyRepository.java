@@ -14,4 +14,6 @@ public interface CReplyRepository extends JpaRepository<CReply, Long>{
 	List<CReply> findByClubgallery_cgnoOrderByRenumberDesc(long cgno);
 
 	void deleteByClubboard_cbno(long cbno);
+	
+	void deleteByClubgallery_cgno(long cgno);
 }

@@ -136,6 +136,17 @@ export default {
                 like  : 5
               },
             ],
+            search: '',
+            page: 1,   // 현재 페이지
+            pages : 1, // 총 페이지 수
+            boardname: '클럽게시판',
+            items: [
+                '전체', '제목', '내용', '글쓴이'
+            ],
+            option : '전체',
+            cno : route.query.cno,
+            token : sessionStorage.getItem("TOKEN"),
+            nicklist : []
         })
 
         const content = async() => {

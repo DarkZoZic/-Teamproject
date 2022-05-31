@@ -2,15 +2,18 @@ package com.example.controller.controller_4;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.example.entity.entity1.Member;
+import com.example.entity.entity1.MemberPersonal;
 import com.example.entity.entity1.QImage;
 import com.example.entity.entity1.Qna;
 import com.example.entity.entity2.Qckeditor;
 import com.example.jwt.JwtUtil;
+import com.example.repository.repository_3.PersonalMemberRepository;
 import com.example.repository.repository_4.QckeditorRepository;
 import com.example.repository.repository_4.QnaRepository;
 
@@ -39,6 +42,9 @@ public class QnaRestController {
 
     @Autowired
     QckeditorRepository qcRepository;
+    
+    @Autowired
+    PersonalMemberRepository pmRep;
     
     @Autowired 
     JwtUtil jwtUtil;
@@ -198,10 +204,19 @@ public class QnaRestController {
             PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
             long total = qRepository.count();
             List<Qna> qList = qRepository.findAllByOrderByQnoDesc(pageRequest);
+            List<MemberPersonal> mplist = new ArrayList<>(); // 닉네임 리스트
+            for(int i=0; i<qList.toArray().length; i++)
+            {
+            	Member member = qList.get(i).getMember();
+            	MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
+            	mplist.add(mp);
+            }
+            
             // System.out.println(qList);
             map.put("status", 200); // 성공
             map.put("result", qList);
             map.put("result1", total);
+            map.put("nicklist", mplist);
 
         }
         catch(Exception e){

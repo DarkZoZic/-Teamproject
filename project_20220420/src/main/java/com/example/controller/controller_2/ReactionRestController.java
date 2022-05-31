@@ -204,7 +204,7 @@ try {
     @ModelAttribute Reaction reaction,
     @RequestHeader (name = "token")String token){
     Map<String, Object> map = new HashMap<>();
-    long bno = reaction.getBoard().getBno();
+    long bno = reaction.getBoard1().getBno();
 try {
     if(token != null){
         String username = jwtUtil.extractUsername(token);
@@ -214,10 +214,10 @@ try {
         // System.out.println(reaction.getMember().getMid());
         
         Board1 board1 = new Board1();
-        board1.setBno((Long) reaction.getBoard().getBno());
-        reaction.setBoard(board1);
+        board1.setBno((Long) reaction.getBoard1().getBno());
+        // reaction.getBoard1(board1);
         // System.out.println(reaction.getBoard().getBno());
-        Reaction reaction2 = rRepository.findByMember_MidAndBoard_Bno(username, bno);
+        Reaction reaction2 = rRepository.findByMember_MidAndBoard1_Bno(username, bno);
         if( reaction2 == null ){
             reaction.setRcount(1L);
             rRepository.save(reaction);
@@ -285,7 +285,7 @@ try {
         String userid = jwtUtil.extractUsername(token);
         System.out.println("USERNAME ==>" + userid);
 
-        Reaction result= rRepository.findByMember_midAndBoard_bno(userid, bno);
+        Reaction result= rRepository.findByMember_midAndBoard1_bno(userid, bno);
         rRepository.deleteById(result.getRcode());
         map.put("status", 200);
 

@@ -57,12 +57,12 @@
                     <td style="background-color: gold;">{{ item.hit }}</td>
                   </tr> -->
                   <tr
-                      v-for="item in state.board"
+                      v-for="(item, idx) in state.board"
                       :key="item"
                   >
                     <td>{{ item.qno }}</td>
                     <td style="cursor: pointer;" @click="handlePage(item.qno)" >{{ item.qtitle }}</td>
-                    <td>{{ item.member.mid }}</td>
+                    <td>{{ state.nicklist[idx].mpnickname }}</td>
                     <td>{{ item.qregdate }}</td>
                     <td>{{ item.qhit }}</td>
                   </tr>
@@ -129,6 +129,7 @@ export default {
         search: '검색내용', // 검색어
         page: 1,
         mid : sessionStorage.getItem("TOKEN"),
+        nicklist : []
     });
 
     // 조회수 1증가 시키기
@@ -163,7 +164,8 @@ export default {
       }
 
       if(response.data.status === 200){
-      state.board = response.data.result
+      state.board = response.data.result;
+      state.nicklist = response.data.nicklist;
       //  테이블에 좋아요 넣기 (for문을 돌려서 넣으므로 느림) 
       // for(var i = 0; i<state.items.length; i++){
       //     const url1 = `ROOT/reaction/likelist.json?bno=${state.items[i].bno}`;

@@ -52,6 +52,16 @@
                 </v-col>
             </v-row>
 
+             <v-col class="col_right">
+              <div>
+                <h5 @click="handleUpdate()" style="padding-right: 10px; cursor: pointer;" v-if="state.tokenid === state.mid">수정</h5>
+              </div>
+
+              <div>
+                <h5 @click="handleDelete()" style="cursor: pointer;" v-if="state.tokenid === state.mid">삭제</h5>
+              </div>
+            </v-col>
+
             <v-row dense>
                 <v-col style="display: flex; padding-top: 10px; padding-left: 10px;" class="col_left">
                 <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{state.reply.length}}</h5><h5>개</h5>
@@ -78,11 +88,16 @@
                     </v-row>
 
                     <!-- 댓글내용 -->
-                    <v-row dense style="padding-right: 10px;">
-                        <v-col>
-                        <h4 style="padding-left: 10px; padding-right: 10px;">{{tmp.recontent}}</h4>
-                        </v-col>
-                    </v-row>
+                     <v-row dense style="padding-right: 10px;" >
+                    <v-col>
+                      <h4 style="padding-left: 10px; padding-right: 10px;" v-if="!state.replyupdate.update[idx]">{{tmp.recontent}}</h4>
+                      <div v-if="state.replyupdate.update[idx]" class="col_left">
+                        <textarea v-model="tmp.recontent" 
+                          style="background-color: white; resize: none; border: 1px solid #CCC; border-radius: 5px; padding: 10px; width: 900px;">
+                        </textarea>
+                      </div>
+                    </v-col>
+                  </v-row>
 
                     <!-- 대댓글. 대댓글이 있으면 테두리가 없게 하는게 가능한가? -->
                     <v-row dense style="padding-left: 10px;" v-if="tmp.reparentnumber !== null">
@@ -112,6 +127,21 @@
                         </v-row>
                         </v-col>
                     </v-row>
+
+                    <v-col class="col_right" v-if="state.tokenid === tmp.member.mid">
+                    <div v-if="!state.replyupdate.update[idx]">
+                      
+                      <h5 @click="handleReplyUpdate(idx)" style="padding-right: 10px; cursor: pointer;">수정</h5>
+                    
+                      <h5 @click="handleReplyDelete(tmp.renumber)" style="cursor: pointer; display: inline-block;" >삭제</h5>
+                     
+                    </div>
+                    
+                    <div v-if="state.replyupdate.update[idx]">
+                      <v-btn style="height: 68px; margin-right: 10px;" @click="handleReplyUpdate(idx)"><h4>취소</h4></v-btn>
+                      <v-btn style="height: 68px;" @click="handleReplyUpdateAct(tmp.renumber, idx)"><h4 >수정</h4></v-btn>
+                    </div>
+                  </v-col>
                     </v-col>
                 </v-row>
 
@@ -170,6 +200,7 @@ export default {
         cgno : route.query.cgno,
         cno : route.query.cno,
         token : sessionStorage.getItem("TOKEN"),
+        tokenid : sessionStorage.getItem("MID"),
         gallery :
         {
 
@@ -183,7 +214,12 @@ export default {
         replycontent: '',
 
         reply: [],
-        replynicklist : []
+        replyupdate : 
+        {
+            update : []
+        },
+        replynicklist : [],
+        rereply : []
     });
 
         const gallery = async() => // 조회수 증가 -> 갤러리 상세내용 + 이미지 + 댓글목록
@@ -262,6 +298,73 @@ export default {
             }
         }
 
+        const handleDelete = async() =>
+        {
+            const url = `/ROOT/api/clubgallery/delete`;
+            const headers = {"Content-Type" : "application/json", "token" : state.token};
+            const body = 
+            {
+                cgno : state.cgno
+            };
+            const response = await axios.post(url, body, {headers});
+            console.log(response.data);
+            if(response.data.status === 200)
+            {
+                alert('삭제되었습니다.');
+                router.push({name:"CGalleryVue", query : {cgno : state.cgno, cno : state.cno}});
+            }
+        }
+
+        const handleReplyDelete = async(idx) =>
+        {
+            const url = `/ROOT/api/clubboard/deletereply`;
+            const headers = {"Content-Type":"application/json", "token" : state.token};
+            const body = {renumber : idx};
+            const response = await axios.post(url, body, {headers});
+            console.log(response.data);
+            if(response.data.status === 200)
+            {
+                location.reload();
+            }
+        }
+
+        const handleReplyUpdate = (idx) =>
+        {
+            // console.log(idx);
+            // console.log(state.replyupdate.update[idx]);
+            if(!state.replyupdate.update[idx])
+            {
+                state.replyupdate.update[idx] = true;
+            }
+            else
+            {
+                state.replyupdate.update[idx] = false;
+                gallery();
+            }
+        }
+
+        const handleReplyUpdateAct = async(tmp, idx) => 
+        {
+            // console.log(tmp);
+            // console.log(state.reply[idx].renumber);
+            const url     = `/ROOT/api/clubgallery/updatereply`;
+            const headers = {"Content-Type":"application/json", "token" : state.token};
+            const body    = 
+            {
+                cgno : tmp,
+                renumber : state.reply[idx].renumber,
+                recontent : state.reply[idx].recontent
+            };
+            const response = await axios.put(url, body, {headers});
+            console.log(response.data);
+
+            if(response.data.status === 200)
+            {
+                state.replyupdate.update[idx] = false;
+                gallery();
+            }
+        }
+
         const replylike = async() => {
 
         }
@@ -272,7 +375,7 @@ export default {
             nick();
         });
 
-        return { state, like, insertreply, replylike }
+        return { state, like, insertreply, handleDelete, handleReplyDelete, handleReplyUpdate, handleReplyUpdateAct, replylike }
     }
 }
 </script>
