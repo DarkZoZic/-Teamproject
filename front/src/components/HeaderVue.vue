@@ -6,8 +6,10 @@
         <v-col sm="2"></v-col>
 
         <v-col sm="8" >
+
           <!-- 최상단 -->
           <v-row dense style="margin-top: 5px;">
+            
             <!-- 중앙상단 공란 -->
             <v-col sm="7"></v-col>
 
