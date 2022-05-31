@@ -360,10 +360,12 @@ export default {
       if(response.data.status === 1){ // 좋아요 누른상태
         console.log(state.likestatus);
         state.likestatus = true;
+        likestatus();
       }
       else if(response.data.status === 0){ // 좋아요 없음
         console.log(state.likestatus);
         state.likestatus = false;
+        likestatus();
       }
     }
 
@@ -378,7 +380,6 @@ export default {
       const response = await axios.post(url, body,{headers});
       // console.log(response.data);
       if(response.data.status === 200){ // 좋아요 성공
-        alert('좋아요 성공');
         // await like();
         // await handleData(state.bno);
       }
@@ -389,7 +390,6 @@ export default {
         const response = await axios.delete(url, { headers: headers, data: {} });
         // console.log(response.data);
         if(response.data.status === 200){
-          alert('좋아요 취소');
           // await like();
           // await handleData(state.bno);
         }
