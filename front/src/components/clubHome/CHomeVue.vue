@@ -130,9 +130,7 @@ export default {
 
     const state = reactive({
       B: [],
-
       S: [],
-
       G: [],
 
       cno : route.query.cno,
