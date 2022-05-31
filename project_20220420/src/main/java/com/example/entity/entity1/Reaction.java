@@ -20,6 +20,7 @@ import com.example.entity.entity2.Board1;
 import com.example.entity.entity2.CReply;
 import com.example.entity.entity2.ClubBoard;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -64,33 +65,27 @@ public class Reaction {
   @JsonBackReference(value = "mid")
   private Member member;
 
-  // 자유게시판
-  @ManyToOne
-  @JoinColumn(name = "b_no")
-  @ToString.Exclude //syso
-  @JsonBackReference(value = "bno")
-  private Board1 board;
-
   // 클럽갤러리
   @ManyToOne
   @JoinColumn(name = "cg_no")
   private ClubGallery clubgallery;
 
-  //댓글
-  @ManyToOne
-  @JoinColumn(name = "re_no")
-  @ToString.Exclude //syso
-  @JsonBackReference(value = "renumber")
-  private CReply creply;
-
-
-  
-  // 댓글
-  // @OneToMany(mappedBy = "reaction")
-  // @JsonBackReference
-  // private List<CReply> cReplyList = new ArrayList<>();
   // // 갤러리
   // @OneToMany(mappedBy = "reaction")
   // @JsonBackReference
   // private List<ClubGallery> clubGalleryList = new ArrayList<>();
+
+  // 자유게시판
+  @ToString.Exclude
+	@JsonBackReference(value = "bno")
+	@ManyToOne
+  @JoinColumn(name = "b_no")
+  private Board1 board;
+
+  // 댓글
+  @ToString.Exclude
+	@JsonBackReference(value = "reno")
+	@ManyToOne
+  @JoinColumn(name = "re_no")
+  private CReply cReply;
 }

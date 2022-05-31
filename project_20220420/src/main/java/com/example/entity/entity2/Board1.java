@@ -85,16 +85,21 @@ public class Board1 {
   @JoinColumn(name = "mid")
   private Member member;
 
-  // 개인회원 닉네임
-
   // 게시판이미지
   // @OneToMany(mappedBy = "board1")
   // private List<BImage> bImageList = new ArrayList<>();
+  
+  // 반응
+  @OneToMany(mappedBy = "reaction")
+  @JoinColumn(name = "reno")
+  @JsonManagedReference(value="reno")
+  private List<Reaction> reactionList = new ArrayList<>();
 
   // 댓글
-  // @OneToMany(mappedBy = "board1", cascade = CascadeType.REMOVE)
-  // @JsonManagedReference(value="bno")
-  // private List<CReply> cReplyList = new ArrayList<>();
+  @OneToMany(mappedBy = "creply", cascade = CascadeType.REMOVE)
+  @JoinColumn(name = "crno")
+  @JsonManagedReference(value="crno")
+  private List<CReply> cReplyList = new ArrayList<>();
 
 
 }
