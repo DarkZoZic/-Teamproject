@@ -12,7 +12,7 @@ public interface MemberCPRepository
 
         MemberCompany findByMember_Mid(String userid);
 
-        CompanyProjection findByMcno(String cno);
+        CompanyProjection findByMcno(long cno);
 
     
 }
