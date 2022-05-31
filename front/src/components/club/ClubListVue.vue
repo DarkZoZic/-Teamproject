@@ -418,6 +418,7 @@ export default {
             const arr = [...new Set(state.area)];
             console.log(arr);
             state.area = arr;
+            handleData();
         }
 
          const changeheart = async(cno,idx) => {
