@@ -34,6 +34,10 @@ public interface CombineaddrViewRepository
 
         // List<Combineaddr> findByaCode(long aCode);
 
+        List<Combineaddr> findByCprivateAndCgcate1Containing(String cprivate, String cate1);
+
+        List<Combineaddr> findByCprivateAndCgcate2Containing(String cprivate, String cate1);
+
 
         
         // @Query(value = "SELECT * FROM"+

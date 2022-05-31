@@ -44,11 +44,11 @@
               <!-- 검색창 -->
               <v-row dense class="col_center">
                 <v-col sm="10" style="height: 60px; border: 3px solid gold; border-radius: 4px; padding-left: 10px;">
-                  <input type="text" style="width: 100%; height: 100%; outline-width: 0;">
+                  <input type="text" style="width: 100%; height: 100%; outline-width: 0;" @keyup.enter="handleSend()" v-model="state.search">
                 </v-col>
 
                 <v-col sm="2">
-                  <v-btn type="submit" style="height: 60px;" class="search_button"><h3>검색</h3></v-btn>
+                  <v-btn type="submit" style="height: 60px;" class="search_button"  @click="handleSend()"><h3>검색</h3></v-btn>
                 </v-col>
               </v-row>
 
@@ -110,21 +110,12 @@ export default {
     const router = useRouter();
     const store = useStore();
 
-    const handleClick = (e) =>{
-      console.log('handleClick', e)    
-      sessionStorage.setItem("MENU", e);
-      router.push(e);
-    }
-
     const state = reactive({
+      search : '',
       logged: computed(() => store.getters['moduleA/getLogged']),
       token : sessionStorage.getItem("TOKEN"),
       tab: ''
     });
-
-    // store.subscribe((mutation, state) => {
-    //   console.log('store.subscribe', mutation, state);
-    // });
 
     onMounted(() => {
       if(state.token === null){
@@ -135,8 +126,26 @@ export default {
       }
       state.tab = sessionStorage.getItem("MENU");
     })
+    const handleClick = (e) =>{
+      console.log('handleClick', e)    
+      sessionStorage.setItem("MENU", e);
+      router.push(e);
+    }
 
-    return { handleClick, state }
+    const handleSend = async() => {
+      console.log(state.search);
+      store.commit("setKeyword", state.search);
+      router.push({name:'ClubListVue', query:{title:state.search}});
+
+    }
+
+
+    // store.subscribe((mutation, state) => {
+    //   console.log('store.subscribe', mutation, state);
+    // });
+
+
+    return { handleClick, state,handleSend }
   },
 }
 </script>

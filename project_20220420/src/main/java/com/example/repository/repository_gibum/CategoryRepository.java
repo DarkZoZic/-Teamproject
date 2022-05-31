@@ -23,6 +23,10 @@ public interface CategoryRepository
 
         List<Category> findByCgcate1(String cgcate1);
 
+        Category findByCgcate2(String cgcate1);
+
+        Category findByCgcode(String cgcode);
+
         Category findByCgcate1AndCgcate2(String cate1, String cate2);
     
 }

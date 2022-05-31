@@ -18,6 +18,7 @@
                     <v-row dense style="padding-top: 22px; padding-bottom: 10px; padding-left: 10px;">
                         <v-col>
                             <h2>지역명</h2>
+                            <!-- {{keyword}} -->
                         </v-col>
 
                         <v-col sm="7" class="col_right" v-if="state.logged">
@@ -234,16 +235,21 @@ import FooterVue from '../FooterVue.vue';
 import HeaderVue from '../HeaderVue.vue';
 import { onMounted, computed } from '@vue/runtime-core';
 import axios from 'axios';
-import {useRouter} from 'vue-router';
+import {useRoute, useRouter} from 'vue-router';
 import { useStore } from 'vuex';
 
 export default {
     components: { HeaderVue, FooterVue },
 
     setup () {
+        const route = useRoute();
         const router = useRouter();
         const store  = useStore();
+        const store1  = useStore();
+        const keyword = computed(() => store1.getters.getKeyword);
+
         const state  = reactive({
+            search : route.query.title,
             token    : sessionStorage.getItem("TOKEN"),
             logged   : computed(() => store.getters['moduleA/getLogged']),
             area     : [],
@@ -269,12 +275,40 @@ export default {
             },
         });
 
+
         onMounted (async()=>{
             handleData(), Likelist();
+            console.log(state.search);
             if (state.card.desc.length >= 20) {
                 state.card.desc1 = state.card.desc.substring(0, 20) + '...'
             }
+            // console.log("adasdaasd",keyword);
         })
+         // 카테고리 검색
+         
+        const catesearch = async() => {
+            console.log(state.search);
+            if(state.search !== undefined){
+                if(state.search !== ''){
+
+                const url      = `/ROOT/club/searchcateclub?cate=${state.search}`;
+                const headers  = { "Content-Type": "application.json" };
+                const response = await axios.get(url,{ headers: headers });
+    
+                console.log(response.data);
+                    if(response.data.status === 200){
+                state.items = response.data.result;
+                for(var i = 0; i < state.items.length; i++){
+                    state.imgcheck.push({ cno: state.items[i].obj.cno, type: 0 })
+                    // state.imgcheck[i] = 0;s
+                }
+                console.log(response.data.result[0].imgurl);
+                console.log(response.data.result.length);
+            }   
+                }
+
+            }
+        }
 
         // 장소 등록해논거 삭제
         const del = (idx) => {
@@ -486,7 +520,7 @@ export default {
         }
         
         return {
-        // like,
+        keyword,catesearch,
         state, addr1, search1, search2, del, reset, resetdate, resettime, Clicksearch, all, changeheart, unlike, handlePage }
     }
 }

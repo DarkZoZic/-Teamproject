@@ -99,7 +99,7 @@ public class Club {
   private ClubGallery clubGallery;
   // 카테고리분류
   @ManyToOne
-  @JoinColumn(name = "cg_code")
+  @JoinColumn(name = "cgcode")
   private Category category;
   // 주소분류
   @Column(name = "CADDRESS")

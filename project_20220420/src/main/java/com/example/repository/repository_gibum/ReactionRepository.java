@@ -30,6 +30,8 @@ public interface ReactionRepository
         nativeQuery = true)
         List<Reaction> findByReaction_B_no(@Param(value = "bno")long bno);
 
+        Reaction findByBoard1_BnoAndMember_Mid(long bno, String username);
+
         // 클럽게시판
         @Query(value = "SELECT * FROM REACTIONTBL WHERE CB_NO=:cbno",
         countQuery = "SELECT count(*) FROM REACTIONTBL RCOUNT",

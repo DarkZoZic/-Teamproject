@@ -239,37 +239,51 @@ try {
     
     return map;
 }
-    // 좋아요 취소 기능
-	// 127.0.0.1:9090/ROOT/reaction/unlike.json
-// 	@RequestMapping(value = "/unlike.json", 
-//     method = { RequestMethod.DELETE },
-//     consumes = { MediaType.ALL_VALUE },
-//     produces = { MediaType.APPLICATION_JSON_VALUE })
-//     public Map<String, Object> UnlikePost(
-//     @ModelAttribute Reaction reaction,
-//     @RequestHeader (name = "token")String token){
-//         Map<String, Object> map = new HashMap<>();
-//     try {
-//         System.out.println(reaction.toString());
-//         long user = reaction.getBoard().getBno();
-//     if(token != null){
-//         String username = jwtUtil.extractUsername(token);
-//                 Reaction read = rRepository.findByMember_MidAndBoard_Bno(username, user);
-//                 rRepository.delete(read);
-        
-        
-        
-//     }
-//     map.put("status", 200); 
-   
-//     }
-//     catch (Exception e) {
-//         e.printStackTrace();
-//         map.put("status", 0);
-//     }
+    // -- 좋아요 가져오기(자유게시판디테일) --
+    //127.0.0.1:9090/ROOT/api/reaction/likeone
+    @RequestMapping(value = "/likeone",
+            method = { RequestMethod.GET },
+            consumes = { MediaType.ALL_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> likeoneGET(
+        @RequestParam (name = "bno")long bno, 
+        @RequestHeader (name = "token") String token ){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
+
+            Member memberEntity = new Member();
+            memberEntity.setMid(userid);
+            System.out.println(memberEntity);
+            Reaction reaction = new Reaction();
+
+            reaction.setMember(memberEntity);
+            System.out.println(reaction.toString());
+
+            if(token !=null) {
+                Reaction reaction1 = rRepository.findByBoard1_BnoAndMember_Mid(bno, userid);
+                if(reaction1 == null){
+                    map.put("status",0);
+                        
+                    }
+                    else{
     
-//     return map;
-// }
+                        map.put("result",reaction1);
+                        map.put("status",200);
+                    }
+                
+
+                
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
 
     // 자유게시판 좋아요 삭제
     @RequestMapping(value = "/unlike.json", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},

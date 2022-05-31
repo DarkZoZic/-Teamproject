@@ -41,6 +41,10 @@ public class Combineaddr {
     @Column(name = "CGCATE1")
     private String cgcate1;
 
+    // 공개여부
+    @Column(name = "CPRIVATE")
+    private String cprivate;
+
     // 카테고리 상세분류
     @Column(name = "CGCATE2")
     private String cgcate2;
