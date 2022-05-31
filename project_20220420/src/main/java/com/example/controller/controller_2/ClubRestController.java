@@ -515,7 +515,16 @@ try {
             for(Clublistview obj:club  ){
                 Map <String, Object> map1 = new HashMap<>();
                 map1.put("obj", obj);
-                map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                Cimage cimage = ciRepository.findByClub_Cno(obj.getCno());
+
+                if(cimage != null){
+
+                    map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                }
+                else{
+                    map1.put("imgurl",null);
+
+                }
                 list.add(map1);
             }
 
@@ -532,44 +541,7 @@ try {
 
     return map;
     }    
-    //  클럽카테고리 검색 ex)탁구
-    // 127.0.0.1:9090/ROOT/club/searchcateclub2
-    @RequestMapping(value = "/searchcateclub2", 
-    method = { RequestMethod.GET },
-    consumes = { MediaType.ALL_VALUE },
-    produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> Cateclub2Get(
-        @Param(value = "cate") String cate
-        ){
-        Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
-        try {
-            
-            String private1 = "공개";
-
-            List<ClubProjection> club = cRepository.findByCprivateAndCategory_Cgcate2Containing(private1,cate);
-            System.out.println(club);
-            List<Map <String, Object>> list = new ArrayList<>();
-            for(ClubProjection obj:club  ){
-                Map <String, Object> map1 = new HashMap<>();
-                map1.put("obj", obj);
-                map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
-                list.add(map1);
-            }
-
-
-            // System.out.println(club);
-            // club.set ("/ROOT/member/image?mid=" +username);
-            map.put("status", 200); 
-            map.put("result", list); 
-            map.put("개수", club.size()); 
-        }
-         catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    return map;
-    }    
+    
     //  클럽주소검색 ex부산
     // 127.0.0.1:9090/ROOT/club/searchclub
     @RequestMapping(value = "/searchclub", 
@@ -591,7 +563,16 @@ try {
             for(Clublistview obj:club  ){
                 Map <String, Object> map1 = new HashMap<>();
                 map1.put("obj", obj);
-                map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                Cimage cimage = ciRepository.findByClub_Cno(obj.getCno());
+
+                if(cimage != null){
+
+                    map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                }
+                else{
+                    map1.put("imgurl",null);
+
+                }
                 list.add(map1);
             }
 

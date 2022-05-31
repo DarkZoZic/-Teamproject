@@ -414,6 +414,7 @@ export default {
 
             if(response.data.status === 200){
                 state.items = response.data.result;
+                console.log(state.items);
             }
             const arr = [...new Set(state.area)];
             console.log(arr);
