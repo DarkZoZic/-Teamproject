@@ -223,7 +223,7 @@
 
                                                     <v-row v-if="state.nick">
                                                         <v-col class="col_left" >
-                                                                <h4>{{state.nick.mpnickname}}</h4>님 환영합니다!
+                                                            <h4>{{state.nick.mpnickname}}</h4>님 환영합니다!
                                                         </v-col>
                                                     </v-row>
 
@@ -232,6 +232,7 @@
                                                             <router-link to="/regclub">
                                                                 <v-btn style="width: 100px; height: 100px; margin-right: 5px;"><h3>클럽생성</h3></v-btn>
                                                             </router-link>
+
                                                             <router-link to="/cmypage">
                                                                 <v-btn style="width: 100px; height: 100px; margin-left: 5px;"><h3>마이페이지</h3></v-btn>
                                                             </router-link>
@@ -243,6 +244,7 @@
                                                             <router-link to="/regclub">
                                                                 <v-btn style="width: 100px; height: 100px; margin-right: 5px;"><h3>클럽생성</h3></v-btn>
                                                             </router-link>
+
                                                             <router-link to="/mypage">
                                                                 <v-btn style="width: 100px; height: 100px; margin-left: 5px;"><h3>마이페이지</h3></v-btn>
                                                             </router-link>
@@ -269,7 +271,6 @@
                                     </v-col>
                                 </v-row>
                             </v-col>
-
                         </v-row>
 
                         <v-row style="border-top: 1px solid #CCC; margin-top: 20px;"><h4 style="padding: 10px;">슈퍼 클럽</h4></v-row>
@@ -289,8 +290,8 @@
 
                                         <v-col sm="3" class="col_right">
                                             <v-btn style="height: 100%; width: 10px;" id="like"  @click="changeheart(items.obj.cno,idx)">
-                                                <img   v-if="state.imgcheck[idx].type === 0" :src="state.imgName"  style="width: 30px"/>
-                                                <img   v-if="state.imgcheck[idx].type === 1" :src="state.imgName1"  style="width: 30px"/>
+                                                <img v-if="state.imgcheck[idx].type === 0" :src="state.imgName"  style="width: 30px"/>
+                                                <img v-if="state.imgcheck[idx].type === 1" :src="state.imgName1"  style="width: 30px"/>
                                             </v-btn>
                                         </v-col>
                                     </v-row>
@@ -344,123 +345,106 @@ export default {
         const store = useStore();
 
         const state = reactive({
-            likecheck : [],
+            likecheck: [],
             imgcheck : [],
-            imgName:  require(`../assets/img/heart.png`),
-            imgName1: require(`../assets/img/heart1.png`),
-            role1 : 'PERSONAL',
-            role2 : 'COMPANY',
-            role3 : '',
-            imageUrl1 : '',
+            imgName  :  require(`../assets/img/heart.png`),
+            imgName1 : require(`../assets/img/heart1.png`),
+            role1    : 'PERSONAL',
+            role2    : 'COMPANY',
+            role3    : '',
+            imageUrl1: '',
             imageUrl : require('../assets/img/profile_sample.png'),
-            logged: computed(() => store.getters['moduleA/getLogged']),
-            token : sessionStorage.getItem("TOKEN"),
+            logged   : computed(() => store.getters['moduleA/getLogged']),
+            token    : sessionStorage.getItem("TOKEN"),
+            logo     : 'club_logo',
+            notice   : '공지글입니딩~',
 
             slides: [
                 { title: '', image: require('../assets/img/ad1.jpg') },
                 { title: '', image: require('../assets/img/ad2.jpg') },
                 { title: '', image: require('../assets/img/ad3.jpg') }
             ],
-            // imgName: 'heart',
-            logo: 'club_logo',
 
             card: {
-                clubname: '삥뽕탁구클럽',
-                desc: '설명글을 잔뜩!zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz',
-                desc1: '',
-                area1: '부산',
-                area2: '연제구',
+                clubname: '',
+                desc    : '',
+                desc1   : '',
+                area1   : '',
+                area2   : '',
             },
-            notice: '공지글입니딩~',
 
             profile: {
-                nickname: '탁구왕김제빵',
+                nickname: '',
             },            
         });
 
         onMounted (()=>{
-            handleData(),Lkelist();
+            handleData(), Likelist();
+
             if(state.token != null){
-                role(),mypage(),nick();
-                // console.log(state.role);
-                // if(state.role3 === 'PERSONAL'){
-                    //     handlenick();
-                //     }
-                // if(state.role2 =='COMPANY'){
-                //     cname();
-                // }
+                role(), mypage(), nick();
             }
 
             if(state.token === null){
                 store.commit('moduleA/setLogged', false)
-            } 
-            else{
+            }else {
                 store.commit('moduleA/setLogged', true)
             }
-
             if (state.card.desc.length >= 40) {
                 state.card.desc1 = state.card.desc.substring(0, 40) + '...'
             }            
         });
 
         const handlePage = async(cno) => {
-            router.push({name:"ClubDetailVue", query:{ cno: cno }})
+            router.push({ name: "ClubDetailVue", query: { cno: cno }})
             console.log(cno);
         }
 
         const handleData = async() => {
-            const url = `/ROOT/club/selectlist2`;
-            const headers = {"Content-Type":"application.json"};
-            const response = await axios.get(url,{headers:headers});
-                console.log(response.data.result);
-                if(response.data.status === 200){
-                    state.items1 = response.data.result;
-                    for(var i =0; i < state.items1.length; i++){
-                        state.imgcheck.push({cno:state.items1[i].obj.cno,type:0})
-                        // state.imgcheck[i] = 0;s
-                    }
-                    console.log(response.data.result[0].imgurl);
-                    console.log(response.data.result.length);
-                   
-        }
-   
-                
+            const url      = `/ROOT/club/selectlist2`;
+            const headers  = { "Content-Type": "application.json" };
+            const response = await axios.get(url, { headers: headers });
+            console.log(response.data.result);
+
+            if(response.data.status === 200) {
+                state.items1 = response.data.result;
+                for(var i =0; i < state.items1.length; i++){
+                    state.imgcheck.push({cno:state.items1[i].obj.cno,type:0})
+                }                   
+            }    
         }
 
         const mypage = async() => {
-            const url = `/ROOT/member/mypage`;
-            const headers = {"Content-Type":"application/json", 
-            token : state.token};
+            const url      = `/ROOT/member/mypage`;
+            const headers  = { "Content-Type": "application/json", token: state.token };
             const response = await axios.get(url, {headers});
             console.log(response.data.result);
 
-            if(response.data.status === 200){
+            if(response.data.status === 200) {
                 state.items = response.data.result;
-                if(state.items.mprofile != ""){
-                    if(state.items.mprofile != null){
-                        state.imageUrl = response.data.result.mimageurl
+                if(state.items.mprofile != "") {
+                    if(state.items.mprofile != null) {
+                        state.imageUrl  = response.data.result.mimageurl
                         state.imageUrl1 = response.data.result.mimageurl
                     }
-                }
-                else{
+                }else {
                     state.imageUrl = '';
                 }
             }
         }
         
-        const Lkelist = async() => {
-            const url = `/ROOT/api/like/selectlist`;
-            const headers = {"Content-Type":"application.json",
-            token : state.token};
-            const response = await axios.get(url,{headers:headers});
+        const Likelist = async() => {
+            const url      = `/ROOT/api/like/selectlist`;
+            const headers  = { "Content-Type": "application.json", token: state.token };
+            const response = await axios.get(url,{ headers: headers });
             console.log(response.data);
             if(response.data.status === 200){
                 state.likelist = response.data.result;
 
-                for(var j =0; j<state.imgcheck.length; j++){
+                for(var j = 0; j < state.imgcheck.length; j++) {
 
-                    for(var i =0; i < state.likelist.length; i++){
-                        if(state.imgcheck[j].cno === Number(state.likelist[i].clubCno) ){
+                    for(var i = 0; i < state.likelist.length; i++){
+                        if(state.imgcheck[j].cno === Number(state.likelist[i].clubCno)) {
                             state.imgcheck[j].type = 1;
                         }
                     }
@@ -469,93 +453,86 @@ export default {
             }
         }
 
-            const cname = async() => {
-                const url = `/ROOT/member/cname`;
-                const headers = {"Content-Type":"application/json", 
-                token : state.token};
-                const response = await axios.get(url, {headers});
-                console.log(response.data.result);
-                if(response.data.status === 200){
-                    state.cname = response.data.result;
-                }
-            }
-            const nick = async() => {
-                const url = `/ROOT/member/psmynick`;
-                const headers = {"Content-Type":"application/json", 
-                token : state.token};
-                const response = await axios.get(url, {headers});
-                console.log(response.data.result);
-                if(response.data.status === 200){
-                    state.nick = response.data.result;
-                }
-                else{
-                    role();
-                    console.log("기업회원입니다");
-                }
-            }
-            const role = async() => {
-                const url = `/ROOT/member/role`;
-                const headers = {"Content-Type":"application/json", 
-                token : state.token};
-                const response = await axios.get(url, {headers});
-                console.log(response.data.result);
-                if(response.data.status === 200){
-                    state.role = response.data.result;
-                    if(state.role === 'PERSONAL'){
-                        // handlenick();
-                    }
-                    if(state.role === 'COMPANY'){
-                        cname();
-                    }
-                }
-            }
+        const cname = async() => {
+            const url      = `/ROOT/member/cname`;
+            const headers  = { "Content-Type": "application/json", token: state.token };
+            const response = await axios.get(url, { headers });
+            console.log(response.data.result);
 
-        const changeheart = async(cno,idx) => {
+            if(response.data.status === 200){
+                state.cname = response.data.result;
+            }
+        }
+
+        const nick = async() => {
+            const url      = `/ROOT/member/psmynick`;
+            const headers  = { "Content-Type": "application/json", token: state.token };
+            const response = await axios.get(url, {headers});
+            console.log(response.data.result);
+            if(response.data.status === 200){
+                state.nick = response.data.result;
+            }else {
+                role();
+                console.log("기업회원입니다");
+            }
+        }
+
+        const role = async() => {
+            const url      = `/ROOT/member/role`;
+            const headers  = { "Content-Type": "application/json", token: state.token };
+            const response = await axios.get(url, { headers });
+            console.log(response.data.result);
+
+            if(response.data.status === 200){
+                state.role = response.data.result;
+                if(state.role === 'PERSONAL'){
+                    // handlenick();
+                }
+                if(state.role === 'COMPANY'){
+                    cname();
+                }
+            }
+        }
+
+        const changeheart = async(cno, idx) => {
             console.log(state.likelist.clubCno);
             console.log(cno);
-            if(state.imgcheck[idx].cno === cno ){
-
-                if(state.imgcheck[idx].type === 1){
+            if(state.imgcheck[idx].cno === cno ) {
+                if(state.imgcheck[idx].type === 1) {
                     state.imgcheck[idx].type =0;
-                }
-                else{
+                }else {
                     state.imgcheck[idx].type = 1;
                 }
             }
-             
-            
-            const url =`/ROOT/api/like/insert`
-            const headers = {"Content-Type":"multipart/form-data",
-                            token : state.token};
-            const body = new FormData;
+            const url      = `/ROOT/api/like/insert`
+            const headers  = { "Content-Type":"multipart/form-data", token: state.token };
+            const body     = new FormData;
             body.append("club", cno);
-            const response = await axios.post(url,body,{headers:headers});
+            const response = await axios.post(url, body, { headers: headers });
             console.log(response.data);
                 if(response.data.status == 200){
                     console.log("찜하기성공");
                 }
-                if(response.data.status == -1 ){
+                if(response.data.status == -1){
                     console.log("찜하기 취소");
                     unlike(cno, idx);
                 }
-                
-        };
+                    
+            };
+
         const unlike = async(cno,idx) => {
-                    console.log("unlike", state.imgcheck[idx]);
-                    const url = `/ROOT/api/like/deleteone`
-                    const headers = {"Content-Type":"multipart/form-data",
-                                    token : state.token};
-                    const body = new FormData;
-                        body.append("club", cno);   
-                    const response = await axios.post(url, body, {headers:headers});
-                    console.log(response.data);
-                    if(response.data.status == 200){
-                            // state.imgName = state.imaName1
-                        }
+            console.log("unlike", state.imgcheck[idx]);
+            const url      = `/ROOT/api/like/deleteone`
+            const headers  = {"Content-Type":"multipart/form-data", token : state.token};
+            const body     = new FormData;
+            body.append("club", cno);   
+            const response = await axios.post(url, body, { headers: headers });
+            console.log(response.data);
 
+            if(response.data.status == 200){
+                // state.imgName = state.imaName1
+            }
         }
-
-        
 
         const notice = () => {
             router.push({ name: "HelpQnaContentVue" });
@@ -570,12 +547,8 @@ export default {
             router.push({ name: "ClubDetailVue" });
         }
 
-
         return { state, changeheart, handlelogout,handlePage, notice, clubDetail, unlike }
     },
-    data: () => ({
-        autoPlaying: true,
-    })
 }
 </script>
 
