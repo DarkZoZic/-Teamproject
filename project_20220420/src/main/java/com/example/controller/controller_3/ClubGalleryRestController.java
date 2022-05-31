@@ -308,6 +308,7 @@ public class ClubGalleryRestController {
 		{
 			if(token != null)
 			{
+				crRep.deleteByClubgallery_cgno(cg.getCgno());
 				cgiRep.deleteByClubgallery_cgno(cg.getCgno());
 				cgRep.deleteById(cg.getCgno());
 				map.put("status", 200);
@@ -404,6 +405,27 @@ public class ClubGalleryRestController {
 		catch (Exception e)
 		{
 			map.put("status", 0);
+		}
+		return map;
+	}
+	
+	@RequestMapping(value="/updatereply", 
+			method={RequestMethod.PUT}, 
+			consumes = {MediaType.ALL_VALUE},
+			produces= {MediaType.APPLICATION_JSON_VALUE})
+	public Map<String, Object> updaterepPUT(@RequestBody CReply cr, @RequestHeader(name="token") String token)
+	{
+		Map<String, Object> map = new HashMap<>();
+		try
+		{
+			CReply crep = crRep.findById(cr.getRenumber()).orElse(null);
+			crep.setRecontent(cr.getRecontent());
+			crRep.save(crep);
+			map.put("status", 200);
+		}
+		catch (Exception e)
+		{
+			map.put("status", -1);
 		}
 		return map;
 	}

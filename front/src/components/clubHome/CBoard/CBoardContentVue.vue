@@ -100,7 +100,6 @@
                         </textarea>
                       </div>
                     </v-col>
-                    
                   </v-row>
 
                   <!-- 대댓글. 대댓글이 있으면 테두리가 없게 하는게 가능한가? -->
@@ -361,10 +360,12 @@ export default {
       else
       {
         state.replyupdate.update[idx] = false;
+        content();
       }
     }
 
-    const handleReplyUpdateAct = async(tmp, idx) => {
+    const handleReplyUpdateAct = async(tmp, idx) => 
+    {
       // console.log(tmp);
       // console.log(state.reply[idx].renumber);
       const url     = `/ROOT/api/clubboard/updatereply`;
@@ -381,6 +382,7 @@ export default {
       if(response.data.status === 200)
       {
         state.replyupdate.update[idx] = false;
+        content();
       }
     }
 
