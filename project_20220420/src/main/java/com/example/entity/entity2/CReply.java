@@ -99,7 +99,7 @@ public class CReply {
 
   // 반응
   @OneToMany(mappedBy = "creply")
-  @JsonManagedReference(value="rid")
+  @JsonManagedReference(value="reno")
   private List<Reaction> reactionList = new ArrayList<>();
 
   // 자유게시판 글번호

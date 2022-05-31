@@ -91,13 +91,12 @@ public class Board1 {
   
   // 반응
   @OneToMany(mappedBy = "board1")
-  @JsonManagedReference(value="reno")
+  @JsonManagedReference(value="bno")
   private List<Reaction> reactionList = new ArrayList<>();
 
   // 댓글
   @OneToMany(mappedBy = "board1", cascade = CascadeType.REMOVE)
-  @JsonManagedReference(value="crno1")
-  // private List<CReply> cReplyList = new ArrayList<>();
+  @JsonManagedReference(value="bno")
   private List<CReply> cReplyList = new ArrayList<>();
 
 }
