@@ -149,11 +149,13 @@
                         <v-col>
                           <!-- 댓글 수정, 삭제 : 아이디가 일치할 때 -->
                           <v-row dense >
-                            <v-col class="col_left" v-show="tmp.member.mid === state.mid1">
-                              <h5 v-if="!state.reply1.reupdate[idx]" @click="handleReplyUpdate(idx)" style="padding-left: 10px; color: gray; cursor: pointer;">수정</h5>
-                              <h5 @click="handleReplyDelete(tmp.renumber, idx)" style="padding-left: 10px; color: gray; cursor: pointer;">삭제</h5>
+                            <div v-show="tmp.member.mid === state.mid1" style="float:left;">
+                              <h5 v-if="!state.reply1.reupdate[idx]" @click="handleReplyUpdate(idx)" style="padding-left: 10px; color: gray; cursor: pointer; float:left;" >수정</h5>
+                              <h5 @click="handleReplyDelete(tmp.renumber, idx)" style="padding-left: 10px; color: gray; cursor: pointer; float:left">삭제</h5>
+                            </div>
+                            <div style="float:left;">
                               <h5 @click="clickReply(idx)" style="color: gray; padding-left: 10px; cursor: pointer;">답댓글</h5>
-                            </v-col>
+                            </div>
                           </v-row>
                           
                           <!-- 답댓글 -->
