@@ -43,7 +43,7 @@ public interface ReactionRepository
         List<Reaction> findByReaction_Cg_no(@Param(value = "cgno")long cgno);
 
         // 자유게시판
-        Reaction findByMember_MidAndBoard_Bno(
+        Reaction findByMember_MidAndBoard1_Bno(
             @Param(value = "id") String member,
             @Param(value = "bno") Long bno
         );
@@ -62,7 +62,7 @@ public interface ReactionRepository
         // Reaction findByCount
 
         // 자유게시판
-        Reaction findByMember_midAndBoard_bno(String mid, Long bno);
+        Reaction findByMember_midAndBoard1_bno(String mid, Long bno);
 
         // 댓글
         Reaction findByMember_midAndCreply_renumber(String mid, Long renumber);
