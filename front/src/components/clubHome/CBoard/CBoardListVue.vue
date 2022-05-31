@@ -59,7 +59,8 @@
                                     >
                                         <td>{{ item.cbno }}</td>
                                         <td @click="selectContent(item.cbno)" style="cursor:pointer;">{{ item.cbtitle }}</td>
-                                        <td>{{ state.nicklist[idx].mpnickname}}</td>
+                                        <td v-if="state.nicklist[idx].mcname === null">{{ state.nicklist[idx].mpnickname}}</td>
+                                        <td v-if="state.nicklist[idx].mpnickname === null">{{ state.nicklist[idx].mcname}}</td>
                                         <td>{{ item.cbregdate1 }}</td>
                                         <td>{{ item.cbhit }}</td>
                                         <td>{{ item.like }}</td>
@@ -159,7 +160,7 @@ export default {
                 if(response.data.status === 200) {
                     state.board = response.data.result.list;
                     state.pages = response.data.result.pages;
-                    state.nicklist = response.data.result.mplist;
+                    state.nicklist = response.data.result.mlist;
 
                     for(var i = 0; i < state.board.length; i++) {
                         date(i);

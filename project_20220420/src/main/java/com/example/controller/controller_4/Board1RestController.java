@@ -458,6 +458,15 @@ public class Board1RestController {
         try{
             PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
             List<Board1> bList = b1Repository.findByBtitleContainingOrderByBnoDesc(btitle, pageRequest);
+            
+            List<Board1MemberView> bmvlist = new ArrayList<>();
+            for(int i =0;i<bList.size();i++){
+            	Board1MemberView bmv = bmvRep.findById(bList.get(i).getBno()).orElse(null);
+                System.out.println(bmv);
+                bmvlist.add(bmv);
+            }
+            
+			map.put("mlist", bmvlist);
             // System.out.println(bList);
             map.put("status", 200); // 성공
             map.put("result", bList);
@@ -483,6 +492,15 @@ public class Board1RestController {
         try{
         PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
         List<Board1> bList = b1Repository.findByBcontentContainingOrderByBnoDesc(bcontent, pageRequest);
+        
+        List<Board1MemberView> bmvlist = new ArrayList<>();
+        for(int i =0;i<bList.size();i++){
+        	Board1MemberView bmv = bmvRep.findById(bList.get(i).getBno()).orElse(null);
+            System.out.println(bmv);
+            bmvlist.add(bmv);
+        }
+        
+		map.put("mlist", bmvlist);
         // System.out.println(bList);
         map.put("status", 200); // 성공
         map.put("result", bList);
