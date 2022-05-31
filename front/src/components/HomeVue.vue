@@ -232,7 +232,7 @@
                                                             <router-link to="/regclub">
                                                                 <v-btn style="width: 100px; height: 100px; margin-right: 5px;"><h3>클럽생성</h3></v-btn>
                                                             </router-link>
-                                                            <router-link to="/mypage">
+                                                            <router-link to="/cmypage">
                                                                 <v-btn style="width: 100px; height: 100px; margin-left: 5px;"><h3>마이페이지</h3></v-btn>
                                                             </router-link>
                                                         </v-col>

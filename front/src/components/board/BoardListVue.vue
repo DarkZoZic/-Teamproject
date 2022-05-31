@@ -109,7 +109,6 @@ export default {
         });
 
         const date = (i) => {
-            console.log(state.items[i].bregdate);
             state.items[i].bregdate1 = dayjs(state.items[i].bregdate).format('YY.MM.DD hh:mm:ss');
         }
 
