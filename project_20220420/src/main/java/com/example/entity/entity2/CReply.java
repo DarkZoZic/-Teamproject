@@ -65,6 +65,10 @@ public class CReply {
   @Column(name = "reparentnumber")
   private Long reparentnumber;
 
+  // 깊이
+  // @Column(name = "redepth")
+  // private Long redepth;
+
   // 수정일
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @UpdateTimestamp // CURRENT_DATE

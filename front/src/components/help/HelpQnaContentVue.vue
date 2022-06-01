@@ -16,7 +16,7 @@
 
           <v-row dense>
             <v-col sm="6" style="padding-top: 23px; padding-left: 15px;">
-              <h2>{{state.items.title}}</h2>
+              <h2>{{state.items.qtitle}}</h2>
             </v-col>
           </v-row>
 
@@ -24,7 +24,7 @@
           <v-row dense style="padding-bottom: 10px; border-bottom: 1px solid #CCC;">
             <v-col sm="6" style="padding-left: 25px; ">
               <!-- 닉네임 -->
-              <h4 style="color: #787878">{{state.nick.mpnickname}}</h4>
+              <!-- <h4 style="color: #787878">{{state.nick.mpnickname}}</h4> -->
             </v-col>
 
             <v-col sm="6" class="col_right" style="padding-right: 25px;">
@@ -32,13 +32,13 @@
                 조회 {{state.items.qhit}} | {{state.qregdate1}}
               </h5>
 
-              <h5 style="color: #787878" v-if="state.nick.mpnickname === null">
+              <!-- <h5 style="color: #787878" v-if="state.nick.mpnickname === null"> -->
                 <!-- 기업이름 --> 
-                {{state.nick.mcname}} &nbsp; | &nbsp; 
+                <!-- {{state.nick.mcname}} &nbsp; | &nbsp; 
                 조회 {{state.items.qhit}} &nbsp; | &nbsp; 
                 <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.rno}}
                 &nbsp; | &nbsp; {{state.qregdate1}}
-              </h5>
+              </h5> -->
             </v-col>
           </v-row>
 
@@ -84,51 +84,115 @@
                 <v-col>
                   <!-- 댓글작성자 -->
                   <v-row dense>
-                    <v-col class="col_left">
+                    <!-- <v-col class="col_left">
                       <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mcname === null">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5>
                       <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mpnickname === null">{{state.replynicklist[idx].mcname}} &nbsp; | </h5> 
                       <h5 style="color: gray;">{{tmp.reregdate1}}</h5>
                       <h5 style="color: #676767;">{{state.reply.reupdate[idx]}}</h5>
                       <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
+                    </v-col> -->
+                  </v-row>
+
+                   <!-- 닉네임, 날짜 -->
+                  <v-row dense>
+                    <div v-if="tmp.reparentnumber !== 0" >
+                      <img :src="require('../../assets/img/reply.png')" style="margin-top: 5px; margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
+                    </div>
+                    <v-col class="col_left">                      
+                      <!-- <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mcname === null">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5>
+                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mpnickname === null">{{state.replynicklist[idx].mcname}} &nbsp; | </h5>  -->
+                      <h5 style="color: gray;">{{tmp.reregdate1}}</h5>
+                      <img :src="require('../../assets/img/thumb.png')" @click="replylike()" style="width: 15px; margin-left: 10px; cursor: pointer; " />
+                      <h5 style="color: gray; padding-left: 5px;">{{state.blike}}</h5>
                     </v-col>
                   </v-row>
 
-                  <!-- 댓글내용 -->
+                    <!-- 댓글내용 -->
                   <v-row dense>
+                    <v-col sm="10">
+                      <!-- <div style="padding-left: 10px; padding-right: 10px;" >{{tmp.recontent}}</div> -->
+                      <div v-if="!state.reply1.reupdate[idx]" style="padding: 10px; border: 1px solid #CCC; border-radius: 5px; height: 70px; width: 900px;" class="collapse multi-collapse-{{id}} show">{{tmp.recontent}}</div>
+                      <div v-if="state.reply1.reupdate[idx]" class="col_left">
+                        <textarea v-model="tmp.recontent" 
+                          style="background-color: white; resize: none; border: 1px solid #CCC; border-radius: 5px; padding: 10px; width: 900px;"></textarea>
+                      </div>
+                    </v-col>
+
+                     <v-col class="col_center" v-if="state.reply1.reupdate[idx]">
+                      <!-- 댓글수정버튼 -->
+                      <v-btn style="height: 68px; margin-right: 10px;" @click="handleReplyUpdate(idx)"><h4>취소</h4></v-btn>
+                      <v-btn style="height: 68px;" @click="handleReUpdate(idx)"><h4 >수정</h4></v-btn>
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense style="padding-left: 10px;">
+                    <!-- v-if="tmp.reparentnumber !== 0" -->
+                    <v-col>
+                      <v-row dense>
+                        <v-col>
+                          <!-- 댓글 수정, 삭제 : 아이디가 일치할 때 -->
+                          <v-row dense >
+                            <div v-show="tmp.member.mid === state.mid1" style="float:left;">
+                              <h5 v-if="!state.reply1.reupdate[idx]" @click="handleReplyUpdate(idx)" style="padding-left: 10px; color: gray; cursor: pointer; float:left;" >수정</h5>
+                              <h5 @click="handleReplyDelete(tmp.renumber, idx)" style="padding-left: 10px; color: gray; cursor: pointer; float:left">삭제</h5>
+                            </div>
+                            <div style="float:left;">
+                              <h5 @click="clickReply(idx)" style="color: gray; padding-left: 10px; cursor: pointer;">답댓글</h5>
+                            </div>
+                          </v-row>
+                          
+                          <!-- 답댓글 -->
+                          <v-row dense v-if="state.reply1.clickReply[idx]">
+                            <v-col sm="11" style="padding-top: 10px;">
+                              <textarea  
+                                style="border: 1px solid #CCC; padding: 10px; background-color: white; border-radius: 5px; width: 930px; height: 70px; outline-width: 0; resize: none;"
+                                v-model="state.reply1.rerecontent" placeholder="댓글내용">
+                              </textarea>
+                            </v-col>
+
+                            <v-col sm="1" style="padding: 10px;" class="col_center">
+                              <v-btn style="width: 100%; height: 70px; border: 1px solid #CCC;" @click="handleReplyAdd(tmp.renumber, idx)"><h4>댓글작성</h4></v-btn>
+                            </v-col>
+                          </v-row>
+                        </v-col>
+                      </v-row>
+
+                  <!-- 댓글내용 -->
+                  <!-- <v-row dense>
                     <v-col style="border-bottom: 1px solid #CCC;">
                       <h4 style="padding-left: 10px;">{{state.reply.content}}</h4>
                     </v-col>
-                  </v-row>
+                  </v-row> -->
                 </v-col>
               </v-row>
 
               <!-- 댓글하나 -->
-              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;">
-                <v-col>
+              <!-- <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;">
+                <v-col> -->
                   <!-- 댓글작성자 -->
-                  <v-row dense>
+                  <!-- <v-row dense>
                     <v-col class="col_left">
                       <h5 style="padding-right: 10px;">{{state.reply.writer}}</h5> 
                       <h5 style="color: #676767;">{{state.reply.date}}</h5>
                       <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
                     </v-col>
-                  </v-row>
+                  </v-row> -->
 
                   <!-- 댓글내용 -->
-                  <v-row dense style="padding-right: 10px;">
+                  <!-- <v-row dense style="padding-right: 10px;">
                     <v-col>
                       <h4 style="padding-left: 10px; padding-right: 10px;">{{state.reply.content}}</h4>
                     </v-col>
-                  </v-row>
+                  </v-row> -->
 
                   <!-- 대댓글. 대댓글이 있으면 테두리가 없게 하는게 가능한가? -->
-                  <v-row dense style="padding-left: 10px;">
+                  <!-- <v-row dense style="padding-left: 10px;">
                     <v-col>
                       <v-row dense>
                         <v-col style="display: flex">
-                          <img :src="require('../../assets/img/reply.png')" style="margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
+                          <img :src="require('../../assets/img/reply.png')" style="margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/> -->
                           <!-- 댓글작성자 -->
-                          <v-row dense>
+                          <!-- <v-row dense>
                             <v-col class="col_left">
                               <h5 style="padding-right: 10px;">{{state.replynicklist[idx].writer1}}</h5> 
                               <h5 style="color: #676767;">{{state.reply.date1}}</h5>
@@ -136,10 +200,10 @@
                             </v-col>
                           </v-row>
                         </v-col>
-                      </v-row>
+                      </v-row> -->
 
                       <!-- 댓글내용 -->
-                      <v-row dense style="padding-right: 10px;">
+                      <!-- <v-row dense style="padding-right: 10px;">
                         <v-col>
                           <h4 style="padding-left: 30px;">{{state.reply.content1}}</h4>
                         </v-col>
@@ -147,26 +211,26 @@
                     </v-col>
                   </v-row>
                 </v-col>
-              </v-row>
+              </v-row> -->
 
               <!-- 댓글하나 -->
-              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;">
-                <v-col>
+              <!-- <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;">
+                <v-col> -->
                   <!-- 댓글작성자 -->
-                  <v-row dense>
+                  <!-- <v-row dense>
                     <v-col class="col_left">
                       <h5 style="padding-right: 10px;">{{state.reply.writer}}</h5> 
                       <h5 style="color: #676767;">{{state.reply.date}}</h5>
                       <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
                     </v-col>
-                  </v-row>
+                  </v-row> -->
 
                   <!-- 댓글내용 -->
                   <!-- <v-row dense style="padding-right: 10px;">
                     <v-col>
                       <h4 style="padding-left: 10px;">{{state.reply.content}}</h4>
                     </v-col>
-                  </v-row> -->
+                  </v-row>  -->
                 </v-col>
               </v-row>
 
@@ -202,6 +266,7 @@
 
         <v-col sm="2"></v-col>
       </v-row>
+      
     </v-main>
   </v-app>
 
@@ -224,10 +289,13 @@ export default {
 
     onMounted( async() => {
       await handleData(); 
+      await handleReplyView();
+      await date();
+ 
     })
 
     const date = () => {
-      state.bregdate1 = dayjs(state.items.bregdate).format('YY.MM.DD hh:mm:ss');
+      state.qregdate1 = dayjs(state.items.qregdate).format('YY.MM.DD hh:mm:ss');
     }
 
     const date1 = (i) => {
@@ -240,8 +308,16 @@ export default {
 
     const state = reactive({
       qno : route.query.qno,
+      qtitle    : '',
+      mid       : '',
+      qhit      : 0,
+      qlike     : 0,
+      qcontent  : '',
+      qregdate  : '',
+      likeimage : require('../../assets/img/thumb.png'),
       token     : sessionStorage.getItem("TOKEN"),
       mid1      : sessionStorage.getItem("MID"),
+      liked     : true,
       items     : '',
       item      : '',
       likestatus: false,
@@ -281,7 +357,160 @@ export default {
       }
     }
 
-    return { state }
+    // 글삭제
+     const handleDelete = async() => {
+      if(confirm('삭제하시겠습니까?')){
+        const url      = `/ROOT/api/qna/delete1?bno=${state.qno}`;
+        const headers  = { "Content-Type": "application/json", "token": state.token };
+        const response = await axios.delete(url, { headers: headers, data: {} });
+        console.log(response.data);
+
+        if(response.data.status === 200){
+          alert('삭제되었습니다.');
+          router.push({ name: "HelpQnaVue" })
+        }
+      }    
+    }
+
+    // 댓글조회
+    const handleReplyView = async() => {
+      const url      = `/ROOT/api/creply/qna_selectone?qno=${state.qno}`;
+      const headers  = { "Content-Type": "application/json", "token": state.token };
+      const response = await axios.get(url, { headers });
+      console.log(response.data);
+
+      if(response.data.status === 200){
+        state.replylist     = response.data.result;
+        state.replynicklist = response.data.replynicklist;
+        console.log(state.replylist)
+
+        for(i = 0; i < state.replylist.length; i++){
+          state.reply1.reupdate.push(false);
+          state.reply1.clickReply.push(false);
+        }
+        // state.page = response.data.result.page;
+
+        // for(let i=0; i<0; i++){
+        //   state.replylist[i] = state.
+        // }
+
+        // state.items = response.data.result;
+        // console.log(state.items);
+        // state.reply = response.data.result;
+      }
+
+      // handledata가 출력되고 나서 날짜
+      for(var i = 0; i<state.replylist.length; i++){
+        date1(i);
+      }
+    }
+
+    // 댓글 등록하기
+    const handleReplyInsert = async() => {
+      const url     = `/ROOT/api/creply/qna_insert`;
+      const headers = { "Content-Type":"application/json", "token": state.token };
+      const body    = {
+        mid           : state.mid,
+        board1        : { qno: state.qno },
+        recontent     : state.reply1.recontent,
+        reparentnumber: state.reply1.reparentnumber,
+        reprivate     : state.reply1.reprivate,
+      };
+      const response = await axios.post(url, body,{headers});
+      console.log(response.data);
+
+      if(response.data.status === 200){
+        alert('댓글 등록 완료');
+        // await handleData(state.bno);
+        await handleReplyView(state.qno);
+        state.reply1.recontent = "";
+
+        // await handleReplyView(state.bno);
+        // this.router.go(this.router.currentRoute);
+
+        // this.router.push(this.router.currentRoute);
+        // state.items = response.data.result;
+        // console.log(state.items);
+      }
+    }
+
+     // 답댓글 버튼 클릭
+    const clickReply = (idx) => {
+      if(state.reply1.clickReply[idx] == false) {
+        state.reply1.clickReply[idx] = true;
+      } 
+      else if(state.reply1.clickReply[idx] == true){
+        state.reply1.clickReply[idx] = false;
+      }
+    }
+
+     // 답댓글 등록 
+    const handleReplyAdd = async(no, idx) => {
+      const url     = `/ROOT/api/creply/qna_insert`;
+      const headers = { "Content-Type": "application/json", "token" : state.token };
+      const body = {
+        mid : state.mid,
+        board1        : { bno :state.qno },
+        recontent     : state.reply1.rerecontent,
+        reparentnumber: no,
+        reprivate     : state.reply1.reprivate,
+      };
+      const response = await axios.post(url, body,{headers});
+      console.log(response.data);
+      if(response.data.status === 200){
+        alert('댓글 등록 완료');
+      
+        await handleData(state.qno);
+        await handleReplyView(state.qno);
+        state.reply1.rerecontent     = "";
+        state.reply1.clickReply[idx] = false;
+      }
+    }
+
+    // 댓글 수정 버튼 (태그)
+    const handleReplyUpdate = async(idx) => {
+      console.log(state.reply1.reupdate[idx]);
+      if(state.reply1.reupdate[idx] == false) {
+        state.reply1.reupdate[idx] = true;
+      }
+      else if(state.reply1.reupdate[idx] == true) {
+        state.reply1.reupdate[idx] = false;
+      }
+
+    }
+
+    // 댓글 삭제
+    const handleReplyDelete = async(no) => {
+      if(confirm('삭제하시겠습니까?')){
+        const url      = `/ROOT/api/creply/board_delete?renumber=${no}`;
+        const headers  = { "Content-Type": "application/json", "token": state.token };
+        const response = await axios.delete(url, { headers: headers, data: {} });
+        console.log(response.data);
+
+        if(response.data.status === 200){
+            alert('삭제되었습니다.');
+            handleReplyView();
+            router.push({ name: "BoardContentVue", query: { bno: state.bno } })
+        }
+      }
+    }
+
+
+    return { 
+      state, 
+      date1, 
+      date, 
+    
+     
+      handleDelete, 
+      handleReplyInsert, 
+      handleReplyAdd, 
+      // handlePage, 
+      handleReplyUpdate, 
+      handleReplyDelete,
+      // handleReUpdate, 
+      clickReply,
+     }
   }
 }
 </script>

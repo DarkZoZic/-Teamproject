@@ -37,5 +37,10 @@ public interface QnaRepository extends JpaRepository<Qna, Long> {
     // 일괄삭제
     @Transactional
     int deleteByMember_midAndQnoIn(String mid, Long[] qno);
+
+    // 1개 삭제
+    @Transactional
+    int deleteByMember_midAndQno(String mid, Long qno);
+    
     
 }
