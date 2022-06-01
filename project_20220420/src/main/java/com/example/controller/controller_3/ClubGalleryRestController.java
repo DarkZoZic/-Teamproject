@@ -26,14 +26,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.entity.entity1.CGMemView;
 import com.example.entity.entity1.ClubGallery;
 import com.example.entity.entity1.GImage;
 import com.example.entity.entity1.Member;
 import com.example.entity.entity1.MemberPersonal;
 import com.example.entity.entity2.CReply;
+import com.example.entity.entity2.CReplyMemberView;
 import com.example.entity.entity2.Club;
 import com.example.entity.entity2.ClubBoard;
 import com.example.jwt.JwtUtil;
+import com.example.repository.repository_3.CGMemViewRepository;
+import com.example.repository.repository_3.CReplyMemberViewRepository;
 import com.example.repository.repository_3.CReplyRepository;
 import com.example.repository.repository_3.ClubGalleryImageRepository;
 import com.example.repository.repository_3.ClubGalleryRepository;
@@ -53,6 +57,12 @@ public class ClubGalleryRestController {
 	
 	@Autowired
 	PersonalMemberRepository pmRep;
+	
+	@Autowired
+	CGMemViewRepository cgmvRep;
+	
+	@Autowired
+	CReplyMemberViewRepository crmvRep;
 	
 	@Autowired
 	ResourceLoader resLoader;
@@ -176,8 +186,8 @@ public class ClubGalleryRestController {
 //				System.out.println("pages : " + (total-1) / 10 + 1);
 				model.addAttribute("pages", (total-1) / 9 + 1);	
 				
-				List<MemberPersonal> mplist = new ArrayList<>(); // 닉네임 리스트
-				for(int i=0; i<list.toArray().length; i++) //list 내 모든 갤러리에 각각의 썸네일 주소를 부여 
+				List<CGMemView> mlist = new ArrayList<>(); // 닉네임 리스트
+				for(int i=0; i<list.size(); i++) //list 내 모든 갤러리에 각각의 썸네일 주소를 부여 
 				{
 					ClubGallery cg = list.get(i);
 					
@@ -185,13 +195,13 @@ public class ClubGalleryRestController {
 					
 					clubGallery.setGimageurl("/ROOT/clubgallery/image?cgno=" + cg.getCgno() + "&idx=0");
 					
-					Member member = list.get(i).getMember();
-					MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
-					mplist.add(mp);
+					CGMemView cgmv = cgmvRep.findById(cg.getCgno()).orElse(null);
+					
+					mlist.add(cgmv);
 				}
 				
 				model.addAttribute("list", list);
-				model.addAttribute("mplist", mplist);
+				model.addAttribute("mplist", mlist);
 				
 				map.put("status", 200);
 				map.put("result", model);
@@ -226,24 +236,25 @@ public class ClubGalleryRestController {
 				ClubGallery clubGallery = cgRep.findByCgnoAndClub_cno(cgno, cno);
 				long imagecount = cgiRep.countByClubgallery_cgno(cgno); // idx값
 				clubGallery.setGimageurl("/ROOT/clubgallery/image?cgno=" + cgno); // 이미지 url 보내기(idx값은 프론트에서 반복문으로 입력)
+				CGMemView cgmv = cgmvRep.findById(cgno).orElse(null);
 				
 				// 댓글 목록 저장할 배열 변수
 				List<CReply> replylist = crRep.findByClubgallery_cgnoOrderByRenumberDesc(cgno);
 				
-				List<MemberPersonal> mplist = new ArrayList<>(); // 댓글 작성자 닉네임 리스트
-				for(int i=0; i<replylist.toArray().length; i++)
+				List<CReplyMemberView> mlist = new ArrayList<>(); // 댓글 작성자 닉네임 리스트
+				for(int i=0; i<replylist.size(); i++)
 				{
-					Member member = replylist.get(i).getMember();
-					MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
-					mplist.add(mp);
+					CReplyMemberView crmv = crmvRep.findByRenumber(replylist.get(i).getRenumber());
+					mlist.add(crmv);
 				}
 				
 				System.out.println(cno);
 				
-				model.addAttribute("clubgallery", clubGallery); //글상세내용(이미지 url 포함)		
+				model.addAttribute("clubgallery", clubGallery); //글상세내용(이미지 url 포함)	
+				model.addAttribute("nick", cgmv); // 글 작성자 닉네임
 				model.addAttribute("replylist", replylist); // 댓글
 				model.addAttribute("imagecount", imagecount); // 이미지 개수(idx)
-				model.addAttribute("replynicklist", mplist); // 댓글작성자 닉네임 목록
+				model.addAttribute("replynicklist", mlist); // 댓글작성자 닉네임 목록
 				
 				map.put("status", 200);
 				map.put("result", model);

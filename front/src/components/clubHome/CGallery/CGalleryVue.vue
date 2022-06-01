@@ -53,7 +53,8 @@
 
                 <v-row dense>
                   <v-col style="padding-left: 10px;">
-                    <h5 style="color: gray">{{state.nicklist[idx].mpnickname}}</h5>
+                    <td v-if="state.nicklist[idx].mcname === null">{{ state.nicklist[idx].mpnickname}}</td>
+                    <td v-if="state.nicklist[idx].mpnickname === null">{{ state.nicklist[idx].mcname}}</td>
                   </v-col>
 
                   <v-col sm="6" class="col_right">
@@ -124,7 +125,7 @@ export default {
           state.pages = response.data.result.pages;
           state.gallery = response.data.result.list;
           state.nicklist.splice(0); // state.nicklist 초기화 //페이지 이동 시 닉네임 목록 갱신
-          state.nicklist = response.data.result.mplist;
+          state.nicklist = response.data.result.mlist;
 
           for(var i = 0; i < state.gallery.length; i++) {
             date(i);
@@ -157,7 +158,10 @@ export default {
         if(response.data.status === 200) {
           state.gallery = response.data.result.list;
           state.nicklist.splice(0); // state.nicklist 초기화 //페이지 이동 시 닉네임 목록 갱신
-          state.nicklist = response.data.result.mplist;
+          state.nicklist = response.data.result.mlist;
+          for(var i = 0; i < state.gallery.length; i++) {
+            date(i);
+          }
         }
       }else if(response.data.status === 0) {
         alert("로그인이 필요한 페이지입니다.");
@@ -183,7 +187,10 @@ export default {
             state.gallery = response.data.result.list;
             state.pages = response.data.result.pages;
             state.nicklist.splice(0); // state.nicklist 초기화 //페이지 이동 시 닉네임 목록 갱신
-            state.nicklist = response.data.result.mplist;
+            state.nicklist = response.data.result.mlist;
+            for(var i = 0; i < state.gallery.length; i++) {
+              date(i);
+            }
           }
         }else{
           router.push({name:'LoginVue'});

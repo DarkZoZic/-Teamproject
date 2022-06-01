@@ -225,7 +225,7 @@ public class ClubBoardRestController {
 				
 				if(option.equals("제목"))
 				{
-					//검색어 포함, 1페이지 20글, 글번호 내림차순
+					//검색어 포함, 1페이지 10글, 글번호 내림차순
 					list.addAll(cbRep.findByCbtitleContainingAndClub_cnoOrderByCbnoDesc(text, cno, pageRequest));
 					//페이지 구현용 글 개수
 					long total = cbRep.countByCbtitleContainingAndClub_cno(text, cno);
