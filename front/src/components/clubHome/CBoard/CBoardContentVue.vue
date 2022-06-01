@@ -112,14 +112,12 @@
                       <v-row dense>
                         <v-col style="display: flex">
                           <img :src="require('../../../assets/img/reply.png')" style="margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
-                          
                           <v-row dense>
                             <v-col class="col_left">
                               <h5 style="padding-right: 10px;">{{state.rereply.rewriter}}</h5> 
                               <h5 style="color: #676767;">{{state.rereply.reregdate}}</h5>
                               <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
                               <h5 style="color: #676767;">{{state.like}}</h5>
-
                               <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
                             </v-col>
                           </v-row>
@@ -136,11 +134,8 @@
 
                   <v-col class="col_right" v-if="state.tokenid === tmp.member.mid">
                     <div v-if="!state.replyupdate.update[idx]">
-                      
                       <h5 @click="handleReplyUpdate(idx)" style="padding-right: 10px; cursor: pointer;">수정</h5>
-                    
                       <h5 @click="handleReplyDelete(tmp.renumber)" style="cursor: pointer; display: inline-block;" >삭제</h5>
-                     
                     </div>
                     
                     <div v-if="state.replyupdate.update[idx]">
@@ -173,15 +168,12 @@
               </router-link>
             </v-col>
 
-            
-
             <v-col class="col_right">
               <router-link :to="{ name: 'CBoardWriteVue', query: { cno: state.cno } }">
                 <v-btn class="col_center"><img :src="require('../../../assets/img/pencil.png')" style="width: 20px; margin-right: 3px;"/><h4>글쓰기</h4></v-btn>
               </router-link>
             </v-col>
           </v-row>
-
           <v-btn @click="prevnext(1)" v-if="state.prev !== 0"><h4>이전글</h4></v-btn>
           <v-btn @click="prevnext(2)" v-if="state.next !== 0"><h4>다음글</h4></v-btn>
         </v-col>
@@ -205,7 +197,7 @@ export default {
   components: { CHHeaderVue, FooterVue },
   
   setup () {
-    const route = useRoute();
+    const route  = useRoute();
     const router = useRouter(); 
 
     const state = reactive({
@@ -325,9 +317,9 @@ export default {
     }
 
     const handleDelete = async() => {
-      const url     = `/ROOT/api/clubboard/delete`;
-      const headers = { "Content-Type" :"application/json", token: state.token };
-      const body    = { cbno: state.cbno };
+      const url      = `/ROOT/api/clubboard/delete`;
+      const headers  = { "Content-Type" :"application/json", token: state.token };
+      const body     = { cbno: state.cbno };
       const response = await axios.post(url, body, {headers});
       console.log(response.data);
 
@@ -377,22 +369,20 @@ export default {
       const headers = {"Content-Type":"application/json", "token" : state.token};
       const body    = 
       {
-        cbno : tmp,
-        renumber : state.reply[idx].renumber,
+        cbno      : tmp,
+        renumber  : state.reply[idx].renumber,
         recontent : state.reply[idx].recontent
       };
       const response = await axios.put(url, body, {headers});
       console.log(response.data);
 
-      if(response.data.status === 200)
-      {
+      if(response.data.status === 200) {
         state.replyupdate.update[idx] = false;
         content();
       }
     }
 
-    onMounted(async() =>
-    {
+    onMounted(async() => {
       await content();
       // nick();
     });

@@ -9,7 +9,7 @@
                 <v-col sm="8">
                     <v-row dense="" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="6">
-                            <h5><router-link :to="{name : 'CHomeVue', query : {cno : state.cno}}">클럽홈</router-link> > {{state.boardname}}</h5>
+                            <h5><router-link :to="{ name: 'CHomeVue', query: { cno: state.cno } }">클럽홈</router-link> > {{state.boardname}}</h5>
                         </v-col>                                
                     </v-row>
 
@@ -42,10 +42,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr
-                                        v-for="item in state.notice"
-                                        :key="item.cbno"
-                                    >
+                                    <tr v-for="item in state.notice" :key="item.cbno">
                                         <td style="background-color: gold;"><h4>{{ item.no }}</h4></td>
                                         <td style="background-color: gold;"><router-link to="/cbcontent">{{ item.title }}</router-link></td>
                                         <td style="background-color: gold;">{{ item.writer }}</td>
@@ -70,6 +67,7 @@
                         </v-col>
                     </v-row>
                 </v-col>
+
                 <v-col sm="2"></v-col>
             </v-row>
 
@@ -82,7 +80,6 @@
                     ></v-pagination>
                 </v-col>
             </v-row>
-                    
         </v-main>
     </v-app>
 <FooterVue></FooterVue>
@@ -102,7 +99,7 @@ export default {
   components: { CHHeaderVue, FooterVue },
     setup () {
         const router = useRouter();
-        const route = useRoute();
+        const route  = useRoute();
 
         const state = reactive({
             board    : [],           
@@ -114,6 +111,14 @@ export default {
             page     : 1,   // 현재 페이지
             pages    : 1, // 총 페이지 수
             boardname: '클럽게시판',
+            search   : '',
+            page     : 1,   // 현재 페이지
+            pages    : 1, // 총 페이지 수
+            boardname: '클럽게시판',
+            option   : '전체',
+            cno      : route.query.cno,
+            token    : sessionStorage.getItem("TOKEN"),
+            nicklist : [],
 
             items: [
                 '전체', '제목', '내용', '글쓴이'
@@ -137,29 +142,24 @@ export default {
                 like  : 5
               },
             ],
-            search: '',
-            page: 1,   // 현재 페이지
-            pages : 1, // 총 페이지 수
-            boardname: '클럽게시판',
+
             items: [
                 '전체', '제목', '내용', '글쓴이'
             ],
-            option : '전체',
-            cno : route.query.cno,
-            token : sessionStorage.getItem("TOKEN"),
-            nicklist : []
+
+
         })
 
         const content = async() => {
             if(state.token !== null) {
-                const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&cno=${state.cno}`;
-                const headers = {"Content-Type":"application/json", "token" : state.token};
-                const response = await axios.get(url, {headers});
+                const url      = `/ROOT/api/clubboard/selectlist?page=${state.page}&cno=${state.cno}`;
+                const headers  = { "Content-Type": "application/json", token: state.token };
+                const response = await axios.get(url, { headers });
                 console.log(response.data);
 
                 if(response.data.status === 200) {
-                    state.board = response.data.result.list;
-                    state.pages = response.data.result.pages;
+                    state.board    = response.data.result.list;
+                    state.pages    = response.data.result.pages;
                     state.nicklist = response.data.result.mlist;
 
                     for(var i = 0; i < state.board.length; i++) {
@@ -167,23 +167,24 @@ export default {
                     }
                 }
             }
+
             else if(response.data.status === 0) {
                 alert("로그인이 필요한 페이지입니다.");
-                router.push({name:'LoginVue'});
+                router.push({ name: 'LoginVue' });
             }else{
                 alert('비정상적인 접근입니다.');
-                router.push({name:'HomeVue'});
+                router.push({ name: 'HomeVue' });
             }
         }   
 
         const handlePage = async(idx, option, search) => {
             if(state.token !== null) {
-                const url = `/ROOT/api/clubboard/selectlist?page=${idx}&text=${search}&option=${option}&cno=${state.cno}`;
-                const headers = {"Content-Type":"application/json", "token" : state.token};
-                const response = await axios.get(url, {headers});
+                const url      = `/ROOT/api/clubboard/selectlist?page=${idx}&text=${search}&option=${option}&cno=${state.cno}`;
+                const headers  = { "Content-Type": "application/json", token: state.token };
+                const response = await axios.get(url, { headers });
                 // console.log(response.data);
                 if(response.data.status === 200) {
-                    state.board = response.data.result.list;
+                    state.board    = response.data.result.list;
                     state.nicklist.splice(0); // state.nicklist 초기화 //페이지 이동 시 닉네임 목록 갱신
                     state.nicklist = response.data.result.mplist;
                 }
@@ -191,18 +192,18 @@ export default {
             else if(response.data.status === 0)
             {
                 alert("로그인이 필요한 페이지입니다.");
-                router.push({name:'LoginVue'});
+                router.push({ name: 'LoginVue' });
             }
             else
             {
                 alert('비정상적인 접근입니다.');
-                router.push({name:'HomeVue'});
+                router.push({ name: 'HomeVue' });
             }
         }
 
         const selectContent = (cbno) => {
             console.log(state.cno);
-            router.push({name:"CBoardContentVue", query:{cbno:cbno, cno:state.cno}});
+            router.push({ name: "CBoardContentVue", query: { cbno: cbno, cno: state.cno } });
         }
 
         const date = (i) => {
@@ -212,24 +213,23 @@ export default {
 
         const search = async() => {
             if(state.token !== null) {
-                const url = `/ROOT/api/clubboard/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
-                const headers = {"Content-Type":"application/json", "token" : state.token};
-                const response = await axios.get(url, {headers});
+                const url      = `/ROOT/api/clubboard/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
+                const headers  = { "Content-Type": "application/json", token: state.token };
+                const response = await axios.get(url, { headers });
                 // console.log(response.data);
                 if(response.data.status === 200) {
-                    state.board = response.data.result.list;
-                    state.pages = response.data.result.pages;
+                    state.board    = response.data.result.list;
+                    state.pages    = response.data.result.pages;
                     state.nicklist.splice(0); // state.nicklist 초기화 //검색 및 페이지 이동 시 닉네임 목록 갱신
                     state.nicklist = response.data.result.mplist;
                 }
-            }else{
-                router.push({name:'LoginVue'});
+            }else {
+                router.push({ name: 'LoginVue' });
             }
         }
 
-        const handleWrite = () =>
-        {
-            router.push({name:'CBoardWriteVue', query:{cno : state.cno}});
+        const handleWrite = () => {
+            router.push({ name: 'CBoardWriteVue', query: { cno: state.cno } });
         }
 
         onMounted(() => {
