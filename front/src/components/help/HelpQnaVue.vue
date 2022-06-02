@@ -59,7 +59,8 @@
                   <tr v-for="(item, idx) in state.board" :key="item" >
                     <td>{{ item.qno }}</td>
                     <td style="cursor: pointer;" @click="handlePage(item.qno)" >{{ item.qtitle }}</td>
-                    <td>{{ state.nicklist[idx].mpnickname }}</td>
+                    <td v-if="state.nicklist[idx].mpnickname !== null">{{ state.nicklist[idx].mpnickname }}</td>
+                    <td v-if="state.nicklist[idx].mcname !== null">{{ state.nicklist[idx].mcname }}</td>
                     <td>{{ item.qregdate1 }}</td>
                     <td>{{ item.qhit }}</td>
                   </tr>
@@ -158,7 +159,8 @@ export default {
 
       if(response.data.status === 200){
         state.board = response.data.result;
-        state.nicklist = response.data.nicklist;
+        state.nicklist.splice(0);
+        state.nicklist = response.data.mlist;
         for(var i = 0; i<state.items.length; i++) {
                   date(i);
         }
@@ -176,6 +178,17 @@ export default {
     }
 
     const search = async() => {
+      // const url      = `/ROOT/api/qna/search?qtitle=${state.text}&page=${state.page}`
+      // const headers  = { "Content-Type": "application/json" };
+      // const response = await axios.get(url, { headers });
+      // console.log('search =>', response.data);
+
+      // if(response.data.status === 200){
+      //     state.items = response.data.result;
+      //     state.nicklist.splice(0);
+      //     state.nicklist = response.data.mlist;
+      //     console.log(response.data.result.length);
+      // }
 
     }
 

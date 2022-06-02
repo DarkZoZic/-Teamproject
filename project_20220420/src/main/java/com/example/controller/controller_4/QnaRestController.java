@@ -12,9 +12,11 @@ import com.example.entity.entity1.MemberPersonal;
 import com.example.entity.entity1.QImage;
 import com.example.entity.entity1.Qna;
 import com.example.entity.entity2.Qckeditor;
+import com.example.entity.entity2.QnaMemberView;
 import com.example.jwt.JwtUtil;
 import com.example.repository.repository_3.PersonalMemberRepository;
 import com.example.repository.repository_4.QckeditorRepository;
+import com.example.repository.repository_4.QnaMemberViewRepository;
 import com.example.repository.repository_4.QnaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,9 @@ public class QnaRestController {
     
     @Autowired
     PersonalMemberRepository pmRep;
+
+    @Autowired
+    QnaMemberViewRepository qmvRep;
     
     @Autowired 
     JwtUtil jwtUtil;
@@ -205,9 +210,13 @@ public class QnaRestController {
         try{
             if(token != null){
                 Qna qna = qRepository.findById(qno).orElse(null);
+
+                QnaMemberView qmv = qmvRep.findById(qno).orElse(null);
+
                 if(qna != null){
                     map.put("status", 200); // 성공 
                     map.put("result", qna);
+                    map.put("nick", qmv);
                 }
             }
                
@@ -232,19 +241,24 @@ public class QnaRestController {
             PageRequest pageRequest = PageRequest.of(page-1, PAGECNT);
             long total = qRepository.count();
             List<Qna> qList = qRepository.findAllByOrderByQnoDesc(pageRequest);
-            List<MemberPersonal> mplist = new ArrayList<>(); // 닉네임 리스트
+            // List<MemberPersonal> mplist = new ArrayList<>(); // 닉네임 리스트
+            List<QnaMemberView> qmvlist = new ArrayList<>();
             for(int i=0; i<qList.toArray().length; i++)
             {
-            	Member member = qList.get(i).getMember();
-            	MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
-            	mplist.add(mp);
+            	// Member member = qList.get(i).getMember();
+            	// MemberPersonal mp = pmRep.findByMember_mid(member.getMid());
+            	// mplist.add(mp);
+
+                QnaMemberView qmv = qmvRep.findById(qList.get(i).getQno()).orElse(null);
+                System.out.println(qmv);
+                qmvlist.add(qmv);
             }
             
             // System.out.println(qList);
             map.put("status", 200); // 성공
             map.put("result", qList);
             map.put("result1", total);
-            map.put("nicklist", mplist);
+            map.put("mlist", qmvlist);
 
         }
         catch(Exception e){

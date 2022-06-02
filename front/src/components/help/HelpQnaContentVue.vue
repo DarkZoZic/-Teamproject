@@ -24,7 +24,7 @@
           <v-row dense style="padding-bottom: 10px; border-bottom: 1px solid #CCC;">
             <v-col sm="6" style="padding-left: 25px; ">
               <!-- 닉네임 -->
-              <!-- <h4 style="color: #787878">{{state.nick.mpnickname}}</h4> -->
+              <h4 style="color: #787878">{{state.nick.mpnickname}}</h4>
             </v-col>
 
             <v-col sm="6" class="col_right" style="padding-right: 25px;">
@@ -37,8 +37,8 @@
                 <!-- {{state.nick.mcname}} &nbsp; | &nbsp; 
                 조회 {{state.items.qhit}} &nbsp; | &nbsp; 
                 <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.rno}}
-                &nbsp; | &nbsp; {{state.qregdate1}}
-              </h5> -->
+                &nbsp; | &nbsp; {{state.qregdate1}} -->
+              <!-- </h5> -->
             </v-col>
           </v-row>
 
