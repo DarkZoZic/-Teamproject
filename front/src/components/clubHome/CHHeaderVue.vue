@@ -25,7 +25,7 @@
                                 </v-col>
                                 
                                 <v-col sm="2" class="col_center" style="padding-right: 20px;">
-                                    <img :src="state.logo" style="width: 100%; cursor: pointer;" @click="Home()" v-if="state.logo !== null"/>
+                                    <img :src="state.logo" style="cursor: pointer; height: 70px;" @click="Home()" v-if="state.logo !== null"/>
                                 </v-col>
                             </v-row>
                         </v-card>

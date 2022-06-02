@@ -80,7 +80,20 @@
                                 </v-card>
                             </router-link>
                             
-                            <router-link to="/activity"><v-btn style="margin: 10px;"><h3>내활동</h3></v-btn></router-link>
+                            <router-link to="/activity">
+                                <v-card style="width: 170px; height: 170px; padding: 30px;">
+                                    <v-row dense>
+                                        <v-col class="col_center">
+                                            <img :src="require(`../../assets/img/act.png`)" style="width: 80px"/>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row dense>
+                                        <v-col class="col_center">
+                                            <h3>내활동</h3>
+                                        </v-col>
+                                    </v-row>
+                                </v-card>
+                            </router-link>
                             <router-link to="/dontgo">
                                 <v-card style="width: 170px; height: 170px; padding: 30px;">
                                     <v-row dense>
