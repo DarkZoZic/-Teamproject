@@ -322,7 +322,7 @@ try {
         Map<String, Object> map = new HashMap<>();
     try {
         System.out.println(renumber);
-        List<Reaction> reaction = rRepository.findByReaction_B_no(bno);
+        List<Reaction> reaction = rRepository.findByCreply_Renumber(renumber);
         System.out.println(reaction.size());
 
         
