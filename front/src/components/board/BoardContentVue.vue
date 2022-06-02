@@ -121,7 +121,7 @@
 
                   <!-- 닉네임, 날짜 -->
                   <v-row dense>
-                    <div v-if="tmp.reparentnumber !== 0" >
+                    <div v-if="tmp.reparentnumber !== tmp.renumber" >
                       <img :src="require('../../assets/img/reply.png')" style="margin-top: 5px; margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
                     </div>
                     <v-col class="col_left">                      
@@ -461,7 +461,6 @@ export default {
         mid           : state.mid,
         board1        : { bno: state.bno },
         recontent     : state.reply1.recontent,
-        reparentnumber: state.reply1.reparentnumber,
         reprivate     : state.reply1.reprivate,
       };
       const response = await axios.post(url, body,{headers});

@@ -95,7 +95,7 @@
 
                    <!-- 닉네임, 날짜 -->
                   <v-row dense>
-                    <div v-if="tmp.reparentnumber !== 0" >
+                    <div v-if="tmp.reparentnumber !== tmp.renumber" >
                       <img :src="require('../../assets/img/reply.png')" style="margin-top: 5px; margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
                     </div>
                     <v-col class="col_left">                      
@@ -243,7 +243,7 @@
                 </v-col>
                 
                 <v-col sm="1" style="padding: 10px;" class="col_center">
-                  <v-btn style="width: 100%; height:69px; border: 1px solid #CCC;"  @click="handleReplyInsert"><h4>댓글작성</h4></v-btn>
+                  <v-btn style="width: 100%; height:69px; border: 1px solid #CCC;"  @click="handleReplyInsert()"><h4>댓글작성</h4></v-btn>
                 </v-col>
               </v-row>
             </v-col>
@@ -360,7 +360,7 @@ export default {
     // 글삭제
      const handleDelete = async() => {
       if(confirm('삭제하시겠습니까?')){
-        const url      = `/ROOT/api/qna/delete1?bno=${state.qno}`;
+        const url      = `/ROOT/api/qna/delete?qno=${state.qno}`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.delete(url, { headers: headers, data: {} });
         console.log(response.data);
@@ -370,6 +370,12 @@ export default {
           router.push({ name: "HelpQnaVue" })
         }
       }    
+    }
+
+    const handleUpdate = async() => {
+      if (confirm('수정하시겠습니까?')) {
+        router.push({ name: "HelpQnaUpdateVue", query: { qno: state.qno } })
+      }
     }
 
     // 댓글조회
@@ -411,9 +417,9 @@ export default {
       const headers = { "Content-Type":"application/json", "token": state.token };
       const body    = {
         mid           : state.mid,
-        board1        : { qno: state.qno },
+        qna        : { qno: state.qno },
         recontent     : state.reply1.recontent,
-        reparentnumber: state.reply1.reparentnumber,
+        // reparentnumber: 0,
         reprivate     : state.reply1.reprivate,
       };
       const response = await axios.post(url, body,{headers});
@@ -450,7 +456,7 @@ export default {
       const headers = { "Content-Type": "application/json", "token" : state.token };
       const body = {
         mid : state.mid,
-        board1        : { bno :state.qno },
+        qno        : { qno :state.qno },
         recontent     : state.reply1.rerecontent,
         reparentnumber: no,
         reprivate     : state.reply1.reprivate,
@@ -503,6 +509,7 @@ export default {
     
      
       handleDelete, 
+      handleUpdate,
       handleReplyInsert, 
       handleReplyAdd, 
       // handlePage, 

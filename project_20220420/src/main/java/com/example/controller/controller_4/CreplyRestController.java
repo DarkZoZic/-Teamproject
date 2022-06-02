@@ -87,8 +87,9 @@ public class CreplyRestController {
                 cReply.setBoard1(board1Entity);
                 cReply.setRecontent(cReply.getRecontent());
                 cReply.setReprivate(cReply.getReprivate());
-                cReply.setReparentnumber(cReply.getReparentnumber());
 
+                cRepository.save(cReply);
+                cReply.setReparentnumber(cReply.getRenumber());
                 cRepository.save(cReply);
                 map.put("status", 200); // 성공
             }
@@ -191,7 +192,8 @@ public class CreplyRestController {
         try{
             if(token != null){
 
-                List<CReply> cReply = cRepository.findByBoard1_bnoOrderByRenumberAsc(bno);
+                // List<CReply> cReply = cRepository.findByBoard1_bnoOrderByRenumberAsc(bno);
+                List<CReply> cReply = cRepository.findByBoard1_bnoOrderByReparentnumberAscRenumberAsc(bno);
                 
                 List<CReplyMemberView> mlist = new ArrayList<>(); // 댓글 작성자 닉네임 리스트
 				for(int i=0; i<cReply.size(); i++)
@@ -248,8 +250,9 @@ public class CreplyRestController {
                 cReply.setQna(qnaEntity);
                 cReply.setRecontent(cReply.getRecontent());
                 cReply.setReprivate(cReply.getReprivate());
-                // cReply.setReparentnumber(cReply.getReparentnumber());
 
+                cRepository.save(cReply);
+                cReply.setReparentnumber(cReply.getRenumber());
                 cRepository.save(cReply);
                 map.put("status", 200); // 성공
             }
@@ -362,9 +365,23 @@ public class CreplyRestController {
         try{
             if(token != null){
 
-                List<CReply> cReply = cRepository.findByQna_qnoOrderByRenumberAsc(qno);
+                // List<CReply> cReply = cRepository.findByQna_qnoOrderByRenumberAsc(qno);
+                // List<CReply> cReply = cRepository.findByQna_qnoOrderByReparentnumberAsc(qno);
+                List<CReply> cReply = cRepository.findByQna_qnoOrderByReparentnumberAscRenumberAsc(qno);
+                
+                List<CReplyMemberView> mlist = new ArrayList<>(); // 댓글 작성자 닉네임 리스트
+				for(int i=0; i<cReply.size(); i++)
+				{
+					CReplyMemberView mp = crmvRep.findByRenumber(cReply.get(i).getRenumber());
+					mlist.add(mp);
+				}
+				System.out.println(mlist);
+                long total = cRepository.countByQna_qno(qno);             
+                
                 map.put("result",cReply);
+                map.put("replynicklist", mlist);
                 map.put("status",200);
+                map.put("total",total);
 
             }
 
