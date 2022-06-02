@@ -77,7 +77,7 @@
                             <v-col sm="2"></v-col>
 
                             <v-col style="padding-bottom: 20px; border-bottom: 1px solid #CCC;">
-                                <v-btn @click="submit" style="width:100%; height:80px; background-color: #ffcc00;">
+                                <v-btn @click="notyet()" style="width:100%; height:80px; background-color: #ffcc00;">
                                     <h2>아이디찾기</h2>
                                 </v-btn>
                             </v-col>
@@ -162,7 +162,7 @@
                             <v-col sm="2"></v-col>
 
                             <v-col>
-                                <v-btn @click="submit" style="width:100%; height:80px; background-color: #5d00ff;">
+                                <v-btn @click="notyet()" style="width:100%; height:80px; background-color: #5d00ff;">
                                     <h2 style="color: white">아이디찾기</h2>
                                 </v-btn>
                             </v-col>
@@ -203,7 +203,11 @@ export default {
             valid  : '',
         })
 
-        return { state }
+        const notyet = () => {
+            alert('준비중입니다');
+        }
+
+        return { state, notyet }
     },
 }
 </script>

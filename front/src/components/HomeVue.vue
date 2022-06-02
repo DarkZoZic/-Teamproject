@@ -31,7 +31,7 @@
 
                                                 <v-col sm="2" class="col_right">
                                                     <router-link to="/hqna" class="col_right">
-                                                        <v-icon style="margin-top: -5px;" icon="smi-arrow-right-bold" />
+                                                        <v-icon style="margin-top: -5px;" icon="mdi-arrow-right-bold" />
                                                     </router-link>
                                                 </v-col>
                                             </v-row>

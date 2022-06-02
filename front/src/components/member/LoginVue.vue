@@ -77,17 +77,17 @@
                         <v-row dense style="padding: 10px;">
                             <v-col sm="4" class="col_center">
                                 <h4>아이디 저장</h4>
-                                <input type="checkbox" v-model="state.saveId" @change="saveId()" style="margin-left:10px; width: 20px; height: 20px;">
+                                <input type="checkbox" v-model="state.saveId" @change="notyet()" style="margin-left:10px; width: 20px; height: 20px;">
                             </v-col>
 
                             <v-col sm="4" class="col_center">
                                 <h4>비밀번호 저장</h4>
-                                <input type="checkbox" style="margin-left:10px; width: 20px; height: 20px;">
+                                <input type="checkbox" style="margin-left:10px; width: 20px; height: 20px;" @change="notyet()">
                             </v-col>
 
                             <v-col sm="4" class="col_center">
                                 <h4>자동로그인</h4>
-                                <input type="checkbox" style="margin-left:10px; width: 20px; height: 20px;">
+                                <input type="checkbox" style="margin-left:10px; width: 20px; height: 20px;" @change="notyet()">
                             </v-col>
                         </v-row>
                         <v-row dense>
@@ -150,6 +150,7 @@ import { onMounted } from '@vue/runtime-core';
 
 export default {
     components: { HeaderVue, FooterVue },
+
     setup () {
         const router = useRouter();
 
@@ -186,6 +187,9 @@ export default {
             }
         }
 
+        const notyet = () => {
+            alert('준비중입니다');
+        }
         // const saveId = async() => {
         //     state.email = this.$cookies.get("emailCookie");
         //     if(state.saveId) {
@@ -195,46 +199,45 @@ export default {
         // }
 
         const loginWithKakao = () => {
+            window.Kakao.init('afa488b2271f080fe570472f12288216');
+            // Kakao Developers에서 요약 정보 -> JavaScript 키
 
-      window.Kakao.init('afa488b2271f080fe570472f12288216');
-// Kakao Developers에서 요약 정보 -> JavaScript 키
-
-      if (window.Kakao.Auth.getAccessToken()) {
-        window.Kakao.API.request({
-          url: '/v1/user/unlink',
-          success: function (response) {
-            console.log(response)
-          },
-          fail: function (error) {
-            console.log(error)
-          },
-        })
-        window.Kakao.Auth.setAccessToken(undefined)
-      }
+            if (window.Kakao.Auth.getAccessToken()) {
+                window.Kakao.API.request({
+                url: '/v1/user/unlink',
+                success: function (response) {
+                    console.log(response)
+                },
+                fail: function (error) {
+                    console.log(error)
+                },
+                })
+                window.Kakao.Auth.setAccessToken(undefined)
+            }
 
 
-      window.Kakao.Auth.login({
-        success: function () {
-          window.Kakao.API.request({
-            url: '/v2/user/me',
-            data: {
-              property_keys: ["kakao_account.email"]
-            },
-            success: async function (response) {
-              console.log(response);
-            },
-            fail: function (error) {
-              console.log(error)
-            },
-          })
-        },
-        fail: function (error) {
-          console.log(error)
-        },
-      })
-    }
+            window.Kakao.Auth.login({
+                success: function () {
+                    window.Kakao.API.request({
+                        url: '/v2/user/me',
+                        data: {
+                        property_keys: ["kakao_account.email"]
+                        },
+                        success: async function (response) {
+                        console.log(response);
+                        },
+                        fail: function (error) {
+                        console.log(error)
+                        },
+                    })
+                },
+                fail: function (error) {
+                    console.log(error)
+                },
+            })
+        }
 
-        return {state, submit, loginWithKakao}
+        return { state, submit, notyet, loginWithKakao }
     }
 }
 </script>
