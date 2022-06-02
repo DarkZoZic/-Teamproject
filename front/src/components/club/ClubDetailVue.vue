@@ -120,9 +120,7 @@
                             <v-col sm="4" style="height: 100%; border-left: 1px solid #CCC; padding: 10px;">
                                 <v-row dense>
                                     <v-col style="border-bottom: 1px solid #CCC; padding-bottom: 10px;">
-                                        <router-link to="/crequest">
-                                            <v-btn style="width: 100%; height: 120px;"><h2>지원하기</h2></v-btn>
-                                        </router-link>
+                                            <v-btn style="width: 100%; height: 120px;" @click="handleClick(state.items.club.cno)"><h2>지원하기</h2></v-btn>
                                         <h3 style="padding-top: 10px; padding-left: 10px;">모집기간</h3>
                                         <h4 style="padding-left: 15px;">{{state.regdate1}} ~ {{state.enddate1}}</h4>
                                     </v-col>
@@ -287,18 +285,11 @@ export default {
             handleSend();
         }
 
-        // const Cdimage = async() => {
-        //     const url = `/ROOT/clubdetail/selectcno?cno=${state.cdno}`;
-        //     const headers = {"Content-Type":"application/json"};
-        //     const response = await axios.get(url, {headers});
-        //     console.log(response.data);
-        //     if(response.data.status === 200){
-        //         state.items = response.data.result;
-        //     state.addr1 = state.items.club.caddress;
-        //     console.log("====",state.items.club.caddress);
-        //     }
-
-        // }
+        const handleClick = async(cno) => {
+            console.log(cno);
+            router.push({ name: "ClubRequestVue", query: { cno: cno } })
+            console.log(cno);
+        }
         
 
         const handleSend = () => {
@@ -389,7 +380,7 @@ export default {
             router.push({ name: "CHomeVue", query: { cno: state.cno } })
         }
         
-        return { state, changeheart, unlike, chome }
+        return { state, changeheart, unlike, chome,handleClick }
     },
 }
 </script>

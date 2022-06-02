@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="state.items">
 <HeaderVue style="height: 220px;"></HeaderVue>
     <v-app>
         <v-main style="padding: 10px;">
@@ -20,11 +20,11 @@
                                 <v-expansion-panel class="panel">
                                     <v-row dense style="padding:10px;">
                                         <v-col sm="2" style="justify-content: right; display: flex; align-items: center;">
-                                            클럽:
+                                            신청 클럽명 :
                                         </v-col>
 
                                         <v-col sm="8" style="justify-content: left; display: flex; align-items: center;">
-                                            {{state.clubname}}
+                                            {{state.items.club.cname}}
                                         </v-col>
 
                                         <v-col sm="2"></v-col>
@@ -35,22 +35,37 @@
                                 <v-expansion-panel class="panel">
                                     <v-row dense style="padding: 10px;">
                                         <v-col sm="2" style="justify-content: right; display: flex; align-items: center;">
-                                            작성자:
+                                            신청자:
                                         </v-col>
 
                                         <v-col sm="8" style="justify-content: left; display: flex; align-items: center;">
-                                            {{state.id}}
+                                            {{state.nick}}
                                         </v-col>
 
                                         <v-col sm="2"></v-col>
                                     </v-row>
                                 </v-expansion-panel>
+                                <!-- 닉네임 -->
+                                <v-expansion-panel class="panel">
+                                    <v-row dense style="padding: 10px;">
+                                        <v-col sm="2" style="justify-content: right; display: flex; align-items: center;">
+                                            닉네임:
+                                        </v-col>
 
-                                <!-- 제목 -->
+                                        <v-col sm="8" style="justify-content: left; display: flex; align-items: center;">
+                                            {{state.nickname}}
+                                        </v-col>
+
+                                        <v-col sm="2"></v-col>
+                                    </v-row>
+                                </v-expansion-panel>
+                                
+
+                                <!-- 연락처 -->
                                 <v-expansion-panel class="panel">
                                     <v-row dense style="padding:10px;">
                                         <v-col sm="2" style="justify-content: right; display: flex; align-items: center; ">
-                                            제목:
+                                            연락처:
                                         </v-col>
 
                                         <v-col sm="8" style="display: flex; align-items: center; width:100%;">
@@ -61,35 +76,8 @@
                                     </v-row>
                                 </v-expansion-panel>
 
-                                <!-- 내용 -->
-                                <v-expansion-panel class="panel">
-                                    <v-row dense style="padding:10px;">
-                                        <v-col sm="2" style="justify-content: right; display: flex; align-items: center; margin-top: 13px;">
-                                            내용:
-                                        </v-col>
-
-                                        <v-col sm="8" >
-                                            <ckeditor :editor="state.editor" v-model="state.editorData" @ready="onReady"></ckeditor>
-                                        </v-col>
-
-                                        <v-col sm="2"></v-col>
-                                    </v-row>
-                                </v-expansion-panel>
-
-                                <!-- 파일첨부 -->
-                                <v-expansion-panel class="panel">
-                                    <v-row dense style="padding:10px;">
-                                        <v-col sm="2" style="justify-content: right; display: flex; align-items: center;">
-                                            파일첨부:
-                                        </v-col>
-
-                                        <v-col sm="8" style="display: flex; align-items: center;">
-                                            <input type="file">
-                                        </v-col>
-
-                                        <v-col sm="2"></v-col>
-                                    </v-row>
-                                </v-expansion-panel>
+                               
+                               
 
                                 <!-- 글쓰기버튼 -->
                                 <v-expansion-panel class="panel">
@@ -97,7 +85,7 @@
                                         <v-col sm="4"></v-col>
 
                                         <v-col sm="4" style="justify-content: center; display: flex; align-items: center;">
-                                            <v-btn @click="submit" style="width: 100px; height:40px; background-color: gold;">
+                                            <v-btn @click="handleJoinclub()" style="width: 100px; height:40px; background-color: gold;">
                                                 <h3>신청</h3>
                                             </v-btn>
 
@@ -129,21 +117,90 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import UploadAdapter from '../UploadAdapter.js';
 import CKEditor      from '@ckeditor/ckeditor5-vue'
 import { reactive }  from '@vue/reactivity';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+import axios from 'axios';
+import { onMounted } from '@vue/runtime-core';
 
 export default {
     components: { HeaderVue, FooterVue, ckeditor: CKEditor.component },
     setup () {
+        const route = useRoute();
         const router = useRouter();
+        onMounted( () => {
+            handleData(),Myid(),handlenick();
+        })
 
         const state = reactive({
+            nickname : '',
+            nick : '',
+            id : '',
             editor    : ClassicEditor, // ckeditor종류
+            token     : sessionStorage.getItem("TOKEN"),
+            cno       : route.query.cno,
             editorData: '',
             clubname  : '삥뽕탁구클럽',
-            id        : 'aaa',
-            title     : '제목입니다',
+            title     : '',
             valid     : '',
         })
+
+        const handleData = async() => {
+            const url      = `/ROOT/clubdetail/selectcno?cno=${state.cno}`;
+            const headers  = { "Content-Type": "application/json" };
+            const response = await axios.get(url, {headers});
+            console.log(response.data);
+
+            if(response.data.status === 200){
+                console.log(response.data.result);
+                state.items = response.data.result;
+                state.cdno  = response.data.result.cdno;
+                state.addr1 = state.items.club.caddress;
+                console.log(state.cdno);
+            }
+
+        }
+        const Myid = async() => {
+            const url      = `/ROOT/member/mypage`;
+            const headers  = { "Content-Type": "application/json",
+            token : state.token };
+            const response = await axios.get(url, {headers});
+            console.log(response.data);
+
+            if(response.data.status === 200){
+                console.log("---------",response.data.result);
+                console.log("---------",response.data.result.mname);
+                state.nick = response.data.result.mname;
+                console.log("---------",response.data.result.mid);
+                state.id = response.data.result.mid;
+            }
+
+        }
+        const handlenick = async() => {
+            const url = `/ROOT/member/psmynick`;
+            const headers = {"Content-Type":"application/json", 
+            token : state.token};
+            const response = await axios.get(url, {headers});
+            console.log(response.data.result);
+            if(response.data.status === 200){
+                state.nickname = response.data.result.mpnickname;
+                console.log(state.nick);
+            }
+        }
+
+        const handleJoinclub = async() => {
+            const url = `/ROOT/joinclub/insert.json`;
+            const headers = {"Content-Type":"multipart/form-data"};
+            const body = new FormData;
+                body.append("member",  state.id);
+                body.append("steptbl",  105);
+                body.append("club", state.cno);
+            const response = await axios.post(url,body,{headers});
+            console.log(response.data);
+
+            if(response.data.status === 200){
+                alert('클럽신청완료');
+                router.push({path : 'clist'});
+            }
+        }
 
         const onReady = ( editor ) => {
             console.log(editor);
@@ -163,7 +220,7 @@ export default {
             }
         }
 
-        return { state, onReady, handleCancel }
+        return { state, onReady, handleCancel,handleJoinclub }
     },
 }
 </script>
