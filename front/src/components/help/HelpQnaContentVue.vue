@@ -23,21 +23,20 @@
           <!-- 상단메뉴 -->
           <v-row dense style="padding-bottom: 10px; border-bottom: 1px solid #CCC;">
             <v-col sm="6" style="padding-left: 25px; ">
-              <!-- 닉네임 -->
-              <h4 style="color: #787878">{{state.nick.mpnickname}}</h4>
             </v-col>
 
-            <v-col sm="6" class="col_right" style="padding-right: 25px;">
+            <v-col sm="6" class="col_right" style="padding-left: 25px;">
               <h5 style="color: #787878">
-                조회 {{state.items.qhit}} | {{state.qregdate1}}
+               {{state.nick.mpnickname}} &nbsp; | &nbsp; 
+                조회 {{state.items.qhit}}  &nbsp; | &nbsp; 
+                {{state.qregdate1}}
               </h5>
 
               <h5 style="color: #787878" v-if="state.nick.mpnickname === null">
                 <!-- 기업이름 --> 
                 {{state.nick.mcname}} &nbsp; | &nbsp; 
                 조회 {{state.items.qhit}} &nbsp; | &nbsp; 
-                <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.rno}}
-                &nbsp; | &nbsp; {{state.qregdate1}} 
+                {{state.qregdate1}} 
               </h5>
             </v-col>
           </v-row>
@@ -99,11 +98,11 @@
                       <img :src="require('../../assets/img/reply.png')" style="margin-top: 5px; margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
                     </div>
                     <v-col class="col_left">                      
-                      <!-- <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mcname === null">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5>
-                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mpnickname === null">{{state.replynicklist[idx].mcname}} &nbsp; | </h5>  -->
+                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mcname === null">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5>
+                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mpnickname === null">{{state.replynicklist[idx].mcname}} &nbsp; | </h5> 
                       <h5 style="color: gray;">{{tmp.reregdate1}}</h5>
-                      <img :src="require('../../assets/img/thumb.png')" @click="replylike()" style="width: 15px; margin-left: 10px; cursor: pointer; " />
-                      <h5 style="color: gray; padding-left: 5px;">{{state.blike}}</h5>
+                      <!-- <img :src="require('../../assets/img/thumb.png')" @click="replylike()" style="width: 15px; margin-left: 10px; cursor: pointer; " /> -->
+                      <!-- <h5 style="color: gray; padding-left: 5px;">{{state.blike}}</h5> -->
                     </v-col>
                   </v-row>
 
@@ -121,7 +120,7 @@
                      <v-col class="col_center" v-if="state.reply1.reupdate[idx]">
                       <!-- 댓글수정버튼 -->
                       <v-btn style="height: 68px; margin-right: 10px;" @click="handleReplyUpdate(idx)"><h4>취소</h4></v-btn>
-                      <v-btn style="height: 68px;" @click="handleReUpdate(idx)"><h4 >수정</h4></v-btn>
+                      <v-btn style="height: 68px;" @click="handleReUpdate(tmp.renumber, idx)"><h4 >수정</h4></v-btn>
                     </v-col>
                   </v-row>
 
@@ -251,7 +250,7 @@
 
           <v-row dense style="padding-top: 10px; padding-bottom: 20px;">
             <v-col sm="3">
-              <router-link to="/blist">
+              <router-link to="/hqna">
                 <v-btn class="col_center"><img :src="require('../../assets/img/list.png')" style="width: 20px; margin-right: 3px;"/><h4>목록</h4></v-btn>
               </router-link>
             </v-col>
@@ -456,7 +455,7 @@ export default {
       const headers = { "Content-Type": "application/json", "token" : state.token };
       const body = {
         mid : state.mid,
-        qno        : { qno :state.qno },
+        qna        : { qno :state.qno },
         recontent     : state.reply1.rerecontent,
         reparentnumber: no,
         reprivate     : state.reply1.reprivate,
@@ -485,10 +484,36 @@ export default {
 
     }
 
+    // 댓글 수정
+    const handleReUpdate = async(no, idx) => {
+      const url = `/ROOT/api/creply/qna_update`;
+      const headers = {"Content-Type":"application/json",
+                      "token" : state.token };
+      const body = {
+        renumber : no,
+        mid : state.mid,
+        qna : {qno : state.qno },
+        recontent : state.reply1.recontent,
+        reprivate : state.reply1.reprivate,
+      };
+      const response = await axios.put(url, body,{headers});
+      console.log(response.data);
+      if(response.data.status === 200){
+        alert('댓글 등록 완료');
+        state.reply1.reupdate[idx] = false;
+        // 댓글 그대로 남아있음. 다시 새로고침 해야 함!!!!
+
+        await handleData(state.qno);
+        await handleReplyView(state.qno);
+        state.items = response.data.result;
+        console.log(state.items);
+      }
+    }
+
     // 댓글 삭제
     const handleReplyDelete = async(no) => {
       if(confirm('삭제하시겠습니까?')){
-        const url      = `/ROOT/api/creply/board_delete?renumber=${no}`;
+        const url      = `/ROOT/api/creply/qna_delete?renumber=${no}`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.delete(url, { headers: headers, data: {} });
         console.log(response.data);
@@ -496,7 +521,8 @@ export default {
         if(response.data.status === 200){
             alert('삭제되었습니다.');
             handleReplyView();
-            router.push({ name: "BoardContentVue", query: { bno: state.bno } })
+            handleData();
+            // router.push({ name: "BoardContentVue", query: { bno: state.bno } })
         }
       }
     }
@@ -518,7 +544,7 @@ export default {
       // handlePage, 
       handleReplyUpdate, 
       handleReplyDelete,
-      // handleReUpdate, 
+      handleReUpdate, 
       clickReply,
      }
   }

@@ -122,11 +122,11 @@ export default {
 
         const state = reactive({
             mid        : "",
-            btitle     : "asdf",
+            btitle     : "",
             bcontent   : "",
             btype      : 1,
             editor     : ClassicEditor, // ckeditor종류
-            editorData : "미리 추가되는 내용",
+            editorData : "",
             token      : sessionStorage.getItem("TOKEN"),
             valid      : '',
         })

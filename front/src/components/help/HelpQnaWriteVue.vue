@@ -68,7 +68,7 @@
 
                                                 <v-col sm="2"></v-col>
 
-                                                {{state.qprivate}}
+                                                <!-- {{state.qprivate}} -->
                                             </v-row>
                                         </v-expansion-panel>
 
@@ -123,9 +123,9 @@ export default {
 
         const state = reactive({
             mid        : '',
-            qtitle      : '글제목입니다',
+            qtitle      : '',
             editor     : ClassicEditor, // ckeditor종류
-            editorData : '수정일자입니다',
+            editorData : '',
             valid      : '',
             token      : sessionStorage.getItem("TOKEN"),
             qprivate : 'n',

@@ -570,7 +570,7 @@ export default {
       //   reparentnumber : no,
       //   reprivate : state.reply1.reprivate,
       // };
-      // const response = await axios.post(url, body,{headers});
+      // const response = await axios.put(url, body,{headers});
       // console.log(response.data);
       // if(response.data.status === 200){
       //   alert('댓글 등록 완료');
