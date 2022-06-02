@@ -34,23 +34,40 @@
                   <tr>
                     <td style="border-bottom: 2px solid #CCC; width:70px;"><h3>No</h3></td>
                     <td style="border-bottom: 2px solid #CCC; width: 120px;"><h3>현재등급</h3></td>
-                    <td style="border-bottom: 2px solid #CCC; width: 120px;"><h3>변경등급</h3></td>
+                    <td style="border-bottom: 2px solid #CCC; width: 120px;"><h3>등급변경</h3></td>
                     <td style="border-bottom: 2px solid #CCC;"><h3>닉네임</h3></td>
                     <td style="border-bottom: 2px solid #CCC; width:170px;"><h3>가입일</h3></td>
+                    <td style="border-bottom: 2px solid #CCC; width:170px;"><h3>버튼</h3></td>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    v-for="item in state.member"
-                    :key="item.no"
+                 <tr
+                    v-for="(item,idx) in state.items"
+                    :key="item"
                   >
-                    <td>{{ item.no }}</td>
-                    <td>{{ item.grade }}</td>
+                    <td>{{ idx }}</td>
+                    <td v-if="item.scode == 101"><router-link to="/cbcontent">마스터</router-link></td>
+                    <td v-if="item.scode == 102"><router-link to="/cbcontent">운영진</router-link></td>
+                    <td v-if="item.scode == 104"><router-link to="/cbcontent">클럽원</router-link></td>
+                    <!-- <td><router-link to="/cbcontent">{{ item.scode }}</router-link></td> -->
                     <td>
-                        <v-select variant="outlined" density="compact" :items="state.grade" v-model="state.option1" style="height: 40px;">{{ item.grade1 }}</v-select>
+                    <v-row dense style="padding-top: 10px;">
+                        <v-col sm="1" ></v-col>
+                            <v-col sm="10" >
+                                <v-select :change="handleClick(item.no)"  :items="state.grade"  v-if="state.class === '마스터'" v-model="state.master"
+                                    variant="outlined" density="compact" label="등급변경"
+                                      style="height: 40px; padding-right: 10px; width: 150px; margin-left: 50%;">
+
+                                </v-select>
+                            </v-col>
+                        <v-col sm="1"></v-col>
+                    </v-row>
                     </td>
-                    <td>{{ item.nickname }}</td>
+                    <td>{{ item.mname }}</td>
                     <td>{{ item.jcdate }}</td>
+                     <td>
+                      <v-btn style="background-color: gold" @click="handleJoinclub(item.mid)" ><h4>권한변경</h4></v-btn>
+                    </td>
                   </tr>
                 </tbody>
               </v-table>
@@ -62,6 +79,7 @@
                   <v-btn style="background-color: gold; width: 100px;"><h3>적용</h3></v-btn>
               </v-col>
           </v-row>
+          
         </v-col>
 
         <!-- 사이드 -->
@@ -88,47 +106,56 @@ export default {
     const route = useRoute();
 
     const state = reactive({
-      member: [
-        // {
-        //   no: '1',
-        //   grade: '클럽장',
-        //   nickname: '흔들리는샴푸속',
-        //   date: '2022-05-13',
-        // },
-        // {
-        //   no: '2',
-        //   grade: '관리자',
-        //   nickname: '탁구왕김제빵',
-        //   date: '2022-05-15',
-        // },
-      ],
+      master : '마스터',
+      management : '운영진',
+      member: '클럽원',
       items: [
         '등급', '닉네임', '가입일'
       ],
       grade: [
-          '클럽장', '매니저', '클럽원'
+        '마스터', '운영진', '클럽원'
       ],
       option: '닉네임',
       cno : route.query.cno,
       token : sessionStorage.getItem("TOKEN")
     });
 
-    const memberList = async() => {
-      const url = `/ROOT/api/clubmember/selectmemberlist?cno=${state.cno}`;
-      const headers = {"Content-Type" : "application/json", "token" : state.token};
-      const response = await axios.get(url, {headers});
-      console.log(response.data);
-      if(response.data.status === 200) {
-        state.member = response.data.result.list;
-      }
-    }
-
     onMounted(() =>
     {
       memberList();
     });
+    
+    const memberList = async() => {
+      const url = `/ROOT/combineview/cmemberlist.json?no=${state.cno}`;
+      const headers = {"Content-Type" : "application/json",
+      token : state.token};
+      const response = await axios.get(url, {headers});
+      console.log(response.data);
+      if(response.data.status === 200) {
+      state.items = response.data.results;
+      console.log(state.items);
 
-    return { state }
+      }
+    }
+    // const authlist = async() => {
+    //   const url = `/ROOT/steptbl/authlist`;
+    //   const headers = {"Content-Type" : "application/json"};
+    //   const response = await axios.get(url, {headers});
+    //   console.log(response.data);
+    //   if(response.data.status === 200) {
+    //   state.class = response.data.results;
+    //   console.log(state.class);
+
+    //   }
+    // }
+    
+    const handleClick = async(idx) => {
+      console.log(idx);
+    }
+
+    
+
+    return { state,handleClick }
   }
 }
 </script>

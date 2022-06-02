@@ -39,6 +39,7 @@ public class CombineRestController {
         System.out.println(no);
         Map<String, Object> map = new HashMap<>();
         try {
+
             List<ComBine> total = cVrepository.selectnumber(no);
             System.out.println(total);
             map.put("status", 200);
@@ -73,6 +74,31 @@ public class CombineRestController {
         }
         return map;
     }
+    // 신청승인,권한변경을 위한 권한조회
+    // 처리결과포함(승인, 거절)
+    // 127.0.0.1:9090/ROOT/combineview/clubmasterget.json?id=b
+    @GetMapping(value = "/clubmasterget.json",
+    consumes = {MediaType.ALL_VALUE},
+    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> ClubGetGet(
+        @RequestHeader(name = "TOKEN") String token,
+        @RequestParam(name = "cno")Long cno){
+        Map<String, Object> map = new HashMap<>();
+        try {
+            String username = jwtUtil.extractUsername(token);
+			System.out.println(username);
+
+            ComBine combine = cVrepository.cmember(username, cno);
+            map.put("status", 200);
+            map.put("results", combine);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", 0);
+        }
+        return map;
+    }
+   
     // 클럽멤버리스트 조회
     // 127.0.0.1:9090/ROOT/combineview/cmemberlist.json?no=10
     @GetMapping(value = "/cmemberlist.json",

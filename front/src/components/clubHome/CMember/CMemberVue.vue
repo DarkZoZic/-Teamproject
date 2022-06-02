@@ -40,12 +40,15 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="item in state.member"
-                    :key="item.no"
+                    v-for="(item,idx) in state.items"
+                    :key="item"
                   >
-                    <td>{{ item.no }}</td>
-                    <td><router-link to="/cbcontent">{{ item.grade }}</router-link></td>
-                    <td>{{ item.nickname }}</td>
+                    <td>{{ idx }}</td>
+                    <td v-if="item.scode == 101"><router-link to="/cbcontent">마스터</router-link></td>
+                    <td v-if="item.scode == 102"><router-link to="/cbcontent">운영진</router-link></td>
+                    <td v-if="item.scode == 104"><router-link to="/cbcontent">클럽원</router-link></td>
+                    <!-- <td><router-link to="/cbcontent">{{ item.scode }}</router-link></td> -->
+                    <td>{{ item.mname }}</td>
                     <td>{{ item.jcdate }}</td>
                   </tr>
                 </tbody>
@@ -100,22 +103,25 @@ export default {
       token : sessionStorage.getItem("TOKEN")
     });
 
-    const memberList = async() =>
-    {
-      const url = `/ROOT/api/clubmember/selectmemberlist?cno=${state.cno}`;
-      const headers = {"Content-Type" : "application/json", "token" : state.token};
-      const response = await axios.get(url, {headers});
-      console.log(response.data);
-      if(response.data.status === 200)
-      {
-        state.member = response.data.result.list;
-      }
-    }
-
-    onMounted(() =>
+     onMounted(() =>
     {
       memberList();
     });
+    
+    const memberList = async() => {
+      const url = `/ROOT/combineview/cmemberlist.json?no=${state.cno}`;
+      const headers = {"Content-Type" : "application/json",
+      token : state.token};
+      const response = await axios.get(url, {headers});
+      console.log(response.data);
+      if(response.data.status === 200) {
+      state.items = response.data.results;
+      console.log(state.items);
+
+      }
+    }
+
+   
 
     return { state }
   }

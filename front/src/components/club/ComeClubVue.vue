@@ -330,6 +330,8 @@ export default {
 
         }
         const handleCno = async() => {
+            console.log(state.club
+            );
             if(state.club !== ''){
                 const url      = `/ROOT/club/cnamesearch?cname=${state.club}`;
                 const headers  = { "Content-Type": "application/json" };

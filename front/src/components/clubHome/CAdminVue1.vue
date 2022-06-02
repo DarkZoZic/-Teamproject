@@ -40,15 +40,16 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="item in state.member"
-                    :key="item.no"
+                    v-for="item in state.items"
+                    :key="item"
                   >
+                    <!-- <td v-show="disable">{{ idx }}</td> -->
                     <td>{{ item.no }}</td>
-                    <td>{{ item.nickname }}</td>
+                    <td>{{ item.mname }}</td>
                     <td>{{ item.jcdate }}</td>
                     <td>
-                      <v-btn style="background-color: gold"><h4>적용</h4></v-btn>
-                      <v-btn><h4>초기화</h4></v-btn>
+                      <v-btn style="background-color: gold" @click="handleJoinclub(item.mid)" ><h4>승인</h4></v-btn>
+                      <v-btn><h4>거절</h4></v-btn>
                     </td>
                   </tr>
                 </tbody>
@@ -87,49 +88,84 @@ export default {
     const route = useRoute();
 
     const state = reactive({
-      member: [
-        // {
-        //   no: '1',
-        //   grade: '클럽장',
-        //   nickname: '흔들리는샴푸속',
-        //   date: '2022-05-13',
-        // },
-        // {
-        //   no: '2',
-        //   grade: '관리자',
-        //   nickname: '탁구왕김제빵',
-        //   date: '2022-05-15',
-        // },
-      ],
+      list : [],
+      mid : '',
+      cno : route.query.cno,
+      token : sessionStorage.getItem("TOKEN"),
       items: [
         '등급', '닉네임', '가입일'
       ],
       grade: [
-          '클럽장', '매니저', '클럽원'
+        '클럽장', '매니저', '클럽원'
       ],
       option: '닉네임',
-      cno : route.query.cno,
-      token : sessionStorage.getItem("TOKEN")
+      
     });
 
-    const memberList = async() =>
-    {
-      const url = `/ROOT/api/clubmember/selectmemberlist?cno=${state.cno}`;
+        onMounted(() =>
+        {
+          ClubCheck();
+        });
+      const handleJoinclub = async(mid) => {
+          console.log(mid);
+          console.log(state.cno);
+          const url = `/ROOT/joinclub/insert.json`;
+          const headers = {"Content-Type":"multipart/form-data"};
+          const body = new FormData;
+              body.append("member",  mid);
+              body.append("steptbl",  104);
+              body.append("club", state.cno);
+          const response = await axios.post(url,body,{headers});
+          console.log(response.data);
+
+          if(response.data.status === 200){
+            memberList();
+          }
+      }
+      const handleJoinclub1 = async() => {
+          console.log(state.cno);
+          console.log(state.mid);
+          const url = `/ROOT/joinclub/insert.json`;
+          const headers = {"Content-Type":"multipart/form-data"};
+          const body = new FormData;
+              body.append("member",  state.mid);
+              body.append("steptbl",  101);
+              body.append("club", state.cno);
+          const response = await axios.post(url,body,{headers});
+          console.log(response.data);
+
+          if(response.data.status === 200){
+              router.push({path : 'clist'})
+          }
+      }
+   const ClubCheck = async() => {
+      const url = `/ROOT/combineview/clubmasterget.json?cno=${state.cno}`;
       const headers = {"Content-Type" : "application/json", "token" : state.token};
       const response = await axios.get(url, {headers});
+      // console.log(response.data);
+      if(response.data.status === 200) {
+        memberList();
+
+      }
+    }
+    const memberList = async() => {
+      const url = `/ROOT/combineview/selectnumber.json?no=${state.cno}`;
+      const headers = {"Content-Type" : "application/json"};
+      const response = await axios.get(url, {headers});
       console.log(response.data);
-      if(response.data.status === 200)
-      {
-        state.member = response.data.result.list;
+      if(response.data.status === 200) {
+      state.items = response.data.total;
+      console.log(response.data.total);
+      // state.mids = response.data.total.mid;
+      // for(var i=0; i < state.items; i++){
+      //   state.mid = state.items
+      // }
+
       }
     }
 
-    onMounted(() =>
-    {
-      memberList();
-    });
 
-    return { state }
+    return { state,handleJoinclub,handleJoinclub1 }
   }
 }
 </script>

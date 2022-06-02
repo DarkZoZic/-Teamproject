@@ -12,9 +12,11 @@ public interface CombineViewRepository
     extends JpaRepository<ComBine, Long>{
         // 클럽번호로 클럽신청내역 조회
         @Query(value = "SELECT * FROM"+
-        " COMBINETABLEVIEW WHERE SCODE=105 AND CNO=:no", nativeQuery = true)
+        "(SELECT T1.*, ROW_NUMBER() OVER (PARTITION BY CNO,MID ORDER BY NO DESC) AS ROWN FROM COMBINETABLEVIEW T1)" +
+        " WHERE ROWN = 1 AND SCODE = 105 AND CNO=:no"
+        , nativeQuery = true)
         public List<ComBine> selectnumber(
-                @Param(value="no") Long no);
+        @Param(value="no") Long no);
 
         // M_ID로 자신의 신청내역 및 결과 조회
         @Query(value = "SELECT * FROM"+
@@ -24,9 +26,17 @@ public interface CombineViewRepository
 
         // 클럽멤버조회 조건 - 101,102, 104중 하나가 있어야함
         @Query(value = "SELECT * FROM"+
-        " COMBINETABLEVIEW WHERE CNO=:no AND SCODE IN (101,102,104)", nativeQuery = true)
+        " COMBINETABLEVIEW WHERE CNO = :no AND SCODE IN (101,102,104,201,202,203,204,205) ORDER BY NO ASC", nativeQuery = true)
         public List<ComBine> cmemberlList(
                 @Param(value="no") long no);
+
+        // 권한확인 조회 - 101,102중 하나가 있어야함
+        @Query(value = "SELECT * FROM"+
+        " COMBINETABLEVIEW WHERE MID = :mid AND CNO=:no AND SCODE IN (101,102)", nativeQuery = true)
+        public ComBine cmember(
+                @Param(value="mid") String mid,
+                @Param(value="no") long no);
+
 
         // 권한변경 조회 
         @Query(value = "SELECT * FROM"+
