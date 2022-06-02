@@ -38,7 +38,6 @@
                         <v-col
                             v-for="(item, idx) in state.items12" :key="item" cols="4">
                             <v-card height="200px" class="club_card" style="padding: 20px;">
-                                {{item.imgurl}}
                                 <v-row dense>
                                     <v-col sm="3"></v-col>
 
