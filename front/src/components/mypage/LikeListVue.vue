@@ -42,10 +42,8 @@
                                     <v-col sm="3"></v-col>
 
                                     <v-col sm="6" class="col_center">
-                                        <router-link to="/cdetail" class="col_center">
                                             <img v-if="item.imgurl" :src="item.imgurl" @click="handlePage(item.obj.club.cno, idx)" style="height: 50px;"/>
-                                            <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.cno, idx)" style="height: 50px;"/>
-                                        </router-link>
+                                            <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.club.cno, idx)" style="height: 50px;"/>
 
                                     </v-col>
                                     <v-col sm="3" class="col_right">
@@ -58,7 +56,7 @@
                                 
                                 <v-row dense>
                                     <v-col>
-                                        <h3 @click="handlePage(items.obj.cno, idx)" style="cursor: pointer;">{{item.obj.club.cname}}</h3>
+                                        <h3 @click="handlePage(items.obj.club.cno, idx)" style="cursor: pointer;">{{item.obj.club.cname}}</h3>
                                     </v-col>
                                 </v-row>
 
