@@ -349,19 +349,52 @@ public class ClubBoardRestController {
 				CBMemView cbmv = cbmvRep.findById(cbno).orElse(null);
 				
 				// 댓글 목록 저장할 배열 변수
-				List<CReply> replylist = crRep.findByClubboard_CbnoOrderByRenumberDesc(cbno);
+				List<CReply> replylist = new ArrayList<>();
+				// 대댓글 목록 저장 변수
+				List<CReply> rereplylist = new ArrayList<>();
+				// 글번호 일치하는 댓글 대댓글 일괄 전달받기
+				List<CReply> replylistlength = crRep.findByClubboard_CbnoOrderByRenumberDesc(cbno);
+				//댓글(부모댓글번호 0인것(없는것))과 대댓글(부모댓글번호 있는것) 분류해서 각각 배열에 넣기
+				for(int i=0; i<replylistlength.size(); i++)
+				{
+//					System.out.println(replylistlength.get(i).toString());
+//					System.out.println("////////////////////////////////");
+					if(replylistlength.get(i).getReparentnumber() == 0)
+					{
+						replylist.add(replylistlength.get(i));
+					}
+					else
+					{
+						rereplylist.add(replylistlength.get(i));
+					}
+				}
+				System.out.println("replylist : " + replylist);
+				System.out.println("rereplylist : " + rereplylist);
 				
 				List<CReplyMemberView> mlist = new ArrayList<>(); // 댓글 작성자 닉네임 리스트
+				List<CReplyMemberView> remlist = new ArrayList<>(); // 대댓글 작성자 닉네임 리스트
 				for(int i=0; i<replylist.size(); i++)
 				{
 					CReplyMemberView crmv = crmvRep.findByRenumber(replylist.get(i).getRenumber());
+//					System.out.println("crmv : "+crmv);
 					mlist.add(crmv);
 				}
+				
+				for(int i=0; i<rereplylist.size(); i++)
+				{
+					CReplyMemberView crmv1 = crmvRep.findByRenumber(rereplylist.get(i).getRenumber());
+//					System.out.println("crmv1 : "+crmv1);
+					remlist.add(crmv1);
+				}
+				System.out.println("mlist : " + mlist);
+				System.out.println("remlist : " + remlist);
 
 				model.addAttribute("clubboard", cb); //글상세내용
 				model.addAttribute("nick", cbmv); // 글 작성자 닉네임
 				model.addAttribute("replylist", replylist); // 댓글목록
+				model.addAttribute("rereplylist", rereplylist); // 대댓글목록
 				model.addAttribute("replynicklist", mlist); // 댓글작성자 닉네임 목록
+				model.addAttribute("rereplynicklist", remlist); // 댓글작성자 닉네임 목록
 				
 				ClubBoard prev = cbRep.findTop1ByClub_cnoAndCbnoLessThanOrderByCbnoDesc(cno, cbno); // 이전글
 				ClubBoard next = cbRep.findTop1ByClub_cnoAndCbnoGreaterThanOrderByCbnoAsc(cno, cbno); // 다음글
@@ -545,9 +578,12 @@ public class ClubBoardRestController {
 				
 				ClubBoard cb = cbRep.findById(Long.valueOf(cr.get("cbno").toString())).orElse(null);
 				creply.setClubboard(cb); // 댓글 작성한 글의 번호 저장
-				System.out.println(creply);
+//				System.out.println(creply);
 				
+//				System.out.println("//////////////////////////"+cr.get("reparentnumber").toString());
+				creply.setReparentnumber(Long.parseLong(cr.get("reparentnumber").toString()) );
 				
+				System.out.println(creply.toString());
 				crRep.save(creply);
 				map.put("status", 200);
 			}
