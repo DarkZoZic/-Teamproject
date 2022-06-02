@@ -1,5 +1,6 @@
 package com.example.controller.controller_2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,33 +29,42 @@ public class CdimageRestController {
     CdimageRepository cdimageRepository;
 
     @Autowired
-	ResourceLoader resLoader;
+    ResourceLoader resLoader;
 
     // 클럽디테일 이미지 가져오기
-	// 127.0.0.1:9090/ROOT/cdimage/selectimage
-	@RequestMapping(value = "/selectimage", 
-    method = { RequestMethod.GET },
-    consumes = { MediaType.ALL_VALUE },
-    produces = { MediaType.APPLICATION_JSON_VALUE })
-public Map<String, Object> selectcno1Get(
-@RequestParam(value = "cdno")long cdno){
-    Map<String, Object> map = new HashMap<>();
-    try {
-        ClubDetail clubDetail = new ClubDetail();
-        List<CDImage> cdimage = cdimageRepository.findByClubDetail_cdno(cdno);
-        System.out.println(cdimage);
+    // 127.0.0.1:9090/ROOT/cdimage/selectimage
+    @RequestMapping(value = "/selectimage", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> selectcno1Get(
+            @RequestParam(value = "cdno") long cdno) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            ClubDetail clubDetail = new ClubDetail();
+            List<Map<String, Object>> list = new ArrayList<>();
+            List<CDImage> cdimage = cdimageRepository.findByClubDetail_cdno(cdno);
+            for (CDImage obj : cdimage) {
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("obj", obj);
 
-        
-        map.put("status", 200); 
-        map.put("result", cdimage); 
+                if (cdimage != null) {
 
+                    map1.put("imgurl", "/ROOT/clubdetail/cdimage?cdno=" +
+                            obj.getClubDetail().getCdno() + "&idx=0");
+                } else {
+                    map1.put("imgurl", null);
+
+                }
+                list.add(map1);
+            }
+
+            map.put("status", 200);
+            map.put("result", list);
+            map.put("개수", cdimage.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", 0);
+        }
+
+        return map;
     }
-    catch (Exception e) {
-        e.printStackTrace();
-        map.put("status", 0);
-    }
-
-return map;
-}
-    
 }
