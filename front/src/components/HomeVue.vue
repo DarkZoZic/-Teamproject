@@ -52,7 +52,7 @@
                                                 </v-col>
 
                                                 <v-col class="col_left">
-                                                    <h4>{{state.notice}}</h4>
+                                                    <h4>{{state.notice1}}</h4>
                                                 </v-col>
                                             </v-row>
                                             
@@ -62,7 +62,7 @@
                                                 </v-col>
 
                                                 <v-col class="col_left">
-                                                    <h4>{{state.notice}}</h4>
+                                                    <h4>{{state.notice2}}</h4>
                                                 </v-col>
                                             </v-row>
                                         </v-card>
@@ -357,7 +357,9 @@ export default {
             logged   : computed(() => store.getters['moduleA/getLogged']),
             token    : sessionStorage.getItem("TOKEN"),
             logo     : 'club_logo',
-            notice   : '공지글입니딩~',
+            notice   : '클러버들 환영합니다',
+            notice1  : '개인정보 이용 약관 변경에 ...',
+            notice2  : '불법행위 적발시 처벌될 수 ...',
 
             slides: [
                 { title: '', image: require('../assets/img/ad1.jpg') },
