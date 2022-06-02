@@ -79,10 +79,18 @@ public class CombineRestController {
     consumes = {MediaType.ALL_VALUE},
     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> cMemberListGet(
-        @RequestParam(name = "no")long no){
+        @RequestParam(name = "no")long no,
+        @RequestHeader(name = "TOKEN") String token){
             System.out.println(no);
         Map<String, Object> map = new HashMap<>();
         try {
+            String username = jwtUtil.extractUsername(token);
+			System.out.println(username);
+            List<ComBine> combine1  = cVrepository.findByMid(username);
+            System.out.println(combine1);
+
+
+
             // ComBine combine = cVrepository.findby(id).orElse(null);
             List<ComBine> combine  = cVrepository.cmemberlList(no);
             // System.out.println(total);
