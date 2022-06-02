@@ -63,7 +63,7 @@
                                         <v-col sm="1" class="col_left" style="vertical-align: middle;" ><h4 class="club_list_h">지역</h4></v-col>
 
                                         <v-col sm="11" class="col_left">
-                                            <div class="club_list_input" @change="Clicksearch1(state.area)" style="justify-content: left; display: flex; align-items: center;outline-width: 0;"> 
+                                            <div class="club_list_input" @change="Clicksearch(state.area)" style="justify-content: left; display: flex; align-items: center;outline-width: 0;"> 
                                                 <div class="col_center" >
                                                     <h5 v-for="(tmp, idx) in state.area" :key="tmp" class="h5" @click="del(idx)" style="cursor: pointer; margin-right: 10px;">
                                                         {{tmp}}
