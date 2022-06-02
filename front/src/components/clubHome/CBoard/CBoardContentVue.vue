@@ -98,7 +98,6 @@
                   <v-row dense style="padding-right: 10px;" >
                     <v-col>
                       <h4 style="padding-left: 10px; padding-right: 10px;" v-if="!state.replyupdate.update[idx]">{{tmp.recontent}}
-                      {{tmp.renumber}}
                       </h4>
                       <div v-if="state.replyupdate.update[idx]" class="col_left">
                         <textarea v-model="tmp.recontent" 
@@ -121,7 +120,7 @@
                   </v-col>
 
                   <!-- 대댓글-->
-                  <v-row dense style="padding-left: 10px;" v-for="(tmp1, idx) in state.rereply" :key="tmp1">
+                  <v-row dense style="padding-left: 10px; margin-bottom: 5px;" v-for="(tmp1, idx) in state.rereply" :key="tmp1">
                     <v-col v-if="tmp1.reparentnumber === tmp.renumber">
                       <v-row dense>
                         <v-col style="display: flex">
