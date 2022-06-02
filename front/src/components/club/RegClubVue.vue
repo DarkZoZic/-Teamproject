@@ -261,6 +261,10 @@ export default {
             catemax1     : [],
             catemax11    : [],
             catemax12    : [],
+            catemax13    : [],
+            catemax14    : [],
+            catemax15    : [],
+            catemax16    : [],
             category     : [],
             selectcate1  : '',
             selectcate2  : '',
@@ -452,6 +456,22 @@ export default {
                 state.catemax12 = state.catemax11;
                 console.log('공부');
             }
+            if(state.selectcate1 === '투자'){
+                state.catemax12 = state.catemax13;
+                console.log('투자');
+            }
+            if(state.selectcate1 === '게임'){
+                state.catemax12 = state.catemax14;
+                console.log('게임');
+            }
+            if(state.selectcate1 === '여행'){
+                state.catemax12 = state.catemax15;
+                console.log('여행');
+            }
+            if(state.selectcate1 === '독서'){
+                state.catemax12 = state.catemax16;
+                console.log('독서');
+            }
         }
 
         const clickchange1 = () =>{
@@ -471,9 +491,30 @@ export default {
             const a11 = state.category.filter((arr, index, cb) => {
                 return arr.cgcate1 === max1
             });
+            // 투자일때
+            const max2 = '투자';
+            const a13 = state.category.filter((arr, index, cb) => {
+                return arr.cgcate1 === max2
+            });
 
-            console.log("213123131",a1);
-            console.log(a11);
+            // 게임일때
+            const max3 = '게임';
+            const a14 = state.category.filter((arr, index, cb) => {
+                return arr.cgcate1 === max3
+            });
+            // 여행일때
+            const max4 = '여행';
+            const a15 = state.category.filter((arr, index, cb) => {
+                return arr.cgcate1 === max4
+            });
+            // 독서일때
+            const max5 = '독서';
+            const a16 = state.category.filter((arr, index, cb) => {
+                return arr.cgcate1 === max5
+            });
+
+            // console.log("213123131",a1);
+            // console.log(a11);
             for(var i = 0; i < a1.length; i++){
                 state.catemax[i] = a1[i].cgcate2;
                 console.log(state.catemax);
@@ -482,6 +523,23 @@ export default {
             for(var i = 0; i < a11.length; i++){
                 state.catemax11[i] = a11[i].cgcate2;
                 console.log(state.catemax11);
+            }
+            for(var i = 0; i < a13.length; i++){
+                state.catemax13[i] = a13[i].cgcate2;
+                console.log(state.catemax13);
+            }
+
+            for(var i = 0; i < a14.length; i++){
+                state.catemax14[i] = a14[i].cgcate2;
+                console.log(state.catemax14);
+            }
+            for(var i = 0; i < a15.length; i++){
+                state.catemax15[i] = a15[i].cgcate2;
+                console.log(state.catemax15);
+            }
+            for(var i = 0; i < a16.length; i++){
+                state.catemax16[i] = a16[i].cgcate2;
+                console.log(state.catemax16);
             }
 
             const a2 = state.category.filter( (arr, index, cb) => { 

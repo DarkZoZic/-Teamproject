@@ -42,8 +42,8 @@
                                     <v-col sm="3"></v-col>
 
                                     <v-col sm="6" class="col_center">
-                                            <img v-if="item.imgurl" :src="item.imgurl" @click="handlePage(item.obj.club.cno, idx)" style="height: 50px;"/>
-                                            <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.club.cno, idx)" style="height: 50px;"/>
+                                            <img v-if="item.imgurl" :src="item.imgurl" @click="handlePage(item.obj.club.cno, idx)" style="height: 50px; cursor: pointer;"/>
+                                            <img v-if="!item.imgurl" :src="require(`../../assets/img/default-logo.jpg`)" @click="handlePage(item.obj.club.cno, idx)" style="height: 50px; cursor: pointer;"/>
 
                                     </v-col>
                                     <v-col sm="3" class="col_right">
