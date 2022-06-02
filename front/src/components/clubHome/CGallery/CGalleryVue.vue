@@ -119,7 +119,7 @@ export default {
         const url      = `/ROOT/api/clubgallery/selectlist?page=${state.page}&cno=${state.cno}`;
         const headers  = {"Content-Type":"application/json", "token" : state.token};
         const response = await axios.get(url, {headers});
-        // console.log(response.data);
+        console.log(response.data);
 
         if(response.data.status === 200) {
           state.pages = response.data.result.pages;
@@ -145,7 +145,7 @@ export default {
     }
 
     const date = (i) => {
-      console.log(state.gallery[i].cgregdate);
+      // console.log(state.gallery[i].cgregdate);
       state.gallery[i].cgregdate1 = dayjs(state.gallery[i].cgregdate).format('YY.MM.DD hh:mm:ss');
     }
 
@@ -176,7 +176,7 @@ export default {
       router.push({ name: "CGContentVue", query: { cgno :cgno, cno :state.cno } });
     }
 
-    const search = async() => {
+    const search = async() => { // 전체검색기능 미구현
       if(state.token !== null) {
           const url      = `/ROOT/api/clubgallery/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
           const headers  = { "Content-Type": "application/json", "token": state.token };

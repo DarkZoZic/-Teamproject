@@ -21,6 +21,8 @@ public interface ClubGalleryRepository extends JpaRepository<ClubGallery, Long>{
 	@Query(value="SELECT * FROM CLUBGALLERY C, Member M WHERE C.CGNAME LIKE '%:text%' OR C.CGDESC LIKE '%:text%' OR M.MID LIKE '%:text%' ORDER BY CGNO DESC", nativeQuery = true)
 	List<ClubGallery> findByAllOptions(String text, Pageable pageable);
 	
+//	List<ClubGallery> findByCgnameOrCgdescOrMember_midContainingAndClub_cnoOrderByCgnoDesc(String text, long cno, Pageable pageable);
+	
 	List<ClubGallery> findByClub_cnoOrderByCgnoDesc(long cno, Pageable pageable);
 	
 	long countByClub_cno(long cno); // 페이지네이션 total값

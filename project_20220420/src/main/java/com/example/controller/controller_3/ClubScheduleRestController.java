@@ -141,7 +141,7 @@ public class ClubScheduleRestController {
 		return map;
 	}
 	
-	// 종료된 일정 자동 삭제 // 프론트 활용해서 자동으로 수행되게 함
+	// 종료된 일정 자동 삭제 // 프론트에서 자동으로 수행되게 함
 	@Transactional
 	@RequestMapping(value="/delete", 
 			method={RequestMethod.POST}, 

@@ -186,7 +186,7 @@ export default {
                 if(response.data.status === 200) {
                     state.board    = response.data.result.list;
                     state.nicklist.splice(0); // state.nicklist 초기화 //페이지 이동 시 닉네임 목록 갱신
-                    state.nicklist = response.data.result.mplist;
+                    state.nicklist = response.data.result.mlist;
                 }
             }
             else if(response.data.status === 0)
@@ -211,17 +211,17 @@ export default {
             state.board[i].cbregdate1 = dayjs(state.board[i].cbregdate).format('YY.MM.DD hh:mm:ss');
         }
 
-        const search = async() => {
+        const search = async() => { // 전체검색기능 미구현
             if(state.token !== null) {
                 const url      = `/ROOT/api/clubboard/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
                 const headers  = { "Content-Type": "application/json", token: state.token };
                 const response = await axios.get(url, { headers });
-                // console.log(response.data);
+                console.log(response.data);
                 if(response.data.status === 200) {
                     state.board    = response.data.result.list;
                     state.pages    = response.data.result.pages;
                     state.nicklist.splice(0); // state.nicklist 초기화 //검색 및 페이지 이동 시 닉네임 목록 갱신
-                    state.nicklist = response.data.result.mplist;
+                    state.nicklist = response.data.result.mlist;
                 }
             }else {
                 router.push({ name: 'LoginVue' });

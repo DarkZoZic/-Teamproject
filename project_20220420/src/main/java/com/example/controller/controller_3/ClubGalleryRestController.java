@@ -201,7 +201,7 @@ public class ClubGalleryRestController {
 				}
 				
 				model.addAttribute("list", list);
-				model.addAttribute("mplist", mlist);
+				model.addAttribute("mlist", mlist);
 				
 				map.put("status", 200);
 				map.put("result", model);
