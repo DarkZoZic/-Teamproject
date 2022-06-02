@@ -159,7 +159,7 @@
                     <v-col class="col_center" v-if="state.reply1.reupdate[idx]">
                       <!-- 댓글수정버튼 -->
                       <v-btn style="height: 68px; margin-right: 10px;" @click="handleReplyUpdate(idx)"><h4>취소</h4></v-btn>
-                      <v-btn style="height: 68px;" @click="handleReUpdate(idx)"><h4 >수정</h4></v-btn>
+                      <v-btn style="height: 68px;" @click="handleReUpdate(tmp.renumber, idx)"><h4 >수정</h4></v-btn>
                     </v-col>
                   </v-row>
 
@@ -175,7 +175,7 @@
                               <h5 @click="handleReplyDelete(tmp.renumber, idx)" style="padding-left: 10px; color: gray; cursor: pointer; float:left">삭제</h5>
                             </div>
                             <div style="float:left;">
-                              <h5 @click="clickReply(idx)" style="color: gray; padding-left: 10px; cursor: pointer;">답댓글</h5>
+                              <h5 @click="clickReply(idx)" style="color: gray; padding-left: 10px; cursor: pointer;">댓글</h5>
                             </div>
                           </v-row>
                           
@@ -559,33 +559,30 @@ export default {
     }
 
     // 댓글 수정 handleReUpdate
-    const handleReUpdate = async(no) => {
-      // const url = `/ROOT/api/creply/board_update`;
-      // const headers = {"Content-Type":"application/json",
-      //                 "token" : state.token };
-      // const body = {
-      //   mid : state.mid,
-      //   board1 : {bno : state.bno },
-      //   recontent : state.reply1.recontent,
-      //   reparentnumber : no,
-      //   reprivate : state.reply1.reprivate,
-      // };
-      // const response = await axios.put(url, body,{headers});
-      // console.log(response.data);
-      // if(response.data.status === 200){
-      //   alert('댓글 등록 완료');
-        // 댓글 그대로 남아있음. 다시 새로고침 해야 함!!!!
+    const handleReUpdate = async(no, idx) => {
+      const url = `/ROOT/api/creply/board_update`;
+      const headers = {"Content-Type":"application/json",
+                      "token" : state.token };
+      const body = {
+        mid : state.mid,
+        renumber : no,
+        board1 : {bno : state.bno },
+        recontent : state.reply1.recontent,
+        // reparentnumber : no,
+        reprivate : state.reply1.reprivate,
+      };
+      const response = await axios.put(url, body,{headers});
+      console.log(response.data);
+      if(response.data.status === 200){
+        alert('댓글 수정 완료');
+        state.reply1.reupdate[idx] = false;
 
-        // await handleData(state.bno);
-        // await handleReplyView(state.bno);
+        await handleData(state.bno);
+        await handleReplyView(state.bno);
 
-        // await handleReplyView(state.bno);
-        // this.router.go(this.router.currentRoute);
-
-        // this.router.push(this.router.currentRoute);
-        // state.items = response.data.result;
-        // console.log(state.items);
-      // }
+        state.items = response.data.result;
+        console.log(state.items);
+      }
     }
 
 

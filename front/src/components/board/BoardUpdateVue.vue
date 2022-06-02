@@ -25,7 +25,7 @@
                             <v-card style="width:100%; margin: 10px; margin-top: 20px; margin-bottom: 30px;">
                                 <v-expansion-panels style="width:100%">
                                     <v-form v-model="state.valid" style="width:100%">
-                                        {{state.valid}}
+                                        <!-- {{state.valid}} -->
                                         <!-- 제목 -->
                                         <v-expansion-panel class="panel">
                                             <v-row dense style="padding:10px;">

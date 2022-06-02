@@ -161,10 +161,10 @@ public class CreplyRestController {
                 // 수정
                 result.setRecontent(cReply.getRecontent());
                 result.setReprivate(cReply.getReprivate());
-                result.setReupdatedate(cReply.getReupdatedate());
+                // result.setReupdatedate(cReply.getReupdatedate());
 
                 cRepository.save(result);
-                
+                System.out.println("댓글수정결과==========="+result.getRerecontent());
                 map.put("status", 200); // 성공
                 
             }
