@@ -35,6 +35,7 @@
                     <td style="border-bottom: 2px solid #CCC; width:70px;"><h3>No</h3></td>
                     <td style="border-bottom: 2px solid #CCC;"><h3>닉네임</h3></td>
                     <td style="border-bottom: 2px solid #CCC; width:170px;"><h3>신청일</h3></td>
+                    <td style="border-bottom: 2px solid #CCC; width:170px;"><h3>버튼</h3></td>
                   </tr>
                 </thead>
                 <tbody>
@@ -45,6 +46,10 @@
                     <td>{{ item.no }}</td>
                     <td>{{ item.nickname }}</td>
                     <td>{{ item.jcdate }}</td>
+                    <td>
+                      <v-btn style="background-color: gold"><h4>적용</h4></v-btn>
+                      <v-btn><h4>초기화</h4></v-btn>
+                    </td>
                   </tr>
                 </tbody>
               </v-table>
