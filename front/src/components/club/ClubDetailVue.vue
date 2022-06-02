@@ -18,7 +18,6 @@
                                  </h5>
                         </v-col>
                     </v-row>
-
                     <v-row dense class="club_detail_box2" style="border-bottom: 1px solid #CCC;">
                         <v-col sm="7">
                             <v-row dense>
@@ -39,8 +38,8 @@
                         </v-col>
 
                         <v-col sm="3" class="col_center">
-                            <img  v-if="state.imgurl" :src="state.imgurl" style=" height: 80px; width: 150px;"/>
-                            <img  v-if="!state.imgurl" :src="require(`../../assets/img/default-logo.jpg`)"  style="height: 50px; cursor: pointer;"/>
+                            <!-- <img  v-if="state.imgurl" :src="state.imgurl" style=" height: 80px; width: 150px;"/>
+                            <img  v-if="!state.imgurl" :src="require(`../../assets/img/default-logo.jpg`)"  style="height: 50px; cursor: pointer;"/> -->
                         </v-col>
 
                         <v-col sm="1" style="vertical-align: middle;">
@@ -63,9 +62,9 @@
                             <v-col sm="8" style="padding: 10px;">
                                 <v-row dense style="padding-bottom: 10px; border-bottom: 1px solid #CCC;">
                                     <v-col sm="6">
-                                        <v-carousel cycle hide-delimiters show-arrows="hover" style="height:120px;"> 
-                                            <v-carousel-item v-for="(item, i) in state.img" 
-                                            :key="i" :src="item.src" cover></v-carousel-item>
+                                        <v-carousel cycle hide-delimiters show-arrows="hover" style="height:150px;"> 
+                                            <v-carousel-item v-for="item in 1" 
+                                            :key="item" :src="state.imgurl" cover></v-carousel-item>
                                         </v-carousel>
                                     </v-col>
 
@@ -227,6 +226,7 @@ export default {
         const store = useStore();
 
         const state = reactive({
+            url : '',
             imgurl : '',
             cdno      : '',
             token     : sessionStorage.getItem("TOKEN"),
@@ -268,7 +268,7 @@ export default {
         });
 
         onMounted( () => {
-            handleData(), Likelist();
+            handleData(), Likelist(),handleData1();
         })
 
         const handleData = async() => {
@@ -289,6 +289,19 @@ export default {
             }
 
             handleSend();
+        }
+        const handleData1 = async() => {
+            const url      = `/ROOT/clubdetail/detailselectone?cno=${state.cno}`;
+            const headers  = { "Content-Type": "application/json" };
+            const response = await axios.get(url, {headers});
+            console.log(response.data);
+
+            if(response.data.status === 200){
+                state.url = response.data.result
+                // console.log(state.url);
+                console.log("handleData1r",response.data.result);
+            }
+
         }
 
         const handleClick = async(cno) => {
