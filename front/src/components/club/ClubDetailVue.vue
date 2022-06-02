@@ -13,7 +13,9 @@
                         </v-col>
 
                         <v-col class="col_right">
-                            <h5>등록일: {{state.regdate1}}, 수정일: {{state.updateDate}}</h5>
+                            <h5>등록일: {{state.regdate1}}
+                                 <!-- 수정일: {{state.updateDate}} -->
+                                 </h5>
                         </v-col>
                     </v-row>
 
@@ -25,7 +27,7 @@
                                 </v-col>
 
                                 <v-col sm="6" class="col_right">
-                                    <h4>({{state.now}}/{{state.limit}})</h4>
+                                    <!-- <h4>({{state.now}}/{{state.limit}})</h4> -->
                                 </v-col>
                             </v-row>
 
@@ -37,7 +39,8 @@
                         </v-col>
 
                         <v-col sm="3" class="col_center">
-                            <img :src="require('../../assets/img/club_logo.png')" style="width: 100%"/>
+                            <img  v-if="state.imgurl" :src="state.imgurl" style=" height: 80px; width: 150px;"/>
+                            <img  v-if="!state.imgurl" :src="require(`../../assets/img/default-logo.jpg`)"  style="height: 50px; cursor: pointer;"/>
                         </v-col>
 
                         <v-col sm="1" style="vertical-align: middle;">
@@ -224,6 +227,7 @@ export default {
         const store = useStore();
 
         const state = reactive({
+            imgurl : '',
             cdno      : '',
             token     : sessionStorage.getItem("TOKEN"),
             cno       : route.query.cno,
@@ -274,6 +278,8 @@ export default {
             console.log(response.data);
 
             if(response.data.status === 200){
+                state.imgurl = response.data.imgurl;
+                console.log("IIIIIIIIIIIIII",state.imgurl);
                 state.items = response.data.result;
                 state.cdno  = response.data.result.cdno;
                 state.addr1 = state.items.club.caddress;
