@@ -128,22 +128,20 @@
                       <!-- <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mcname === null">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5>
                       <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mpnickname === null">{{state.replynicklist[idx].mcname}} &nbsp; | </h5>  -->
                       <h5 style="color: gray;">{{tmp.reregdate1}}</h5>
-                      <img :src="require('../../assets/img/thumb.png')" @click="replylike()" style="width: 15px; margin-left: 10px; cursor: pointer; " />
+                      <!-- <img :src="require('../../assets/img/thumb.png')" @click="replylike()" style="width: 15px; margin-left: 10px; cursor: pointer; " /> -->
 
-            <v-col style="padding: 3px;" class="col_center">
-              <v-btn v-if="state.reply1.relikestatus === false" style="height: 20px;" @click="replylike()">
-                <img :src="state.likeimage" style="width: 18px; margin-right: 3px;"/>
-                <h5  style="margin-left: 10px;">{{state.reply1.rno}}</h5>
-              </v-btn>
-              <v-btn v-if="state.reply1.relikestatus === true" style="background-color: gold; height: 20px;" @click="replylike()">
-                <img :src="state.likeimage" style="width: 18px; margin-right: 3px;"/>
-                <h5 style="margin-left: 10px;">{{state.reply1.rno}}</h5>
-              </v-btn>
-            </v-col>
+                    <!-- <v-col style="padding: 3px;" class="col_center">
+                      <v-btn v-if="state.reply1.relikestatus === false" style="height: 20px;" @click="replylike()">
+                        <img :src="state.likeimage" style="width: 18px; margin-right: 3px;"/>
+                        <h5  style="margin-left: 10px;">{{state.reply1.rno}}</h5>
+                      </v-btn>
+                      <v-btn v-if="state.reply1.relikestatus === true" style="background-color: gold; height: 20px;" @click="replylike()">
+                        <img :src="state.likeimage" style="width: 18px; margin-right: 3px;"/>
+                        <h5 style="margin-left: 10px;">{{state.reply1.rno}}</h5>
+                      </v-btn>
+                    </v-col> -->
 
-
-
-                      <h5 style="color: gray; padding-left: 5px;">{{state.blike}}</h5>
+                    <!-- <h5 style="color: gray; padding-left: 5px;">{{state.blike}}</h5> -->
                     </v-col>
                   </v-row>
 

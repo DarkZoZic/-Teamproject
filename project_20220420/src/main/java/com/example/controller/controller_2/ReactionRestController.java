@@ -451,16 +451,16 @@ try {
             // Reaction reaction2 = rRepository.findByMember_MidAndBoard_Bno(username, bno);
             Reaction reaction2 = rRepository.findByMember_midAndCreply_renumber(username, reaction.getCreply().getRenumber());
             System.out.println(reaction2.toString());
-            // if( reaction2 == null ){
-            //     reaction.setRcount(1L);
-            //     rRepository.save(reaction);
-            //     map.put("status", 200); // 성공
-            // }
-            // else{
+            if( reaction2 == null ){
+                reaction.setRcount(1L);
+                rRepository.save(reaction);
+                map.put("status", 200); // 성공
+            }
+            else{
                 
-            //     map.put("status", -1); // 실패
-            //     System.out.println("이미좋아요 누름");
-            // }
+                map.put("status", -1); // 실패
+                System.out.println("이미좋아요 누름");
+            }
             map.put("status", 200);
             
         }
