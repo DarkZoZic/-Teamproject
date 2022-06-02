@@ -75,7 +75,7 @@
 
                             <!-- 댓글하나 -->
                             <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="(tmp, idx) in state.reply" :key="tmp">
-                                <v-col>
+                                <v-col v-if="tmp.reparentnumber === 0">
                                     <!-- 댓글작성자 -->
                                     <v-row dense>
                                         <v-col class="col_left">
@@ -84,7 +84,7 @@
                                             <h5 style="color: #676767;">{{tmp.reregdate}}</h5>
                                             <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
                                             <h5 style="color: #676767;">{{state.like}}</h5>
-                                            <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
+                                            <a><h5 style="color: #676767; padding-left: 10px;" @click="rereplytoggle(tmp.renumber)">댓글</h5></a>
                                         </v-col>
                                     </v-row>
 
@@ -99,36 +99,8 @@
                                             </div>
                                         </v-col>
                                     </v-row>
-
-                                    <!-- 대댓글. 대댓글이 있으면 테두리가 없게 하는게 가능한가? -->
-                                    <v-row dense style="padding-left: 10px;" v-if="tmp.reparentnumber !== null">
-                                        <v-col>
-                                            <v-row dense>
-                                                <v-col style="display: flex">
-                                                    <img :src="require('../../../assets/img/reply.png')" style="margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
-                                                    <!-- 댓글작성자 -->
-                                                    <v-row dense>
-                                                        <v-col class="col_left">
-                                                            <h5 style="padding-right: 10px;">{{state.reply.writer1}}</h5> 
-                                                            <h5 style="color: #676767;">{{state.reply.date1}}</h5>
-                                                            <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
-                                                            <h5 style="color: #676767;">{{state.like}}</h5>
-
-                                                            <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a>
-                                                        </v-col>
-                                                    </v-row>
-                                                </v-col>
-                                            </v-row>
-
-                                            <!-- 댓글내용 -->
-                                            <v-row dense style="padding-right: 10px;">
-                                                <v-col>
-                                                    <h4 style="padding-left: 30px;">{{state.reply.content1}}</h4>
-                                                </v-col>
-                                            </v-row>
-                                        </v-col>
-                                    </v-row>
-
+                                    
+                                    <!-- 댓글 수정/삭제 -->
                                     <v-col class="col_right" v-if="state.tokenid === tmp.member.mid">
                                         <div v-if="!state.replyupdate.update[idx]">
                                             <h5 @click="handleReplyUpdate(idx)" style="padding-right: 10px; cursor: pointer;">수정</h5>
@@ -140,6 +112,68 @@
                                             <v-btn style="height: 68px;" @click="handleReplyUpdateAct(tmp.renumber, idx)"><h4 >수정</h4></v-btn>
                                         </div>
                                     </v-col>
+
+                                    <!-- 대댓글 -->
+                                    <v-row dense style="padding-left: 10px;" v-for="(tmp1, idx1) in state.rereply" :key="tmp1">
+                                        <v-col v-if="tmp1.reparentnumber === tmp.renumber">
+                                            <v-row dense>
+                                                <v-col style="display: flex">
+                                                    <img :src="require('../../../assets/img/reply.png')" style="margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
+                                                    <!-- 대댓글작성자 -->
+                                                    <v-row dense>
+                                                        <v-col class="col_left">
+                                                            <h5 style="padding-right: 10px;" v-if="state.rereplynicklist[idx1].mcname === null">{{state.rereplynicklist[idx1].mpnickname}}</h5> 
+                                                            <h5 style="padding-right: 10px;" v-if="state.rereplynicklist[idx1].mpnickname === null">{{state.rereplynicklist[idx1].mcname}}</h5>
+                                                            <h5 style="color: #676767;">{{tmp1.reregdate}}</h5>
+                                                            <a><img :src="require('../../../assets/img/thumb.png')" style="width: 15px; margin-left: 10px; margin-right: 3px;"/></a>
+                                                            <h5 style="color: #676767;">{{state.like}}</h5>
+
+                                                            <!-- <a><h5 style="color: #676767; padding-left: 10px;">댓글</h5></a> -->
+                                                        </v-col>
+                                                    </v-row>
+                                                </v-col>
+                                            </v-row>
+
+                                            <!-- 대댓글내용 -->
+                                            <v-row dense style="padding-right: 10px;">
+                                                <v-col>
+                                                    <h4 style="padding-left: 30px;" v-if="!state.rereplyupdate.update[idx1]">{{tmp1.recontent}}</h4>
+                                                    <div v-if="state.rereplyupdate.update[idx1]" class="col_left">
+                                                        <textarea v-model="tmp1.recontent" 
+                                                        style="background-color: white; resize: none; border: 1px solid #CCC; border-radius: 5px; padding: 10px; width: 900px;">
+                                                        </textarea>
+                                                    </div>
+                                                </v-col>
+                                            </v-row>
+                                        </v-col>
+
+                                        <!-- 대댓글 수정/삭제 -->
+                                         <v-col class="col_right" v-if="state.tokenid === tmp1.member.mid && tmp1.reparentnumber === tmp.renumber">
+                                            <div v-if="!state.rereplyupdate.update[idx1]">
+                                                <h5 @click="handleReReplyUpdate(idx1)" style="padding-right: 10px; cursor: pointer; display: inline-block">수정</h5>
+                                                <h5 @click="handleReReplyDelete(tmp1.renumber)" style="cursor: pointer; display: inline-block;" >삭제</h5>
+                                            </div>
+                                            
+                                            <div v-if="state.rereplyupdate.update[idx1]">
+                                                <v-btn style="height: 68px; margin-right: 10px;" @click="handleReReplyUpdate(idx1)"><h4>취소</h4></v-btn>
+                                                <v-btn style="height: 68px;" @click="handleReReplyUpdateAct(tmp1.renumber, idx1)"><h4 >수정</h4></v-btn>
+                                            </div>
+                                        </v-col>
+                                    </v-row>
+
+                                     <!-- 대댓글 작성 -->
+                                    <v-row dense="" v-if="state.reparentnumber === tmp.renumber">
+                                        <v-col sm="9" style="padding-top: 10px;">
+                                        <textarea 
+                                            style="border: 1px solid #CCC; padding: 10px; background-color: white; width: 100%; height: 70px; outline-width: 0; resize: none;"
+                                            v-model="state.rereplycontent"
+                                        ></textarea>
+                                        </v-col>
+                                        
+                                        <v-col sm="1" style="padding: 10px;" class="col_center">
+                                        <v-btn style="width: 100%; height:69px; border: 1px solid #CCC;" @click="insertrereply(state.reparentnumber)"><h4>댓글작성</h4></v-btn>
+                                        </v-col>
+                                    </v-row>
                                 </v-col>
                             </v-row>
 
@@ -195,24 +229,30 @@ export default {
         const router = useRouter();
 
         const state = reactive({
-        cgno         : route.query.cgno,
-        cno          : route.query.cno,
-        token        : sessionStorage.getItem("TOKEN"),
-        tokenid      : sessionStorage.getItem("MID"),
-        gallery      : '',
-        mid          : '',
-        nick         : '',
-        imagecount   : 0,
-        imageurl     : [],
-        replynicklist: [],
-        rereply      : [],
-        replycontent : '',
-        reply        : [],
+        cgno           : route.query.cgno,
+        cno            : route.query.cno,
+        token          : sessionStorage.getItem("TOKEN"),
+        tokenid        : sessionStorage.getItem("MID"),
+        gallery        : '',
+        mid            : '',
+        nick           : '',
+        imagecount     : 0,
+        imageurl       : [],
+        replynicklist  : [],
+        rereplynicklist: [],
+        rereply        : [],
+        replycontent   : '',
+        reparentnumber : 0,
+        rereplycontent : '',
+        reply          : [],
 
         replyupdate : 
         {
             update : []
         },
+        rereplyupdate    : {
+            update : []
+        }
     });
 
         // 조회수 증가 -> 갤러리 상세내용 + 이미지 + 댓글목록
@@ -228,15 +268,21 @@ export default {
                 console.log(response.data);
 
                 if(response.data.status === 200) {
-                    state.gallery       = response.data.result.clubgallery;
-                    state.mid           = response.data.result.clubgallery.member.mid;
-                    state.imagecount    = response.data.result.imagecount; //idx
-                    state.nick          = response.data.result.nick;
-                    state.reply         = response.data.result.replylist;
-                    state.replynicklist = response.data.result.replynicklist;
+                    state.gallery          = response.data.result.clubgallery;
+                    state.mid              = response.data.result.clubgallery.member.mid;
+                    state.imagecount       = response.data.result.imagecount; //idx
+                    state.nick             = response.data.result.nick;
+                    state.reply            = response.data.result.replylist;
+                    state.replynicklist    = response.data.result.replynicklist;
+                    state.rereplynicklist  = response.data.result.rereplynicklist;
                     for(let i=0; i<state.imagecount; i++) {
-                        state.imageurl[i] = state.gallery.gimageurl + "&idx=" + i;
+                        state.imageurl[i]  = state.gallery.gimageurl + "&idx=" + i;
                         // console.log(state.imageurl[i]);
+                    }
+                    for(let i=0; i<state.reply.length; i++)
+                    {
+                        state.replyupdate.update.push(false);
+                        // console.log(state.replyupdate.update[i]);
                     }
                 }
             } else if(response.data.status === 0) {
@@ -270,7 +316,7 @@ export default {
         const insertreply = async() => {
             const url     = `/ROOT/api/clubgallery/insertreply`;
             const headers = { "Content-Type": "application/json", "token": state.token };
-            const body    = { recontent: state.replycontent, cgno: state.cgno }
+            const body    = { recontent: state.replycontent, cgno: state.cgno, reparentnumber : 0 }
             const response = await axios.post(url, body, {headers});
             console.log(response.data);
             if(response.data.status === 200) {
@@ -331,6 +377,73 @@ export default {
             }
         }
 
+        const rereplytoggle = (renumber) =>
+        {
+            if(state.reparentnumber === 0)
+            {
+                state.reparentnumber = renumber;
+                console.log(state.reparentnumber);
+            }
+            else
+            {
+                state.reparentnumber = 0;
+                console.log(state.reparentnumber);
+            }
+        } 
+
+        const insertrereply = async(idx) => {
+            const url     = `/ROOT/api/clubgallery/insertreply`;
+            const headers = {"Content-Type":"application/json", "token" : state.token};
+            const body    = 
+            {
+                cbno : state.cbno,
+                recontent : state.rereplycontent,
+                reparentnumber : idx
+            };
+            const response = await axios.post(url, body, {headers});
+            console.log(response.data);
+
+            if(response.data.status === 200)
+            {
+                location.reload();
+            }
+        }
+
+        const handleReReplyUpdate = (idx1) => {
+                // console.log(idx1);
+                // console.log(state.rereplyupdate.update[idx1]);
+                if(!state.rereplyupdate.update[idx1])
+                {
+                    state.rereplyupdate.update[idx1] = true;
+                }
+                else
+                {
+                    state.rereplyupdate.update[idx1] = false;
+                    content();
+            }
+        }
+
+        const handleReReplyUpdateAct = async(tmp1, idx1) => 
+        {
+            // console.log(tmp);
+            // console.log(state.reply[idx].renumber);
+            const url     = `/ROOT/api/clubgallery/updatereply`;
+            const headers = {"Content-Type":"application/json", "token" : state.token};
+            const body    = 
+            {
+                cbno      : tmp1,
+                renumber  : state.rereply[idx1].renumber,
+                recontent : state.rereply[idx1].recontent,
+            };
+            const response = await axios.put(url, body, {headers});
+            console.log(response.data);
+
+            if(response.data.status === 200) {
+                state.rereplyupdate.update[idx1] = false;
+                content();
+            }
+        }
+
         const replylike = async() => {
 
         }
@@ -340,7 +453,7 @@ export default {
             // nick();
         });
 
-        return { state, like, insertreply, handleDelete, handleReplyDelete, handleReplyUpdate, handleReplyUpdateAct, replylike }
+        return { state, like, insertreply, handleDelete, handleReplyDelete, handleReplyUpdate, handleReplyUpdateAct, rereplytoggle, insertrereply, handleReReplyUpdate, handleReReplyUpdateAct, replylike }
     }
 }
 </script>

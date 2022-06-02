@@ -553,7 +553,7 @@ public class ClubBoardRestController {
 	}
 	
 
-	// 클럽게시판 댓글작성
+	// 클럽게시판 댓글/대댓글작성
 	// /ROOT/api/clubboard/insertreply
 	@RequestMapping(value="/insertreply", 
 			method={RequestMethod.POST}, 
@@ -601,7 +601,7 @@ public class ClubBoardRestController {
 		return map;
 	}
 	
-	// 클럽게시판 대댓글 작성 //미완성
+	// 클럽게시판 대댓글 작성 //안씀
 	// /ROOT/api/clubboard/insertrereply?cbno=
 //	@RequestMapping(value="/insertrereply", 
 //			method={RequestMethod.POST}, 

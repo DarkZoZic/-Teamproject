@@ -106,7 +106,7 @@
                       </div>
                     </v-col>
                   </v-row>
-
+                  <!-- 댓글 수정/삭제 -->
                   <v-col class="col_right" v-if="state.tokenid === tmp.member.mid">
                     <div v-if="!state.replyupdate.update[idx]">
                       <h5 @click="handleReplyUpdate(idx)" style="padding-right: 10px; cursor: pointer; display: inline-block">수정</h5>
@@ -137,7 +137,7 @@
                           </v-row>
                         </v-col>
                       </v-row>
-
+                      <!-- 대댓글 내용 -->
                       <v-row dense style="padding-right: 10px;">
                         <v-col>
                           <h4 style="padding-left: 30px;" v-if="!state.rereplyupdate.update[idx1]">{{tmp1.recontent}}</h4>
@@ -149,7 +149,7 @@
                         </v-col>
                       </v-row>
                     </v-col>
-
+                    <!-- 대댓글 수정/삭제 -->
                     <v-col class="col_right" v-if="state.tokenid === tmp1.member.mid && tmp1.reparentnumber === tmp.renumber">
                       <div v-if="!state.rereplyupdate.update[idx1]">
                         <h5 @click="handleReReplyUpdate(idx1)" style="padding-right: 10px; cursor: pointer; display: inline-block">수정</h5>
@@ -293,7 +293,7 @@ export default {
           for(let i=0; i<state.reply.length; i++)
           {
             state.replyupdate.update.push(false);
-            console.log(state.replyupdate.update[i]);
+            // console.log(state.replyupdate.update[i]);
           }
         }
         else if(response.data.status === 0) {

@@ -239,14 +239,41 @@ public class ClubGalleryRestController {
 				CGMemView cgmv = cgmvRep.findById(cgno).orElse(null);
 				
 				// 댓글 목록 저장할 배열 변수
-				List<CReply> replylist = crRep.findByClubgallery_cgnoOrderByRenumberDesc(cgno);
+				List<CReply> replylist = new ArrayList<>();
+				// 대댓글 목록 저장 변수
+				List<CReply> rereplylist = new ArrayList<>();
+				// 댓글 목록 저장할 배열 변수
+				List<CReply> replylistlength = crRep.findByClubgallery_cgnoOrderByRenumberDesc(cgno);
+				// 글번호 일치하는 댓글 대댓글 일괄 전달받기
+				for(int i=0; i<replylistlength.size(); i++)
+				{
+					if(replylistlength.get(i).getReparentnumber() == 0)
+					{
+						replylist.add(replylistlength.get(i));
+					}
+					else
+					{
+						rereplylist.add(replylistlength.get(i));
+					}
+				}
 				
 				List<CReplyMemberView> mlist = new ArrayList<>(); // 댓글 작성자 닉네임 리스트
+				List<CReplyMemberView> remlist = new ArrayList<>(); // 대댓글 작성자 닉네임 리스트
+				
 				for(int i=0; i<replylist.size(); i++)
 				{
 					CReplyMemberView crmv = crmvRep.findByRenumber(replylist.get(i).getRenumber());
+//					System.out.println("crmv : "+crmv);
 					mlist.add(crmv);
 				}
+				
+				for(int i=0; i<rereplylist.size(); i++)
+				{
+					CReplyMemberView crmv1 = crmvRep.findByRenumber(rereplylist.get(i).getRenumber());
+//					System.out.println("crmv1 : "+crmv1);
+					remlist.add(crmv1);
+				}
+				
 				
 				System.out.println(cno);
 				
@@ -255,6 +282,7 @@ public class ClubGalleryRestController {
 				model.addAttribute("replylist", replylist); // 댓글
 				model.addAttribute("imagecount", imagecount); // 이미지 개수(idx)
 				model.addAttribute("replynicklist", mlist); // 댓글작성자 닉네임 목록
+				model.addAttribute("rereplynicklist", remlist); // 댓글작성자 닉네임 목록
 				
 				map.put("status", 200);
 				map.put("result", model);
@@ -338,7 +366,7 @@ public class ClubGalleryRestController {
 		return map;
 	}
 	
-	// 클럽갤러리 댓글쓰기
+	// 클럽갤러리 댓글/대댓글쓰기
 	// /ROOT/api/clubgallery/insertreply
 	@RequestMapping(value="/insertreply", 
 			method={RequestMethod.POST}, 
@@ -362,6 +390,9 @@ public class ClubGalleryRestController {
 				
 				ClubGallery cg = cgRep.findById(Long.valueOf(cr.get("cgno").toString())).orElse(null);
 				creply.setClubgallery(cg); // 댓글 작성한 갤러리 번호 저장
+				
+				creply.setReparentnumber(Long.parseLong(cr.get("reparentnumber").toString()));
+				
 				crRep.save(creply);
 				map.put("status", 200);
 			}
