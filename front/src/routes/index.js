@@ -49,6 +49,8 @@ import HelpQnaWriteVue   from '@/components/help/HelpQnaWriteVue.vue';
 
 // clubHome
 import CHomeVue          from '@/components/clubHome/CHomeVue.vue';
+import CAdminVue         from '@/components/clubHome/CAdminVue.vue';
+import CAdminVue1        from '@/components/clubHome/CAdminVue1.vue';
 
 // clubBoard
 import CBoardListVue     from '@/components/clubHome/CBoard/CBoardListVue.vue';
@@ -127,12 +129,14 @@ const routes = [
 
     // clubHome
     { path: '/chome',     name: "CHomeVue",          component: CHomeVue },
+    { path: '/cadmin',    name: "CAdminVue",         component: CAdminVue },
+    { path: '/cadmin1',   name: "CAdminVue1",        component: CAdminVue1 },
 
     // clubBoard
     { path: '/cblist',    name: "CBoardListVue",     component: CBoardListVue },
     { path: '/cbcontent', name: "CBoardContentVue",  component: CBoardContentVue },
     { path: '/cbwrite',   name: "CBoardWriteVue",    component: CBoardWriteVue },
-    { path: '/cbupdate',  name: "CBoardUpdateVue",  component: CBoardUpdateVue },
+    { path: '/cbupdate',  name: "CBoardUpdateVue",   component: CBoardUpdateVue },
 
     // clubGallery
     { path: '/cgallery',  name: "CGalleryVue",       component: CGalleryVue },

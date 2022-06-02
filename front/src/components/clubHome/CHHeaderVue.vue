@@ -10,19 +10,23 @@
                     <v-row dense>                        
                         <v-card color="basil" width="100%">
                             <v-row dense>
-                            <v-col sm="2"></v-col>
+                                <v-col sm="2">
+                                    <router-link to="/">
+                                        <img :src="require('../../assets/img/cluver_logo.png')" style="height: 80px;">
+                                    </router-link>
+                                </v-col>
 
-                            <v-col sm="8" class="col_center">
-                                <v-card-title class="text-center justify-center py-6">
-                                    <h1 style="font-family: 'HallymGothic-Regular'; cursor: pointer;" @click="Home()" >
-                                        {{state.clubname}}
-                                    </h1>
-                                </v-card-title>
-                            </v-col>
-                            
-                            <v-col sm="2" class="col_center" style="padding-right: 20px;">
-                                <img :src="state.logo" style="width: 100%; cursor: pointer;" @click="Home()" v-if="state.logo !== null"/>
-                            </v-col>
+                                <v-col sm="8" class="col_center">
+                                    <v-card-title class="text-center justify-center py-6">
+                                        <h1 style="font-family: 'HallymGothic-Regular'; cursor: pointer;" @click="Home()" >
+                                            {{state.clubname}}
+                                        </h1>
+                                    </v-card-title>
+                                </v-col>
+                                
+                                <v-col sm="2" class="col_center" style="padding-right: 20px;">
+                                    <img :src="state.logo" style="width: 100%; cursor: pointer;" @click="Home()" v-if="state.logo !== null"/>
+                                </v-col>
                             </v-row>
                         </v-card>
                     </v-row>
@@ -56,13 +60,22 @@
                                     <h3 style="font-family: 'HallymGothic-Regular'">{{ state.items[4] }}</h3>
                                 </v-tab>
 
-                                <v-tab @click="chat()">
+                                <!-- <v-tab @click="chat()">
                                     <h3 style="font-family: 'HallymGothic-Regular'">{{ state.items[5] }}</h3>
-                                </v-tab>
+                                </v-tab> -->
 
                                 <v-tab @click="setting()">
                                     <h3 style="font-family: 'HallymGothic-Regular'">{{ state.items[6] }}</h3>
                                 </v-tab>
+                                
+                                <v-tab @click="admin()">
+                                    <h3 style="font-family: 'HallymGothic-Regular'">{{ state.items[7] }}</h3>
+                                </v-tab>
+
+                                <v-tab @click="admin1()">
+                                    <h3 style="font-family: 'HallymGothic-Regular'">{{ state.items[8] }}</h3>
+                                </v-tab>
+
                             </v-tabs>
                         </v-card>
                     </v-row>
@@ -89,15 +102,14 @@ export default {
             clubname: '',
             tab: 'Appp',
             items: [
-                '홈', '게시판', '갤러리', '일정', '클럽원', '채팅', '설정'
+                '홈', '게시판', '갤러리', '일정', '클럽원', '채팅', '설정', '회원관리', '가입신청관리'
             ],
             text: 'Lorem ipsum',
             chk: 0,
             logo: '',
             cno : route.query.cno
         });
-        const clubname = async() =>
-        {
+        const clubname = async() => {
             const url = `/ROOT/club/selectone?cno=${state.cno}`;
             const headers = {"Content-Type":"application/json"};
             const response = await axios.get(url, {headers});
@@ -137,12 +149,20 @@ export default {
             router.push({ name: "CSettingVue", query : {cno : state.cno}});
         };
 
+        const admin = () => {
+            router.push({ name: "CAdminVue", query : {cno : state.cno}});
+        };
+
+        const admin1 = () => {
+            router.push({ name: "CAdminVue1", query : {cno : state.cno}});
+        };
+
         onMounted(() =>
         {
             clubname();
         });
 
-        return { state, Home, boardList, gallery, schedule, member, chat, setting }
+        return { state, Home, boardList, gallery, schedule, member, chat, setting, admin, admin1 }
     }
 }
 </script>
