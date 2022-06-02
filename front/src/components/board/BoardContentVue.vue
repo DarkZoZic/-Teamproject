@@ -125,10 +125,24 @@
                       <img :src="require('../../assets/img/reply.png')" style="margin-top: 5px; margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
                     </div>
                     <v-col class="col_left">                      
-                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mcname === null">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5>
-                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mpnickname === null">{{state.replynicklist[idx].mcname}} &nbsp; | </h5> 
+                      <!-- <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mcname === null">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5>
+                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mpnickname === null">{{state.replynicklist[idx].mcname}} &nbsp; | </h5>  -->
                       <h5 style="color: gray;">{{tmp.reregdate1}}</h5>
                       <img :src="require('../../assets/img/thumb.png')" @click="replylike()" style="width: 15px; margin-left: 10px; cursor: pointer; " />
+
+            <v-col style="padding: 3px;" class="col_center">
+              <v-btn v-if="state.reply1.relikestatus === false" style="height: 20px;" @click="replylike()">
+                <img :src="state.likeimage" style="width: 18px; margin-right: 3px;"/>
+                <h5  style="margin-left: 10px;">{{state.reply1.rno}}</h5>
+              </v-btn>
+              <v-btn v-if="state.reply1.relikestatus === true" style="background-color: gold; height: 20px;" @click="replylike()">
+                <img :src="state.likeimage" style="width: 18px; margin-right: 3px;"/>
+                <h5 style="margin-left: 10px;">{{state.reply1.rno}}</h5>
+              </v-btn>
+            </v-col>
+
+
+
                       <h5 style="color: gray; padding-left: 5px;">{{state.blike}}</h5>
                     </v-col>
                   </v-row>
@@ -254,7 +268,9 @@ export default {
       await handleReplyView();
       await date();
       await likecount();
+      await relikecount();
       await likestatus();
+      await relikestatus();
     })
 
     const date = () => {
@@ -303,6 +319,8 @@ export default {
         reupdate      : [],
         clickReply    : [],
         rerecontent   : '',
+        relikestatus: false,
+        rno : [],
       },
     })
 
@@ -400,6 +418,34 @@ export default {
       if(response.data.status === 200){
         state.rno = response.data.result;
         await handleData(state.bno);
+      }
+    }
+
+    // 댓글 좋아요 개수 조회
+    const relikecount = async() => {
+      const url      = `/ROOT/reaction/relikelist.json?renumber=${tmp.renumber}`;
+      const headers  = { "Content-Type": "application/json" };
+      const response = await axios.get(url, {headers});
+      console.log(response.data);
+      if(response.data.status === 200){
+        state.reply1.rno = response.data.result;
+        await handleReplyView();
+      }
+    }
+
+    // 댓글 좋아요 상태 가져오기
+    const relikestatus = async() => {
+      const url      = `/ROOT/reaction/relikeone?renumber=${tmp.renumber}`;
+      const headers  = { "Content-Type": "application/json", "token": state.token };
+      const response = await axios.get(url, {headers});
+      console.log("좋아요상태", response.data);
+      if(response.data.status === 1){ // 좋아요 누른상태
+        console.log(state.likestatus);
+        state.reply1.relikestatus = true;
+      }
+      else if(response.data.status === 0){ // 좋아요 없음
+        console.log(state.likestatus);
+        state.reply1.relikestatus = false;
       }
     }
 

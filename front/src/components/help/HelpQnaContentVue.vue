@@ -32,13 +32,13 @@
                 조회 {{state.items.qhit}} | {{state.qregdate1}}
               </h5>
 
-              <!-- <h5 style="color: #787878" v-if="state.nick.mpnickname === null"> -->
+              <h5 style="color: #787878" v-if="state.nick.mpnickname === null">
                 <!-- 기업이름 --> 
-                <!-- {{state.nick.mcname}} &nbsp; | &nbsp; 
+                {{state.nick.mcname}} &nbsp; | &nbsp; 
                 조회 {{state.items.qhit}} &nbsp; | &nbsp; 
                 <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.rno}}
-                &nbsp; | &nbsp; {{state.qregdate1}} -->
-              <!-- </h5> -->
+                &nbsp; | &nbsp; {{state.qregdate1}} 
+              </h5>
             </v-col>
           </v-row>
 
@@ -500,6 +500,9 @@ export default {
         }
       }
     }
+
+    // 댓글 좋아요 등록
+
 
 
     return { 

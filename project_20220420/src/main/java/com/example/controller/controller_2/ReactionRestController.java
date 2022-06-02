@@ -311,6 +311,31 @@ try {
     return map;
     }
 
+    // 댓글 좋아요 개수 조회
+	// 127.0.0.1:9090/ROOT/reaction/relikelist.json
+	@RequestMapping(value = "/relikelist.json", 
+    method = { RequestMethod.GET },
+    consumes = { MediaType.ALL_VALUE },
+    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> relikelistPost(
+    @Param(value = "renumber")long renumber){
+        Map<String, Object> map = new HashMap<>();
+    try {
+        System.out.println(renumber);
+        List<Reaction> reaction = rRepository.findByReaction_B_no(bno);
+        System.out.println(reaction.size());
+
+        
+        map.put("status", 200); 
+        map.put("result", reaction.size()); 
+    }
+    catch (Exception e) {
+        e.printStackTrace();
+        map.put("status", 0);
+    }
+        return map;
+    }
+
 
     // 자유게시판 좋아요 개수 조회
 	// 127.0.0.1:9090/ROOT/reaction/likelist.json
@@ -336,9 +361,9 @@ try {
         e.printStackTrace();
         map.put("status", 0);
     }
-    
-    return map;
-}
+        return map;
+    }
+
     // 클럽게시판 좋아요 개수 조회
 	// 127.0.0.1:9090/ROOT/reaction/clublikelist.json
 	@RequestMapping(value = "/clublikelist.json", 
@@ -448,5 +473,48 @@ try {
         
         return map;
     }
+
+
+    // -- 좋아요 가져오기( 댓글 디테일 ) --
+    //127.0.0.1:9090/ROOT/reaction/relikeone
+    @RequestMapping(value = "/relikeone",
+            method = { RequestMethod.GET },
+            consumes = { MediaType.ALL_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> relikeoneGET(
+        @RequestParam (name = "renumber")long renumber, 
+        @RequestHeader (name = "token") String token ){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
+
+            Member memberEntity = new Member();
+            memberEntity.setMid(userid);
+            System.out.println(memberEntity);
+            Reaction reaction = new Reaction();
+
+            reaction.setMember(memberEntity);
+            System.out.println(reaction.toString());
+
+            if(token !=null) {
+                Reaction reaction1 = rRepository.findByCreply_RenumberAndMember_Mid(renumber, userid);
+                if(reaction1 == null){
+                    map.put("status",0);
+                }
+                else{
+                    map.put("result",reaction1);
+                    map.put("status",1);
+                }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", -1); // 실패
+        }
+        return map;
+    }
+
     
 }

@@ -69,4 +69,8 @@ public interface ReactionRepository
         // 댓글
         Reaction findByMember_midAndCreply_renumber(String mid, Long renumber);
 
+        Reaction findByCreply_RenumberAndMember_Mid(Long renumber, String mid);
+
+        List<Reaction> findByCreply_Renumber(Long renumber);
+
 }
