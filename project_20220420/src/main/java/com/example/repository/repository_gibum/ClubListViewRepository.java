@@ -14,5 +14,7 @@ public interface ClubListViewRepository
         List<Clublistview> findByCprivateOrderByCnoDesc(String cprivate);
 
         List<Clublistview> findByCprivateAndCaddressContaining(String cprivate, String address);
+
+        // List<Clublistview> findByCprivateInCaddressContaining(String cprivate, String address);
         
 }

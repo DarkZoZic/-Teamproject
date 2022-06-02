@@ -63,8 +63,8 @@
                                         <v-col sm="1" class="col_left" style="vertical-align: middle;" ><h4 class="club_list_h">지역</h4></v-col>
 
                                         <v-col sm="11" class="col_left">
-                                            <div class="club_list_input" style="justify-content: left; display: flex; align-items: center;outline-width: 0;"> 
-                                                <div class="col_center">
+                                            <div class="club_list_input" @change="Clicksearch1(state.area)" style="justify-content: left; display: flex; align-items: center;outline-width: 0;"> 
+                                                <div class="col_center" >
                                                     <h5 v-for="(tmp, idx) in state.area" :key="tmp" class="h5" @click="del(idx)" style="cursor: pointer; margin-right: 10px;">
                                                         {{tmp}}
                                                         <div class="hov1"><img :src="require('../../assets/img/x.png')" style="width: 10px"></div>
@@ -305,11 +305,62 @@ export default {
             }
         }
 
+        const Clicksearch = async(area) => {
+            state.area.push(area)
+
+            state.joinSearch = state.area.join("|", state.area);
+            
+            console.log(state.joinSearch);
+            
+            const url      =`/ROOT/club/searchclub?address=${area}`
+            const headers  = { "Content-Type": "application.json" };
+            const response = await axios.get(url, { headers: headers });
+
+            if(response.data.status === 200){
+                state.items = response.data.result;
+                console.log(state.items);
+            }
+            const arr = [...new Set(state.area)];
+            console.log(arr);
+            state.area = arr;
+        }
+
+        const Clicksearch1 = async(area) => {
+            state.area.push(area)
+
+            state.joinSearch = state.area.join("|", state.area);
+            
+            console.log(state.joinSearch);
+            
+            const url      =`/ROOT/club/searchclub1?address=${area}`
+            const headers  = { "Content-Type": "application.json" };
+            const response = await axios.get(url, { headers: headers });
+
+            if(response.data.status === 200){
+                state.items = response.data.result;
+                console.log(state.items);
+            }
+            const arr = [...new Set(state.area)];
+            console.log(arr);
+            state.area = arr;
+        }
+
         // 장소 등록해논거 삭제
-        const del = (idx) => {
+        const del = async(idx) => {
             console.log(idx);
             state.area.splice(idx, 1)
-            state.area
+
+            // const url      =`/ROOT/club/searchclub?address=${area}`
+            // const headers  = { "Content-Type": "application.json" };
+            // const response = await axios.get(url, { headers: headers });
+            // if(response.data.status === 200){
+            //     state.items = response.data.result;
+            //     console.log(state.items);
+            // }
+            if(state.area == '') {
+                all();
+            }
+            
         }
 
         // 장소 전체선택
@@ -401,34 +452,13 @@ export default {
             }
         }
 
-        const Clicksearch = async(area) => {
-            state.area.push(area)
-
-            state.joinSearch = state.area.join("|", state.area);
-            
-            console.log(state.joinSearch);
-            
-            const url      =`/ROOT/club/searchclub?address=${area}`
-            const headers  = { "Content-Type": "application.json" };
-            const response = await axios.get(url, { headers: headers });
-
-            if(response.data.status === 200){
-                state.items = response.data.result;
-                console.log(state.items);
-            }
-            const arr = [...new Set(state.area)];
-            console.log(arr);
-            state.area = arr;
-        }
-
          const changeheart = async(cno,idx) => {
             console.log(state.likelist.clubCno);
             console.log(cno);
-            if(state.imgcheck[idx].cno === cno ){
-                if(state.imgcheck[idx].type === 1){
+            if(state.imgcheck[idx].cno === cno ) {
+                if(state.imgcheck[idx].type === 1){ 
                     state.imgcheck[idx].type = 0;
-                }
-                else{
+                }else {
                     state.imgcheck[idx].type = 1;
                 }
             }
@@ -496,7 +526,7 @@ export default {
         }
         
         return {
-        state, addr1, search1, del, reset, resetdate, 
+        state, addr1, search1, del, reset, resetdate, Clicksearch1,
         resettime, Clicksearch, all, changeheart, unlike, handlePage }
     }
 }
