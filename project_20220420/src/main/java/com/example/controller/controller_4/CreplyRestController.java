@@ -103,7 +103,51 @@ public class CreplyRestController {
         return map;
     }
 
-    // 답댓글 작성 ?
+    // 답댓글 작성 
+    @RequestMapping(value = "/reboard_insert", 
+    method = {RequestMethod.POST},
+    consumes = {MediaType.ALL_VALUE},
+    produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> BreInsertPost(
+        @RequestBody CReply cReply,
+        @RequestHeader (name = "token") String token ) {
+
+        Map<String ,Object> map = new HashMap<>();
+
+        try{
+            // 토큰 추출
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("USERNAME ==>" + userid);
+
+            Member memberEntity = new Member();
+            memberEntity.setMid(userid);
+            System.out.println(memberEntity);
+
+            cReply.setMember(memberEntity);
+            System.out.println(cReply.toString());
+            
+            Board1 board1Entity = new Board1();
+            board1Entity.setBno(cReply.getBoard1().getBno());
+            System.out.println("BNO==========>"+cReply.getBoard1().getBno());
+
+            if(token !=null) {
+                cReply.setBoard1(board1Entity);
+                cReply.setRerecontent(cReply.getRerecontent());
+                cReply.setReprivate(cReply.getReprivate());
+                cReply.setReparentnumber(cReply.getReparentnumber());
+
+                cRepository.save(cReply);
+                map.put("status", 200); // 성공
+            }
+            System.out.println("=============="+cReply.toString());
+            map.put("status", 200);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            map.put("status", 0); // 실패
+        }
+        return map;
+    }
 
 
     // 127.0.0.1:9090/ROOT/api/creply/board_delete

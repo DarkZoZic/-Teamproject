@@ -189,7 +189,7 @@
                             </v-col>
 
                             <v-col sm="1" style="padding: 10px;" class="col_center">
-                              <v-btn style="width: 100%; height: 70px; border: 1px solid #CCC;" @click="handleReplyAdd(tmp.renumber, idx)"><h4>댓글작성</h4></v-btn>
+                              <v-btn style="width: 100%; height: 70px; border: 1px solid #CCC;" @click="handleReplyAdd(idx)"><h4>댓글작성</h4></v-btn>
                             </v-col>
                           </v-row>
                         </v-col>
@@ -536,14 +536,14 @@ export default {
     }
 
     // 답댓글 등록 
-    const handleReplyAdd = async(no, idx) => {
-      const url     = `/ROOT/api/creply/board_insert`;
+    const handleReplyAdd = async(idx) => {
+      const url     = `/ROOT/api/creply/reboard_insert`;
       const headers = { "Content-Type": "application/json", "token" : state.token };
       const body = {
         mid : state.mid,
         board1        : { bno :state.bno },
         recontent     : state.reply1.rerecontent,
-        reparentnumber: no,
+        reparentnumber: state.reply1.renumber,
         reprivate     : state.reply1.reprivate,
       };
       const response = await axios.post(url, body,{headers});
