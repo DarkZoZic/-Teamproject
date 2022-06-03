@@ -54,18 +54,18 @@
                                                         <tr>
                                                             <td style="border-bottom: 2px solid #CCC; width:70px;"><h3>체크</h3></td>
                                                             <td style="border-bottom: 2px solid #CCC;"><h3>제목</h3></td>
-                                                            <td style="border-bottom: 2px solid #CCC; width:170px;"><h3>날짜</h3></td>
+                                                            <td style="border-bottom: 2px solid #CCC; width:270px;"><h3>날짜</h3></td>
                                                             <td style="border-bottom: 2px solid #CCC; width:70px;"><h3>조회</h3></td>
                                                             <td style="border-bottom: 2px solid #CCC; width:80px;"><h3>좋아요</h3></td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr v-for="item in state.my" :key="item">
+                                                        <tr>
                                                             <td><input type="checkbox"></td>
-                                                            <td>{{item.title}}</td>
-                                                            <td>{{item.date}}</td>
-                                                            <td>{{item.hit}}</td>
-                                                            <td>{{item.like}}</td>
+                                                            <td>{{state.my.title}}</td>
+                                                            <td>{{state.my.date}}</td>
+                                                            <td>{{state.my.hit}}</td>
+                                                            <td>{{state.my.like}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </v-table>
@@ -97,17 +97,17 @@
                                                     <thead>
                                                         <tr>
                                                             <td style="border-bottom: 2px solid #CCC; width:70px;"><h3>체크</h3></td>
-                                                            <td style="border-bottom: 2px solid #CCC;"><h3>제목</h3></td>
-                                                            <td style="border-bottom: 2px solid #CCC; width:170px;"><h3>날짜</h3></td>
+                                                            <td style="border-bottom: 2px solid #CCC;"><h3>내용</h3></td>
+                                                            <td style="border-bottom: 2px solid #CCC; width:270px;"><h3>날짜</h3></td>
                                                             <td style="border-bottom: 2px solid #CCC; width:80px;"><h3>좋아요</h3></td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr v-for="item in state.my" :key="item">
+                                                        <tr>
                                                             <td><input type="checkbox"></td>
-                                                            <td>{{item.title}}</td>
-                                                            <td>{{item.date}}</td>
-                                                            <td>{{item.like}}</td>
+                                                            <td>{{state.myreply.title}}</td>
+                                                            <td>{{state.myreply.date}}</td>
+                                                            <td>{{state.myreply.like}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </v-table>
@@ -129,9 +129,9 @@
                                     <v-card style="padding: 10px;">
                                         <v-row dense style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;">
                                             <v-col>
-                                                <v-row dense>
-                                                    <v-col>
-                                                        <h4>알림 코드에 따라 다른 글이 와야함. v-if..?</h4>
+                                                <v-row dense style="height: 400px;">
+                                                    <v-col class="col_center">
+                                                        <h4>준비중</h4>
                                                     </v-col>
                                                 </v-row>
                                             </v-col>
@@ -194,7 +194,7 @@ export default {
 
             myreply: {
                 chk: false,
-                title: '아니 어젴ㅋㅋ',
+                title: '아 ㅋㅋㅋㅋㅋ너무웃기네 ㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
                 date: '2021-04-24 14:22:03',
                 like: 4,
                 content: '어제 포켓몬빵을 사러 갔는데 진짜 레전드였음ㅋㅋㅋzzzzzzzzzzzzzzzzzzzzzzzzzzㅋ',
