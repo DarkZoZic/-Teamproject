@@ -20,6 +20,21 @@
                             <h2>업로드</h2>
                         </v-col>
                     </v-row>
+
+                    <!-- 제목 -->
+                    <v-row dense style="padding:10px;">
+                        <v-col sm="2" style="justify-content: right; display: flex; align-items: center; ">
+                            갤러리명:
+                        </v-col>
+
+                        <v-col sm="8" style="display: flex; align-items: center; width:100%;">
+                            <input type="text" v-model="state.title" style="outline-width: 0; padding-left: 3px; width: 100%; border-bottom: 1px solid #CCC;"/>
+                        </v-col>
+
+                        <v-col sm="2"></v-col>
+                    </v-row>
+                  
+
                     <v-row dense>
                         <v-col>
                             <v-file-input
@@ -67,7 +82,8 @@ export default {
         const route = useRoute();
         
         const state = reactive({
-            galleryName: '일상갤러리',
+            title : '',
+            galleryName: '갤러리',
             imageFile : [],
             imageUrl : [],
             cno : route.query.cno,
@@ -99,7 +115,7 @@ export default {
             {
                 body.append("file", state.imageFile[i]);
             }
-            body.append("cgname", state.galleryName);
+            body.append("cgname", state.title);
             body.append("club", state.cno);
 
             const response = await axios.post(url, body, {headers});

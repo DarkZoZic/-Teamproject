@@ -111,7 +111,8 @@ export default {
       option: '전체',
       cno : route.query.cno,
       token : sessionStorage.getItem("TOKEN"),
-      nicklist : []
+      nicklist : [],
+      galleryName : '갤러리'
     });
 
     const selectlist = async() => {
