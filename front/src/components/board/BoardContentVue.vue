@@ -567,8 +567,8 @@ export default {
         mid : state.mid,
         renumber : no,
         // board1 : {bno : state.bno },
-        // recontent : state.reply1.recontent,
-        recontent : state.replylist.recontent,
+        recontent : state.reply1.recontent,
+        // recontent : state.replylist.recontent,
         // reparentnumber : no,
         reprivate : state.reply1.reprivate,
       };
