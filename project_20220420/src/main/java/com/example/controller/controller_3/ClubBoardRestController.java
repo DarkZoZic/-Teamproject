@@ -642,9 +642,20 @@ public class ClubBoardRestController {
 				System.out.println("token mid : " + mid);
 				CReply member = crRep.findById(cr.getRenumber()).orElse(null);
 				System.out.println("CReply mid : " + member.getMember().getMid());
+				System.out.println("cr.getReparentnumber : "+Long.parseLong(cr.getReparentnumber().toString()));
 				if(mid.equals(member.getMember().getMid()))
 				{
-					crRep.deleteById(cr.getRenumber());
+					if(Long.parseLong(cr.getReparentnumber().toString()) == 0)
+					{
+						crRep.deleteByReparentnumber(cr.getRenumber());
+						crRep.deleteById(cr.getRenumber());
+						
+					}
+					else
+					{
+						crRep.deleteById(cr.getRenumber());
+					}
+					
 					map.put("status", 200);
 				}
 				else
