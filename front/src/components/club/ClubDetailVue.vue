@@ -1,6 +1,6 @@
 <template>
 <div v-if="state.items">
-<HeaderVue style="height: 220px;"></HeaderVue>
+<HeaderVue style="height: 150px;"></HeaderVue>
     <v-app>
         <v-main style="padding: 10px;">      
             <v-row dense>
