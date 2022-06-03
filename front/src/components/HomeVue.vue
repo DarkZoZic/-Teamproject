@@ -205,7 +205,7 @@
 
                                                     <v-row dense>
                                                         <v-col sm="8" v-if="state.cname" style="padding-top: 5px;">
-                                                            <div class="col_center" style="background-color: navy; width: 100px; border: 0px solid; border-radius: 6px; height: 60px;"><h3>기업회원</h3></div>
+                                                            <div class="col_center" style="background-color: navy; color: white; width: 100px; border: 0px solid; border-radius: 6px; height: 60px;"><h3>기업회원</h3></div>
                                                         </v-col>
                                                         
                                                         <v-col sm="8" v-if="state.nick" style="padding-top: 5px;">
