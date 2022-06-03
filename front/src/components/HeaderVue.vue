@@ -57,11 +57,11 @@
               <!-- 추천검색어 -->
               <v-row dense style="margin:5px;">
                 <v-col sm="10" align="center">
-                  <a style="padding-right:15px;">축구</a>
-                  <a style="padding-right:15px;">캠핑</a>
-                  <a style="padding-right:15px;">리그오브레전드</a>
-                  <a style="padding-right:15px;">공인중개사</a>
-                  <a style="padding-right:15px;">주식</a>
+                  <a style="padding-right:15px;" @click="handleSend1()">축구</a>
+                  <a style="padding-right:15px;" @click="handleSend2()">캠핑</a>
+                  <a style="padding-right:15px;" @click="handleSend3()">리그오브레전드</a>
+                  <a style="padding-right:15px;" @click="handleSend4()">공인중개사</a>
+                  <a style="padding-right:15px;" @click="handleSend5()">주식</a>
                 </v-col>
 
                 <v-col sm="2"></v-col>
@@ -113,6 +113,11 @@ export default {
     const store = useStore();
 
     const state = reactive({
+      op1 : '축구',
+      op2 : '캠핑',
+      op3 : '리그오브레전드',
+      op4 : '부동산',
+      op5 : '주식',
       search : '',
       logged: computed(() => store.getters['moduleA/getLogged']),
       token : sessionStorage.getItem("TOKEN"),
@@ -140,6 +145,36 @@ export default {
       router.push({name:'ClubListVue', query:{title:state.search}});
 
     }
+    const handleSend1 = async() => {
+      console.log(state.search);
+      store.commit("setKeyword", state.search);
+      router.push({name:'ClubListVue', query:{title:state.op1}});
+
+    }
+    const handleSend2 = async() => {
+      console.log(state.search);
+      store.commit("setKeyword", state.search);
+      router.push({name:'ClubListVue', query:{title:state.op2}});
+
+    }
+    const handleSend3 = async() => {
+      console.log(state.search);
+      store.commit("setKeyword", state.search);
+      router.push({name:'ClubListVue', query:{title:state.op3}});
+
+    }
+    const handleSend4 = async() => {
+      console.log(state.search);
+      store.commit("setKeyword", state.search);
+      router.push({name:'ClubListVue', query:{title:state.op4}});
+
+    }
+    const handleSend5 = async() => {
+      console.log(state.search);
+      store.commit("setKeyword", state.search);
+      router.push({name:'ClubListVue', query:{title:state.op5}});
+
+    }
 
 
     // store.subscribe((mutation, state) => {
@@ -147,7 +182,8 @@ export default {
     // });
 
 
-    return { handleClick, state,handleSend }
+    return { handleClick, state,handleSend,handleSend1,handleSend2,handleSend3,
+    handleSend4,handleSend5 }
   },
 }
 </script>
