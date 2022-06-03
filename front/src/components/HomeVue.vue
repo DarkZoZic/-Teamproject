@@ -358,8 +358,8 @@ export default {
             token    : sessionStorage.getItem("TOKEN"),
             logo     : 'club_logo',
             notice   : '클러버들 환영합니다',
-            notice1  : '개인정보 이용 약관 변경에 ...',
-            notice2  : '불법행위 적발시 처벌될 수 ...',
+            notice1  : '개인정보 이용 약관...',
+            notice2  : '불법행위 적발시 처벌...',
 
             slides: [
                 { title: '', image: require('../assets/img/ad1.jpg') },
