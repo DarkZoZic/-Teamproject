@@ -16,7 +16,7 @@ export default {
             alert('로그아웃 성공');
             sessionStorage.removeItem("TOKEN");
             store.commit('moduleA/setLogged', false);
-            router.push({name:'HomeVue'});
+            router.push({name:'HomeVVue'});
         });
         return {}
     }
