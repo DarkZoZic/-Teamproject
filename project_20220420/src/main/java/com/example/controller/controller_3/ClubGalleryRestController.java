@@ -237,7 +237,6 @@ public class ClubGalleryRestController {
 				long imagecount = cgiRep.countByClubgallery_cgno(cgno); // idx값
 				clubGallery.setGimageurl("/ROOT/clubgallery/image?cgno=" + cgno); // 이미지 url 보내기(idx값은 프론트에서 반복문으로 입력)
 				CGMemView cgmv = cgmvRep.findById(cgno).orElse(null);
-				
 				// 댓글 목록 저장할 배열 변수
 				List<CReply> replylist = new ArrayList<>();
 				// 대댓글 목록 저장 변수
@@ -256,10 +255,8 @@ public class ClubGalleryRestController {
 						rereplylist.add(replylistlength.get(i));
 					}
 				}
-				
 				List<CReplyMemberView> mlist = new ArrayList<>(); // 댓글 작성자 닉네임 리스트
 				List<CReplyMemberView> remlist = new ArrayList<>(); // 대댓글 작성자 닉네임 리스트
-				
 				for(int i=0; i<replylist.size(); i++)
 				{
 					CReplyMemberView crmv = crmvRep.findByRenumber(replylist.get(i).getRenumber());
@@ -274,12 +271,12 @@ public class ClubGalleryRestController {
 					remlist.add(crmv1);
 				}
 				
-				
 				System.out.println(cno);
 				
 				model.addAttribute("clubgallery", clubGallery); //글상세내용(이미지 url 포함)	
 				model.addAttribute("nick", cgmv); // 글 작성자 닉네임
 				model.addAttribute("replylist", replylist); // 댓글
+				model.addAttribute("rereplylist", rereplylist); // 대댓글목록
 				model.addAttribute("imagecount", imagecount); // 이미지 개수(idx)
 				model.addAttribute("replynicklist", mlist); // 댓글작성자 닉네임 목록
 				model.addAttribute("rereplynicklist", remlist); // 댓글작성자 닉네임 목록
@@ -392,7 +389,7 @@ public class ClubGalleryRestController {
 				creply.setClubgallery(cg); // 댓글 작성한 갤러리 번호 저장
 				
 				creply.setReparentnumber(Long.parseLong(cr.get("reparentnumber").toString()));
-				
+				System.out.println("//////////////////////////"+creply.getReparentnumber());
 				crRep.save(creply);
 				map.put("status", 200);
 			}
@@ -427,9 +424,20 @@ public class ClubGalleryRestController {
 				System.out.println("token mid : " + mid);
 				CReply member = crRep.findById(cr.getRenumber()).orElse(null);
 				System.out.println("CReply mid : " + member.getMember().getMid());
+				System.out.println("cr.getReparentnumber : "+cr.getReparentnumber());
 				if(mid.equals(member.getMember().getMid()))
 				{
-					crRep.deleteById(cr.getRenumber());
+					if(Long.parseLong(cr.getReparentnumber().toString()) == 0)
+					{
+						crRep.deleteByReparentnumber(cr.getRenumber());
+						crRep.deleteById(cr.getRenumber());
+						
+					}
+					else
+					{
+						crRep.deleteById(cr.getRenumber());
+					}
+					
 					map.put("status", 200);
 				}
 				else
@@ -446,7 +454,7 @@ public class ClubGalleryRestController {
 		}
 		catch (Exception e)
 		{
-			map.put("status", 0);
+			map.put("status", -1);
 		}
 		return map;
 	}

@@ -103,8 +103,8 @@
                                     <!-- 댓글 수정/삭제 -->
                                     <v-col class="col_right" v-if="state.tokenid === tmp.member.mid">
                                         <div v-if="!state.replyupdate.update[idx]">
-                                            <h5 @click="handleReplyUpdate(idx)" style="padding-right: 10px; cursor: pointer;">수정</h5>
-                                            <h5 @click="handleReplyDelete(tmp.renumber)" style="cursor: pointer; display: inline-block;" >삭제</h5>
+                                            <h5 @click="handleReplyUpdate(idx)" style="padding-right: 10px; cursor: pointer; display: inline-block;">수정</h5>
+                                            <h5 @click="handleReplyDelete(tmp.renumber, tmp.reparentnumber)" style="cursor: pointer; display: inline-block;" >삭제</h5>
                                         </div>
                                         
                                         <div v-if="state.replyupdate.update[idx]">
@@ -151,7 +151,7 @@
                                          <v-col class="col_right" v-if="state.tokenid === tmp1.member.mid && tmp1.reparentnumber === tmp.renumber">
                                             <div v-if="!state.rereplyupdate.update[idx1]">
                                                 <h5 @click="handleReReplyUpdate(idx1)" style="padding-right: 10px; cursor: pointer; display: inline-block">수정</h5>
-                                                <h5 @click="handleReReplyDelete(tmp1.renumber)" style="cursor: pointer; display: inline-block;" >삭제</h5>
+                                                <h5 @click="handleReplyDelete(tmp1.renumber, tmp1.reparentnumber)" style="cursor: pointer; display: inline-block;" >삭제</h5>
                                             </div>
                                             
                                             <div v-if="state.rereplyupdate.update[idx1]">
@@ -273,6 +273,7 @@ export default {
                     state.imagecount       = response.data.result.imagecount; //idx
                     state.nick             = response.data.result.nick;
                     state.reply            = response.data.result.replylist;
+                    state.rereply          = response.data.result.rereplylist;
                     state.replynicklist    = response.data.result.replynicklist;
                     state.rereplynicklist  = response.data.result.rereplynicklist;
                     for(let i=0; i<state.imagecount; i++) {
@@ -338,10 +339,10 @@ export default {
             }
         }
 
-        const handleReplyDelete = async(idx) => {
+        const handleReplyDelete = async(idx, idx1) => {
             const url      = `/ROOT/api/clubboard/deletereply`;
             const headers = { "Content-Type": "application/json", "token": state.token };
-            const body     = { renumber: idx };
+            const body     = { renumber: idx, reparentnumber: idx1 };
             const response = await axios.post(url, body, { headers });
             console.log(response.data);
 
@@ -396,7 +397,7 @@ export default {
             const headers = {"Content-Type":"application/json", "token" : state.token};
             const body    = 
             {
-                cbno : state.cbno,
+                cgno : state.cgno,
                 recontent : state.rereplycontent,
                 reparentnumber : idx
             };
