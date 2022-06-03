@@ -3,28 +3,33 @@
     <v-main>
       <v-row dense>
         <!-- 좌측상단공란 -->
-        <v-col sm="2"></v-col>
 
-        <v-col sm="8" >
+        <v-col>
 
           <!-- 최상단 -->
           <v-row dense style="margin-top: 5px;">
             
             <!-- 중앙상단 공란 -->
-            <v-col sm="7"></v-col>
+            <v-col sm="2">
+              <img :src="require('../assets/img/cluver_logo.png')" style="height: 70px;" class="img_header" @click="handleClick('/home')"/>
+            </v-col>
+            <v-col sm="5"></v-col>
 
             <!-- 우측중앙 로그인 회원가입 -->
             <v-col sm="5" class="col_right">
-              <router-link :to="{ name:'LoginVue' }" v-if="!state.logged"><h4 class="mar-l_10">로그인</h4></router-link>
-              <router-link :to="{ name:'ChoiceJoinVue' }" v-if="!state.logged"><h4 class="mar-l_10">회원가입</h4></router-link>
-              <router-link :to="{ name:'LogoutVue' }" v-if="state.logged"><h4 class="mar-l_10">로그아웃</h4></router-link>
-              <router-link :to="{ name:'MypageVue' }" v-if="state.logged"><h4 class="mar-l_10">마이페이지</h4></router-link>
+              <h3 @click="handleClick('/home')" style="cursor: pointer;" class="mar-l_20">홈</h3>
+              <h3 @click="handleClick('/clist')" style="cursor: pointer;" class="mar-l_20">클럽목록</h3>
+              <h3 @click="handleClick('/blist')" style="cursor: pointer;" class="mar-l_20">게시판</h3>
+              <h3 @click="handleClick('/h')" style="cursor: pointer;" class="mar-l_20">고객센터</h3>
+              <router-link :to="{ name:'LoginVue' }" v-if="!state.logged"><h3 class="mar-l_20">로그인</h3></router-link>
+              <router-link :to="{ name:'ChoiceJoinVue' }" v-if="!state.logged"><h3 class="mar-l_20">회원가입</h3></router-link>
+              <router-link :to="{ name:'LogoutVue' }" v-if="state.logged"><h3 class="mar-l_20">로그아웃</h3></router-link>
+              <router-link :to="{ name:'MypageVue' }" v-if="state.logged"><h3 class="mar-l_20">마이페이지</h3></router-link>
             </v-col>
           </v-row>
         </v-col>
         
         <!-- 우측상단 공란 -->
-        <v-col sm="2"></v-col>
       </v-row>
 
       <v-row dense>
@@ -37,12 +42,9 @@
             <v-col sm="1"></v-col>
 
             <!-- 로고 -->
-            <v-col sm="3" class="col_center">
-              <img :src="require('../assets/img/cluver_logo.png')" style="width: 270px;" class="img_header" @click="handleClick('/')"/>
-            </v-col>
 
             <!-- 중앙 -->
-            <v-col sm="5">
+            <v-col>
               <!-- 검색창 -->
               <v-row dense class="col_center">
                 <v-col sm="10" style="height: 60px; border: 3px solid gold; border-radius: 4px; padding-left: 10px;">
@@ -73,7 +75,7 @@
           </v-row>
 
           <!-- 중앙하단. 메뉴용 -->
-          <v-row dense style="padding-bottom: 5px; padding-top: 10px;">
+          <!-- <v-row dense style="padding-bottom: 5px; padding-top: 10px;">
             <v-col>
               <v-card>
                 <v-tabs v-model="state.tab" fixed-tabs>
@@ -84,7 +86,7 @@
                 </v-tabs>
               </v-card>
             </v-col>
-          </v-row>
+          </v-row> -->
         </v-col>
         
         <!-- 우측 중단 -->
