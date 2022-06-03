@@ -421,7 +421,7 @@ export default {
                 {
                     state.rereplyupdate.update[idx1] = false;
                     content();
-            }
+                }
         }
 
         const handleReReplyUpdateAct = async(tmp1, idx1) => 

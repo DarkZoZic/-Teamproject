@@ -125,11 +125,11 @@ export default {
         const route  = useRoute();
 
         const state = reactive({
-            writer     : '작성자입니다',
-            title      : 'asdf',
+            writer     : '',
+            title      : '',
             editor     : ClassicEditor, // ckeditor종류
             editorData : '',
-            boardname  : '자유게시판',
+            boardname  : '클럽게시판',
             imageFile  : '',
             imageUrl   : '',
             valid      : '',
