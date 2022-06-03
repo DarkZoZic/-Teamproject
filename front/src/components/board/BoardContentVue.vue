@@ -175,7 +175,7 @@
                               <h5 @click="handleReplyDelete(tmp.renumber, idx)" style="padding-left: 10px; color: gray; cursor: pointer; float:left">삭제</h5>
                             </div>
                             <div style="float:left;">
-                              <h5 @click="clickReply(idx)" style="color: gray; padding-left: 10px; cursor: pointer;">댓글</h5>
+                              <!-- <h5 @click="clickReply(idx)" style="color: gray; padding-left: 10px; cursor: pointer;">댓글</h5> -->
                             </div>
                           </v-row>
                           
@@ -566,8 +566,9 @@ export default {
       const body = {
         mid : state.mid,
         renumber : no,
-        board1 : {bno : state.bno },
-        recontent : state.reply1.recontent,
+        // board1 : {bno : state.bno },
+        // recontent : state.reply1.recontent,
+        recontent : state.replylist.recontent,
         // reparentnumber : no,
         reprivate : state.reply1.reprivate,
       };
