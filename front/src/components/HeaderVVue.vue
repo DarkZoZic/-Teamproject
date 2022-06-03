@@ -7,7 +7,7 @@
           <v-row dense style="padding-top: 20px; padding-left: 10px; height: 150px;">
             <!-- 좌측상단공란 -->
             <v-col sm="2">
-              <img :src="require('../assets/img/cluver_logo.png')" style="height: 70px;" class="img_header" @click="handleClick('/')"/>
+              <img :src="require('../assets/img/cluver_logo.png')" style="height: 70px;" class="img_header" @click="handleClick('/home')"/>
             </v-col>
             
             <!-- 우측상단 공란 -->

@@ -83,7 +83,7 @@ import CSettingVue       from '@/components/clubHome/CSetting/CSettingVue.vue';
 
 const routes = [
     { path: '/',          name: "HomeVue",           component: HomeVue },
-    { path: '/homev',      name: "HomeVVue",          component: HomeVVue },
+    { path: '/home',      name: "HomeVVue",          component: HomeVVue },
     { path: '/header',    name: "HeaderVue",         component: HeaderVue },
     { path: '/headerv',   name: "HeaderVVue",        component: HeaderVVue },
     { path: '/footer',    name: "FooterVue",         component: FooterVue },
