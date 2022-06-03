@@ -184,6 +184,10 @@ body {
   display: flex;
   align-items: center;
 }
+.col_right2 {
+  justify-content: right; 
+  display: flex;
+}
 .col_right1 {
   justify-content: right; 
   display: flex;
@@ -266,6 +270,9 @@ body {
 /* margin */
 .mar-l_10 {
   margin-left: 10px;
+}
+.mar-l_20 {
+  margin-left: 20px;
 }
 
 /* padding */

@@ -1,7 +1,9 @@
 import { createWebHashHistory, createRouter } from "vue-router";
 
 import HomeVue           from '@/components/HomeVue.vue';
+import HomeVVue          from '@/components/HomeVVue.vue';
 import HeaderVue         from '@/components/HeaderVue.vue';
+import HeaderVVue        from '@/components/HeaderVVue.vue';
 import FooterVue         from '@/components/FooterVue.vue';
 import MapVue            from '@/components/MapVue.vue';
 
@@ -81,7 +83,9 @@ import CSettingVue       from '@/components/clubHome/CSetting/CSettingVue.vue';
 
 const routes = [
     { path: '/',          name: "HomeVue",           component: HomeVue },
+    { path: '/homev',      name: "HomeVVue",          component: HomeVVue },
     { path: '/header',    name: "HeaderVue",         component: HeaderVue },
+    { path: '/headerv',   name: "HeaderVVue",        component: HeaderVVue },
     { path: '/footer',    name: "FooterVue",         component: FooterVue },
     { path: '/map',       name: "MapVue",            component: MapVue },
 
