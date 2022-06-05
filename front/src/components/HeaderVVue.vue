@@ -7,19 +7,19 @@
           <v-row dense style="padding-top: 20px; padding-left: 10px; height: 150px;">
             <!-- 좌측상단공란 -->
             <v-col sm="2">
-              <img :src="require('../assets/img/cluver_logo.png')" style="height: 70px;" class="img_header" @click="handleClick('/home')"/>
+              <img :src="require('../assets/img/cluver_logo.png')" style="height: 70px;" class="img_header" @click="handleClick('/')"/>
             </v-col>
             
             <!-- 우측상단 공란 -->
             <v-col class="col_right2" style="padding-right: 30px;">
-                  <h3 @click="handleClick('/home')" style="cursor: pointer;" class="mar-l_20">홈</h3>
+                  <h3 @click="handleClick('/')" style="cursor: pointer;" class="mar-l_20">홈</h3>
                   <h3 @click="handleClick('/clist')" style="cursor: pointer;" class="mar-l_20">클럽목록</h3>
                   <h3 @click="handleClick('/blist')" style="cursor: pointer;" class="mar-l_20">게시판</h3>
                   <h3 @click="handleClick('/h')" style="cursor: pointer;" class="mar-l_20">고객센터</h3>
               <router-link :to="{ name:'LoginVue' }" v-if="!state.logged"><h3 class="mar-l_20">로그인</h3></router-link>
               <router-link :to="{ name:'ChoiceJoinVue' }" v-if="!state.logged"><h3 class="mar-l_20">회원가입</h3></router-link>
               <router-link :to="{ name:'LogoutVue' }" v-if="state.logged"><h3 class="mar-l_20">로그아웃</h3></router-link>
-              <router-link :to="{ name:'MypageVue' }" v-if="state.logged"><h3 class="mar-l_20">마이페이지</h3></router-link>
+              <!-- <router-link :to="{ name:'MypageVue' }" v-if="state.logged"><h3 class="mar-l_20">마이페이지</h3></router-link> -->
             </v-col>
           </v-row>
 

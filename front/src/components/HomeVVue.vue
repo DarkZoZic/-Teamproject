@@ -9,7 +9,7 @@
                     <v-col sm="2"></v-col>
 
                     <v-col>
-                        <v-row dense>
+                        <v-row dense v-if="!state.logged">
                             <v-col>
                                 <v-card height="250" style="border-width: 4px; border-color: gold;">
                                     <vueper-slides ref="myVueperSlides" autoplay fixed-height="100%">
@@ -17,6 +17,104 @@
                                             v-for="tmp1 in state.slides" :key="tmp1" :title="tmp1.title"
                                             :image="tmp1.image" />
                                     </vueper-slides>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+
+                        <v-row dense v-if="state.logged">
+                            <v-col sm="9">
+                                <v-card height="250" style="border-width: 4px; border-color: gold;">
+                                    <vueper-slides ref="myVueperSlides" autoplay fixed-height="100%">
+                                        <vueper-slide
+                                            v-for="tmp1 in state.slides" :key="tmp1" :title="tmp1.title"
+                                            :image="tmp1.image" />
+                                    </vueper-slides>
+                                </v-card>
+                            </v-col>
+
+                            <v-col v-if="state.cname">
+                                <v-card height="250" style="border-width: 4px; border-color: gold; padding: 10px;">
+                                    <v-row dense>
+                                        <v-col sm="7">
+                                            <img :src="state.imageUrl" style="width: 140px; max-height: 140px; border: 1px solid #CCC;"/>
+                                        </v-col>
+                                        <v-col>
+                                            <v-row dense>
+                                                <v-col class="col_right">
+                                                    <router-link to="/activity"><img :src="require(`../assets/img/bell.png`)" style="width: 20px"/></router-link>
+                                                </v-col>
+                                            </v-row>
+
+                                            <v-row>
+                                                <v-col>
+                                                    <div class="col_center" style="background-color: navy; color: white; width: 100px; border: 0px solid; border-radius: 6px; height: 60px;"><h3>기업회원</h3></div>
+                                                </v-col>
+                                            </v-row>
+                                        </v-col>
+                                    </v-row>
+
+                                    <v-row dense style="padding-bottom: 20px;">
+                                        <v-col class="col_left">
+                                            <h4>{{state.cname.mcname}}</h4>님 환영합니다!
+                                        </v-col>
+                                    </v-row>
+
+                                    <v-row dense>
+                                        <v-col sm="4" class="col_center">
+                                            <router-link to="/cmypage"><h4>마이페이지</h4></router-link>
+                                        </v-col>
+
+                                        <v-col sm="4" class="col_center">
+                                            <router-link to="/likelist"><h4>찜목록</h4></router-link>
+                                        </v-col>
+
+                                        <v-col sm="4" class="col_center">
+                                            <router-link to="/logout"><h4>로그아웃</h4></router-link>
+                                        </v-col>
+                                    </v-row>
+                                </v-card>
+                            </v-col>
+
+                            <v-col v-if="state.nick">
+                                <v-card height="250" style="border-width: 4px; border-color: gold; padding: 10px;">
+                                    <v-row dense>
+                                        <v-col sm="7">
+                                            <img :src="state.imageUrl" style="width: 140px; max-height: 140px; border: 1px solid #CCC;"/>
+                                        </v-col>
+                                        <v-col>
+                                            <v-row dense>
+                                                <v-col class="col_right">
+                                                    <router-link to="/activity"><img :src="require(`../assets/img/bell.png`)" style="width: 20px"/></router-link>
+                                                </v-col>
+                                            </v-row>
+
+                                            <v-row>
+                                                <v-col>
+                                                    <div class="col_center" style="background-color: gold; width: 100px; border: 0px solid; border-radius: 6px; height: 60px;"><h3>개인회원</h3></div>
+                                                </v-col>
+                                            </v-row>
+                                        </v-col>
+                                    </v-row>
+
+                                    <v-row dense style="padding-bottom: 20px;">
+                                        <v-col class="col_left">
+                                            <h4>{{state.nick.mpnickname}}</h4>님 환영합니다!
+                                        </v-col>
+                                    </v-row>
+
+                                    <v-row dense>
+                                        <v-col sm="4" class="col_center">
+                                            <router-link to="/mypage"><h4>마이페이지</h4></router-link>
+                                        </v-col>
+
+                                        <v-col sm="4" class="col_center">
+                                            <router-link to="/likelist"><h4>찜목록</h4></router-link>
+                                        </v-col>
+
+                                        <v-col sm="4" class="col_center">
+                                            <router-link to="/logout"><h4>로그아웃</h4></router-link>
+                                        </v-col>
+                                    </v-row>
                                 </v-card>
                             </v-col>
                         </v-row>
