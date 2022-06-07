@@ -109,7 +109,7 @@ export default {
     });
     
     const memberList = async() => {
-      const url = `/ROOT/combineview/cmemberlist.json?no=${state.cno}`;
+      const url = `/cluver/combineview/cmemberlist.json?no=${state.cno}`;
       const headers = {"Content-Type" : "application/json",
       token : state.token};
       const response = await axios.get(url, {headers});

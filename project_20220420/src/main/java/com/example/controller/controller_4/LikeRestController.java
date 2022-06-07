@@ -43,7 +43,7 @@ public class LikeRestController {
     EntityManagerFactory emf;
 
     // -- 찜 추가 -- 
-    //127.0.0.1:9090/ROOT/like/insert
+    //127.0.0.1:9090/cluver/like/insert
     @RequestMapping(value = "/insert", 
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
@@ -99,7 +99,7 @@ public class LikeRestController {
         return map;
     }
 
-    //127.0.0.1:9090/ROOT/like/insert1
+    //127.0.0.1:9090/cluver/like/insert1
     @RequestMapping(value = "/insert1", 
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
@@ -140,7 +140,7 @@ public class LikeRestController {
     }
 
     // -- 찜 목록 --
-    //127.0.0.1:9090/ROOT/api/like/selectlist
+    //127.0.0.1:9090/cluver/api/like/selectlist
     @RequestMapping(value = "/selectlist",
                 method = { RequestMethod.GET },
                 consumes = { MediaType.ALL_VALUE },
@@ -178,7 +178,7 @@ public class LikeRestController {
         return map;
     }
     // -- 찜 목록 --
-    //127.0.0.1:9090/ROOT/api/like/likelist
+    //127.0.0.1:9090/cluver/api/like/likelist
     @RequestMapping(value = "/likelist",
                 method = { RequestMethod.GET },
                 consumes = { MediaType.ALL_VALUE },
@@ -216,7 +216,7 @@ public class LikeRestController {
         return map;
     }
     // -- 찜하나 가져오기(클럽디테일) --
-    //127.0.0.1:9090/ROOT/api/like/likeone
+    //127.0.0.1:9090/cluver/api/like/likeone
     @RequestMapping(value = "/likeone",
                 method = { RequestMethod.GET },
                 consumes = { MediaType.ALL_VALUE },
@@ -265,7 +265,7 @@ public class LikeRestController {
 
 
     // -- 찜 1개 삭제 -- 
-    //127.0.0.1:9090/ROOT/like/deleteone
+    //127.0.0.1:9090/cluver/like/deleteone
     @RequestMapping(value = "/deleteone", 
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
@@ -310,7 +310,7 @@ public class LikeRestController {
     }
 
     // -- 찜 일괄 삭제 --
-    //127.0.0.1:9090/ROOT/api/like/deletebatch
+    //127.0.0.1:9090/cluver/api/like/deletebatch
         @RequestMapping(value = "/deletebatch", 
         method = {RequestMethod.DELETE},
         consumes = {MediaType.ALL_VALUE},

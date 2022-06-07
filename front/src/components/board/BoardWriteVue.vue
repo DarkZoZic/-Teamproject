@@ -133,7 +133,7 @@ export default {
         
 
         const handleInsert = async() => {
-            const url      = `/ROOT/api/board1/insert`;
+            const url      = `/cluver/api/board1/insert`;
             const headers  = { "Content-Type": "application/json", "token": state.token };
             const body     = new FormData();
             body.append("mid"     , state.mid);
@@ -163,7 +163,7 @@ export default {
             };
             
             editor.editing.view.change(writer => {
-                writer.setStyle('height', '600px', editor.editing.view.document.getRoot());
+                writer.setStyle('height', '600px', editor.editing.view.document.getcluver());
             });
             console.log(editor.editing.view);
         }

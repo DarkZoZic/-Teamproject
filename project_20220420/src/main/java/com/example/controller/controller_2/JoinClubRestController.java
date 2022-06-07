@@ -26,7 +26,7 @@ public class JoinClubRestController {
     
     @Autowired JoinClubRepository JCrepository;
 
-	// 127.0.0.1:9090/ROOT/joinclub/insert.json
+	// 127.0.0.1:9090/cluver/joinclub/insert.json
 	//{"mid":"c1", "mpw":"c1" };
 	@RequestMapping(value = "/insert.json", 
     method = { RequestMethod.POST },

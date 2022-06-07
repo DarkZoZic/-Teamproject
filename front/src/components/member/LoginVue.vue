@@ -172,7 +172,7 @@ export default {
         })
 
         const submit = async() => {
-            const url = `/ROOT/member/login`;
+            const url = `/cluver/member/login`;
             const headers = {"Content-Type":"multipart/form-data"};
             const body = new FormData;
             body.append("mid", state.id);

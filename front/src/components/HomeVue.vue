@@ -403,7 +403,7 @@ export default {
         }
 
         const handleData = async() => {
-            const url      = `/ROOT/club/selectlist2`;
+            const url      = `/cluver/club/selectlist2`;
             const headers  = { "Content-Type": "application.json" };
             const response = await axios.get(url, { headers: headers });
             console.log(response.data.result);
@@ -417,7 +417,7 @@ export default {
         }
 
         const mypage = async() => {
-            const url      = `/ROOT/member/mypage`;
+            const url      = `/cluver/member/mypage`;
             const headers  = { "Content-Type": "application/json", token: state.token };
             const response = await axios.get(url, {headers});
             console.log(response.data.result);
@@ -436,7 +436,7 @@ export default {
         }
         
         const Likelist = async() => {
-            const url      = `/ROOT/api/like/selectlist`;
+            const url      = `/cluver/api/like/selectlist`;
             const headers  = { "Content-Type": "application.json", token: state.token };
             const response = await axios.get(url,{ headers: headers });
             console.log(response.data);
@@ -456,7 +456,7 @@ export default {
         }
 
         const cname = async() => {
-            const url      = `/ROOT/member/cname`;
+            const url      = `/cluver/member/cname`;
             const headers  = { "Content-Type": "application/json", token: state.token };
             const response = await axios.get(url, { headers });
             console.log(response.data.result);
@@ -467,7 +467,7 @@ export default {
         }
 
         const nick = async() => {
-            const url      = `/ROOT/member/psmynick`;
+            const url      = `/cluver/member/psmynick`;
             const headers  = { "Content-Type": "application/json", token: state.token };
             const response = await axios.get(url, {headers});
             console.log(response.data.result);
@@ -480,7 +480,7 @@ export default {
         }
 
         const role = async() => {
-            const url      = `/ROOT/member/role`;
+            const url      = `/cluver/member/role`;
             const headers  = { "Content-Type": "application/json", token: state.token };
             const response = await axios.get(url, { headers });
             console.log(response.data.result);
@@ -506,7 +506,7 @@ export default {
                     state.imgcheck[idx].type = 1;
                 }
             }
-            const url      = `/ROOT/api/like/insert`
+            const url      = `/cluver/api/like/insert`
             const headers  = { "Content-Type":"multipart/form-data", token: state.token };
             const body     = new FormData;
             body.append("club", cno);
@@ -524,7 +524,7 @@ export default {
 
         const unlike = async(cno,idx) => {
             console.log("unlike", state.imgcheck[idx]);
-            const url      = `/ROOT/api/like/deleteone`
+            const url      = `/cluver/api/like/deleteone`
             const headers  = {"Content-Type":"multipart/form-data", token : state.token};
             const body     = new FormData;
             body.append("club", cno);   

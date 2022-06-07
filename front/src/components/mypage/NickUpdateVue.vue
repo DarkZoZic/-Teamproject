@@ -96,7 +96,7 @@ export default {
       })
 
       const handlenickupdate = async() => {
-            const url = `/ROOT/member/updatenickname`;
+            const url = `/cluver/member/updatenickname`;
             const headers = {"Content-Type":"application/json", 
             token : state.token};
             const body = {
@@ -111,7 +111,7 @@ export default {
             }
         }
         const handlenick = async() => {
-            const url = `/ROOT/member/psmynick`;
+            const url = `/cluver/member/psmynick`;
             const headers = {"Content-Type":"application/json", 
             token : state.token};
             const response = await axios.get(url, {headers});

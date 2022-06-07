@@ -25,9 +25,9 @@ export default class UploadAdapter {
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
 
-        xhr.open( 'POST', '/ROOT/api/board1/ckimage', true );
-        xhr.open( 'POST', '/ROOT/api/qna/ckimage', true );
-        xhr.open( 'POST', '/ROOT/club/ckimage', true );
+        xhr.open( 'POST', '/cluver/api/board1/ckimage', true );
+        xhr.open( 'POST', '/cluver/api/qna/ckimage', true );
+        xhr.open( 'POST', '/cluver/club/ckimage', true );
         xhr.responseType = 'json';
     }
 

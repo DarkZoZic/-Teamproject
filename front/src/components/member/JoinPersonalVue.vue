@@ -614,7 +614,7 @@ export default {
     }
 
     const handleJoin2 = async() => {
-      const url = `/ROOT/member/psjoin.json`;
+      const url = `/cluver/member/psjoin.json`;
       const headers = {"Content-Type":"multipart/form-data"};
 
       const body = new FormData;
@@ -632,7 +632,7 @@ export default {
     }
     
     const handlenick = async() => {
-      const url = `/ROOT/member/nickcheck?nick=${state.nickname}`;
+      const url = `/cluver/member/nickcheck?nick=${state.nickname}`;
       const headers = {"Content-Type":"application/json"};
       const response = await axios.post(url,[],{headers});
       console.log(response.data);
@@ -720,7 +720,7 @@ export default {
       }
 
       // 유효성검사 통과후
-      const url = `/ROOT/member/join.json`;
+      const url = `/cluver/member/join.json`;
       const headers = {"Content-Type":"multipart/form-data"};
       const body = new FormData;
         body.append("mid",      state.id);

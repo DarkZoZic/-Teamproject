@@ -272,7 +272,7 @@ export default {
         })
 
         const handleData = async() => {
-            const url      = `/ROOT/clubdetail/selectcno?cno=${state.cno}`;
+            const url      = `/cluver/clubdetail/selectcno?cno=${state.cno}`;
             const headers  = { "Content-Type": "application/json" };
             const response = await axios.get(url, {headers});
             console.log(response.data);
@@ -291,7 +291,7 @@ export default {
             handleSend();
         }
         const handleData1 = async() => {
-            const url      = `/ROOT/clubdetail/detailselectone?cno=${state.cno}`;
+            const url      = `/cluver/clubdetail/detailselectone?cno=${state.cno}`;
             const headers  = { "Content-Type": "application/json" };
             const response = await axios.get(url, {headers});
             console.log(response.data);
@@ -320,7 +320,7 @@ export default {
         // }
 
         const Likelist = async() => {
-            const url     = `/ROOT/api/like/likeone?cno=${state.cno}`;
+            const url     = `/cluver/api/like/likeone?cno=${state.cno}`;
             const headers = { "Content-Type": "application.json", "token": state.token };
             const response = await axios.get(url,{headers:headers});
             console.log("찜 ==> ", response.data);
@@ -339,7 +339,7 @@ export default {
         }
 
         // const Likelist1 = async() => {
-        //     const url = `/ROOT/api/like/likeone?cno=${state.cno}`;
+        //     const url = `/cluver/api/like/likeone?cno=${state.cno}`;
         //     const headers = {"Content-Type":"application.json",
         //     token : state.token};
         //     const response = await axios.get(url,{headers:headers});
@@ -362,7 +362,7 @@ export default {
         const changeheart = async(cno) => {
             console.log(state.items.club.cno);
             console.log(cno);
-            const url     =`/ROOT/api/like/insert`
+            const url     =`/cluver/api/like/insert`
             const headers = { "Content-Type": "multipart/form-data", "token": state.token };
             const body    = new FormData;
             body.append("club", cno);
@@ -382,7 +382,7 @@ export default {
 
         const unlike = async(cno) => {
             console.log("unlike", state.imgcheck);
-            const url     = `/ROOT/api/like/deleteone`
+            const url     = `/cluver/api/like/deleteone`
             const headers = { "Content-Type": "multipart/form-data", "token" :state.token};
             const body    = new FormData;
             body.append("club", cno);   

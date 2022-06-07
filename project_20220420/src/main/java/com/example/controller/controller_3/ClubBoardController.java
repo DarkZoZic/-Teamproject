@@ -59,7 +59,7 @@ public class ClubBoardController {
 	@Autowired
 	ResourceLoader resLoader;
 	
-	// 127.0.0.1:9090/ROOT/clubboard/insert
+	// 127.0.0.1:9090/cluver/clubboard/insert
 	@GetMapping(value="/insert")
 	public String insertGET()
 	{
@@ -67,7 +67,7 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 글쓰기
-	// 127.0.0.1:9090/ROOT/clubboard/insert
+	// 127.0.0.1:9090/cluver/clubboard/insert
 	//{cbtitle":"", "cbcontent":"", "cbnoticecheck":"n", "file":""}
 	@PostMapping(value="/insert")
 	public String insertPOST(@ModelAttribute ClubBoard clubboard, @RequestParam(name="file", required=false) MultipartFile file) throws IOException
@@ -108,7 +108,7 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 글목록 페이지
-	// 127.0.0.1:9090/ROOT/clubboard/selectlist?text=&page=
+	// 127.0.0.1:9090/cluver/clubboard/selectlist?text=&page=
 //	@GetMapping(value="/selectlist")
 //	public String selectlistGET(Model model, @RequestParam(name="page", defaultValue="1") int page, @RequestParam(name="text", defaultValue="") String text)
 //	{
@@ -140,7 +140,7 @@ public class ClubBoardController {
 //	}
 
 	// 클럽게시판 글 상세내용 페이지 (첨부이미지, 댓글 포함) // 좋아요 기능 미구현
-	// 127.0.0.1:9090/ROOT/clubboard/select?cbno=
+	// 127.0.0.1:9090/cluver/clubboard/select?cbno=
 //	@GetMapping(value="/select")
 //	public String selectGET(Model model, @RequestParam(name="cbno") long cbno
 ////			@RequestParam(name="rType") String rType
@@ -179,7 +179,7 @@ public class ClubBoardController {
 //	}
 	
 	// 클럽게시판 글상세 이미지 표시
-	// 127.0.0.1:9090/ROOT/clubboard/image?cbno=
+	// 127.0.0.1:9090/cluver/clubboard/image?cbno=
 	@GetMapping(value="/image")
 	public ResponseEntity<byte[]> imageGET(@RequestParam(name="cbno") long cbno) throws IOException
 	{
@@ -239,7 +239,7 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 글삭제
-	// 127.0.0.1:9090/ROOT/clubboard/delete?cbno=
+	// 127.0.0.1:9090/cluver/clubboard/delete?cbno=
 	@Transactional
 	@PostMapping(value="/delete")
 	public String deletePOST(@RequestParam(name="cbno") long cbno)
@@ -260,7 +260,7 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 글수정 페이지
-	// 127.0.0.1:9090/ROOT/clubboard/update?cbno=
+	// 127.0.0.1:9090/cluver/clubboard/update?cbno=
 	@GetMapping(value="/update")
 	public String updateGET(Model model, @RequestParam(name="cbno") long cbno)
 	{
@@ -278,7 +278,7 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 글수정
-	// 127.0.0.1:9090/ROOT/clubboard/update
+	// 127.0.0.1:9090/cluver/clubboard/update
 	@PostMapping(value="/update")
 	public String updatePOST(@ModelAttribute ClubBoard clubboard, @ModelAttribute CbImage cbimage, @RequestParam(name="file", required=false) MultipartFile file)
 	throws IOException
@@ -346,7 +346,7 @@ public class ClubBoardController {
 	}
 	
 	// 클럽게시판 댓글쓰기
-	// 127.0.0.1:9090/ROOT/clubboard/insertreply?cbno=
+	// 127.0.0.1:9090/cluver/clubboard/insertreply?cbno=
 	@PostMapping(value="/insertreply")
 	public String insertreplyPOST(@ModelAttribute CReply creply, @RequestParam(name="cbno") ClubBoard cbno)
 	{
@@ -377,7 +377,7 @@ public class ClubBoardController {
 	
 	
 	// 클럽게시판 댓글삭제
-	// 127.0.0.1:9090/ROOT/clubboard/deletereply
+	// 127.0.0.1:9090/cluver/clubboard/deletereply
 	// {"reNumber":""}
 	@PostMapping(value="/deletereply")
 	public String deletereplyPOST(@ModelAttribute CReply creply)
@@ -396,7 +396,7 @@ public class ClubBoardController {
 		}
 	}
 	
-	// 127.0.0.1:9090/ROOT/clubboard/insertreaction
+	// 127.0.0.1:9090/cluver/clubboard/insertreaction
 	// 클럽게시판 글 반응(좋아요/엄지) 넣기
 	@PostMapping(value="/insertreaction")
 	public String insertreactionPOST(@RequestBody Reaction reaction, @RequestParam(name="cbno") ClubBoard cbno) 

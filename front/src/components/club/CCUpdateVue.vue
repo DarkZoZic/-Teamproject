@@ -308,7 +308,7 @@ export default {
         }
 
         const handleData = async() => {
-            const url      = `/ROOT/combineview/comclub`;
+            const url      = `/cluver/combineview/comclub`;
             const headers  = { "Content-Type": "application/json", "token": state.token };
             const response = await axios.get(url,{headers:headers});
             console.log(response.data);
@@ -328,7 +328,7 @@ export default {
 
         const handleCno = async() => {
             if(state.club !== '') {
-                const url      = `/ROOT/club/cnosearch?cno=${state.club}`;
+                const url      = `/cluver/club/cnosearch?cno=${state.club}`;
                 const headers  = { "Content-Type": "application/json" };
                 const response = await axios.get(url,{headers:headers});
                 console.log(response.data);
@@ -342,7 +342,7 @@ export default {
 
 
         const handleReg = async() => {
-            const url     = `/ROOT/club/noticeinsert`;
+            const url     = `/cluver/club/noticeinsert`;
             const headers = { "Content-Type": "application/json", "token": state.token };
             const body    = new FormData();
             body.append("cdtitle"  , state.cname);
@@ -363,7 +363,7 @@ export default {
         };
 
         const hanldcdno = async() => {
-            const url      = `/ROOT/clubdetail/selectcno?cno=${state.club}`;
+            const url      = `/cluver/clubdetail/selectcno?cno=${state.club}`;
             const headers  = { "Content-Type": "application/json" };
             const response = await axios.get(url, { headers: headers} );
             console.log(response.data);
@@ -376,7 +376,7 @@ export default {
         };
 
         const handlecdimage = async() => {
-            const url     = `/ROOT/clubdetail/cdimage`;
+            const url     = `/cluver/clubdetail/cdimage`;
             const headers = { "Content-Type": "multipart/form-data" };
             const body    = new FormData();
             body.append("clubDetail", state.cdno);
@@ -404,7 +404,7 @@ export default {
             };
             
             editor.editing.view.change(writer => {
-                writer.setStyle('height', '600px', editor.editing.view.document.getRoot());
+                writer.setStyle('height', '600px', editor.editing.view.document.getcluver());
             });
             console.log(editor.editing.view);
         }

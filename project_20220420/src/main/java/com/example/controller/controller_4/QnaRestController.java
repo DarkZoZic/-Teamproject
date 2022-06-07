@@ -63,7 +63,7 @@ public class QnaRestController {
     // global.properties 사용하기. 나중에 숫자 바꾸고 싶은대로 바꾸면 됨
     @Value("${board.page.count}") int PAGECNT;
 
-    //127.0.0.1:9090/ROOT/api/qna/insert
+    //127.0.0.1:9090/cluver/api/qna/insert
     @RequestMapping(value = "/insert", 
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
@@ -101,7 +101,7 @@ public class QnaRestController {
     }
 
     // 글 1개 삭제
-    // 127.0.0.1:9090/ROOT/api/qna/delete
+    // 127.0.0.1:9090/cluver/api/qna/delete
     // {"bno":3}
     @RequestMapping(value = "/delete", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -129,7 +129,7 @@ public class QnaRestController {
 
 
     // ckeditor에서 첨부하는 이미지 보관하는 곳
-    // 127.0.0.1:9090/ROOT/api/qna/ckimage
+    // 127.0.0.1:9090/cluver/api/qna/ckimage
     @RequestMapping(value = "/ckimage", 
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
@@ -153,7 +153,7 @@ public class QnaRestController {
             qcRepository.save(qckeditor);
 
             map.put("status", 200);
-            map.put("url", "/ROOT/api/qna/image?qimgcode=" + qckeditor.getQcimgcode() ); // url 보내기
+            map.put("url", "/cluver/api/qna/image?qimgcode=" + qckeditor.getQcimgcode() ); // url 보내기
 
         }
         catch(Exception e){
@@ -163,7 +163,7 @@ public class QnaRestController {
         return map;
     }
 
-    // 127.0.0.1:9090/ROOT/api/qna/image?qimgcode=1
+    // 127.0.0.1:9090/cluver/api/qna/image?qimgcode=1
     // <img th:src="@{/qna/image(qimgcode=1)}" style="width:100px" />
     @RequestMapping(value = "/image", 
         method = {RequestMethod.GET},
@@ -199,7 +199,7 @@ public class QnaRestController {
     }
 
     // 1개조회
-    // 127.0.0.1:9090/ROOT/api/qna/selectone?qno=2
+    // 127.0.0.1:9090/cluver/api/qna/selectone?qno=2
     @RequestMapping(value = "/selectone", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectOneGET(
@@ -230,7 +230,7 @@ public class QnaRestController {
     }
 
     // 게시판 목록(페이지네이션만 있음, 검색x)
-    // 127.0.0.1:9090/ROOT/api/qna/selectlist?page=1
+    // 127.0.0.1:9090/cluver/api/qna/selectlist?page=1
     @RequestMapping(value = "/selectlist", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectListGET(
@@ -269,7 +269,7 @@ public class QnaRestController {
     } 
 
     // 게시물 조회수 1증가 시킴
-    // 127.0.0.1:9090/ROOT/api/qna/updatehit?qno=2
+    // 127.0.0.1:9090/cluver/api/qna/updatehit?qno=2
     @RequestMapping(value = "/updatehit", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardUpdateHitGET(
@@ -295,7 +295,7 @@ public class QnaRestController {
     }
 
     // 검색 + 페이지네이션
-    // 127.0.0.1:9090/ROOT/api/qna/search
+    // 127.0.0.1:9090/cluver/api/qna/search
     @RequestMapping(value = "/search", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> searchGET(
@@ -354,7 +354,7 @@ public class QnaRestController {
     }
 
     // 게시글 작성자와 토큰의 아이디가 일치하는 글만 조회
-    // 127.0.0.1:9090/ROOT/api/qna/selectboard
+    // 127.0.0.1:9090/cluver/api/qna/selectboard
     @RequestMapping(value = "/selectboard", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> selectBoardGET(

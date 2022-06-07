@@ -136,7 +136,7 @@ export default {
         })
 
         const handleData = async() => {
-            const url      = `/ROOT/api/board1/selectone?bno=${state.bno}`;
+            const url      = `/cluver/api/board1/selectone?bno=${state.bno}`;
             const headers  = { "Content-Type": "application/json", "token": state.token };
             const response = await axios.get(url, {headers});
             console.log(response.data);
@@ -150,7 +150,7 @@ export default {
         
 
         const handleUpdate = async() => {
-            const url      = `/ROOT/api/board1/update`;
+            const url      = `/cluver/api/board1/update`;
             const headers  = { "Content-Type" :"application/json", "token": state.token };
             const body     = new FormData();
             body.append("member"  , state.valid.mid);
@@ -182,7 +182,7 @@ export default {
             };
             
             editor.editing.view.change( writer => {
-                writer.setStyle('height', '600px', editor.editing.view.document.getRoot());
+                writer.setStyle('height', '600px', editor.editing.view.document.getcluver());
             });
             console.log(editor.editing.view);
         }

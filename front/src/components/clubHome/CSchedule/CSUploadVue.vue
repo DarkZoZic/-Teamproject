@@ -180,7 +180,7 @@ export default {
             };
             
             editor.editing.view.change( writer => {
-                writer.setStyle( 'height', '600px', editor.editing.view.document.getRoot() );
+                writer.setStyle( 'height', '600px', editor.editing.view.document.getcluver() );
             });
             // console.log(editor.editing.view);
         }
@@ -231,7 +231,7 @@ export default {
             const enddate = edateString + ' ' + etimeString;
             // console.log(enddate);
 
-            const url = `/ROOT/api/schedule/insert`;
+            const url = `/cluver/api/schedule/insert`;
             const headers = {"Content-Type":"multipart/form-data", "token" : state.token};
             const body = new FormData();
             // body.append("swriter", state.schedule.swriter); //미구현

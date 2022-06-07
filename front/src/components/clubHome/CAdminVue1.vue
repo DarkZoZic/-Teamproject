@@ -109,7 +109,7 @@ export default {
       const handleJoinclub = async(mid) => {
           console.log(mid);
           console.log(state.cno);
-          const url = `/ROOT/joinclub/insert.json`;
+          const url = `/cluver/joinclub/insert.json`;
           const headers = {"Content-Type":"multipart/form-data"};
           const body = new FormData;
               body.append("member",  mid);
@@ -125,7 +125,7 @@ export default {
       const handleJoinclub1 = async() => {
           console.log(state.cno);
           console.log(state.mid);
-          const url = `/ROOT/joinclub/insert.json`;
+          const url = `/cluver/joinclub/insert.json`;
           const headers = {"Content-Type":"multipart/form-data"};
           const body = new FormData;
               body.append("member",  state.mid);
@@ -139,7 +139,7 @@ export default {
           }
       }
    const ClubCheck = async() => {
-      const url = `/ROOT/combineview/clubmasterget.json?cno=${state.cno}`;
+      const url = `/cluver/combineview/clubmasterget.json?cno=${state.cno}`;
       const headers = {"Content-Type" : "application/json", "token" : state.token};
       const response = await axios.get(url, {headers});
       // console.log(response.data);
@@ -149,7 +149,7 @@ export default {
       }
     }
     const memberList = async() => {
-      const url = `/ROOT/combineview/selectnumber.json?no=${state.cno}`;
+      const url = `/cluver/combineview/selectnumber.json?no=${state.cno}`;
       const headers = {"Content-Type" : "application/json"};
       const response = await axios.get(url, {headers});
       console.log(response.data);

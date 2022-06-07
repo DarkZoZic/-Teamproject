@@ -25,7 +25,7 @@ public class SteptblRestController {
     @Autowired StepTblRepository stRepository;
 
     // 활동내역 추가
-	// 127.0.0.1:9090/ROOT/steptbl/insert.json
+	// 127.0.0.1:9090/cluver/steptbl/insert.json
 	//{"sCode":"11", "sContent":"c1" };
 	@PostMapping(value = "/insert.json", 
     consumes = { MediaType.ALL_VALUE },
@@ -56,7 +56,7 @@ public class SteptblRestController {
 }
 
     // 내용 조회
-    // 127.0.0.1:9090/ROOT/steptbl/authlist
+    // 127.0.0.1:9090/cluver/steptbl/authlist
     // @GetMapping(value = "/authlist",
     // consumes = {MediaType.ALL_VALUE},
     // produces = {MediaType.APPLICATION_JSON_VALUE})

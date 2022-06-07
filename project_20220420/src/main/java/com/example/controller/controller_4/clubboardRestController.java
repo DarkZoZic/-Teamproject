@@ -33,7 +33,7 @@ public class clubboardRestController {
     @Value("${board.page.count}") int PAGECNT;
 
     // 게시글 작성자와 토큰의 아이디가 일치하는 글만 조회
-    // 127.0.0.1:9090/ROOT/api/cboard/selectboard
+    // 127.0.0.1:9090/cluver/api/cboard/selectboard
     @RequestMapping(value = "/selectboard", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> selectBoardGET(

@@ -30,7 +30,7 @@ public class CateRestController {
 
 
     //  클럽검색 ex운동
-    // 127.0.0.1:9090/ROOT/cate/searchcate
+    // 127.0.0.1:9090/cluver/cate/searchcate
     @RequestMapping(value = "/searchcate", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -55,7 +55,7 @@ public class CateRestController {
     return map;
     }   
     //  클럽검색 ex운동)축구
-    // 127.0.0.1:9090/ROOT/cate/searchcate2
+    // 127.0.0.1:9090/cluver/cate/searchcate2
     @RequestMapping(value = "/searchcate2", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -81,7 +81,7 @@ public class CateRestController {
     }   
 
     //  중분류로 클럽검색 ex) 탁구
-    // 127.0.0.1:9090/ROOT/cate/searchclub2
+    // 127.0.0.1:9090/cluver/cate/searchclub2
     @RequestMapping(value = "/searchclub2", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -110,7 +110,7 @@ public class CateRestController {
     return map;
     }
     //  대분류로 클럽검색 ex) 운동
-    // 127.0.0.1:9090/ROOT/cate/searchclub
+    // 127.0.0.1:9090/cluver/cate/searchclub
     @RequestMapping(value = "/searchclub", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -141,7 +141,7 @@ public class CateRestController {
 
     
     //  카테고리 추가
-    // 127.0.0.1:9090/ROOT/cate/insert
+    // 127.0.0.1:9090/cluver/cate/insert
     @RequestMapping(value = "/insert", 
     method = { RequestMethod.POST },
     consumes = { MediaType.ALL_VALUE },
@@ -163,7 +163,7 @@ public class CateRestController {
     return map;
     }   
     //  중분류 클릭시 소분류 조회
-    // 127.0.0.1:9090/ROOT/cate/search
+    // 127.0.0.1:9090/cluver/cate/search
     @RequestMapping(value = "/search", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -188,7 +188,7 @@ public class CateRestController {
     return map;
     }   
     //  컬럼 2개입력시 번호가져오기
-    // 127.0.0.1:9090/ROOT/cate/catetwo
+    // 127.0.0.1:9090/cluver/cate/catetwo
     @RequestMapping(value = "/catetwo", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -214,7 +214,7 @@ public class CateRestController {
     return map;
     }   
     //  대분류 조회
-    // 127.0.0.1:9090/ROOT/cate/catelist1
+    // 127.0.0.1:9090/cluver/cate/catelist1
     @RequestMapping(value = "/catelist1", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },

@@ -9,20 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-	// 127.0.0.1:9090/ROOT/
-	// 127.0.0.1:9090/ROOT/home
-	// 127.0.0.1:9090/ROOT/main
+	// 127.0.0.1:9090/cluver/
+	// 127.0.0.1:9090/cluver/home
+	// 127.0.0.1:9090/cluver/main
 	@GetMapping(value = {"/", "/home", "/main"})
 	public String homeGET(
 			Model model,
 			@AuthenticationPrincipal User user) {
 		model.addAttribute("user", user);
-		return "home";
+		return "/vue/index";
 	}
 	
 	// @GetMapping(value="/page403")
 	// public String page403GET() {
 	// 	return "page403";
-	// }
-	
+	// }	
 }

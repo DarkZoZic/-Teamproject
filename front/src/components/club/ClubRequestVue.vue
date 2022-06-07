@@ -144,7 +144,7 @@ export default {
         })
 
         const handleData = async() => {
-            const url      = `/ROOT/clubdetail/selectcno?cno=${state.cno}`;
+            const url      = `/cluver/clubdetail/selectcno?cno=${state.cno}`;
             const headers  = { "Content-Type": "application/json" };
             const response = await axios.get(url, {headers});
             console.log(response.data);
@@ -159,7 +159,7 @@ export default {
 
         }
         const Myid = async() => {
-            const url      = `/ROOT/member/mypage`;
+            const url      = `/cluver/member/mypage`;
             const headers  = { "Content-Type": "application/json",
             token : state.token };
             const response = await axios.get(url, {headers});
@@ -175,7 +175,7 @@ export default {
 
         }
         const handlenick = async() => {
-            const url = `/ROOT/member/psmynick`;
+            const url = `/cluver/member/psmynick`;
             const headers = {"Content-Type":"application/json", 
             token : state.token};
             const response = await axios.get(url, {headers});
@@ -187,7 +187,7 @@ export default {
         }
 
         const handleJoinclub = async() => {
-            const url = `/ROOT/joinclub/insert.json`;
+            const url = `/cluver/joinclub/insert.json`;
             const headers = {"Content-Type":"multipart/form-data"};
             const body = new FormData;
                 body.append("member",  state.id);
@@ -209,7 +209,7 @@ export default {
             };
             
             editor.editing.view.change(writer => {
-                writer.setStyle( 'height', '600px', editor.editing.view.document.getRoot());
+                writer.setStyle( 'height', '600px', editor.editing.view.document.getcluver());
             });
             console.log(editor.editing.view);
         }

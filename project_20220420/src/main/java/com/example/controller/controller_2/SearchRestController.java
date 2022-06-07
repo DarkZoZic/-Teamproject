@@ -25,7 +25,7 @@ public class SearchRestController {
     
 
     // 통합검색
-	// 127.0.0.1:9090/ROOT/search/search1
+	// 127.0.0.1:9090/cluver/search/search1
 	@RequestMapping(value = "/search1", 
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },

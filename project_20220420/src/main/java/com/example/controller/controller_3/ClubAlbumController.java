@@ -47,7 +47,7 @@ public class ClubAlbumController {
 	ResourceLoader resLoader;
 	
 	// 새 앨범 생성 페이지
-	// 127.0.0.1:9090/ROOT/clubalbum/insert
+	// 127.0.0.1:9090/cluver/clubalbum/insert
 	@GetMapping(value="/insert")
 	public String insertGET()
 	{
@@ -72,7 +72,7 @@ public class ClubAlbumController {
 	}
 	
 	// 생성한 앨범 목록 페이지
-	// 127.0.0.1:9090/ROOT/clubalbum/selectlist
+	// 127.0.0.1:9090/cluver/clubalbum/selectlist
 	@GetMapping(value="/selectlist")
 	public String selectGET(Model model)
 	{
@@ -90,7 +90,7 @@ public class ClubAlbumController {
 	}
 	
 	// 앨범 이미지 표시용
-	// 127.0.0.1:9090/ROOT/clubalbum/image?cano=&idx=
+	// 127.0.0.1:9090/cluver/clubalbum/image?cano=&idx=
 	@GetMapping(value="/image")
 	public ResponseEntity<byte[]> imageGET(@RequestParam(name="cano") long cano, @RequestParam(name="idx") long idx) throws IOException
 	{
@@ -137,7 +137,7 @@ public class ClubAlbumController {
 	}
 	
 	// 앨범 상세화면
-	// 127.0.0.1:9090/ROOT/clubalbum/select?cano=
+	// 127.0.0.1:9090/cluver/clubalbum/select?cano=
 	@GetMapping(value="/select")
 	public String selectGET(Model model, @RequestParam(name="cano") long cano)
 	{
@@ -158,7 +158,7 @@ public class ClubAlbumController {
 	}
 	
 	// 앨범에 선택한 갤러리 이미지 추가
-	// 127.0.0.1:9090/ROOT/clubalbum/insertimage?cano=
+	// 127.0.0.1:9090/cluver/clubalbum/insertimage?cano=
 	@PostMapping(value="/insertimage")
 	public String insertimagePOST(@RequestParam(name="cano") ClubAlbum cano, @ModelAttribute GImage gimage)
 	{
@@ -199,7 +199,7 @@ public class ClubAlbumController {
 	}
 	
 	// 앨범에 이미지 추가 기능 사용 시 갤러리 목록 표시용
-	// 127.0.0.1:9090/ROOT/clubalbum/gallerylist
+	// 127.0.0.1:9090/cluver/clubalbum/gallerylist
 	@GetMapping(value="/gallerylist")
 	public String gallerylistGET(Model model, @RequestParam(name="cano") long cano)
 	{
@@ -217,7 +217,7 @@ public class ClubAlbumController {
 	}
 	
 	// 앨범에 이미지 추가 기능 사용 시 갤러리 목록 -> 선택한 갤러리 이미지 목록 표시용
-	// 127.0.0.1:9090/ROOT/clubalbum/imagelist
+	// 127.0.0.1:9090/cluver/clubalbum/imagelist
 	@GetMapping(value="/imagelist")
 	public String imagelistGET(Model model, @RequestParam(name="cgno") long cgno, @RequestParam(name="cano") long cano)
 	{
@@ -235,7 +235,7 @@ public class ClubAlbumController {
 	}
 	
 	// 앨범 삭제
-	// 127.0.0.1:9090/ROOT/clubalbum/delete
+	// 127.0.0.1:9090/cluver/clubalbum/delete
 	@Transactional
 	@PostMapping(value="/delete")
 	public String deleteGET(@ModelAttribute ClubAlbum ca)
@@ -254,7 +254,7 @@ public class ClubAlbumController {
 	}
 	
 	// 앨범 수정 화면
-	// 127.0.0.1:9090/ROOT/clubalbum/update?cano=
+	// 127.0.0.1:9090/cluver/clubalbum/update?cano=
 	@GetMapping(value="/update")
 	public String updateGET(Model model, @RequestParam(name="cano") long cano)
 	{

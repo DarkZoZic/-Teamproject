@@ -35,7 +35,7 @@
               <v-card height="300px" class="club_card" style="padding: 20px;" @click="content(tmp.cgno)">
                 <v-row dense>
                   <v-col class="col_center" style="height: 200px;">
-                    <img :src="`/ROOT/clubgallery/image?cgno=${tmp.cgno}&idx=0`" style="max-width: 100%; max-height: 100%; padding: 5px; border: 1px solid #CCC;" />
+                    <img :src="`/cluver/clubgallery/image?cgno=${tmp.cgno}&idx=0`" style="max-width: 100%; max-height: 100%; padding: 5px; border: 1px solid #CCC;" />
                   </v-col>
                 </v-row>
 
@@ -117,7 +117,7 @@ export default {
 
     const selectlist = async() => {
       if(state.token !== null) {
-        const url      = `/ROOT/api/clubgallery/selectlist?page=${state.page}&cno=${state.cno}`;
+        const url      = `/cluver/api/clubgallery/selectlist?page=${state.page}&cno=${state.cno}`;
         const headers  = {"Content-Type":"application/json", "token" : state.token};
         const response = await axios.get(url, {headers});
         console.log(response.data);
@@ -152,7 +152,7 @@ export default {
 
     const handlePage = async(idx, option, search) => {
       if(state.token !== null) {
-        const url      = `/ROOT/api/clubgallery/selectlist?page=${idx}&text=${search}&option=${option}&cno=${state.cno}`;
+        const url      = `/cluver/api/clubgallery/selectlist?page=${idx}&text=${search}&option=${option}&cno=${state.cno}`;
         const headers  = {"Content-Type":"application/json", "token" : state.token};
         const response = await axios.get(url, {headers});
         // console.log(response.data);
@@ -179,7 +179,7 @@ export default {
 
     const search = async() => { // 전체검색기능 미구현
       if(state.token !== null) {
-          const url      = `/ROOT/api/clubgallery/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
+          const url      = `/cluver/api/clubgallery/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
           const headers  = { "Content-Type": "application/json", "token": state.token };
           const response = await axios.get(url, {headers});
           // console.log(response.data);

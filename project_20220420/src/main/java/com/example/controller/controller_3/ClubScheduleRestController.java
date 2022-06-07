@@ -40,7 +40,7 @@ public class ClubScheduleRestController {
 	JwtUtil jwtUtil;
 
 	// 일정 등록
-	// /ROOT/api/schedule/insert
+	// /cluver/api/schedule/insert
 	@RequestMapping(value="/insert", 
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
@@ -91,7 +91,7 @@ public class ClubScheduleRestController {
 	}
 	
 	// 일정 목록
-	// /ROOT/api/schedule/selectlist
+	// /cluver/api/schedule/selectlist
 	@RequestMapping(value="/selectlist", 
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
@@ -120,7 +120,7 @@ public class ClubScheduleRestController {
 				{
 					CSchedule cs = list.get(i);
 					CSchedule cSchedule = csRep.findById(cs.getSno()).orElse(null);
-					cSchedule.setSthumbnail("/ROOT/schedule/image?sno=" + cs.getSno() + "&idx=0");
+					cSchedule.setSthumbnail("/cluver/schedule/image?sno=" + cs.getSno() + "&idx=0");
 				}
 				
 				model.addAttribute("list", list);

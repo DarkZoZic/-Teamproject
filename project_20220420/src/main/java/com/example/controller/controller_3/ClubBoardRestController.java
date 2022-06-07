@@ -81,7 +81,7 @@ public class ClubBoardRestController {
 	JwtUtil jwtUtil;
 	
 	// 클럽게시판 글작성
-	// /ROOT/api/clubboard/insert
+	// /cluver/api/clubboard/insert
 	@RequestMapping(value="/insert", 
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
@@ -143,7 +143,7 @@ public class ClubBoardRestController {
 	}
 	
 	// 클럽게시판 글작성 이미지 첨부 시 ckeditor에서 미리보기 기능 구현용 이미지데이터 저장
-	// /ROOT/api/clubboard/ckimage
+	// /cluver/api/clubboard/ckimage
 //	@RequestMapping(value="/ckimage", 
 //			method={RequestMethod.POST}, 
 //			consumes = {MediaType.ALL_VALUE},
@@ -175,7 +175,7 @@ public class ClubBoardRestController {
 //		return map;
 //	}
 	
-	// /ROOT/api/clubboard/ckimage
+	// /cluver/api/clubboard/ckimage
 //		@RequestMapping(value="/ckimage", 
 //				method={RequestMethod.POST}, 
 //				consumes = {MediaType.ALL_VALUE},
@@ -200,7 +200,7 @@ public class ClubBoardRestController {
 	
 	
 	// 클럽게시판 글목록 (페이지, 검색 기능)
-	// /ROOT/api/clubboard/selectlist?page=&text=&option=&cno= // page = 페이지, text = 검색어, items = 검색기준(제목, 내용, 글쓴이, 전체)
+	// /cluver/api/clubboard/selectlist?page=&text=&option=&cno= // page = 페이지, text = 검색어, items = 검색기준(제목, 내용, 글쓴이, 전체)
 	@RequestMapping(value="/selectlist", 
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
@@ -266,7 +266,7 @@ public class ClubBoardRestController {
 					
 					ClubBoard clubBoard = cbRep.findById(cb.getCbno()).orElse(null);
 					
-					clubBoard.setCbimageurl("/ROOT/clubboard/image/cbno=" + cb.getCbno());
+					clubBoard.setCbimageurl("/cluver/clubboard/image/cbno=" + cb.getCbno());
 					
 					CBMemView cbmv = cbmvRep.findById(cb.getCbno()).orElse(null);
 					
@@ -331,7 +331,7 @@ public class ClubBoardRestController {
 	}
 	
 	// 클럽게시판 글상세내용 + 댓글목록
-	// /ROOT/api/clubboard/select?cbno=&cno=
+	// /cluver/api/clubboard/select?cbno=&cno=
 	@RequestMapping(value="/select", 
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
@@ -344,7 +344,7 @@ public class ClubBoardRestController {
 			{
 				System.out.println("cno : " + cno);
 				ClubBoard cb = cbRep.findByCbnoAndClub_cno(cbno, cno);
-				cb.setCbimageurl("/ROOT/clubboard/image?cbno=" + cbno);
+				cb.setCbimageurl("/cluver/clubboard/image?cbno=" + cbno);
 				
 				CBMemView cbmv = cbmvRep.findById(cbno).orElse(null);
 				
@@ -435,7 +435,7 @@ public class ClubBoardRestController {
 	}
 	
 	// 클럽게시판 글 첨부이미지 표시 //안씀
-	// /ROOT/api/clubboard/image?cbno=
+	// /cluver/api/clubboard/image?cbno=
 //	@RequestMapping(value="/image", 
 //			method={RequestMethod.GET}, 
 //			consumes = {MediaType.ALL_VALUE},
@@ -463,7 +463,7 @@ public class ClubBoardRestController {
 //		}
 	
 	// 클럽게시판 글삭제
-	// /ROOT/api/clubboard/delete
+	// /cluver/api/clubboard/delete
 	@Transactional
 	@RequestMapping(value="/delete", 
 	method={RequestMethod.POST}, 
@@ -554,7 +554,7 @@ public class ClubBoardRestController {
 	
 
 	// 클럽게시판 댓글/대댓글작성
-	// /ROOT/api/clubboard/insertreply
+	// /cluver/api/clubboard/insertreply
 	@RequestMapping(value="/insertreply", 
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
@@ -602,7 +602,7 @@ public class ClubBoardRestController {
 	}
 	
 	// 클럽게시판 대댓글 작성 //안씀
-	// /ROOT/api/clubboard/insertrereply?cbno=
+	// /cluver/api/clubboard/insertrereply?cbno=
 //	@RequestMapping(value="/insertrereply", 
 //			method={RequestMethod.POST}, 
 //			consumes = {MediaType.ALL_VALUE},
@@ -626,7 +626,7 @@ public class ClubBoardRestController {
 	
 	
 	// 클럽게시판 댓글삭제
-	// /ROOT/api/clubboard/deletereply
+	// /cluver/api/clubboard/deletereply
 	@RequestMapping(value="/deletereply", 
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},

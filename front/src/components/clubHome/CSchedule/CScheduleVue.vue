@@ -92,7 +92,7 @@ export default {
 
     const selectlist = async() =>
     {
-      const url = `/ROOT/api/schedule/selectlist?&cno=${state.cno}`;
+      const url = `/cluver/api/schedule/selectlist?&cno=${state.cno}`;
       const headers = {"Content-Type":"application/json", "token" : state.token};
       const response = await axios.get(url, {headers});
       // console.log(response.data);
@@ -110,7 +110,7 @@ export default {
         // console.log("now : ", new Date().getTime());
         if(Date.parse(state.schedule[i].enddate) < new Date().getTime())
         {
-          const url = `/ROOT/api/schedule/delete`;
+          const url = `/cluver/api/schedule/delete`;
           const headers = {"Content-Type":"application/json"};
           const body = 
           {

@@ -71,7 +71,7 @@ public class ClubGalleryRestController {
 	JwtUtil jwtUtil;
 	
 	// 클럽갤러리 생성
-	// /ROOT/api/clubgallery/insert
+	// /cluver/api/clubgallery/insert
 	@RequestMapping(value="/insert", 
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
@@ -131,7 +131,7 @@ public class ClubGalleryRestController {
 	}
 	
 	// 클럽갤러리 목록
-	// /ROOT/api/clubgallery/selectlist?page=&text=&option=&cno=
+	// /cluver/api/clubgallery/selectlist?page=&text=&option=&cno=
 	@RequestMapping(value="/selectlist", 
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
@@ -193,7 +193,7 @@ public class ClubGalleryRestController {
 					
 					ClubGallery clubGallery = cgRep.findById(cg.getCgno()).orElse(null);
 					
-					clubGallery.setGimageurl("/ROOT/clubgallery/image?cgno=" + cg.getCgno() + "&idx=0");
+					clubGallery.setGimageurl("/cluver/clubgallery/image?cgno=" + cg.getCgno() + "&idx=0");
 					
 					CGMemView cgmv = cgmvRep.findById(cg.getCgno()).orElse(null);
 					
@@ -220,7 +220,7 @@ public class ClubGalleryRestController {
 		return map;
 	}
 	// 갤러리 상세보기 + 댓글목록 + 이미지 url
-	// /ROOT/api/clubgallery/select?cgno=
+	// /cluver/api/clubgallery/select?cgno=
 	@RequestMapping(value="/select", 
 			method={RequestMethod.GET}, 
 			consumes = {MediaType.ALL_VALUE},
@@ -235,7 +235,7 @@ public class ClubGalleryRestController {
 				System.out.println(cno);
 				ClubGallery clubGallery = cgRep.findByCgnoAndClub_cno(cgno, cno);
 				long imagecount = cgiRep.countByClubgallery_cgno(cgno); // idx값
-				clubGallery.setGimageurl("/ROOT/clubgallery/image?cgno=" + cgno); // 이미지 url 보내기(idx값은 프론트에서 반복문으로 입력)
+				clubGallery.setGimageurl("/cluver/clubgallery/image?cgno=" + cgno); // 이미지 url 보내기(idx값은 프론트에서 반복문으로 입력)
 				CGMemView cgmv = cgmvRep.findById(cgno).orElse(null);
 				// 댓글 목록 저장할 배열 변수
 				List<CReply> replylist = new ArrayList<>();
@@ -331,7 +331,7 @@ public class ClubGalleryRestController {
 	
 	
 	// 갤러리 삭제
-	// /ROOT/api/clubgallery/delete
+	// /cluver/api/clubgallery/delete
 	@Transactional
 	@RequestMapping(value="/delete", 
 	method={RequestMethod.POST}, 
@@ -364,7 +364,7 @@ public class ClubGalleryRestController {
 	}
 	
 	// 클럽갤러리 댓글/대댓글쓰기
-	// /ROOT/api/clubgallery/insertreply
+	// /cluver/api/clubgallery/insertreply
 	@RequestMapping(value="/insertreply", 
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},
@@ -408,7 +408,7 @@ public class ClubGalleryRestController {
 	}
 	
 	// 클럽갤러리 댓글삭제
-	// /ROOT/api/clubgallery/deletereply
+	// /cluver/api/clubgallery/deletereply
 	@RequestMapping(value="/deletereply", 
 			method={RequestMethod.POST}, 
 			consumes = {MediaType.ALL_VALUE},

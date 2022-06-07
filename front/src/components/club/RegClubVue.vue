@@ -308,7 +308,7 @@ export default {
         const check = async() => {
             console.log(state.selectcate1); 
             console.log(state.selectcate2);
-            const url      = `/ROOT/cate/catetwo?cate1=${state.selectcate1}&cate2=${state.selectcate2}`;
+            const url      = `/cluver/cate/catetwo?cate1=${state.selectcate1}&cate2=${state.selectcate2}`;
             const headers  = { "Content-Type": "application/json" };
             const response = await axios.get(url, { headers: headers });
             console.log(response.data);
@@ -325,7 +325,7 @@ export default {
         // };
                 
         const handleReg = async() => {
-            const url      = `/ROOT/club/insert.json`;
+            const url      = `/cluver/club/insert.json`;
             const headers = { "Content-Type": "multipart/form-data", token: state.token };
             const body = new FormData;
             body.append("cname",  state.name);
@@ -355,7 +355,7 @@ export default {
         const handleJoinclub = async() => {
             console.log(state.cno);
             console.log(state.mid);
-            const url = `/ROOT/joinclub/insert.json`;
+            const url = `/cluver/joinclub/insert.json`;
             const headers = {"Content-Type":"multipart/form-data"};
             const body = new FormData;
                 body.append("member",  state.mid);
@@ -370,7 +370,7 @@ export default {
         }
 
         const cnamecheck = async() => {
-            const url      = `/ROOT/club/cnamecheck?cname=${state.name}`;
+            const url      = `/cluver/club/cnamecheck?cname=${state.name}`;
             const headers  = { "Content-Type": "application/json" };
             const response = await axios.post(url, [], { headers });
             console.log(response.data);
@@ -387,7 +387,7 @@ export default {
         const Clubimage = async() => {
             console.log(state.cno);
             console.log(state.mid);
-            const url     = `/ROOT/club/cbimage`;
+            const url     = `/cluver/club/cbimage`;
             const headers = {"Content-Type":"multipart/form-data"};
             const body    = new FormData;
             console.log(state.imageFile); 
@@ -402,7 +402,7 @@ export default {
         }
 
         const category1 = async() => {
-            const url      = `/ROOT/cate/catelist1`;
+            const url      = `/cluver/cate/catelist1`;
             const headers  = { "Content-Type":"application.json", token: state.token };
             const response = await axios.get(url,{headers:headers});
             console.log(response.data);

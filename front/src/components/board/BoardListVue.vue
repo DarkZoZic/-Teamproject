@@ -116,7 +116,7 @@ export default {
         // 조회수 1 증가
         const handlePage = async(bno) => {
             if(state.token !== null) {
-            const url      = `/ROOT/api/board1/updatehit?bno=${bno}`;
+            const url      = `/cluver/api/board1/updatehit?bno=${bno}`;
             const headers  = { "Content-Type": "application/json", "token": state.token };
             const response = await axios.put(url, {}, { headers });
             console.log("handlePage ==> ", response.data);
@@ -135,7 +135,7 @@ export default {
         }
 
         const searchOpt = async() => {
-            const url      = `/ROOT/api/board1/search?page=${state.page}&btitle=${state.btitle}`
+            const url      = `/cluver/api/board1/search?page=${state.page}&btitle=${state.btitle}`
             const headers  = {"Content-Type":"application.json"};
             const response = await axios.get(url,{headers:headers});
             console.log("searchOpt ==> ", response.data);
@@ -146,7 +146,7 @@ export default {
 
 
         const handleData = async() => {
-            const url      = `/ROOT/api/board1/selectlist?page=${state.page}`
+            const url      = `/cluver/api/board1/selectlist?page=${state.page}`
             const headers  = { "Content-Type": "application/json", "token" : state.token };
             const response = await axios.get(url, { headers });
             console.log("handleData ==> ", response.data);
@@ -171,7 +171,7 @@ export default {
 
                 //  테이블에 좋아요 넣기 (for문을 돌려서 넣으므로 느림) 
                 // for(var i = 0; i<state.items.length; i++){
-                //     const url1 = `ROOT/reaction/likelist.json?bno=${state.items[i].bno}`;
+                //     const url1 = `cluver/reaction/likelist.json?bno=${state.items[i].bno}`;
                 //     const headers1 = {"Content-Type":"application/json"};
                 //     const response1 = await axios.get(url1, {headers1}); 
                 //     state.items[i].blike = response1.data.result
@@ -182,7 +182,7 @@ export default {
         };
 
         const search = async() => {
-            const url      = `/ROOT/api/board1/search?btitle=${state.text}&page=${state.page}`
+            const url      = `/cluver/api/board1/search?btitle=${state.text}&page=${state.page}`
             const headers  = { "Content-Type": "application/json" };
             const response = await axios.get(url, { headers });
             console.log('search =>', response.data);
@@ -196,7 +196,7 @@ export default {
         }
 
         //  const nick = async() => {
-        //     const url      = `/ROOT/member/psmynick`;
+        //     const url      = `/cluver/member/psmynick`;
         //     const headers  = { "Content-Type": "application/json", "token": state.token };
         //     const response = await axios.get(url, {headers});
         //     console.log("nick ==> ", response.data.result);

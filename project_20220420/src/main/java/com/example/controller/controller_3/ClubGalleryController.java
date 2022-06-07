@@ -41,7 +41,7 @@ public class ClubGalleryController {
 	ResourceLoader resLoader;
 	
 	// 갤러리 생성 페이지
-	// 127.0.0.1:9090/ROOT/clubgallery/insert
+	// 127.0.0.1:9090/cluver/clubgallery/insert
 	@GetMapping(value="/insert")
 	public String insertGet()
 	{
@@ -91,7 +91,7 @@ public class ClubGalleryController {
 	}
 	
 	// 갤러리 목록
-	// 127.0.0.1:9090/ROOT/clubgallery/selectlist?page=&text=
+	// 127.0.0.1:9090/cluver/clubgallery/selectlist?page=&text=
 	@GetMapping(value="/selectlist")
 	public String selectlistGET(Model model, @RequestParam(name="page", defaultValue="1") int page, 
 			@RequestParam(name="text", defaultValue="") String text, @RequestParam(name="cno") long cno)
@@ -122,7 +122,7 @@ public class ClubGalleryController {
 	
 	
 	// 갤러리 이미지 표시용
-	// 127.0.0.1:9090/ROOT/clubgallery/image?cgno=&idx=
+	// 127.0.0.1:9090/cluver/clubgallery/image?cgno=&idx=
 	@GetMapping(value="/image")
 	public ResponseEntity<byte[]> imageGET(@RequestParam(name="cgno") long cgno, @RequestParam(name="idx") long idx) throws IOException
 	{
@@ -173,7 +173,7 @@ public class ClubGalleryController {
 	}
 	
 	// 갤러리 페이지
-	// 127.0.0.1:9090/ROOT/clubgallery/select?cgno=
+	// 127.0.0.1:9090/cluver/clubgallery/select?cgno=
 	@GetMapping(value="/select")
 	public String selectGET(Model model, @RequestParam(name="cgno") long cgno)
 	{
@@ -193,7 +193,7 @@ public class ClubGalleryController {
 	}
 	
 	// 갤러리 삭제
-	// 127.0.0.1:9090/ROOT/clubgallery/delete
+	// 127.0.0.1:9090/cluver/clubgallery/delete
 	@Transactional
 	@PostMapping(value="/delete")
 	public String deletePOST(@ModelAttribute ClubGallery cg)
@@ -214,7 +214,7 @@ public class ClubGalleryController {
 	}
 	
 	// 갤러리 수정 페이지
-	// 127.0.0.1:9090/ROOT/clubgallery/update?cgno=
+	// 127.0.0.1:9090/cluver/clubgallery/update?cgno=
 	@GetMapping(value="/update")
 	public String updateGET(Model model, @RequestParam(name="cgno") long cgno)
 	{
@@ -235,7 +235,7 @@ public class ClubGalleryController {
 	}
 	
 	// 갤러리명, 갤러리설명 수정
-	// 127.0.0.1:9090/ROOT/clubgallery/updategallerytext
+	// 127.0.0.1:9090/cluver/clubgallery/updategallerytext
 	@PostMapping(value="/updategallerytext")
 	public String updategalleryPOST(@ModelAttribute ClubGallery cg)
 	{
@@ -257,7 +257,7 @@ public class ClubGalleryController {
 	}
 	
 	// 갤러리 수정 페이지 - 이미지 일괄등록
-	// 127.0.0.1:9090/ROOT/clubgallery/insertgimages
+	// 127.0.0.1:9090/cluver/clubgallery/insertgimages
 	@PostMapping(value="/insertimages")
 	public String insertimagesPOST(@ModelAttribute ClubGallery cg, @RequestParam(name="file") MultipartFile[] file) throws IOException
 	{
@@ -293,7 +293,7 @@ public class ClubGalleryController {
 	}
 	
 	// 갤러리 수정 페이지 - 이미지 삭제
-	// 127.0.0.1:9090/ROOT/clubgallery/deletegimage
+	// 127.0.0.1:9090/cluver/clubgallery/deletegimage
 	@PostMapping(value="/deletegimage")
 	public String deletegimagesPOST(@ModelAttribute ClubGallery cg, @ModelAttribute GImage gi)
 	{

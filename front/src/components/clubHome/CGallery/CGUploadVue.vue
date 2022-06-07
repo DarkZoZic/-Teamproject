@@ -108,7 +108,7 @@ export default {
         }
 
         const upload = async() => {
-            const url = `/ROOT/api/clubgallery/insert`;
+            const url = `/cluver/api/clubgallery/insert`;
             const headers = {"Content-Type":"multipart/form-data", "token" : state.token};
             const body = new FormData();
             for(let i=0; i<state.imageFile.length; i++)

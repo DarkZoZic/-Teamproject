@@ -32,7 +32,7 @@ public class CdimageRestController {
     ResourceLoader resLoader;
 
     // 클럽디테일 이미지 가져오기
-    // 127.0.0.1:9090/ROOT/cdimage/selectimage
+    // 127.0.0.1:9090/cluver/cdimage/selectimage
     @RequestMapping(value = "/selectimage", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> selectcno1Get(
@@ -48,7 +48,7 @@ public class CdimageRestController {
 
                 if (cdimage != null) {
 
-                    map1.put("imgurl", "/ROOT/clubdetail/cdimage?cdno=" +
+                    map1.put("imgurl", "/cluver/clubdetail/cdimage?cdno=" +
                             obj.getClubDetail().getCdno() + "&idx=0");
                 } else {
                     map1.put("imgurl", null);

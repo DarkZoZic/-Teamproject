@@ -152,7 +152,7 @@ export default {
 
         const content = async() => {
             if(state.token !== null) {
-                const url      = `/ROOT/api/clubboard/selectlist?page=${state.page}&cno=${state.cno}`;
+                const url      = `/cluver/api/clubboard/selectlist?page=${state.page}&cno=${state.cno}`;
                 const headers  = { "Content-Type": "application/json", token: state.token };
                 const response = await axios.get(url, { headers });
                 console.log(response.data);
@@ -179,7 +179,7 @@ export default {
 
         const handlePage = async(idx, option, search) => {
             if(state.token !== null) {
-                const url      = `/ROOT/api/clubboard/selectlist?page=${idx}&text=${search}&option=${option}&cno=${state.cno}`;
+                const url      = `/cluver/api/clubboard/selectlist?page=${idx}&text=${search}&option=${option}&cno=${state.cno}`;
                 const headers  = { "Content-Type": "application/json", token: state.token };
                 const response = await axios.get(url, { headers });
                 // console.log(response.data);
@@ -213,7 +213,7 @@ export default {
 
         const search = async() => { // 전체검색기능 미구현
             if(state.token !== null) {
-                const url      = `/ROOT/api/clubboard/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
+                const url      = `/cluver/api/clubboard/selectlist?page=${state.page}&text=${state.search}&option=${state.option}&cno=${state.cno}`;
                 const headers  = { "Content-Type": "application/json", token: state.token };
                 const response = await axios.get(url, { headers });
                 console.log(response.data);

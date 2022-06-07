@@ -344,7 +344,7 @@ export default {
     
 
     const handleData = async() => {
-      const url      = `/ROOT/api/qna/selectone?qno=${state.qno}`;
+      const url      = `/cluver/api/qna/selectone?qno=${state.qno}`;
       const headers  = {"Content-Type": "application/json", "token": state.token };
       const response = await axios.get(url, {headers});
       // console.log(response.data);
@@ -359,7 +359,7 @@ export default {
     // 글삭제
      const handleDelete = async() => {
       if(confirm('삭제하시겠습니까?')){
-        const url      = `/ROOT/api/qna/delete?qno=${state.qno}`;
+        const url      = `/cluver/api/qna/delete?qno=${state.qno}`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.delete(url, { headers: headers, data: {} });
         console.log(response.data);
@@ -379,7 +379,7 @@ export default {
 
     // 댓글조회
     const handleReplyView = async() => {
-      const url      = `/ROOT/api/creply/qna_selectone?qno=${state.qno}`;
+      const url      = `/cluver/api/creply/qna_selectone?qno=${state.qno}`;
       const headers  = { "Content-Type": "application/json", "token": state.token };
       const response = await axios.get(url, { headers });
       console.log(response.data);
@@ -412,7 +412,7 @@ export default {
 
     // 댓글 등록하기
     const handleReplyInsert = async() => {
-      const url     = `/ROOT/api/creply/qna_insert`;
+      const url     = `/cluver/api/creply/qna_insert`;
       const headers = { "Content-Type":"application/json", "token": state.token };
       const body    = {
         mid           : state.mid,
@@ -451,7 +451,7 @@ export default {
 
      // 답댓글 등록 
     const handleReplyAdd = async(no, idx) => {
-      const url     = `/ROOT/api/creply/qna_insert`;
+      const url     = `/cluver/api/creply/qna_insert`;
       const headers = { "Content-Type": "application/json", "token" : state.token };
       const body = {
         mid : state.mid,
@@ -486,7 +486,7 @@ export default {
 
     // 댓글 수정
     const handleReUpdate = async(no, idx) => {
-      const url = `/ROOT/api/creply/qna_update`;
+      const url = `/cluver/api/creply/qna_update`;
       const headers = {"Content-Type":"application/json",
                       "token" : state.token };
       const body = {
@@ -513,7 +513,7 @@ export default {
     // 댓글 삭제
     const handleReplyDelete = async(no) => {
       if(confirm('삭제하시겠습니까?')){
-        const url      = `/ROOT/api/creply/qna_delete?renumber=${no}`;
+        const url      = `/cluver/api/creply/qna_delete?renumber=${no}`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.delete(url, { headers: headers, data: {} });
         console.log(response.data);

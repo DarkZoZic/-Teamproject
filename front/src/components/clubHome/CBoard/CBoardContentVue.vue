@@ -265,7 +265,7 @@ export default {
     // 조회수 증가 -> 게시글 상세내용 + 이미지 + 댓글목록
     const content = async() => {
       console.log(state.cno);
-      const url      = `/ROOT/api/clubboard/updatehit?cbno=${state.cbno}&cno=${state.cno}`;
+      const url      = `/cluver/api/clubboard/updatehit?cbno=${state.cbno}&cno=${state.cno}`;
       const headers  = { "Content-Type": "application/json", token: state.token };
       const body     = { cbno: state.cbno };
       const response = await axios.post(url, body, { headers });
@@ -273,7 +273,7 @@ export default {
 
       if(response.data.status === 200)
       {
-        const url      = `/ROOT/api/clubboard/select?cbno=${state.cbno}&cno=${state.cno}`;
+        const url      = `/cluver/api/clubboard/select?cbno=${state.cbno}&cno=${state.cno}`;
         const headers  = { "Content-Type": "application/json", token: state.token };
         
         const response = await axios.get(url, {headers});
@@ -308,7 +308,7 @@ export default {
 
     // 글 작성자 닉네임
     // const nick = async() => {
-    //   const url      = `/ROOT/api/clubmember/selectnick?mid=${state.mid}`;
+    //   const url      = `/cluver/api/clubmember/selectnick?mid=${state.mid}`;
     //   const headers  = {"Content-Type":"application/json"};
     //   const response = await axios.get(url, {headers});
     //   // console.log(response.data);
@@ -328,7 +328,7 @@ export default {
     }
 
     const insertreply = async() => {
-      const url     = `/ROOT/api/clubboard/insertreply`;
+      const url     = `/cluver/api/clubboard/insertreply`;
       const headers = {"Content-Type":"application/json", "token" : state.token};
       const body    = 
       {
@@ -361,7 +361,7 @@ export default {
     }
 
     const handleDelete = async() => {
-      const url      = `/ROOT/api/clubboard/delete`;
+      const url      = `/cluver/api/clubboard/delete`;
       const headers  = { "Content-Type" :"application/json", token: state.token };
       const body     = { cbno: state.cbno };
       const response = await axios.post(url, body, {headers});
@@ -380,7 +380,7 @@ export default {
     }
 
     const handleReplyDelete = async(idx, idx1) => {
-      const url      = `/ROOT/api/clubboard/deletereply`;
+      const url      = `/cluver/api/clubboard/deletereply`;
       const headers  = { "Content-Type": "application/json", token: state.token };
       const body     = { renumber: idx, reparentnumber: idx1 };
       const response = await axios.post(url, body, {headers});
@@ -409,7 +409,7 @@ export default {
     {
       // console.log(tmp);
       // console.log(state.reply[idx].renumber);
-      const url     = `/ROOT/api/clubboard/updatereply`;
+      const url     = `/cluver/api/clubboard/updatereply`;
       const headers = {"Content-Type":"application/json", "token" : state.token};
       const body    = 
       {
@@ -441,7 +441,7 @@ export default {
     } 
 
     const insertrereply = async(idx) => {
-      const url     = `/ROOT/api/clubboard/insertreply`;
+      const url     = `/cluver/api/clubboard/insertreply`;
       const headers = {"Content-Type":"application/json", "token" : state.token};
       const body    = 
       {
@@ -476,7 +476,7 @@ export default {
     {
       // console.log(tmp);
       // console.log(state.reply[idx].renumber);
-      const url     = `/ROOT/api/clubboard/updatereply`;
+      const url     = `/cluver/api/clubboard/updatereply`;
       const headers = {"Content-Type":"application/json", "token" : state.token};
       const body    = 
       {

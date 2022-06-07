@@ -639,7 +639,7 @@ export default {
     }
 
     const handleJoin2 = async() => {
-      const url = `/ROOT/member/cpjoin.json`;
+      const url = `/cluver/member/cpjoin.json`;
       const headers = {"Content-Type":"multipart/form-data"};
       const body = new FormData;
         body.append("mcno",    state.number);
@@ -707,7 +707,7 @@ export default {
         return false;
       }
 
-      const url = `/ROOT/member/join.json`;
+      const url = `/cluver/member/join.json`;
       const headers = {"Content-Type":"multipart/form-data"};
 
       const body = new FormData;

@@ -41,7 +41,7 @@ public class ReactionRestController {
 
 
     // 클럽 갤러리 좋아요기능
-	// 127.0.0.1:9090/ROOT/reaction/gallerylike.json
+	// 127.0.0.1:9090/cluver/reaction/gallerylike.json
 	@RequestMapping(value = "/gallerylike.json", 
     method = { RequestMethod.POST },
     consumes = { MediaType.ALL_VALUE },
@@ -88,7 +88,7 @@ try {
 
 
     // 클럽게시판 좋아요 취소 기능
-	// 127.0.0.1:9090/ROOT/reaction/unlikegallery.json
+	// 127.0.0.1:9090/cluver/reaction/unlikegallery.json
 	@RequestMapping(value = "/unlikegallery.json", 
     method = { RequestMethod.DELETE },
     consumes = { MediaType.ALL_VALUE },
@@ -118,7 +118,7 @@ try {
     return map;
 }
     // 클럽게시판 좋아요 취소 기능
-	// 127.0.0.1:9090/ROOT/reaction/unlikeclub.json
+	// 127.0.0.1:9090/cluver/reaction/unlikeclub.json
 	@RequestMapping(value = "/unlikeclub.json", 
     method = { RequestMethod.DELETE },
     consumes = { MediaType.ALL_VALUE },
@@ -150,7 +150,7 @@ try {
 
 
     // 클럽 게시판 좋아요기능
-	// 127.0.0.1:9090/ROOT/reaction/clublike.json
+	// 127.0.0.1:9090/cluver/reaction/clublike.json
 	@RequestMapping(value = "/clublike.json", 
     method = { RequestMethod.POST },
     consumes = { MediaType.ALL_VALUE },
@@ -195,7 +195,7 @@ try {
     return map;
 }
     // 좋아요기능
-	// 127.0.0.1:9090/ROOT/reaction/like.json
+	// 127.0.0.1:9090/cluver/reaction/like.json
 	@RequestMapping(value = "/like.json", 
     method = { RequestMethod.POST },
     consumes = { MediaType.ALL_VALUE },
@@ -240,7 +240,7 @@ try {
     return map;
 }
     // -- 좋아요 가져오기(자유게시판디테일) --
-    //127.0.0.1:9090/ROOT/reaction/likeone
+    //127.0.0.1:9090/cluver/reaction/likeone
     @RequestMapping(value = "/likeone",
             method = { RequestMethod.GET },
             consumes = { MediaType.ALL_VALUE },
@@ -312,7 +312,7 @@ try {
     }
 
     // 댓글 좋아요 개수 조회
-	// 127.0.0.1:9090/ROOT/reaction/relikelist.json
+	// 127.0.0.1:9090/cluver/reaction/relikelist.json
 	@RequestMapping(value = "/relikelist.json", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -338,7 +338,7 @@ try {
 
 
     // 자유게시판 좋아요 개수 조회
-	// 127.0.0.1:9090/ROOT/reaction/likelist.json
+	// 127.0.0.1:9090/cluver/reaction/likelist.json
 	@RequestMapping(value = "/likelist.json", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -365,7 +365,7 @@ try {
     }
 
     // 클럽게시판 좋아요 개수 조회
-	// 127.0.0.1:9090/ROOT/reaction/clublikelist.json
+	// 127.0.0.1:9090/cluver/reaction/clublikelist.json
 	@RequestMapping(value = "/clublikelist.json", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -391,7 +391,7 @@ try {
     return map;
 }
     // 클럽갤러리 좋아요 개수 조회
-	// 127.0.0.1:9090/ROOT/reaction/gallerylikelist.json
+	// 127.0.0.1:9090/cluver/reaction/gallerylikelist.json
 	@RequestMapping(value = "/gallerylikelist.json", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -419,7 +419,7 @@ try {
 
 
     // 댓글 좋아요기능
-	// 127.0.0.1:9090/ROOT/reaction/relike.json
+	// 127.0.0.1:9090/cluver/reaction/relike.json
 	@RequestMapping(value = "/relike.json", 
     method = { RequestMethod.POST },
     consumes = { MediaType.ALL_VALUE },
@@ -476,7 +476,7 @@ try {
 
 
     // -- 좋아요 가져오기( 댓글 디테일 ) --
-    //127.0.0.1:9090/ROOT/reaction/relikeone
+    //127.0.0.1:9090/cluver/reaction/relikeone
     @RequestMapping(value = "/relikeone",
             method = { RequestMethod.GET },
             consumes = { MediaType.ALL_VALUE },

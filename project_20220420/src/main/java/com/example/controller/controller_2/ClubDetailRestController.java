@@ -43,7 +43,7 @@ public class ClubDetailRestController {
     CimageRepository cimageRepository;
 
     // 클럽디테일 리스트 받아오기
-    // 127.0.0.1:9090/ROOT/clubdetail/selectlist
+    // 127.0.0.1:9090/cluver/clubdetail/selectlist
     @RequestMapping(value = "/selectlist", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> selectselectlistGet() {
@@ -63,7 +63,7 @@ public class ClubDetailRestController {
         return map;
     }
 
-    // 127.0.0.1:9090/ROOT/club/cdimage?cno=179
+    // 127.0.0.1:9090/cluver/club/cdimage?cno=179
     // @GetMapping(value = "/cdimage")
     // public ResponseEntity<byte[]> imageGET(
     // @RequestParam(name = "cno") Long cno) throws IOException {
@@ -98,7 +98,7 @@ public class ClubDetailRestController {
     // }
 
     // 클럽번호로 클럽디테일 가져오기
-    // 127.0.0.1:9090/ROOT/clubdetail/selectcno
+    // 127.0.0.1:9090/cluver/clubdetail/selectcno
     @RequestMapping(value = "/selectcno", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> selectcnoGet(
@@ -112,7 +112,7 @@ public class ClubDetailRestController {
 
             if (cimage != null) {
 
-                map.put("imgurl", "/ROOT/club/cimage?cno=" + cno);
+                map.put("imgurl", "/cluver/club/cimage?cno=" + cno);
             } else {
                 map.put("imgurl", null);
 
@@ -130,7 +130,7 @@ public class ClubDetailRestController {
     }
 
     // 클럽공고 이미지 등록
-    // 127.0.0.1:9090/ROOT/clubdetail/cdimage
+    // 127.0.0.1:9090/cluver/clubdetail/cdimage
     @RequestMapping(value = "/cdimage", method = { RequestMethod.POST }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> cdimagePOST(
@@ -158,7 +158,7 @@ public class ClubDetailRestController {
                         cdimageRepository.save(cdImage2);
 
                         map.put("status", 200);
-                        map.put("imgurl", "/ROOT/clubdetail/cdimage?cdno=" + cdImage2.getClubDetail().getCdno()); // url
+                        map.put("imgurl", "/cluver/clubdetail/cdimage?cdno=" + cdImage2.getClubDetail().getCdno()); // url
                                                                                                                   // 보내기
                     }
 
@@ -180,7 +180,7 @@ public class ClubDetailRestController {
     }
 
     // 클럽 이미지n개조회(클럽디테일에서 표시됨)
-    // 127.0.0.1:9090/ROOT/clubdetail/detailselectone?cno=189
+    // 127.0.0.1:9090/cluver/clubdetail/detailselectone?cno=189
     @RequestMapping(value = "/detailselectone", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> detailselectoneGet(
@@ -199,7 +199,7 @@ public class ClubDetailRestController {
 
                 if (cdImage != null) {
 
-                    map1.put("imgurl", "/ROOT/clubdetail/cdimage?cdno=" +
+                    map1.put("imgurl", "/cluver/clubdetail/cdimage?cdno=" +
                             obj.getClubDetail().getCdno() + "&idx=0");
                 } else {
                     map1.put("imgurl", null);
@@ -220,7 +220,7 @@ public class ClubDetailRestController {
     }
 
     // 클럽 이미지1개조회(클럽생성시 바로 받아오기)
-    // 127.0.0.1:9090/ROOT/club/selectone?cno=175
+    // 127.0.0.1:9090/cluver/club/selectone?cno=175
     @RequestMapping(value = "/selectone", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> stomerMypageGet(

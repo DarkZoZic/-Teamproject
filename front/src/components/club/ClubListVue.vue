@@ -289,7 +289,7 @@ export default {
             console.log(state.search);
             if(state.search !== undefined){
                 if(state.search !== ''){
-                    const url      = `/ROOT/club/searchcateclub?cate=${state.search}`;
+                    const url      = `/cluver/club/searchcateclub?cate=${state.search}`;
                     const headers  = { "Content-Type": "application.json" };
                     const response = await axios.get(url,{ headers: headers });
                     console.log(response.data);
@@ -312,7 +312,7 @@ export default {
             
             console.log(state.joinSearch);
             
-            const url      =`/ROOT/club/searchclub?address=${area}`
+            const url      =`/cluver/club/searchclub?address=${area}`
             const headers  = { "Content-Type": "application.json" };
             const response = await axios.get(url, { headers: headers });
 
@@ -332,7 +332,7 @@ export default {
             
             console.log(state.joinSearch);
             
-            const url      =`/ROOT/club/searchclub1?address=${area}`
+            const url      =`/cluver/club/searchclub1?address=${area}`
             const headers  = { "Content-Type": "application.json" };
             const response = await axios.get(url, { headers: headers });
 
@@ -350,7 +350,7 @@ export default {
             console.log(idx);
             state.area.splice(idx, 1)
 
-            // const url      =`/ROOT/club/searchclub?address=${area}`
+            // const url      =`/cluver/club/searchclub?address=${area}`
             // const headers  = { "Content-Type": "application.json" };
             // const response = await axios.get(url, { headers: headers });
             // if(response.data.status === 200){
@@ -366,7 +366,7 @@ export default {
         // 장소 전체선택
         const all = async() => {
             state.area     = [];
-            const url      = `/ROOT/club/selectlist2`;
+            const url      = `/cluver/club/selectlist2`;
             const headers  = { "Content-Type": "application.json" };
             const response = await axios.get(url,{ headers: headers });
             console.log(response.data);
@@ -379,7 +379,7 @@ export default {
         // 대분류 검색
         const search1 = async(e) => {
             state.area     = [];
-            const url      = `/ROOT/address/search1?address=${e}`;
+            const url      = `/cluver/address/search1?address=${e}`;
             const headers  = { "Content-Type": "application.json" };
             const response = await axios.get(url,{ headers: headers });
             console.log(response.data);
@@ -393,7 +393,7 @@ export default {
 
         // 중분류 검색
         // const search2 = async() => {
-        //     const url      = `/ROOT/address/search2?address=${state.search2}`;
+        //     const url      = `/cluver/address/search2?address=${state.search2}`;
         //     const headers  = { "Content-Type": "application.json" };
         //     const response = await axios.get(url,{ headers: headers });
         //     console.log(response.data);
@@ -406,7 +406,7 @@ export default {
 
         // 전체불러오기
         const addr1 = async() => {
-            const url      = `/ROOT/address/addr1`;
+            const url      = `/cluver/address/addr1`;
             const headers  = { "Content-Type": "application.json" };
             const response = await axios.get(url,{ headers: headers });
             console.log(response.data);
@@ -418,7 +418,7 @@ export default {
         }
 
         const handleData = async() => {
-            const url      = `/ROOT/club/selectlist2`;
+            const url      = `/cluver/club/selectlist2`;
             const headers  = { "Content-Type": "application.json" };
             const response = await axios.get(url, { headers: headers });
             console.log(response.data);
@@ -433,7 +433,7 @@ export default {
         }
 
         const Likelist = async() => {
-            const url      = `/ROOT/api/like/selectlist`;
+            const url      = `/cluver/api/like/selectlist`;
             const headers  = { "Content-Type": "application.json", "token": state.token };
             const response = await axios.get(url,{ headers: headers });
             console.log(response.data);
@@ -462,7 +462,7 @@ export default {
                     state.imgcheck[idx].type = 1;
                 }
             }
-            const url      = `/ROOT/api/like/insert`
+            const url      = `/cluver/api/like/insert`
             const headers  = { "Content-Type": "multipart/form-data", "token": state.token };
             const body     = new FormData;
             body.append("club", cno);
@@ -485,7 +485,7 @@ export default {
 
         const unlike = async(cno,idx) => {
             console.log("unlike", state.imgcheck[idx]);
-            const url      = `/ROOT/api/like/deleteone`
+            const url      = `/cluver/api/like/deleteone`
             const headers  = { "Content-Type":"multipart/form-data", token: state.token};
             const body     = new FormData;
             body.append("club", cno);   
@@ -498,7 +498,7 @@ export default {
         }
 
     //     const like = async() => {
-    //    const url =`/ROOT/like/insert`
+    //    const url =`/cluver/like/insert`
     //         const headers = {"Content-Type":"application.json"};
     //         const body = {
     //             club : state.items.obj.cno

@@ -36,7 +36,7 @@ public class ClubScheduleController {
 	ResourceLoader resLoader;
 	
 	// 스케줄 입력 페이지 (날짜 선택 -> 해당 날짜 스케줄 입력)
-	// 127.0.0.1:9090/ROOT/clubschedule/insert
+	// 127.0.0.1:9090/cluver/clubschedule/insert
 	@GetMapping(value="/insert")
 	public String insertGET(@RequestParam(name="sno") long sno)
 	{
@@ -85,7 +85,7 @@ public class ClubScheduleController {
 	}
 	
 	// 일정표 페이지 (게시판)
-	// 127.0.0.1:9090/ROOT/clubschedule/selectlist
+	// 127.0.0.1:9090/cluver/clubschedule/selectlist
 	@GetMapping(value="/selectlist")
 	public String selectlistGET(Model model)
 	{
@@ -103,7 +103,7 @@ public class ClubScheduleController {
 	}
 
 	// 스케줄 이미지 표시용 //clubgallerycontroller -> 갤러리 이미지 표시용 코드 구조와 동일
-	// /ROOT/schedule/image?sno=&idx=
+	// /cluver/schedule/image?sno=&idx=
 	public ResponseEntity<byte[]> imageGET(@RequestParam(name="sno") long sno, @RequestParam(name="idx") long idx)
 	{
 		try 
@@ -149,7 +149,7 @@ public class ClubScheduleController {
 	}
 	
 	// 스케줄 삭제
-	// 127.0.0.1:9090/ROOT/clubschedule/delete
+	// 127.0.0.1:9090/cluver/clubschedule/delete
 	public String deletePOST(@ModelAttribute CSchedule cs)
 	{
 		try 
@@ -166,7 +166,7 @@ public class ClubScheduleController {
 	}
 	
 	// 스케줄 수정 화면
-	// 127.0.0.1:9090/ROOT/clubschedule/update?sno=
+	// 127.0.0.1:9090/cluver/clubschedule/update?sno=
 	@GetMapping(value="/update")
 	public String updateGET(Model model, @RequestParam(name="sno") long sno)
 	{
@@ -186,7 +186,7 @@ public class ClubScheduleController {
 	}
 	
 	// 스케줄 수정
-	// 127.0.0.1:9090/ROOT/clubschedule/updateschedule
+	// 127.0.0.1:9090/cluver/clubschedule/updateschedule
 	@PostMapping(value="/updateschedule")
 	public String updateschedulePOST(@ModelAttribute CSchedule cs)
 	{
@@ -206,7 +206,7 @@ public class ClubScheduleController {
 	}
 	
 	// 스케줄 수정 - 이미지 일괄등록
-	// 127.0.0.1:9090/ROOT/clubschedule/insertgimages
+	// 127.0.0.1:9090/cluver/clubschedule/insertgimages
 	@PostMapping(value="/insertimages")
 	public String insertimagesPOST(@ModelAttribute CSchedule cs, @RequestParam(name="file") MultipartFile[] file)
 	{
@@ -238,7 +238,7 @@ public class ClubScheduleController {
 	}
 	
 	// 스케줄 수정 페이지 - 이미지 삭제
-	// 127.0.0.1:9090/ROOT/clubschedule/deletecsimage
+	// 127.0.0.1:9090/cluver/clubschedule/deletecsimage
 	@PostMapping(value="/deletecsimage")
 	public String deletecsimagePOST(@ModelAttribute CSchedule cs, @ModelAttribute CsImage csi)
 	{

@@ -323,7 +323,7 @@ export default {
     })
 
     const handleData = async() => {
-      const url      = `/ROOT/api/board1/selectone?bno=${state.bno}`;
+      const url      = `/cluver/api/board1/selectone?bno=${state.bno}`;
       const headers  = {"Content-Type": "application/json", "token": state.token };
       const response = await axios.get(url, {headers});
       // console.log(response.data);
@@ -340,7 +340,7 @@ export default {
     //글 삭제
     const handleDelete = async() => {
       if(confirm('삭제하시겠습니까?')){
-        const url      = `/ROOT/api/board1/delete1?bno=${state.bno}`;
+        const url      = `/cluver/api/board1/delete1?bno=${state.bno}`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.delete(url, { headers: headers, data: {} });
         console.log(response.data);
@@ -360,7 +360,7 @@ export default {
 
     // 게시글 좋아요 상태 가져오기
     const likestatus = async() => {
-      const url      = `/ROOT/reaction/likeone?bno=${state.bno}`;
+      const url      = `/cluver/reaction/likeone?bno=${state.bno}`;
       const headers  = { "Content-Type": "application/json", "token": state.token };
       const response = await axios.get(url, {headers});
       console.log("좋아요상태", response.data);
@@ -378,7 +378,7 @@ export default {
     // 1이면 unlike로 0이면 like로
     const like = async() => {
       if( state.likestatus === false){
-        const url      = `/ROOT/reaction/like.json`;
+        const url      = `/cluver/reaction/like.json`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const body     = new FormData();
         body.append("board1", state.bno);
@@ -394,7 +394,7 @@ export default {
       }
       else if(state.likestatus === true){
         // 좋아요 취소
-        const url      = `/ROOT/reaction/unlike.json?bno=${state.bno}`;
+        const url      = `/cluver/reaction/unlike.json?bno=${state.bno}`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.delete(url, { headers: headers, data: {} });
         // console.log(response.data);
@@ -409,7 +409,7 @@ export default {
 
     // 게시글 좋아요 개수 조회
     const likecount = async() => {
-      const url      = `/ROOT/reaction/likelist.json?bno=${state.bno}`;
+      const url      = `/cluver/reaction/likelist.json?bno=${state.bno}`;
       const headers  = { "Content-Type": "application/json" };
       const response = await axios.get(url, {headers});
       console.log(response.data);
@@ -421,7 +421,7 @@ export default {
 
     // 댓글 좋아요 개수 조회
     // const relikecount = async() => {
-    //   const url      = `/ROOT/reaction/relikelist.json?renumber=${tmp.renumber}`;
+    //   const url      = `/cluver/reaction/relikelist.json?renumber=${tmp.renumber}`;
     //   const headers  = { "Content-Type": "application/json" };
     //   const response = await axios.get(url, {headers});
     //   console.log(response.data);
@@ -433,7 +433,7 @@ export default {
 
     // 댓글 좋아요 상태 가져오기
     // const relikestatus = async() => {
-    //   const url      = `/ROOT/reaction/relikeone?renumber=${tmp.renumber}`;
+    //   const url      = `/cluver/reaction/relikeone?renumber=${tmp.renumber}`;
     //   const headers  = { "Content-Type": "application/json", "token": state.token };
     //   const response = await axios.get(url, {headers});
     //   console.log("좋아요상태", response.data);
@@ -449,7 +449,7 @@ export default {
 
     // 댓글 좋아요 등록
     const replylike = async() => {
-      const url     = `/ROOT/reaction/relike.json`;
+      const url     = `/cluver/reaction/relike.json`;
       const headers = { "Content-Type": "application/json", "token": state.token };
       const body    = new FormData;
       body.append("creply", state.reply1.renumber);
@@ -466,7 +466,7 @@ export default {
 
     // 댓글조회
     const handleReplyView = async() => {
-      const url      = `/ROOT/api/creply/board_selectone?bno=${state.bno}`;
+      const url      = `/cluver/api/creply/board_selectone?bno=${state.bno}`;
       const headers  = { "Content-Type": "application/json", "token": state.token };
       const response = await axios.get(url, { headers });
       console.log(response.data);
@@ -499,7 +499,7 @@ export default {
 
     // 댓글 등록하기
     const handleReplyInsert = async() => {
-      const url     = `/ROOT/api/creply/board_insert`;
+      const url     = `/cluver/api/creply/board_insert`;
       const headers = { "Content-Type":"application/json", "token": state.token };
       const body    = {
         mid           : state.mid,
@@ -537,7 +537,7 @@ export default {
 
     // 답댓글 등록 
     const handleReplyAdd = async(idx) => {
-      const url     = `/ROOT/api/creply/reboard_insert`;
+      const url     = `/cluver/api/creply/reboard_insert`;
       const headers = { "Content-Type": "application/json", "token" : state.token };
       const body = {
         mid : state.mid,
@@ -560,7 +560,7 @@ export default {
 
     // 댓글 수정 handleReUpdate
     const handleReUpdate = async(no, idx) => {
-      const url = `/ROOT/api/creply/board_update`;
+      const url = `/cluver/api/creply/board_update`;
       const headers = {"Content-Type":"application/json",
                       "token" : state.token };
       const body = {
@@ -597,7 +597,7 @@ export default {
         state.reply1.reupdate[idx] = false;
       }
 
-      // const url = `/ROOT/api/creply/board_update`;
+      // const url = `/cluver/api/creply/board_update`;
       // const headers = {
       //     "Content-Type" : "application/json",
       //     "token"        : state.token,
@@ -621,7 +621,7 @@ export default {
     // 댓글 삭제
     const handleReplyDelete = async(no) => {
       if(confirm('삭제하시겠습니까?')){
-        const url      = `/ROOT/api/creply/board_delete?renumber=${no}`;
+        const url      = `/cluver/api/creply/board_delete?renumber=${no}`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.delete(url, { headers: headers, data: {} });
         console.log(response.data);
@@ -637,7 +637,7 @@ export default {
     // 이전글, 다음글 메소드 생성
     const handlePage = async(idx) => {
       if(idx === 1){ // 이전글
-        const url      = `/ROOT/api/board1/prev?bno=${state.bno}`;
+        const url      = `/cluver/api/board1/prev?bno=${state.bno}`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.get(url, {headers});
         console.log(response.data);
@@ -651,7 +651,7 @@ export default {
       }
 
       else if(idx === 2){ // 다음글
-        const url      = `/ROOT/api/board1/next?bno=${state.bno}`;
+        const url      = `/cluver/api/board1/next?bno=${state.bno}`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.get(url, {headers});
         console.log(response.data);

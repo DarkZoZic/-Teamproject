@@ -94,7 +94,7 @@ public class Board1RestController {
     @Value("${board.page.count}") int PAGECNT;
 
     // 글쓰기
-    //127.0.0.1:9090/ROOT/api/board1/insert
+    //127.0.0.1:9090/cluver/api/board1/insert
     @RequestMapping(value = "/insert", 
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
@@ -161,7 +161,7 @@ public class Board1RestController {
     // }
 
     // ckeditor에서 첨부하는 이미지 보관하는 곳
-    // 127.0.0.1:9090/ROOT/api/board1/ckimage
+    // 127.0.0.1:9090/cluver/api/board1/ckimage
     @RequestMapping(value = "/ckimage", 
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
@@ -185,7 +185,7 @@ public class Board1RestController {
             bcRepository.save(bckeditor);
 
             map.put("status", 200);
-            map.put("url", "/ROOT/api/board1/image?biimgcode=" + bckeditor.getBcimgcode() ); // url 보내기
+            map.put("url", "/cluver/api/board1/image?biimgcode=" + bckeditor.getBcimgcode() ); // url 보내기
 
         }
         catch(Exception e){
@@ -195,7 +195,7 @@ public class Board1RestController {
         return map;
     }
 
-    // 127.0.0.1:9090/ROOT/api/board1/image?biimgcode=1
+    // 127.0.0.1:9090/cluver/api/board1/image?biimgcode=1
     // <img th:src="@{/board1/image(biimgcode=1)}" style="width:100px" />
     @RequestMapping(value = "/image", 
         method = {RequestMethod.GET},
@@ -233,7 +233,7 @@ public class Board1RestController {
     }
 
     // 글 1개 삭제
-    // 127.0.0.1:9090/ROOT/api/board1/delete1
+    // 127.0.0.1:9090/cluver/api/board1/delete1
     // {"bno":3}
     @RequestMapping(value = "/delete1", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -259,7 +259,7 @@ public class Board1RestController {
         return map;
     }
 
-     // 127.0.0.1:9090/ROOT/api/board1/delete
+     // 127.0.0.1:9090/cluver/api/board1/delete
     // {"bno":3}
     @RequestMapping(value = "/delete", method = {RequestMethod.DELETE}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -301,7 +301,7 @@ public class Board1RestController {
     }
 
     // 글 수정
-    // 127.0.0.1:9090/ROOT/api/board1/update?bno=3
+    // 127.0.0.1:9090/cluver/api/board1/update?bno=3
     // 제목, 내용, 번호
     // {"bno":2, "btitle":"222", "bcontent":"222"}
     @RequestMapping(value = "/update", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
@@ -350,7 +350,7 @@ public class Board1RestController {
     }
 
     // 1개 조회
-    // 127.0.0.1:9090/ROOT/api/board1/selectone?bno=2
+    // 127.0.0.1:9090/cluver/api/board1/selectone?bno=2
     @RequestMapping(value = "/selectone", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectOneGET(
@@ -404,7 +404,7 @@ public class Board1RestController {
     }
 
     // 게시판 목록(페이지네이션만 있음, 검색x)
-    // 127.0.0.1:9090/ROOT/api/board1/selectlist?page=1
+    // 127.0.0.1:9090/cluver/api/board1/selectlist?page=1
     @RequestMapping(value = "/selectlist", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectListGET(
@@ -445,7 +445,7 @@ public class Board1RestController {
     
 
     // 검색(제목기준) + 페이지네이션
-    // 127.0.0.1:9090/ROOT/api/board1/search
+    // 127.0.0.1:9090/cluver/api/board1/search
     @RequestMapping(value = "/search", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> searchGET(
@@ -479,7 +479,7 @@ public class Board1RestController {
         return map;
     }
 
-    // 127.0.0.1:9090/ROOT/api/board1/search1
+    // 127.0.0.1:9090/cluver/api/board1/search1
     @RequestMapping(value = "/search1", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
         public Map<String, Object> search1GET(
@@ -515,7 +515,7 @@ public class Board1RestController {
 
     ////////////////////////////////////////////////////////////////////
 
-    // 127.0.0.1:9090/ROOT/api/board1/selectlist1?page=1&btitle=y
+    // 127.0.0.1:9090/cluver/api/board1/selectlist1?page=1&btitle=y
     @RequestMapping(value = "/selectlist1", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardSelectListGET(
@@ -565,7 +565,7 @@ public class Board1RestController {
 
 
     // 게시물 조회수 1증가 시킴
-    // 127.0.0.1:9090/ROOT/api/board1/updatehit?bno=2
+    // 127.0.0.1:9090/cluver/api/board1/updatehit?bno=2
     @RequestMapping(value = "/updatehit", method = {RequestMethod.PUT}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> boardUpdateHitGET(
@@ -589,7 +589,7 @@ public class Board1RestController {
     }
 
     // 이전글
-    // 127.0.0.1:9090/ROOT/api/board1/prev
+    // 127.0.0.1:9090/cluver/api/board1/prev
     @RequestMapping(value = "/prev", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> prevGET(
@@ -617,7 +617,7 @@ public class Board1RestController {
     }
 
     // 다음글
-    // 127.0.0.1:9090/ROOT/api/board1/next
+    // 127.0.0.1:9090/cluver/api/board1/next
     @RequestMapping(value = "/next", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> nextGET(
@@ -647,7 +647,7 @@ public class Board1RestController {
 
     // 일괄삭제
     // 관리자만 가능하도록 해야하는데 아직 그건 구현 못함
-    // 127.0.0.1:9090/ROOT/api/board1/deletebatch
+    // 127.0.0.1:9090/cluver/api/board1/deletebatch
     @RequestMapping(value = "/deletebatch", method = {RequestMethod.POST}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> deleteBatch(
@@ -672,7 +672,7 @@ public class Board1RestController {
 
    
     // 게시글 작성자와 토큰의 아이디가 일치하는 글만 조회
-    // 127.0.0.1:9090/ROOT/api/board1/selectboard
+    // 127.0.0.1:9090/cluver/api/board1/selectboard
     @RequestMapping(value = "/selectboard", method = {RequestMethod.GET}, consumes = {MediaType.ALL_VALUE},
                     produces = {MediaType.APPLICATION_JSON_VALUE})
     public Map<String, Object> selectBoardGET(

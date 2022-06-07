@@ -110,7 +110,7 @@ export default {
             cno : route.query.cno
         });
         const clubname = async() => {
-            const url = `/ROOT/club/selectone?cno=${state.cno}`;
+            const url = `/cluver/club/selectone?cno=${state.cno}`;
             const headers = {"Content-Type":"application/json"};
             const response = await axios.get(url, {headers});
             // console.log(response.data);

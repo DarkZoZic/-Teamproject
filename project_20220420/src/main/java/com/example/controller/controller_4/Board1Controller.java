@@ -147,7 +147,7 @@ public class Board1Controller {
     
 
     // 목록
-    // // http://127.0.0.1:9090/ROOT/board1/selectlist?page=1&title=y
+    // // http://127.0.0.1:9090/cluver/board1/selectlist?page=1&title=y
     // @GetMapping(value = "/selectlist")
     // public String selectListGET(
     //     Model model,

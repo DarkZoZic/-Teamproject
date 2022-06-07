@@ -12,7 +12,7 @@ module.exports = defineConfig({
       // 프록시 설정
       proxy: {
           // 프록시 요청을 보낼 api의 시작 부분
-          '/ROOT': {
+          '/cluver': {
               // 프록시 요청을 보낼 서버의 주소
               target: 'http://localhost:9090',
               changeOrigin: true,
@@ -22,5 +22,5 @@ module.exports = defineConfig({
   },
 
   // 리소스의 위치. 아마존 올릴 때 쓰는 것
-  publicPath: '/ROOT/vue/'
+  publicPath: '/cluver/vue/'
 })

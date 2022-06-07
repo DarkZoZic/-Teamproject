@@ -79,7 +79,7 @@ public class ClubRestController {
     @Value("${default.image}") String DEFAULT_IMAGE;
 
 
-    // 127.0.0.1:9090/ROOT/club/image?cno=179
+    // 127.0.0.1:9090/cluver/club/image?cno=179
 	@GetMapping(value ="/cimage")
     public ResponseEntity<byte[]> imageGET(
         @RequestParam(name ="cno") Long cno) throws IOException {
@@ -132,7 +132,7 @@ public class ClubRestController {
     
 
     // cimage  이미지 보관하는 곳
-    // 127.0.0.1:9090/ROOT/club/cbimage
+    // 127.0.0.1:9090/cluver/club/cbimage
     @RequestMapping(value = "/cbimage", 
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
@@ -158,7 +158,7 @@ public class ClubRestController {
                 ciRepository.save(cimage);
 
             map.put("status", 200);
-            map.put("url", "/ROOT/club/cimage?cno=" + cimage.getClub().getCno() ); // url 보내기
+            map.put("url", "/cluver/club/cimage?cno=" + cimage.getClub().getCno() ); // url 보내기
 
         }
         catch(Exception e){
@@ -169,7 +169,7 @@ public class ClubRestController {
     }
 
     // 클럽생성
-	// 127.0.0.1:9090/ROOT/club/insert.json
+	// 127.0.0.1:9090/cluver/club/insert.json
 	//{"mid":"c1", "mpw":"c1" };
 	@RequestMapping(value = "/insert.json", 
     method = { RequestMethod.POST },
@@ -214,7 +214,7 @@ try {
     return map;
 }
 	// 클럽이름 중복확인
-	// 127.0.0.1:9090/ROOT/club/cnamecheck
+	// 127.0.0.1:9090/cluver/club/cnamecheck
 	@PostMapping(value = "/cnamecheck", 
 	consumes = MediaType.ALL_VALUE, 
 	produces = MediaType.APPLICATION_JSON_VALUE)
@@ -238,7 +238,7 @@ try {
         }
 
     // 클럽 이미지1개조회(클럽생성시 바로 받아오기)
-	// 127.0.0.1:9090/ROOT/club/selectone?cno=139
+	// 127.0.0.1:9090/cluver/club/selectone?cno=139
 	@RequestMapping(value = "/selectone", 
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },
@@ -253,7 +253,7 @@ try {
                 System.out.println(cimage);
                 if(cimage != null)
                 {
-                	club.setCimageurl("/ROOT/club/cimage?cno=" +club.getCno());
+                	club.setCimageurl("/cluver/club/cimage?cno=" +club.getCno());
                 }
                 System.out.println(club);
                 map.put("status", 200); 
@@ -267,7 +267,7 @@ try {
 		return map;
 	}
     // 클럽 cname cno 조회
-	// 127.0.0.1:9090/ROOT/club/cnamesearch
+	// 127.0.0.1:9090/cluver/club/cnamesearch
 	@RequestMapping(value = "/cnamesearch", 
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },
@@ -290,7 +290,7 @@ try {
 		return map;
 	}
     // 클럽 cno로 cname 조회
-	// 127.0.0.1:9090/ROOT/club/cnosearch
+	// 127.0.0.1:9090/cluver/club/cnosearch
 	@RequestMapping(value = "/cnosearch", 
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },
@@ -314,7 +314,7 @@ try {
 	}
 
     // 이미지 리스트받아오기
-	// 127.0.0.1:9090/ROOT/club/selectlist1
+	// 127.0.0.1:9090/cluver/club/selectlist1
 	@RequestMapping(value = "/selectlist1", 
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },
@@ -333,7 +333,7 @@ try {
 		return map;
 	}
     // 클럽리스트 조회()
-	// 127.0.0.1:9090/ROOT/club/selectlist2
+	// 127.0.0.1:9090/cluver/club/selectlist2
 	@RequestMapping(value = "/selectlist2", 
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },
@@ -344,7 +344,7 @@ try {
                 String private12 = "공개";
 
                 List<Clublistview> club = clubListViewRepository.findByCprivateOrderByCnoDesc(private12);
-                // club.setCimageurl("/ROOT/club/cimage?cno=" +club.getCno());
+                // club.setCimageurl("/cluver/club/cimage?cno=" +club.getCno());
                 // List<ClubProjection> cp = cRepository.find
                 List<Map <String, Object>> list = new ArrayList<>();
                 for(Clublistview obj:club  ){
@@ -354,7 +354,7 @@ try {
 
                     if(cimage != null){
 
-                        map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                        map1.put("imgurl","/cluver/club/cimage?cno=" +obj.getCno());
                     }
                     else{
                         map1.put("imgurl",null);
@@ -365,7 +365,7 @@ try {
 
 
                 // System.out.println(club);
-		        // club.set ("/ROOT/member/image?mid=" +username);
+		        // club.set ("/cluver/member/image?mid=" +username);
                 map.put("status", 200); 
                 map.put("result", list); 
                 map.put("개수", club.size()); 
@@ -378,7 +378,7 @@ try {
 		return map;
 	}
     // 클럽리스트 조회()
-	// 127.0.0.1:9090/ROOT/club/selectlist
+	// 127.0.0.1:9090/cluver/club/selectlist
 	@RequestMapping(value = "/selectlist", 
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },
@@ -389,7 +389,7 @@ try {
                 String private12 = "공개";
 
                 List<ClubProjection> club = cRepository.findByCprivateOrderByCnoDesc(private12);
-                // club.setCimageurl("/ROOT/club/cimage?cno=" +club.getCno());
+                // club.setCimageurl("/cluver/club/cimage?cno=" +club.getCno());
                 // List<ClubProjection> cp = cRepository.find
                 List<Map <String, Object>> list = new ArrayList<>();
                 for(ClubProjection obj:club  ){
@@ -399,7 +399,7 @@ try {
 
                     if(cimage != null){
 
-                        map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                        map1.put("imgurl","/cluver/club/cimage?cno=" +obj.getCno());
                     }
                     else{
                         map1.put("imgurl",null);
@@ -410,7 +410,7 @@ try {
 
 
                 // System.out.println(club);
-		        // club.set ("/ROOT/member/image?mid=" +username);
+		        // club.set ("/cluver/member/image?mid=" +username);
                 map.put("status", 200); 
                 map.put("result", list); 
                 map.put("개수", club.size()); 
@@ -423,7 +423,7 @@ try {
 		return map;
 	}
     // 나의 찜한 클럽리스트 조회()
-	// 127.0.0.1:9090/ROOT/club/likelist
+	// 127.0.0.1:9090/cluver/club/likelist
 	@RequestMapping(value = "/likelist", 
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },
@@ -448,12 +448,12 @@ try {
                 for(Like obj:like1  ){
                     Map <String, Object> map1 = new HashMap<>();
                     map1.put("obj", obj);
-                    map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getClub().getCno());
+                    map1.put("imgurl","/cluver/club/cimage?cno=" +obj.getClub().getCno());
                     Cimage cimage = ciRepository.findByClub_Cno(obj.getClub().getCno());
 
                     if(cimage != null){
 
-                        map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getClub().getCno());
+                        map1.put("imgurl","/cluver/club/cimage?cno=" +obj.getClub().getCno());
                     }
                     else{
                         map1.put("imgurl",null);
@@ -476,7 +476,7 @@ try {
 
     
     //  카테고리로 클럽검색 ex 대분류)야구
-    // 127.0.0.1:9090/ROOT/club/searchcateclub1
+    // 127.0.0.1:9090/cluver/club/searchcateclub1
     @RequestMapping(value = "/searchcateclub1", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -506,7 +506,7 @@ try {
     }   
 
     //  클럽카테고리 검색 ex)운동
-    // 127.0.0.1:9090/ROOT/club/searchcateclub
+    // 127.0.0.1:9090/cluver/club/searchcateclub
     @RequestMapping(value = "/searchcateclub", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -530,7 +530,7 @@ try {
 
                 if(cimage != null){
 
-                    map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                    map1.put("imgurl","/cluver/club/cimage?cno=" +obj.getCno());
                 }
                 else{
                     map1.put("imgurl",null);
@@ -541,7 +541,7 @@ try {
 
 
             // System.out.println(club);
-            // club.set ("/ROOT/member/image?mid=" +username);
+            // club.set ("/cluver/member/image?mid=" +username);
             map.put("status", 200); 
             map.put("result", list); 
             map.put("개수", club.size()); 
@@ -554,7 +554,7 @@ try {
     }    
     
     //  클럽주소검색 ex부산
-    // 127.0.0.1:9090/ROOT/club/searchclub
+    // 127.0.0.1:9090/cluver/club/searchclub
     @RequestMapping(value = "/searchclub", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -575,7 +575,7 @@ try {
                 Cimage cimage = ciRepository.findByClub_Cno(obj.getCno());
 
                 if(cimage != null) {
-                    map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                    map1.put("imgurl","/cluver/club/cimage?cno=" +obj.getCno());
                 }else {
                     map1.put("imgurl",null);
                 }
@@ -591,7 +591,7 @@ try {
     }
 
         //  클럽주소검색 ex부산
-    // 127.0.0.1:9090/ROOT/club/searchclub
+    // 127.0.0.1:9090/cluver/club/searchclub
     // @RequestMapping(value = "/searchclub1", 
     // method = { RequestMethod.GET },
     // consumes = { MediaType.ALL_VALUE },
@@ -612,7 +612,7 @@ try {
     //             Cimage cimage = ciRepository.findByClub_Cno(obj.getCno());
 
     //             if(cimage != null) {
-    //                 map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+    //                 map1.put("imgurl","/cluver/club/cimage?cno=" +obj.getCno());
     //             }else {
     //                 map1.put("imgurl",null);
     //             }
@@ -628,7 +628,7 @@ try {
     // }
 
     //  클럽리스트(부산전체)
-    // 127.0.0.1:9090/ROOT/club/busanclublist
+    // 127.0.0.1:9090/cluver/club/busanclublist
     @RequestMapping(value = "/busanclublist", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -646,13 +646,13 @@ try {
             for(ClubProjection obj:club  ){
                 Map <String, Object> map1 = new HashMap<>();
                 map1.put("obj", obj);
-                map1.put("imgurl","/ROOT/club/cimage?cno=" +obj.getCno());
+                map1.put("imgurl","/cluver/club/cimage?cno=" +obj.getCno());
                 list.add(map1);
             }
 
 
             // System.out.println(club);
-            // club.set ("/ROOT/member/image?mid=" +username);
+            // club.set ("/cluver/member/image?mid=" +username);
             map.put("status", 200); 
             map.put("result", list); 
             map.put("개수", club.size()); 
@@ -665,7 +665,7 @@ try {
     }   
 
     // 클럽 공고등록 글쓰기
-    // 127.0.0.1:9090/ROOT/club/noticeinsert
+    // 127.0.0.1:9090/cluver/club/noticeinsert
     @RequestMapping(value = "/noticeinsert", 
     method = {RequestMethod.POST},
     consumes = {MediaType.ALL_VALUE},
@@ -693,7 +693,7 @@ try {
     }
 
     // 클럽공고 - ckeditor에서 첨부하는 이미지 보관하는 곳
-    // 127.0.0.1:9090/ROOT/club/ckimage
+    // 127.0.0.1:9090/cluver/club/ckimage
       @RequestMapping(value = "/ckimage", 
       method = {RequestMethod.POST},
       consumes = {MediaType.ALL_VALUE},
@@ -717,7 +717,7 @@ try {
             ccRepository.save(cdckeditor);
 
           map.put("status", 200);
-          map.put("url", "/ROOT/club/cnimage?cdimgcode=" + cdckeditor.getCdimgcode() ); // url 보내기
+          map.put("url", "/cluver/club/cnimage?cdimgcode=" + cdckeditor.getCdimgcode() ); // url 보내기
 
       }
       catch(Exception e){
@@ -727,7 +727,7 @@ try {
       return map;
     }
 
-    // 127.0.0.1:9090/ROOT/club/cnimage?cdimgcode=1
+    // 127.0.0.1:9090/cluver/club/cnimage?cdimgcode=1
     // <img th:src="@{/club/cnimage(cdimgcode=1)}" style="width:100px" />
     @RequestMapping(value = "/cnimage", 
         method = {RequestMethod.GET},

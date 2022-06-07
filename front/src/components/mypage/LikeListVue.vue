@@ -132,7 +132,7 @@ export default {
         });
 
         // const handleData = async() => {
-        //     const url = `/ROOT/club/selectlist`;
+        //     const url = `/cluver/club/selectlist`;
         //     const headers = {"Content-Type":"application.json"};
         //     const response = await axios.get(url,{headers:headers});
         //         console.log(response.data);
@@ -148,7 +148,7 @@ export default {
         //         }
         // };
         const handleData1 = async() => {
-            const url = `/ROOT/club/likelist`;
+            const url = `/cluver/club/likelist`;
             const headers = {"Content-Type":"application.json",
             token : state.token};
             const response = await axios.get(url,{headers:headers});
@@ -164,7 +164,7 @@ export default {
         };
 
         const Lkelist = async() => {
-            const url = `/ROOT/api/like/selectlist`;
+            const url = `/cluver/api/like/selectlist`;
             const headers = {"Content-Type":"application.json",
             token : state.token};
             const response = await axios.get(url,{headers:headers});
@@ -207,7 +207,7 @@ export default {
             }
              
             
-            const url =`/ROOT/api/like/insert`
+            const url =`/cluver/api/like/insert`
             const headers = {"Content-Type":"multipart/form-data",
                             token : state.token};
             const body = new FormData;
@@ -226,7 +226,7 @@ export default {
 
         const unlike = async(cno,idx) => {
                     console.log("unlike", state.imgcheck[idx]);
-                    const url = `/ROOT/api/like/deleteone`
+                    const url = `/cluver/api/like/deleteone`
                     const headers = {"Content-Type":"multipart/form-data",
                                     token : state.token};
                     const body = new FormData;
@@ -249,7 +249,7 @@ export default {
 
              router.push({name:"ClubDetailVue", query:{ cno: cno }})
             console.log(cno);
-            // const url = `/ROOT/api/like/deleteone`
+            // const url = `/cluver/api/like/deleteone`
             // const headers = {"Content-Type":"multipart/form-data",
             //                 token : state.token};
             // const body = new FormData;

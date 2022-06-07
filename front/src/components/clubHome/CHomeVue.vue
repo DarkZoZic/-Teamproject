@@ -121,7 +121,7 @@ export default {
 
     const blist = async() => {
       if(state.token !== null) {
-        const url      = `/ROOT/api/clubboard/selectlist?page=${state.page}&cno=${state.cno}`;
+        const url      = `/cluver/api/clubboard/selectlist?page=${state.page}&cno=${state.cno}`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.get(url, {headers});
         // console.log(response.data.result);
@@ -140,7 +140,7 @@ export default {
 
     const glist = async() => {
       if(state.token !== null) {
-        const url      = `/ROOT/api/clubgallery/selectlist?page=${state.page}&cno=${state.cno}`;
+        const url      = `/cluver/api/clubgallery/selectlist?page=${state.page}&cno=${state.cno}`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.get(url, {headers});
         // console.log(response.data.result);
@@ -159,7 +159,7 @@ export default {
 
     const slist = async() => {
       if(state.token !== null) {
-        const url      = `/ROOT/api/schedule/selectlist?page=${state.page}&cno=${state.cno}`;
+        const url      = `/cluver/api/schedule/selectlist?page=${state.page}&cno=${state.cno}`;
         const headers  = { "Content-Type": "application/json", "token": state.token };
         const response = await axios.get(url, {headers});
         // console.log(response.data.result);

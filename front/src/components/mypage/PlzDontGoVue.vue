@@ -80,7 +80,7 @@ export default {
         })
         const exit = async() => {
           if (confirm('정말 탈퇴하시겠습니까?') == true) {
-            const url = `/ROOT/member/delete`;
+            const url = `/cluver/member/delete`;
             // multipart/form-data
             // application/json
             const headers = {"Content-Type":"multipart/form-data",

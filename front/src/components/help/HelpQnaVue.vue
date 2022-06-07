@@ -129,7 +129,7 @@ export default {
     // 조회수 1증가 시키기
     const handlePage = async(qno) => {
       if(state.token !== null){
-        const url = `/ROOT/api/qna/updatehit?qno=${qno}`;
+        const url = `/cluver/api/qna/updatehit?qno=${qno}`;
         const headers = { 
             "Content-Type":"application/json",
             "token" : state.token,
@@ -143,7 +143,7 @@ export default {
     }
 
     const handleData = async() => {
-      const url = `/ROOT/api/qna/selectlist?page=${state.page}`
+      const url = `/cluver/api/qna/selectlist?page=${state.page}`
       const headers = { 
           "Content-Type": "application/json", 
           "token" : state.token,
@@ -166,7 +166,7 @@ export default {
         }
         //  테이블에 좋아요 넣기 (for문을 돌려서 넣으므로 느림) 
         // for(var i = 0; i<state.items.length; i++){
-        //     const url1 = `ROOT/reaction/likelist.json?bno=${state.items[i].bno}`;
+        //     const url1 = `cluver/reaction/likelist.json?bno=${state.items[i].bno}`;
         //     const headers1 = {"Content-Type":"application/json"};
         //     const response1 = await axios.get(url1, {headers1}); 
         //     state.items[i].blike = response1.data.result
@@ -178,7 +178,7 @@ export default {
     }
 
     const search = async() => {
-      // const url      = `/ROOT/api/qna/search?qtitle=${state.text}&page=${state.page}`
+      // const url      = `/cluver/api/qna/search?qtitle=${state.text}&page=${state.page}`
       // const headers  = { "Content-Type": "application/json" };
       // const response = await axios.get(url, { headers });
       // console.log('search =>', response.data);

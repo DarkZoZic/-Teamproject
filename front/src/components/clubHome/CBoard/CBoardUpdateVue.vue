@@ -138,7 +138,7 @@ export default {
         })
 
         const handleData = async() => {
-            const url      = `/ROOT/api/clubboard/select?cbno=${state.cbno}&cno=${state.cno}`;
+            const url      = `/cluver/api/clubboard/select?cbno=${state.cbno}&cno=${state.cno}`;
             const headers  = { "Content-Type": "application/json", token: state.token };
             const response = await axios.get(url, { headers });
             // console.log(response.data);
@@ -158,7 +158,7 @@ export default {
             if(state.imageFile === null) {
                 state.imageFile = require('../../../assets/img/default-logo.jpg');
             }
-            const url     = `/ROOT/api/clubboard/update`;
+            const url     = `/cluver/api/clubboard/update`;
             const headers = { "Content-Type": "multipart/form-data", token: state.token };
             const body    = new FormData();
             body.append("cbno"     , state.cbno);
@@ -190,7 +190,7 @@ export default {
             };
             
             editor.editing.view.change( writer => {
-                writer.setStyle('height', '600px', editor.editing.view.document.getRoot());
+                writer.setStyle('height', '600px', editor.editing.view.document.getcluver());
             });
             // console.log(editor.editing.view);
         }

@@ -54,7 +54,7 @@ public class CustomerRestController {
 
 
 	// 닉네임 수정
-	// 127.0.0.1:9090/ROOT/member/updatenickname
+	// 127.0.0.1:9090/cluver/member/updatenickname
 	@RequestMapping(value = "/updatenickname", 
 	// {"mpNickname":"수정닉네임"}
 			method = { RequestMethod.PUT },
@@ -89,7 +89,7 @@ public class CustomerRestController {
 		return map;
 	}
 	// 이메일로 아이디찾기
-	// 127.0.0.1:9090/ROOT/member/searchid
+	// 127.0.0.1:9090/cluver/member/searchid
 	@RequestMapping(value = "/searchid", 
 	//{"uemail":"c1", "upw":"c1" };
 			method = { RequestMethod.GET },
@@ -119,7 +119,7 @@ public class CustomerRestController {
 	
 
 	// 회원탈퇴
-	// 127.0.0.1:9090/ROOT/member/delete
+	// 127.0.0.1:9090/cluver/member/delete
 	@RequestMapping(value = "/delete", 
             method = { RequestMethod.PUT },
             consumes = { MediaType.ALL_VALUE },
@@ -190,7 +190,7 @@ public class CustomerRestController {
 
 
 	// 암호변경 ( 토큰,현재암호, 변경암호)
-	// 127.0.0.1:9090/ROOT/member/updatepw
+	// 127.0.0.1:9090/cluver/member/updatepw
 	@RequestMapping(value = "/updatepw", 
 	//{"uemail":"c1", "upw":"c1" };
 			method = { RequestMethod.PUT },
@@ -234,7 +234,7 @@ public class CustomerRestController {
 	}
 
 	// 회원정보 수정
-	// 127.0.0.1:9090/ROOT/member/updatemember
+	// 127.0.0.1:9090/cluver/member/updatemember
 	@RequestMapping(value = "/updatemember", 
 	//{"uemail":"c1", "upw":"c1" };
 			method = { RequestMethod.PUT },
@@ -262,7 +262,7 @@ public class CustomerRestController {
 			Member member1 =mRepository.findById(username).orElse(null);
 				
 			if(file != null){
-						// member1.setMimageurl("/ROOT/member/image?mid=" +username);
+						// member1.setMimageurl("/cluver/member/image?mid=" +username);
 						member1.setMprofile(file.getBytes());
 						member1.setMimagesize(file.getSize());
 						member1.setMimagetype(file.getContentType());
@@ -294,7 +294,7 @@ public class CustomerRestController {
 		return map;
 	}
 
-	// 127.0.0.1:9090/ROOT/member/image?mid=ada
+	// 127.0.0.1:9090/cluver/member/image?mid=ada
 	@GetMapping(value ="/image")
     public ResponseEntity<byte[]> imageGET(
         @RequestParam(name ="mid") String mid) throws IOException {
@@ -343,7 +343,7 @@ public class CustomerRestController {
         }
 
 	// 마이페이지
-	// 127.0.0.1:9090/ROOT/member/mypage
+	// 127.0.0.1:9090/cluver/member/mypage
 	@RequestMapping(value = "/mypage", 
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },
@@ -353,7 +353,7 @@ public class CustomerRestController {
 		String username = jwtUtil.extractUsername(token);
 		System.out.println(username);
 		Member member = mRepository.findByMid(username);
-		member.setMimageurl("/ROOT/member/image?mid=" +username);
+		member.setMimageurl("/cluver/member/image?mid=" +username);
 
 		// 토큰이 있어야 실행됨
 		Map<String, Object> map = new HashMap<>();
@@ -362,7 +362,7 @@ public class CustomerRestController {
 		return map;
 	}
 	// 닉네임 가져오기
-	// 127.0.0.1:9090/ROOT/member/psmynick
+	// 127.0.0.1:9090/cluver/member/psmynick
 	@RequestMapping(value = "/psmynick", 
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },
@@ -384,7 +384,7 @@ public class CustomerRestController {
 		return map;
 	}
 	// 기업이름 가져오기
-	// 127.0.0.1:9090/ROOT/member/cname
+	// 127.0.0.1:9090/cluver/member/cname
 	@RequestMapping(value = "/cname", 
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },
@@ -407,7 +407,7 @@ public class CustomerRestController {
 		return map;
 	}
 	// 권한 가져오기
-	// 127.0.0.1:9090/ROOT/member/role
+	// 127.0.0.1:9090/cluver/member/role
 	@RequestMapping(value = "/role", 
 			method = { RequestMethod.GET },
 			consumes = { MediaType.ALL_VALUE },
@@ -436,7 +436,7 @@ public class CustomerRestController {
 
 
 	// 로그인
-	// 127.0.0.1:9090/ROOT/member/login
+	// 127.0.0.1:9090/cluver/member/login
 	//{"mId":"c1", "mPw":"c1" };
 	@RequestMapping(value = "/login", 
 			method = { RequestMethod.POST },
@@ -464,7 +464,7 @@ public class CustomerRestController {
 	}
 
 	// 회원가입(고객만customer)
-	// 127.0.0.1:9090/ROOT/member/join.json
+	// 127.0.0.1:9090/cluver/member/join.json
 	//{"mid":"c1", "mpw":"c1" };
 	@RequestMapping(value = "/join.json", 
 			method = { RequestMethod.POST },
@@ -504,7 +504,7 @@ public class CustomerRestController {
         }
 
 	// 닉네임 중복확인
-	// 127.0.0.1:9090/ROOT/member/nickcheck
+	// 127.0.0.1:9090/cluver/member/nickcheck
 	@PostMapping(value = "/nickcheck", 
 	consumes = MediaType.ALL_VALUE, 
 	produces = MediaType.APPLICATION_JSON_VALUE)
@@ -527,7 +527,7 @@ public class CustomerRestController {
             return map;
         }
 	// 개인회원가입(개인회원)
-	// 127.0.0.1:9090/ROOT/member/psjoin.json
+	// 127.0.0.1:9090/cluver/member/psjoin.json
 	//{"mid":"c1", "mpw":"c1" };
 	@PostMapping(value = "/psjoin.json", 
 	consumes = MediaType.ALL_VALUE, 
@@ -559,7 +559,7 @@ public class CustomerRestController {
             return map;
         }
 		// 기업회원가입(Company)
-		// 127.0.0.1:9090/ROOT/member/cpjoin.json
+		// 127.0.0.1:9090/cluver/member/cpjoin.json
 	//{"mid":"c1", "mpw":"c1" };
 	@RequestMapping(value = "/cpjoin.json", 
 	method = { RequestMethod.POST },
@@ -597,7 +597,7 @@ try {
 
 }
 // 개인+회원가입(개인회원)
-// 127.0.0.1:9090/ROOT/member/join2.json
+// 127.0.0.1:9090/cluver/member/join2.json
 //{"mid":"c1", "mpw":"c1" };
 // @PostMapping(value = "/join2.json", 
 // consumes = MediaType.ALL_VALUE, 

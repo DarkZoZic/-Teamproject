@@ -36,7 +36,7 @@ public class AddressRestController {
 
 
     // 주소 전체 리스트
-    // 127.0.0.1:9090/ROOT/address/addr1
+    // 127.0.0.1:9090/cluver/address/addr1
     @RequestMapping(value = "/addr1", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -60,7 +60,7 @@ public class AddressRestController {
     }   
    
         // 부산 전체 리스트
-    // 127.0.0.1:9090/ROOT/address/addrbusan
+    // 127.0.0.1:9090/cluver/address/addrbusan
     @RequestMapping(value = "/addrbusan", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -86,7 +86,7 @@ public class AddressRestController {
    
     
     //  주소검색 ex부산
-    // 127.0.0.1:9090/ROOT/address/searchclub10
+    // 127.0.0.1:9090/cluver/address/searchclub10
     @RequestMapping(value = "/searchclub10", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -112,7 +112,7 @@ public class AddressRestController {
     }   
 
     //  지역명 리스트
-    // 127.0.0.1:9090/ROOT/address/addresslist
+    // 127.0.0.1:9090/cluver/address/addresslist
     @RequestMapping(value = "/addresslist", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -137,7 +137,7 @@ public class AddressRestController {
     return map;
     }   
     //  대분류 검색 ex) 부산시
-    // 127.0.0.1:9090/ROOT/address/search1
+    // 127.0.0.1:9090/cluver/address/search1
     @RequestMapping(value = "/search1", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -165,7 +165,7 @@ public class AddressRestController {
     }
     
     //  중분류 검색 ex) 동래구
-    // 127.0.0.1:9090/ROOT/address/search1
+    // 127.0.0.1:9090/cluver/address/search1
     @RequestMapping(value = "/search2", 
     method = { RequestMethod.GET },
     consumes = { MediaType.ALL_VALUE },
@@ -192,7 +192,7 @@ public class AddressRestController {
     }
 
     //  주소 추가
-    // 127.0.0.1:9090/ROOT/address/insert
+    // 127.0.0.1:9090/cluver/address/insert
     @RequestMapping(value = "/insert", 
     method = { RequestMethod.POST },
     consumes = { MediaType.ALL_VALUE },
@@ -213,7 +213,7 @@ public class AddressRestController {
     return map;
     }   
     //  대분류로 클럽검색 ex) 부산광역시
-    // 127.0.0.1:9090/ROOT/address/searchclub3
+    // 127.0.0.1:9090/cluver/address/searchclub3
     // @RequestMapping(value = "/searchclub3", 
     // method = { RequestMethod.GET },
     // consumes = { MediaType.ALL_VALUE },
@@ -242,7 +242,7 @@ public class AddressRestController {
     // return map;
     // }
      //  중분류로 클럽검색 ex) 진구
-    // 127.0.0.1:9090/ROOT/address/searchclub4
+    // 127.0.0.1:9090/cluver/address/searchclub4
     // @RequestMapping(value = "/searchclub4", 
     // method = { RequestMethod.GET },
     // consumes = { MediaType.ALL_VALUE },
@@ -272,7 +272,7 @@ public class AddressRestController {
     // }
 }
  //  대분류 검색으로 클럽찾기 ex) ~~시
-    // 127.0.0.1:9090/ROOT/address/searchclub
+    // 127.0.0.1:9090/cluver/address/searchclub
     // @RequestMapping(value = "/searchclub", 
     // method = { RequestMethod.GET },
     // consumes = { MediaType.ALL_VALUE },
@@ -301,7 +301,7 @@ public class AddressRestController {
     // return map;
     // }   
     // //  중분류 검색 ex) 진구
-    // // 127.0.0.1:9090/ROOT/address/searchclub2
+    // // 127.0.0.1:9090/cluver/address/searchclub2
     // @RequestMapping(value = "/searchclub2", 
     // method = { RequestMethod.GET },
     // consumes = { MediaType.ALL_VALUE },

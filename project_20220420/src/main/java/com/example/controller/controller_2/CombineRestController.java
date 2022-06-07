@@ -29,7 +29,7 @@ public class CombineRestController {
 
     // 자신의 클럽중 신청내역 조회 (클럽 번호필요) 
     // 마스터, 관리자권한 있어야함 101 or 102
-    // 127.0.0.1:9090/ROOT/combineview/selectnumber.json?no=9
+    // 127.0.0.1:9090/cluver/combineview/selectnumber.json?no=9
     @GetMapping(value = "/selectnumber.json",
     consumes = {MediaType.ALL_VALUE},
     produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -53,7 +53,7 @@ public class CombineRestController {
     }
     // 아이디를 받아서 자신의 클럽신청내역 조회
     // 처리결과포함(승인, 거절)
-    // 127.0.0.1:9090/ROOT/combineview/appdetails.json?id=b
+    // 127.0.0.1:9090/cluver/combineview/appdetails.json?id=b
     @GetMapping(value = "/appdetails.json",
     consumes = {MediaType.ALL_VALUE},
     produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -76,7 +76,7 @@ public class CombineRestController {
     }
     // 신청승인,권한변경을 위한 권한조회
     // 처리결과포함(승인, 거절)
-    // 127.0.0.1:9090/ROOT/combineview/clubmasterget.json?id=b
+    // 127.0.0.1:9090/cluver/combineview/clubmasterget.json?id=b
     @GetMapping(value = "/clubmasterget.json",
     consumes = {MediaType.ALL_VALUE},
     produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -100,7 +100,7 @@ public class CombineRestController {
     }
    
     // 클럽멤버리스트 조회
-    // 127.0.0.1:9090/ROOT/combineview/cmemberlist.json?no=10
+    // 127.0.0.1:9090/cluver/combineview/cmemberlist.json?no=10
     @GetMapping(value = "/cmemberlist.json",
     consumes = {MediaType.ALL_VALUE},
     produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -130,7 +130,7 @@ public class CombineRestController {
         return map;
     }
     // 권한변경 조회
-    // 127.0.0.1:9090/ROOT/combineview/changeauth.json?no=10
+    // 127.0.0.1:9090/cluver/combineview/changeauth.json?no=10
     @GetMapping(value = "/changeauth.json",
     consumes = {MediaType.ALL_VALUE},
     produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -153,7 +153,7 @@ public class CombineRestController {
         return map;
     }
     // 클럽공고 등록을 위해 아이디로 클럽가져오기
-    // 127.0.0.1:9090/ROOT/combineview/comclub
+    // 127.0.0.1:9090/cluver/combineview/comclub
     @GetMapping(value = "/comclub",
     consumes = {MediaType.ALL_VALUE},
     produces = {MediaType.APPLICATION_JSON_VALUE})

@@ -107,7 +107,7 @@ export default {
               alert('변경암호가 일치하지 않습니다');
                 return false;
             }
-            const url = `/ROOT/member/updatepw`;
+            const url = `/cluver/member/updatepw`;
             const headers = {"Content-Type":"multipart/form-data", 
             TOKEN : state.token};
              const body = new FormData;
