@@ -22,5 +22,5 @@ module.exports = defineConfig({
   },
 
   // 리소스의 위치. 아마존 올릴 때 쓰는 것
-  // publicPath: '/ROOT/vue/'
+  publicPath: '/ROOT/vue/'
 })
