@@ -38,6 +38,7 @@
                                         <v-col sm="7">
                                             <img :src="state.imageUrl" style="width: 140px; max-height: 140px; border: 1px solid #CCC;"/>
                                         </v-col>
+
                                         <v-col>
                                             <v-row dense>
                                                 <v-col class="col_right">
@@ -45,7 +46,7 @@
                                                 </v-col>
                                             </v-row>
 
-                                            <v-row>
+                                            <v-row dense>
                                                 <v-col>
                                                     <div class="col_center" style="background-color: navy; color: white; width: 100px; border: 0px solid; border-radius: 6px; height: 60px;"><h3>기업회원</h3></div>
                                                 </v-col>
@@ -81,14 +82,14 @@
                                         <v-col sm="7">
                                             <img :src="state.imageUrl" style="width: 140px; max-height: 140px; border: 1px solid #CCC;"/>
                                         </v-col>
-                                        <v-col>
+                                        <v-col sm="5">
                                             <v-row dense>
                                                 <v-col class="col_right">
                                                     <router-link to="/activity"><img :src="require(`../assets/img/bell.png`)" style="width: 20px"/></router-link>
                                                 </v-col>
                                             </v-row>
 
-                                            <v-row>
+                                            <v-row dense>
                                                 <v-col>
                                                     <div class="col_center" style="background-color: gold; width: 100px; border: 0px solid; border-radius: 6px; height: 60px;"><h3>개인회원</h3></div>
                                                 </v-col>
