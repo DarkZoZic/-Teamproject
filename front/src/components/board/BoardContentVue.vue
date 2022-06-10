@@ -31,7 +31,7 @@
                 <!-- 닉네임 --> 
                 {{state.nick.mpnickname}} &nbsp; | &nbsp; 
                 조회 {{state.items.bhit}} &nbsp; | &nbsp; 
-                <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.rno}}
+                <img :src="require('../../assets/img/thumb.png')" class="w15_mr3"/> {{state.rno}}
                 &nbsp; | &nbsp; {{state.bregdate1}}
               </h5>
 
@@ -39,7 +39,7 @@
                 <!-- 기업이름 --> 
                 {{state.nick.mcname}} &nbsp; | &nbsp; 
                 조회 {{state.items.bhit}} &nbsp; | &nbsp; 
-                <img :src="require('../../assets/img/thumb.png')" style="width: 15px; margin-right: 3px;"/> {{state.rno}}
+                <img :src="require('../../assets/img/thumb.png')" class="w15_mr3"/> {{state.rno}}
                 &nbsp; | &nbsp; {{state.bregdate1}}
               </h5>
             </v-col>
@@ -52,27 +52,27 @@
           </v-row>
 
           <v-row dense class="border-b_1_CCC">
-            <v-col style="padding: 20px;" class="col_center">
-              <v-btn v-if="state.likestatus === false" style="height: 50px;" @click="like()">
-                <img :src="state.likeimage" style="width: 40px; margin-right: 3px;"/>
-                <h3  style="margin-left: 10px;">{{state.rno}}</h3>
+            <v-col class="col_center1">
+              <v-btn v-if="state.likestatus === false" class="height50" @click="like()">
+                <img :src="state.likeimage" class="img2"/>
+                <h3 class="mar-l_10">{{state.rno}}</h3>
               </v-btn>
-              <v-btn v-if="state.likestatus === true" style="background-color: gold; height: 50px;" @click="like()">
-                <img :src="state.likeimage" style="width: 40px; margin-right: 3px;"/>
-                <h3 style="margin-left: 10px;">{{state.rno}}</h3>
+              <v-btn v-if="state.likestatus === true" class="gold_h50" @click="like()">
+                <img :src="state.likeimage" class="img2"/>
+                <h3 class="mar-l_10">{{state.rno}}</h3>
               </v-btn>
             </v-col>
           </v-row>
 
           <v-row dense>
-            <v-col sm="5" style="padding: 10px;" class="col_left">
-              <h5>댓글</h5>&nbsp;<h5 style="color: #fca103">{{state.replylist.length}}</h5><h5>개</h5>
+            <v-col sm="5" class="col_left_p10">
+              <h5>댓글</h5>&nbsp;<h5 class="reply">{{state.replylist.length}}</h5><h5>개</h5>
             </v-col>
 
             <!-- 글 수정, 삭제 : 아이디가 일치할 때 -->
             <v-col class="col_right">
               <div v-if="state.items.member.mid === state.mid1">
-                <h5 @click="handleUpdate()" style="padding-right: 10px; cursor: pointer;">수정</h5>
+                <h5 @click="handleUpdate()" class="pr10_pointer">수정</h5>
               </div>
 
               <div v-if="state.items.member.mid === state.mid1">
@@ -93,10 +93,10 @@
           <!-- {{state.reply1.reupdate}}
           {{state.reply1.clickReply}} -->
           <v-row dense style="background-color: #504ea31d;">
-            <v-col style="border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; padding-left: 20px; padding-right: 20px;">
+            <v-col class="col_reply">
 
               <!-- 댓글하나 -->
-              <v-row dense style="padding-top: 10px; border-bottom: 1px solid #CCC;" v-for="(tmp,idx) in state.replylist" :key="tmp">
+              <v-row dense class="row_reply" v-for="(tmp,idx) in state.replylist" :key="tmp">
                 <v-col>
                   <!-- 댓글작성자 -->
                   <v-row dense>
@@ -122,11 +122,11 @@
                   <!-- 닉네임, 날짜 -->
                   <v-row dense>
                     <div v-if="tmp.reparentnumber !== tmp.renumber" >
-                      <img :src="require('../../assets/img/reply.png')" style="margin-top: 5px; margin-right: 10px; width: 17px; height: 17px; transform: scaleX(-1) scaleY(-1); margin-right: 3px;"/>
+                      <img :src="require('../../assets/img/reply.png')" class="img_reply"/>
                     </div>
                     <v-col class="col_left">                      
-                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mcname === null">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5>
-                      <h5 style="padding-right: 10px;" v-if="state.replynicklist[idx].mpnickname === null">{{state.replynicklist[idx].mcname}} &nbsp; | </h5> 
+                      <h5 class="pr10" v-if="state.replynicklist[idx].mcname === null">{{state.replynicklist[idx].mpnickname}} &nbsp; | </h5>
+                      <h5 class="pr10" v-if="state.replynicklist[idx].mpnickname === null">{{state.replynicklist[idx].mcname}} &nbsp; | </h5> 
                       <h5 style="color: gray;">{{tmp.reregdate1}}</h5>
                       <!-- <img :src="require('../../assets/img/thumb.png')" @click="replylike()" style="width: 15px; margin-left: 10px; cursor: pointer; " /> -->
 
@@ -151,15 +151,14 @@
                       <!-- <div style="padding-left: 10px; padding-right: 10px;" >{{tmp.recontent}}</div> -->
                       <div v-if="!state.reply1.reupdate[idx]" style="padding: 10px; border: 1px solid #CCC; border-radius: 5px; height: 70px; width: 900px;" class="collapse multi-collapse-{{id}} show">{{tmp.recontent}}</div>
                       <div v-if="state.reply1.reupdate[idx]" class="col_left">
-                        <textarea v-model="tmp.recontent" 
-                          style="background-color: white; resize: none; border: 1px solid #CCC; border-radius: 5px; padding: 10px; width: 900px;"></textarea>
+                        <textarea v-model="tmp.recontent" class="replybox"></textarea>
                       </div>
                     </v-col>
 
                     <v-col class="col_center" v-if="state.reply1.reupdate[idx]">
                       <!-- 댓글수정버튼 -->
-                      <v-btn style="height: 68px; margin-right: 10px;" @click="handleReplyUpdate(idx)"><h4>취소</h4></v-btn>
-                      <v-btn style="height: 68px;" @click="handleReUpdate(tmp.renumber, idx)"><h4 >수정</h4></v-btn>
+                      <v-btn class="h68_mr10" @click="handleReplyUpdate(idx)"><h4>취소</h4></v-btn>
+                      <v-btn class="h68" @click="handleReUpdate(tmp.renumber, idx)"><h4 >수정</h4></v-btn>
                     </v-col>
                   </v-row>
 
@@ -171,7 +170,7 @@
                           <!-- 댓글 수정, 삭제 : 아이디가 일치할 때 -->
                           <v-row dense >
                             <div v-show="tmp.member.mid === state.mid1" style="float:left;">
-                              <h5 v-if="!state.reply1.reupdate[idx]" @click="handleReplyUpdate(idx)" style="padding-left: 10px; color: gray; cursor: pointer; float:left;" >수정</h5>
+                              <h5 v-if="!state.reply1.reupdate[idx]" @click="handleReplyUpdate(idx)" class="replyupdate">수정</h5>
                               <h5 @click="handleReplyDelete(tmp.renumber, idx)" style="padding-left: 10px; color: gray; cursor: pointer; float:left">삭제</h5>
                             </div>
                             <div style="float:left;">
